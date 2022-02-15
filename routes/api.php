@@ -34,3 +34,6 @@ Route::get('/verify_token', [AuthenticatedSessionController::class, 'apiVerifyTo
 
 Route::get('/users', [SampleDataController::class, 'getUsers']);
 
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});

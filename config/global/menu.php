@@ -203,7 +203,7 @@ return array(
         //// Modules
         array(
             'classes' => array('content' => 'pt-8 pb-2'),
-            'content' => '<span class="menu-section text-muted text-uppercase fs-8 ls-1">Modules</span>',
+            'content' => '<span class="menu-section text-muted text-uppercase fs-8 ls-1">Ticketing</span>',
         ),
 
         // Account
