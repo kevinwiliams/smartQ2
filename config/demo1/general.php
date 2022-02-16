@@ -42,7 +42,7 @@ return array(
         'header'     => array(
             'display'   => true, // Display header
             'width'     => 'fluid', // Set header width(fixed|fluid)
-            'left'      => 'menu', // Set left part content(menu|page-title)
+            'left'      => 'page-title', // Set left part content(menu|page-title)
             'fixed'     => array(
                 'desktop'           => true,  // Set fixed header for desktop
                 'tablet-and-mobile' => true // Set fixed header for talet & mobile
