@@ -206,6 +206,104 @@ return array(
             'content' => '<span class="menu-section text-muted text-uppercase fs-8 ls-1">Ticketing</span>',
         ),
 
+        // Ticketing
+        array(
+            'title' => 'Token',
+            'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/abstract/abs027.svg", "svg-icon-2"),
+            'path'  => '#',
+            'classes'    => array('item' => 'menu-accordion'),
+            'attributes' => array(
+                "data-kt-menu-trigger" => "click",
+            ),
+            'sub'        => array(
+                'class' => 'menu-sub-accordion menu-active-bg',
+                'items' => array(
+                    array(
+                        'title'  => 'Active Token',
+                        'path'   => '#',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ),
+                    array(
+                        'title'  => 'Manual Token',
+                        'path'   => '#',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ),
+                    array(
+                        'title'      => 'Auto Token',
+                        'path'       => '#',
+                        'bullet'     => '<span class="bullet bullet-dot"></span>',
+                       
+                    ),
+                ),
+            ),
+        ),
+
+        // Configuration
+        array(
+            'title' => 'Configuration',
+            'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/abstract/abs015.svg", "svg-icon-2"),
+            'path'  => '#',
+            'classes'    => array('item' => 'menu-accordion'),
+            'attributes' => array(
+                "data-kt-menu-trigger" => "click",
+            ),
+            'sub'        => array(
+                'class' => 'menu-sub-accordion menu-active-bg',
+                'items' => array(
+                    array(
+                        'title'  => 'Departments',
+                        'path'   => '#',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ),
+                    array(
+                        'title'  => 'Counters',
+                        'path'   => '#',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ),
+                    array(
+                        'title'      => 'Users',
+                        'path'       => '#',
+                        'bullet'     => '<span class="bullet bullet-dot"></span>',
+                       
+                    ),
+                ),
+            ),
+        ),
+
+        // Messaging
+        array(
+            'title' => 'SMS',
+            'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/communication/com007.svg", "svg-icon-2"),
+            'path'  => '#',
+          
+        ),
+
+        // Reports
+        array(
+            'title' => 'Reports',
+            'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/graphs/gra010.svg", "svg-icon-2"),
+            'path'  => '#',
+            'classes'    => array('item' => 'menu-accordion'),
+            'attributes' => array(
+                "data-kt-menu-trigger" => "click",
+            ),
+            'sub'        => array(
+                'class' => 'menu-sub-accordion menu-active-bg',
+                'items' => array(
+                    array(
+                        'title'  => 'Tokens',
+                        'path'   => '#',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ),
+                    array(
+                        'title'  => 'Performance',
+                        'path'   => '#',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ),
+                ),
+            ),
+        ),
+
         // Account
         array(
             'title'      => 'Account',
@@ -230,23 +328,11 @@ return array(
                         'path'   => 'account/settings',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
-                    array(
-                        'title'      => 'Security',
-                        'path'       => '#',
-                        'bullet'     => '<span class="bullet bullet-dot"></span>',
-                        'attributes' => array(
-                            'link' => array(
-                                "title"             => "Coming soon",
-                                "data-bs-toggle"    => "tooltip",
-                                "data-bs-trigger"   => "hover",
-                                "data-bs-dismiss"   => "click",
-                                "data-bs-placement" => "right",
-                            ),
-                        ),
-                    ),
+                   
                 ),
             ),
         ),
+         
 
         // System
         array(
@@ -262,20 +348,7 @@ return array(
             'sub'        => array(
                 'class' => 'menu-sub-accordion menu-active-bg',
                 'items' => array(
-                    array(
-                        'title'      => 'Settings',
-                        'path'       => '#',
-                        'bullet'     => '<span class="bullet bullet-dot"></span>',
-                        'attributes' => array(
-                            'link' => array(
-                                "title"             => "Coming soon",
-                                "data-bs-toggle"    => "tooltip",
-                                "data-bs-trigger"   => "hover",
-                                "data-bs-dismiss"   => "click",
-                                "data-bs-placement" => "right",
-                            ),
-                        ),
-                    ),
+
                     array(
                         'title'  => 'Audit Log',
                         'path'   => 'log/audit',
@@ -295,17 +368,49 @@ return array(
             'content' => '<div class="separator mx-1 my-4"></div>',
         ),
 
-        // Changelog
-        array(
-            'title' => 'Changelog v'.theme()->getVersion(),
-            'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/general/gen005.svg", "svg-icon-2"),
-            'path'  => 'documentation/getting-started/changelog',
-        ),
+       
          // Calendar
          array(
             'title' => 'Calendar',
             'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/general/gen014.svg", "svg-icon-2"),
             'path'  => 'apps/calendar',
+        ),
+
+        // Settings
+        array(
+            'title' => 'Settings',
+            'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/general/gen019.svg", "svg-icon-2"),
+            'path'  => '#',
+            'classes'    => array('item' => 'menu-accordion'),
+            'attributes' => array(
+                "data-kt-menu-trigger" => "click",
+            ),
+            'sub'        => array(
+                'class' => 'menu-sub-accordion menu-active-bg',
+                'items' => array(
+                    array(
+                        'title'  => 'Setup',
+                        'path'   => '#',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ),
+                    array(
+                        'title'  => 'Display',
+                        'path'   => '#',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ),
+                    array(
+                        'title'  => 'Auto Queue',
+                        'path'   => '#',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ),
+                    array(
+                        'title'  => 'SMS',
+                        'path'   => '#',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ),
+                    
+                ),
+            ),
         ),
     ),
 
