@@ -79,8 +79,8 @@ return array(
         // Docs
         'docs'          => array(
             'logo-path'  => array(
-                'default' => 'logos/logo-1.svg',
-                'dark'    => 'logos/logo-1-dark.svg',
+                'default' => 'logos/sqlogo-1.svg',
+                'dark'    => 'logos/sqlogo-1-dark.svg',
             ),
             'logo-class' => 'h-25px',
         ),

@@ -52,7 +52,7 @@ return array(
 
         // Toolbar
         'toolbar'    => array(
-            'display' => true, // Display toolbar
+            'display' => false, // Display toolbar
             'width'   => 'fluid', // Set toolbar container width(fluid|fixed)
             'fixed'   => array(
                 'desktop'           => true,  // Set fixed header for desktop

@@ -301,6 +301,12 @@ return array(
             'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/general/gen005.svg", "svg-icon-2"),
             'path'  => 'documentation/getting-started/changelog',
         ),
+         // Calendar
+         array(
+            'title' => 'Calendar',
+            'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/general/gen014.svg", "svg-icon-2"),
+            'path'  => 'apps/calendar',
+        ),
     ),
 
     // Horizontal menu

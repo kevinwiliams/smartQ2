@@ -140,6 +140,27 @@ return array(
         ),
     ),
 
+    'apps' => array(
+        'calendar' => array(
+            'title'  => 'Appointment Scheduler',
+            'view'   => 'apps/calendar',
+            'assets' => array(
+                'custom' => array(
+                    'css' => array(
+                        'plugins/custom/fullcalendar/fullcalendar.bundle.css',
+                        'plugins/custom/datatables/datatables.bundle.css',
+                    ),
+                    'js'  => array(
+                        'plugins/custom/fullcalendar/fullcalendar.bundle.js',
+                        'plugins/custom/datatables/datatables.bundle.js',
+                        'js/custom/widgets.js',
+                        'js/custom/apps/calendar/calendar.js'
+                    ),
+                    
+                ),
+            ),
+        ),
+    ),
     // Documentation pages
     'documentation' => array(
         '*' => array(
