@@ -14,14 +14,14 @@ var KTAccountSettingsProfileDetails = function () {
             form,
             {
                 fields: {
-                    first_name: {
+                    firstname: {
                         validators: {
                             notEmpty: {
                                 message: 'First name is required'
                             }
                         }
                     },
-                    last_name: {
+                    lastname: {
                         validators: {
                             notEmpty: {
                                 message: 'Last name is required'

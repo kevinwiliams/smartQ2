@@ -332,7 +332,7 @@ return array(
             ),
 
             'update' => array(
-                'Separated <code>name</code> into two fields; <code>first_name</code> and <code>last_name</code>.',
+                'Separated <code>name</code> into two fields; <code>firstname</code> and <code>lastname</code>.',
             ),
 
             'fix' => array(

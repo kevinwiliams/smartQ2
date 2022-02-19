@@ -44,14 +44,14 @@
             <!--begin::Col-->
             <div class="col-xl-6">
                 <label class="form-label fw-bolder text-dark fs-6">{{ __('First Name') }}</label>
-                <input class="form-control form-control-lg form-control-solid" type="text" name="first_name" autocomplete="off" value="{{ old('first_name') }}"/>
+                <input class="form-control form-control-lg form-control-solid" type="text" name="firstname" autocomplete="off" value="{{ old('firstname') }}"/>
             </div>
             <!--end::Col-->
 
             <!--begin::Col-->
             <div class="col-xl-6">
                 <label class="form-label fw-bolder text-dark fs-6">{{ __('Last Name') }}</label>
-                <input class="form-control form-control-lg form-control-solid" type="text" name="last_name" autocomplete="off" value="{{ old('last_name') }}"/>
+                <input class="form-control form-control-lg form-control-solid" type="text" name="lastname" autocomplete="off" value="{{ old('lastname') }}"/>
             </div>
             <!--end::Col-->
         </div>

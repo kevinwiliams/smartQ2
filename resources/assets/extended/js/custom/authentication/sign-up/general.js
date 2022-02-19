@@ -15,14 +15,14 @@ var KTSignupGeneral = function () {
             form,
             {
                 fields: {
-                    'first_name': {
+                    'firstname': {
                         validators: {
                             notEmpty: {
                                 message: 'First Name is required'
                             }
                         }
                     },
-                    'last_name': {
+                    'lastname': {
                         validators: {
                             notEmpty: {
                                 message: 'Last Name is required'

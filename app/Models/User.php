@@ -64,13 +64,13 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Get a fullname combination of first_name and last_name
+     * Get a fullname combination of firstname and lastname
      *
      * @return string
      */
     public function getNameAttribute()
     {
-        return "{$this->first_name} {$this->last_name}";
+        return "{$this->firstname} {$this->lastname}";
     }
 
     /**
