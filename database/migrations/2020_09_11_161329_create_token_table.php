@@ -16,6 +16,7 @@ class CreateTokenTable extends Migration
         Schema::create('token', function (Blueprint $table) {
             $table->integer('id', true);
             $table->string('token_no', 10)->nullable();
+            $table->integer('client_id')->nullable()->default(null);
             $table->string('client_mobile', 20)->nullable();
             $table->integer('department_id')->nullable();
             $table->integer('counter_id')->nullable();

@@ -20,6 +20,7 @@ class CreateDepartmentTable extends Migration
             $table->string('key', 1)->nullable();
             $table->timestamps();
             $table->boolean('status')->default(1);
+            $table->integer('avg_wait_time');
         });
     }
 

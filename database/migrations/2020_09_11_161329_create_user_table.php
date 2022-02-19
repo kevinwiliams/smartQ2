@@ -19,13 +19,16 @@ class CreateUserTable extends Migration
             $table->string('lastname', 25)->nullable();
             $table->string('email', 50)->nullable();
             $table->string('password')->nullable();
+            $table->string('api_token', 80)->unique()->nullable()->default(null);
             $table->integer('department_id')->nullable();
             $table->string('mobile', 20)->nullable();
             $table->string('photo', 50)->nullable();
             $table->boolean('user_type')->default(1)->comment('1=officer, 2=staff, 3=client, 5=admin');
-            $table->string('remember_token')->nullable();
+            $table->string('remember_token')->nullable();            
             $table->dateTime('created_at')->nullable()->useCurrent();
             $table->dateTime('updated_at')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('otp', 20)->nullable()->default(null);
             $table->boolean('status')->default(1)->comment('1=active,2=inactive');
         });
     }
