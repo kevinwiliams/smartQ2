@@ -22,7 +22,7 @@ class CreateUserTable extends Migration
             $table->string('api_token', 80)->unique()->nullable()->default(null);
             $table->integer('department_id')->nullable();
             $table->string('mobile', 20)->nullable();
-            $table->string('photo', 50)->nullable();
+            $table->string('photo', 500)->nullable();
             $table->boolean('user_type')->default(1)->comment('1=officer, 2=staff, 3=client, 5=admin');
             $table->string('remember_token')->nullable();            
             $table->dateTime('created_at')->nullable()->useCurrent();

@@ -1,8 +1,8 @@
 @php
-    $logoFileName = 'sqlogo-1-dark.svg';
+    $logoFileName = 'logo-1-dark.svg';
 
     if (theme()->getOption('layout', 'aside/theme') === 'light') {
-        $logoFileName = 'sqlogo-1.svg';
+        $logoFileName = 'logo-1.svg';
     }
 @endphp
 

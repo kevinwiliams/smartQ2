@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserInfo;
+use App\Models\UserSocialAccount;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
@@ -41,35 +42,50 @@ class SocialiteLoginController extends Controller
 
         if ($existing_user) {
             auth()->login($existing_user, true);
+            if($existing_user->photo != $social_info->getAvatar()){
+                $update = User::where('id', $existing_user->id)
+                ->update([ 'photo' => $social_info->getAvatar()]);
+            }
 
             return redirect()->to(Cookie::get('redirect_uri'));
         }
 
-        $new_user = $this->createUser($social_info);
+        $new_user = $this->createUser($social_info,$provider);
 
         auth()->login($new_user, true);
 
         return redirect()->to(Cookie::get('redirect_uri'));
     }
 
-    function createUser(SocialiteUser $social_info)
+    function createUser(SocialiteUser $social_info, $provider = null)
     {
         $user = User::where('email', $social_info->email)->first();
 
-        $name = explode(' ', $social_info->name);
+        $name = explode(" ", $social_info->name);
 
         if (!$user) {
             $user = User::create([
-                'first_name' => $name[0] ?? '',
-                'last_name'  => $name[1] ?? '',
+                'firstname' => $name[0] ?? '',
+                'lastname'  => $name[1] ?? '',
                 'email'      => $social_info->email,
-                'password'   => Hash::make($social_info->id),
+                'password'   => Hash::make($social_info->id),                
+                'photo'     => $social_info->getAvatar(),
+                'user_type' => '3', // client
+                'created_at' => date('Y-m-d H:i:s'),
+                'status'    => '1',
             ]);
 
             $user_info         = new UserInfo;
             $user_info->avatar = $social_info->getAvatar();
             $user_info->user()->associate($user);
             $user_info->save();
+
+            $social_account     = new UserSocialAccount;
+            $social_account->user_id = $user->id;
+            $social_account->provider_id = $social_info->getId();
+            $social_account->provider_name = $provider;
+            $social_account->created_at = date('Y-m-d H:i:s');
+            $social_account->save(); 
 
             if ($user->markEmailAsVerified()) {
                 event(new Verified($user));
