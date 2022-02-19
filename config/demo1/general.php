@@ -18,6 +18,7 @@ return array(
         'js'      => array(
             'plugins/global/plugins.bundle.js',
             'js/scripts.bundle.js',
+            'js/custom/authentication/sign-out/general.js',
             'js/custom/widgets.js',
         ),
     ),

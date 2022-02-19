@@ -121,9 +121,13 @@
 
     <!--begin::Menu item-->
     <div class="menu-item px-5">
-        <a href="#" data-action="{{ theme()->getPageUrl('logout') }}" data-method="post" data-csrf="{{ csrf_token() }}" data-reload="true" class="button-ajax menu-link px-5">
+        <form action="{{ theme()->getPageUrl('logout') }}" method="post" id="logoutForm">
+        @csrf <!-- {{ csrf_field() }} -->      
+           <a href="" class="button-ajax menu-link px-5" id="kt_user_sign_out">
             {{ __('Sign Out') }}
-        </a>
+        </a>  
+        </form>
+       
     </div>
     <!--end::Menu item-->
 
