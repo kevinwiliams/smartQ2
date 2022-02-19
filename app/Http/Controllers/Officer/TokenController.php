@@ -29,7 +29,7 @@ class TokenController extends Controller
             ->orderBy('firstname', 'ASC')
             ->pluck('name', 'id');  
 
-        return view('backend.officer.token.list', compact('counters', 'departments', 'officers'));
+        return view('pages.officer.token.list', compact('counters', 'departments', 'officers'));
     }  
 
     public function tokenData(Request $request)
@@ -181,7 +181,7 @@ class TokenController extends Controller
             ->orderBy('id', 'ASC')
             ->get(); 
 
-        return view('backend.officer.token.current', compact('tokens'));
+        return view('pages.officer.token.current', compact('tokens'));
     } 
 
     public function display()
@@ -196,7 +196,7 @@ class TokenController extends Controller
         $setting->display = 1;
             
         //department wise display
-        return view('backend.officer.token.display', compact('setting'));
+        return view('pages.officer.token.display', compact('setting'));
    
     }
 

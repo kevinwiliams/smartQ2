@@ -29,32 +29,32 @@ class DisplayController extends Controller
                 ->first();
             if (!$display) return trans('app.you_are_not_authorized');
             //department wise display
-            return view('backend.common.display.display6', compact('setting', 'display'));
+            return view('pages.common.display.display6', compact('setting', 'display'));
         }
         elseif ($setting->display==5)
         {
             //department wise display
-            return view('backend.common.display.display5', compact('setting'));
+            return view('pages.common.display.display5', compact('setting'));
         }
         elseif ($setting->display==4)
         {
             //department wise display
-            return view('backend.common.display.display4', compact('setting'));
+            return view('pages.common.display.display4', compact('setting'));
         }
         elseif ($setting->display==3)
         {
             //counter wise display 2
-            return view('backend.common.display.display3', compact('setting'));
+            return view('pages.common.display.display3', compact('setting'));
         }
         elseif ($setting->display==2)
         {
             //counter wise display 1
-            return view('backend.common.display.display2', compact('setting'));
+            return view('pages.common.display.display2', compact('setting'));
         }
         else
         {
             //general display - sequential 
-            return view('backend.common.display.display', compact('setting'));
+            return view('pages.common.display.display', compact('setting'));
         }
     }
 

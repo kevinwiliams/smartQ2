@@ -35,7 +35,7 @@ class TokenController extends Controller
             ->orderBy('firstname', 'ASC')
             ->pluck('name', 'id'); 
 
-        return view('backend.receptionist.token.current', compact('counters', 'departments', 'officers', 'tokens'));
+        return view('pages.receptionist.token.current', compact('counters', 'departments', 'officers', 'tokens'));
     } 
 
 
@@ -101,7 +101,7 @@ class TokenController extends Controller
                 ->get(); 
         }
 
-        return view('backend.receptionist.token.auto', compact('display', 'departmentList', 'keyList'));
+        return view('pages.receptionist.token.auto', compact('display', 'departmentList', 'keyList'));
     }    
 
     public function tokenAuto(Request $request)
@@ -271,7 +271,7 @@ class TokenController extends Controller
             ->orderBy('firstname', 'ASC')
             ->pluck('name', 'id'); 
 
-        return view('backend.receptionist.token.manual', compact('display', 'counters', 'departments','officers' ));
+        return view('pages.receptionist.token.manual', compact('display', 'counters', 'departments','officers' ));
     }  
 
     public function create(Request $request)

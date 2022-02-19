@@ -15,7 +15,7 @@ class SmsSettingController extends Controller
     # Show the SMS list
     public function show()
     { 
-        return view('backend.admin.sms.list');
+        return view('pages.admin.sms.list');
     } 
 
     public function smsData(Request $request) 
@@ -103,7 +103,7 @@ class SmsSettingController extends Controller
     public function form()
     {
     	$sms_setting = SmsSetting::first();
-        return view('backend.admin.sms.form', compact('sms_setting'));
+        return view('pages.admin.sms.form', compact('sms_setting'));
     }
 
     # Send a sms
@@ -204,7 +204,7 @@ class SmsSettingController extends Controller
             $data->recall_sms_template = 'Please contact urgently. Token No: [TOKEN] \r\n Department: [DEPARTMENT], Counter: [COUNTER] and Officer: [OFFICER].\r\n[DATE]';
             $data->save();
         } 
-        return view('backend.admin.sms.setting', compact('setting'));
+        return view('pages.admin.sms.setting', compact('setting'));
     }
 
 

@@ -16,7 +16,7 @@ class HomeController extends Controller
         $month = $this->chart_month();
         $year = $this->chart_year();
         $begin = $this->chart_begin();
-        return view('backend.admin.home.home', compact(
+        return view('pages.admin.home.home', compact(
             'infobox', 
             'performance', 
             'month', 

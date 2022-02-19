@@ -19,7 +19,7 @@ class HomeController extends Controller
         $year = $this->chart_year();
         $begin = $this->chart_begin();
         $performance = $this->userPerformance();
-        return view('backend.officer.home.home', compact(
+        return view('pages.officer.home.home', compact(
             'month', 
             'year', 
             'begin',

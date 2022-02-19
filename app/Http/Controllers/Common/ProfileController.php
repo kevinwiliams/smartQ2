@@ -39,7 +39,7 @@ class ProfileController extends Controller
             ->groupBy('status')
             ->pluck("total", "status"); 
 
-        return view('backend.common.setting.profile', compact(            
+        return view('pages.common.setting.profile', compact(            
             'user',
             'assignedToMe',
             'generatedByMe',
@@ -52,7 +52,7 @@ class ProfileController extends Controller
         $user = User::where('id', auth()->user()->id )->first(); 
         $departmentList = Department::where('status', 1)->pluck('name','id'); 
 
-        return view('backend.common.setting.profile_edit',
+        return view('pages.common.setting.profile_edit',
             compact('departmentList','user'));
     }
 

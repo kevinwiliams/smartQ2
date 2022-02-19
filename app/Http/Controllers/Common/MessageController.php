@@ -17,7 +17,7 @@ class MessageController extends Controller
         	->orderBy('name', 'asc')
             ->pluck('name','id');
  
-    	return view('backend.common.message.new', compact('userList'));
+    	return view('pages.common.message.new', compact('userList'));
     }
 
     public function send(Request $request)
@@ -67,7 +67,7 @@ class MessageController extends Controller
 
 	public function inbox()
     {  
-    	return view('backend.common.message.inbox');
+    	return view('pages.common.message.inbox');
     }
 
     public function inboxData(Request $request) 
@@ -176,7 +176,7 @@ class MessageController extends Controller
             ->orderBy('id', 'DESC')
             ->paginate(25);
 
-    	return view('backend.common.message.sent', compact('messages'));
+    	return view('pages.common.message.sent', compact('messages'));
     }
 
     public function sentData(Request $request) 
@@ -298,7 +298,7 @@ class MessageController extends Controller
             WHERE message.id = $id
         "))->first();
 
-        return view('backend.common.message.details', compact('message'));
+        return view('pages.common.message.details', compact('message'));
     }
 
 

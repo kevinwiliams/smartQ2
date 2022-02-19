@@ -17,7 +17,7 @@ class UserController extends Controller
         $departments = Department::where('status', 1)
             ->pluck('name', 'id');
 
-    	return view('backend.admin.user.list', compact('departments'));
+    	return view('pages.admin.user.list', compact('departments'));
 	}
 
 
@@ -137,7 +137,7 @@ class UserController extends Controller
     {
         $departmentList = Department::where('status', 1)
             ->pluck('name','id'); 
-    	return view('backend.admin.user.form', compact('departmentList'));
+    	return view('pages.admin.user.form', compact('departmentList'));
     }
     
  
@@ -241,7 +241,7 @@ class UserController extends Controller
             ->groupBy('status')
             ->pluck("total", "status"); 
 
-        return view('backend.admin.user.view', compact(
+        return view('pages.admin.user.view', compact(
             'user',
             'assignedToMe',
             'generatedByMe',
@@ -258,7 +258,7 @@ class UserController extends Controller
 
         $departmentList = Department::where('status', 1)->pluck('name','id'); 
 
-        return view('backend.admin.user.edit',
+        return view('pages.admin.user.edit',
             compact('departmentList','user'));
     }
 

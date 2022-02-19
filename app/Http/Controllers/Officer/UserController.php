@@ -37,7 +37,7 @@ class UserController extends Controller
             ->groupBy('status')
             ->pluck("total", "status"); 
 
-        return view('backend.officer.user.view', compact(
+        return view('pages.officer.user.view', compact(
             'user',
             'assignedToMe',
             'generatedByMe',

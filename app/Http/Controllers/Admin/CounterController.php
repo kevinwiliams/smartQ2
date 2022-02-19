@@ -12,12 +12,12 @@ class CounterController extends Controller
 	public function index()
 	{   
         $counters = Counter::get();
-    	return view('backend.admin.counter.list', ['counters' => $counters]);
+    	return view('pages.admin.counter.list', ['counters' => $counters]);
 	}
 
     public function showForm()
     {
-    	return view('backend.admin.counter.form');
+    	return view('pages.admin.counter.form');
     }
     
     public function create(Request $request)
@@ -63,7 +63,7 @@ class CounterController extends Controller
     public function showEditForm($id = null)
     {
         $counter = Counter::where('id', $id)->first();
-        return view('backend.admin.counter.edit', compact('counter'));
+        return view('pages.admin.counter.edit', compact('counter'));
     }
   
     public function update(Request $request)

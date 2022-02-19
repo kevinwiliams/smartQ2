@@ -48,7 +48,7 @@ class TokenController extends Controller
         $position = $cntr;
         $wait = date('H:i', mktime(0, $waittime));
 
-        return view('backend.client.token.current', compact('token','position','wait'));
+        return view('pages.client.token.current', compact('token','position','wait'));
     }
 
     public function stoped($id)
@@ -172,7 +172,7 @@ class TokenController extends Controller
                 ->get();
         }
 
-        return view('backend.receptionist.token.auto', compact('display', 'departmentList', 'keyList'));
+        return view('pages.receptionist.token.auto', compact('display', 'departmentList', 'keyList'));
     }
 
     public function tokenAuto(Request $request)
@@ -447,7 +447,7 @@ class TokenController extends Controller
             ->orderBy('firstname', 'ASC')
             ->pluck('name', 'id');
 
-        return view('backend.receptionist.token.manual', compact('display', 'counters', 'departments', 'officers'));
+        return view('pages.receptionist.token.manual', compact('display', 'counters', 'departments', 'officers'));
     }
 
     public function create(Request $request)

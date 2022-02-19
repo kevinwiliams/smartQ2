@@ -46,7 +46,7 @@ class HomeController extends Controller
 
         $maskedemail = $this->maskEmail(auth()->user()->email);
 
-        return view('backend.client.home.home', compact('departments', 'smsalert', 'maskedemail'));
+        return view('pages.client.home.home', compact('departments', 'smsalert', 'maskedemail'));
     }
 
 

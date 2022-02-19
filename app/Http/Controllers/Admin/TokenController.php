@@ -35,7 +35,7 @@ class TokenController extends Controller
         $departmentList = Department::where('status',1)->pluck('name','id');
         $userList = User::select('id', DB::raw('CONCAT(firstname, " ", lastname, " <", email, ">") AS name'))->where('user_type',1)->where('status',1)->orderBy('name', 'ASC')->pluck('name', 'id');
 
-        return view('backend.admin.token.setting', compact('tokens','countertList','departmentList','userList')); 
+        return view('pages.admin.token.setting', compact('tokens','countertList','departmentList','userList')); 
     }
 
     public function tokenSetting(Request $request)
@@ -141,7 +141,7 @@ class TokenController extends Controller
                 ->get(); 
         }
 
-        return view('backend.admin.token.auto', compact('display', 'departmentList', 'keyList'));
+        return view('pages.admin.token.auto', compact('display', 'departmentList', 'keyList'));
     }    
 
     public function tokenAuto(Request $request)
@@ -311,7 +311,7 @@ class TokenController extends Controller
             ->orderBy('firstname', 'ASC')
             ->pluck('name', 'id'); 
 
-        return view('backend.admin.token.manual', compact('display', 'counters', 'departments','officers' ));
+        return view('pages.admin.token.manual', compact('display', 'counters', 'departments','officers' ));
     }  
 
     public function create(Request $request)
@@ -432,7 +432,7 @@ class TokenController extends Controller
             ->orderBy('firstname', 'ASC')
             ->pluck('name', 'id'); 
                     
-        return view('backend.admin.token.current', compact('counters', 'departments', 'officers', 'tokens'));
+        return view('pages.admin.token.current', compact('counters', 'departments', 'officers', 'tokens'));
     } 
 
     public function report(Request $request)
@@ -446,7 +446,7 @@ class TokenController extends Controller
             ->orderBy('firstname', 'ASC')
             ->pluck('name', 'id'); 
 
-        return view('backend.admin.token.report', compact('counters', 'departments', 'officers'));
+        return view('pages.admin.token.report', compact('counters', 'departments', 'officers'));
     }  
 
     public function reportData(Request $request)
@@ -654,7 +654,7 @@ class TokenController extends Controller
         ");
         //ENDS OF REPORT DATA PROCESSING...
 
-        return view('backend.admin.token.performance', compact(  'report','tokens'));
+        return view('pages.admin.token.performance', compact(  'report','tokens'));
     }
 
 

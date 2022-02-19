@@ -37,7 +37,7 @@ class DisplayController extends Controller
             ]);
         }
  
-        return view('backend.admin.display.setting', compact(
+        return view('pages.admin.display.setting', compact(
             'setting',
             'counters',
             'customDisplays'

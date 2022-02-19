@@ -33,7 +33,7 @@ class SettingController extends Controller
 
         $timezoneList = $this->timezoneList();
 
-    	return view('backend.admin.setting.setting', compact(
+    	return view('pages.admin.setting.setting', compact(
             'setting',
             'timezoneList'
         ));

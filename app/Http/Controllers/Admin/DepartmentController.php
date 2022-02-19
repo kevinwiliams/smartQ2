@@ -13,13 +13,13 @@ class DepartmentController extends Controller
     public function index()
     { 
         $departments = Department::get();
-        return view('backend.admin.department.list', compact('departments'));
+        return view('pages.admin.department.list', compact('departments'));
     }
 
     public function showForm()
     {
         $keyList = $this->keyList();
-        return view('backend.admin.department.form', compact('keyList'));
+        return view('pages.admin.department.form', compact('keyList'));
     }
     
     public function create(Request $request)
@@ -71,7 +71,7 @@ class DepartmentController extends Controller
     {
         $keyList = $this->keyList();
         $department = Department::where('id', $id)->first();
-        return view('backend.admin.department.edit', compact('department', 'keyList'));
+        return view('pages.admin.department.edit', compact('department', 'keyList'));
     }
 
 
