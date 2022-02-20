@@ -9,6 +9,7 @@ use App\Http\Controllers\Logs\SystemLogsController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\UserMangement\UMController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\Admin\SmsSettingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -180,6 +181,7 @@ Route::group(['middleware' => ['auth']], function() {
 		
 		// SMS pages
 		Route::prefix('sms')->group(function () {
+			Route::get('/', [SmsSettingController::class, 'index']);
 			Route::get('new', [SmsSettingController::class, 'form']);
 			Route::post('new', [SmsSettingController::class, 'send']);
 			Route::get('list', [SmsSettingController::class, 'show']);

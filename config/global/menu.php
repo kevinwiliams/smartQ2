@@ -274,7 +274,7 @@ return array(
         array(
             'title' => 'SMS',
             'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/communication/com007.svg", "svg-icon-2"),
-            'path'  => '#',
+            'path'  => 'admin/sms/list',
           
         ),
 

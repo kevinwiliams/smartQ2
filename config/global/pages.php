@@ -140,6 +140,23 @@ return array(
         ),
     ),
 
+    'admin' => array(
+        'sms' => array(
+            'title' => 'SMS History',
+            'view' => 'admin/sms',
+            'assets' => array(
+                'custom' => array(
+                    'css' => array(
+                        'plugins/custom/datatables/datatables.bundle.css',
+                    ),
+                    'js'  => array(
+                        'plugins/custom/datatables/datatables.bundle.js',
+                    ),
+                    
+                ),
+            ),
+        )
+    ),
    
 
     'apps' => array(

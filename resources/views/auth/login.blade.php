@@ -33,7 +33,7 @@
             <!--end::Label-->
 
             <!--begin::Input-->
-            <input class="form-control form-control-lg form-control-solid" type="email" name="email" autocomplete="off" value="{{ old('email', 'demo@demo.com') }}" required autofocus/>
+            <input class="form-control form-control-lg form-control-solid" type="email" name="email" autocomplete="off"  required autofocus/>
             <!--end::Input-->
         </div>
         <!--end::Input group-->
@@ -57,7 +57,7 @@
             <!--end::Wrapper-->
 
             <!--begin::Input-->
-            <input class="form-control form-control-lg form-control-solid" type="password" name="password" autocomplete="off" value="demo" required/>
+            <input class="form-control form-control-lg form-control-solid" type="password" name="password" autocomplete="off" equired/>
             <!--end::Input-->
         </div>
         <!--end::Input group-->

@@ -8,10 +8,17 @@ use App\Http\Controllers\Common\SMS_lib;
 use App\Models\SmsSetting;
 use App\Models\SmsHistory; 
 use Validator;
+use App\DataTables\SMSSettingDataTable;
+
 
 class SmsSettingController extends Controller
 {
     
+    public function index(SMSSettingDataTable $dataTable)
+    {
+        return $dataTable->render('pages.admin.sms.index');
+    }
+
     # Show the SMS list
     public function show()
     { 
@@ -199,7 +206,7 @@ class SmsSettingController extends Controller
             $data->api_key  = '';
             $data->username = '';
             $data->password = '';
-            $data->from     = 'Token - Queue Management System';
+            $data->from     = 'SmartQ - Queue Management System';
             $data->sms_template = 'Token No: [TOKEN] \r\n Department: [DEPARTMENT], Counter: [COUNTER] and Officer: [OFFICER]. \r\n Your waiting no is [WAIT]. \r\n [DATE]';
             $data->recall_sms_template = 'Please contact urgently. Token No: [TOKEN] \r\n Department: [DEPARTMENT], Counter: [COUNTER] and Officer: [OFFICER].\r\n[DATE]';
             $data->save();
