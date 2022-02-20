@@ -7,6 +7,7 @@ use App\Http\Controllers\Documentation\ReferencesController;
 use App\Http\Controllers\Logs\AuditLogsController;
 use App\Http\Controllers\Logs\SystemLogsController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\UserMangement\UMController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -110,10 +111,25 @@ Route::prefix('common')->namespace('Common')->group(function() {
 		});
 		
 
-		// Calendar pages
+		// Apps
 		Route::prefix('apps')->group(function () {
+			//Calendar
 			Route::get('calendar', [CalendarController::class, 'index']);
+
+			// User Management
+			Route::prefix('user-management')->group(function () {
+				Route::get('permissions', [UMController::class, 'permissionsList']);
+				Route::get('users/list', [UMController::class, 'usersList']);
+				Route::get('users/view', [UMController::class, 'usersView']);
+				Route::get('roles/list', [UMController::class, 'rolesList']);
+				Route::get('roles/view', [UMController::class, 'rolesView']);
+			});
+			
 		});
+
+		
+
+		
 
 	});
 });

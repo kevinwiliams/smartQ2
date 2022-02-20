@@ -140,6 +140,8 @@ return array(
         ),
     ),
 
+   
+
     'apps' => array(
         'calendar' => array(
             'title'  => 'Appointment Scheduler',
@@ -159,6 +161,104 @@ return array(
                     
                 ),
             ),
+        ),
+        'user-management' => array(
+            'permissions' => array(
+                'title' => 'Permissions List',
+                'view'  =>  'apps/user-management/permissions',
+                'assets' => array(
+                    'custom' => array(
+                        'css' => array(
+                            'plugins/custom/datatables/datatables.bundle.css',
+                        ),
+                        'js'  => array(
+                            'js/custom/apps/user-management/permissions/list.js',
+                            'js/custom/apps/user-management/permissions/add-permission.js',
+                            'js/custom/apps/user-management/permissions/update-permission.js',
+                            'plugins/custom/datatables/datatables.bundle.js',
+                        ),
+                        
+                    ),
+                ),
+            ),
+            'users' => array(
+                'view' => array(
+                    'title'  => 'View User Details',
+                    'assets' => array(
+                        'custom' => array(
+                            'css' => array(
+                                'plugins/custom/datatables/datatables.bundle.css',
+                            ),
+                            'js' => array(
+                                'plugins/custom/datatables/datatables.bundle.js',
+                                'js/custom/apps/user-management/users/view/view.js',
+                                'js/custom/apps/user-management/users/view/update-details.js',
+                                'js/custom/apps/user-management/users/view/add-schedule.js',
+                                'js/custom/apps/user-management/users/view/add-task.js',
+                                'js/custom/apps/user-management/users/view/update-email.js',
+                                'js/custom/apps/user-management/users/view/update-password.js',
+                                'js/custom/apps/user-management/users/view/update-role.js',
+                                'js/custom/apps/user-management/users/view/add-auth-app.js',
+                                'js/custom/apps/user-management/users/view/add-one-time-password.js',
+
+                            ),
+                        ),
+                    ),
+                ),
+                'list' => array(
+                    'title'  => 'Users List',
+                    'assets' => array(
+                        'custom' => array(
+                            'css' => array(
+                                'plugins/custom/datatables/datatables.bundle.css',
+                            ),
+                            'js' => array(
+                                'plugins/custom/datatables/datatables.bundle.js',
+                                'js/custom/apps/user-management/users/list/table.js',
+                                'js/custom/apps/user-management/users/list/export-users.js',
+                                'js/custom/apps/user-management/users/list/add.js',
+
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'roles' => array(
+                'view' => array(
+                    'title'  => 'View Role Details',
+                    'assets' => array(
+                        'custom' => array(
+                            'css' => array(
+                                'plugins/custom/datatables/datatables.bundle.css',
+                            ),
+                            'js' => array(
+                                'plugins/custom/datatables/datatables.bundle.js',
+                                'js/custom/apps/user-management/users/roles/view.js',
+                                'js/custom/apps/user-management/users/roles/update-role.js',
+
+                            ),
+                        ),
+                    ),
+                ),
+                'list' => array(
+                    'title'  => 'Users List',
+                    'assets' => array(
+                        'custom' => array(
+                            'css' => array(
+                                'plugins/custom/datatables/datatables.bundle.css',
+                            ),
+                            'js' => array(
+                                'plugins/custom/datatables/datatables.bundle.js',
+                                'js/custom/apps/user-management/users/roles/update-role.js',
+                                'js/custom/apps/user-management/users/roles/add.js',
+
+                            ),
+                        ),
+                    ),
+                ),
+                
+            )
+            
         ),
     ),
     // Documentation pages
