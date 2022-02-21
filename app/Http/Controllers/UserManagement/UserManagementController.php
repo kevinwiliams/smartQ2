@@ -1,17 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\UserMangement;
+namespace App\Http\Controllers\UserManagement;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
-
-class UMController extends Controller
+class UserManagementController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
     public function permissionsList()
     {
         // get the default inner page
@@ -39,6 +34,4 @@ class UMController extends Controller
         // get the default inner page
         return view('pages.apps.user-management.roles.view');
     }
-
-
 }

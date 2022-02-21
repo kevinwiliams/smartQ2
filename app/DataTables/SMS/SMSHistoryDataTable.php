@@ -1,15 +1,15 @@
 <?php
 
-namespace App\DataTables;
+namespace App\DataTables\SMS;
 
-use App\Models\SMSSetting;
+use App\Models\SMSHistory;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class SMSSettingDataTable extends DataTable
+class SMSHistoryDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -21,16 +21,16 @@ class SMSSettingDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'smssetting.action');
+            ->addColumn('action', 'smshistory.action');
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\SMSSetting $model
+     * @param \App\Models\SMSHistory $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(SMSSetting $model)
+    public function query(SMSHistory $model)
     {
         return $model->newQuery();
     }
@@ -43,7 +43,7 @@ class SMSSettingDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('smssetting-table')
+                    ->setTableId('smshistory-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
@@ -71,9 +71,12 @@ class SMSSettingDataTable extends DataTable
                   ->width(60)
                   ->addClass('text-center'),
             Column::make('id'),
+            Column::make('from'),
             Column::make('to'),
             Column::make('message'),
+            Column::make('response'),
             Column::make('created_at'),
+            
         ];
     }
 
@@ -84,6 +87,6 @@ class SMSSettingDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'SMSSetting_' . date('YmdHis');
+        return 'SMSHistory_' . date('YmdHis');
     }
 }

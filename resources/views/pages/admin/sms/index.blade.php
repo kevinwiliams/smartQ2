@@ -6,14 +6,14 @@
         <div class="card-body pt-6">
             <!--begin::Table-->
             {{ $dataTable->table() }}
+            
             <!--end::Table-->
         </div>
         <!--end::Card body-->
     </div>
-    <!--end::Card-->
-
-</x-base-layout>
-{{-- Inject Scripts --}}
+    <!--end::Card-->    
+    {{-- Inject Scripts --}}
 @section('scripts')
     {{ $dataTable->scripts() }}
 @endsection
+</x-base-layout>

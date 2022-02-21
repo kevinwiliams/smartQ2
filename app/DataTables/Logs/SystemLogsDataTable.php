@@ -3,6 +3,7 @@
 namespace App\DataTables\Logs;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Jackiedo\LogReader\Exceptions\UnableToRetrieveLogFilesException;
 use Jackiedo\LogReader\LogReader;
@@ -20,6 +21,7 @@ class SystemLogsDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        Log::debug("SystemLogsDataTable");
         return datatables()
             ->collection($query)
             ->rawColumns(['action', 'level'])

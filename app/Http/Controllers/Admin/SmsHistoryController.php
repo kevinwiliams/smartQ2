@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\DataTables\SMS\SMSSettingDataTable;
+use App\DataTables\SMS\SMSHistoryDataTable;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Common\SMS_lib;
@@ -11,10 +11,10 @@ use App\Models\SmsHistory;
 use Validator;
 use Illuminate\Support\Facades\Log;
 
-class SmsSettingController extends Controller
+class SmsHistoryController extends Controller
 {
     
-    public function index(SMSSettingDataTable $dataTable)
+    public function index(SMSHistoryDataTable $dataTable)
     {        
         Log::debug("SmsSettingController");
         // echo '<pre>';
