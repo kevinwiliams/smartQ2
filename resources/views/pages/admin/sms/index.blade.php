@@ -4,10 +4,16 @@
     <div class="card">
         <!--begin::Card body-->
         <div class="card-body pt-6">
-            @include('pages.admin.sms._table')
+            <!--begin::Table-->
+            {{ $dataTable->table() }}
+            <!--end::Table-->
         </div>
         <!--end::Card body-->
     </div>
     <!--end::Card-->
 
 </x-base-layout>
+{{-- Inject Scripts --}}
+@section('scripts')
+    {{ $dataTable->scripts() }}
+@endsection
