@@ -156,6 +156,27 @@ return array(
                     
                 ),
             ),
+            'setting' => array(
+                'title' => 'SMS Settings' 
+            ),
+        
+        ),
+        'token' => array(
+            'current' => array(
+                'title' => 'Active Token',
+                'view'   => 'admin/token/current',
+                'assets' => array(
+                    'custom' => array(
+                        'css' => array(
+                            'plugins/custom/datatables/datatables.bundle.css',
+                        ),
+                        'js'  => array(
+                            'plugins/custom/datatables/datatables.bundle.js',
+                        ),
+                        
+                    ),
+                )
+            )
         )
     ),
    

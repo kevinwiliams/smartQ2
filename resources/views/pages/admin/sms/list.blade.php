@@ -9,6 +9,9 @@
                 </span>
                 <span class="text">{{ trans('app.new_sms') }}</span>
             </a>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#showApiResponse">
+                Launch demo modal
+            </button>
         </div>
         <div class="card-body">
             <table class="dataTables-server display table " width="100%" cellspacing="0">
@@ -55,74 +58,10 @@
       </div>
     </div>
   </div>  
-</x-base-layout>
+
 @push('scripts') 
 <script> 
-$(document).ready(function(){
-    // DATATABLE
-    drawDataTable();
 
-    $("body").on("change",".filter", function(){
-        drawDataTable();
-    });
-
-    function drawDataTable()
-    {  
-        $('.dataTables-server').DataTable().destroy();
-        $('.dataTables-server').DataTable({
-            responsive: true, 
-            processing: true,
-            serverSide: true,
-            ajax: {
-                url:"{{ url('admin/sms/data') }}",
-                dataType: 'json',
-                type    : 'post',
-                data    : {
-                    _token : '{{ csrf_token() }}', 
-                    search: {
-                        start_date : $('#start_date').val(),
-                        end_date   : $('#end_date').val(),
-                    }
-                }
-            },
-            columns: [ 
-                { data: 'serial' },
-                { data: 'to' },
-                { data: 'message' },
-                { data: 'created_at' },
-                { data: 'options' }
-            ],  
-            order: [ [0, 'desc'] ], 
-            select    : true,
-            pagingType: "full_numbers",
-            lengthMenu: [[25, 50, 100, 150, 200, 500, -1], [25, 50, 100, 150, 200, 500, "All"]],
-            dom: "<'row w-100'<'col-lg-4'l><'col-lg-4 text-center'B><'col-lg-4'f>><'row w-100'<'col-lg-12't>><'row w-100'<'col-lg-6'i><'col-lg-6'p>>", 
-            buttons: [
-                { extend:'copy', text:'<i class="fa fa-copy"></i>', className:'btn-sm',exportOptions:{columns:':visible'}},
-                { extend: 'print', text  :'<i class="fa fa-print"></i>', className:'btn-sm', exportOptions: { columns: ':visible',  modifier: { selected: null } }},  
-                { extend: 'print',className:'btn-sm', text:'<i class="fa fa-print"></i>  Selected',exportOptions:{columns: ':visible'}},  
-                { extend:'excel',  text:'<i class="fa fa-file-excel-o"></i>', className:'btn-sm',exportOptions:{columns:':visible'}},
-                { extend:'pdf',  text:'<i class="fa fa-file-pdf-o"></i>',  className:'btn-sm',exportOptions:{columns:':visible'}},
-                { extend:'colvis', text:'<i class="fa fa-eye"></i>',className:'btn-sm'} 
-            ] 
-        });
-    }
-
- 
-    // api response/preview
-    $('#showApiResponse').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var mobile = button.data('mobile');
-        var data   = button.data('data');
-
-        var modal = $(this)
-        modal.find('.modal-title').text('New message to ' + mobile);
-
-        result = data;
-        // result.success = JSON.parse((data.success),null,2);
-        modal.find('.modal-body').html("<pre>"+JSON.stringify((result),null,'\t')+"</pre>"); 
-    })
-
-}); 
 </script>
 @endpush
+</x-base-layout>
