@@ -183,16 +183,16 @@ return array(
         'user-management' => array(
             'permissions' => array(
                 'title' => 'Permissions List',
-                'view'  =>  'apps/user-management/permissions',
+                'view'  =>  'user-management/permissions',
                 'assets' => array(
                     'custom' => array(
                         'css' => array(
                             'plugins/custom/datatables/datatables.bundle.css',
                         ),
                         'js'  => array(
-                            'js/custom/apps/user-management/permissions/list.js',
-                            'js/custom/apps/user-management/permissions/add-permission.js',
-                            'js/custom/apps/user-management/permissions/update-permission.js',
+                            'js/custom/user-management/permissions/list.js',
+                            'js/custom/user-management/permissions/add-permission.js',
+                            'js/custom/user-management/permissions/update-permission.js',
                             'plugins/custom/datatables/datatables.bundle.js',
                         ),
                         
@@ -209,15 +209,15 @@ return array(
                             ),
                             'js' => array(
                                 'plugins/custom/datatables/datatables.bundle.js',
-                                'js/custom/apps/user-management/users/view/view.js',
-                                'js/custom/apps/user-management/users/view/update-details.js',
-                                'js/custom/apps/user-management/users/view/add-schedule.js',
-                                'js/custom/apps/user-management/users/view/add-task.js',
-                                'js/custom/apps/user-management/users/view/update-email.js',
-                                'js/custom/apps/user-management/users/view/update-password.js',
-                                'js/custom/apps/user-management/users/view/update-role.js',
-                                'js/custom/apps/user-management/users/view/add-auth-app.js',
-                                'js/custom/apps/user-management/users/view/add-one-time-password.js',
+                                'js/custom/user-management/users/view/view.js',
+                                'js/custom/user-management/users/view/update-details.js',
+                                'js/custom/user-management/users/view/add-schedule.js',
+                                'js/custom/user-management/users/view/add-task.js',
+                                'js/custom/user-management/users/view/update-email.js',
+                                'js/custom/user-management/users/view/update-password.js',
+                                'js/custom/user-management/users/view/update-role.js',
+                                'js/custom/user-management/users/view/add-auth-app.js',
+                                'js/custom/user-management/users/view/add-one-time-password.js',
 
                             ),
                         ),
@@ -232,9 +232,10 @@ return array(
                             ),
                             'js' => array(
                                 'plugins/custom/datatables/datatables.bundle.js',
-                                'js/custom/apps/user-management/users/list/table.js',
-                                'js/custom/apps/user-management/users/list/export-users.js',
-                                'js/custom/apps/user-management/users/list/add.js',
+                                'vendor/datatables/buttons.server-side.js',
+                                'js/custom/user-management/users/list/table.js',
+                                'js/custom/user-management/users/list/export-users.js',
+                                'js/custom/user-management/users/list/add.js',
 
                             ),
                         ),
@@ -251,8 +252,8 @@ return array(
                             ),
                             'js' => array(
                                 'plugins/custom/datatables/datatables.bundle.js',
-                                'js/custom/apps/user-management/users/roles/view.js',
-                                'js/custom/apps/user-management/users/roles/update-role.js',
+                                'js/custom/user-management/users/roles/view.js',
+                                'js/custom/user-management/users/roles/update-role.js',
 
                             ),
                         ),
@@ -267,8 +268,8 @@ return array(
                             ),
                             'js' => array(
                                 'plugins/custom/datatables/datatables.bundle.js',
-                                'js/custom/apps/user-management/users/roles/update-role.js',
-                                'js/custom/apps/user-management/users/roles/add.js',
+                                'js/custom/user-management/users/roles/update-role.js',
+                                'js/custom/user-management/users/roles/add.js',
 
                             ),
                         ),

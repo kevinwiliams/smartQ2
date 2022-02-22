@@ -17,7 +17,7 @@ var KTUsersList = function () {
 
         tableRows.forEach(row => {
             const dateRow = row.querySelectorAll('td');
-            const lastLogin = dateRow[3].innerText.toLowerCase(); // Get last login time
+            const lastLogin = dateRow[4].innerText.toLowerCase(); // Get last login time
             let timeCount = 0;
             let timeFormat = 'minutes';
 
@@ -43,7 +43,7 @@ var KTUsersList = function () {
             const realDate = moment().subtract(timeCount, timeFormat).format();
 
             // Insert real date to last login attribute
-            dateRow[3].setAttribute('data-order', realDate);
+            dateRow[4].setAttribute('data-order', realDate);
 
             // Set real date for joined column
             const joinedDate = moment(dateRow[5].innerHTML, "DD MMM YYYY, LT").format(); // select date from 5th column in table
@@ -64,9 +64,9 @@ var KTUsersList = function () {
 
         // Re-init functions on every table re-draw -- more info: https://datatables.net/reference/event/draw
         datatable.on('draw', function () {
-            initToggleToolbar();
-            handleDeleteRows();
-            toggleToolbars();
+            // initToggleToolbar();
+            // handleDeleteRows();
+            // toggleToolbars();
         });
     }
 
@@ -300,12 +300,12 @@ var KTUsersList = function () {
                 return;
             }
 
-            initUserTable();
-            initToggleToolbar();
-            handleSearchDatatable();
-            handleResetForm();
-            handleDeleteRows();
-            handleFilterDatatable();
+            // initUserTable();
+            // initToggleToolbar();
+            // handleSearchDatatable();
+            // handleResetForm();
+            // handleDeleteRows();
+            // handleFilterDatatable();
 
         }
     }

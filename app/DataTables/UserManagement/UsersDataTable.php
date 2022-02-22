@@ -1,15 +1,16 @@
 <?php
 
-namespace App\DataTables\SMS;
+namespace App\DataTables\UserManagement;
 
-use App\Models\SMSHistory;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class SMSHistoryDataTable extends DataTable
+class UsersDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -20,16 +21,18 @@ class SMSHistoryDataTable extends DataTable
     public function dataTable($query)
     {
         return datatables()
-            ->eloquent($query);
+            ->eloquent($query)
+            ->rawColumns(['action'])
+            ->addColumn('action', 'pages.apps.user-management.users._action-menu');  
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\SMSHistory $model
+     * @param \App\Models\User $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(SMSHistory $model)
+    public function query(User $model)
     {
         return $model->newQuery();
     }
@@ -42,15 +45,16 @@ class SMSHistoryDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('smshistory-table')
+                    ->setTableId('users-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->stateSave(true)
+                    ->dom('Bfrtip')
                     ->orderBy(1)
                     ->responsive()
-                    ->autoWidth(false)                               
+                    ->autoWidth(false)
                     ->parameters(['scrollX' => true])
-                    ->addTableClass('align-middle table-row-dashed fs-6 gy-5');
+                    ->addTableClass('align-middle table-row-dashed fs-6 gy-5')
+                   ;
     }
 
     /**
@@ -60,19 +64,18 @@ class SMSHistoryDataTable extends DataTable
      */
     protected function getColumns()
     {
-        return [
-            // Column::computed('action')
-            //       ->exportable(false)
-            //       ->printable(false)
-            //       ->width(60)
-            //       ->addClass('text-center'),
+        return [           
             Column::make('id'),
-            Column::make('from'),
-            Column::make('to'),
-            Column::make('message'),
-            Column::make('response'),
+            Column::make('firstname'),
+            Column::make('lastname'),            
+            Column::make('email'),
+            Column::make('last_login_at'),
             Column::make('created_at'),
-            
+            Column::computed('action')
+            ->exportable(false)
+            ->printable(false)
+            ->width(60)
+            ->addClass('text-center'),         
         ];
     }
 
@@ -83,6 +86,6 @@ class SMSHistoryDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'SMSHistory_' . date('YmdHis');
+        return 'Users_' . date('YmdHis');
     }
 }

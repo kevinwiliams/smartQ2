@@ -23,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
             //\SocialiteProviders\Google\GoogleExtendSocialite::class.'@handle',
             \SocialiteProviders\Apple\AppleExtendSocialite::class.'@handle',
             //\SocialiteProviders\Facebook\FacebookExtendSocialite::class.'@handle',
+        ], 
+        'Illuminate\Auth\Events\Login' => [
+            'App\Listeners\LogSuccessfulLogin',
         ],
     ];
 

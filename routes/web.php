@@ -59,6 +59,22 @@ Route::prefix('documentation')->group(function () {
 });
 
 
+// Apps
+Route::prefix('apps')->group(function () {
+	//Calendar
+	Route::get('calendar', [CalendarController::class, 'index']);
+
+	// User Management
+	Route::prefix('user-management')->group(function () {
+		Route::get('permissions', [UserManagementController::class, 'permissionsList']);
+		Route::get('users/list', [UserManagementController::class, 'usersList']);
+		Route::get('users/view', [UserManagementController::class, 'usersView']);
+		Route::delete('users/delete/{id}', [UserManagementController::class, 'usersView'])->name('admin.user.destroy');
+		Route::get('roles/list', [UserManagementController::class, 'rolesList']);
+		Route::get('roles/view', [UserManagementController::class, 'rolesView']);
+	});
+	
+});
 
 Route::middleware('auth')->group(function () {
     // Account pages
@@ -74,7 +90,6 @@ Route::middleware('auth')->group(function () {
         Route::resource('system', SystemLogsController::class)->only(['index', 'destroy']);
         Route::resource('audit', AuditLogsController::class)->only(['index', 'destroy']);
     });
-
 
 	# -----------------------------------------------------------
 	# ADMIN
@@ -212,21 +227,7 @@ Route::resource('users', UsersController::class);
 // 		});
 		
 
-// 		// Apps
-// 		Route::prefix('apps')->group(function () {
-// 			//Calendar
-// 			Route::get('calendar', [CalendarController::class, 'index']);
 
-// 			// User Management
-// 			Route::prefix('user-management')->group(function () {
-// 				Route::get('permissions', [UserManagementController::class, 'permissionsList']);
-// 				Route::get('users/list', [UserManagementController::class, 'usersList']);
-// 				Route::get('users/view', [UserManagementController::class, 'usersView']);
-// 				Route::get('roles/list', [UserManagementController::class, 'rolesList']);
-// 				Route::get('roles/view', [UserManagementController::class, 'rolesView']);
-// 			});
-			
-// 		});
 
 		
 

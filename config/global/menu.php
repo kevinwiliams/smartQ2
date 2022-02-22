@@ -262,7 +262,7 @@ return array(
                     ),
                     array(
                         'title'      => 'Users',
-                        'path'       => '#',
+                        'path'       => 'apps/user-management/users/list',
                         'bullet'     => '<span class="bullet bullet-dot"></span>',
                        
                     ),

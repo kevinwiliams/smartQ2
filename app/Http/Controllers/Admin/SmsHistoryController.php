@@ -15,12 +15,7 @@ class SmsHistoryController extends Controller
 {
     
     public function index(SMSHistoryDataTable $dataTable)
-    {        
-        Log::debug("SmsSettingController");
-        // echo '<pre>';
-        // print_r($dataTable->re);
-        // echo '</pre>';
-        // die();
+    {          
         return $dataTable->render('pages.admin.sms.index');
     }
 

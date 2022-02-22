@@ -44,7 +44,7 @@
 						<!--begin::Input group-->
 						<div class="mb-10">
 							<label class="form-label fs-6 fw-bold">Role:</label>
-							<select class="form-select form-select-solid fw-bolder" data-kt-select2="true" data-placeholder="Select option" data-allow-clear="true" data-kt-user-table-filter="role" data-hide-search="true">
+							<select class="form-select form-select-solid fw-bolder" data-placeholder="Select option" data-allow-clear="true" data-kt-user-table-filter="role" data-hide-search="true">
 								<option></option>
 								<option value="Administrator">Administrator</option>
 								<option value="Analyst">Analyst</option>
@@ -57,7 +57,7 @@
 						<!--begin::Input group-->
 						<div class="mb-10">
 							<label class="form-label fs-6 fw-bold">Two Step Verification:</label>
-							<select class="form-select form-select-solid fw-bolder" data-kt-select2="true" data-placeholder="Select option" data-allow-clear="true" data-kt-user-table-filter="two-step" data-hide-search="true">
+							<select class="form-select form-select-solid fw-bolder" data-placeholder="Select option" data-allow-clear="true" data-kt-user-table-filter="two-step" data-hide-search="true">
 								<option></option>
 								<option value="Enabled">Enabled</option>
 							</select>
@@ -141,7 +141,7 @@
 									<label class="fs-6 fw-bold form-label mb-2">Select Roles:</label>
 									<!--end::Label-->
 									<!--begin::Input-->
-									<select name="role" data-control="select2" data-placeholder="Select a role" data-hide-search="true" class="form-select form-select-solid fw-bolder">
+									<select name="role" data-placeholder="Select a role" data-hide-search="true" class="form-select form-select-solid fw-bolder">
 										<option></option>
 										<option value="Administrator">Administrator</option>
 										<option value="Analyst">Analyst</option>
@@ -158,7 +158,7 @@
 									<label class="required fs-6 fw-bold form-label mb-2">Select Export Format:</label>
 									<!--end::Label-->
 									<!--begin::Input-->
-									<select name="format" data-control="select2" data-placeholder="Select a format" data-hide-search="true" class="form-select form-select-solid fw-bolder">
+									<select name="format" data-placeholder="Select a format" data-hide-search="true" class="form-select form-select-solid fw-bolder">
 										<option></option>
 										<option value="excel">Excel</option>
 										<option value="pdf">PDF</option>
