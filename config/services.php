@@ -43,9 +43,15 @@ return [
     ],
 
     'apple' => [
-        'client_id' => env('APPLE_CLIENT_ID'),
+        'client_id'     => env('APPLE_CLIENT_ID'),
         'client_secret' => env('APPLE_CLIENT_SECRET'),
-        'redirect' => env('APPLE_REDIRECT_URI')
+        'redirect'      => env('APPLE_REDIRECT_URI')
       ],
+
+    'sms' => [
+        'endpoint'      => env('SMS_API_ENDPOINT'),
+        'username'      => env('SMS_API_USERNAME'),
+        'password'      => env('SMS_API_PASSWORD'),
+    ],
       
 ];

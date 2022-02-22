@@ -220,7 +220,7 @@ return array(
                 'items' => array(
                     array(
                         'title'  => 'Active Token',
-                        'path'   => '#',
+                        'path'   => 'admin/token/current',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
@@ -405,7 +405,7 @@ return array(
                     ),
                     array(
                         'title'  => 'SMS',
-                        'path'   => '#',
+                        'path'   => 'admin/sms/setting',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     

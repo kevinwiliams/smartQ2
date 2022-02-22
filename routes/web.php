@@ -127,26 +127,26 @@ Route::middleware('auth')->group(function () {
 			Route::post('setting', [SmsHistoryController::class, 'updateSetting']);
 		});
 
-		// // Token pages
-		// Route::prefix('token')->group(function () {
-		// 	Route::get('setting',[TokenController::class, 'tokenSettingView']); 
-		// 	Route::post('setting',[TokenController::class, 'tokenSetting']); 
-		// 	Route::get('setting/delete/{id}',[TokenController::class, 'tokenDeleteSetting']);
-		// 	Route::get('auto',[TokenController::class, 'tokenAutoView']); 
-		// 	Route::post('auto',[TokenController::class, 'tokenAuto']); 
-		// 	Route::get('current',[TokenController::class, 'current']);
-		// 	Route::get('report',[TokenController::class, 'report']);  
-		// 	Route::post('report/data',[TokenController::class, 'reportData']);  
-		// 	Route::get('performance',[TokenController::class, 'performance']);  
-		// 	Route::get('create',[TokenController::class, 'showForm']);
-		// 	Route::post('create',[TokenController::class, 'create']);
-		// 	Route::post('print', [TokenController::class, 'viewSingleToken']);
-		// 	Route::get('complete/{id}',[TokenController::class, 'complete']);
-		// 	Route::get('stoped/{id}',[TokenController::class, 'stoped']);
-		// 	Route::get('recall/{id}',[TokenController::class, 'recall']);
-		// 	Route::get('delete/{id}',[TokenController::class, 'delete']);
-		// 	Route::post('transfer',[TokenController::class, 'transfer']); 
-		// });
+		// Token pages
+		Route::prefix('token')->group(function () {
+			Route::get('setting',[TokenController::class, 'tokenSettingView']); 
+			Route::post('setting',[TokenController::class, 'tokenSetting']); 
+			Route::get('setting/delete/{id}',[TokenController::class, 'tokenDeleteSetting']);
+			Route::get('auto',[TokenController::class, 'tokenAutoView']); 
+			Route::post('auto',[TokenController::class, 'tokenAuto']); 
+			Route::get('current',[TokenController::class, 'current']);
+			Route::get('report',[TokenController::class, 'report']);  
+			Route::post('report/data',[TokenController::class, 'reportData']);  
+			Route::get('performance',[TokenController::class, 'performance']);  
+			Route::get('create',[TokenController::class, 'showForm']);
+			Route::post('create',[TokenController::class, 'create']);
+			Route::post('print', [TokenController::class, 'viewSingleToken']);
+			Route::get('complete/{id}',[TokenController::class, 'complete']);
+			Route::get('stoped/{id}',[TokenController::class, 'stoped']);
+			Route::get('recall/{id}',[TokenController::class, 'recall']);
+			Route::get('delete/{id}',[TokenController::class, 'delete']);
+			Route::post('transfer',[TokenController::class, 'transfer']); 
+		});
 		
 		// // Setting pages
 		// Route::prefix('setting')->group(function () {

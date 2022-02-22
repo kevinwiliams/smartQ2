@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\Token\TokenDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Common\SMS_lib;
 use App\Http\Controllers\Common\Token_lib;
@@ -416,7 +417,7 @@ class TokenController extends Controller
     | TOKEN CURRENT / REPORT / PERFORMANCE
     |-----------------------------------*/
 
-    public function current()
+    public function _current()
     {  
         @date_default_timezone_set(session('app.timezone'));
         $tokens = Token::where('status', '0')
@@ -434,6 +435,21 @@ class TokenController extends Controller
                     
         return view('pages.admin.token.current', compact('counters', 'departments', 'officers', 'tokens'));
     } 
+
+    public function current(TokenDataTable $dataTable)
+    {        
+        @date_default_timezone_set(session('app.timezone'));
+        $waiting = Token::where('status', '0')->count();
+        $counters = Counter::where('status',1)->pluck('name','id');
+        $departments = Department::where('status',1)->pluck('name','id');
+        $officers = User::select(DB::raw('CONCAT(firstname, " ", lastname) as name'), 'id')
+            ->where('user_type',1)
+            ->where('status',1)
+            ->orderBy('firstname', 'ASC')
+            ->pluck('name', 'id'); 
+
+        return $dataTable->render('pages.admin.token.current', compact('counters', 'departments', 'officers', 'waiting'));
+    }
 
     public function report(Request $request)
     {  
