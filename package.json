@@ -7,7 +7,7 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production",        
+        "production": "mix --production",
         "build": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "dependencies": {
@@ -38,7 +38,7 @@
         "countup.js": "^2.0.7",
         "cropperjs": "^1.5.12",
         "cross-env": "^7.0",
-        "datatables.net": "^1.10.25",
+        "datatables.net": "^1.11.4",
         "datatables.net-bs5": "^1.10.25",
         "datatables.net-buttons": "^1.7.1",
         "datatables.net-buttons-bs5": "^1.7.1",
