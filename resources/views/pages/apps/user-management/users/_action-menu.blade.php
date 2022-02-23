@@ -1,10 +1,3 @@
-<!--begin::Action--->
-<!-- <td class="text-end">
-    <button data-destroy="{{ route('admin.user.destroy', $model->id) }}" class="btn btn-sm btn-light btn-active-light-primary">
-        Delete
-    </button>
-</td> -->
-<!--end::Action--->
 <!--begin::Action=-->
 <td class="text-end">
     <a href="#" class="btn btn-light btn-active-light-primary btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions

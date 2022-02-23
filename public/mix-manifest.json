@@ -34,6 +34,7 @@
     "/demo1/js/custom/user-management/roles/list/update-role.js": "/demo1/js/custom/user-management/roles/list/update-role.js",
     "/demo1/js/custom/user-management/roles/view/update-role.js": "/demo1/js/custom/user-management/roles/view/update-role.js",
     "/demo1/js/custom/user-management/roles/view/view.js": "/demo1/js/custom/user-management/roles/view/view.js",
+    "/demo1/js/custom/user-management/users/list/_table.js": "/demo1/js/custom/user-management/users/list/_table.js",
     "/demo1/js/custom/user-management/users/list/add.js": "/demo1/js/custom/user-management/users/list/add.js",
     "/demo1/js/custom/user-management/users/list/export-users.js": "/demo1/js/custom/user-management/users/list/export-users.js",
     "/demo1/js/custom/user-management/users/list/table.js": "/demo1/js/custom/user-management/users/list/table.js",

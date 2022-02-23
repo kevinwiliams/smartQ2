@@ -66,7 +66,7 @@
 								<div class="form-group @error('department_id') has-error @enderror">
                                     <label class="fs-6 fw-bold form-label mb-2" for="department_id"><span class="required">{{ trans('app.department') }}</span>
                                     <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-content="Please assign the correct department"></i></label>
-                                    {{ Form::select('department_id', $departments, null, ['placeholder' => 'Select Option', 'class'=>'select2 form-control form-control-solid']) }}
+                                    {{ Form::select('department_id', $departments, null, ['placeholder' => 'Select Option', 'class'=>'form-control form-control-solid', 'data-control'=>'select2']) }}
                                     <span class="text-danger">{{ $errors->first('department_id') }}</span>
                                 </div> 
 							</div>
@@ -76,7 +76,7 @@
 								<div class="form-group @error('counter_id') has-error @enderror">
                                     <label class="fs-6 fw-bold form-label mb-2" for="counter_id"><span class="required">{{ trans('app.counter') }}</span>
                                     <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-content="Assign user to a counter"></i></label>
-                                    {{ Form::select('counter_id', $counters, null, ['placeholder' => 'Select Option', 'class'=>'select2 form-control form-control-solid']) }}
+                                    {{ Form::select('counter_id', $counters, null, ['placeholder' => 'Select Option', 'class'=>'form-control form-control-solid', 'data-control'=>'select2']) }}
                                     <span class="text-danger">{{ $errors->first('counter_id') }}</span>
                                 </div> 
 							</div>
@@ -86,7 +86,7 @@
 								<div class="form-group @error('user_id') has-error @enderror">
                                     <label class="fs-6 fw-bold form-label mb-2" for="user_id"><span class="required">{{ trans('app.officer') }}</span>
                                     <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-content="Assign user to a officer"></i></label>
-                                    {{ Form::select('user_id', $officers, null, ['placeholder' => 'Select Option', 'class'=>'select2 form-control form-control-solid']) }}
+                                    {{ Form::select('user_id', $officers, null, ['placeholder' => 'Select Option', 'class'=>'form-control form-control-solid', 'data-control'=>'select2']) }}
                                     <span class="text-danger">{{ $errors->first('user_id') }}</span>
                                 </div> 
 							</div>

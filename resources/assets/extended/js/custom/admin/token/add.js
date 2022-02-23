@@ -7,8 +7,13 @@ var KTTokenAddToken = function () {
     const form = element.querySelector('#kt_modal_add_token_form');
     const modal = new bootstrap.Modal(element);
 
+    // Placeholder
+    Inputmask({
+        "mask" : "(999) 999-9999",        
+    }).mask("[name='client_mobile']");
+
     // Init add schedule modal
-    var initAddUser = () => {
+    var initAddUser = () => {  
 
         // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
         var validator = FormValidation.formValidation(
@@ -105,7 +110,8 @@ var KTTokenAddToken = function () {
                                         confirmButton: "btn btn-primary"
                                     }
                                 }).then(function (result) {
-                                    if (result.isConfirmed) {                                        
+                                    if (result.isConfirmed) {     
+                                        document.location.href = '/admin/token/current';                              
                                         form.reset();
                                         modal.hide();
                                     }
@@ -113,31 +119,6 @@ var KTTokenAddToken = function () {
                             }
                         });
 
-                        // // Simulate form submission. For more info check the plugin's official documentation: https://sweetalert2.github.io/
-                        // setTimeout(function () {
-                        //     // Remove loading indication
-                        //     submitButton.removeAttribute('data-kt-indicator');
-
-                        //     // Enable button
-                        //     submitButton.disabled = false;
-
-                        //     // Show popup confirmation 
-                        //     Swal.fire({
-                        //         text: "Form has been successfully submitted!",
-                        //         icon: "success",
-                        //         buttonsStyling: false,
-                        //         confirmButtonText: "Ok, got it!",
-                        //         customClass: {
-                        //             confirmButton: "btn btn-primary"
-                        //         }
-                        //     }).then(function (result) {
-                        //         if (result.isConfirmed) {
-                        //             modal.hide();
-                        //         }
-                        //     });
-
-                        //     //form.submit(); // Submit form
-                        // }, 2000);
                     } else {
                         // Show popup warning. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                         Swal.fire({

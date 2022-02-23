@@ -31,6 +31,6 @@ class Token extends Model
 
     public function client()
     {
-        return $this->hasOne('App\Models\User', 'mobile', 'client_mobile');
+        return $this->hasOne('App\Models\User', 'id', 'client_id');
     }
 }

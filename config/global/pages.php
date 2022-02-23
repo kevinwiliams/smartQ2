@@ -255,7 +255,7 @@ return array(
                             'js' => array(
                                 'plugins/custom/datatables/datatables.bundle.js',
                                 // 'vendor/datatables/buttons.server-side.js',
-                                // 'js/custom/user-management/users/list/table.js',
+                                'js/custom/user-management/users/list/table.js',
                                 // 'js/custom/user-management/users/list/export-users.js',
                                 // 'js/custom/user-management/users/list/add.js',
 
