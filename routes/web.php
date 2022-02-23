@@ -111,24 +111,24 @@ Route::middleware('auth')->group(function () {
 		// });
 		
 		// // Department pages
-		// Route::prefix('department')->group(function () {
-		// 	Route::get('/',[DepartmentController::class, 'index']);
-		// 	Route::get('create',[DepartmentController::class, 'showForm']);
-		// 	Route::post('create',[DepartmentController::class, 'create']);
-		// 	Route::get('edit/{id}',[DepartmentController::class, 'showEditForm']);
-		// 	Route::post('edit',[DepartmentController::class, 'update']);
-		// 	Route::get('delete/{id}',[DepartmentController::class, 'delete']);
-		// });
+		Route::prefix('department')->group(function () {
+			Route::get('/',[DepartmentController::class, 'index']);
+			Route::get('create',[DepartmentController::class, 'showForm']);
+			Route::post('create',[DepartmentController::class, 'create']);
+			Route::get('edit/{id}',[DepartmentController::class, 'showEditForm']);
+			Route::post('edit',[DepartmentController::class, 'update']);
+			Route::get('delete/{id}',[DepartmentController::class, 'delete']);
+		});
 			
 		// // Counter pages
-		// Route::prefix('counter')->group(function () {
-		// 	Route::get('/',[CounterController::class, 'index']);
-		// 	Route::get('create',[CounterController::class, 'showForm']);
-		// 	Route::post('create',[CounterController::class, 'create']);
-		// 	Route::get('edit/{id}',[CounterController::class, 'showEditForm']);
-		// 	Route::post('edit',[CounterController::class, 'update']);
-		// 	Route::get('delete/{id}',[CounterController::class, 'delete']);
-		// });
+		Route::prefix('counter')->group(function () {
+			Route::get('/',[CounterController::class, 'index']);
+			Route::get('create',[CounterController::class, 'showForm']);
+			Route::post('create',[CounterController::class, 'create']);
+			Route::get('edit/{id}',[CounterController::class, 'showEditForm']);
+			Route::post('edit',[CounterController::class, 'update']);
+			Route::get('delete/{id}',[CounterController::class, 'delete']);
+		});
 		
 		// SMS pages
 		Route::prefix('sms')->group(function () {

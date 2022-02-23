@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\Counter\CounterDataTable;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests; 
@@ -9,11 +10,16 @@ use Validator, App;
 
 class CounterController extends Controller
 {
-	public function index()
+	public function _index()
 	{   
         $counters = Counter::get();
     	return view('pages.admin.counter.list', ['counters' => $counters]);
 	}
+
+    public function index(CounterDataTable $dataTable)
+    {          
+        return $dataTable->render('pages.admin.counter.list');
+    }
 
     public function showForm()
     {

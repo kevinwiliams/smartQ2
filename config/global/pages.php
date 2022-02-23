@@ -177,8 +177,41 @@ return array(
                         
                     ),
                 )
-            )
-        )
+            ),
+            'auto' => array(
+                'title' => 'Auto Token' 
+            ),
+        ),
+
+        'department' => array(
+            'title'  => 'Departments',
+                'assets' => array(
+                    'custom' => array(
+                        'css' => array(
+                            'plugins/custom/datatables/datatables.bundle.css',
+                        ),
+                        'js' => array(
+                            'plugins/custom/datatables/datatables.bundle.js',
+                            // 'vendor/datatables/buttons.server-side.js',
+                        ),
+                    ),
+                ),
+        ),
+        'counter' => array(
+            'title'  => 'Counters',
+                'assets' => array(
+                    'custom' => array(
+                        'css' => array(
+                            'plugins/custom/datatables/datatables.bundle.css',
+                        ),
+                        'js' => array(
+                            'plugins/custom/datatables/datatables.bundle.js',
+                            // 'vendor/datatables/buttons.server-side.js',
+                        ),
+                    ),
+                ),
+        ),
+        
     ),
    
 

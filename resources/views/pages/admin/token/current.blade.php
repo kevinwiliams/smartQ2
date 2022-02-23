@@ -4,10 +4,17 @@
     <div class="card">
         <div class="card-header border-0 pt-5">
             <h3 class="card-title align-items-start flex-column">
-                <span class="card-label fw-bolder fs-3 mb-1">Waiting Customers ({{ $waiting }})</span>
+                {{-- <span class="card-label fw-bolder fs-3 mb-1">Active Tokens </span>
+                <span class="text-muted mt-1 fw-bold fs-7">Clients waiting: {{ $waiting }}</span> --}}
+                <div class="d-flex align-items-center position-relative my-1 me-5">
+                    <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
+                    {!! theme()->getSvgIcon("icons/duotune/general/gen021.svg", "svg-icon-1") !!}
+                    <!--end::Svg Icon-->
+                    <input type="text" data-kt-permissions-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="Search Active Tokens">
+                </div>
             </h3>
             <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click create a new token">
-                <a href="#" class="btn btn-sm btn-success btn-active-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_token">
+                <a href="#" class="btn btn-sm btn-light btn-active-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_token">
                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                 {!! theme()->getSvgIcon("icons/duotune/arrows/arr075.svg", "svg-icon-3") !!}
                 <!--end::Svg Icon-->New Token</a>
@@ -66,7 +73,7 @@
 								<div class="form-group @error('department_id') has-error @enderror">
                                     <label class="fs-6 fw-bold form-label mb-2" for="department_id"><span class="required">{{ trans('app.department') }}</span>
                                     <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-content="Please assign the correct department"></i></label>
-                                    {{ Form::select('department_id', $departments, null, ['placeholder' => 'Select Option', 'class'=>'form-control form-control-solid', 'data-control'=>'select2']) }}
+                                    {{ Form::select('department_id', $departments, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-lg fw-bold']) }}
                                     <span class="text-danger">{{ $errors->first('department_id') }}</span>
                                 </div> 
 							</div>
@@ -76,7 +83,7 @@
 								<div class="form-group @error('counter_id') has-error @enderror">
                                     <label class="fs-6 fw-bold form-label mb-2" for="counter_id"><span class="required">{{ trans('app.counter') }}</span>
                                     <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-content="Assign user to a counter"></i></label>
-                                    {{ Form::select('counter_id', $counters, null, ['placeholder' => 'Select Option', 'class'=>'form-control form-control-solid', 'data-control'=>'select2']) }}
+                                    {{ Form::select('counter_id', $counters, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-lg fw-bold']) }}
                                     <span class="text-danger">{{ $errors->first('counter_id') }}</span>
                                 </div> 
 							</div>
@@ -86,7 +93,7 @@
 								<div class="form-group @error('user_id') has-error @enderror">
                                     <label class="fs-6 fw-bold form-label mb-2" for="user_id"><span class="required">{{ trans('app.officer') }}</span>
                                     <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-content="Assign user to a officer"></i></label>
-                                    {{ Form::select('user_id', $officers, null, ['placeholder' => 'Select Option', 'class'=>'form-control form-control-solid', 'data-control'=>'select2']) }}
+                                    {{ Form::select('user_id', $officers, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-lg fw-bold']) }}
                                     <span class="text-danger">{{ $errors->first('user_id') }}</span>
                                 </div> 
 							</div>
