@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\Department\DepartmentDataTable;
 use App\Http\Controllers\Controller;
 use Validator;
 use Illuminate\Http\Request;
@@ -10,10 +11,15 @@ use App\Models\Department;
 class DepartmentController extends Controller
 {
     
-    public function index()
+    public function _index()
     { 
         $departments = Department::get();
         return view('pages.admin.department.list', compact('departments'));
+    }
+
+    public function index(DepartmentDataTable $dataTable)
+    {          
+        return $dataTable->render('pages.admin.department.list');
     }
 
     public function showForm()

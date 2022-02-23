@@ -230,7 +230,7 @@ return array(
                     ),
                     array(
                         'title'      => 'Auto Token',
-                        'path'       => '#',
+                        'path'       => 'admin/token/auto',
                         'bullet'     => '<span class="bullet bullet-dot"></span>',
                        
                     ),
@@ -252,12 +252,12 @@ return array(
                 'items' => array(
                     array(
                         'title'  => 'Departments',
-                        'path'   => '#',
+                        'path'   => 'admin/department',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
                         'title'  => 'Counters',
-                        'path'   => '#',
+                        'path'   => 'admin/counter',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(

@@ -39,8 +39,9 @@ class TokenDataTable extends DataTable
             ->editColumn('user_id', function (Token $model) {
                 $officerName = !empty( $model->officer->firstname)? $model->officer->firstname:'N/A';
                 return $officerName;
-            });
-            // ->addColumn('action', 'token.action');
+            })
+            ->rawColumns(['action'])
+            ->addColumn('action', 'pages.admin.token._active-menu');
     }
 
     /**
@@ -65,7 +66,7 @@ class TokenDataTable extends DataTable
                     ->setTableId('token-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    // ->dom('Bfrtip')
+                    ->dom('frtip')
                     ->orderBy(1);
                     // ->buttons(
                     //     Button::make('create'),
@@ -98,7 +99,13 @@ class TokenDataTable extends DataTable
             Column::make('is_vip'),
             Column::make('created_by'),
             Column::make('created_at'),
-            Column::make('updated_at'),
+            //Column::make('updated_at'),
+            Column::computed('action')
+                    ->exportable(false)
+                    ->printable(false)
+                    ->width(100)
+                    ->addClass('text-center')
+                    ->responsivePriority(-1),  
         ];
     }
 
