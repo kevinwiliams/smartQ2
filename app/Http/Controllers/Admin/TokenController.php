@@ -442,12 +442,12 @@ class TokenController extends Controller
         $waiting = Token::where('status', '0')->count();
         $counters = Counter::where('status',1)->pluck('name','id');
         $departments = Department::where('status',1)->pluck('name','id');
-        $officers = User::select(DB::raw('CONCAT(firstname, " ", lastname) as name'), 'id')
+        $officers = User::select('id',DB::raw('CONCAT(firstname, " ", lastname) as full_name'))
             ->where('user_type',1)
             ->where('status',1)
-            ->orderBy('firstname', 'ASC')
-            ->pluck('name', 'id'); 
-
+            ->orderBy('full_name', 'ASC')
+            ->pluck('full_name', 'id');  
+        
         return $dataTable->render('pages.admin.token.current', compact('counters', 'departments', 'officers', 'waiting'));
     }
 
@@ -460,7 +460,7 @@ class TokenController extends Controller
             ->where('user_type',1)
             ->where('status',1)
             ->orderBy('firstname', 'ASC')
-            ->pluck('name', 'id'); 
+            ->pluck('name', 'id');  
 
         return view('pages.admin.token.report', compact('counters', 'departments', 'officers'));
     }  

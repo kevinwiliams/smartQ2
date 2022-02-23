@@ -7,7 +7,7 @@
                 <span class="card-label fw-bolder fs-3 mb-1">Waiting Customers ({{ $waiting }})</span>
             </h3>
             <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click create a new token">
-                <a href="#" class="btn btn-sm btn-success btn-active-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_task">
+                <a href="#" class="btn btn-sm btn-success btn-active-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_token">
                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                 {!! theme()->getSvgIcon("icons/duotune/arrows/arr075.svg", "svg-icon-3") !!}
                 <!--end::Svg Icon-->New Token</a>
@@ -25,7 +25,7 @@
     <!--end::Card-->   
     
     <!--begin::Modal - Add task-->
-		<div class="modal fade" id="kt_modal_add_task" tabindex="-1" aria-hidden="true">
+		<div class="modal fade" id="kt_modal_add_token" tabindex="-1" aria-hidden="true">
 			<!--begin::Modal dialog-->
 			<div class="modal-dialog modal-dialog-centered mw-650px">
 				<!--begin::Modal content-->
@@ -36,7 +36,7 @@
 						<h2 class="fw-bolder">Create new token</h2>
 						<!--end::Modal title-->
 						<!--begin::Close-->
-						<div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
+						<div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-tokens-modal-action="close">
 							<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
 							{!! theme()->getSvgIcon("icons/duotune/arrows/arr061.svg", "svg-icon-1") !!}
 							<!--end::Svg Icon-->
@@ -48,7 +48,7 @@
 					<div class="modal-body scroll-y mx-5 mx-xl-15 my-5">
                     <div id="output" class="hide alert alert-danger alert-dismissible fade in shadowed mb-1"></div>
 						<!--begin::Form-->
-                        {{ Form::open(['url' => 'admin/token/create', 'class'=>'manualFrm form']) }}
+                        {{ Form::open(['url' => 'admin/token/create', 'class'=>'manualFrm form', 'id'=>'kt_modal_add_token_form']) }}
                         @csrf <!-- {{ csrf_field() }} -->
 							<!--begin::Input group-->
 							<div class="fv-row mb-7">
@@ -112,8 +112,8 @@
                             <!--end::Input group-->
 							<!--begin::Actions-->
 							<div class="text-center pt-15">
-								<button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
-								<button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
+								<button type="reset" class="btn btn-light me-3" data-kt-tokens-modal-action="cancel">Discard</button>
+								<button type="submit" class="btn btn-primary" data-kt-tokens-modal-action="submit" >
 									<span class="indicator-label">Submit</span>
 									<span class="indicator-progress">Please wait...
 									<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
@@ -136,95 +136,95 @@
 @endsection
 @push('scripts')
 <script type="text/javascript">
-(function() {
-    $('input[name=client_mobile]').on('keyup change', function(e){
-        var valid = true;
-        var errorMessage;
-        var mobile = $(this).val();
+// (function() {
+//     $('input[name=client_mobile]').on('keyup change', function(e){
+//         var valid = true;
+//         var errorMessage;
+//         var mobile = $(this).val();
 
-        if (mobile == '')
-        {
-            errorMessage = "The Mobile No. field is required!";
-            valid = false;
-        } 
-        else if(!$.isNumeric(mobile)) 
-        {
-            errorMessage = "The Mobile No. is incorrect!";
-            valid = false;
-        }
-        else if (mobile.length >= 15 || mobile.length < 7)
-        {
-            errorMessage = "The Mobile No. must be between 7-15 digits";
-            valid = false;
-        }
+//         if (mobile == '')
+//         {
+//             errorMessage = "The Mobile No. field is required!";
+//             valid = false;
+//         } 
+//         else if(!$.isNumeric(mobile)) 
+//         {
+//             errorMessage = "The Mobile No. is incorrect!";
+//             valid = false;
+//         }
+//         else if (mobile.length >= 15 || mobile.length < 7)
+//         {
+//             errorMessage = "The Mobile No. must be between 7-15 digits";
+//             valid = false;
+//         }
 
-        if(!valid && errorMessage.length > 0)
-        {
-            $(this).next().next().next().html(errorMessage);
-            $('.modal button[type=submit]').addClass('hidden');
-        } 
-        else
-        {
-            $(this).next().next().next().html(" ");
-            $('.modal button[type=submit]').removeClass('hidden');
-        } 
-    }); 
+//         if(!valid && errorMessage.length > 0)
+//         {
+//             $(this).next().next().next().html(errorMessage);
+//             $('.modal button[type=button]').addClass('hidden');
+//         } 
+//         else
+//         {
+//             $(this).next().next().next().html(" ");
+//             $('.modal button[type=button]').removeClass('hidden');
+//         } 
+//     }); 
       
-    var frm = $(".manualFrm");
-    frm.on('submit', function(e){
-      e.preventDefault();
-      $.ajax({
-        url: $(this).attr('action'),
-        type: $(this).attr('method'),
-        dataType: 'json', 
-        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        contentType: false,  
-        cache: false,  
-        processData: false,
-        data:  new FormData($(this)[0]),
-        success: function(data)
-        {
-            if (data.status)
-            { 
-                var content = "<style type=\"text/css\">@media print {"+
-                    "html, body {display:block;margin:0!important; padding:0 !important;overflow:hidden;display:table;}"+
-                    ".receipt-token {width:100vw;height:100vw;text-align:center}"+
-                    ".receipt-token h4{margin:0;padding:0;font-size:7vw;line-height:7vw;text-align:center}"+
-                    ".receipt-token h1{margin:0;padding:0;font-size:15vw;line-height:20vw;text-align:center}"+
-                    ".receipt-token ul{margin:0;padding:0;font-size:7vw;line-height:8vw;text-align:center;list-style:none;}"+
-                    "}</style>";
+//     var frm = $(".manualFrm");
+//     frm.on('submit', function(e){
+//       e.preventDefault();
+//       $.ajax({
+//         url: $(this).attr('action'),
+//         type: $(this).attr('method'),
+//         dataType: 'json', 
+//         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+//         contentType: false,  
+//         cache: false,  
+//         processData: false,
+//         data:  new FormData($(this)[0]),
+//         success: function(data)
+//         {
+//             if (data.status)
+//             { 
+//                 var content = "<style type=\"text/css\">@media print {"+
+//                     "html, body {display:block;margin:0!important; padding:0 !important;overflow:hidden;display:table;}"+
+//                     ".receipt-token {width:100vw;height:100vw;text-align:center}"+
+//                     ".receipt-token h4{margin:0;padding:0;font-size:7vw;line-height:7vw;text-align:center}"+
+//                     ".receipt-token h1{margin:0;padding:0;font-size:15vw;line-height:20vw;text-align:center}"+
+//                     ".receipt-token ul{margin:0;padding:0;font-size:7vw;line-height:8vw;text-align:center;list-style:none;}"+
+//                     "}</style>";
                     
-                content += "<div class=\"receipt-token\">";
-                content += "<h4>{{ \Session::get('app.title') }}</h4>";
-                content += "<h1>"+data.token.token_no+"</h1>";
-                content +="<ul class=\"list-unstyled\">";
-                content += "<li><strong>{{ trans('app.department') }} </strong>"+data.token.department+"</li>";
-                content += "<li><strong>{{ trans('app.counter') }} </strong>"+data.token.counter+"</li>";
-                content += "<li><strong>{{ trans('app.officer') }} </strong>"+data.token.firstname+' '+data.token.lastname+"</li>";
-                if (data.token.note)
-                {
-                    content += "<li><strong>{{ trans('app.note') }} </strong>"+data.token.note+"</li>";
-                }
-                content += "<li><strong>{{ trans('app.date') }} </strong>"+data.token.created_at+"</li>";
-                content += "</ul>";  
-                content += "</div>";    
+//                 content += "<div class=\"receipt-token\">";
+//                 content += "<h4>{{ \Session::get('app.title') }}</h4>";
+//                 content += "<h1>"+data.token.token_no+"</h1>";
+//                 content +="<ul class=\"list-unstyled\">";
+//                 content += "<li><strong>{{ trans('app.department') }} </strong>"+data.token.department+"</li>";
+//                 content += "<li><strong>{{ trans('app.counter') }} </strong>"+data.token.counter+"</li>";
+//                 content += "<li><strong>{{ trans('app.officer') }} </strong>"+data.token.firstname+' '+data.token.lastname+"</li>";
+//                 if (data.token.note)
+//                 {
+//                     content += "<li><strong>{{ trans('app.note') }} </strong>"+data.token.note+"</li>";
+//                 }
+//                 content += "<li><strong>{{ trans('app.date') }} </strong>"+data.token.created_at+"</li>";
+//                 content += "</ul>";  
+//                 content += "</div>";    
 
-                // print 
-                printThis(content);
+//                 // print 
+//                 printThis(content);
 
-            } 
-            else 
-            {  
-                $("#output").html(data.exception).removeClass('hide');
-            }
-        },
-        error: function(xhr)
-        {
-            alert('failed...');
-        }
-      });
-    });
-})();
+//             } 
+//             else 
+//             {  
+//                 $("#output").html(data.exception).removeClass('hide');
+//             }
+//         },
+//         error: function(xhr)
+//         {
+//             alert('failed...');
+//         }
+//       });
+//     });
+// })();
 </script>
 @endpush
  

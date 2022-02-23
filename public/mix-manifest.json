@@ -19,6 +19,7 @@
     "/demo1/plugins/custom/typedjs/typedjs.bundle.js": "/demo1/plugins/custom/typedjs/typedjs.bundle.js",
     "/demo1/js/custom/account/settings/profile-details.js": "/demo1/js/custom/account/settings/profile-details.js",
     "/demo1/js/custom/account/settings/signin-methods.js": "/demo1/js/custom/account/settings/signin-methods.js",
+    "/demo1/js/custom/admin/token/add.js": "/demo1/js/custom/admin/token/add.js",
     "/demo1/js/custom/apps/calendar.js": "/demo1/js/custom/apps/calendar.js",
     "/demo1/js/custom/authentication/password-reset/new-password.js": "/demo1/js/custom/authentication/password-reset/new-password.js",
     "/demo1/js/custom/authentication/password-reset/password-reset.js": "/demo1/js/custom/authentication/password-reset/password-reset.js",
