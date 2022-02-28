@@ -81,7 +81,11 @@
 @if (theme()->hasOption('page', 'assets/custom/js'))
     {{-- begin::Page Custom Javascript(used by this page) --}}
     @foreach (array_unique(theme()->getOption('page', 'assets/custom/js')) as $file)
+        @if ($file == 'plugins/custom/datatables/datatables.bundle.js')
+        <script src="{{ asset(theme()->getDemo() . '/' .$file) }}" defer></script>
+        @else
         <script src="{{ asset(theme()->getDemo() . '/' .$file) }}"></script>
+        @endif
     @endforeach
     {{-- end::Page Custom Javascript --}}
 @endif

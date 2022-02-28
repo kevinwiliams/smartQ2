@@ -66,7 +66,7 @@ class TokenDataTable extends DataTable
                     ->setTableId('token-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->dom('frtip')
+                    ->dom('rtip')
                     ->orderBy(1);
                     // ->buttons(
                     //     Button::make('create'),

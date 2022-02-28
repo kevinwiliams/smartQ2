@@ -10,7 +10,7 @@
                     <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
                     {!! theme()->getSvgIcon("icons/duotune/general/gen021.svg", "svg-icon-1") !!}
                     <!--end::Svg Icon-->
-                    <input type="text" data-kt-permissions-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="Search Active Tokens">
+                    <input type="text" data-kt-token-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="Search Active Tokens">
                 </div>
             </h3>
             <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click create a new token">
@@ -140,99 +140,15 @@
     {{-- Inject Scripts --}}
 @section('scripts')
     {{ $dataTable->scripts() }}
+    <script>
+        $(document).ready(function() {
+            //$('#token-table').DataTable();
+            alert('ready');
+        } );
+    </script>
 @endsection
 @push('scripts')
-<script type="text/javascript">
-// (function() {
-//     $('input[name=client_mobile]').on('keyup change', function(e){
-//         var valid = true;
-//         var errorMessage;
-//         var mobile = $(this).val();
 
-//         if (mobile == '')
-//         {
-//             errorMessage = "The Mobile No. field is required!";
-//             valid = false;
-//         } 
-//         else if(!$.isNumeric(mobile)) 
-//         {
-//             errorMessage = "The Mobile No. is incorrect!";
-//             valid = false;
-//         }
-//         else if (mobile.length >= 15 || mobile.length < 7)
-//         {
-//             errorMessage = "The Mobile No. must be between 7-15 digits";
-//             valid = false;
-//         }
-
-//         if(!valid && errorMessage.length > 0)
-//         {
-//             $(this).next().next().next().html(errorMessage);
-//             $('.modal button[type=button]').addClass('hidden');
-//         } 
-//         else
-//         {
-//             $(this).next().next().next().html(" ");
-//             $('.modal button[type=button]').removeClass('hidden');
-//         } 
-//     }); 
-      
-//     var frm = $(".manualFrm");
-//     frm.on('submit', function(e){
-//       e.preventDefault();
-//       $.ajax({
-//         url: $(this).attr('action'),
-//         type: $(this).attr('method'),
-//         dataType: 'json', 
-//         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-//         contentType: false,  
-//         cache: false,  
-//         processData: false,
-//         data:  new FormData($(this)[0]),
-//         success: function(data)
-//         {
-//             if (data.status)
-//             { 
-//                 var content = "<style type=\"text/css\">@media print {"+
-//                     "html, body {display:block;margin:0!important; padding:0 !important;overflow:hidden;display:table;}"+
-//                     ".receipt-token {width:100vw;height:100vw;text-align:center}"+
-//                     ".receipt-token h4{margin:0;padding:0;font-size:7vw;line-height:7vw;text-align:center}"+
-//                     ".receipt-token h1{margin:0;padding:0;font-size:15vw;line-height:20vw;text-align:center}"+
-//                     ".receipt-token ul{margin:0;padding:0;font-size:7vw;line-height:8vw;text-align:center;list-style:none;}"+
-//                     "}</style>";
-                    
-//                 content += "<div class=\"receipt-token\">";
-//                 content += "<h4>{{ \Session::get('app.title') }}</h4>";
-//                 content += "<h1>"+data.token.token_no+"</h1>";
-//                 content +="<ul class=\"list-unstyled\">";
-//                 content += "<li><strong>{{ trans('app.department') }} </strong>"+data.token.department+"</li>";
-//                 content += "<li><strong>{{ trans('app.counter') }} </strong>"+data.token.counter+"</li>";
-//                 content += "<li><strong>{{ trans('app.officer') }} </strong>"+data.token.firstname+' '+data.token.lastname+"</li>";
-//                 if (data.token.note)
-//                 {
-//                     content += "<li><strong>{{ trans('app.note') }} </strong>"+data.token.note+"</li>";
-//                 }
-//                 content += "<li><strong>{{ trans('app.date') }} </strong>"+data.token.created_at+"</li>";
-//                 content += "</ul>";  
-//                 content += "</div>";    
-
-//                 // print 
-//                 printThis(content);
-
-//             } 
-//             else 
-//             {  
-//                 $("#output").html(data.exception).removeClass('hide');
-//             }
-//         },
-//         error: function(xhr)
-//         {
-//             alert('failed...');
-//         }
-//       });
-//     });
-// })();
-</script>
 @endpush
  
 
