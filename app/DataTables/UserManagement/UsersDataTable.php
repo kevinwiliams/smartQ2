@@ -3,6 +3,7 @@
 namespace App\DataTables\UserManagement;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -22,8 +23,23 @@ class UsersDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->rawColumns(['action'])
-            ->addColumn('action', 'pages.apps.user-management.users._action-menu');  
+            ->rawColumns(['action','user','last_login_at'])
+            ->editColumn('last_login_at', function (User $model) {
+                $str = "";
+
+                if($model->last_login_at)
+                    $str = "<div class='badge badge-light fw-bolder'>" . Carbon::parse($model->last_login_at)->diffForHumans() ."</div>";     
+
+                return $str;
+            })
+            ->editColumn('created_at', function (User $model) {      
+                return Carbon::parse($model->created_at)->format('d-m-Y H:i a');
+            })
+            ->addColumn('action', 'pages.apps.user-management.users._action-menu')
+            // ->addColumn('user', 'pages.apps.user-management.users._user-td');
+            ->addColumn('user', function (User $model) {
+                return view('pages.apps.user-management.users._user-td', compact('model'));
+            });  
     }
 
     /**
@@ -66,16 +82,20 @@ class UsersDataTable extends DataTable
     {
         return [           
             Column::make('id'),
-            Column::make('firstname'),
-            Column::make('lastname'),            
-            Column::make('email'),
-            Column::make('last_login_at'),
+            Column::computed('user')
+            ->addClass('d-flex align-items-center')           
+            ->responsivePriority(-1),
+            // Column::make('firstname'),
+            // Column::make('lastname'),            
+            // Column::make('email'),
+            Column::make('last_login_at')->title(__('Last Login')),
             Column::make('created_at'),
             Column::computed('action')
+            ->addClass('align-items-right')
             ->exportable(false)
             ->printable(false)
             ->width(100)
-            ->addClass('text-center')
+            
             ->responsivePriority(-1),         
         ];
     }

@@ -68,7 +68,7 @@ Route::prefix('apps')->group(function () {
 	Route::prefix('user-management')->group(function () {
 		Route::get('permissions', [UserManagementController::class, 'permissionsList']);
 		Route::get('users/list', [UserManagementController::class, 'usersList']);
-		Route::get('users/view', [UserManagementController::class, 'usersView']);
+		Route::get('users/view/{id}', [UserManagementController::class, 'usersView'])->name('users.view');
 		Route::delete('users/delete/{id}', [UserManagementController::class, 'usersView'])->name('admin.user.destroy');
 		Route::get('roles/list', [UserManagementController::class, 'rolesList']);
 		Route::get('roles/view', [UserManagementController::class, 'rolesView']);
