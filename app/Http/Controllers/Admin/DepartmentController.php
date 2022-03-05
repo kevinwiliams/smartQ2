@@ -17,9 +17,12 @@ class DepartmentController extends Controller
         return view('pages.admin.department.list', compact('departments'));
     }
 
-    public function index(DepartmentDataTable $dataTable)
+    public function index(DepartmentDataTable $dataTable, $id = null)
     {          
-        return $dataTable->render('pages.admin.department.list');
+        $keyList = $this->keyList();
+        $department = Department::where('id', 1)->first();
+
+        return $dataTable->render('pages.admin.department.list', compact('keyList', 'department'));
     }
 
     public function showForm()

@@ -80,7 +80,7 @@ $(document).on('draw.dt', function (e, settings) {
     /* Set the defaults for DataTables initialisation */
     $.extend(true, DataTable.defaults, {
         dom:
-            "f<'table-responsive'tr>" +
+            "<'table-responsive'tr>" +
 
             "<'row'" +
             "<'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'li>" +

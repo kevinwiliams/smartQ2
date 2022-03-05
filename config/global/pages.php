@@ -192,6 +192,7 @@ return array(
                         ),
                         'js' => array(
                             'plugins/custom/datatables/datatables.bundle.js',
+                            'js/custom/admin/department/add.js',
                             // 'vendor/datatables/buttons.server-side.js',
                         ),
                     ),
