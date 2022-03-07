@@ -67,10 +67,12 @@
                     </div>
                     <!--end::Input group-->
                     <!--begin::Input group-->
-                    <div class="form-group @error('avg_wait_time') has-error @enderror">
-                        <label for="name">{{ trans('app.avg_wait_time') }} <i class="text-danger">*</i></label>
-                        <input type="number" name="avg_wait_time" id="avg_wait_time" class="form-control" placeholder="{{ trans('app.avg_wait_time') }}" value="{{ old('avg_wait_time')?old('avg_wait_time'):$department->avg_wait_time }}">
-                        <span class="text-danger">{{ $errors->first('avg_wait_time') }}</span>
+                    <div class="fv-row mb-7">
+                        <div class="form-group @error('avg_wait_time') has-error @enderror">
+                            <label for="name">{{ trans('app.avg_wait_time') }} <i class="text-danger">*</i></label>
+                            <input type="number" name="avg_wait_time" id="avg_wait_time" class="form-control" placeholder="{{ trans('app.avg_wait_time') }}" value="{{ old('avg_wait_time')?old('avg_wait_time'):$department->avg_wait_time }}">
+                            <span class="text-danger">{{ $errors->first('avg_wait_time') }}</span>
+                        </div>
                     </div>
                     <!--end::Input group-->
                     <!--begin::Actions-->

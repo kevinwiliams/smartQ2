@@ -17,7 +17,7 @@ class DepartmentController extends Controller
         return view('pages.admin.department.list', compact('departments'));
     }
 
-    public function index(DepartmentDataTable $dataTable, $id = null)
+    public function index(DepartmentDataTable $dataTable)
     {          
         $keyList = $this->keyList();
         $department = Department::where('id', 1)->first();
@@ -80,7 +80,7 @@ class DepartmentController extends Controller
     {
         $keyList = $this->keyList();
         $department = Department::where('id', $id)->first();
-        return view('pages.admin.department.edit', compact('department', 'keyList'));
+        return view('partials.modals.department._edit_fields', compact('department', 'keyList'));
     }
 
 

@@ -41,7 +41,9 @@ class TokenDataTable extends DataTable
                 return $officerName;
             })
             ->rawColumns(['action'])
-            ->addColumn('action', 'pages.admin.token._active-menu');
+            ->addColumn('action', function (Token $model) {
+                return view('pages.admin.token._active-menu', compact('model'));
+            });
     }
 
     /**

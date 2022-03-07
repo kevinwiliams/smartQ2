@@ -3,6 +3,7 @@
 namespace App\DataTables\Department;
 
 use App\Models\Department;
+use Carbon\Carbon;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -20,7 +21,15 @@ class DepartmentDataTable extends DataTable
     public function dataTable($query)
     {
         return datatables()
-            ->eloquent($query);
+            ->eloquent($query)
+            ->editColumn('created_at', function(Department $model){
+                return Carbon::parse($model->created_at)->format('d-m-Y H:i a');
+            })->editColumn('updated_at', function(Department $model){
+                return Carbon::parse($model->created_at)->diffForHumans();
+            })
+            ->addColumn('action', function (Department $model) {
+                return view('pages.admin.department._action-menu', compact('model'));
+            });  
             // ->addColumn('action', 'department.action');
     }
 
@@ -77,6 +86,7 @@ class DepartmentDataTable extends DataTable
             Column::make('avg_wait_time'),
             Column::make('created_at'),
             Column::make('updated_at'),
+            Column::computed('action')
         ];
     }
 
