@@ -20,9 +20,7 @@ class DepartmentController extends Controller
     public function index(DepartmentDataTable $dataTable)
     {          
         $keyList = $this->keyList();
-        $department = Department::where('id', 1)->first();
-
-        return $dataTable->render('pages.admin.department.list', compact('keyList', 'department'));
+        return $dataTable->render('pages.admin.department.list', compact('keyList'));
     }
 
     public function showForm()

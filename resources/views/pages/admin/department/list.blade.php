@@ -33,7 +33,7 @@
     </div>
     <!--end::Card-->
     <!--begin::Modal - Add Dept -->
-     {{ theme()->getView('partials/modals/department/_add', array('keyList' => $keyList, 'department' => $department)) }}
+     {{ theme()->getView('partials/modals/department/_add', array('keyList' => $keyList, 'avg_wait_time' => '4')) }}
     <!--end::Modal - Add Dept-->   
     <!--begin::Modal - Edit Dept -->
     <{{ theme()->getView('partials/modals/department/_edit') }}
@@ -42,338 +42,262 @@
     
    <!--end::Modal - Add Token-->   
     {{-- Inject Scripts --}}
-@section('scripts')
-    {{ $dataTable->scripts() }}
-<script>
-    $(document).ready(function() { //required to fire menu on dt
-        var table = $('#department-table').DataTable();
-        table.on('draw', function () {
-                KTMenu.createInstances(); //load action menu options
-                handleEditRows(table);
-                handleDeleteRows(table);
-                
-            });
-        } ); 
-     //search bar    
-     const filterSearch = document.querySelector('[data-kt-dept-table-filter="search"]');
-    filterSearch.addEventListener('keyup', function (e) {
-        var table = $('#department-table').DataTable();
-        table.search(e.target.value).draw();
-    });
+    @section('scripts')
+        {{ $dataTable->scripts() }}
+        {{-- @push('scripts') --}}
+        <script src="{{ asset(theme()->getDemo() . '/js/custom/admin/department/delete.js') }}" type="text/javascript" defer></script>
+        {{-- @endpush --}}
+    <script>
+        $(document).ready(function() { //required to fire menu on dt
+            var table = $('#department-table').DataTable();
 
-    var handleDeleteRows = () => {
-        // Select all delete buttons
-        // vartable = 
-        var table = document.querySelector('#department-table');
-        const deleteButtons = table.querySelectorAll('[data-kt-dept-table-filter="delete_row"]');
-        // console.log(deleteButtons);
-        var datatable = $('#department-table').DataTable();
-        deleteButtons.forEach(d => {
-        console.log(d);
-
-            // Delete button on click
-            d.addEventListener('click', function (e) {
-                e.preventDefault();
-
-                // Select parent row
-                const parent = e.target.closest('tr');
-
-                // Get token name
-                const deptName = parent.querySelectorAll('td')[1].innerText;
-                const deptID = parent.querySelectorAll('td')[0].innerText;
-
-
-                // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
-                Swal.fire({
-                    text: "Are you sure you want to delete " + deptName + "?",
-                    icon: "warning",
-                    showCancelButton: true,
-                    buttonsStyling: false,
-                    confirmButtonText: "Yes, delete!",
-                    cancelButtonText: "No, cancel",
-                    customClass: {
-                        confirmButton: "btn fw-bold btn-danger",
-                        cancelButton: "btn fw-bold btn-active-light-primary"
-                    }
-                }).then(function (result) {
-                    if (result.value) {
-                        Swal.fire({
-                            text: "You have deleted " + deptName + "!.",
-                            icon: "success",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn fw-bold btn-primary",
-                            }
-                        }).then(function () {
-                            $.ajax({
-                                url: '/admin/department/delete/'+ deptID,
-                                data:   {
-                                    _token: $("input[name=_token]").val() },
-                                    success: function (res) {
-                                        // Remove current row
-                                        datatable.row($(parent)).remove().draw();
-                                    }
-                            });
-                            
-                        });
-                    } else if (result.dismiss === 'cancel') {
-                        Swal.fire({
-                            text: deptName + " was not deleted.",
-                            icon: "error",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn fw-bold btn-primary",
-                            }
-                        });
-                    }
+            table.on('draw', function () {
+                    KTMenu.createInstances(); //load action menu options
+                    handleEditRows(table); // setup edit buttons
                 });
-            })
+            } ); 
+
+        //search bar    
+        const filterSearch = document.querySelector('[data-kt-dept-table-filter="search"]');
+        filterSearch.addEventListener('keyup', function (e) {
+            var table = $('#department-table').DataTable();
+            table.search(e.target.value).draw();
         });
 
+        
+        var handleEditRows = () => {
 
-    }
+            table = document.querySelector('#department-table');
+            const editButtons = table.querySelectorAll('[data-kt-dept-table-filter="edit_row"]');
+            // console.log(editButtons);
+            // var datatable = $('#department-table').DataTable();
 
-    var handleEditRows = () => {
+            editButtons.forEach(d => {
+                d.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    // Select parent row
+                    const parent = e.target.closest('tr');
+                    const deptID = parent.querySelectorAll('td')[0].innerText;
 
-        table = document.querySelector('#department-table');
-        const editButtons = table.querySelectorAll('[data-kt-dept-table-filter="edit_row"]');
-        // console.log(editButtons);
-        var datatable = $('#department-table').DataTable();
+                    $.ajax({
+                        url: '/admin/department/edit/'+ deptID,
+                        data:   {
+                            _token: $("input[name=_token]").val() },
+                            success: function (data) {
+                                // Remove current row
+                                $('#kt_modal_edit_dept').modal('show');
 
-        editButtons.forEach(d => {
-            d.addEventListener('click', function (e) {
-                e.preventDefault();
-                // Select parent row
-                const parent = e.target.closest('tr');
-            
-                const deptID = parent.querySelectorAll('td')[0].innerText;
-
-
-                $.ajax({
-                    url: '/admin/department/edit/'+ deptID,
-                    data:   {
-                        _token: $("input[name=_token]").val() },
-                        success: function (data) {
-                            // Remove current row
-                            $('#kt_modal_edit_dept').modal('show');
-
-                            
-                            $('#kt_modal_edit_dept').on('shown.bs.modal', function(){
-                                $('#kt_modal_edit_dept .load_modal').html(data);
-                                KTTokenEditDept.init();
-                            });
-                            //remove old data
-                            $('#kt_modal_edit_dept').on('hidden.bs.modal', function(){
-                                $('#kt_modal_edit_dept .load_modal').html('');
-                            });
-                        }
-                });
+                                $('#kt_modal_edit_dept').on('shown.bs.modal', function(){
+                                    $('#kt_modal_edit_dept .load_modal').html(data);
+                                    KTTokenEditDept.init();
+                                });
+                                //remove old data
+                                $('#kt_modal_edit_dept').on('hidden.bs.modal', function(){
+                                    $('#kt_modal_edit_dept .load_modal').html('');
+                                });
+                            }
+                    });
+                })
             })
-        })
 
+        }
 
-    }
+        var KTTokenEditDept = function () {
+            // Shared variables
+            const element = document.getElementById('kt_modal_edit_dept');
+            const form = element.querySelector('#kt_modal_edit_dept_form');
+            const modal = new bootstrap.Modal(element);
 
-    var KTTokenEditDept = function () {
-        // Shared variables
-        const element = document.getElementById('kt_modal_edit_dept');
-        const form = element.querySelector('#kt_modal_edit_dept_form');
-        const modal = new bootstrap.Modal(element);
+                // Init add schedule modal
+            var initEditDept = () => {  
 
-            // Init add schedule modal
-        var initEditDept = () => {  
-
-            // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
-            var validator = FormValidation.formValidation(
-                form,
-                {
-                    fields: {
-                        'name': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Dept name is required'
+                // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
+                var validator = FormValidation.formValidation(
+                    form,
+                    {
+                        fields: {
+                            'name': {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Dept name is required'
+                                    }
+                                }
+                            },
+                            'key': {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Keyboard shortcut required'
+                                    }
                                 }
                             }
                         },
-                        'key': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Keyboard shortcut required'
-                                }
-                            }
+
+                        plugins: {
+                            trigger: new FormValidation.plugins.Trigger(),
+                            bootstrap: new FormValidation.plugins.Bootstrap5({
+                                rowSelector: '.fv-row',
+                                eleInvalidClass: '',
+                                eleValidClass: ''
+                            })
                         }
-                    },
-
-                    plugins: {
-                        trigger: new FormValidation.plugins.Trigger(),
-                        bootstrap: new FormValidation.plugins.Bootstrap5({
-                            rowSelector: '.fv-row',
-                            eleInvalidClass: '',
-                            eleValidClass: ''
-                        })
                     }
-                }
-            );
+                );
 
-            // Submit button handler
-            const submitButton = element.querySelector('[data-kt-dept-edit-modal-action="submit"]');
-            submitButton.addEventListener('click', e => {
-                e.preventDefault();
+                // Submit button handler
+                const submitButton = element.querySelector('[data-kt-dept-edit-modal-action="submit"]');
+                submitButton.addEventListener('click', e => {
+                    e.preventDefault();
 
-                // Validate form before submit
-                if (validator) {
-                    validator.validate().then(function (status) {
-                        console.log('validated!');
+                    // Validate form before submit
+                    if (validator) {
+                        validator.validate().then(function (status) {
+                            console.log('validated!');
 
-                        if (status == 'Valid') {
-                            // Show loading indication
-                            submitButton.setAttribute('data-kt-indicator', 'on');
+                            if (status == 'Valid') {
+                                // Show loading indication
+                                submitButton.setAttribute('data-kt-indicator', 'on');
 
-                            // Disable button to avoid multiple click 
-                            submitButton.disabled = true;
+                                // Disable button to avoid multiple click 
+                                submitButton.disabled = true;
 
-                            $.ajax({
-                                url: form.action,
-                                type: form.method,
-                                dataType: 'json', 
-                                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                                contentType: false,  
-                                cache: false,  
-                                processData: false,
-                                data:  new FormData(form),
-                                // success: function(data)
+                                $.ajax({
+                                    url: form.action,
+                                    type: form.method,
+                                    dataType: 'json', 
+                                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                                    contentType: false,  
+                                    cache: false,  
+                                    processData: false,
+                                    data:  new FormData(form),
+                                    // success: function(data)
 
-                                // url: '{{ URL::to("client/token/checkin") }}/' + id,
-                                // type: 'get',
-                                // dataType: 'json',
-                                success: function(data) {
-                                    // document.location.href = '/client';
-                                    // setInterval( function () {
-                                    //     table.ajax.reload();
-                                    // }, 2000 );
-                                    // Remove loading indication
-                                    submitButton.removeAttribute('data-kt-indicator');
+                                    // url: '{{ URL::to("client/token/checkin") }}/' + id,
+                                    // type: 'get',
+                                    // dataType: 'json',
+                                    success: function(data) {
+                                        // document.location.href = '/client';
+                                        // setInterval( function () {
+                                        //     table.ajax.reload();
+                                        // }, 2000 );
+                                        // Remove loading indication
+                                        submitButton.removeAttribute('data-kt-indicator');
 
-                                    // Enable button
-                                    submitButton.disabled = false;
+                                        // Enable button
+                                        submitButton.disabled = false;
 
-                                    // Show popup confirmation 
-                                    Swal.fire({
-                                        text: "Form has been successfully submitted!",
-                                        icon: "success",
-                                        buttonsStyling: false,
-                                        confirmButtonText: "Ok, got it!",
-                                        customClass: {
-                                            confirmButton: "btn btn-primary"
-                                        }
-                                    }).then(function (result) {
-                                        if (result.isConfirmed) {     
-                                            document.location.href = '/admin/department';                              
-                                            form.reset();
-                                            modal.hide();
-                                        }
-                                    });
-                                }
-                            });
+                                        // Show popup confirmation 
+                                        Swal.fire({
+                                            text: "Form has been successfully submitted!",
+                                            icon: "success",
+                                            buttonsStyling: false,
+                                            confirmButtonText: "Ok, got it!",
+                                            customClass: {
+                                                confirmButton: "btn btn-primary"
+                                            }
+                                        }).then(function (result) {
+                                            if (result.isConfirmed) {     
+                                                document.location.href = '/admin/department';                              
+                                                form.reset();
+                                                modal.hide();
+                                            }
+                                        });
+                                    }
+                                });
 
-                        } else {
-                            // Show popup warning. For more info check the plugin's official documentation: https://sweetalert2.github.io/
+                            } else {
+                                // Show popup warning. For more info check the plugin's official documentation: https://sweetalert2.github.io/
+                                Swal.fire({
+                                    text: "Sorry, looks like there are some errors detected, please try again.",
+                                    icon: "error",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn btn-primary"
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+
+                // Cancel button handler
+                const cancelButton = element.querySelector('[data-kt-dept-edit-modal-action="cancel"]');
+                cancelButton.addEventListener('click', e => {
+                    e.preventDefault();
+
+                    Swal.fire({
+                        text: "Are you sure you would like to cancel?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        buttonsStyling: false,
+                        confirmButtonText: "Yes, cancel it!",
+                        cancelButtonText: "No, return",
+                        customClass: {
+                            confirmButton: "btn btn-primary",
+                            cancelButton: "btn btn-active-light"
+                        }
+                    }).then(function (result) {
+                        if (result.value) {
+                            form.reset(); // Reset form			
+                            modal.hide();	
+                        } else if (result.dismiss === 'cancel') {
                             Swal.fire({
-                                text: "Sorry, looks like there are some errors detected, please try again.",
+                                text: "Your form has not been cancelled!.",
                                 icon: "error",
                                 buttonsStyling: false,
                                 confirmButtonText: "Ok, got it!",
                                 customClass: {
-                                    confirmButton: "btn btn-primary"
+                                    confirmButton: "btn btn-primary",
                                 }
                             });
                         }
                     });
-                }
-            });
-
-            // Cancel button handler
-            const cancelButton = element.querySelector('[data-kt-dept-edit-modal-action="cancel"]');
-            cancelButton.addEventListener('click', e => {
-                e.preventDefault();
-
-                Swal.fire({
-                    text: "Are you sure you would like to cancel?",
-                    icon: "warning",
-                    showCancelButton: true,
-                    buttonsStyling: false,
-                    confirmButtonText: "Yes, cancel it!",
-                    cancelButtonText: "No, return",
-                    customClass: {
-                        confirmButton: "btn btn-primary",
-                        cancelButton: "btn btn-active-light"
-                    }
-                }).then(function (result) {
-                    if (result.value) {
-                        form.reset(); // Reset form			
-                        modal.hide();	
-                    } else if (result.dismiss === 'cancel') {
-                        Swal.fire({
-                            text: "Your form has not been cancelled!.",
-                            icon: "error",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn btn-primary",
-                            }
-                        });
-                    }
                 });
-            });
 
-            // Close button handler
-            const closeButton = element.querySelector('[data-kt-dept-edit-modal-action="close"]');
-            closeButton.addEventListener('click', e => {
-                e.preventDefault();
+                // Close button handler
+                const closeButton = element.querySelector('[data-kt-dept-edit-modal-action="close"]');
+                closeButton.addEventListener('click', e => {
+                    e.preventDefault();
 
-                Swal.fire({
-                    text: "Are you sure you would like to cancel?",
-                    icon: "warning",
-                    showCancelButton: true,
-                    buttonsStyling: false,
-                    confirmButtonText: "Yes, cancel it!",
-                    cancelButtonText: "No, return",
-                    customClass: {
-                        confirmButton: "btn btn-primary",
-                        cancelButton: "btn btn-active-light"
-                    }
-                }).then(function (result) {
-                    if (result.value) {
-                        form.reset(); // Reset form			
-                        modal.hide();	
-                    } else if (result.dismiss === 'cancel') {
-                        Swal.fire({
-                            text: "Your form has not been cancelled!.",
-                            icon: "error",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn btn-primary",
-                            }
-                        });
-                    }
+                    Swal.fire({
+                        text: "Are you sure you would like to cancel?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        buttonsStyling: false,
+                        confirmButtonText: "Yes, cancel it!",
+                        cancelButtonText: "No, return",
+                        customClass: {
+                            confirmButton: "btn btn-primary",
+                            cancelButton: "btn btn-active-light"
+                        }
+                    }).then(function (result) {
+                        if (result.value) {
+                            form.reset(); // Reset form			
+                            modal.hide();	
+                        } else if (result.dismiss === 'cancel') {
+                            Swal.fire({
+                                text: "Your form has not been cancelled!.",
+                                icon: "error",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok, got it!",
+                                customClass: {
+                                    confirmButton: "btn btn-primary",
+                                }
+                            });
+                        }
+                    });
                 });
-            });
-        }
-
-        return {
-            // Public functions
-            init: function () {
-                initEditDept();
             }
-        };
-    }();
+
+            return {
+                // Public functions
+                init: function () {
+                    initEditDept();
+                }
+            };
+        }();
     
     </script>
-    {{-- @push('scripts') --}}
-        <script src="{{ asset(theme()->getDemo() . '/js/custom/admin/department/delete.js') }}" type="application/javascript" defer></script>
-    {{-- @endpush --}}
-@endsection
+    
+    @endsection
 </x-base-layout>

@@ -1,16 +1,23 @@
-// "use strict";
+"use strict";
 
-// // Class definition
-// var KTTokenDeleteDept = function () {
+// Class definition
+var KTTokenDeleteDept = function () {
 
 
     var handleDeleteRows = () => {
         // Select all delete buttons
         // vartable = 
-        var table = document.querySelector('#department-table');
-        const deleteButtons = table.querySelectorAll('[data-kt-dept-table-filter="delete_row"]');
-        // console.log(deleteButtons);
-        var datatable = $('#department-table').DataTable();
+        // console.log(table);
+        // var dt = table;
+        var _table = document.querySelector('#department-table');
+        const deleteButtons = _table.querySelectorAll('[data-kt-dept-table-filter="delete_row"]');
+        console.log(deleteButtons);
+        jQuery.noConflict();
+        $.noConflict();
+
+        // console.log($('#department-table'));
+
+        
         deleteButtons.forEach(d => {
         console.log(d);
 
@@ -54,8 +61,10 @@
                                 data:   {
                                     _token: $("input[name=_token]").val() },
                                     success: function (res) {
+                                        // var dt = $('#department-table').DataTable();
+                                        document.location.href = '/admin/department';
                                         // Remove current row
-                                        datatable.row($(parent)).remove().draw();
+                                        // dt.row($(parent)).remove().draw();
                                     }
                             });
                             
@@ -78,15 +87,21 @@
 
     }
 
-//     return {
-//         // Public functions
-//         init: function () {
-//             handleDeleteRows();
-//         }
-//     };
-// }();
+    return {
+        // Public functions
+        init: function () {
+            handleDeleteRows();
+        }
+    };
+}();
 
-// // On document ready
-// KTUtil.onDOMContentLoaded(function () {
-//     // KTTokenDeleteDept.init();
-// });
+// On document ready
+KTUtil.onDOMContentLoaded(function () {
+
+    setTimeout(() => {
+    // var dt = $('#department-table').DataTable();
+    // console.log(table);
+    KTTokenDeleteDept.init();
+        
+    }, 1000);
+});
