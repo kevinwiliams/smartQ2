@@ -20,6 +20,7 @@
     "/demo1/js/custom/account/settings/profile-details.js": "/demo1/js/custom/account/settings/profile-details.js",
     "/demo1/js/custom/account/settings/signin-methods.js": "/demo1/js/custom/account/settings/signin-methods.js",
     "/demo1/js/custom/admin/counter/add.js": "/demo1/js/custom/admin/counter/add.js",
+    "/demo1/js/custom/admin/counter/delete.js": "/demo1/js/custom/admin/counter/delete.js",
     "/demo1/js/custom/admin/department/add.js": "/demo1/js/custom/admin/department/add.js",
     "/demo1/js/custom/admin/department/delete.js": "/demo1/js/custom/admin/department/delete.js",
     "/demo1/js/custom/admin/department/edit.js": "/demo1/js/custom/admin/department/edit.js",

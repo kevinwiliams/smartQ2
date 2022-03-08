@@ -69,7 +69,7 @@ class CounterController extends Controller
     public function showEditForm($id = null)
     {
         $counter = Counter::where('id', $id)->first();
-        return view('pages.admin.counter.edit', compact('counter'));
+        return view('partials.modals.counter._edit_fields', compact('counter'));
     }
   
     public function update(Request $request)

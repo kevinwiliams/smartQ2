@@ -1,19 +1,14 @@
 "use strict";
 
 // Class definition
-var KTTokenAddToken = function () {
+var KTTokenAddCounter = function () {
     // Shared variables
-    const element = document.getElementById('kt_modal_add_token');
-    const form = element.querySelector('#kt_modal_add_token_form');
+    const element = document.getElementById('kt_modal_add_counter');
+    const form = element.querySelector('#kt_modal_add_counter_form');
     const modal = new bootstrap.Modal(element);
 
-    // Placeholder
-    Inputmask({
-        "mask" : "(999) 999-9999",        
-    }).mask("[name='client_mobile']"); 
-
-    // Init add schedule modal
-    var initAddUser = () => {  
+        // Init add schedule modal
+    var initAddCounter = () => {  
 
         // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
         var validator = FormValidation.formValidation(
@@ -23,31 +18,17 @@ var KTTokenAddToken = function () {
                     'name': {
                         validators: {
                             notEmpty: {
-                                message: 'Dept name is required'
+                                message: 'Counter name is required'
                             }
                         }
                     },
                     'key': {
                         validators: {
                             notEmpty: {
-                                message: 'Key for keyboard mode is required'
+                                message: 'Keyboard shortcut required'
                             }
                         }
-                    },
-                    'counter_id': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Counter is required'
-                            }
-                        }
-                    },
-                    'user_id': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Officer is required'
-                            }
-                        }
-                    },
+                    }
                 },
 
                 plugins: {
@@ -62,7 +43,7 @@ var KTTokenAddToken = function () {
         );
 
         // Submit button handler
-        const submitButton = element.querySelector('[data-kt-tokens-modal-action="submit"]');
+        const submitButton = element.querySelector('[data-kt-counter-modal-action="submit"]');
         submitButton.addEventListener('click', e => {
             e.preventDefault();
 
@@ -114,7 +95,7 @@ var KTTokenAddToken = function () {
                                     }
                                 }).then(function (result) {
                                     if (result.isConfirmed) {     
-                                        document.location.href = '/admin/token/current';                              
+                                        document.location.href = '/admin/counter';                              
                                         form.reset();
                                         modal.hide();
                                     }
@@ -139,7 +120,7 @@ var KTTokenAddToken = function () {
         });
 
         // Cancel button handler
-        const cancelButton = element.querySelector('[data-kt-tokens-modal-action="cancel"]');
+        const cancelButton = element.querySelector('[data-kt-counter-modal-action="cancel"]');
         cancelButton.addEventListener('click', e => {
             e.preventDefault();
 
@@ -173,7 +154,7 @@ var KTTokenAddToken = function () {
         });
 
         // Close button handler
-        const closeButton = element.querySelector('[data-kt-tokens-modal-action="close"]');
+        const closeButton = element.querySelector('[data-kt-counter-modal-action="close"]');
         closeButton.addEventListener('click', e => {
             e.preventDefault();
 
@@ -210,12 +191,12 @@ var KTTokenAddToken = function () {
     return {
         // Public functions
         init: function () {
-            initAddUser();
+            initAddCounter();
         }
     };
 }();
 
 // On document ready
 KTUtil.onDOMContentLoaded(function () {
-    KTTokenAddToken.init();
+    KTTokenAddCounter.init();
 });

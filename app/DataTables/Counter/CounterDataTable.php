@@ -3,6 +3,7 @@
 namespace App\DataTables\Counter;
 
 use App\Models\Counter;
+use Carbon\Carbon;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -20,8 +21,15 @@ class CounterDataTable extends DataTable
     public function dataTable($query)
     {
         return datatables()
-            ->eloquent($query);
-            // ->addColumn('action', 'counter.action');
+            ->eloquent($query)
+            ->editColumn('created_at', function(Counter $model){
+                return Carbon::parse($model->created_at)->format('d-m-Y H:i a');
+            })->editColumn('updated_at', function(Counter $model){
+                return Carbon::parse($model->created_at)->diffForHumans();
+            })
+            ->addColumn('action', function (Counter $model) {
+                return view('pages.admin.counter._action-menu', compact('model'));
+            });  
     }
 
     /**
@@ -65,17 +73,17 @@ class CounterDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            // Column::computed('action')
-            //       ->exportable(false)
-            //       ->printable(false)
-            //       ->width(60)
-            //       ->addClass('text-center'),
             Column::make('id'),
             Column::make('name'),
             Column::make('description'),
             Column::make('status'),
             Column::make('created_at'),
             Column::make('updated_at'),
+            Column::computed('action')
+                  ->exportable(false)
+                  ->printable(false)
+                  ->width(60)
+                  ->addClass('text-center'),
         ];
     }
 
