@@ -223,11 +223,11 @@ return array(
                         'path'   => 'admin/token/current',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
-                    array(
-                        'title'  => 'Manual Token',
-                        'path'   => '#',
-                        'bullet' => '<span class="bullet bullet-dot"></span>',
-                    ),
+                    // array(
+                    //     'title'  => 'Manual Token',
+                    //     'path'   => '#',
+                    //     'bullet' => '<span class="bullet bullet-dot"></span>',
+                    // ),
                     array(
                         'title'      => 'Auto Token',
                         'path'       => 'admin/token/auto',
@@ -238,37 +238,7 @@ return array(
             ),
         ),
 
-        // Configuration
-        array(
-            'title' => 'Configuration',
-            'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/abstract/abs015.svg", "svg-icon-2"),
-            'path'  => '#',
-            'classes'    => array('item' => 'menu-accordion'),
-            'attributes' => array(
-                "data-kt-menu-trigger" => "click",
-            ),
-            'sub'        => array(
-                'class' => 'menu-sub-accordion menu-active-bg',
-                'items' => array(
-                    array(
-                        'title'  => 'Departments',
-                        'path'   => 'admin/department',
-                        'bullet' => '<span class="bullet bullet-dot"></span>',
-                    ),
-                    array(
-                        'title'  => 'Counters',
-                        'path'   => 'admin/counter',
-                        'bullet' => '<span class="bullet bullet-dot"></span>',
-                    ),
-                    array(
-                        'title'      => 'Users',
-                        'path'       => 'apps/user-management/users/list',
-                        'bullet'     => '<span class="bullet bullet-dot"></span>',
-                       
-                    ),
-                ),
-            ),
-        ),
+        
 
         // Messaging
         array(
@@ -303,14 +273,11 @@ return array(
                 ),
             ),
         ),
-
-        // Account
+        // Configuration
         array(
-            'title'      => 'Account',
-            'icon'       => array(
-                'svg'  => theme()->getSvgIcon("demo1/media/icons/duotune/communication/com006.svg", "svg-icon-2"),
-                'font' => '<i class="bi bi-person fs-2"></i>',
-            ),
+            'title' => 'Configuration',
+            'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/abstract/abs015.svg", "svg-icon-2"),
+            'path'  => '#',
             'classes'    => array('item' => 'menu-accordion'),
             'attributes' => array(
                 "data-kt-menu-trigger" => "click",
@@ -319,50 +286,29 @@ return array(
                 'class' => 'menu-sub-accordion menu-active-bg',
                 'items' => array(
                     array(
-                        'title'  => 'Overview',
-                        'path'   => 'account/overview',
+                        'title'  => 'Departments',
+                        'path'   => 'admin/department',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
-                        'title'  => 'Settings',
-                        'path'   => 'account/settings',
+                        'title'  => 'Counters',
+                        'path'   => 'admin/counter',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
-                   
+                    array(
+                        'title'      => 'Users',
+                        'path'       => 'apps/user-management/users/list',
+                        'bullet'     => '<span class="bullet bullet-dot"></span>',
+                       
+                    ),
                 ),
             ),
         ),
+
+        
          
 
-        // System
-        array(
-            'title'      => 'System',
-            'icon'       => array(
-                'svg'  => theme()->getSvgIcon("demo1/media/icons/duotune/general/gen025.svg", "svg-icon-2"),
-                'font' => '<i class="bi bi-layers fs-3"></i>',
-            ),
-            'classes'    => array('item' => 'menu-accordion'),
-            'attributes' => array(
-                "data-kt-menu-trigger" => "click",
-            ),
-            'sub'        => array(
-                'class' => 'menu-sub-accordion menu-active-bg',
-                'items' => array(
-
-                    array(
-                        'title'  => 'Audit Log',
-                        'path'   => 'log/audit',
-                        'bullet' => '<span class="bullet bullet-dot"></span>',
-                    ),
-                    array(
-                        'title'  => 'System Log',
-                        'path'   => 'log/system',
-                        'bullet' => '<span class="bullet bullet-dot"></span>',
-                    ),
-                ),
-            ),
-        ),
-
+      
         // Separator
         array(
             'content' => '<div class="separator mx-1 my-4"></div>',
@@ -409,6 +355,34 @@ return array(
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     
+                ),
+            ),
+        ),
+        // Account
+        array(
+            'title'      => 'Account',
+            'icon'       => array(
+                'svg'  => theme()->getSvgIcon("demo1/media/icons/duotune/communication/com006.svg", "svg-icon-2"),
+                'font' => '<i class="bi bi-person fs-2"></i>',
+            ),
+            'classes'    => array('item' => 'menu-accordion'),
+            'attributes' => array(
+                "data-kt-menu-trigger" => "click",
+            ),
+            'sub'        => array(
+                'class' => 'menu-sub-accordion menu-active-bg',
+                'items' => array(
+                    array(
+                        'title'  => 'Overview',
+                        'path'   => 'account/overview',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ),
+                    array(
+                        'title'  => 'Settings',
+                        'path'   => 'account/settings',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ),
+                   
                 ),
             ),
         ),
