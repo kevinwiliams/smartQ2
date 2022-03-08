@@ -1,9 +1,9 @@
 <x-base-layout>
 
-        {!! Form::open(['url' => 'admin/sms/setting', 'class' => '']) !!}
-        @csrf <!-- {{ csrf_field() }} --> 
         <div class="row">
             <div class="col-5">
+                {!! Form::open(['url' => 'admin/sms/setting', 'class' => '']) !!}
+            @csrf <!-- {{ csrf_field() }} --> 
                 <div class="card">
                     <!--begin::Card header-->
                     <div class="card-header cursor-pointer">
@@ -56,10 +56,8 @@
                         </div>
                     </div>
                 </div>
+            {{ Form::close() }}
             </div>
-
-        
-        
         
             <div class="col-sm-7">
                 <div class="card card-body">
@@ -94,6 +92,5 @@
                   
             </div> 
         </div>
-        {{ Form::close() }}
  
 </x-base-layout>

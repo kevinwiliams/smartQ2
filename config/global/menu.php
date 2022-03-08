@@ -346,7 +346,7 @@ return array(
                     ),
                     array(
                         'title'  => 'Auto Queue',
-                        'path'   => '#',
+                        'path'   => 'admin/token/setting',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
