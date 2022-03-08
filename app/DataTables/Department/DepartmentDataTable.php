@@ -25,7 +25,11 @@ class DepartmentDataTable extends DataTable
             ->editColumn('created_at', function(Department $model){
                 return Carbon::parse($model->created_at)->format('d-m-Y H:i a');
             })->editColumn('updated_at', function(Department $model){
-                return Carbon::parse($model->created_at)->diffForHumans();
+                $str = '';
+                if($model->updated_at)
+                    // $str = '<div class="badge badge-light fw-bolder">' . Carbon::parse($model->updated_at)->diffForHumans() .'</div>';     
+                    $str =  Carbon::parse($model->updated_at)->diffForHumans();     
+                return $str;
             })
             ->addColumn('action', function (Department $model) {
                 return view('pages.admin.department._action-menu', compact('model'));
@@ -56,7 +60,11 @@ class DepartmentDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     // ->dom('Bfrtip')
-                    ->orderBy(1);
+                    ->orderBy(1)
+                    ->responsive()
+                    ->autoWidth(false)
+                    ->parameters(['scrollX' => true])
+                    ->addTableClass('align-middle table-row-dashed fs-6 gy-5');
                     // ->buttons(
                     //     Button::make('create'),
                     //     Button::make('export'),

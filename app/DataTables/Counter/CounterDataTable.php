@@ -25,7 +25,11 @@ class CounterDataTable extends DataTable
             ->editColumn('created_at', function(Counter $model){
                 return Carbon::parse($model->created_at)->format('d-m-Y H:i a');
             })->editColumn('updated_at', function(Counter $model){
-                return Carbon::parse($model->created_at)->diffForHumans();
+                $str = '';
+                if($model->updated_at)
+                    // $str = '<div class="badge badge-light fw-bolder">' . Carbon::parse($model->updated_at)->diffForHumans() .'</div>';     
+                    $str =  Carbon::parse($model->updated_at)->diffForHumans();     
+                return $str;
             })
             ->addColumn('action', function (Counter $model) {
                 return view('pages.admin.counter._action-menu', compact('model'));

@@ -47,28 +47,40 @@ var KTTokenDelCounter = function () {
                     }
                 }).then(function (result) {
                     if (result.value) {
-                        Swal.fire({
-                            text: "You have deleted " + counterName + "!.",
-                            icon: "success",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn fw-bold btn-primary",
-                            }
-                        }).then(function () {
-                            $.ajax({
-                                url: '/admin/counter/delete/'+ counterID,
-                                data:   {
-                                    _token: $("input[name=_token]").val() },
-                                    success: function (res) {
-                                        // var dt = $('#counter-table').DataTable();
-                                        document.location.href = '/admin/counter';
-                                        // Remove current row
-                                        // dt.row($(parent)).remove().draw();
-                                    }
+
+                        $.ajax({
+                            url: '/admin/counter/delete/'+ counterID,
+                            data:   {
+                                _token: $("input[name=_token]").val() },
+                                success: function (res) {
+                                    Swal.fire({
+                                        text: "You have deleted " + counterName + "!.",
+                                        icon: "success",
+                                        buttonsStyling: false,
+                                        confirmButtonText: "Ok, got it!",
+                                        customClass: {
+                                            confirmButton: "btn fw-bold btn-primary",
+                                        }
+                                    }).then(function () {
+                                    // var dt = $('#counter-table').DataTable();
+                                    document.location.href = '/admin/counter';
+                                    // Remove current row
+                                    // dt.row($(parent)).remove().draw();
+                                    });
+                                }
+                        }).fail(function (jqXHR, textStatus, error) {
+                            // Handle error here
+                            Swal.fire({
+                                text: deptName + " was not deleted.<br>" + jqXHR.responseText + "<br>" + error,
+                                icon: "error",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok, got it!",
+                                customClass: {
+                                    confirmButton: "btn fw-bold btn-primary",
+                                }
                             });
-                            
                         });
+
                     } else if (result.dismiss === 'cancel') {
                         Swal.fire({
                             text: counterName + " was not deleted.",

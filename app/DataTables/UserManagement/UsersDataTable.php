@@ -25,10 +25,10 @@ class UsersDataTable extends DataTable
             ->eloquent($query)
             ->rawColumns(['action','user','last_login_at'])
             ->editColumn('last_login_at', function (User $model) {
-                $str = "";
+                $str = '';
 
                 if($model->last_login_at)
-                    $str = "<div class='badge badge-light fw-bolder'>" . Carbon::parse($model->last_login_at)->diffForHumans() ."</div>";     
+                    $str = '<div class="badge badge-light fw-bolder">' . Carbon::parse($model->last_login_at)->diffForHumans() .'</div>';     
 
                 return $str;
             })
