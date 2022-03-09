@@ -238,15 +238,6 @@ return array(
             ),
         ),
 
-        
-
-        // Messaging
-        array(
-            'title' => 'SMS',
-            'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/communication/com007.svg", "svg-icon-2"),
-            'path'  => 'admin/sms',
-          
-        ),
 
         // Reports
         array(
@@ -304,10 +295,6 @@ return array(
                 ),
             ),
         ),
-
-        
-         
-
       
         // Separator
         array(
@@ -321,7 +308,13 @@ return array(
             'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/general/gen014.svg", "svg-icon-2"),
             'path'  => 'apps/calendar',
         ),
-
+        // Messaging
+        array(
+            'title' => 'SMS',
+            'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/communication/com007.svg", "svg-icon-2"),
+            'path'  => 'admin/sms',
+          
+        ),
         // Settings
         array(
             'title' => 'Settings',
