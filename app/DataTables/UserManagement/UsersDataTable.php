@@ -33,7 +33,7 @@ class UsersDataTable extends DataTable
                 return $str;
             })
             ->editColumn('created_at', function (User $model) {      
-                return Carbon::parse($model->created_at)->format('d-m-Y H:i a');
+                return Carbon::parse($model->created_at)->format('d M Y, h:i a');
             })
             ->addColumn('action', 'pages.apps.user-management.users._action-menu')
             // ->addColumn('user', 'pages.apps.user-management.users._user-td');

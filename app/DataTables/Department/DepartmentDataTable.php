@@ -23,17 +23,28 @@ class DepartmentDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('created_at', function(Department $model){
-                return Carbon::parse($model->created_at)->format('d-m-Y H:i a');
+                return Carbon::parse($model->created_at)->format('d M Y, h:i a');
             })->editColumn('updated_at', function(Department $model){
                 $str = '';
                 if($model->updated_at)
-                    // $str = '<div class="badge badge-light fw-bolder">' . Carbon::parse($model->updated_at)->diffForHumans() .'</div>';     
-                    $str =  Carbon::parse($model->updated_at)->diffForHumans();     
+                    $str = '<div class="badge badge-light fw-bolder">' . Carbon::parse($model->updated_at)->diffForHumans() .'</div>';     
+                    // $str =  Carbon::parse($model->updated_at)->diffForHumans();     
+                return $str;
+            })
+            ->editColumn('status', function(Department $model){
+                $col = ($model->status == 1)? 'success' : 'danger';
+                $txt = ($model->status == 1)? 'Active' : 'Inactive';
+                $str = '<div class="badge badge-light-'.$col.' fw-bolder">' . $txt .'</div>';     
+                return $str;
+            })
+            ->editColumn('avg_wait_time', function(Department $model){
+                $str = '<div class="badge badge-light fw-bolder">' . $model->avg_wait_time .' mins</div>';     
                 return $str;
             })
             ->addColumn('action', function (Department $model) {
                 return view('pages.admin.department._action-menu', compact('model'));
-            });  
+            })
+            ->rawColumns(['updated_at', 'status', 'avg_wait_time']);  
             // ->addColumn('action', 'department.action');
     }
 

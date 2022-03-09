@@ -22,13 +22,19 @@ class CounterDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->rawColumns(['updated_at', 'status'])
             ->editColumn('created_at', function(Counter $model){
-                return Carbon::parse($model->created_at)->format('d-m-Y H:i a');
+                return Carbon::parse($model->created_at)->format('d M Y, h:i a');
             })->editColumn('updated_at', function(Counter $model){
                 $str = '';
                 if($model->updated_at)
-                    // $str = '<div class="badge badge-light fw-bolder">' . Carbon::parse($model->updated_at)->diffForHumans() .'</div>';     
-                    $str =  Carbon::parse($model->updated_at)->diffForHumans();     
+                    $str = '<div class="badge badge-light fw-bolder">' . Carbon::parse($model->updated_at)->diffForHumans() .'</div>';     
+                return $str;
+            })
+            ->editColumn('status', function(Counter $model){
+                $col = ($model->status == 1)? 'success' : 'danger';
+                $txt = ($model->status == 1)? 'Active' : 'Inactive';
+                $str = '<div class="badge badge-light-'.$col.' fw-bolder">' . $txt .'</div>';     
                 return $str;
             })
             ->addColumn('action', function (Counter $model) {

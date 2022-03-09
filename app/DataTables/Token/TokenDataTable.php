@@ -25,6 +25,10 @@ class TokenDataTable extends DataTable
 
         return datatables()
             ->eloquent($query)
+            ->editColumn('token_no', function(Token $model){
+                $str = '<div class="badge badge-light fw-bolder">' .$model->token_no .'</div>';     
+                return $str;
+            })
             ->editColumn('client_id', function (Token $model) {
                 $clientName = !empty( $model->client->firstname)? $model->client->firstname:'N/A';
                 return $clientName;
@@ -40,10 +44,10 @@ class TokenDataTable extends DataTable
                 $officerName = !empty( $model->officer->firstname)? $model->officer->firstname:'N/A';
                 return $officerName;
             })
-            ->rawColumns(['action'])
             ->addColumn('action', function (Token $model) {
                 return view('pages.admin.token._active-menu', compact('model'));
-            });
+            })
+            ->rawColumns(['action','token_no']);
     }
 
     /**
