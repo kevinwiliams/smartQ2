@@ -1,7 +1,8 @@
 <x-base-layout>
     <div class="row">
         <!-- setting form -->
-            <div class="col-sm-6 col-lg-6">  <div class="card">
+            <div class="col-sm-6 col-lg-5">  
+                <div class="card">
                 <!--begin::Card header-->
                 <div class="card-header cursor-pointer">
                     <!--begin::Card title-->
@@ -45,37 +46,49 @@
             </div>
 
             <!-- display setting option -->
-            <div class="col-sm-6 col-lg-6">
-                <table class="display table" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>#</th> 
-                            <th>{{ trans('app.department') }}</th>
-                            <th>{{ trans('app.counter') }}</th>
-                            <th>{{ trans('app.officer') }}</th> 
-                            <th>{{ trans('app.action') }}</th>
-                        </tr>
-                    </thead> 
-                    <tbody>
-
-                        @if (!empty($tokens))
-                            <?php $sl = 1 ?>
-                            @foreach ($tokens as $token)
+            <div class="col-sm-6 col-lg-7">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="display table" width="100%" cellspacing="0">
+                            <thead>
                                 <tr>
-                                    <td>{{ $sl++ }}</td> 
-                                    <td>{{ $token->department }}</td>
-                                    <td>{{ $token->counter }}</td>
-                                    <td>{{ $token->firstname }} {{ $token->lastname }}</td>
-                                    <td>
-                                        <div class="btn-group">   
-                                            <a href="{{ url("admin/token/setting/delete/$token->id") }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')" title="Delete"><i class="fa fa-trash"></i></a>
-                                        </div>
-                                    </td>
-                                </tr> 
-                            @endforeach
-                        @endif
-                    </tbody>
-                </table>
+                                    <th>#</th> 
+                                    <th>{{ trans('app.department') }}</th>
+                                    <th>{{ trans('app.counter') }}</th>
+                                    <th>{{ trans('app.officer') }}</th> 
+                                    <th></th>
+                                </tr>
+                            </thead> 
+                            <tbody>
+        
+                                @if (!empty($tokens))
+                                    <?php $sl = 1 ?>
+                                    @foreach ($tokens as $token)
+                                        <tr>
+                                            <td>{{ $sl++ }}</td> 
+                                            <td>{{ $token->department }}</td>
+                                            <td>{{ $token->counter }}</td>
+                                            <td>{{ $token->firstname }} {{ $token->lastname }}</td>
+                                            <td>
+                                                <div class="btn-group">   
+                                                    {{-- <a href="{{ url("admin/token/setting/delete/$token->id") }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')" title="Delete"><i class="fa fa-trash"></i></a> --}}
+                                                </div>
+        
+                                                <a href="{{ url("admin/token/setting/delete/$token->id") }}" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm" onclick="return confirm('Are you sure?')">
+                                                    <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
+                                                    {!! theme()->getSvgIcon("icons/duotune/general/gen027.svg", "svg-icon-3") !!}
+                                                    <!--end::Svg Icon-->
+                                                </a>
+                                            </td>
+                                        </tr> 
+                                    @endforeach
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                
             </div>
 
         </div>

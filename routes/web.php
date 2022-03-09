@@ -17,7 +17,8 @@ use App\Http\Controllers\Admin\SmsSettingController;
 use App\Http\Controllers\Admin\TokenController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Common\CronjobController;
-use App\Http\Controllers\Common\DisplayController;
+// use App\Http\Controllers\Common\DisplayController;
+use App\Http\Controllers\Admin\DisplayController;
 use App\Http\Controllers\Common\LanguageController;
 use App\Http\Controllers\Common\MessageController;
 use App\Http\Controllers\Common\NotificationController;
@@ -163,16 +164,16 @@ Route::middleware('auth')->group(function () {
 			Route::post('transfer',[TokenController::class, 'transfer']); 
 		});
 		
-		// // Setting pages
-		// Route::prefix('setting')->group(function () {
-		// 	Route::get('/',[SettingController::class, 'showForm']); 
-		// 	Route::post('/',[SettingController::class, 'create']); 
-		// 	Route::get('display',[DisplayController::class, 'showForm']);  
-		// 	Route::post('display',[DisplayController::class, 'setting']);  
-		// 	Route::get('display/custom',[DisplayController::class, 'getCustom']);  
-		// 	Route::post('display/custom',[DisplayController::class, 'custom']); 
-		// });
-		// # setting
+		// Setting pages
+		Route::prefix('settings')->group(function () {
+			Route::get('/',[SettingController::class, 'showForm']); 
+			Route::post('/',[SettingController::class, 'create']); 
+			Route::get('display',[DisplayController::class, 'showForm']);  
+			Route::post('display',[DisplayController::class, 'setting']);  
+			Route::get('display/custom',[DisplayController::class, 'getCustom']);  
+			Route::post('display/custom',[DisplayController::class, 'custom']); 
+		});
+		# setting
 		
 		 
 	});

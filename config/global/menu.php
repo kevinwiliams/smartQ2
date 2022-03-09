@@ -336,12 +336,12 @@ return array(
                 'items' => array(
                     array(
                         'title'  => 'Setup',
-                        'path'   => '#',
+                        'path'   => 'admin/settings',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
                         'title'  => 'Display',
-                        'path'   => '#',
+                        'path'   => 'admin/settings/display',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
