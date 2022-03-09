@@ -181,6 +181,21 @@ return array(
             'auto' => array(
                 'title' => 'Auto Token' 
             ),
+            'report' => array(
+                'title' => 'Tokens Report',
+                'assets' => array(
+                    'custom' => array(
+                        'css' => array(
+                            'plugins/custom/datatables/datatables.bundle.css',
+                        ),
+                        'js' => array(
+                            'plugins/custom/datatables/datatables.bundle.js',
+                            // 'js/custom/admin/counter/add.js',
+                            // 'vendor/datatables/buttons.server-side.js',
+                        ),
+                    ),
+                ),
+            ),
         ),
 
         'department' => array(

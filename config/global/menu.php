@@ -253,7 +253,7 @@ return array(
                 'items' => array(
                     array(
                         'title'  => 'Tokens',
-                        'path'   => '#',
+                        'path'   => 'admin/token/report',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
