@@ -10,7 +10,7 @@
 				<!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
 				{!! theme()->getSvgIcon("icons/duotune/general/gen021.svg", "svg-icon-1 position-absolute ms-6") !!}
 				<!--end::Svg Icon-->
-				<input type="text" data-kt-user-table-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="Search Tokens" />
+				<input type="text" data-kt-report-table-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="Search Tokens" />
 			</div>
 			<!--end::Search-->
 		</div>
@@ -18,7 +18,7 @@
 		<!--begin::Card toolbar-->
 		<div class="card-toolbar">
 			<!--begin::Toolbar-->
-			<div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
+			<div class="d-flex justify-content-end" data-kt-report-table-toolbar="base">
 				<!--begin::Filter-->
 				<button type="button" class="btn btn-light-primary me-3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
 				<!--begin::Svg Icon | path: icons/duotune/general/gen031.svg-->
@@ -36,33 +36,45 @@
 					<div class="separator border-gray-200"></div>
 					<!--end::Separator-->
 					<!--begin::Content-->
-					<div class="px-7 py-5" data-kt-user-table-filter="form">
+					<div class="px-7 py-5" data-kt-report-table-filter="form">
 						<!--begin::Input group-->
 						<div class="mb-10">
-							<label class="form-label fs-6 fw-bold">Role:</label>
-							<select class="form-select form-select-solid fw-bolder" data-placeholder="Select option" data-allow-clear="true" data-kt-user-table-filter="role" data-hide-search="true">
+							<label class="form-label fs-6 fw-bold">Status:</label>
+                            {{-- {{ Form::select('id', $status, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-lg fw-bold']) }} --}}
+
+							<select class="form-select form-select-solid form-select-lg fw-bold" data-kt-select2="true" data-control= "select2" data-placeholder="Select option" data-allow-clear="true" data-kt-report-table-filter="status" data-hide-search="true" name="status">
 								<option></option>
-								<option value="Administrator">Administrator</option>
-								<option value="Analyst">Analyst</option>
-								<option value="Developer">Developer</option>
-								<option value="Support">Support</option>
-								<option value="Trial">Trial</option>
+								<option value="0">Pending</option>
+								<option value="1">Complete</option>
+								<option value="2">Cancelled</option>
+								<option value="3">Booked</option>
 							</select>
 						</div>
 						<!--end::Input group-->
-						<!--begin::Input group-->
+                        <!--begin::Input group-->
 						<div class="mb-10">
-							<label class="form-label fs-6 fw-bold">Two Step Verification:</label>
-							<select class="form-select form-select-solid fw-bolder" data-placeholder="Select option" data-allow-clear="true" data-kt-user-table-filter="two-step" data-hide-search="true">
-								<option></option>
-								<option value="Enabled">Enabled</option>
-							</select>
+							<label class="form-label fs-6 fw-bold">Department:</label>
+                            {{ Form::select('department_id', $departments, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-kt-report-table-filter' => 'departments' ,'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-lg fw-bold']) }}
+
 						</div>
 						<!--end::Input group-->
+                        <!--begin::Input group-->
+						<div class="mb-10">
+							<label class="form-label fs-6 fw-bold">Counter:</label>
+                            {{ Form::select('counter_id', $counters, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-kt-report-table-filter' => 'counters', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-lg fw-bold']) }}
+
+						</div>
+						<!--end::Input group-->
+                        <!--begin::Input group-->
+						<div class="mb-10">
+							<label class="form-label fs-6 fw-bold">Officers:</label>
+                            {{ Form::select('user_id', $officers, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-kt-report-table-filter' => 'officers', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-lg fw-bold']) }}
+						</div>
+						<!--end::Input group-->						
 						<!--begin::Actions-->
 						<div class="d-flex justify-content-end">
-							<button type="reset" class="btn btn-light btn-active-light-primary fw-bold me-2 px-6" data-kt-menu-dismiss="true" data-kt-user-table-filter="reset">Reset</button>
-							<button type="submit" class="btn btn-primary fw-bold px-6" data-kt-menu-dismiss="true" data-kt-user-table-filter="filter">Apply</button>
+							<button type="reset" class="btn btn-light btn-active-light-primary fw-bold me-2 px-6" data-kt-menu-dismiss="true" data-kt-report-table-filter="reset">Reset</button>
+							<button type="submit" class="btn btn-primary fw-bold px-6" data-kt-menu-dismiss="true" data-kt-report-table-filter="filter">Apply</button>
 						</div>
 						<!--end::Actions-->
 					</div>
@@ -81,10 +93,10 @@
 			</div>
 			<!--end::Toolbar-->
 			<!--begin::Group actions-->
-			<div class="d-flex justify-content-end align-items-center d-none" data-kt-user-table-toolbar="selected">
+			<div class="d-flex justify-content-end align-items-center d-none" data-kt-report-table-toolbar="selected">
 				<div class="fw-bolder me-5">
-				<span class="me-2" data-kt-user-table-select="selected_count"></span>Selected</div>
-				<button type="button" class="btn btn-danger" data-kt-user-table-select="delete_selected">Delete Selected</button>
+				<span class="me-2" data-kt-report-table-select="selected_count"></span>Selected</div>
+				<button type="button" class="btn btn-danger" data-kt-report-table-select="delete_selected">Delete Selected</button>
 			</div>
 			<!--end::Group actions-->
 			<!--begin::Modal - Adjust Balance-->
@@ -99,7 +111,7 @@
 							<h2 class="fw-bolder">Export Users</h2>
 							<!--end::Modal title-->
 							<!--begin::Close-->
-							<div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
+							<div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-report-modal-action="close">
 								<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                                 {!! theme()->getSvgIcon("icons/duotune/arrows/arr061.svg", "svg-icon-1") !!}
 
@@ -253,6 +265,7 @@
 
         table.on('draw', function () {
             KTMenu.createInstances();
+            // handleFilterDatatable();
         });
           
         });
@@ -261,13 +274,35 @@
         
         //var table = $('#token-table').DataTable();
        
-        const filterSearch = document.querySelector('[data-kt-docs-table-filter="search"]');
+        const filterSearch = document.querySelector('[data-kt-report-table-filter="search"]');
         filterSearch.addEventListener('keyup', function (e) {
             var table = $('#token-table').DataTable();
             table.search(e.target.value).draw();
         });
         
+        // Filter Datatable
+        // var handleFilterDatatable = () => {
+            // Select filter options
+            const filterStatus = document.querySelectorAll('[data-kt-report-table-filter="status"]');
+            console.log('filterStatus', $(filterStatus).val());
+            const filterDepts = document.querySelectorAll('[data-kt-report-table-filter="departments"]');
+            const filterCntrs = document.querySelectorAll('[data-kt-report-table-filter="counters"]');
+            const filterOffcrs = document.querySelectorAll('[data-kt-report-table-filter="officers"]');
 
+            const filterButton = document.querySelector('[data-kt-report-table-filter="filter"]');
+
+            // Filter datatable on submit
+            filterButton.addEventListener('click', function () {
+                // Get filter values
+                let statusVal = $(filterStatus).val();
+                console.log(statusVal);
+               
+                // Filter datatable --- official docs reference: https://datatables.net/reference/api/search()
+                var table = $('#token-table').DataTable();
+                // table.columns(7).search(statusVal, false, false, true).draw();
+                table.search(statusVal, false, false, true).draw();
+            });
+        // }
       </script>
 
     @endsection

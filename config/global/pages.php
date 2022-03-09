@@ -181,6 +181,9 @@ return array(
             'auto' => array(
                 'title' => 'Auto Token' 
             ),
+            'setting' => array(
+                'title' => 'Auto Queue Settings' 
+            ),
             'report' => array(
                 'title' => 'Tokens Report',
                 'assets' => array(
@@ -229,6 +232,12 @@ return array(
                         ),
                     ),
                 ),
+        ),
+        'settings' => array(
+            'title' => 'App Settings',
+            'display' => array(
+                'title' => 'Display Settings'
+            )
         ),
         
     ),
