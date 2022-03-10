@@ -60,6 +60,14 @@
 </div>
 <!--end::Card-->
 
+	<!--begin::Modal - Transfer Token-->
+	{{ theme()->getView('partials/modals/token/_transfer', 
+	array(
+		'officers' => $officers, 
+		'counters' => $counters, 
+		'departments' => $departments
+		)) }}
+	<!--end::Modal - Transfer Token-->
 
 
     @section('scripts')
@@ -68,9 +76,6 @@
             // DATATABLE
              drawDataTable();
 
-            // $("body").on("change",".filter", function(){
-            //     drawDataTable();
-            // });
             
             function drawDataTable(){
                 $('#token-table').DataTable().destroy();
@@ -182,6 +187,55 @@
 		// 	}
 		// });
         
+		// modal open with token id
+		$('.modal').on('show.bs.modal', function (event) {
+			var button = $(event.relatedTarget);
+			$('input[name=id]').val(button.data('token-id'));
+    	}); 
+
+		// transfer token
+		$('body').on('submit', '.transferFrm', function(e){
+			e.preventDefault();
+			$.ajax({
+				url: $(this).attr('action'),
+				type: $(this).attr('method'),
+				dataType: 'json', 
+				headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+				contentType: false,  
+				// cache: false,  
+				processData: false,
+				data:  new FormData($(this)[0]),
+				beforeSend: function() {
+					$('.transferFrm').find('.alert')
+						.addClass('hide')
+						.html('');
+				},
+				success: function(data)
+				{
+					if (data.status)
+					{  
+						$('.transferFrm').find('.alert')
+							.addClass('alert-success')
+							.removeClass('hide alert-danger')
+							.html(data.message);
+
+						setTimeout(() => { window.location.reload() }, 1500);
+					}
+					else
+					{
+						$('.transferFrm').find('.alert')
+							.addClass('alert-danger')
+							.removeClass('hide alert-success')
+							.html(data.exception);
+					}   
+				},
+				error: function(xhr)
+				{
+					alert('wait...');
+				}
+			});
+
+		});
         
       </script>
 

@@ -173,6 +173,7 @@ return array(
                         'js'  => array(
                             'plugins/custom/datatables/datatables.bundle.js',
                             'js/custom/admin/token/add.js',
+                            'js/custom/admin/token/delete.js',
                         ),
                         
                     ),

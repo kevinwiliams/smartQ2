@@ -8,28 +8,35 @@
 <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4" data-kt-menu="true">
     <!--begin::Menu item-->
     <div class="menu-item px-3">
-        <a href="#" class="menu-link px-3">
+        <a href="#" class="menu-link px-3" data-kt-token-table-filter="checkin_row">
+            Check In
+        </a>
+    </div>
+    <!--end::Menu item-->
+    <!--begin::Menu item-->
+    <div class="menu-item px-3">
+        <a href="#" class="menu-link px-3" data-kt-token-table-filter="complete_row">
             Complete
         </a>
     </div>
     <!--end::Menu item-->
     <!--begin::Menu item-->
     <div class="menu-item px-3">
-        <a href="#" class="menu-link px-3">
+        <a href="#" class="menu-link px-3" data-kt-token-table-filter="transfer_row" data-bs-toggle="modal" data-bs-target="#kt_modal_transfer_token">
             Transfer
         </a>
     </div>
     <!--end::Menu item-->
     <!--begin::Menu item-->
     <div class="menu-item px-3">
-        <a href="#" class="menu-link px-3">
+        <a href="#" class="menu-link px-3" data-kt-token-table-filter="cancel_row">
             Cancel
         </a>
     </div>
     <!--end::Menu item-->
     <!--begin::Menu item-->
     <div class="menu-item px-3">
-        <a href="#" class="menu-link px-3" >
+        <a href="#" class="menu-link px-3" data-kt-token-table-filter="print_row">
             Print
         </a>
     </div>
