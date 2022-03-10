@@ -68,55 +68,6 @@
         table.search(e.target.value).draw();
     });
 
-        // modal open with token id
-		$('.modal').on('show.bs.modal', function (event) {
-			var button = $(event.relatedTarget);
-			$('input[name=id]').val(button.data('token-id'));
-
-    	}); 
-
-		// transfer token
-		$('body').on('submit', '.transferFrm', function(e){
-			e.preventDefault();
-			
-            $.ajax({
-                url: $(this).attr('action'),
-				type: $(this).attr('method'),
-                dataType: 'json', 
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                contentType: false,  
-				processData: false,
-                data:   new FormData($(this)[0]),
-                    success: function (res) {
-                        console.log(res);
-                        Swal.fire({
-                            text: res.message + "!.",
-                            icon: "success",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn fw-bold btn-primary",
-                            }
-                        }).then(function () {
-                            setTimeout(() => { window.location.reload() }, 1500);
-                        });
-                    }
-            }).fail(function (jqXHR, textStatus, error) {
-                // Handle error here
-                Swal.fire({
-                    text: "Error :" + error ,
-                    icon: "error",
-                    buttonsStyling: false,
-                    confirmButtonText: "Ok, got it!",
-                    customClass: {
-                        confirmButton: "btn fw-bold btn-primary",
-                    }
-                });
-            });
-
-		});
-
-    
     
 </script>
 @endsection
