@@ -7,7 +7,7 @@
 <div class="card {{ $class }}">
     <!--begin::Header-->
     <div class="card-header border-0 bg-{{ $chartColor }} py-5">
-        <h3 class="card-title fw-bolder text-white">Sales Statistics</h3>
+        <h3 class="card-title fw-bolder text-white">Queue Statistics</h3>
 
         <div class="card-toolbar">
             <!--begin::Menu-->

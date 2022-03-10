@@ -40,35 +40,27 @@
 						<!--begin::Input group-->
 						<div class="mb-10">
 							<label class="form-label fs-6 fw-bold">Status:</label>
-                            {{-- {{ Form::select('id', $status, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-lg fw-bold']) }} --}}
-
-							<select class="form-select form-select-solid form-select-lg fw-bold" data-kt-select2="true" data-control= "select2" data-placeholder="Select option" data-allow-clear="true" data-kt-report-table-filter="status" data-hide-search="true" name="status">
-								<option></option>
-								<option value="0">Pending</option>
-								<option value="1">Complete</option>
-								<option value="2">Cancelled</option>
-								<option value="3">Booked</option>
-							</select>
+                            {{ Form::select('status', ["'0'"=>trans("app.pending"), '1'=>trans("app.complete"), '2'=>trans("app.stop"), '3'=>"Booked"],  null,  ['id'=> 'status', 'data-placeholder' => trans("app.status"), 'placeholder' => trans("app.status"), 'data-kt-report-table-filter' => 'status', 'data-control' => 'select2', 'class'=>'form-select form-select-solid form-select-sm fw-bold filter']) }} 
 						</div>
 						<!--end::Input group-->
                         <!--begin::Input group-->
 						<div class="mb-10">
 							<label class="form-label fs-6 fw-bold">Department:</label>
-                            {{ Form::select('department_id', $departments, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-kt-report-table-filter' => 'departments' ,'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-lg fw-bold']) }}
+                            {{ Form::select('department_id', $departments, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-kt-report-table-filter' => 'departments' ,'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-sm fw-bold filter']) }}
 
 						</div>
 						<!--end::Input group-->
                         <!--begin::Input group-->
 						<div class="mb-10">
 							<label class="form-label fs-6 fw-bold">Counter:</label>
-                            {{ Form::select('counter_id', $counters, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-kt-report-table-filter' => 'counters', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-lg fw-bold']) }}
+                            {{ Form::select('counter_id', $counters, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-kt-report-table-filter' => 'counters', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-sm fw-bold filter']) }}
 
 						</div>
 						<!--end::Input group-->
                         <!--begin::Input group-->
 						<div class="mb-10">
 							<label class="form-label fs-6 fw-bold">Officers:</label>
-                            {{ Form::select('user_id', $officers, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-kt-report-table-filter' => 'officers', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-lg fw-bold']) }}
+                            {{ Form::select('user_id', $officers, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-kt-report-table-filter' => 'officers', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-sm fw-bold filter']) }}
 						</div>
 						<!--end::Input group-->						
 						<!--begin::Actions-->
@@ -188,11 +180,10 @@
         <!--begin::Datatable-->
         <table id="token-table" class="table align-middle table-row-dashed fs-6 gy-5">
             <thead>
+
             <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
                 <th class="w-10px pe-2">
-                    <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                        <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_datatable_example_1 .form-check-input" value="1"/>
-                    </div>
+                    ID
                 </th>
                 <th>{{ trans('app.token_no') }}</th> 
                 <th>{{ trans('app.department') }}</th>
@@ -223,86 +214,103 @@
     @section('scripts')
     <script type="text/javascript">
         $(function () {
+            // DATATABLE
+             drawDataTable();
 
-          var table = $('#token-table').DataTable({
-              processing: true,
-              serverSide: true,
-              ordering: true,
-              order: [7, "asc"],
-              dom:
-            "<'table-responsive'tr><'row'" +
-            "<'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'li>" +
-            "<'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>" +
-            ">",
+            // $("body").on("change",".filter", function(){
+            //     drawDataTable();
+            // });
+            
+            function drawDataTable(){
+                $('#token-table').DataTable().destroy();
+                var table = $('#token-table').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ordering: true,
+                    order: [7, "asc"],
+                    dom:
+                    "<'table-responsive'tr><'row'" +
+                    "<'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'li>" +
+                    "<'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>" +
+                    ">",
 
-            renderer: 'bootstrap',
-            ajax: {
-                url:'<?= url('admin/token/report/data'); ?>',
-                dataType: 'json',
-                type    : 'post',
-                data    : {
-                    _token : '{{ csrf_token() }}'
-                        },
-            },
-              columns: [
-                { data: 'serial' },
-                { data: 'token_no' },
-                { data: 'department' },
-                { data: 'counter' },
-                { data: 'officer' },
-                { data: 'client_mobile' }, 
-                { data: 'note' }, 
-                { data: 'status' }, 
-                { data: 'created_by' },
-                { data: 'created_at' },
-                { data: 'updated_at' }, 
-                { data: 'complete_time' },
-                { data: 'options' },
-                // {data: 'action', name: 'action', orderable: false, searchable: false},
-              ]
-           
-          });
+                    renderer: 'bootstrap',
+                    ajax: {
+                        url:'<?= url('admin/token/report/data'); ?>',
+                        dataType: 'json',
+                        type    : 'post',
+                        data    : {
+                            _token : '{{ csrf_token() }}',
+                            search: {
+                                status     : $('[data-kt-report-table-filter="status"]').val(),
+                                counter    : $('[data-kt-report-table-filter="counters"]').val(),
+                                department : $('[data-kt-report-table-filter="departments"]').val(),
+                                officer    : $('[data-kt-report-table-filter="officers"]').val(),
+                                // start_date : $('#start_date').val(),
+                                // end_date   : $('#end_date').val(),
+                            }
+                                },
+                    },
+                    columns: [
+                        { data: 'serial' },
+                        { data: 'token_no' },
+                        { data: 'department' },
+                        { data: 'counter' },
+                        { data: 'officer' },
+                        { data: 'client_mobile' }, 
+                        { data: 'note' }, 
+                        { data: 'status' }, 
+                        { data: 'created_by' },
+                        { data: 'created_at' },
+                        { data: 'updated_at' }, 
+                        { data: 'complete_time' },
+                        { data: 'options' },
+                        // {data: 'action', name: 'action', orderable: false, searchable: false},
+                    ]
+            
+            });
 
-        table.on('draw', function () {
-            KTMenu.createInstances();
-            // handleFilterDatatable();
+            table.on('draw', function () {
+                KTMenu.createInstances();
+                // handleFilterDatatable();
+            });
+        }
+        const filterButton = document.querySelector('[data-kt-report-table-filter="filter"]');
+        // Filter datatable on submit
+        filterButton.addEventListener('click', function () {
+            // Get filter values
+            drawDataTable();
         });
+          
           
         });
 
 
         
         //var table = $('#token-table').DataTable();
-       
+		const filterStatus = document.querySelectorAll('[data-kt-report-table-filter="status"]');
+		const filterDepts = document.querySelectorAll('[data-kt-report-table-filter="departments"]');
+		const filterCntrs = document.querySelectorAll('[data-kt-report-table-filter="counters"]');
+		const filterOffcrs = document.querySelectorAll('[data-kt-report-table-filter="officers"]');
         const filterSearch = document.querySelector('[data-kt-report-table-filter="search"]');
+
         filterSearch.addEventListener('keyup', function (e) {
             var table = $('#token-table').DataTable();
             table.search(e.target.value).draw();
         });
         
-        // Filter Datatable
-        // var handleFilterDatatable = () => {
-            // Select filter options
-            const filterStatus = document.querySelectorAll('[data-kt-report-table-filter="status"]');
-            console.log('filterStatus', $(filterStatus).val());
-            const filterDepts = document.querySelectorAll('[data-kt-report-table-filter="departments"]');
-            const filterCntrs = document.querySelectorAll('[data-kt-report-table-filter="counters"]');
-            const filterOffcrs = document.querySelectorAll('[data-kt-report-table-filter="officers"]');
+        const resetButton = document.querySelector('[data-kt-report-table-filter="reset"]');
 
-            const filterButton = document.querySelector('[data-kt-report-table-filter="filter"]');
-
-            // Filter datatable on submit
-            filterButton.addEventListener('click', function () {
-                // Get filter values
-                let statusVal = $(filterStatus).val();
-                console.log(statusVal);
-               
-                // Filter datatable --- official docs reference: https://datatables.net/reference/api/search()
-                var table = $('#token-table').DataTable();
-                // table.columns(7).search(statusVal, false, false, true).draw();
-                table.search(statusVal, false, false, true).draw();
-            });
-        // }
+        // Reset datatable
+        resetButton.addEventListener('click', function () {
+            // Reset payment type
+			//alert('reset');
+			document.querySelectorAll('[data-kt-report-table-filter="status"]').value = '';
+			$('[data-kt-report-table-filter="status"]').empty().trigger('change');
+            // filterPayment[0].checked = true;
+            var table = $('#token-table').DataTable();
+            table.search(' ').draw();
+        });
       </script>
 
     @endsection
