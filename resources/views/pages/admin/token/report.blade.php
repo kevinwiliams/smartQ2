@@ -62,7 +62,13 @@
 							<label class="form-label fs-6 fw-bold">Officers:</label>
                             {{ Form::select('user_id', $officers, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-kt-report-table-filter' => 'officers', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-sm fw-bold filter']) }}
 						</div>
-						<!--end::Input group-->						
+						<!--end::Input group-->
+						<!--begin::Input group-->
+						<div class="mb-10">
+							<label class="form-label fs-6 fw-bold">Date:</label>
+							<input class="form-control form-control-solid" placeholder="Pick date range" id="report_date_range"/>
+						</div>
+						<!--end::Input group-->							
 						<!--begin::Actions-->
 						<div class="d-flex justify-content-end">
 							<button type="reset" class="btn btn-light btn-active-light-primary fw-bold me-2 px-6" data-kt-menu-dismiss="true" data-kt-report-table-filter="reset">Reset</button>
@@ -196,7 +202,7 @@
                 <th>{{ trans('app.created_at') }}</th>
                 <th>{{ trans('app.updated_at') }}</th>
                 <th>{{ trans('app.complete_time') }}</th>
-                <th>{{ trans('app.action') }}</th>
+                <th></th>
                 {{-- <th class="text-end min-w-100px">Actions</th> --}}
             </tr>
             </thead>
@@ -268,49 +274,70 @@
                         // {data: 'action', name: 'action', orderable: false, searchable: false},
                     ]
             
-            });
+            	});
 
-            table.on('draw', function () {
-                KTMenu.createInstances();
-                // handleFilterDatatable();
-            });
-        }
-        const filterButton = document.querySelector('[data-kt-report-table-filter="filter"]');
-        // Filter datatable on submit
-        filterButton.addEventListener('click', function () {
-            // Get filter values
-            drawDataTable();
-        });
-          
-          
+				table.on('draw', function () {
+					KTMenu.createInstances();
+					// handleFilterDatatable();
+				});
+        	}
+		
+			const filterButton = document.querySelector('[data-kt-report-table-filter="filter"]');
+			// Filter datatable on submit
+			filterButton.addEventListener('click', function () {
+				// Get filter values
+				drawDataTable();
+			});
+
+			const filterStatus = $('[data-kt-report-table-filter="status"]');
+			const filterDepts = $('[data-kt-report-table-filter="departments"]');
+			const filterCntrs = $('[data-kt-report-table-filter="counters"]');
+			const filterOffcrs = $('[data-kt-report-table-filter="officers"]');
+			
+			const resetButton = document.querySelector('[data-kt-report-table-filter="reset"]');
+			// Reset datatable
+			resetButton.addEventListener('click', function () {
+
+				filterStatus.select2({ placeholder: "Status" });
+				filterStatus.val('').trigger('change');
+
+				filterDepts.select2({ placeholder: "Department" });
+				filterDepts.val('').trigger('change');
+
+				filterCntrs.select2({ placeholder: "Counter" });
+				filterCntrs.val('').trigger('change');
+
+				filterOffcrs.select2({ placeholder: "Officers" });
+				filterOffcrs.val('').trigger('change');
+
+				drawDataTable();
+				//table.search('').draw();
+			});
+			
         });
 
 
         
         //var table = $('#token-table').DataTable();
-		const filterStatus = document.querySelectorAll('[data-kt-report-table-filter="status"]');
-		const filterDepts = document.querySelectorAll('[data-kt-report-table-filter="departments"]');
-		const filterCntrs = document.querySelectorAll('[data-kt-report-table-filter="counters"]');
-		const filterOffcrs = document.querySelectorAll('[data-kt-report-table-filter="officers"]');
+		
+
         const filterSearch = document.querySelector('[data-kt-report-table-filter="search"]');
 
         filterSearch.addEventListener('keyup', function (e) {
             var table = $('#token-table').DataTable();
             table.search(e.target.value).draw();
         });
-        
-        const resetButton = document.querySelector('[data-kt-report-table-filter="reset"]');
 
-        // Reset datatable
-        resetButton.addEventListener('click', function () {
-            // Reset payment type
-			//alert('reset');
-			document.querySelectorAll('[data-kt-report-table-filter="status"]').value = '';
-			$('[data-kt-report-table-filter="status"]').empty().trigger('change');
-            // filterPayment[0].checked = true;
-            var table = $('#token-table').DataTable();
-            table.search(' ').draw();
-        });
+		$("#report_date_range").daterangepicker({
+			timePicker: true,
+			startDate: moment().startOf("hour"),
+			endDate: moment().startOf("hour").add(32, "hour"),
+			locale: {
+				format: "M/DD hh:mm A"
+			}
+		});
+        
+        
       </script>
 
     @endsection

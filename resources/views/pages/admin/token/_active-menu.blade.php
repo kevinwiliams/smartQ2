@@ -1,7 +1,7 @@
 <a href="#" class="btn btn-light btn-active-light-primary btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
-    Actions
+    ...
     <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
-    {!! theme()->getSvgIcon("icons/duotune/arrows/arr072.svg", "svg-icon-5 m-0") !!}
+    {{-- {!! theme()->getSvgIcon("icons/duotune/arrows/arr072.svg", "svg-icon-5 m-0") !!} --}}
     <!--end::Svg Icon-->
 </a>
 <!--begin::Menu-->
