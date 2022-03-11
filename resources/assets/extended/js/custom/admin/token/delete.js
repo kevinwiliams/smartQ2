@@ -22,7 +22,10 @@ var KTTokenActions = function () {
 
                 // Get token name
                 const tokenNo = parent.querySelectorAll('td')[1].innerText;
-                const tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
+                if(parent.querySelectorAll('input[name=token-id]').length)
+                    var tokenID =  parent.querySelectorAll('input[name=token-id]')[0].value;
+                else
+                    var tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
                 // alert(tokenID);
 
                 // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
@@ -55,7 +58,7 @@ var KTTokenActions = function () {
                                         }
                                     }).then(function () {
                                     // var dt = $('#counter-table').DataTable();
-                                    document.location.href = '/admin/token/current';
+                                    document.location.reload();
                                     // Remove current row
                                     // dt.row($(parent)).remove().draw();
                                     });
@@ -109,7 +112,10 @@ var KTTokenActions = function () {
 
                 // Get token name
                 const tokenNo = parent.querySelectorAll('td')[1].innerText;
-                const tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
+                if(parent.querySelectorAll('input[name=token-id]').length)
+                    var tokenID =  parent.querySelectorAll('input[name=token-id]')[0].value;
+                else
+                    var tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
 
 
                 // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
@@ -142,7 +148,7 @@ var KTTokenActions = function () {
                                         }
                                     }).then(function () {
                                     // var dt = $('#counter-table').DataTable();
-                                    document.location.href = '/admin/token/current';
+                                    document.location.reload();
                                     // Remove current row
                                     // dt.row($(parent)).remove().draw();
                                     });
@@ -196,7 +202,10 @@ var KTTokenActions = function () {
 
                 // Get token name
                 const tokenNo = parent.querySelectorAll('td')[1].innerText;
-                const tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
+                if(parent.querySelectorAll('input[name=token-id]').length)
+                    var tokenID =  parent.querySelectorAll('input[name=token-id]')[0].value;
+                else
+                    var tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
                 
 
                 // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
@@ -229,7 +238,7 @@ var KTTokenActions = function () {
                                         }
                                     }).then(function () {
                                     // var dt = $('#counter-table').DataTable();
-                                    document.location.href = '/admin/token/current';
+                                    document.location.reload();
                                     // Remove current row
                                     // dt.row($(parent)).remove().draw();
                                     });
@@ -283,7 +292,10 @@ var KTTokenActions = function () {
 
                 // Get token name
                 const tokenNo = parent.querySelectorAll('td')[1].innerText;
-                const tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
+                if(parent.querySelectorAll('input[name=token-id]').length)
+                    var tokenID =  parent.querySelectorAll('input[name=token-id]')[0].value;
+                else
+                    var tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
                 
 
                 // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
@@ -316,7 +328,7 @@ var KTTokenActions = function () {
                                         }
                                     }).then(function () {
                                     // var dt = $('#counter-table').DataTable();
-                                    document.location.href = '/admin/token/current';
+                                    document.location.reload();
                                     // Remove current row
                                     // dt.row($(parent)).remove().draw();
                                     });
@@ -337,6 +349,96 @@ var KTTokenActions = function () {
                     } else if (result.dismiss === 'cancel') {
                         Swal.fire({
                             text: tokenNo + " was not checked in.",
+                            icon: "error",
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok, got it!",
+                            customClass: {
+                                confirmButton: "btn fw-bold btn-primary",
+                            }
+                        });
+                    }
+                });
+            })
+        });
+
+
+    }
+
+    var handleRecallRows = () => {
+     
+        var _table = document.querySelector('#token-table');
+        const recallButtons = _table.querySelectorAll('[data-kt-token-table-filter="recall_row"]');
+        // console.log(recallButtons);
+        jQuery.noConflict();
+        $.noConflict();
+        
+        recallButtons.forEach(d => {
+            // Delete button on click
+            d.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Select parent row
+                const parent = e.target.closest('tr');
+
+                // Get token name
+                const tokenNo = parent.querySelectorAll('td')[1].innerText;
+                if(parent.querySelectorAll('input[name=token-id]').length)
+                    var tokenID =  parent.querySelectorAll('input[name=token-id]')[0].value;
+                else
+                    var tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
+                
+
+                // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
+                Swal.fire({
+                    text: "Are you sure you want to recall " + tokenNo + "?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    buttonsStyling: false,
+                    confirmButtonText: "Yes, call back!",
+                    cancelButtonText: "No, cancel",
+                    customClass: {
+                        confirmButton: "btn fw-bold btn-danger",
+                        cancelButton: "btn fw-bold btn-active-light-primary"
+                    }
+                }).then(function (result) {
+                    if (result.value) {
+
+                        $.ajax({
+                            url: '/admin/token/recall/'+ tokenID,
+                            data:   {
+                                _token: $("input[name=_token]").val() },
+                                success: function (res) {
+                                    Swal.fire({
+                                        text: "You have recalled " + tokenNo + "!.",
+                                        icon: "success",
+                                        buttonsStyling: false,
+                                        confirmButtonText: "Ok, got it!",
+                                        customClass: {
+                                            confirmButton: "btn fw-bold btn-primary",
+                                        }
+                                    }).then(function () {
+                                    // var dt = $('#counter-table').DataTable();
+                                    document.location.reload();
+                                    // Remove current row
+                                    // dt.row($(parent)).remove().draw();
+                                    });
+                                }
+                        }).fail(function (jqXHR, textStatus, error) {
+                            // Handle error here
+                            Swal.fire({
+                                text: tokenNo + " was not recalled.<br>" + jqXHR.responseText + "<br>" + error,
+                                icon: "error",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok, got it!",
+                                customClass: {
+                                    confirmButton: "btn fw-bold btn-primary",
+                                }
+                            });
+                        });
+
+                    } else if (result.dismiss === 'cancel') {
+                        Swal.fire({
+                            text: tokenNo + " was not recalled.",
                             icon: "error",
                             buttonsStyling: false,
                             confirmButtonText: "Ok, got it!",
