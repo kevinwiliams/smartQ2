@@ -8,7 +8,7 @@
                 'skills' => 'Sales'
             ),
             'company' => array(
-                'name' => 'Sales',
+                'name' => '8 mins',
                 'skills' => 'Web, UI/UX Design'
             ),
             'progress' => array(
@@ -23,7 +23,7 @@
                 'skills' => 'Customer Experience'
             ),
             'company' => array(
-                'name' => 'Agoda',
+                'name' => '12 mins',
                 'skills' => 'Houses & Hotels'
             ),
             'progress' => array(
@@ -35,10 +35,10 @@
             'user' => array(
                 'image' => 'avatars/150-4.jpg',
                 'name' => 'Lebron Wayde',
-                'skills' => 'PHP, Laravel, VueJS'
+                'skills' => 'Business'
             ),
             'company' => array(
-                'name' => 'RoadGee',
+                'name' => '4 mins',
                 'skills' => 'Transportation'
             ),
             'progress' => array(
@@ -53,7 +53,7 @@
                 'skills' => 'Repairs'
             ),
             'company' => array(
-                'name' => 'The Hill',
+                'name' => '10 mins',
                 'skills' => 'Insurance'
             ),
             'progress' => array(
@@ -68,7 +68,7 @@
                 'skills' => 'Sales'
             ),
             'company' => array(
-                'name' => 'RoadGee',
+                'name' => '18 mins',
                 'skills' => 'Art Director'
             ),
             'progress' => array(
@@ -89,12 +89,12 @@
 			<span class="text-muted mt-1 fw-bold fs-7">Over 500 customers served today</span>
 		</h3>
 
-        {{-- <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Click to add a user">
+        <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Click to add a user">
             <a href="#" class="btn btn-sm btn-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">
                 {!! theme()->getSvgIcon("icons/duotune/arrows/arr075.svg", "svg-icon-3") !!}
                 New Member
             </a>
-        </div> --}}
+        </div>
     </div>
     <!--end::Header-->
 
@@ -113,7 +113,7 @@
                             </div>
                         </th>
                         <th class="min-w-150px">Officers</th>
-                        {{-- <th class="min-w-140px">Department</th> --}}
+                        <th class="min-w-140px">Avg Wait Time</th>
                         <th class="min-w-200px">Progress</th>
                         {{-- <th class="min-w-100px text-end">Actions</th> --}}
                     </tr>
@@ -143,10 +143,10 @@
                                 </div>
                             </td>
 
-                            {{-- <td>
+                            <td>
                                 <a href="#" class="text-dark fw-bolder text-hover-primary d-block fs-6">{{ $row['company']['name'] }}</a>
                                 <span class="text-muted fw-bold text-muted d-block fs-7">{{ $row['company']['skills'] }}</span>
-                            </td> --}}
+                            </td>
 
                             <td class="text-end">
                                 <div class="d-flex flex-column w-100 me-2">
