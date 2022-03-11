@@ -9,7 +9,7 @@
     @if ($token->status == 0)
     <!--begin::Menu item-->
     <div class="menu-item px-3">
-        <a href="{{url("admin/token/complete/$token->id")}}" class="menu-link px-3">
+        <a href="#" class="menu-link px-3" data-kt-token-table-filter="complete_row">
             Complete
         </a>
     </div>
@@ -18,24 +18,30 @@
     @if ($token->status != 0 || !empty($token->updated_at))
     <!--begin::Menu item-->
     <div class="menu-item px-3">
-        <a href="{{url("admin/token/recall/$token->id")}}" class="menu-link px-3">
+        <a href="#" class="menu-link px-3" data-kt-token-table-filter="recall_row">
             Recall
         </a>
     </div>
     <!--end::Menu item-->
     @endif
-    @if ($token->status == 0)
+
     <!--begin::Menu item-->
     <div class="menu-item px-3">
-        <a href="{{url("admin/token/stoped/$token->id")}}" class="menu-link px-3">
+        <a href="#" class="menu-link px-3" data-kt-token-table-filter="transfer_row" data-bs-toggle="modal" data-bs-target="#kt_modal_transfer_token">
+            Transfer
+        </a>
+    </div>
+    <!--end::Menu item-->
+    <!--begin::Menu item-->
+    <div class="menu-item px-3">
+        <a href="#" class="menu-link px-3" data-kt-token-table-filter="cancel_row">
             Cancel
         </a>
     </div>
     <!--end::Menu item-->
-    @endif
     <!--begin::Menu item-->
     <div class="menu-item px-3">
-        <a href="{{url("admin/token/print")}}" class="menu-link px-3" >
+        <a href="#" class="menu-link px-3" data-kt-token-table-filter="print_row">
             Print
         </a>
     </div>
@@ -43,7 +49,7 @@
 
     <!--begin::Menu item-->
     <div class="menu-item px-3">
-        <a href="#" class="menu-link px-3" data-kt-report-table-filter="delete_row">
+        <a href="#" class="menu-link px-3" data-kt-token-table-filter="delete_row">
             Delete
         </a>
     </div>

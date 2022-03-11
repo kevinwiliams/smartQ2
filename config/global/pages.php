@@ -194,7 +194,7 @@ return array(
                         ),
                         'js' => array(
                             'plugins/custom/datatables/datatables.bundle.js',
-                            // 'js/custom/admin/counter/add.js',
+                            'js/custom/admin/token/delete.js',
                             // 'vendor/datatables/buttons.server-side.js',
                         ),
                     ),

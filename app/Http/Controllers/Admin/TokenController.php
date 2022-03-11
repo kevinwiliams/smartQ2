@@ -456,11 +456,11 @@ class TokenController extends Controller
         @date_default_timezone_set(session('app.timezone'));
         $counters = Counter::where('status',1)->pluck('name','id');
         $departments = Department::where('status',1)->pluck('name','id');
-        $officers = User::select(DB::raw('CONCAT(firstname, " ", lastname) as name'), 'id')
+        $officers = User::select('id',DB::raw('CONCAT(firstname, " ", lastname) as full_name'))
             ->where('user_type',1)
             ->where('status',1)
-            ->orderBy('firstname', 'ASC')
-            ->pluck('name', 'id');  
+            ->orderBy('full_name', 'ASC')
+            ->pluck('full_name', 'id'); 
 
         return view('pages.admin.token.report', compact('counters', 'departments', 'officers'));
     }  
@@ -614,7 +614,11 @@ class TokenController extends Controller
                     'created_at' => (!empty($token->created_at)?date('j M Y h:i a',strtotime($token->created_at)):null),
                     'updated_at' => (!empty($token->updated_at)?date('j M Y h:i a',strtotime($token->updated_at)):null),
                     'complete_time' => $complete_time,
-                    'options'    => $options
+                    'options'    => $options,
+                    'token_id' => $token->id,
+                    'department_id' => $token->department->id,
+                    'counter_id' => $token->counter->id,
+                    'officer_id' => $token->officer->id,
                 ];  
             }
         }

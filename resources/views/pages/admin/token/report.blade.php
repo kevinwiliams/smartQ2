@@ -82,6 +82,7 @@
                 var table = $('#token-table').DataTable({
                     processing: true,
                     serverSide: true,
+					// responsive: true,
                     ordering: true,
                     order: [7, "asc"],
                     dom:
@@ -122,7 +123,37 @@
                         { data: 'complete_time' },
                         { data: 'options' },
                         // {data: 'action', name: 'action', orderable: false, searchable: false},
-                    ]
+                    ],
+					columnDefs: [
+						{
+							'targets': 1,
+							'createdCell':  function (td, cellData, rowData, row, col) {
+								$(td).attr('id', rowData['token_id']); 
+								// console.log('td', td);
+								// console.log('cellData', cellData);
+								// console.log('rowData', rowData['token_id']);
+								// console.log('row', row);
+							}
+						},
+						{
+							'targets': 2,
+							'createdCell':  function (td, cellData, rowData, row, col) {
+								$(td).attr('id', rowData['department_id']); 
+							}
+						},
+						{
+							'targets': 3,
+							'createdCell':  function (td, cellData, rowData, row, col) {
+								$(td).attr('id', rowData['counter_id']); 
+							}
+						},
+						{
+							'targets': 4,
+							'createdCell':  function (td, cellData, rowData, row, col) {
+								$(td).attr('id', rowData['officer_id']); 
+							}
+						}
+					]
             
             	});
 
@@ -164,12 +195,27 @@
 				//table.search('').draw();
 			});
 			
+			// modal open with token id
+			$('#kt_modal_transfer_token').on('show.bs.modal', function (event) {
+				var button = $(event.relatedTarget);
+				$('input[name=id]').val(button.data('token-id'));
+				//set back options from selected token
+				setTimeout(() => {
+					$('select[name=department_id]').val($('input[name=department_id]').val());
+					$('select[name=department_id]').trigger('change');
+
+					$('select[name=counter_id]').val($('input[name=counter_id]').val());
+					$('select[name=counter_id]').trigger('change');
+
+					$('select[name=user_id]').val($('input[name=officer_id]').val());
+					$('select[name=user_id]').trigger('change');
+					//alert($('select[name=department_id]').val());
+				}, 500);
+				
+
+			}); 
         });
 
-
-        
-        //var table = $('#token-table').DataTable();
-		
 
         const filterSearch = document.querySelector('[data-kt-report-table-filter="search"]');
 
@@ -178,64 +224,7 @@
             table.search(e.target.value).draw();
         });
 
-		// $("#report_date_range").daterangepicker({
-		// 	timePicker: true,
-		// 	startDate: moment().startOf("hour"),
-		// 	endDate: moment().startOf("hour").add(32, "hour"),
-		// 	locale: {
-		// 		format: "M/DD hh:mm A"
-		// 	}
-		// });
-        
-		// modal open with token id
-		$('.modal').on('show.bs.modal', function (event) {
-			var button = $(event.relatedTarget);
-			$('input[name=id]').val(button.data('token-id'));
-    	}); 
-
-		// transfer token
-		$('body').on('submit', '.transferFrm', function(e){
-			e.preventDefault();
-			$.ajax({
-				url: $(this).attr('action'),
-				type: $(this).attr('method'),
-				dataType: 'json', 
-				headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-				contentType: false,  
-				// cache: false,  
-				processData: false,
-				data:  new FormData($(this)[0]),
-				beforeSend: function() {
-					$('.transferFrm').find('.alert')
-						.addClass('hide')
-						.html('');
-				},
-				success: function(data)
-				{
-					if (data.status)
-					{  
-						$('.transferFrm').find('.alert')
-							.addClass('alert-success')
-							.removeClass('hide alert-danger')
-							.html(data.message);
-
-						setTimeout(() => { window.location.reload() }, 1500);
-					}
-					else
-					{
-						$('.transferFrm').find('.alert')
-							.addClass('alert-danger')
-							.removeClass('hide alert-success')
-							.html(data.exception);
-					}   
-				},
-				error: function(xhr)
-				{
-					alert('wait...');
-				}
-			});
-
-		});
+		
         
       </script>
 

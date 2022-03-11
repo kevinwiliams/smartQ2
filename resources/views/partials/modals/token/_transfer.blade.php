@@ -23,6 +23,9 @@
             <div class="modal-body scroll-y mx-5 mx-xl-15 my-5">
             {{-- <div class="alert hide"></div> --}}
             <input type="hidden" name="id">
+            <input type="hidden" name="department_id">
+            <input type="hidden" name="counter_id">
+            <input type="hidden" name="officer_id">
                 <div class="px-7 py-5">
                     <!--begin::Input group-->
                     <div class="mb-10">

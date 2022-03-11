@@ -30,7 +30,7 @@ class TokenDataTable extends DataTable
                 $col = ($model->is_vip == 1)? 'danger' : 'primary';
                 $txt = ($model->status == 1)? 'Active' : 'Inactive';
                 
-                $str = '<div class="badge badge-light-'.$col.' fw-bolder">' .$model->token_no .'</div>';     
+                $str = '<div class="badge badge-light-'.$col.' fw-bolder">' .$model->token_no .'</div><input type=hidden name=token-id value='.$model->id.'>';     
                 return $str;
             })
             ->editColumn('client_id', function (Token $model) {
@@ -39,14 +39,14 @@ class TokenDataTable extends DataTable
                 // return $model->client->firstname;
             })
             ->editColumn('counter_id', function (Token $model) {
-                return $model->counter->name;
+                return $model->counter->name.'<input type=hidden name=counter value='.$model->counter->id.'>';
             })
             ->editColumn('department_id', function (Token $model) {
-                return $model->department->name;
+                return $model->department->name.'<input type=hidden name=dept value='.$model->department->id.'>';
             })
             ->editColumn('user_id', function (Token $model) {
                 $officerName = !empty( $model->officer->firstname)? $model->officer->firstname:'N/A';
-                return $officerName;
+                return $officerName.'<input type=hidden name=officer value='.$model->officer->id.'>';
             })
             ->editColumn('created_by', function (Token $model) {
                 $officerName = !empty( $model->generated_by->firstname)? $model->generated_by->firstname:'N/A';
@@ -60,7 +60,7 @@ class TokenDataTable extends DataTable
             ->addColumn('action', function (Token $model) {
                 return view('pages.admin.token._active-menu', compact('model'));
             })
-            ->rawColumns(['action','token_no','created_at']);
+            ->rawColumns(['action','token_no','created_at', 'department_id', 'counter_id', 'user_id']);
     }
 
     /**
@@ -87,7 +87,17 @@ class TokenDataTable extends DataTable
                     ->minifiedAjax()
                     ->dom('rtip')
                     ->responsive()
-                    ->orderBy(1);
+                    ->orderBy(1)
+                    ->parameters([ 
+                        'columnDefs'=> [
+                            [
+                                'targets'=> 1,
+                                'createdCell' =>  'function (td, cellData, rowData, row, col) {
+                                    $(td).attr("id", rowData["id"]);
+                                }'
+                            ]
+                        ]    
+                    ]);
                     // ->buttons(
                     //     Button::make('create'),
                     //     Button::make('export'),

@@ -8,7 +8,7 @@ var KTTokenActions = function () {
      
         var _table = document.querySelector('#token-table');
         const deleteButtons = _table.querySelectorAll('[data-kt-token-table-filter="delete_row"]');
-        console.log(deleteButtons);
+        // console.log(deleteButtons);
         jQuery.noConflict();
         $.noConflict();
         
@@ -22,8 +22,8 @@ var KTTokenActions = function () {
 
                 // Get token name
                 const tokenNo = parent.querySelectorAll('td')[1].innerText;
-                const tokenID = parent.querySelectorAll('td')[0].innerText;
-
+                const tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
+                // alert(tokenID);
 
                 // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
                 Swal.fire({
@@ -95,7 +95,7 @@ var KTTokenActions = function () {
      
         var _table = document.querySelector('#token-table');
         const completeButtons = _table.querySelectorAll('[data-kt-token-table-filter="complete_row"]');
-        console.log(completeButtons);
+        // console.log(completeButtons);
         jQuery.noConflict();
         $.noConflict();
         
@@ -109,7 +109,7 @@ var KTTokenActions = function () {
 
                 // Get token name
                 const tokenNo = parent.querySelectorAll('td')[1].innerText;
-                const tokenID = parent.querySelectorAll('td')[0].innerText;
+                const tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
 
 
                 // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
@@ -182,7 +182,7 @@ var KTTokenActions = function () {
      
         var _table = document.querySelector('#token-table');
         const cancelButtons = _table.querySelectorAll('[data-kt-token-table-filter="cancel_row"]');
-        console.log(cancelButtons);
+        // console.log(cancelButtons);
         jQuery.noConflict();
         $.noConflict();
         
@@ -196,8 +196,8 @@ var KTTokenActions = function () {
 
                 // Get token name
                 const tokenNo = parent.querySelectorAll('td')[1].innerText;
-                const tokenID = parent.querySelectorAll('td')[0].innerText;
-
+                const tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
+                
 
                 // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
                 Swal.fire({
@@ -269,7 +269,7 @@ var KTTokenActions = function () {
      
         var _table = document.querySelector('#token-table');
         const checkInButtons = _table.querySelectorAll('[data-kt-token-table-filter="checkin_row"]');
-        console.log(checkInButtons);
+        // console.log(checkInButtons);
         jQuery.noConflict();
         $.noConflict();
         
@@ -283,8 +283,8 @@ var KTTokenActions = function () {
 
                 // Get token name
                 const tokenNo = parent.querySelectorAll('td')[1].innerText;
-                const tokenID = parent.querySelectorAll('td')[0].innerText;
-
+                const tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
+                
 
                 // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
                 Swal.fire({
@@ -354,14 +354,7 @@ var KTTokenActions = function () {
 
     var handleTransferRows = () => {
         
-        // modal open with token id
-		$('.modal').on('show.bs.modal', function (event) {
-			var button = $(event.relatedTarget);
-			$('input[name=id]').val(button.data('token-id'));
-
-    	}); 
-
-		// transfer token
+        // transfer token
 		$('body').on('submit', '.transferFrm', function(e){
 			e.preventDefault();
 			
@@ -401,7 +394,7 @@ var KTTokenActions = function () {
             });
 
 		});
-        
+
         var _table = document.querySelector('#token-table');
         const transferButtons = _table.querySelectorAll('[data-kt-token-table-filter="transfer_row"]');
         console.log(transferButtons);
@@ -412,15 +405,46 @@ var KTTokenActions = function () {
             // Delete button on click
             d.addEventListener('click', function (e) {
                 e.preventDefault();
-
+                // $('[name=department_id]').val("0");
+                // alert(window.location.pathname);
                 // Select parent row
                 const parent = e.target.closest('tr');
+                if(parent.querySelectorAll('input[name=dept]').length)
+                    var deptID =  parent.querySelectorAll('input[name=dept]')[0].value;
+                else
+                    var deptID =  parent.querySelectorAll('td')[2].getAttribute("id");
+                console.log(deptID);
+                
+                if(parent.querySelectorAll('input[name=counter]').length)
+                    var counterID =  parent.querySelectorAll('input[name=counter]')[0].value;
+                else
+                    var counterID =  parent.querySelectorAll('td')[3].getAttribute("id");
 
+                console.log(counterID);
+
+                if(parent.querySelectorAll('input[name=officer]').length)
+                    var officerID =  parent.querySelectorAll('input[name=officer]')[0].value;
+                else
+                    var officerID =  parent.querySelectorAll('td')[4].getAttribute("id");
+
+                console.log(officerID);
+
+                // alert(deptID);
                 // Get token name
                 const tokenNo = parent.querySelectorAll('td')[1].innerText;
-                const tokenID = parent.querySelectorAll('td')[0].innerText;
+                if(parent.querySelectorAll('input[name=token-id]').length)
+                    var tokenID =  parent.querySelectorAll('input[name=token-id]')[0].value;
+                else
+                    var tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
+
+                console.log(tokenID);
+
+               
                 // alert(tokenID);
                 $("input[name=id]").val(tokenID);
+                $("input[name=department_id]").val(deptID);
+                $("input[name=counter_id]").val(counterID);
+                $("input[name=officer_id]").val(officerID);
                 
             })
         });
