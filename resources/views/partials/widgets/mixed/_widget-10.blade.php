@@ -10,9 +10,9 @@
         <!--begin::Hidden-->
         <div class="d-flex flex-stack flex-wrap flex-grow-1 px-9 pt-9 pb-3">
             <div class="me-2">
-                <span class="fw-bolder text-gray-800 d-block fs-3">Sales</span>
+                <span class="fw-bolder text-gray-800 d-block fs-3">Service Performance</span>
 
-                <span class="text-gray-400 fw-bold">Oct 8 - Oct 26 {{ date("y") }}</span>
+                <span class="text-gray-400 fw-bold"> {{ date("Y") }}</span>
             </div>
 
             <div class="fw-bolder fs-3 text-{{ $chartColor }}">

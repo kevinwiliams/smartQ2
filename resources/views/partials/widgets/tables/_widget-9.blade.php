@@ -5,10 +5,10 @@
             'user' => array(
                 'image' => 'avatars/150-11.jpg',
                 'name' => 'Ana Simmons',
-                'skills' => 'HTML, JS, ReactJS'
+                'skills' => 'Sales'
             ),
             'company' => array(
-                'name' => 'Intertico',
+                'name' => 'Sales',
                 'skills' => 'Web, UI/UX Design'
             ),
             'progress' => array(
@@ -20,7 +20,7 @@
             'user' => array(
                 'image' => 'avatars/150-3.jpg',
                 'name' => 'Jessie Clarcson',
-                'skills' => 'C#, ASP.NET, MS SQL'
+                'skills' => 'Customer Experience'
             ),
             'company' => array(
                 'name' => 'Agoda',
@@ -50,7 +50,7 @@
             'user' => array(
                 'image' => 'avatars/150-5.jpg',
                 'name' => 'Natali Goodwin',
-                'skills' => 'Python, PostgreSQL, ReactJS'
+                'skills' => 'Repairs'
             ),
             'company' => array(
                 'name' => 'The Hill',
@@ -65,7 +65,7 @@
             'user' => array(
                 'image' => 'avatars/150-6.jpg',
                 'name' => 'Kevin Leonard',
-                'skills' => 'HTML, JS, ReactJS'
+                'skills' => 'Sales'
             ),
             'company' => array(
                 'name' => 'RoadGee',
@@ -84,17 +84,17 @@
     <!--begin::Header-->
     <div class="card-header border-0 pt-5">
         <h3 class="card-title align-items-start flex-column">
-			<span class="card-label fw-bolder fs-3 mb-1">Members Statistics</span>
+			<span class="card-label fw-bolder fs-3 mb-1">Officer Statistics</span>
 
-			<span class="text-muted mt-1 fw-bold fs-7">Over 500 members</span>
+			<span class="text-muted mt-1 fw-bold fs-7">Over 500 customers served today</span>
 		</h3>
 
-        <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Click to add a user">
+        {{-- <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Click to add a user">
             <a href="#" class="btn btn-sm btn-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">
                 {!! theme()->getSvgIcon("icons/duotune/arrows/arr075.svg", "svg-icon-3") !!}
                 New Member
             </a>
-        </div>
+        </div> --}}
     </div>
     <!--end::Header-->
 
@@ -112,10 +112,10 @@
                                 <input class="form-check-input" type="checkbox" value="1"  data-kt-check="true" data-kt-check-target=".widget-9-check"/>
                             </div>
                         </th>
-                        <th class="min-w-150px">Authors</th>
-                        <th class="min-w-140px">Company</th>
-                        <th class="min-w-120px">Progress</th>
-                        <th class="min-w-100px text-end">Actions</th>
+                        <th class="min-w-150px">Officers</th>
+                        {{-- <th class="min-w-140px">Department</th> --}}
+                        <th class="min-w-200px">Progress</th>
+                        {{-- <th class="min-w-100px text-end">Actions</th> --}}
                     </tr>
                 </thead>
                 <!--end::Table head-->
@@ -143,10 +143,10 @@
                                 </div>
                             </td>
 
-                            <td>
+                            {{-- <td>
                                 <a href="#" class="text-dark fw-bolder text-hover-primary d-block fs-6">{{ $row['company']['name'] }}</a>
                                 <span class="text-muted fw-bold text-muted d-block fs-7">{{ $row['company']['skills'] }}</span>
-                            </td>
+                            </td> --}}
 
                             <td class="text-end">
                                 <div class="d-flex flex-column w-100 me-2">
@@ -162,7 +162,7 @@
                                 </div>
                             </td>
 
-                            <td class="text-end">
+                            {{-- <td class="text-end">
                                 <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                     {!! theme()->getSvgIcon("icons/duotune/general/gen019.svg", "svg-icon-3") !!}
                                 </a>
@@ -174,7 +174,7 @@
                                 <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
                                     {!! theme()->getSvgIcon("icons/duotune/general/gen027.svg", "svg-icon-3") !!}
                                 </a>
-                            </td>
+                            </td> --}}
                         </tr>
                     @endforeach
                 </tbody>

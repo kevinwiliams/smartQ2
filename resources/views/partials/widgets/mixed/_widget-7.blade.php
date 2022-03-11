@@ -11,13 +11,13 @@
         <div class="flex-grow-1 card-p pb-0">
             <div class="d-flex flex-stack flex-wrap">
                 <div class="me-2">
-                    <a href="#" class="text-dark text-hover-primary fw-bolder fs-3">Generate Reports</a>
+                    <a href="#" class="text-dark text-hover-primary fw-bolder fs-3">Customers Served</a>
 
-                    <div class="text-muted fs-7 fw-bold">Finance and accounting reports</div>
+                    <div class="text-muted fs-7 fw-bold">Monthly report on visits completed</div>
                 </div>
 
                 <div class="fw-bolder fs-3 text-{{ $chartColor }}">
-                    $24,500
+                    24,500
                 </div>
             </div>
         </div>
