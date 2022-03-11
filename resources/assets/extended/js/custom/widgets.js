@@ -2055,7 +2055,7 @@ var KTWidgets = function () {
 
             var options = {
                 series: [{
-                    name: 'Net Profit',
+                    name: 'Visitors',
                     data: [15, 25, 15, 40, 20, 50]
                 }],
                 chart: {
@@ -2160,7 +2160,7 @@ var KTWidgets = function () {
                     },
                     y: {
                         formatter: function (val) {
-                            return "$" + val + " thousands"
+                            return val + " served"
                         }
                     }
                 },
@@ -2197,11 +2197,11 @@ var KTWidgets = function () {
 
             options = {
                 series: [{
-                    name: 'Net Profit',
+                    name: 'Complete',
                     data: [50, 60, 70, 80, 60, 50, 70, 60]
                 }, {
-                    name: 'Revenue',
-                    data: [50, 60, 70, 80, 60, 50, 70, 60]
+                    name: 'Cancelled',
+                    data: [5, 6, 27, 8, 26, 5, 7, 16]
                 }],
                 chart: {
                     fontFamily: 'inherit',
@@ -2285,7 +2285,7 @@ var KTWidgets = function () {
                     },
                     y: {
                         formatter: function (val) {
-                            return "$" + val + " revenue"
+                            return val + " persons"
                         }
                     }
                 },

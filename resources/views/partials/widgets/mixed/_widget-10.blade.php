@@ -15,9 +15,9 @@
                 <span class="text-gray-400 fw-bold"> {{ date("Y") }}</span>
             </div>
 
-            <div class="fw-bolder fs-3 text-{{ $chartColor }}">
+            {{-- <div class="fw-bolder fs-3 text-{{ $chartColor }}">
                 $15,300
-            </div>
+            </div> --}}
         </div>
         <!--end::Hidden-->
 
