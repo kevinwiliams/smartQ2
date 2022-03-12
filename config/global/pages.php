@@ -229,6 +229,7 @@ return array(
                         'js' => array(
                             'plugins/custom/datatables/datatables.bundle.js',
                             'js/custom/admin/counter/add.js',
+                            'js/custom/admin/counter/delete.js',
                             // 'vendor/datatables/buttons.server-side.js',
                         ),
                     ),
@@ -344,7 +345,7 @@ return array(
                     ),
                 ),
                 'list' => array(
-                    'title'  => 'Users List',
+                    'title'  => 'Roles List',
                     'assets' => array(
                         'custom' => array(
                             'css' => array(

@@ -106,25 +106,25 @@ class User extends Authenticatable implements MustVerifyEmail
 
 
 
-    public function hasRole($role)
-    {  
-        return ($this->user_type == $this->avaliableRoles[ucfirst($role)]);
-    } 
+    // public function hasRole($role)
+    // {  
+    //     return ($this->user_type == $this->avaliableRoles[ucfirst($role)]);
+    // } 
 
-    public function role()
-    {  
-        $roles = array_flip($this->avaliableRoles);
-        return $roles[$this->user_type];
-    } 
+    // public function role()
+    // {  
+    //     $roles = array_flip($this->avaliableRoles);
+    //     return $roles[$this->user_type];
+    // } 
 
-    public function roles($user_type = null)
-    {   
-        $roles = array_flip($this->avaliableRoles);
-        $list = $roles;
-        unset($list['5']); 
+    // public function roles($user_type = null)
+    // {   
+    //     $roles = array_flip($this->avaliableRoles);
+    //     $list = $roles;
+    //     unset($list['5']); 
 
-        return (!empty($user_type)?($roles[$user_type]):$list);
-    } 
+    //     return (!empty($user_type)?($roles[$user_type]):$list);
+    // } 
 
     public function accounts()
     {

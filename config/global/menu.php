@@ -289,8 +289,17 @@ return array(
                     array(
                         'title'      => 'Users',
                         'path'       => 'apps/user-management/users/list',
-                        'bullet'     => '<span class="bullet bullet-dot"></span>',
-                       
+                        'bullet'     => '<span class="bullet bullet-dot"></span>',                       
+                    ),
+                    array(
+                        'title'      => 'Roles',
+                        'path'       => 'apps/user-management/roles',
+                        'bullet'     => '<span class="bullet bullet-dot"></span>',                       
+                    ),
+                    array(
+                        'title'      => 'Permissions',
+                        'path'       => 'apps/user-management/permissions',
+                        'bullet'     => '<span class="bullet bullet-dot"></span>',                       
                     ),
                 ),
             ),

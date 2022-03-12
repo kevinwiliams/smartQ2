@@ -1338,5 +1338,5 @@
 		</div>
 		<!--end::Card-->
 	</div>
-<x-base-layout>		
+</x-base-layout>		
 			

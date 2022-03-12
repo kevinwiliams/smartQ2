@@ -2,7 +2,7 @@
 <x-base-layout>
 	<!--begin::Row-->
 	<div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-5 g-xl-9">
-		<!--begin::Col-->
+		@foreach($roles as $_role)
 		<div class="col-md-4">
 			<!--begin::Card-->
 			<div class="card card-flush h-md-100">
@@ -10,7 +10,7 @@
 				<div class="card-header">
 					<!--begin::Card title-->
 					<div class="card-title">
-						<h2>Administrator</h2>
+						<h2>{{ ucwords($_role->name) }}</h2>
 					</div>
 					<!--end::Card title-->
 				</div>
@@ -18,37 +18,36 @@
 				<!--begin::Card body-->
 				<div class="card-body pt-1">
 					<!--begin::Users-->
-					<div class="fw-bolder text-gray-600 mb-5">Total users with this role: 5</div>
+					<div class="fw-bolder text-gray-600 mb-5">Total users with this role: {{ $_role->users()->count() }}</div>
 					<!--end::Users-->
-					<!--begin::Permissions-->
-					<div class="d-flex flex-column text-gray-600">
+					<!--begin::Permissions-->					
+					<div class="d-flex flex-column text-gray-600">				
+						@foreach(array_slice($_role->permissions->toArray(),0,5) as $_permission)						
 						<div class="d-flex align-items-center py-2">
-						<span class="bullet bg-primary me-3"></span>All Admin Controls</div>
-						<div class="d-flex align-items-center py-2">
-						<span class="bullet bg-primary me-3"></span>View and Edit Financial Summaries</div>
-						<div class="d-flex align-items-center py-2">
-						<span class="bullet bg-primary me-3"></span>Enabled Bulk Reports</div>
-						<div class="d-flex align-items-center py-2">
-						<span class="bullet bg-primary me-3"></span>View and Edit Payouts</div>
-						<div class="d-flex align-items-center py-2">
-						<span class="bullet bg-primary me-3"></span>View and Edit Disputes</div>
+						<span class="bullet bg-primary me-3"></span>{{ $_permission["name"] }}</div>
+						@endforeach	
+						@if($_role->permissions()->count() > 5)
 						<div class='d-flex align-items-center py-2'>
 							<span class='bullet bg-primary me-3'></span>
-							<em>and 7 more...</em>
+							<em>and {{ $_role->permissions()->count() - 5 }} more...</em>
 						</div>
+						@endif
 					</div>
 					<!--end::Permissions-->
 				</div>
 				<!--end::Card body-->
 				<!--begin::Card footer-->
 				<div class="card-footer flex-wrap pt-0">
-					<a href="../../demo1/dist/apps/user-management/roles/view.html" class="btn btn-light btn-active-primary my-1 me-2">View Role</a>
+					<a href="{{ url('apps/user-management/roles/view/' . $_role->id ) }}" class="btn btn-light btn-active-primary my-1 me-2">View Role</a>
 					<button type="button" class="btn btn-light btn-active-light-primary my-1" data-bs-toggle="modal" data-bs-target="#kt_modal_update_role">Edit Role</button>
 				</div>
 				<!--end::Card footer-->
 			</div>
 			<!--end::Card-->
 		</div>
+		@endforeach
+		<!--begin::Col-->
+		
 
 		<!--begin::Add new card-->
 		<div class="col-md-4">
@@ -59,7 +58,7 @@
 					<!--begin::Button-->
 					<button type="button" class="btn btn-clear d-flex flex-column flex-center" data-bs-toggle="modal" data-bs-target="#kt_modal_add_role">
 						<!--begin::Illustration-->
-						<img src="assets/media/illustrations/sketchy-1/4.png" alt="" class="mw-100 mh-150px mb-7" />
+						<img src="{{ asset(theme()->getMediaUrlPath() . 'media/illustrations/sketchy-1/4.png') }}" alt="" class="mw-100 mh-150px mb-7" />
 						<!--end::Illustration-->
 						<!--begin::Label-->
 						<div class="fw-bolder fs-3 text-gray-600 text-hover-primary">Add New Role</div>

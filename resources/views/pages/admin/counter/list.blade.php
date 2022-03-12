@@ -40,9 +40,9 @@
     {{-- Inject Scripts --}}
 @section('scripts')
     {{ $dataTable->scripts() }}
-     {{-- @push('scripts') --}}
+     <!-- {{-- @push('scripts') --}}
      <script src="{{ asset(theme()->getDemo() . '/js/custom/admin/counter/delete.js') }}" type="text/javascript" defer></script>
-     {{-- @endpush --}}
+     {{-- @endpush --}} -->
      <script>
         $(document).ready(function() { //required to fire menu on dt
             var table = $('#counter-table').DataTable();
