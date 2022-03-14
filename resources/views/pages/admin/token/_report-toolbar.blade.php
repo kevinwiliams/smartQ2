@@ -1,7 +1,10 @@
 <!--begin::Card toolbar-->
-<div class="card-toolbar">
+<div class="flex-row-fluid justify-content-end gap-5">
     <!--begin::Toolbar-->
     <div class="d-flex justify-content-end" data-kt-report-table-toolbar="base">
+        <!--begin::Daterangepicker-->
+        <input autocomplete="off" class="form-control form-control-solid w-100 mw-250px mx-5" placeholder="Pick date range" id="kt_token_report_daterangepicker">
+        <!--end::Daterangepicker-->
         <!--begin::Filter-->
         <button type="button" class="btn btn-light-primary me-3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
         <!--begin::Svg Icon | path: icons/duotune/general/gen031.svg-->
@@ -161,3 +164,5 @@
 
 </div>
 <!--end::Card toolbar-->
+<input type="hidden"  name="start_date" id="start_date">
+<input type="hidden"  name="end_date" id="end_date">

@@ -30,8 +30,8 @@
                             counter    : $('[data-kt-report-table-filter="counters"]').val(),
                             department : $('[data-kt-report-table-filter="departments"]').val(),
                             officer    : $('[data-kt-report-table-filter="officers"]').val(),
-                            // start_date : $('#start_date').val(),
-                            // end_date   : $('#end_date').val(),
+                            start_date : $('#start_date').val(),
+                            end_date   : $('#end_date').val(),
                         }
                             },
                 },
@@ -87,11 +87,6 @@
             table.on('draw', function () {
                 KTMenu.createInstances();
                 KTTokenActions.init();
-
-                // setTimeout(() => {
-                //     KTTokenActions.init();
-                // }, 500);
-                // handleFilterDatatable();
             });
         }
     
@@ -146,6 +141,36 @@
             
 
         }); 
+
+       // var reportDateRange = function(element) {
+            var start = moment().subtract(29, "days");
+            var end = moment();
+
+            function cb(start, end) {
+                $("#kt_token_report_daterangepicker").html(start.format("MMMM D, YYYY") + " - " + end.format("MMMM D, YYYY"));
+                $('#start_date').val(start);
+                $('#end_date').val(end);
+                // alert($('#start_date').val());
+                drawDataTable();
+
+            }
+
+            $("#kt_token_report_daterangepicker").daterangepicker({
+                // autoUpdateInput: false,
+                startDate: start,
+                endDate: end,
+                ranges: {
+                "Today": [moment(), moment()],
+                "Yesterday": [moment().subtract(1, "days"), moment().subtract(1, "days")],
+                "Last 7 Days": [moment().subtract(6, "days"), moment()],
+                "Last 30 Days": [moment().subtract(29, "days"), moment()],
+                "This Month": [moment().startOf("month"), moment().endOf("month")],
+                "Last Month": [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")]
+                }
+            }, cb);
+
+            // cb(start, end);
+    //}
     });
 
 
