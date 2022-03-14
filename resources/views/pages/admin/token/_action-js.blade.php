@@ -157,6 +157,9 @@
 
             $("#kt_token_report_daterangepicker").daterangepicker({
                 // autoUpdateInput: false,
+                locale: {
+                    cancelLabel: 'Clear'
+                },
                 startDate: start,
                 endDate: end,
                 ranges: {

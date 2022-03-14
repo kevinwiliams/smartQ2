@@ -223,11 +223,11 @@ return array(
                         'path'   => 'admin/token/current',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
-                    // array(
-                    //     'title'  => 'Manual Token',
-                    //     'path'   => '#',
-                    //     'bullet' => '<span class="bullet bullet-dot"></span>',
-                    // ),
+                    array(
+                        'title'  => 'Active Cards',
+                        'path'   => 'admin/token/current/card',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ),
                     array(
                         'title'      => 'Auto Token',
                         'path'       => 'admin/token/auto',

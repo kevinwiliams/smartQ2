@@ -15,6 +15,8 @@ use App\Models\DisplaySetting;
 use App\Models\TokenSetting;
 use App\Models\SmsSetting;
 use App\Models\SmsHistory;
+use Carbon\Carbon;
+
 use DB, Validator;
 
 class TokenController extends Controller
@@ -450,6 +452,18 @@ class TokenController extends Controller
         
         return $dataTable->render('pages.admin.token.current', compact('counters', 'departments', 'officers', 'waiting'));
     }
+
+    public function currentOfficer()
+    {       
+        @date_default_timezone_set(session('app.timezone'));
+        $tokens = Token::where('status', '0')
+            ->where('user_id', auth()->user()->id )
+            ->orderBy('is_vip', 'DESC')
+            ->orderBy('id', 'ASC')
+            ->get(); 
+
+        return view('pages.admin.token.current-icons', compact('tokens'));
+    } 
 
     public function report(Request $request)
     {  

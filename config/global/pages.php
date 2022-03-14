@@ -177,7 +177,10 @@ return array(
                         ),
                         
                     ),
-                )
+                ),
+                'card' => array(
+                    'title' => 'Active Tokens',
+                ),
             ),
             'auto' => array(
                 'title' => 'Auto Token' 

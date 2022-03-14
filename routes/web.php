@@ -151,6 +151,7 @@ Route::middleware('auth')->group(function () {
 			Route::get('auto',[TokenController::class, 'tokenAutoView']); 
 			Route::post('auto',[TokenController::class, 'tokenAuto']); 
 			Route::get('current',[TokenController::class, 'current']);
+			Route::get('current/card',[TokenController::class, 'currentOfficer']);
 			Route::get('report',[TokenController::class, 'report']);  
 			Route::post('report/data',[TokenController::class, 'reportData']);  
 			Route::get('performance',[TokenController::class, 'performance']);  
