@@ -200,6 +200,13 @@ return array(
             'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/art/art002.svg", "svg-icon-2"),
         ),
 
+        //// Dashboard
+        array(
+            'title' => 'Client',
+            'path'  => 'admin/home',
+            'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/art/art002.svg", "svg-icon-2"),
+        ),
+
         //// Modules
         array(
             'classes' => array('content' => 'pt-8 pb-2'),

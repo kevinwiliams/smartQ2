@@ -97,7 +97,7 @@ Route::middleware('auth')->group(function () {
 	# -----------------------------------------------------------
 	Route::prefix('admin')->namespace('admin')->group(function() { 
 		# home
-		// Route::get('/', [HomeController::class, 'home']);
+		Route::get('home', [HomeController::class, 'index']);
 
 		// // User pages
 		// Route::prefix('user')->group(function () {

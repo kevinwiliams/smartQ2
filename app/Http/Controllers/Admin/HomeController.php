@@ -2,11 +2,22 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Department;
+
 use Illuminate\Http\Request;
 use DB;
 
 class HomeController extends Controller
 {
+    
+    public function index(){
+        // $departments = Department::where('status',1)->pluck('name','id');
+        $departments = Department::where('status', '1')
+        ->orderBy('id', 'ASC')
+        ->get(); 
+
+        return view('pages.admin.home.index', compact('departments'));
+    }
     public function home()
     { 
         @date_default_timezone_set(session('app.timezone'));
