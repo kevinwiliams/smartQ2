@@ -45,8 +45,8 @@ class TokenDataTable extends DataTable
                 return $model->department->name.'<input type=hidden name=dept value='.$model->department->id.'>';
             })
             ->editColumn('user_id', function (Token $model) {
-                $officerName = !empty( $model->officer->firstname)? $model->officer->firstname:'N/A';
-                return $officerName.'<input type=hidden name=officer value='.$model->officer->id.'>';
+                $officerName = !empty( $model->officer)? $model->officer->firstname:'N/A';
+                return $officerName.'<input type=hidden name=officer value='.(!empty( $model->officer) ? $model->officer->id : 0).'>';
             })
             ->editColumn('created_by', function (Token $model) {
                 $officerName = !empty( $model->generated_by->firstname)? $model->generated_by->firstname:'N/A';

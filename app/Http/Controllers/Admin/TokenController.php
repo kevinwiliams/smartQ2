@@ -632,7 +632,7 @@ class TokenController extends Controller
                     'token_id' => $token->id,
                     'department_id' => $token->department->id,
                     'counter_id' => $token->counter->id,
-                    'officer_id' => $token->officer->id,
+                    'officer_id' => (!empty($token->officer) ? $token->officer->id : 0),
                 ];  
             }
         }
