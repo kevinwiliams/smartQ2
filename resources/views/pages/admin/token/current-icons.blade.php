@@ -1,7 +1,7 @@
 <x-base-layout>
    
 <!--begin::Row--> 
-<div class="row g-9">
+<div class="row g-9" id="token-cards">
     {{-- flex-lg-row-fluid me-lg-15 order-2 order-lg-1 mb-10 mb-lg-0 --}}
     <div class="col-md-4 col-lg-12 col-xl-4">
         <!--begin::Col header-->
@@ -21,13 +21,13 @@
                 ?>
                     @if ($sl > 1)
         <!--begin::Card-->
-        <div class="card mb-6 mb-xl-9 {!! (!empty($token->is_vip)? "bg-danger" :"") !!} ">
+        <div class="card mb-6 mb-xl-9 ">
             <!--begin::Card body-->
-            <div class="card-body">
+            <div class="card-body p-5">
                 <!--begin::Header-->
                 <div class="d-flex flex-stack mb-3">
                     <!--begin::Badge-->
-                    <div class="badge badge-lg {!! (!empty($token->is_vip)? "badge-danger" :"badge-light") !!} ">{{$token->token_no}}</div>
+                    <div class="badge badge-lg {!! (!empty($token->is_vip)? "badge-danger" :"badge-primary") !!} ">{{$token->token_no}}</div>
                     <!--end::Badge-->
                     <!--begin::Menu-->
                     <div>
@@ -46,15 +46,14 @@
                             <!--end::Heading-->
                             <!--begin::Menu item-->
                             <div class="menu-item px-3">
-                                <a href="#" class="menu-link px-3">Cancel Ticket</a>
+                                <a href="#" class="menu-link px-3" data-kt-token-cards-filter="cancel_item" data-id="{{$token->id}}" data-token-number="{{$token->token_no}}">Cancel Ticket</a>
                             </div>
                             <!--end::Menu item-->
                             <!--begin::Menu item-->
                             <div class="menu-item px-3">
-                                <a href="#" class="menu-link px-3">Remove</a>
+                                <a href="#" class="menu-link px-3" data-kt-token-cards-filter="delete_item" data-id="{{$token->id}}" data-token-number="{{$token->token_no}}">Remove</a>
                             </div>
                             <!--end::Menu item-->
-                            
                         </div>
                         <!--end::Menu 3-->
                     </div>
@@ -63,7 +62,7 @@
                 <!--end::Header-->
                 <!--begin::Title-->
                 <div class="mb-2">
-                    <a href="#" class="fs-4 fw-bolder mb-1 {!! (!empty($token->is_vip)? "text-gray-100" :"text-gray-900") !!}  text-hover-primary">{{ !empty($token->client)? ($token->client->firstname." ". $token->client->lastname): "Auto Token" }}</a>
+                    <a href="#" class="fs-4 fw-bolder mb-1 text-gray-900 text-hover-primary">{{ !empty($token->client)? ($token->client->firstname." ". $token->client->lastname): "Auto Token" }}</a>
                 </div>
                 <!--end::Title-->
                 <!--begin::Content-->
@@ -134,21 +133,22 @@
         <!--end::Col header-->
         @if (!empty($tokens[0]))
         <!--begin::Card-->
-        <div class="card mb-6 mb-xl-9 {!! (!empty($tokens[0]->is_vip)? "bg-danger" :"bg-success") !!} " 
+        <div class="card mb-6 mb-xl-9 bg-success" 
             data-kt-sticky="true" 
             data-kt-sticky-name="serving-token" 
             {{-- data-kt-sticky-offset="{default: false, lg: '200px'}"  --}}
             data-kt-sticky-width="{lg: '720px', xl: '730px'}" 
             data-kt-sticky-left="auto" 
             data-kt-sticky-top="100px" 
-            data-kt-sticky-animation="false" 
-            data-kt-sticky-zindex="95">
+            data-kt-sticky-animation="true" 
+            data-kt-sticky-zindex="95"
+            >
             <!--begin::Card body-->
-            <div class="card-body">
+            <div class="card-body p-10">
                 <!--begin::Header-->
                 <div class="d-flex flex-stack mb-3 ">
                     <!--begin::Badge-->
-                    <div class="badge badge-lg {!! (!empty($tokens[0]->is_vip)? "badge-light" :"badge-primary") !!}">{{$tokens[0]->token_no}}</div>
+                    <div class="badge badge-lg {!! (!empty($tokens[0]->is_vip)? "badge-danger" :"badge-primary") !!}">{{$tokens[0]->token_no}}</div>
                     <!--end::Badge-->
                     <!--begin::Menu-->
                     <div>
@@ -170,17 +170,17 @@
                         <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-bold w-200px py-3" data-kt-menu="true">
                             <!--begin::Heading-->
                             <div class="menu-item px-3">
-                                <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">Payments</div>
+                                <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">Options</div>
                             </div>
                             <!--end::Heading-->
                             <!--begin::Menu item-->
                             <div class="menu-item px-3">
-                                <a href="#" class="menu-link px-3">Cancel</a>
+                                <a href="#" class="menu-link px-3" data-kt-token-cards-filter="cancel_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">Cancel</a>
                             </div>
                             <!--end::Menu item-->
                                                        <!--begin::Menu item-->
                             <div class="menu-item px-3">
-                                <a href="#" class="menu-link px-3">Close</a>
+                                <a href="#" class="menu-link px-3" data-kt-token-cards-filter="delete_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">Close</a>
                             </div>
                             <!--end::Menu item-->
                                                         
@@ -192,16 +192,15 @@
                 <!--end::Header-->
                 <!--begin::Title-->
                 <div class="mb-2">
-                    <a href="#" class="fs-4 fw-bolder mb-1 text-gray-100 text-hover-primary">Department 1</a>
+                    <a href="#" class="fs-4 fw-bolder mb-1 text-gray-100 text-hover-primary">{{ !empty($tokens[0]->department)?$tokens[0]->department->name:null }}</a>
                 </div>
                 <!--end::Title-->
                 <!--begin::Content-->
                 <div class="mb-13 text-center">
                     <h1 class="fs-2hx fw-bolder mb-5 text-white"> {!! !empty($tokens[0]->client)? ($tokens[0]->client->firstname." ". $tokens[0]->client->lastname): "Auto Token" !!}</h1>
                     <div class="text-gray-100 fw-bold fs-5">
-                        Dept: {{ !empty($tokens[0]->department)?$token->department->name:null }} <br >
-                        Name: {{ !empty($tokens[0]->client)? ($tokens[0]->client->firstname." ". $tokens[0]->client->lastname): null }} <br> 
                         Counter: {{ !empty($tokens[0]->counter)?$tokens[0]->counter->name:null }} <br>
+                        Name: {{ !empty($tokens[0]->client)? ($tokens[0]->client->firstname." ". $tokens[0]->client->lastname): null }} <br> 
                         Phone: {{ $tokens[0]->client_mobile }}<br/> {{ \Illuminate\Support\Str::limit($tokens[0]->client_mobile, 7, $end='****') }} <br>
                         {!! (!empty($tokens[0]->client)?("(<a href='".url("officer/user/view/{$tokens[0]->client->id}")."'>".$tokens[0]->client->firstname." ". $tokens[0]->client->lastname."</a>)"):null) !!}
                          
@@ -222,6 +221,7 @@
                        
                     </div>
                     <!--end::Users-->
+                    <a href="#" class="btn btn-primary er w-50 fs-6 px-8 py-4" data-kt-token-cards-filter="complete_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">Call next customer</a>
                    
                 </div>
                 <!--end::Footer-->
@@ -230,10 +230,15 @@
             
         </div>
         @endif
-        <a href="#" class="btn btn-primary er w-100 fs-6 px-8 py-4" data-bs-toggle="modal" data-bs-target="#kt_modal_new_target">Call next customer</a>
+        
     
     </div>
     
 
 </div>   
+
+@section('scripts')
+
+@include('pages.admin.token._button-actions-cards-js')
+@endsection
 </x-base-layout>
