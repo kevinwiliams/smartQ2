@@ -62,8 +62,10 @@ class Role extends Model implements RoleContract
         return $this->belongsToMany(
             config('permission.models.permission'),
             config('permission.table_names.role_has_permissions'),
-            PermissionRegistrar::$pivotRole,
-            PermissionRegistrar::$pivotPermission
+            'role_id',
+            'permission_id'
+            // PermissionRegistrar::$pivotRole,
+            // PermissionRegistrar::$pivotPermission
         );
     }
 
@@ -76,7 +78,8 @@ class Role extends Model implements RoleContract
             getModelForGuard($this->attributes['guard_name']),
             'model',
             config('permission.table_names.model_has_roles'),
-            PermissionRegistrar::$pivotRole,
+            'role_id',
+            // PermissionRegistrar::$pivotRole,
             config('permission.column_names.model_morph_key')
         );
     }
