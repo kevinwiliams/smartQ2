@@ -265,7 +265,7 @@ return array(
                     ),
                     array(
                         'title'  => 'Performance',
-                        'path'   => '#',
+                        'path'   => 'admin/token/performance',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                 ),

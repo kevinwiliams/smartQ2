@@ -203,6 +203,21 @@ return array(
                     ),
                 ),
             ),
+            'performance' => array(
+                'title' => 'Officer Performance',
+                'assets' => array(
+                    'custom' => array(
+                        'css' => array(
+                            'plugins/custom/datatables/datatables.bundle.css',
+                        ),
+                        'js' => array(
+                            'plugins/custom/datatables/datatables.bundle.js',
+                            // 'js/custom/admin/token/delete.js',
+                            // 'vendor/datatables/buttons.server-side.js',
+                        ),
+                    ),
+                ),
+            ),
         ),
 
         'department' => array(
