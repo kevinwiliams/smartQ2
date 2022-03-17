@@ -15,15 +15,15 @@ class PagesController extends Controller
     public function index()
     {
         // Get view file location from menu config
-        // $view = theme()->getOption('page', 'view');
-
-        // // Check if the page view file exist
-        // if (view()->exists('pages.'.$view)) {
-        //     return view('pages.'.$view);
-        // }
+        $view = theme()->getOption('page', 'view');
         $month = $this->chart_month();
+
+        // Check if the page view file exist
+        if (view()->exists('pages.'.$view)) {
+            return view('pages.'.$view,  compact('month'));
+        }
         // Get the default inner page
-        return view('pages.index', compact('month'));
+        return view('inner');
     }
 
     /**
