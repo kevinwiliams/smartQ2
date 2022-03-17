@@ -17,14 +17,14 @@
                 </div>
 
                 <div class="fw-bolder fs-3 text-{{ $chartColor }}">
-                    24,500
+                    {{$visitors}}
                 </div>
             </div>
         </div>
         <!--end::Stats-->
 
         <!--begin::Chart-->
-        <div class="mixed-widget-7-chart card-rounded-bottom" data-kt-chart-color="{{ $chartColor }}" data-kt-chart-url="{{ route('profits') }}" style="height: {{ $chartHeight }}"></div>
+        <div class="customers-served-chart card-rounded-bottom" data-kt-chart-color="{{ $chartColor }}" data-kt-chart-url="{{ route('profits') }}" style="height: {{ $chartHeight }}"></div>
         <!--end::Chart-->
     </div>
     <!--end::Body-->

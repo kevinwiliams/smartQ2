@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 class PagesController extends Controller
@@ -14,15 +15,15 @@ class PagesController extends Controller
     public function index()
     {
         // Get view file location from menu config
-        $view = theme()->getOption('page', 'view');
+        // $view = theme()->getOption('page', 'view');
 
-        // Check if the page view file exist
-        if (view()->exists('pages.'.$view)) {
-            return view('pages.'.$view);
-        }
-
+        // // Check if the page view file exist
+        // if (view()->exists('pages.'.$view)) {
+        //     return view('pages.'.$view);
+        // }
+        $month = $this->chart_month();
         // Get the default inner page
-        return view('inner');
+        return view('pages.index', compact('month'));
     }
 
     /**
@@ -54,4 +55,24 @@ class PagesController extends Controller
             file_put_contents($file->getPathname(), $bladeFileContent);
         }
     }
+
+     //chart month wise token
+     public function chart_month()
+     {  
+         return DB::select(DB::raw("
+         SELECT 
+            DATE_FORMAT(created_at, '%b') AS date,
+            COUNT(CASE WHEN status = 1 THEN 1 END) as success,
+            COUNT(CASE WHEN status = 2 THEN 1 END) as cancel,
+            COUNT(t.id) AS total
+        FROM 
+            token AS t
+        WHERE  
+            YEAR(created_at) >= YEAR(CURRENT_DATE()) 
+        GROUP BY 
+            date
+        ORDER BY 
+         t.created_at ASC
+         "));
+     }
 }
