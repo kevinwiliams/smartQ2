@@ -14,8 +14,8 @@
                     data-counter-id="{{ $department->counter_id }}"
                     data-user-id="{{ $department->user_id }}"
                     >
-                        <h5>{{ $department->name }}</h5>
-                        <h6>{{ $department->officer }}</h6>
+                    <div class="symbol symbol-60px mb-5"><img src="{{ asset(theme()->getMediaUrlPath() . "svg/misc/infography.svg" ?? '') }}" class="h-50 align-self-center" alt=""/>
+                        <div class="fs-5 fw-bolder mb-0 capitalize">{{ $department->name }}</div><div class="fs-7 fw-bold text-gray-100">{{ $department->officer }}</div>
                 </button>  
             </div>
             @endforeach  
@@ -23,14 +23,16 @@
         @else
             <!-- Without Mobile No -->
             @foreach ($departmentList as $department )
-              {{ Form::open(['url' => 'admin/token/auto', 'class' => 'AutoFrm p-1 m-1 btn btn-primary capitalize text-center']) }} 
+              {{ Form::open(['url' => 'admin/token/auto', 'class' => 'AutoFrm p-1 m-1 btn btn-primary capitalize ']) }} 
                 <input type="hidden" name="department_id" value="{{ $department->department_id }}">
                 <input type="hidden" name="counter_id" value="{{ $department->counter_id }}">
-                <input type="hidden" name="user_id" value="{{ $department->user_id }}"><button type="submit" 
-                class="p-1 m-5 btn btn-primary capitalize text-center"
+                <input type="hidden" name="user_id" value="{{ $department->user_id }}">
+                <button type="submit" 
+                class="p-1 m-5 btn btn-primary  text-center"
                 style="min-width: 15vw;white-space: pre-wrap;box-shadow:0px 0px 0px 2px#<?= substr(dechex(crc32($department->name)), 0, 6); ?>" 
-                ><div class="symbol symbol-60px mb-5"><img src="{{ asset(theme()->getMediaUrlPath() . "svg/misc/infography.svg" ?? '') }}" class="h-50 align-self-center" alt=""/>
-                <div class="fs-5 fw-bolder mb-0">{{ $department->name }}</div><div class="fs-7 fw-bold text-gray-100">{{ $department->officer }}</div>
+                >
+                <div class="symbol symbol-60px mb-5"><img src="{{ asset(theme()->getMediaUrlPath() . "svg/misc/infography.svg" ?? '') }}" class="h-50 align-self-center" alt=""/>
+                <div class="fs-5 fw-bolder mb-0 capitalize">{{ $department->name }}</div><div class="fs-7 fw-bold text-gray-100">{{ $department->officer }}</div>
 </button>
             {{ Form::close() }}
 @endforeach <!--Ends of Without Mobile No -->@endif</div>  
@@ -69,7 +71,7 @@
 
 @section('scripts')
 <script>
-        $('.modal').on('show.bs.modal', function (event) {
+    $('.modal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         $('input[name=department_id]').val(button.data('department-id'));
         $('input[name=counter_id]').val(button.data('counter-id'));
