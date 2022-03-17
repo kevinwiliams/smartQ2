@@ -17,10 +17,11 @@ class PagesController extends Controller
         // Get view file location from menu config
         $view = theme()->getOption('page', 'view');
         $month = $this->chart_month();
+        $performance = $this->userPerformance();
 
         // Check if the page view file exist
         if (view()->exists('pages.'.$view)) {
-            return view('pages.'.$view,  compact('month'));
+            return view('pages.'.$view,  compact('month', 'performance'));
         }
         // Get the default inner page
         return view('inner');
@@ -75,4 +76,30 @@ class PagesController extends Controller
          t.created_at ASC
          "));
      }
+
+     public function userPerformance()
+    { 
+        return DB::table("user AS u")
+            ->select(DB::raw("
+                u.id,
+                CONCAT_WS(' ', u.firstname, u.lastname) AS username,
+                d.name AS department,
+                u.photo,
+                COUNT(CASE WHEN t.status='0' THEN t.id END) AS pending,
+                COUNT(CASE WHEN t.status='1' THEN t.id END) AS complete,
+                COUNT(CASE WHEN t.status='2' THEN t.id END) AS stop,
+                COUNT(t.id) AS total 
+            "))
+            ->leftJoin("department as d", function($join){
+                $join->on("u.department_id", "=", "d.id");
+            })
+            ->leftJoin("token AS t", function($join) {
+                $join->on("t.user_id", "=", "u.id");
+                // $join->whereDate("t.created_at", "=", date("Y-m-d"));
+            })
+            ->whereNotNull('d.name')
+            ->whereIn('u.user_type', [1])
+            ->groupBy("u.id")
+            ->get(); 
+    } 
 }

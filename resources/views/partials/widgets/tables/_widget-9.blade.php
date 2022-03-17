@@ -89,32 +89,28 @@
 			<span class="text-muted mt-1 fw-bold fs-7">Over 500 customers served today</span>
 		</h3>
 
-        <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Click to add a user">
+        {{-- <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Click to add a user">
             <a href="#" class="btn btn-sm btn-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">
                 {!! theme()->getSvgIcon("icons/duotune/arrows/arr075.svg", "svg-icon-3") !!}
                 New Member
             </a>
-        </div>
+        </div> --}}
     </div>
     <!--end::Header-->
-
+   
 	<!--begin::Body-->
 	<div class="card-body py-3">
         <!--begin::Table container-->
         <div class="table-responsive">
             <!--begin::Table-->
-            <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+            <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4" id="perfSummary">
                 <!--begin::Table head-->
-                <thead>
+                <thead class="sticky-top" >
                     <tr class="fw-bolder text-muted">
-                        <th class="w-25px">
-                            <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                <input class="form-check-input" type="checkbox" value="1"  data-kt-check="true" data-kt-check-target=".widget-9-check"/>
-                            </div>
-                        </th>
-                        <th class="min-w-150px">Officers</th>
-                        <th class="min-w-140px">Avg Wait Time</th>
-                        <th class="min-w-200px">Progress</th>
+                    
+                        <th class="sticky-top min-w-150px">Officers</th>
+                        <th class="sticky-top min-w-140px">Avg Completion Time</th>
+                        <th class="sticky-top min-w-150px">Progress</th>
                         {{-- <th class="min-w-100px text-end">Actions</th> --}}
                     </tr>
                 </thead>
@@ -122,42 +118,50 @@
 
                 <!--begin::Table body-->
                 <tbody>
-                    @foreach($tableRows as $row)
+                    {{-- @foreach($tableRows as $row) --}}
+                     @if (!empty($performance))   
+                        @foreach($performance as $user)
+                        <?php
+                            $pending = number_format(((($user->pending?$user->pending:0)/($user->total?$user->total:1))*100),1);
+                            $complete = number_format(((($user->complete?$user->complete:0)/($user->total?$user->total:1))*100),1);
+                            $stop = number_format(((($user->stop?$user->stop:0)/($user->total?$user->total:1))*100),1);
+                            $max = $complete + $pending;
+                            $color = ($complete >= 50) ? "primary" : "warning";
+                            $color = ($complete > 70) ? "success" : $color;
+                            $color = ($complete < 20) ? "danger" : $color;
+                            $photo = (!empty($user->photo))? $user->photo : asset(theme()->getMediaUrlPath() . 'avatars/blank.png');
+                        ?>
                         <tr>
-                            <td>
-                                <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                    <input class="form-check-input widget-9-check" type="checkbox" value="1"/>
-                                </div>
-                            </td>
+                           
 
                             <td>
                                 <div class="d-flex align-items-center">
                                     <div class="symbol symbol-45px me-5">
-                                        <img src="{{ asset(theme()->getMediaUrlPath() . $row['user']['image']) }}" alt=""/>
+                                        <img src="{{  $photo }}" alt=""/>
                                     </div>
                                     <div class="d-flex justify-content-start flex-column">
-                                        <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">{{ $row['user']['name'] }}</a>
+                                        <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">{{ $user->username }}</a>
 
-                                        <span class="text-muted fw-bold text-muted d-block fs-7">{{ $row['user']['skills'] }}</span>
+                                        <span class="text-muted fw-bold text-muted d-block fs-7">{{ $user->department }}</span>
                                     </div>
                                 </div>
                             </td>
 
                             <td>
-                                <a href="#" class="text-dark fw-bolder text-hover-primary d-block fs-6">{{ $row['company']['name'] }}</a>
-                                <span class="text-muted fw-bold text-muted d-block fs-7">{{ $row['company']['skills'] }}</span>
+                                <a href="#" class="text-dark fw-bolder text-hover-primary d-block fs-6">{{ __('5 mins') }}</a>
+                                <span class="text-muted fw-bold text-muted d-block fs-7">{{ __() }}</span>
                             </td>
 
                             <td class="text-end">
                                 <div class="d-flex flex-column w-100 me-2">
                                     <div class="d-flex flex-stack mb-2">
                                         <span class="text-muted me-2 fs-7 fw-bold">
-                                            {{ $row['progress']['value'] }}%
+                                            {{ $complete }}%
                                         </span>
                                     </div>
 
                                     <div class="progress h-6px w-100">
-                                        <div class="progress-bar bg-{{ $row['progress']['color'] }}" role="progressbar" style="width: {{ $row['progress']['value'] }}%" aria-valuenow="{{ $row['progress']['value'] }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar bg-{{ $color }}" role="progressbar" style="width: {{ $complete }}%" aria-valuenow="{{ $complete }}" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
                             </td>
@@ -176,7 +180,8 @@
                                 </a>
                             </td> --}}
                         </tr>
-                    @endforeach
+                        @endforeach
+                    @endif
                 </tbody>
                 <!--end::Table body-->
             </table>

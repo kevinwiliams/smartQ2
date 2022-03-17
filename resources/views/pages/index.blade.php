@@ -36,7 +36,7 @@
 
         <!--begin::Col-->
         <div class="col-xl-8">
-            {{ theme()->getView('partials/widgets/tables/_widget-9', array('class' => 'card-xxl-stretch mb-5 mb-xl-8')) }}
+            {{ theme()->getView('partials/widgets/tables/_widget-9', array('class' => 'card-xxl-stretch mb-5 mb-xl-8', 'performance'=> $performance)) }}
         </div>
         <!--end::Col-->
     </div>
@@ -81,6 +81,15 @@
     <!--end::Row-->
 @section('scripts')
 <script>
+   $(document).ready(function() {
+    $('#perfSummary').DataTable( {
+        "scrollY":        "350px",
+        "scrollCollapse": true,
+        "paging":         false,
+        "info":     false
+        // "dom" : ""
+    } );
+} );
     // var initMixedWidget7 = function() {
         var charts = document.querySelectorAll('.customers-served-chart');
 

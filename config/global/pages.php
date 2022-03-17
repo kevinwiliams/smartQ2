@@ -12,7 +12,7 @@ return array(
         ),
         'assets'      => array(
             'custom' => array(
-                'js' => array(),
+                'js' => array('plugins/custom/datatables/datatables.bundle.js',),
             ),
         ),
     ),
