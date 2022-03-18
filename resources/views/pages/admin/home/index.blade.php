@@ -49,7 +49,7 @@
                                 <!--begin::Col-->
                                 <div class="col-lg-6">
                                     <!--begin::Option-->
-                                    <input type="radio" class="btn-check" name="account_type" value="personal" checked="checked" id="kt_create_account_form_account_type_personal" />
+                                    <input type="radio" class="btn-check" name="alert_type" value="email" checked="checked" id="kt_create_account_form_account_type_personal" />
                                     <label class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center mb-10" for="kt_create_account_form_account_type_personal">
                                         <!--begin::Svg Icon | path: icons/duotune/communication/com005.svg-->
                                         {!! theme()->getSvgIcon("icons/duotune/communication/com011.svg", "svg-icon-3x me-5") !!}
@@ -67,7 +67,7 @@
                                 <!--begin::Col-->
                                 <div class="col-lg-6">
                                     <!--begin::Option-->
-                                    <input type="radio" class="btn-check" name="account_type" value="corporate" id="kt_create_account_form_account_type_corporate" />
+                                    <input type="radio" class="btn-check" name="alert_type" value="sms" id="kt_create_account_form_account_type_corporate" />
                                     <label class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center" for="kt_create_account_form_account_type_corporate">
                                         <!--begin::Svg Icon | path: icons/duotune/finance/fin006.svg-->
                                         {!! theme()->getSvgIcon("icons/duotune/communication/com003.svg", "svg-icon-3x me-5") !!}
@@ -84,6 +84,79 @@
                                 <!--end::Col-->
                             </div>
                             <!--end::Row-->
+
+                             <!--begin::Row-->
+                             <div class="row">
+                                <!--begin::Col-->
+                                <div class="col-lg-12 text-center">
+                                    @if($smsalert)
+                                    <div class="col-md-12 card p-3" id="phoneCard">                            
+                                        <span class="text-muted fw-bold fs-6 pb-3">What number should we text to alert you?</span>
+                                        <div class="form-group">
+                                          
+                                            <input type="phone" class="form-control form-control-user" id="phone" aria-describedby="phoneHelp" name="phone" placeholder="(555)555-1234 " value="{{ old('phone', auth()->user()->mobile) }}" autocomplete="off">
+            
+                                            <span class="text-danger">{{ $errors->first('phone') }}</span>
+                                        </div>
+                                        <div class="d-flex flex-stack pt-3">
+                                            <div class="mr-2">
+                                                {{-- <button id="btnConfirm" class="button btn btn-primary">Next</button> --}}
+                                                <button id="btnConfirm" type="button" class="btn btn-lg btn-primary">Next
+                                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
+                                                    {!! theme()->getSvgIcon("icons/duotune/arrows/arr064.svg", "svg-icon-4 ms-1 me-0") !!}
+                                                    <!--end::Svg Icon--></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 card p-3" id="codeCard" style="display: none;">
+                                        <span>Confirm the SMS code we sent below:</span>
+                                        <input type="text" class="form-control form-control-user" id="code" aria-describedby="codeHelp" name="code" placeholder="555555" value="{{ old('code') }}" autocomplete="off">
+            
+                                        <span>It might take a few minutes, please be patient</span>
+                                        
+                                        <div class="form-group">
+                                            <button id="activate-step-2" class=" button btn btn-primary mr-3">Next</button>
+                                            <button class=" button btn btn-warning">Cancel</button>
+                                        </div>
+                                    </div>
+                                    @else
+                                    <div class="col-md-12 card p-3" id="phoneCard">                            
+                                        <span class="text-muted fw-bold fs-6 pb-3">We'll send a password to your email</span>
+                                        <div class="form-group">
+                                            <span>{{ $maskedemail }}</span>
+                                            <input type="hidden" id="phone" name="phone" value="{{ $maskedemail }}">
+                                        </div>
+                                        {{-- <button id="btnConfirm" class="button btn btn-primary">Next</button> --}}
+                                        <div class="d-flex flex-stack pt-3">
+                                            <div class="my-2">
+                                                {{-- <button id="btnConfirm" class="button btn btn-primary">Next</button> --}}
+                                                <button id="btnConfirm" type="button" class="btn btn-lg btn-primary">Next
+                                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
+                                                    {!! theme()->getSvgIcon("icons/duotune/arrows/arr064.svg", "svg-icon-4 ms-1 me-0") !!}
+                                                    <!--end::Svg Icon--></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 card p-3" id="codeCard" style="display: none;">
+                                        <span>Confirm the OTP code we sent below:</span>
+                                        <input type="text" class="form-control form-control-user" id="code" aria-describedby="codeHelp" name="code" placeholder="555555" value="{{ old('code') }}" autocomplete="off">
+            
+                                        <span>It might take a few minutes, please be patient</span>
+                                        
+                                        <div class="form-group">
+                                            <button id="activate-step-2" class=" button btn btn-primary mr-3">Next</button>
+                                            <button class=" button btn btn-warning">Cancel</button>
+                                        </div>
+                                    </div>
+            
+                                    @endif
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Row-->
+
+
+
                         </div>
                         <!--end::Input group-->
                     </div>
@@ -203,7 +276,8 @@
                                     <div class="fw-bold">
                                         <h4 class="text-gray-900 fw-bolder">You're token number is A1001</h4>
                                         <div class="fs-6 text-gray-700">You are number 1 in the line. 
-                                        <a href="#" class="fw-bolder">Create Team Platform</a></div>
+                                        {{-- <a href="#" class="fw-bolder">Create Team Platform</a> --}}
+                                        </div>
                                     </div>
                                     <!--end::Content-->
                                 </div>

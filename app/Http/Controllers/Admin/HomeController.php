@@ -3,6 +3,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Department;
+use App\Models\DisplaySetting;
+
 
 use Illuminate\Http\Request;
 use DB;
@@ -16,8 +18,22 @@ class HomeController extends Controller
         ->orderBy('id', 'ASC')
         ->get(); 
 
-        return view('pages.admin.home.index', compact('departments'));
+        $display = DisplaySetting::first();
+
+        $smsalert = $display->sms_alert;
+
+        $maskedemail = $this->maskEmail(auth()->user()->email);
+
+        return view('pages.admin.home.index', compact('departments', 'smsalert', 'maskedemail'));
     }
+
+    function maskEmail($x)
+    {
+        $arr = explode("@", trim($x));
+
+        return $arr[0][0] . str_repeat("*", strlen($arr[0])  - 2) . $arr[0][strlen($arr[0]) - 1] . "@" . $arr[1];
+    }
+    
     public function home()
     { 
         @date_default_timezone_set(session('app.timezone'));
