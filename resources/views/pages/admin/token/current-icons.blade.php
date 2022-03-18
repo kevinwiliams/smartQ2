@@ -78,8 +78,8 @@
                 <div class="d-flex flex-stack flex-wrapr">
                     <!--begin::Users-->
                     <div class="symbol-group symbol-hover my-1">
-                        <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="" data-bs-original-title="Melody Macy">
-                            <img alt="Pic" src="{{ asset(theme()->getMediaUrlPath() . 'avatars/300-2.jpg') }}">
+                        <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="" data-bs-original-title="{!! !empty($token->client)? ($token->client->firstname." ". $token->client->lastname): "Auto Token" !!}">
+                            <img alt="Pic" src="{{ !empty($token->client)?$token->client->photo : asset(theme()->getMediaUrlPath() . 'avatars/blank.png') }}">
                             
                         </div>
                         
@@ -215,8 +215,10 @@
                 <div class="d-flex flex-stack flex-wrapr">
                     <!--begin::Users-->
                     <div class="symbol-group symbol-hover my-1">
-                        <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="" data-bs-original-title="Perry Matthew">
-                            <span class="symbol-label bg-success text-inverse-success fw-bolder">R</span>
+                        <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="" data-bs-original-title="{!! !empty($tokens[0]->client)? ($tokens[0]->client->firstname." ". $tokens[0]->client->lastname): "Auto Token" !!}">
+                            {{-- <span class="symbol-label bg-success text-inverse-success fw-bolder">R</span> --}}
+                            <img alt="Pic" src="{{ !empty($tokens[0]->client)?$tokens[0]->client->photo : asset(theme()->getMediaUrlPath() . 'avatars/blank.png') }}">
+
                         </div>
                        
                     </div>
