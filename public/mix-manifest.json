@@ -24,6 +24,7 @@
     "/demo1/js/custom/admin/department/add.js": "/demo1/js/custom/admin/department/add.js",
     "/demo1/js/custom/admin/department/delete.js": "/demo1/js/custom/admin/department/delete.js",
     "/demo1/js/custom/admin/department/edit.js": "/demo1/js/custom/admin/department/edit.js",
+    "/demo1/js/custom/admin/home/client-token.js": "/demo1/js/custom/admin/home/client-token.js",
     "/demo1/js/custom/admin/token/add.js": "/demo1/js/custom/admin/token/add.js",
     "/demo1/js/custom/admin/token/delete.js": "/demo1/js/custom/admin/token/delete.js",
     "/demo1/js/custom/admin/token/list.js": "/demo1/js/custom/admin/token/list.js",

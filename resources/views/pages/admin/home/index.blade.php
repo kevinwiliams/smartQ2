@@ -4,7 +4,7 @@
     <!--begin::Card body-->
     <div class="card-body">
         <!--begin::Stepper-->
-        <div class="stepper stepper-links d-flex flex-column pt-15" id="kt_create_account_stepper">
+        <div class="stepper stepper-links d-flex flex-column pt-15" id="kt_create_token_stepper">
             <!--begin::Nav-->
 			<div class="stepper-nav mb-5">
                 <!--begin::Step 1-->
@@ -25,7 +25,7 @@
             </div>
             <!--end::Nav-->
             <!--begin::Form-->
-			<form class="mx-auto mw-600px w-100 pt-15 pb-10" novalidate="novalidate" id="kt_create_account_form">
+			<form class="mx-auto mw-600px w-100 pt-15 pb-10" novalidate="novalidate" id="kt_create_token_form">
                 <!--begin::Step 1-->
                 <div class="current" data-kt-stepper-element="content">
                     <!--begin::Wrapper-->
@@ -49,8 +49,8 @@
                                 <!--begin::Col-->
                                 <div class="col-lg-6">
                                     <!--begin::Option-->
-                                    <input type="radio" class="btn-check" name="alert_type" value="email" checked="checked" id="kt_create_account_form_account_type_personal" />
-                                    <label class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center mb-10" for="kt_create_account_form_account_type_personal">
+                                    <input type="radio" class="btn-check" name="alert_type" value="email" id="alert_type_email" />
+                                    <label class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center mb-10" for="alert_type_email">
                                         <!--begin::Svg Icon | path: icons/duotune/communication/com005.svg-->
                                         {!! theme()->getSvgIcon("icons/duotune/communication/com011.svg", "svg-icon-3x me-5") !!}
                                         <!--end::Svg Icon-->
@@ -67,8 +67,8 @@
                                 <!--begin::Col-->
                                 <div class="col-lg-6">
                                     <!--begin::Option-->
-                                    <input type="radio" class="btn-check" name="alert_type" value="sms" id="kt_create_account_form_account_type_corporate" />
-                                    <label class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center" for="kt_create_account_form_account_type_corporate">
+                                    <input type="radio" class="btn-check" name="alert_type" value="sms" id="alert_type_sms" />
+                                    <label class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center" for="alert_type_sms">
                                         <!--begin::Svg Icon | path: icons/duotune/finance/fin006.svg-->
                                         {!! theme()->getSvgIcon("icons/duotune/communication/com003.svg", "svg-icon-3x me-5") !!}
                                         <!--end::Svg Icon-->
@@ -89,8 +89,8 @@
                              <div class="row">
                                 <!--begin::Col-->
                                 <div class="col-lg-12 text-center">
-                                    @if($smsalert)
-                                    <div class="col-md-12 card p-3" id="phoneCard">                            
+                                    {{-- @if($smsalert) --}}
+                                    <div class="col-md-12 card p-3" id="phoneCard" name="smsFld" style="display: none;>                            
                                         <span class="text-muted fw-bold fs-6 pb-3">What number should we text to alert you?</span>
                                         <div class="form-group">
                                           
@@ -108,19 +108,19 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-12 card p-3" id="codeCard" style="display: none;">
+                                    <div class="col-md-12 card p-3" id="codeCard"  name="smsFldCode" style="display: none;">
                                         <span>Confirm the SMS code we sent below:</span>
                                         <input type="text" class="form-control form-control-user" id="code" aria-describedby="codeHelp" name="code" placeholder="555555" value="{{ old('code') }}" autocomplete="off">
             
                                         <span>It might take a few minutes, please be patient</span>
                                         
                                         <div class="form-group">
-                                            <button id="activate-step-2" class=" button btn btn-primary mr-3">Next</button>
+                                            <button type="button" id="activate-step-2" class=" button btn btn-primary mr-3">Next</button>
                                             <button class=" button btn btn-warning">Cancel</button>
                                         </div>
                                     </div>
-                                    @else
-                                    <div class="col-md-12 card p-3" id="phoneCard">                            
+                                    {{-- @else --}}
+                                    <div class="col-md-12 card p-3" id="emailCard" name="emailFld" style="display: none;>                            
                                         <span class="text-muted fw-bold fs-6 pb-3">We'll send a password to your email</span>
                                         <div class="form-group">
                                             <span>{{ $maskedemail }}</span>
@@ -137,19 +137,18 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-12 card p-3" id="codeCard" style="display: none;">
+                                    <div class="col-md-12 card p-3" id="eCodeCard" name="emailFldCode" style="display: none;">
                                         <span>Confirm the OTP code we sent below:</span>
                                         <input type="text" class="form-control form-control-user" id="code" aria-describedby="codeHelp" name="code" placeholder="555555" value="{{ old('code') }}" autocomplete="off">
             
                                         <span>It might take a few minutes, please be patient</span>
                                         
                                         <div class="form-group">
-                                            <button id="activate-step-2" class=" button btn btn-primary mr-3">Next</button>
+                                            <button type="button" id="activate-step-2" class=" button btn btn-primary mr-3">Next</button>
                                             <button class=" button btn btn-warning">Cancel</button>
                                         </div>
                                     </div>
-            
-                                    @endif
+                                    {{-- @endif --}}
                                 </div>
                                 <!--end::Col-->
                             </div>
@@ -226,6 +225,8 @@
                                         <!--end::Option-->
                                         @endforeach
                                         @endif
+                            <span>Potential wait time <i class="fa fa-clock"></i>&nbsp;<span id="span_wait"></span></span>
+
                                     </div>
                                     <!--end::Options-->
                                 </div>
@@ -327,4 +328,212 @@
     <!--end::Card body-->
 </div>
 <!--end::Card-->
+@section('scripts')
+<script>
+$(function () {
+    $('[data-kt-stepper-action="next"]').addClass('disabled');
+
+    $('[name="alert_type"]').on('click', function(e) {
+        var alrtType = e.target.value;
+        console.log(e);
+
+        if(alrtType == 'email'){
+            $('[name="emailFld"]').show();
+            $('[name="smsFld"]').hide();
+            $('[name="smsFldCode"]').hide();
+
+        }else{
+            $('[name="smsFld"]').show();
+            $('[name="emailFld"]').hide();
+            $('[name="emailFldCode"]').hide();
+        }
+    });
+
+        $('#btnConfirm').on('click', function(e) {
+            var phone = $("#phone").val();
+
+            if (phone == "") {
+
+                Swal.fire({
+                    text: "Enter your contact number",
+                    icon: "error",
+                    buttonsStyling: false,
+                    customClass: {
+                        confirmButton: "btn btn-light"
+                    }
+                });
+
+                return;
+            }
+
+            var _smsalert = '{{ $smsalert }}';
+            var msg = ""
+            if (parseInt(_smsalert) == 1){
+                msg = "My number is: " + phone;
+            }else{
+                msg = "My email is: " + phone;
+            }
+            
+            Swal.fire({
+                html: msg+ "<br>Are you sure?.",
+                icon: "warning",
+                buttonsStyling: false,
+                confirmButtonText: "Ok, got it!",
+                customClass: {
+                    confirmButton: "btn btn-light"
+                }
+            }).then(function (value) {
+                if(value.isConfirmed) {
+                    $.ajax({
+                        type: 'post',
+                        url: '{{ URL::to("admin/home/confirmMobile") }}',
+                        type:'POST',
+                        dataType: 'json',
+                        data: {
+                            'phone' : phone,
+                            '_token':'<?php echo csrf_token() ?>'
+                        },
+                        success: function(data) {
+                            $("#phoneCard").hide();
+                            $("#codeCard").show();
+                        }
+                    });
+
+                    
+                    }
+
+                    
+            });
+
+            
+            
+        });
+
+        $('#activate-step-2').on('click', function(e) {
+            var phone = $("#phone").val();
+            var code = $("#code").val();
+
+            if (phone == "") {
+                Swal.fire({
+                    text: 'Enter your contact number',
+                    icon: 'error',
+                    buttonsStyling: false,
+                    customClass: {
+                        confirmButton: "btn btn-light"
+                    }
+                });
+                return;
+            }
+
+            if (code == "") {
+                Swal.fire({
+                    text: 'Enter your OTP code',
+                    icon: 'error',
+                    buttonsStyling: false,
+                    customClass: {
+                        confirmButton: "btn btn-light"
+                    }
+                });
+
+                return;
+            }
+                $.ajax({
+                type: 'post',
+                url: '{{ URL::to("admin/home/confirmOTP") }}',
+                type:'POST',
+                dataType: 'json',
+                data: {
+                    'phone' : phone,
+                    'code' : code,
+                    '_token':'<?php echo csrf_token() ?>'
+                },
+                success: function(data) {
+                    console.log(data);
+                    if(data.status == true){
+                        $('[data-kt-stepper-action="next"]').removeClass('disabled');
+                        $('[data-kt-stepper-action="next"]').trigger('click');
+                        $(this).remove();
+                    }else{
+                        Swal.fire({
+                            text: 'Invalid Code',
+                            icon: 'error'
+                        });
+                    }
+                                             
+                }
+            });
+        
+            $(this).remove();
+        });
+
+
+        $('#activate-step-3').on('click', function(e) {
+            var dept = $("#department_id").find(':checked').val();            
+
+            if (dept == "") {
+                Swal.fire({
+                    title: 'Select a department',
+                    icon: 'error'
+                });
+                return;
+            }
+
+            $.ajax({
+                type: 'post',
+                url: '{{ URL::to("client/token/client") }}',
+                type:'POST',
+                dataType: 'json',
+                data: {
+                    'department_id' : dept,
+                    '_token':'<?php echo csrf_token() ?>'
+                },
+                success: function(data) {
+                    if(data.status == true){
+                        var msg = "You are #" + data.position + " in the line";
+                        $("#tkn_position").text(msg);
+                        $("#tkn_number").text(data.token.token_no);
+                        // $('ul.setup-panel li a:eq(2)').removeClass('disabled');
+                        // $('ul.setup-panel li a[href="#step-3"]').trigger('click');  
+                    }
+                                             
+                }
+            });
+
+        
+            //$(this).remove();
+        });
+
+        $('input:radio[name=department_id]').on('click', function(e) {
+            console.log(e);
+            var dept = $(this).find(":checked").val();
+            var dept = e.target.value;
+            if (phone == "") {
+                Swal.fire({
+                    title: 'Enter your contact number',
+                    icon: 'error'
+                });
+                return;
+            }
+ 
+            $.ajax({
+                type: 'post',
+                url: '{{ URL::to("admin/home/getwaittime") }}',
+                type:'POST',
+                dataType: 'json',
+                data: {
+                    'id' : dept,
+                    '_token':'<?php echo csrf_token() ?>'
+                },
+                success: function(data) {
+                    console.log(data);
+                  $("#span_wait").text(data);                                             
+                }
+            });
+
+        });
+    
+});
+</script>    
+@endsection
 </x-base-layout>
+

@@ -99,6 +99,9 @@ Route::middleware('auth')->group(function () {
 		# home
 		Route::get('home/home', [HomeController::class, 'index']);
 		Route::get('home', [HomeController::class, 'home']);
+		Route::post('home/confirmMobile', [HomeController::class, 'confirmMobile']);
+		Route::post('home/confirmOTP', [HomeController::class, 'confirmOTP']);
+		Route::post('home/getwaittime', [HomeController::class, 'getwaittime']);
 
 		// // User pages
 		// Route::prefix('user')->group(function () {

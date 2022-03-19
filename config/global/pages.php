@@ -12,7 +12,9 @@ return array(
         ),
         'assets'      => array(
             'custom' => array(
-                'js' => array('plugins/custom/datatables/datatables.bundle.js',),
+                'js' => array(
+                    'plugins/custom/datatables/datatables.bundle.js',
+                ),
             ),
         ),
     ),
@@ -260,6 +262,21 @@ return array(
                 'title' => 'Display Settings'
             )
         ),
+        'home' => array(
+            'title' => 'Home',
+       
+            'home' => array(
+                'title' => 'Client Token',
+                'assets' => array(
+                    'custom' => array(
+                        'js'  => array(
+                            'js/custom/admin/home/client-token.js',
+                        ),
+                        
+                    ),
+                ),
+            )
+        )
         
     ),
    
