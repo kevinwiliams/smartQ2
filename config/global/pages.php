@@ -12,7 +12,9 @@ return array(
         ),
         'assets'      => array(
             'custom' => array(
-                'js' => array('plugins/custom/datatables/datatables.bundle.js',),
+                'js' => array(
+                    'plugins/custom/datatables/datatables.bundle.js',
+                ),
             ),
         ),
     ),
@@ -173,6 +175,7 @@ return array(
                         'js'  => array(
                             'plugins/custom/datatables/datatables.bundle.js',
                             'js/custom/admin/token/add.js',
+                            'js/custom/admin/token/transfer.js',
                             // 'js/custom/admin/token/delete.js',
                         ),
                         
@@ -197,7 +200,7 @@ return array(
                         ),
                         'js' => array(
                             'plugins/custom/datatables/datatables.bundle.js',
-                            // 'js/custom/admin/token/delete.js',
+                            'js/custom/admin/token/transfer.js',
                             // 'vendor/datatables/buttons.server-side.js',
                         ),
                     ),
@@ -259,6 +262,21 @@ return array(
                 'title' => 'Display Settings'
             )
         ),
+        'home' => array(
+            'title' => 'Home',
+       
+            'home' => array(
+                'title' => 'Client Token',
+                'assets' => array(
+                    'custom' => array(
+                        'js'  => array(
+                            'js/custom/admin/home/client-token.js',
+                        ),
+                        
+                    ),
+                ),
+            )
+        )
         
     ),
    

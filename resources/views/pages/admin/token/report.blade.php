@@ -47,7 +47,7 @@
                 <th>{{ trans('app.created_at') }}</th>
                 <th>{{ trans('app.updated_at') }}</th>
                 <th>{{ trans('app.complete_time') }}</th>
-                <th>{{ trans('app.action') }}</th>
+                <th class="all">{{ trans('app.action') }}</th>
                 {{-- <th class="text-end min-w-100px">Actions</th> --}}
             </tr>
             </thead>

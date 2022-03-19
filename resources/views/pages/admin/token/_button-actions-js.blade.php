@@ -528,9 +528,9 @@ var handleTransferRows = () => {
            
             // alert(tokenID);
             $("input[name=id]").val(tokenID);
-            $("input[name=department_id]").val(deptID);
-            $("input[name=counter_id]").val(counterID);
-            $("input[name=officer_id]").val(officerID);
+            $("input[name=departmentID]").val(deptID);
+            $("input[name=counterID]").val(counterID);
+            $("input[name=officerID]").val(officerID);
             
         })
     });
