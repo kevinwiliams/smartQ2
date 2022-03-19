@@ -453,7 +453,7 @@ var handleTransferRows = () => {
             processData: false,
             data:   new FormData($(this)[0]),
                 success: function (res) {
-                    console.log(res);
+                    // console.log(res);
                     Swal.fire({
                         text: res.message + "!.",
                         icon: "success",
@@ -485,7 +485,7 @@ var handleTransferRows = () => {
 
     var _table = document.querySelector('#token-table');
     const transferButtons = _table.querySelectorAll('[data-kt-token-table-filter="transfer_row"]');
-    console.log(transferButtons);
+    // console.log(transferButtons);
     
     transferButtons.forEach(d => {
         // Delete button on click
@@ -499,21 +499,21 @@ var handleTransferRows = () => {
                 var deptID =  parent.querySelectorAll('input[name=dept]')[0].value;
             else
                 var deptID =  parent.querySelectorAll('td')[2].getAttribute("id");
-            console.log(deptID);
+            // console.log(deptID);
             
             if(parent.querySelectorAll('input[name=counter]').length)
                 var counterID =  parent.querySelectorAll('input[name=counter]')[0].value;
             else
                 var counterID =  parent.querySelectorAll('td')[3].getAttribute("id");
 
-            console.log(counterID);
+            // console.log(counterID);
 
             if(parent.querySelectorAll('input[name=officer]').length)
                 var officerID =  parent.querySelectorAll('input[name=officer]')[0].value;
             else
                 var officerID =  parent.querySelectorAll('td')[4].getAttribute("id");
 
-            console.log(officerID);
+            // console.log(officerID);
 
             // alert(deptID);
             // Get token name
@@ -523,7 +523,7 @@ var handleTransferRows = () => {
             else
                 var tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
 
-            console.log(tokenID);
+            // console.log(tokenID);
 
            
             // alert(tokenID);

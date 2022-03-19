@@ -11,7 +11,7 @@ var KTTokenDeleteDept = function () {
         // var dt = table;
         var _table = document.querySelector('#department-table');
         const deleteButtons = _table.querySelectorAll('[data-kt-dept-table-filter="delete_row"]');
-        console.log(deleteButtons);
+        // console.log(deleteButtons);
         jQuery.noConflict();
         $.noConflict();
 
@@ -19,7 +19,7 @@ var KTTokenDeleteDept = function () {
 
         
         deleteButtons.forEach(d => {
-        console.log(d);
+        // console.log(d);
 
             // Delete button on click
             d.addEventListener('click', function (e) {

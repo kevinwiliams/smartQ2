@@ -57,9 +57,11 @@ class UserManagementController extends Controller
         // get the default inner page
         return view('pages.apps.user-management.roles.list', compact('roles'));
     }
-    public function rolesView()
+    public function rolesView($id)
     {
+        $role = Role::find($id);
+
         // get the default inner page
-        return view('pages.apps.user-management.roles.view');
+        return view('pages.apps.user-management.roles.view', compact('role'));
     }
 }
