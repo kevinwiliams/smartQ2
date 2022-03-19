@@ -35,6 +35,7 @@
                         }
                             },
                 },
+                
                 columns: [
                     { data: 'serial' },
                     { data: 'token_no' },
@@ -128,13 +129,13 @@
             $('input[name=id]').val(button.data('token-id'));
             //set back options from selected token
             setTimeout(() => {
-                $('select[name=department_id]').val($('input[name=department_id]').val());
+                $('select[name=department_id]').val($('input[name=departmentID]').val());
                 $('select[name=department_id]').trigger('change');
 
-                $('select[name=counter_id]').val($('input[name=counter_id]').val());
+                $('select[name=counter_id]').val($('input[name=counterID]').val());
                 $('select[name=counter_id]').trigger('change');
 
-                $('select[name=user_id]').val($('input[name=officer_id]').val());
+                $('select[name=user_id]').val($('input[name=officerID]').val());
                 $('select[name=user_id]').trigger('change');
                 //alert($('select[name=department_id]').val());
             }, 500);
