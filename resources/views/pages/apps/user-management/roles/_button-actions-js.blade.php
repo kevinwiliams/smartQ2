@@ -1,3 +1,4 @@
+<script>
 "use strict";
 
 // Class definition
@@ -42,8 +43,8 @@ var KTUsersUpdatePermissions = function () {
         );
 
 
-        const deleteButtons = document.querySelectorAll('[data-kt-roles-action="edit"]');
-        deleteButtons.forEach(d => {
+        const editButtons = document.querySelectorAll('[data-kt-roles-action="edit"]');
+        editButtons.forEach(d => {
             d.addEventListener('click', e => {
                 e.preventDefault();
 
@@ -54,23 +55,9 @@ var KTUsersUpdatePermissions = function () {
                 console.log(name);
                 console.log(perms);
                 $("#role_name").val(name);
+                $("#role_id").val(id);
                 var $ddlPermissions = $("#ddlPermissions").select2();
                 $ddlPermissions.val(perms).trigger("change");
-
-                // $.each($("#ddlPermissions option:selected"), function () {
-                //     $(this).prop('selected', false);
-                // });
-
-                // $.each($("#ddlPermissions option"), function () {
-                //     console.log('index');
-                //     console.log(perms.indexOf(parseInt($(this).val())));
-                //     if (perms.indexOf($(this).val()) > -1){                        
-                //         $(this).prop('selected', true);
-                //     }
-                        
-                // });
-                
-                // ddlPermissions
                 modal.show();
             })
         });
@@ -142,6 +129,8 @@ var KTUsersUpdatePermissions = function () {
             if (validator) {
                 validator.validate().then(function (status) {
                     console.log('validated!');
+                    
+                    var id = $("#role_id").val();
 
                     if (status == 'Valid') {
                         // Show loading indication
@@ -150,31 +139,55 @@ var KTUsersUpdatePermissions = function () {
                         // Disable button to avoid multiple click 
                         submitButton.disabled = true;
 
-                        // Simulate form submission. For more info check the plugin's official documentation: https://sweetalert2.github.io/
-                        setTimeout(function () {
-                            // Remove loading indication
-                            submitButton.removeAttribute('data-kt-indicator');
+                        $.ajax({
+                            url: form.action + "/" + id,
+                            type: form.method,
+                            dataType: 'json', 
+                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                            contentType: false,  
+                            cache: false,  
+                            processData: false,
+                            data:  new FormData(form),
+                            // success: function(data)
 
-                            // Enable button
-                            submitButton.disabled = false;
+                            // url: '{{ URL::to("client/token/checkin") }}/' + id,
+                            // type: 'get',
+                            // dataType: 'json',
+                            success: function(data) {
+                                console.log(data);
+                                // document.location.href = '/client';
+                                // setInterval( function () {
+                                //     table.ajax.reload();
+                                // }, 2000 );
+                                 // Remove loading indication
+                                submitButton.removeAttribute('data-kt-indicator');
 
-                            // Show popup confirmation 
-                            Swal.fire({
-                                text: "Form has been successfully submitted!",
-                                icon: "success",
-                                buttonsStyling: false,
-                                confirmButtonText: "Ok, got it!",
-                                customClass: {
-                                    confirmButton: "btn btn-primary"
-                                }
-                            }).then(function (result) {
-                                if (result.isConfirmed) {
-                                    modal.hide();
-                                }
-                            });
+                                // Enable button
+                                submitButton.disabled = false;
 
-                            //form.submit(); // Submit form
-                        }, 2000);
+                                // Show popup confirmation 
+                                Swal.fire({
+                                    text: "Form has been successfully submitted!",
+                                    icon: "success",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn btn-primary"
+                                    }
+                                }).then(function (result) {
+                                    // if (result.isConfirmed) {     
+                                        document.location.href = '/apps/user-management/roles/list';                              
+                                        form.reset();
+                                        modal.hide();
+                                    // }
+                                });
+                            }
+                            // ,
+                            // error: function(xhr, status, error){
+                            //     var errorMessage = xhr.status + ': ' + xhr.statusText
+                            //     alert('Error - ' + errorMessage);
+                            // }
+                        });
                     } else {
                         // Show popup warning. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                         Swal.fire({
@@ -221,3 +234,5 @@ var KTUsersUpdatePermissions = function () {
 KTUtil.onDOMContentLoaded(function () {
     KTUsersUpdatePermissions.init();
 });
+
+</script>

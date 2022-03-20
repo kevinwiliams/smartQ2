@@ -300,7 +300,7 @@ return array(
                     ),
                     array(
                         'title'      => 'Roles',
-                        'path'       => 'apps/user-management/roles',
+                        'path'       => 'apps/user-management/roles/list',
                         'bullet'     => '<span class="bullet bullet-dot"></span>',                       
                     ),
                     array(

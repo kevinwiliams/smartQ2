@@ -40,6 +40,7 @@
     "/demo1/js/custom/user-management/permissions/list.js": "/demo1/js/custom/user-management/permissions/list.js",
     "/demo1/js/custom/user-management/permissions/update-permission.js": "/demo1/js/custom/user-management/permissions/update-permission.js",
     "/demo1/js/custom/user-management/roles/list/add.js": "/demo1/js/custom/user-management/roles/list/add.js",
+    "/demo1/js/custom/user-management/roles/list/delete.js": "/demo1/js/custom/user-management/roles/list/delete.js",
     "/demo1/js/custom/user-management/roles/list/update-role.js": "/demo1/js/custom/user-management/roles/list/update-role.js",
     "/demo1/js/custom/user-management/roles/view/update-role.js": "/demo1/js/custom/user-management/roles/view/update-role.js",
     "/demo1/js/custom/user-management/roles/view/view.js": "/demo1/js/custom/user-management/roles/view/view.js",

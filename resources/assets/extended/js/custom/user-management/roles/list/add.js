@@ -22,6 +22,20 @@ var KTUsersAddRole = function () {
                             }
                         }
                     },
+                    'role_description': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Description is required'
+                            }
+                        }
+                    },
+                    'permissions[]': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Permissions are required'
+                            }
+                        }
+                    },
                 },
 
                 plugins: {
@@ -109,32 +123,56 @@ var KTUsersAddRole = function () {
  
                          // Disable button to avoid multiple click 
                          submitButton.disabled = true;
- 
-                         // Simulate form submission. For more info check the plugin's official documentation: https://sweetalert2.github.io/
-                         setTimeout(function () {
-                             // Remove loading indication
-                             submitButton.removeAttribute('data-kt-indicator');
- 
-                             // Enable button
-                             submitButton.disabled = false;
- 
-                             // Show popup confirmation 
-                             Swal.fire({
-                                 text: "Form has been successfully submitted!",
-                                 icon: "success",
-                                 buttonsStyling: false,
-                                 confirmButtonText: "Ok, got it!",
-                                 customClass: {
-                                     confirmButton: "btn btn-primary"
-                                 }
-                             }).then(function (result) {
-                                 if (result.isConfirmed) {
-                                     modal.hide();
-                                 }
-                             });
- 
-                             //form.submit(); // Submit form
-                         }, 2000);
+                        
+                         $.ajax({
+                            url: form.action,
+                            type: form.method,
+                            dataType: 'json', 
+                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                            contentType: false,  
+                            cache: false,  
+                            processData: false,
+                            data:  new FormData(form),
+                            // success: function(data)
+
+                            // url: '{{ URL::to("client/token/checkin") }}/' + id,
+                            // type: 'get',
+                            // dataType: 'json',
+                            success: function(data) {
+                                console.log(data);
+                                // document.location.href = '/client';
+                                // setInterval( function () {
+                                //     table.ajax.reload();
+                                // }, 2000 );
+                                 // Remove loading indication
+                                submitButton.removeAttribute('data-kt-indicator');
+
+                                // Enable button
+                                submitButton.disabled = false;
+
+                                // Show popup confirmation 
+                                Swal.fire({
+                                    text: "Form has been successfully submitted!",
+                                    icon: "success",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn btn-primary"
+                                    }
+                                }).then(function (result) {
+                                    // if (result.isConfirmed) {     
+                                        document.location.href = '/apps/user-management/roles/list';                              
+                                        form.reset();
+                                        modal.hide();
+                                    // }
+                                });
+                            }
+                            // ,
+                            // error: function(xhr, status, error){
+                            //     var errorMessage = xhr.status + ': ' + xhr.statusText
+                            //     alert('Error - ' + errorMessage);
+                            // }
+                        });
                      } else {
                          // Show popup warning. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                          Swal.fire({
@@ -174,7 +212,7 @@ var KTUsersAddRole = function () {
         // Public functions
         init: function () {
             initAddRole();
-            handleSelectAll();
+            // handleSelectAll();
         }
     };
 }();

@@ -247,4 +247,11 @@ return [
     'custom_display' => 'Custom Display',
     'add_display'    => 'Add Display',
     'update_display' => 'Update Display',
+
+      /*Roles*/
+      'permissions'    => "Permissions",
+      'role_name'      => "Role Name",
+      'role_created'    => "Role Created",
+      'role_deleted'    => "Role Deleted",
+      'role_description'    => "Role Description"
 ];

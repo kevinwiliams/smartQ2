@@ -155,13 +155,13 @@ return array(
                         'plugins/custom/datatables/datatables.bundle.js',
                         'vendor/datatables/buttons.server-side.js',
                     ),
-                    
+
                 ),
             ),
             'setting' => array(
-                'title' => 'SMS Settings' 
+                'title' => 'SMS Settings'
             ),
-        
+
         ),
         'token' => array(
             'current' => array(
@@ -178,7 +178,7 @@ return array(
                             'js/custom/admin/token/transfer.js',
                             // 'js/custom/admin/token/delete.js',
                         ),
-                        
+
                     ),
                 ),
                 'card' => array(
@@ -186,10 +186,10 @@ return array(
                 ),
             ),
             'auto' => array(
-                'title' => 'Auto Token' 
+                'title' => 'Auto Token'
             ),
             'setting' => array(
-                'title' => 'Auto Queue Settings' 
+                'title' => 'Auto Queue Settings'
             ),
             'report' => array(
                 'title' => 'Tokens Report',
@@ -225,36 +225,36 @@ return array(
 
         'department' => array(
             'title'  => 'Departments',
-                'assets' => array(
-                    'custom' => array(
-                        'css' => array(
-                            'plugins/custom/datatables/datatables.bundle.css',
-                        ),
-                        'js' => array(
-                            'plugins/custom/datatables/datatables.bundle.js',
-                            'js/custom/admin/department/add.js',
-                            // 'js/custom/admin/department/edit.js',
-                            // 'js/custom/admin/department/delete.js',
-                            // 'vendor/datatables/buttons.server-side.js',
-                        ),
+            'assets' => array(
+                'custom' => array(
+                    'css' => array(
+                        'plugins/custom/datatables/datatables.bundle.css',
+                    ),
+                    'js' => array(
+                        'plugins/custom/datatables/datatables.bundle.js',
+                        'js/custom/admin/department/add.js',
+                        // 'js/custom/admin/department/edit.js',
+                        // 'js/custom/admin/department/delete.js',
+                        // 'vendor/datatables/buttons.server-side.js',
                     ),
                 ),
+            ),
         ),
         'counter' => array(
             'title'  => 'Counters',
-                'assets' => array(
-                    'custom' => array(
-                        'css' => array(
-                            'plugins/custom/datatables/datatables.bundle.css',
-                        ),
-                        'js' => array(
-                            'plugins/custom/datatables/datatables.bundle.js',
-                            'js/custom/admin/counter/add.js',
-                            'js/custom/admin/counter/delete.js',
-                            // 'vendor/datatables/buttons.server-side.js',
-                        ),
+            'assets' => array(
+                'custom' => array(
+                    'css' => array(
+                        'plugins/custom/datatables/datatables.bundle.css',
+                    ),
+                    'js' => array(
+                        'plugins/custom/datatables/datatables.bundle.js',
+                        'js/custom/admin/counter/add.js',
+                        'js/custom/admin/counter/delete.js',
+                        // 'vendor/datatables/buttons.server-side.js',
                     ),
                 ),
+            ),
         ),
         'settings' => array(
             'title' => 'App Settings',
@@ -264,7 +264,7 @@ return array(
         ),
         'home' => array(
             'title' => 'Home',
-       
+
             'home' => array(
                 'title' => 'Client Token',
                 'assets' => array(
@@ -272,14 +272,14 @@ return array(
                         'js'  => array(
                             'js/custom/admin/home/client-token.js',
                         ),
-                        
+
                     ),
                 ),
             )
         )
-        
+
     ),
-   
+
 
     'apps' => array(
         'calendar' => array(
@@ -297,7 +297,7 @@ return array(
                         'js/custom/widgets.js',
                         'js/custom/apps/calendar/calendar.js'
                     ),
-                    
+
                 ),
             ),
         ),
@@ -316,7 +316,7 @@ return array(
                             'js/custom/user-management/permissions/update-permission.js',
                             'plugins/custom/datatables/datatables.bundle.js',
                         ),
-                        
+
                     ),
                 ),
             ),
@@ -365,7 +365,7 @@ return array(
             ),
             'roles' => array(
                 'view' => array(
-                    'title'  => 'View Role Details',
+                    'title'  => 'View Role Details',                    
                     'assets' => array(
                         'custom' => array(
                             'css' => array(
@@ -389,16 +389,17 @@ return array(
                             ),
                             'js' => array(
                                 'plugins/custom/datatables/datatables.bundle.js',
-                                'js/custom/user-management/users/roles/update-role.js',
-                                'js/custom/user-management/users/roles/add.js',
+                                // 'js/custom/user-management/roles/list/update-role.js',
+                                'js/custom/user-management/roles/list/add.js',
+                                'js/custom/user-management/roles/list/delete.js',
 
                             ),
                         ),
                     ),
                 ),
-                
+
             )
-            
+
         ),
     ),
     // Documentation pages

@@ -71,8 +71,11 @@ Route::prefix('apps')->group(function () {
 		Route::get('users/list', [UserManagementController::class, 'usersList']);
 		Route::get('users/view/{id}', [UserManagementController::class, 'usersView'])->name('users.view');
 		Route::delete('users/delete/{id}', [UserManagementController::class, 'usersView'])->name('admin.user.destroy');
-		Route::get('roles', [UserManagementController::class, 'rolesList']);
-		Route::get('roles/view/{id}', [UserManagementController::class, 'rolesView']);
+		Route::get('roles/list', [UserManagementController::class, 'rolesList']);
+		Route::get('roles/view/{id}', [UserManagementController::class, 'rolesView'])->name('roles.view');
+		Route::post('roles', [UserManagementController::class, 'createRole']);
+		Route::delete('roles/{id}', [UserManagementController::class, 'deleteRole']);
+		Route::post('roles/update/{id}', [UserManagementController::class, 'updateRole']);
 	});
 	
 });

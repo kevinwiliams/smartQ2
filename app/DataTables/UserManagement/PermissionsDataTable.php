@@ -81,8 +81,7 @@ class PermissionsDataTable extends DataTable
     {
         return [           
             Column::make('id'),
-            Column::make('name'),            
-            Column::make('description'),           
+            Column::make('name'),                        
             Column::computed('assign')->title(__('Assigned To'))
             ->addClass('align-items-right')
             ->exportable(false)
