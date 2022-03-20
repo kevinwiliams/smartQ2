@@ -365,20 +365,22 @@ return array(
             ),
             'roles' => array(
                 'view' => array(
-                    'title'  => 'View Role Details',                    
-                    'assets' => array(
-                        'custom' => array(
-                            'css' => array(
-                                'plugins/custom/datatables/datatables.bundle.css',
-                            ),
-                            'js' => array(
-                                'plugins/custom/datatables/datatables.bundle.js',
-                                'js/custom/user-management/users/roles/view.js',
-                                'js/custom/user-management/users/roles/update-role.js',
+                    '*' => array(
+                        'title'  => 'View Role Details',                    
+                        'assets' => array(
+                            'custom' => array(
+                                'css' => array(
+                                    'plugins/custom/datatables/datatables.bundle.css',
+                                ),
+                                'js' => array(
+                                    'plugins/custom/datatables/datatables.bundle.js',
+                                    'js/custom/user-management/roles/view/view.js',
+                                    'js/custom/user-management/roles/view/update-role.js',
 
+                                ),
                             ),
                         ),
-                    ),
+                    )
                 ),
                 'list' => array(
                     'title'  => 'Roles List',
