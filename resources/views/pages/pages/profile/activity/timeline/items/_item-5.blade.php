@@ -51,7 +51,7 @@
 
                     <!--begin::Link-->
                     <div class="overlay-layer bg-dark bg-opacity-10 rounded">
-                        <a href="common/display?type=1" target="_blank" class="btn btn-sm btn-danger btn-shadow">Open View</a>
+                        <a href="/common/display?type=1" target="_blank" class="btn btn-sm btn-danger btn-shadow">Open View</a>
                     </div>
                     <!--end::Link-->
                 </div>
@@ -69,7 +69,7 @@
 
                     <!--begin::Link-->
                     <div class="overlay-layer bg-dark bg-opacity-10 rounded">
-                        <a href="common/display?type=2" target="_blank" class="btn btn-sm btn-primary btn-shadow">Open View</a>
+                        <a href="/common/display?type=2" target="_blank" class="btn btn-sm btn-primary btn-shadow">Open View</a>
                     </div>
                     <!--end::Link-->
                 </div>
@@ -87,7 +87,7 @@
 
                     <!--begin::Link-->
                     <div class="overlay-layer bg-dark bg-opacity-10 rounded">
-                        <a href="common/display?type=3" target="_blank" class="btn btn-sm btn-primary btn-shadow">Open View</a>
+                        <a href="/common/display?type=3" target="_blank" class="btn btn-sm btn-primary btn-shadow">Open View</a>
                     </div>
                     <!--end::Link-->
                 </div>
@@ -104,7 +104,7 @@
 
                     <!--begin::Link-->
                     <div class="overlay-layer bg-dark bg-opacity-10 rounded">
-                        <a href="common/display?type=4" target="_blank" class="btn btn-sm btn-primary btn-shadow">Open View</a>
+                        <a href="/common/display?type=4" target="_blank" class="btn btn-sm btn-primary btn-shadow">Open View</a>
                     </div>
                     <!--end::Link-->
                 </div>

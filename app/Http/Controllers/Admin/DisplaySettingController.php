@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use DB, Response, File, Validator;
 
 
-class DisplayController extends Controller
+class DisplaySettingController extends Controller
 { 
 
     public function showForm()

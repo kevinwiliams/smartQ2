@@ -18,7 +18,7 @@ use App\Http\Controllers\Admin\TokenController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Common\CronjobController;
 use App\Http\Controllers\Common\DisplayController;
-// use App\Http\Controllers\Admin\DisplayController;
+use App\Http\Controllers\Admin\DisplaySettingController;
 use App\Http\Controllers\Common\LanguageController;
 use App\Http\Controllers\Common\MessageController;
 use App\Http\Controllers\Common\NotificationController;
@@ -182,10 +182,10 @@ Route::middleware('auth')->group(function () {
 		Route::prefix('settings')->group(function () {
 			Route::get('/',[SettingController::class, 'showForm']); 
 			Route::post('/',[SettingController::class, 'create']); 
-			Route::get('display',[DisplayController::class, 'showForm']);  
-			Route::post('display',[DisplayController::class, 'setting']);  
-			Route::get('display/custom',[DisplayController::class, 'getCustom']);  
-			Route::post('display/custom',[DisplayController::class, 'custom']); 
+			Route::get('display',[DisplaySettingController::class, 'showForm']);  
+			Route::post('display',[DisplaySettingController::class, 'setting']);  
+			Route::get('display/custom',[DisplaySettingController::class, 'getCustom']);  
+			Route::post('display/custom',[DisplaySettingController::class, 'custom']); 
 		});
 		# setting
 		
