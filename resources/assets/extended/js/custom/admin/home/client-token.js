@@ -82,7 +82,6 @@ var KTCreateToken = function () {
                                         dataType: 'json',
                                         data: {
                                             'department_id' : dept,
-                                            // '_token':'<?php echo csrf_token() ?>'
                                         },
                                         success: function(data) {
                                             if(data.status == true){
@@ -93,8 +92,6 @@ var KTCreateToken = function () {
                                                 KTUtil.scrollTop();
                                                 $('[data-kt-stepper-action="previous"]').addClass('disabled');
 
-                                                // $('ul.setup-panel li a:eq(2)').removeClass('disabled');
-                                                // $('ul.setup-panel li a[href="#step-3"]').trigger('click');  
                                             }
                                                                      
                                         }
