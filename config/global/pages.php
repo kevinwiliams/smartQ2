@@ -283,6 +283,9 @@ return array(
 
                     ),
                 ),
+            ),
+            'current' => array(
+                'title' => 'Your Token'
             )
         )
 

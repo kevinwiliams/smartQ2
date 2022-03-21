@@ -17,8 +17,8 @@ use App\Http\Controllers\Admin\SmsSettingController;
 use App\Http\Controllers\Admin\TokenController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Common\CronjobController;
-// use App\Http\Controllers\Common\DisplayController;
-use App\Http\Controllers\Admin\DisplayController;
+use App\Http\Controllers\Common\DisplayController;
+// use App\Http\Controllers\Admin\DisplayController;
 use App\Http\Controllers\Common\LanguageController;
 use App\Http\Controllers\Common\MessageController;
 use App\Http\Controllers\Common\NotificationController;
@@ -198,20 +198,20 @@ Route::resource('users', UsersController::class);
 // # -----------------------------------------------------------
 // # COMMON 
 // # -----------------------------------------------------------
-// Route::prefix('common')->namespace('Common')->group(function() { 
-// 	# switch language
-// 	Route::get('language/{locale?}', [LanguageController::class,'index']);
+Route::prefix('common')->namespace('Common')->group(function() { 
+	# switch language
+	Route::get('language/{locale?}', [LanguageController::class,'index']);
 
-// 	// Cron job
-// 	Route::get('jobs/sms', [CronjobController::class, 'sms']);
+	// Cron job
+	Route::get('jobs/sms', [CronjobController::class, 'sms']);
 
-// 	// Display 
-// 	Route::get('display',[DisplayController::class, 'display']);  
-// 	Route::post('display1', [DisplayController::class, 'display1']);  
-// 	Route::post('display2',[DisplayController::class, 'display2']);  
-// 	Route::post('display3',[DisplayController::class, 'display3']); 
-// 	Route::post('display4',[DisplayController::class, 'display4']); 
-// 	Route::post('display5',[DisplayController::class, 'display5']); 
+	// Display 
+	Route::get('display',[DisplayController::class, 'display']);  
+	Route::post('display1', [DisplayController::class, 'display1']);  
+	Route::post('display2',[DisplayController::class, 'display2']);  
+	Route::post('display3',[DisplayController::class, 'display3']); 
+	Route::post('display4',[DisplayController::class, 'display4']); 
+	Route::post('display5',[DisplayController::class, 'display5']); 
 
 // 	// -----------------------------------------------------------
 // 	// AUTHORIZED COMMON 
@@ -240,16 +240,9 @@ Route::resource('users', UsersController::class);
 // 			Route::get('edit',[ProfileController::class, 'profileEditShowForm']);
 // 			Route::post('edit',[ProfileController::class, 'updateProfile']);
 // 		});
-		
 
-
-
-		
-
-		
-
-// 	});
-// });
+	// });
+});
 
 // # -----------------------------------------------------------
 // # AUTHORIZED

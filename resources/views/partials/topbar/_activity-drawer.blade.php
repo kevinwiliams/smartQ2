@@ -15,7 +15,7 @@
 	<div class="card shadow-none">
 		<!--begin::Header-->
 		<div class="card-header" id="kt_activities_header">
-			<h3 class="card-title fw-bolder text-dark">Activity Logs</h3>
+			<h3 class="card-title fw-bolder text-dark">Display Screen Options</h3>
 
 			<div class="card-toolbar">
 				<button type="button" class="btn btn-sm btn-icon btn-active-light-primary me-n5" id="kt_activities_close">
@@ -39,21 +39,21 @@
 
 				<!--begin::Timeline items-->
 				<div class="timeline">
-                    {{ theme()->getView('pages/pages/profile/activity/timeline/items/_item-1', array("compact" => true)) }}
+                    {{-- {{ theme()->getView('pages/pages/profile/activity/timeline/items/_item-1', array("compact" => true)) }}
 
                     {{ theme()->getView('pages/pages/profile/activity/timeline/items/_item-2', array("compact" => true)) }}
 
                     {{ theme()->getView('pages/pages/profile/activity/timeline/items/_item-3', array("compact" => true)) }}
 
-                    {{ theme()->getView('pages/pages/profile/activity/timeline/items/_item-4', array("compact" => true)) }}
+                    {{ theme()->getView('pages/pages/profile/activity/timeline/items/_item-4', array("compact" => true)) }} --}}
 
                     {{ theme()->getView('pages/pages/profile/activity/timeline/items/_item-5', array("compact" => true)) }}
 
-                    {{ theme()->getView('pages/pages/profile/activity/timeline/items/_item-6', array("compact" => true)) }}
+                    {{-- {{ theme()->getView('pages/pages/profile/activity/timeline/items/_item-6', array("compact" => true)) }}
 
                     {{ theme()->getView('pages/pages/profile/activity/timeline/items/_item-7', array("compact" => true)) }}
 
-                    {{ theme()->getView('pages/pages/profile/activity/timeline/items/_item-8', array("compact" => true)) }}
+                    {{ theme()->getView('pages/pages/profile/activity/timeline/items/_item-8', array("compact" => true)) }} --}}
 				</div>
 				<!--end::Timeline items-->
 			</div>
@@ -63,8 +63,8 @@
 
 		<!--begin::Footer-->
 		<div class="card-footer py-5 text-center" id="kt_activities_footer">
-			<a href="{{ theme()->getPageUrl('pages/profile/activity') }}" class="btn btn-bg-white text-primary">
-				View All Activities {!! theme()->getSvgIcon("icons/duotune/arrows/arr064.svg", "svg-icon-3 svg-icon-primary") !!}
+			<a href="{{ theme()->getPageUrl('admin/settings/display') }}" class="btn btn-bg-white text-primary">
+				View Display Settings {!! theme()->getSvgIcon("icons/duotune/arrows/arr064.svg", "svg-icon-3 svg-icon-primary") !!}
 			</a>
 		</div>
 		<!--end::Footer-->
