@@ -1,6 +1,6 @@
 <div class="modal fade customDisplayModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered mw-650px"> 
-      {{ Form::open(['url' => 'admin/setting/display/custom', 'class'=>'form',  'id'=>'customFrm']) }}
+      {{ Form::open(['url' => 'admin/settings/display/custom', 'class'=>'form',  'id'=>'customFrm']) }}
       <!--begin::Modal content-->
       <div class="modal-content">
         <div class="modal-header">

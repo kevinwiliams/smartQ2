@@ -48,6 +48,7 @@
                     {{ theme()->getView('pages/pages/profile/activity/timeline/items/_item-4', array("compact" => true)) }} --}}
 
                     {{ theme()->getView('pages/pages/profile/activity/timeline/items/_item-5', array("compact" => true)) }}
+                    {{ theme()->getView('pages/pages/profile/activity/timeline/items/_item-5-custom', array("compact" => true)) }}
 
                     {{-- {{ theme()->getView('pages/pages/profile/activity/timeline/items/_item-6', array("compact" => true)) }}
 
