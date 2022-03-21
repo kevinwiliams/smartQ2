@@ -251,7 +251,7 @@
                         <td>{{ $display->description }}</td>
                         <td>{!! (($display->status==1)?"<span class='badge bg-success text-white'>". trans('app.active') ."</span>":"<span class='badge bg-danger text-white'>". trans('app.deactive') ."</span>") !!}</td>
                         <td>
-                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target=".customDisplayModal" title="{{ trans('app.update_display') }}" data-id="{{ $display->id }}">
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target=".customDisplayModal" title="{{ trans('app.update_display') }}" data-id="{{ $display->id }}">
                                 <i class="fa fa-edit"></i>
                             </button>
                             <a href="{{ url('common/display?type=6') }}&custom={{ $display->id }}" target="_blank" class="btn btn-success btn-sm" title="{{ trans('app.display') }}">

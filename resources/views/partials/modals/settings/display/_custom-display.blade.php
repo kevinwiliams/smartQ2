@@ -1,6 +1,8 @@
-<div class="modal fade customDisplayModal" tabindex="-1" role="dialog">
+<div class="modal fade customDisplayModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered mw-650px"> 
       {{ Form::open(['url' => 'admin/setting/display/custom', 'class'=>'form',  'id'=>'customFrm']) }}
+      <!--begin::Modal content-->
+      <div class="modal-content">
         <div class="modal-header">
            <!--begin::Modal title-->
            <h2 class="fw-bolder"><?= trans('app.custom_display') ?></h2>
@@ -12,7 +14,6 @@
                <!--end::Svg Icon-->
            </div>
            <!--end::Close-->
-         
 
         </div>
         <div class="modal-body scroll-y mx-5 mx-xl-15 my-5">  
@@ -76,6 +77,7 @@
           <!--end::Button-->
       </div>
       <!--end::Modal footer-->
+      </div>
       {{ Form::close() }}
     </div>
   </div> 
