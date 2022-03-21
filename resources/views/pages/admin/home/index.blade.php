@@ -467,23 +467,7 @@ $(function () {
         });
 
 
-        $('#activate-step-3').on('click', function(e) {
-            var dept = $("#department_id").find(':checked').val();            
-
-            if (dept == "") {
-                Swal.fire({
-                    title: 'Select a department',
-                    icon: 'error'
-                });
-                return;
-            }
-
-            
-
         
-            //$(this).remove();
-        });
-
         $('input:radio[name=department_id]').on('click', function(e) {
             console.log(e);
             var dept = $(this).find(":checked").val();

@@ -59,11 +59,14 @@ var KTCreateToken = function () {
 					if (status == 'Valid') {
                         if(stepper.getCurrentStepIndex() == 2){
                             Swal.fire({
-                                text: 'Are you sure?',
+                                text: 'Are you willing the wait?',
                                 icon : 'warning',
-                                confirmButtonText: "Join the line!",
+                                showCancelButton: true,
+                                confirmButtonText: "Yes I am",
+                                cancelButtonText: 'Nope, cancel it',
                                 customClass: {
-                                    confirmButton: "btn btn-light"
+                                    confirmButton: "btn btn-primary",
+                                    cancelButton: 'btn btn-danger'
                                 }
                             }).then(function (value) {
                                 if(value.isConfirmed) {
@@ -138,46 +141,8 @@ var KTCreateToken = function () {
 	var handleForm = function() {
 		formSubmitButton.addEventListener('click', function (e) {
 			// Validate form before change stepper step
-			var validator = validations[3]; // get validator for last form
+            document.location.href = '/admin/home/current';                              
 
-			validator.validate().then(function (status) {
-				console.log('validated!');
-
-				if (status == 'Valid') {
-					// Prevent default button action
-					e.preventDefault();
-
-					// Disable button to avoid multiple click 
-					formSubmitButton.disabled = true;
-
-					// Show loading indication
-					formSubmitButton.setAttribute('data-kt-indicator', 'on');
-
-					// Simulate form submission
-					setTimeout(function() {
-						// Hide loading indication
-						formSubmitButton.removeAttribute('data-kt-indicator');
-
-						// Enable button
-						formSubmitButton.disabled = false;
-
-						stepperObj.goNext();
-						//KTUtil.scrollTop();
-					}, 2000);
-				} else {
-					Swal.fire({
-						text: "Sorry, looks like there are some errors detected, please try again.",
-						icon: "error",
-						buttonsStyling: false,
-						confirmButtonText: "Ok, got it!",
-						customClass: {
-							confirmButton: "btn btn-light"
-						}
-					}).then(function () {
-						KTUtil.scrollTop();
-					});
-				}
-			});
 		});
 
 		// Expiry month. For more info, plase visit the official plugin site: https://select2.org/

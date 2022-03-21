@@ -20,6 +20,16 @@ class HomeController extends Controller
 {
     
     public function index(){
+
+        $current = Token::whereIn('status', ['0', '3'])
+        ->where('client_id', auth()->user()->id)
+        ->orderBy('is_vip', 'DESC')
+        ->orderBy('id', 'ASC')
+        ->first();
+
+        if ($current) {
+            return redirect('admin/home/current');
+        }
         // $departments = Department::where('status',1)->pluck('name','id');
         $departments = Department::select(
             'department.name',

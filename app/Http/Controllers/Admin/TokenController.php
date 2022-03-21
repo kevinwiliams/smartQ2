@@ -965,6 +965,92 @@ class TokenController extends Controller
         return redirect()->back()->with('message', trans('app.delete_successfully'));
     }  
 
+
+     /*-----------------------------------
+    | TOKEN CURRENT / REPORT / PERFORMANCE
+    |-----------------------------------*/
+
+    public function currentClient()
+    {
+        @date_default_timezone_set(session('app.timezone'));
+        $token = Token::whereIn('status', ['0', '3'])
+            ->where('client_id', auth()->user()->id)
+            ->orderBy('is_vip', 'DESC')
+            ->orderBy('id', 'ASC')
+            ->first();
+
+    
+        if (!$token) {
+            return redirect('admin/home');
+        }
+
+        $dept = Department::find($token->department_id);
+
+        $list = Token::whereIn('status', [0, 3])
+            ->where('department_id', $token->department_id)
+            ->where('counter_id', $token->counter_id)
+            ->orderBy('id')->get();
+        $cntr = 1;
+        foreach ($list as $value) {
+            if ($value->token_no == $token->token_no) {
+                break;
+            }
+            $cntr++;
+        }
+
+        $waittime = $dept->avg_wait_time * ($cntr - 1);
+        
+        $position = $cntr;
+        $wait = date('H:i', mktime(0, $waittime));
+
+        return view('pages.admin.home.current', compact('token','position','wait'));
+    }
+
+    public function currentposition()
+    {
+        $token = Token::whereIn('status', ['0', '3'])
+            ->where('client_id', auth()->user()->id)
+            ->orderBy('is_vip', 'DESC')
+            ->orderBy('id', 'ASC')
+            ->first();
+
+        $dept = Department::find($token->department_id);
+
+        $list = Token::whereIn('status', ['0', '3'])
+            ->where('department_id', $token->department_id)
+            ->where('counter_id', $token->counter_id)
+            ->orderBy('id')->get();
+        $cntr = 1;
+        foreach ($list as $value) {
+            if ($value->token_no == $token->token_no) {
+                break;
+            }
+            $cntr++;
+        }
+
+        $waittime = $dept->avg_wait_time * ($cntr - 1);
+        $data['status'] = true;
+        $data['position'] = $cntr;
+        $data['wait'] = date('H:i', mktime(0, $waittime));
+
+        return response()->json($data);
+    }
+
+    public function checkin($id = null)
+    {
+        Token::where('id', $id)
+            ->update([
+                'updated_at' => date('Y-m-d H:i:s'), 
+                'status'     => 0,
+                'sms_status' => 1
+            ]);
+
+        $data['status'] = true;
+        $data['exception'] = trans('app.update_successfully');
+
+        return response()->json($data);        
+    }
+
 }
 
  

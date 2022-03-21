@@ -106,7 +106,10 @@ Route::middleware('auth')->group(function () {
 		Route::post('confirmMobile', [HomeController::class, 'confirmMobile']);
 		Route::post('confirmOTP', [HomeController::class, 'confirmOTP']);
 		Route::post('getwaittime', [HomeController::class, 'getwaittime']);
-		Route::post('autotoken', [TokenController::class, 'clientTokenAuto']); 
+		Route::get('current', [TokenController::class, 'currentClient']); 
+		Route::post('autotoken', [TokenController::class, 'clientTokenAuto']);
+		Route::post('currentposition',[TokenController::class, 'currentposition']);
+
 		});
 		// // User pages
 		// Route::prefix('user')->group(function () {
@@ -166,6 +169,7 @@ Route::middleware('auth')->group(function () {
 			Route::get('performance',[TokenController::class, 'performance']);  
 			Route::get('create',[TokenController::class, 'showForm']);
 			Route::post('create',[TokenController::class, 'create']);
+			Route::get('checkin/{id}',[TokenController::class, 'checkin']);
 			Route::post('print', [TokenController::class, 'viewSingleToken']);
 			Route::get('complete/{id}',[TokenController::class, 'complete']);
 			Route::get('stoped/{id}',[TokenController::class, 'stoped']);
