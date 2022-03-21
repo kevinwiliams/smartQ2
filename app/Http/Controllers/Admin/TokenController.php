@@ -298,6 +298,122 @@ class TokenController extends Controller
         }
     } 
 
+    public function clientTokenAuto(Request $request)
+    {
+        @date_default_timezone_set(session('app.timezone'));
+
+        $display = DisplaySetting::first();
+
+        $client_id = auth()->user()->id;
+        $client_mobile = auth()->user()->mobile;
+
+        //generate a token
+        try {
+            DB::beginTransaction();
+
+            //find auto-setting
+            $settings = TokenSetting::select('counter_id', 'department_id', 'user_id', 'created_at')
+                ->where('department_id', $request->department_id)
+                ->groupBy('user_id')
+                ->get();
+
+            // echo '<pre>';
+            // print_r($settings->department_id);
+            // echo '<pre>';
+            // die();
+            //if auto-setting are available
+            if (!empty($settings)) {
+
+                foreach ($settings as $setting) {
+                    //compare each user in today
+                    $tokenData = Token::select('department_id', 'counter_id', 'user_id', DB::raw('COUNT(user_id) AS total_tokens'))
+                        ->where('department_id', $setting->department_id)
+                        ->where('counter_id', $setting->counter_id)
+                        ->where('user_id', $setting->user_id)
+                        ->whereIn('status', [0, 3])
+                        ->whereRaw('DATE(created_at) = CURDATE()')
+                        ->orderBy('total_tokens', 'asc')
+                        ->groupBy('user_id')
+                        ->first();
+
+                    //create user counter list
+                    $tokenAssignTo[] = [
+                        'total_tokens'  => (!empty($tokenData->total_tokens) ? $tokenData->total_tokens : 0),
+                        'department_id' => $setting->department_id,
+                        'counter_id'    => $setting->counter_id,
+                        'user_id'       => $setting->user_id
+                    ];
+                }
+
+                //  echo '<pre>';
+                // print_r($tokenAssignTo);
+                // echo '<pre>';
+                // die();
+
+                //findout min counter set to 
+                $min = min($tokenAssignTo);
+                $saveToken = [
+                    'token_no'      => (new Token_lib)->newToken($min['department_id'], $min['counter_id']),
+                    'client_mobile' => $client_mobile,
+                    'client_id'     => $client_id,
+                    'department_id' => $min['department_id'],
+                    'counter_id'    => $min['counter_id'],
+                    'user_id'       => $min['user_id'],
+                    // 'note'          => $request->note,
+                    'created_by'    => auth()->user()->id,
+                    'created_at'    => date('Y-m-d H:i:s'),
+                    'updated_at'    => null,
+                    'status'        => 3 //booked
+                ];
+
+
+                //store in database  
+                //set message and redirect
+                if ($insert_id = Token::insertGetId($saveToken)) {
+
+                    $token = null;
+                    //retrive token info
+                    $token = Token::select(
+                        'token.*',
+                        'department.name as department',
+                        'counter.name as counter',
+                        'user.firstname',
+                        'user.lastname'
+                    )
+                        ->leftJoin('department', 'token.department_id', '=', 'department.id')
+                        ->leftJoin('counter', 'token.counter_id', '=', 'counter.id')
+                        ->leftJoin('user', 'token.user_id', '=', 'user.id')
+                        ->where('token.id', $insert_id)
+                        ->first();
+
+                    DB::commit();
+
+                    $list = Token::where('status', 0)
+                        ->where('department_id', $saveToken["department_id"])
+                        ->where('counter_id', $saveToken["counter_id"])
+                        ->orderBy('id')->get();
+                    $cntr = 1;
+                    foreach ($list as $value) {
+                        if ($value->token_no == $saveToken["token_no"]) {
+                            break;
+                        }
+                        $cntr++;
+                    }
+                    $data['status'] = true;
+                    $data['message'] = trans('app.token_generate_successfully');
+                    $data['token']  = $token;
+                    $data['position']  = $cntr;
+                } else {
+                    $data['status'] = false;
+                    $data['exception'] = trans('app.please_try_again');
+                }
+                return response()->json($data);
+            }
+        } catch (\Exception $err) {
+            DB::rollBack();
+            return response()->json($err->getMessage());
+        }
+    }
  
     /*-----------------------------------
     | FORCE/MANUAL/VIP TOKEN 

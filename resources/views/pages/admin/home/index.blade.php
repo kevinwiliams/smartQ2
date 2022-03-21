@@ -25,7 +25,7 @@
             </div>
             <!--end::Nav-->
             <!--begin::Form-->
-			<form class="mx-auto mw-600px w-100 pt-15 pb-10" novalidate="novalidate" id="kt_create_token_form">
+			<form class="mx-auto mw-600px w-100 pt-15 pb-10" novalidate="novalidate" id="kt_create_token_form" action="autotoken" method="post">
                 <!--begin::Step 1-->
                 <div class="current" data-kt-stepper-element="content">
                     <!--begin::Wrapper-->
@@ -275,8 +275,8 @@
                                 <div class="d-flex flex-stack flex-grow-1">
                                     <!--begin::Content-->
                                     <div class="fw-bold">
-                                        <h4 class="text-gray-900 fw-bolder">You're token number is A1001</h4>
-                                        <div class="fs-6 text-gray-700">You are number 1 in the line. 
+                                        <h4 class="text-gray-900 fw-bolder">You're token number is <span id="tkn_number"></span> </h4>
+                                        <div class="fs-6 text-gray-700" id="tkn_position">
                                         {{-- <a href="#" class="fw-bolder">Create Team Platform</a> --}}
                                         </div>
                                     </div>
@@ -305,7 +305,7 @@
                     <!--begin::Wrapper-->
                     <div>
                         <button type="button" class="btn btn-lg btn-primary me-3" data-kt-stepper-action="submit">
-                            <span class="indicator-label">Submit
+                            <span class="indicator-label">Finish!
                             <!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
                             {!! theme()->getSvgIcon("icons/duotune/arrows/arr064.svg", "svg-icon-3 ms-2 me-0") !!}
                             <!--end::Svg Icon--></span>
@@ -478,26 +478,7 @@ $(function () {
                 return;
             }
 
-            $.ajax({
-                type: 'post',
-                url: '{{ URL::to("client/token/client") }}',
-                type:'POST',
-                dataType: 'json',
-                data: {
-                    'department_id' : dept,
-                    '_token':'<?php echo csrf_token() ?>'
-                },
-                success: function(data) {
-                    if(data.status == true){
-                        var msg = "You are #" + data.position + " in the line";
-                        $("#tkn_position").text(msg);
-                        $("#tkn_number").text(data.token.token_no);
-                        // $('ul.setup-panel li a:eq(2)').removeClass('disabled');
-                        // $('ul.setup-panel li a[href="#step-3"]').trigger('click');  
-                    }
-                                             
-                }
-            });
+            
 
         
             //$(this).remove();

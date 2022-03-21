@@ -1,5 +1,7 @@
 "use strict";
 
+const { default: Swal } = require("sweetalert2");
+
 // Class definition
 var KTCreateToken = function () {
 	// Elements
@@ -45,6 +47,8 @@ var KTCreateToken = function () {
 		stepperObj.on('kt.stepper.next', function (stepper) {
 			console.log('stepper.next', stepper.getCurrentStepIndex());
 
+            
+
 			// Validate form before change stepper step
 			var validator = validations[stepper.getCurrentStepIndex() - 1]; // get validator for currnt step
 
@@ -53,9 +57,54 @@ var KTCreateToken = function () {
 					console.log('validated!');
 
 					if (status == 'Valid') {
-						stepper.goNext();
+                        if(stepper.getCurrentStepIndex() == 2){
+                            Swal.fire({
+                                text: 'Are you sure?',
+                                icon : 'warning',
+                                confirmButtonText: "Join the line!",
+                                customClass: {
+                                    confirmButton: "btn btn-light"
+                                }
+                            }).then(function (value) {
+                                if(value.isConfirmed) {
+                                    var dept = $('input[name=department_id]:checked').val();
+                                    const element = document.getElementById('kt_create_token_stepper');
+                                    const form = element.querySelector('#kt_create_token_form');
+                                    
+                                    //alert(dept);
+                                    $.ajax({
+                                        url: form.action,
+                                        type: form.method,
+                                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                                        dataType: 'json',
+                                        data: {
+                                            'department_id' : dept,
+                                            // '_token':'<?php echo csrf_token() ?>'
+                                        },
+                                        success: function(data) {
+                                            if(data.status == true){
+                                                var msg = "You are #" + data.position + " in the line";
+                                                $("#tkn_position").text(msg);
+                                                $("#tkn_number").text(data.token.token_no);
+                                                stepper.goNext();
+                                                KTUtil.scrollTop();
+                                                $('[data-kt-stepper-action="previous"]').addClass('disabled');
 
-						KTUtil.scrollTop();
+                                                // $('ul.setup-panel li a:eq(2)').removeClass('disabled');
+                                                // $('ul.setup-panel li a[href="#step-3"]').trigger('click');  
+                                            }
+                                                                     
+                                        }
+                                    });
+                                }
+                            });
+                        }else{
+                            stepper.goNext();
+						    KTUtil.scrollTop();
+                        }
+
+
+						
 					} else {
 						Swal.fire({
 							text: "Sorry, looks like there are some errors detected, please try again.",

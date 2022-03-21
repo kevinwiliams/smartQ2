@@ -100,12 +100,14 @@ Route::middleware('auth')->group(function () {
 	# -----------------------------------------------------------
 	Route::prefix('admin')->namespace('admin')->group(function() { 
 		# home
-		Route::get('home/home', [HomeController::class, 'index']);
-		Route::get('home', [HomeController::class, 'home']);
-		Route::post('home/confirmMobile', [HomeController::class, 'confirmMobile']);
-		Route::post('home/confirmOTP', [HomeController::class, 'confirmOTP']);
-		Route::post('home/getwaittime', [HomeController::class, 'getwaittime']);
-
+		Route::prefix('home')->group(function () {
+		Route::get('home', [HomeController::class, 'index']);
+		Route::get('/', [HomeController::class, 'home']);
+		Route::post('confirmMobile', [HomeController::class, 'confirmMobile']);
+		Route::post('confirmOTP', [HomeController::class, 'confirmOTP']);
+		Route::post('getwaittime', [HomeController::class, 'getwaittime']);
+		Route::post('autotoken', [TokenController::class, 'clientTokenAuto']); 
+		});
 		// // User pages
 		// Route::prefix('user')->group(function () {
 		// 	Route::get('/', [UserController::class, 'index']);

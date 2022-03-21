@@ -21,9 +21,16 @@ class HomeController extends Controller
     
     public function index(){
         // $departments = Department::where('status',1)->pluck('name','id');
-        $departments = Department::where('status', '1')
-        ->orderBy('id', 'ASC')
-        ->get(); 
+        $departments = Department::select(
+            'department.name',
+            'department.id',
+            'department.description'
+        )
+            ->join('token_setting', 'token_setting.department_id', '=', 'department.id')
+            ->where('department.status', 1)
+            ->orderBy('id', 'ASC')
+            ->distinct()
+            ->get(); 
 
         $display = DisplaySetting::first();
 
