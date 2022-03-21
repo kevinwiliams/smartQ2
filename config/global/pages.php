@@ -259,7 +259,15 @@ return array(
         'settings' => array(
             'title' => 'App Settings',
             'display' => array(
-                'title' => 'Display Settings'
+                'title' => 'Display Settings',
+                'assets' => array(
+                    'custom' => array(
+                        'js'  => array(
+                            'plugins/custom/datatables/datatables.bundle.js',
+                        ),
+
+                    ),
+                ),
             )
         ),
         'home' => array(
