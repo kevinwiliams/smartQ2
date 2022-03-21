@@ -194,7 +194,7 @@
                     @if($token->status==3)  
                         <a href="#" class="btn btn-primary w-100 py-3" data-id="{{ $token->id }}" name="check_in" /*onclick="javascript:checkIn('{{ $token->id }}')"*/>Check In</a>
                     @elseif($token->status==0)  
-                        <a href="#" class="btn btn-primary w-100 py-3" data-id="{{ $token->id }}" name="cancel_token" /*onclick="javascript:getOutOfLine('{{ $token->id }}')" */>Cancel Token</a>
+                        <a href="#" class="btn btn-danger w-100 py-3" data-id="{{ $token->id }}" name="cancel_token" /*onclick="javascript:getOutOfLine('{{ $token->id }}')" */>Cancel Token</a>
                     @endif
                     </div>
                 </div>
