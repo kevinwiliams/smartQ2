@@ -90,7 +90,7 @@
                                 <!--begin::Col-->
                                 <div class="col-lg-12 text-center">
                                     {{-- @if($smsalert) --}}
-                                    <div class="col-md-12 card p-3" id="phoneCard" name="smsFld" style="display: none;>                            
+                                    <div class="col-md-12 card p-3" id="phoneCard" name="smsFld" style="display: none;">                            
                                         <span class="text-muted fw-bold fs-6 pb-3">What number should we text to alert you?</span>
                                         <div class="form-group">
                                           
@@ -120,7 +120,7 @@
                                         </div>
                                     </div>
                                     {{-- @else --}}
-                                    <div class="col-md-12 card p-3" id="emailCard" name="emailFld" style="display: none;>                            
+                                    <div class="col-md-12 card p-3" id="emailCard" name="emailFld" style="display: none;">                            
                                         <span class="text-muted fw-bold fs-6 pb-3">We'll send a password to your email</span>
                                         <div class="form-group">
                                             <span>{{ $maskedemail }}</span>
@@ -331,8 +331,9 @@
 @section('scripts')
 <script>
 $(function () {
+    //disable stepper until verified
     $('[data-kt-stepper-action="next"]').addClass('disabled');
-
+    //show/hide email and sms confirmation fields
     $('[name="alert_type"]').on('click', function(e) {
         var alrtType = e.target.value;
         console.log(e);
@@ -349,153 +350,155 @@ $(function () {
         }
     });
 
-        $('#btnConfirm').on('click', function(e) {
-            var phone = $("#phone").val();
+    $('#btnConfirm').on('click', function(e) {
+        var phone = $("#phone").val();
+        if (phone == "") {
 
-            if (phone == "") {
-
-                Swal.fire({
-                    text: "Enter your contact number",
-                    icon: "error",
-                    buttonsStyling: false,
-                    customClass: {
-                        confirmButton: "btn btn-light"
-                    }
-                });
-
-                return;
-            }
-
-            var _smsalert = '{{ $smsalert }}';
-            var msg = ""
-            if (parseInt(_smsalert) == 1){
-                msg = "My number is: " + phone;
-            }else{
-                msg = "My email is: " + phone;
-            }
-            
             Swal.fire({
-                html: msg+ "<br>Are you sure?.",
-                icon: "warning",
+                text: "Enter your contact number",
+                icon: "error",
                 buttonsStyling: false,
-                confirmButtonText: "Ok, got it!",
                 customClass: {
                     confirmButton: "btn btn-light"
                 }
-            }).then(function (value) {
-                if(value.isConfirmed) {
-                    $.ajax({
-                        type: 'post',
-                        url: '{{ URL::to("admin/home/confirmMobile") }}',
-                        type:'POST',
-                        dataType: 'json',
-                        data: {
-                            'phone' : phone,
-                            '_token':'<?php echo csrf_token() ?>'
-                        },
-                        success: function(data) {
-                            $("#phoneCard").hide();
-                            $("#codeCard").show();
-                        }
-                    });
-
-                    
-                    }
-
-                    
             });
 
-            
-            
-        });
+            return;
+        }
 
-        $('#activate-step-2').on('click', function(e) {
-            var phone = $("#phone").val();
-            var code = $("#code").val();
-
-            if (phone == "") {
-                Swal.fire({
-                    text: 'Enter your contact number',
-                    icon: 'error',
-                    buttonsStyling: false,
-                    customClass: {
-                        confirmButton: "btn btn-light"
-                    }
-                });
-                return;
+        var _smsalert = '{{ $smsalert }}';
+        var msg = ""
+        if (parseInt(_smsalert) == 1){
+            msg = "My number is: " + phone;
+        }else{
+            msg = "My email is: " + phone;
+        }
+        
+        Swal.fire({
+            html: msg+ "<br>Are you sure?.",
+            icon: "warning",
+            buttonsStyling: false,
+            confirmButtonText: "Ok, got it!",
+            customClass: {
+                confirmButton: "btn btn-light"
             }
-
-            if (code == "") {
-                Swal.fire({
-                    text: 'Enter your OTP code',
-                    icon: 'error',
-                    buttonsStyling: false,
-                    customClass: {
-                        confirmButton: "btn btn-light"
-                    }
-                });
-
-                return;
-            }
+        }).then(function (value) {
+            if(value.isConfirmed) {
                 $.ajax({
-                type: 'post',
-                url: '{{ URL::to("admin/home/confirmOTP") }}',
-                type:'POST',
-                dataType: 'json',
-                data: {
-                    'phone' : phone,
-                    'code' : code,
-                    '_token':'<?php echo csrf_token() ?>'
-                },
-                success: function(data) {
-                    console.log(data);
-                    if(data.status == true){
-                        $('[data-kt-stepper-action="next"]').removeClass('disabled');
-                        $('[data-kt-stepper-action="next"]').trigger('click');
-                        $(this).remove();
-                    }else{
-                        Swal.fire({
-                            text: 'Invalid Code',
-                            icon: 'error'
-                        });
+                    type: 'post',
+                    url: '{{ URL::to("admin/home/confirmMobile") }}',
+                    type:'POST',
+                    dataType: 'json',
+                    data: {
+                        'phone' : phone,
+                        '_token':'<?php echo csrf_token() ?>'
+                    },
+                    success: function(data) {
+                        $("#phoneCard").hide();
+                        $("#codeCard").show();
                     }
-                                             
-                }
-            });
-        
-            $(this).remove();
-        });
-
-
-        
-        $('input:radio[name=department_id]').on('click', function(e) {
-            console.log(e);
-            var dept = $(this).find(":checked").val();
-            var dept = e.target.value;
-            if (phone == "") {
-                Swal.fire({
-                    title: 'Enter your contact number',
-                    icon: 'error'
                 });
-                return;
-            }
- 
-            $.ajax({
-                type: 'post',
-                url: '{{ URL::to("admin/home/getwaittime") }}',
-                type:'POST',
-                dataType: 'json',
-                data: {
-                    'id' : dept,
-                    '_token':'<?php echo csrf_token() ?>'
-                },
-                success: function(data) {
-                    console.log(data);
-                  $("#span_wait").text(data);                                             
+
+                
+                }
+
+                
+        });
+
+        
+        
+    });
+
+    $('#btnConfirm2').on('click', function(e) {
+        alert('ok');
+    });
+
+    $('#activate-step-2').on('click', function(e) {
+        var phone = $("#phone").val();
+        var code = $("#code").val();
+
+        if (phone == "") {
+            Swal.fire({
+                text: 'Enter your contact number',
+                icon: 'error',
+                buttonsStyling: false,
+                customClass: {
+                    confirmButton: "btn btn-light"
+                }
+            });
+            return;
+        }
+
+        if (code == "") {
+            Swal.fire({
+                text: 'Enter your OTP code',
+                icon: 'error',
+                buttonsStyling: false,
+                customClass: {
+                    confirmButton: "btn btn-light"
                 }
             });
 
+            return;
+        }
+            $.ajax({
+            type: 'post',
+            url: '{{ URL::to("admin/home/confirmOTP") }}',
+            type:'POST',
+            dataType: 'json',
+            data: {
+                'phone' : phone,
+                'code' : code,
+                '_token':'<?php echo csrf_token() ?>'
+            },
+            success: function(data) {
+                console.log(data);
+                if(data.status == true){
+                    $('[data-kt-stepper-action="next"]').removeClass('disabled');
+                    $('[data-kt-stepper-action="next"]').trigger('click');
+                    $(this).remove();
+                }else{
+                    Swal.fire({
+                        text: 'Invalid Code',
+                        icon: 'error'
+                    });
+                }
+                                            
+            }
         });
+    
+        $(this).remove();
+    });
+
+        
+    $('input:radio[name=department_id]').on('click', function(e) {
+        console.log(e);
+        var dept = $(this).find(":checked").val();
+        var dept = e.target.value;
+        if (phone == "") {
+            Swal.fire({
+                title: 'Enter your contact number',
+                icon: 'error'
+            });
+            return;
+        }
+
+        $.ajax({
+            type: 'post',
+            url: '{{ URL::to("admin/home/getwaittime") }}',
+            type:'POST',
+            dataType: 'json',
+            data: {
+                'id' : dept,
+                '_token':'<?php echo csrf_token() ?>'
+            },
+            success: function(data) {
+                console.log(data);
+                $("#span_wait").text(data);                                             
+            }
+        });
+
+    });
     
 });
 </script>    

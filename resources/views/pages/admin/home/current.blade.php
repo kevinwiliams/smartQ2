@@ -86,14 +86,8 @@
                             <div class="symbol symbol-45px w-40px me-5">
                                 <span class="symbol-label bg-lighten">
                                     <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
-                                    <span class="svg-icon svg-icon-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                            <rect x="2" y="2" width="9" height="9" rx="2" fill="black" />
-                                            <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="black" />
-                                            <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="black" />
-                                            <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="black" />
-                                        </svg>
-                                    </span>
+                                    {!! theme()->getSvgIcon("icons/duotune/general/gen025.svg", "svg-icon-1") !!}
+
                                     <!--end::Svg Icon-->
                                 </span>
                             </div>
@@ -192,9 +186,9 @@
                     <!--end::Items-->
                     <div class="p-5">
                     @if($token->status==3)  
-                        <a href="#" class="btn btn-primary w-100 py-3" data-id="{{ $token->id }}" name="check_in" /*onclick="javascript:checkIn('{{ $token->id }}')"*/>Check In</a>
+                        <a href="#" class="btn btn-primary w-100 py-3" data-id="{{ $token->id }}" name="check_in">Check In</a>
                     @elseif($token->status==0)  
-                        <a href="#" class="btn btn-danger w-100 py-3" data-id="{{ $token->id }}" name="cancel_token" /*onclick="javascript:getOutOfLine('{{ $token->id }}')" */>Cancel Token</a>
+                        <a href="#" class="btn btn-danger w-100 py-3" data-id="{{ $token->id }}" name="cancel_token">Cancel Token</a>
                     @endif
                     </div>
                 </div>
