@@ -220,7 +220,7 @@
                 type: 'post',
                 url: '{{ URL::to("admin/home/currentposition") }}',            
                 success: function(data) {
-                    console.log(data);
+                    // console.log(data);
                     $("#tkn_position").text("Position: " + data.position);
                     $("#span_wait").text(data.wait);
                 }
@@ -253,11 +253,23 @@
             .then((value) => {
                 if (value.isConfirmed) {
                     $.ajax({
-                        url: '{{ URL::to("admin/token/stoped") }}/' + id,
+                        url: '{{ URL::to("admin/token/stopedclient") }}/' + id,
                         type: 'get',
                         dataType: 'json',
                         success: function(data) {
-                            document.location.href = '/admin/home';
+                            Swal.fire({
+                                text:  "Token cancelled!.",
+                                icon: "success",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok, got it!",
+                                customClass: {
+                                    confirmButton: "btn fw-bold btn-primary",
+                                }
+                            }).then(function () {
+                                location.reload(true);
+
+                            });
+                            
                         }
                     });
                 }
@@ -294,6 +306,7 @@
             });
     });
 
+   
     function checkIn(id) {
         // alert(id);
         // var _url = '{{ URL::to("client/token/stoped") }}/' + id;

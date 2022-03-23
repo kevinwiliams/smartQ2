@@ -1051,6 +1051,22 @@ class TokenController extends Controller
         return response()->json($data);        
     }
 
+    public function stopedClient($id)
+    {
+        Token::where('id', $id)
+            ->where('client_id', auth()->user()->id)
+            ->update([
+                'updated_at' => date('Y-m-d H:i:s'),
+                'status'     => 2,
+                'sms_status' => 1
+            ]);
+
+        $data['status'] = true;
+        $data['exception'] = trans('app.update_successfully');
+
+        return response()->json($data);
+    }
+
 }
 
  

@@ -173,6 +173,7 @@ Route::middleware('auth')->group(function () {
 			Route::post('print', [TokenController::class, 'viewSingleToken']);
 			Route::get('complete/{id}',[TokenController::class, 'complete']);
 			Route::get('stoped/{id}',[TokenController::class, 'stoped']);
+			Route::get('stopedclient/{id}',[TokenController::class, 'stopedClient']);
 			Route::get('recall/{id}',[TokenController::class, 'recall']);
 			Route::get('delete/{id}',[TokenController::class, 'delete']);
 			Route::post('transfer',[TokenController::class, 'transfer']); 
