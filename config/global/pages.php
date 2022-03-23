@@ -322,9 +322,9 @@ return array(
                             'plugins/custom/datatables/datatables.bundle.css',
                         ),
                         'js'  => array(
-                            'js/custom/user-management/permissions/list.js',
-                            'js/custom/user-management/permissions/add-permission.js',
-                            'js/custom/user-management/permissions/update-permission.js',
+                            // 'js/custom/user-management/permissions/list.js',
+                            // 'js/custom/user-management/permissions/add-permission.js',
+                            // 'js/custom/user-management/permissions/update-permission.js',
                             'plugins/custom/datatables/datatables.bundle.js',
                         ),
 

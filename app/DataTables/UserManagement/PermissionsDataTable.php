@@ -23,7 +23,7 @@ class PermissionsDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->rawColumns(['assign'])        
+            ->rawColumns(['assign', 'action'])        
             ->editColumn('created_at', function (Permission $model) {      
                 return Carbon::parse($model->created_at)->format('d M Y, h:i a');
             })  
@@ -37,8 +37,8 @@ class PermissionsDataTable extends DataTable
                 }  
 
                 return $html;
-            });
-            // ->addColumn('action', 'pages.apps.user-management.users._action-menu') ;  
+            })
+            ->addColumn('action', 'pages.apps.user-management.permissions._action-menu') ;  
     }
 
     /**
@@ -87,7 +87,9 @@ class PermissionsDataTable extends DataTable
             ->exportable(false)
             ->printable(false)
             ->responsivePriority(-1),       
-            Column::make('created_at'),  
+            Column::make('created_at'),
+            Column::computed('action')
+
         ];
     }
 

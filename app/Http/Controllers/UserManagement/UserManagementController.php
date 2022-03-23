@@ -27,6 +27,99 @@ class UserManagementController extends Controller
         return $dataTable->render('pages.apps.user-management.permissions.index');
     }
 
+    public function createPermission(Request $request)
+    {
+        @date_default_timezone_set(session('app.timezone'));
+
+
+        $validator = Validator::make($request->all(), [
+            'permission_name' => 'required|unique:permissions,name'
+        ])
+            ->setAttributeNames(array(
+                'permission_name' => trans('app.permission_name'),
+            ));
+
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $data['exception'] = "<ul class='list-unstyled'>";
+            $messages = $validator->messages();
+            foreach ($messages->all('<li>:message</li>') as $message) {
+                $data['exception'] .= $message;
+            }
+            $data['exception'] .= "</ul>";
+        } else {
+            $role = Role::create(['name' => $request->role_name, 'description' => $request->role_description]);
+           
+            if ($role) {
+
+                $data['status'] = true;
+                $data['message'] = trans('app.role_created');
+                $data['role']  = $role;
+            } else {
+                $data['status'] = false;
+                $data['exception'] = trans('app.please_try_again');
+            }
+        }
+        return response()->json($data);
+    }
+
+    public function updatePermission(Request $request, $id)
+    {
+        @date_default_timezone_set(session('app.timezone'));
+
+
+        $validator = Validator::make($request->all(), [
+            'permission_name' => 'required',
+        ])
+            ->setAttributeNames(array(
+                'permission_name' => trans('app.permission_name'),
+            ));
+
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $data['exception'] = "<ul class='list-unstyled'>";
+            $messages = $validator->messages();
+            foreach ($messages->all('<li>:message</li>') as $message) {
+                $data['exception'] .= $message;
+            }
+            $data['exception'] .= "</ul>";
+        } else {
+            $permission = Permission::find($id);
+            $permission->name = $request->permission_name;
+            $permission->save();
+
+            $permissions = Permission::whereIn('id', $request->permissions)->get();
+
+            $permission->syncPermissions($permissions);
+      
+            if ($permission) {
+
+                $data['status'] = true;
+                $data['message'] = trans('app.permission_created');
+                $data['permission']  = $permission;
+            } else {
+                $data['status'] = false;
+                $data['exception'] = trans('app.please_try_again');
+            }
+        }
+        return response()->json($data);
+    }
+
+
+    public function deletePermission($id)
+    {
+
+        $permission = Permission::find($id);
+        $permission->delete(); 
+
+        $data['status'] = true;
+        $data['message'] = trans('app.permission_deleted');        
+
+        return response()->json($data);
+    }
+
     // public function usersList()
     // {
     //     // get the default inner page
