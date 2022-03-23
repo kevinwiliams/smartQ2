@@ -1,27 +1,7 @@
 <x-auth-layout>
 
 @section('content')
-<div class="panel panel-primary">
-
-    <div class="panel-heading">
-        <div class="row">
-            <div class="col-sm-12">
-                <h3>{{ trans('app.display_3') }} <button class="pull-right btn btn-sm btn-primary" onclick="goFullscreen('fullscreen'); return false"><i class="fa fa-arrows-alt" aria-hidden="true"></i></button></h3>
-                <span class="text-danger">(enable full-screen mode and wait 10 seconds to adjust the screen)</span>
-            </div> 
-        </div>
-    </div> 
-
-    <div class="panel-body" id="fullscreen">
-    
-      <div class="media row" style="height:60px;background:#3498db;margin-top:-20px;margin-bottom:20px">
-        <div class="media-left hidden-xs">
-          <img class="media-object" style="height:59px;" src="{{ asset('public/assets/img/icons/logo.jpg') }}" alt="Logo">
-        </div>
-        <div class="media-body" style="color:#ffffff">
-          <h4 class="media-heading" style="font-size:50px;line-height:60px"><marquee direction="{{ (!empty($setting->direction)?$setting->direction:null) }}">{{ (!empty($setting->message)?$setting->message:null) }}</marquee></h4> 
-        </div>
-      </div>
+@include('pages.common.display._header', array('title' => trans('app.display_3')))
 
         <div class="row">  
            <div id="display3"></div>
@@ -93,5 +73,6 @@ $(document).ready(function(){
 
 });
 </script>
+@include('pages.common.display._clock-js')
 @endsection
 </x-auth-layout>

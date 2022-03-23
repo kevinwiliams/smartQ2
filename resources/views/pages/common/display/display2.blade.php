@@ -2,36 +2,13 @@
 
 
 @section('content') 
-<div class="panel panel-primary">
-
-    <div class="panel-heading">
-        <div class="row">
-            <div class="col-sm-12">
-                <h3>{{ trans('app.display_2') }} <button class="pull-right btn btn-sm btn-primary" onclick="goFullscreen('fullscreen'); return false"><i class="fa fa-arrows-alt" aria-hidden="true"></i></button></h3> 
-                <span class="text-danger">(enable full-screen mode and wait 10 seconds to adjust the screen)</span>
-            </div> 
-        </div>
-    </div>
-
-    <div class="panel-body" id="fullscreen" style="color:{{ (!empty($setting->color)?$setting->color:'#ffffff') }}">
- 
-      <div class="media" style="height:60px;background:#3498db;margin-top:-20px;margin-bottom:10px">
-        <div class="media-left hidden-xs">
-          {{-- <img class="media-object" style="height:59px;" src="{{ asset('public/assets/img/icons/logo.jpg') }}" alt="Logo"> --}}
-        </div>
-        <div class="media-body" style="color:#ffffff">
-          <h2 class="media-heading">
-            <marquee direction="{{ (!empty($setting->direction)?$setting->direction:null) }}">
-              {{ (!empty($setting->message)?$setting->message:null) }}
-            </marquee></h2> 
-        </div>
-      </div>
+@include('pages.common.display._header', array('title' => trans('app.display_2')))
       
-      <div class="row">  
+      <div class="row gy-10 gx-xl-10">  
          <div id="display5"></div>
       </div>
 
-      <div class="panel-footer col-xs-12"> 
+      <div class="card-footer col-xs-12"> 
         {{-- @include('backend.common.info')
         <span class="col-xs-10 text-left">@yield('info.powered-by')</span>
         <span class="col-xs-2 text-right">@yield('info.version')</span> --}}
@@ -42,15 +19,7 @@
 
 @section('scripts')
 <script type="text/javascript"> 
-function goFullscreen(id) 
-  {
-    var element = document.getElementById(id);
-    if (element.mozRequestFullScreen) {
-      element.mozRequestFullScreen();
-    } else if (element.webkitRequestFullScreen) {
-      element.webkitRequestFullScreen();
-    }  
-  } 
+
 $(document).ready(function(){
   //get previous token
   var view_token = [];
@@ -105,6 +74,7 @@ $(document).ready(function(){
   setTimeout(display, interval);
 })
 </script>
+@include('pages.common.display._clock-js')
 @endsection
 </x-auth-layout>
 
