@@ -1,4 +1,6 @@
 <x-base-layout>
+	<div class="d-flex flex-column flex-xl-row">
+	<!--begin::Sidebar-->
 	<!--begin::Layout-->
 	<div class="flex-column flex-lg-row-auto w-lg-250px w-xl-350px mb-10">
 		<!--begin::Card-->
@@ -254,7 +256,7 @@
 		<!--end:::Tab content-->
 	</div>
 	<!--end::Content-->
-
+	</div>
 	<!--end::Layout-->
 	<!--begin::Modals-->
 	<!--begin::Modal - Update user details-->
