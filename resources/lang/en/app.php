@@ -253,5 +253,8 @@ return [
       'role_name'      => "Role Name",
       'role_created'    => "Role Created",
       'role_deleted'    => "Role Deleted",
-      'role_description'    => "Role Description"
+      'role_description'    => "Role Description",
+
+       /*Users*/
+       'user_deleted'    => "User Deleted",
 ];

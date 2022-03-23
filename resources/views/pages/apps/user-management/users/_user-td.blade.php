@@ -11,7 +11,7 @@
     <!--end::Avatar-->
     <!--begin::User details-->
     <div class="d-flex flex-column">
-        <a href="{{ theme()->getPageUrl('/apps/users/view/' . $model->id) }}" class="text-gray-800 text-hover-primary mb-1">{{ $model->name }}</a>
+        <a href="{{ theme()->getPageUrl('/apps/user-management/users/edit/' . $model->id) }}" class="text-gray-800 text-hover-primary mb-1">{{ $model->name }}</a>
         <span>{{ $model->email }}</span>
     </div>
     <!--begin::User details-->

@@ -70,7 +70,10 @@ Route::prefix('apps')->group(function () {
 		Route::get('permissions', [UserManagementController::class, 'permissionsList']);
 		Route::get('users/list', [UserManagementController::class, 'usersList']);
 		Route::get('users/view/{id}', [UserManagementController::class, 'usersView'])->name('users.view');
-		Route::delete('users/delete/{id}', [UserManagementController::class, 'usersView'])->name('admin.user.destroy');
+		Route::get('users/edit/{id}', [UserManagementController::class, 'usersEdit'])->name('users.edit');
+		Route::post('users/update/{id}', [UserManagementController::class, 'updateUser'])->name('users.update');
+		Route::post('users/assign-role', [UserManagementController::class, 'assignRole']);
+		Route::delete('users/{id}', [UserManagementController::class, 'deleteUser'])->name('admin.user.destroy');
 		Route::get('roles/list', [UserManagementController::class, 'rolesList']);
 		Route::get('roles/view/{id}', [UserManagementController::class, 'rolesView'])->name('roles.view');
 		Route::post('roles', [UserManagementController::class, 'createRole']);
