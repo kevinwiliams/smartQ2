@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\DisplayCustom; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -21,6 +22,12 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
+        $customDisplays = DisplayCustom ::where('status', 1)->orderBy('name', 'ASC')->pluck('name', 'id');
+        if (!empty($customDisplays))
+        {
+            \Session::put('custom_displays', $customDisplays); 
+        }
+
         return view('auth.login');
     }
 
