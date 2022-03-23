@@ -5,8 +5,12 @@ namespace App\Http\Controllers\UserManagement;
 use App\DataTables\UserManagement\PermissionsDataTable;
 use App\DataTables\UserManagement\UsersDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Department;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\User;
+use App\Models\UserInfo;
+use App\Models\UserSocialAccount;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -31,7 +35,8 @@ class UserManagementController extends Controller
 
     public function usersList(UsersDataTable $dataTable)
     {
-        return $dataTable->render('pages.apps.user-management.users.index');
+        $roles = Role::get();
+        return $dataTable->render('pages.apps.user-management.users.index', compact('roles'));
     }
 
     public function usersView()
@@ -39,6 +44,36 @@ class UserManagementController extends Controller
         // get the default inner page
         return view('pages.apps.user-management.users.view');
     }
+
+    public function usersEdit($id)
+    {
+        $user = User::find($id);
+        $roles = Role::get();
+        $departments = Department::get();
+        // get the default inner page
+        return view('pages.apps.user-management.users.view',compact('user','roles','departments'));
+    }
+
+    public function deleteUser($id)
+    {
+
+        $user = User::find($id);
+        $_info = UserInfo::where('user_id',$id)->first();
+        $_social = UserSocialAccount::where('user_id',$id)->first();
+        if($_info)
+        $_info->delete();
+
+        if($_social)
+        $_social->delete();
+
+        $user->delete(); 
+
+        $data['status'] = true;
+        $data['message'] = trans('app.user_deleted');        
+
+        return response()->json($data);
+    }
+
     public function rolesList()
     {
         $roles = Role::get();
@@ -60,6 +95,20 @@ class UserManagementController extends Controller
         // get the default inner page
         return view('pages.apps.user-management.roles.list', compact('roles', 'permissions'));
     }
+
+    public function assignRole(Request $request)
+    {
+
+        $role = Role::find($request->user_role);
+        $user = User::find($request->user_id);
+        $user->syncRoles($role);
+
+        $data['status'] = true;
+        $data['message'] = trans('app.user_role_assigned');        
+
+        return response()->json($data);
+    }
+
     public function rolesView($id)
     {
         $role = Role::find($id);

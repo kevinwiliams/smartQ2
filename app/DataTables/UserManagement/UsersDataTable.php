@@ -23,7 +23,7 @@ class UsersDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->rawColumns(['action','user','last_login_at'])
+            ->rawColumns(['action','user','last_login_at','id'])
             ->editColumn('last_login_at', function (User $model) {
                 $str = '';
 
@@ -32,6 +32,19 @@ class UsersDataTable extends DataTable
 
                 return $str;
             })
+            ->editColumn('department', function (User $model) {
+                return ($model->department)?$model->department->name:'';
+            })
+            ->editColumn('role', function (User $model) {                
+                $str = '';
+                
+                foreach ($model->getRoleNames()->toArray() as $_roleName) {
+                    $str = $_roleName;
+                }
+
+                return ucwords($str);
+            })
+            ->editColumn('id', '<div class="form-check form-check-sm form-check-custom form-check-solid"><input class="form-check-input" type="checkbox" value="1"></div>')
             ->editColumn('created_at', function (User $model) {      
                 return Carbon::parse($model->created_at)->format('d M Y, h:i a');
             })
@@ -61,11 +74,11 @@ class UsersDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('users-table')
+                    ->setTableId('kt_table_users')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     // ->dom('Bfrtip')
-                    ->orderBy(0)
+                    ->orderBy(5)
                     ->responsive()
                     ->autoWidth(false)
                     ->parameters(['scrollX' => true])
@@ -81,13 +94,16 @@ class UsersDataTable extends DataTable
     protected function getColumns()
     {
         return [           
-            Column::make('id'),
+            Column::make('id')->title('<div class="form-check form-check-sm form-check-custom form-check-solid me-3"><input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_table_users .form-check-input" value="1" id="kt_users_select_all"></div>')
+            ->orderable(false),
             Column::computed('user')
             ->addClass('d-flex align-items-center')           
             ->responsivePriority(-1),
             // Column::make('firstname'),
             // Column::make('lastname'),            
-            // Column::make('email'),
+            Column::make('role'),
+            Column::make('department')
+            ->searchable(false),
             Column::make('last_login_at')->title(__('Last Login')),
             Column::make('created_at'),
             Column::computed('action')
