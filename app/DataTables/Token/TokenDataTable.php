@@ -22,12 +22,12 @@ class TokenDataTable extends DataTable
     {
         $query = Token::wherein('status', ['0', '3'])
         ->orderBy('is_vip', 'DESC')
-        ->orderBy('id', 'ASC');
+        ->orderBy('id', 'DESC');
 
         return datatables()
             ->eloquent($query)
             ->editColumn('token_no', function(Token $model){
-                $col = ($model->is_vip == 1)? 'danger' : 'primary';
+                $col = ($model->is_vip == 1)? 'danger' : (($model->status == 3) ? 'warning' : 'primary');
                 $txt = ($model->status == 1)? 'Active' : 'Inactive';
                 
                 $str = '<div class="badge badge-light-'.$col.' fw-bolder">' .$model->token_no .'</div><input type=hidden name=token-id value='.$model->id.'>';     

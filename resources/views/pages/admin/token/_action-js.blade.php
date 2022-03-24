@@ -11,7 +11,7 @@
                 serverSide: true,
                 responsive: true,
                 ordering: true,
-                order: [7, "asc"],
+                order: [7, "desc"],
                 dom:
                 "<'table-responsive'tr><'row'" +
                 "<'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'li>" +

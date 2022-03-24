@@ -115,11 +115,11 @@
                                             <span>Confirm the SMS code we sent below:</span>
                                             <input type="text" class="form-control form-control-user" id="code" aria-describedby="codeHelp" name="code" placeholder="555555" value="{{ old('code') }}" autocomplete="off">
 
-                                            <span>It might take a few minutes, please be patient</span>
+                                            <span class="pt-5">It might take a few minutes, please be patient</span>
 
                                             <div class="form-group">
                                                 <button type="button" id="activate-step-2" class=" button btn btn-primary mr-3">Next</button>
-                                                <button class=" button btn btn-warning">Cancel</button>
+                                                <button type="button" class="button btn btn-warning" id="cancel_otp" data-cancel="sms">Cancel</button>
                                             </div>
                                         </div>
                                         {{-- @else --}}
@@ -143,11 +143,11 @@
                                             <span>Confirm the OTP code we sent below:</span>
                                             <input type="text" class="form-control form-control-user" id="emailCode" aria-describedby="codeHelp" name="code" placeholder="555555" value="{{ old('code') }}" autocomplete="off">
 
-                                            <span>It might take a few minutes, please be patient</span>
+                                            <span class="pt-5">It might take a few minutes, please be patient</span>
 
                                             <div class="form-group">
                                                 <button type="button" id="activate-step-2-email" class=" button btn btn-primary mr-3">Next</button>
-                                                <button class=" button btn btn-warning">Cancel</button>
+                                                <button type="button" class="button btn btn-warning" id="cancel_otp" data-cancel="email">Cancel</button>
                                             </div>
                                         </div>
                                         {{-- @endif --}}
@@ -585,6 +585,23 @@
                     }
                 });
 
+            });
+
+            $('#cancel_otp').on('click', function(e) {
+                e.preventDefault();
+                console.log(e.target.dataset);
+                var cancelType = e.target.dataset.cancel;
+                alert(cancelType);
+                if (cancelType == 'sms') {
+                    // $('[name="emailFld"]').show();
+                    $('[name="smsFld"]').show();
+                    $('[name="smsFldCode"]').hide();
+
+                } else {
+                    // $('[name="smsFld"]').show();
+                    $('[name="emailFld"]').show();
+                    $('[name="emailFldCode"]').hide();
+                }
             });
 
         });

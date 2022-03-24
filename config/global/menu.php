@@ -202,7 +202,7 @@ return array(
 
         //// Dashboard
         array(
-            'title' => 'Client',
+            'title' => 'Home',
             'path'  => 'admin/home',
             'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/art/art002.svg", "svg-icon-2"),
         ),

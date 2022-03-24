@@ -115,6 +115,7 @@ class TokenController extends Controller
         {
             $departmentList = TokenSetting::select( 
                     'department.name',
+                    'department.description',
                     'token_setting.department_id',
                     'token_setting.counter_id',
                     'token_setting.user_id',
@@ -132,9 +133,12 @@ class TokenController extends Controller
         {
             $departmentList = TokenSetting::select( 
                     'department.name',
+                    'department.description',
                     'token_setting.department_id',
                     'token_setting.counter_id',
-                    'token_setting.user_id'
+                    'token_setting.user_id',
+                    DB::raw('CONCAT(user.firstname ," " ,user.lastname) AS officer')
+
                     )
                 ->join('department', 'department.id', '=', 'token_setting.department_id')
                 ->join('counter', 'counter.id', '=', 'token_setting.counter_id')
@@ -700,23 +704,6 @@ class TokenController extends Controller
                     $complete_time = (($diff->d > 0) ? " $diff->d Days " : null) . "$diff->h hrs $diff->i mins ";
                 }
 
-                # buttons
-                // $options = "<div class=\"btn-group\">";
-                // if ($token->status == 0) {
-                //     $options .= "<a href=\"".url("admin/token/complete/$token->id")."\"  class=\"btn btn-success btn-sm\" onclick=\"return confirm('Are you sure?')\" title=\"Complete\"><i class=\"fa fa-check\"></i></a>";
-                // }
-                // if ($token->status != 0 || !empty($token->updated_at)) {
-                //     $options .= "<a href=\"".url("admin/token/recall/$token->id")."\"  class=\"btn btn-info btn-sm\" onclick=\"return confirm('Are you sure?')\" title=\"Re-call\"><i class=\"fa fa-phone\"></i></a>";
-                // }
-                // if ($token->status == 0) {
-                //     $options .= "<button type=\"button\" data-toggle=\"modal\" data-target=\".transferModal\" data-token-id='{$token->id}' class=\"btn btn-primary btn-sm\" title=\"Transfer\"><i class=\"fa fa-exchange-alt\"></i></button> 
-                //         <a href=\"". url("admin/token/stoped/$token->id")."\"  class=\"btn btn-warning btn-sm\" onclick=\"return confirm('Are you sure?')\" title=\"Stoped\"><i class=\"fa fa-stop\"></i></a>";
-                // } 
-
-                // $options .= "<button type=\"button\" href=\"".url("admin/token/print")."\" data-token-id='$token->id' class=\"tokenPrint btn btn-default btn-sm\" title=\"Print\"><i class=\"fa fa-print\"></i></button>
-                //     <a href=\"".url("admin/token/delete/$token->id")."\" class=\"btn btn-danger btn-sm\" onclick=\"return confirm('Are you sure?');\" title=\"Delete\"><i class=\"fa fa-times\"></i></a>"; 
-                // $options .= "</div>"; 
-                
                 //load options via render
                 $options = view('pages.admin.token._report-menu', compact('token'))->render();
 

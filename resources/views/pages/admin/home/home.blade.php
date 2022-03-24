@@ -4,9 +4,9 @@
     <!--begin::Card body-->
     <div class="card-body">
         <!--begin::Heading-->
-        <div class="card-px text-center pt-15 pb-15">
+        <div class="card-px text-center pt-5 pb-5">
             <!--begin::Title-->
-            <h2 class="fs-2x fw-bolder mb-0">Welcome to </h2><br><img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/logo-1.svg') }}" class="h-85px"/>
+            <h2 class="fs-2x fw-bolder mb-0">Welcome to </h2><br><img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/logo-1.svg') }}" class="img-fluid h-85px"/>
             <!--end::Title-->
             <!--begin::Description-->
             <p class="text-gray-400 fs-4 fw-bold py-7">Click on the below button to  
