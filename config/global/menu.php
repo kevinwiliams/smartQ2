@@ -216,6 +216,7 @@ return array(
         // Ticketing
         array(
             'title' => 'Token',
+            'permission' => 'view token', 
             'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/abstract/abs027.svg", "svg-icon-2"),
             'path'  => '#',
             'classes'    => array('item' => 'menu-accordion'),
@@ -232,11 +233,13 @@ return array(
                     ),
                     array(
                         'title'  => 'Active Cards',
+                        'permission'  => 'view token-cards',
                         'path'   => 'admin/token/current/card',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
                         'title'      => 'Auto Token',
+                        'permission' => 'run auto-token',
                         'path'       => 'admin/token/auto',
                         'bullet'     => '<span class="bullet bullet-dot"></span>',
                        
@@ -274,6 +277,7 @@ return array(
         // Configuration
         array(
             'title' => 'Configuration',
+            'permission' => 'view configuration',
             'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/abstract/abs015.svg", "svg-icon-2"),
             'path'  => '#',
             'classes'    => array('item' => 'menu-accordion'),
@@ -327,6 +331,7 @@ return array(
         // Messaging
         array(
             'title' => 'SMS',
+            'role'=> 'admin',
             'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/communication/com007.svg", "svg-icon-2"),
             'path'  => 'admin/sms',
           
@@ -334,6 +339,7 @@ return array(
         // Settings
         array(
             'title' => 'Settings',
+            'role' => 'admin',
             'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/general/gen019.svg", "svg-icon-2"),
             'path'  => '#',
             'classes'    => array('item' => 'menu-accordion'),
