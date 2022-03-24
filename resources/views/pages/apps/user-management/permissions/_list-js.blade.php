@@ -4,32 +4,29 @@
         // Shared variables
         var datatable;
         var table;
-    
+
+        var handleEditRows = () => {
+            const editButtons = document.querySelectorAll('[data-kt-permissions-action="edit"]');
+            // console.log(editButtons);
+            editButtons.forEach(d => {
+                d.addEventListener('click', e => {
+                    e.preventDefault();
+
+                    var btn = $('#' + d.id);
+                    var id = btn.data('id');
+                    var name = btn.data('name');
+                    console.log(name);
+                    $('[name="permission_name"]').val(name);
+                    $('[name="permission_id"]').val(id);
+
+                    modal.show();
+                })
+            });
+        }
+
+
         // Init add schedule modal
-        var initPermissionsList = () => {
-            // Set date data order
-            // const tableRows = table.querySelectorAll('tbody tr');
-
-            // tableRows.forEach(row => {
-            //     const dateRow = row.querySelectorAll('td');
-            //     const realDate = moment(dateRow[2].innerHTML, "DD MMM YYYY, LT").format(); // select date from 2nd column in table
-            //     dateRow[2].setAttribute('data-order', realDate);
-            // });
-
-            // // Init datatable --- more info on datatables: https://datatables.net/manual/
-            // datatable = $(table).DataTable({
-            //     "info": false,
-            //     'order': [],
-            //     'columnDefs': [{
-            //             orderable: false,
-            //             targets: 1
-            //         }, // Disable ordering on column 1 (assigned)
-            //         {
-            //             orderable: false,
-            //             targets: 3
-            //         }, // Disable ordering on column 3 (actions)
-            //     ]
-            // });
+        var initPermissionsList = () => {  
 
             if ($.fn.dataTable.isDataTable(table)) {
                 datatable = $(table).DataTable();
@@ -50,6 +47,10 @@
                     ]
                 });
             }
+
+            datatable.on('draw', function() {
+                handleDeleteRows();
+            });
         }
 
         // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
@@ -154,7 +155,8 @@
 
                 initPermissionsList();
                 handleSearchDatatable();
-                handleDeleteRows();                
+                handleDeleteRows();
+                handleEditRows();
             }
         };
     }();
