@@ -25,16 +25,20 @@ class UserManagementController extends Controller
         return $dataTable->render('pages.apps.user-management.permissions.index');
     }
 
-    public function createPermission(Request $request)
+    public static function createPermission(Request $request)
     {
         @date_default_timezone_set(session('app.timezone'));
 
 
         $validator = Validator::make($request->all(), [
-            'permission_name' => 'required|unique:permissions,name'
+            'permission_name' => 'required|unique:permissions,name',
+            'permission_description' => 'required',
+
+
         ])
             ->setAttributeNames(array(
                 'permission_name' => trans('app.permission_name'),
+                'permission_description' => trans('app.permission_description'),
             ));
 
 
@@ -47,13 +51,13 @@ class UserManagementController extends Controller
             }
             $data['exception'] .= "</ul>";
         } else {
-            $role = Role::create(['name' => $request->role_name, 'description' => $request->role_description]);
+            $permission = Permission::create(['name' => $request->permission_name, 'description' => $request->permission_description]);
            
-            if ($role) {
+            if ($permission) {
 
                 $data['status'] = true;
-                $data['message'] = trans('app.role_created');
-                $data['role']  = $role;
+                $data['message'] = trans('app.permission_created');
+                $data['permission']  = $permission;
             } else {
                 $data['status'] = false;
                 $data['exception'] = trans('app.please_try_again');
@@ -69,9 +73,11 @@ class UserManagementController extends Controller
 
         $validator = Validator::make($request->all(), [
             'permission_name' => 'required',
+            'permission_description' => 'required',
         ])
             ->setAttributeNames(array(
                 'permission_name' => trans('app.permission_name'),
+                'permission_description' => trans('app.permission_description'),
             ));
 
 
@@ -86,6 +92,7 @@ class UserManagementController extends Controller
         } else {
             $permission = Permission::find($id);
             $permission->name = $request->permission_name;
+            $permission->description = $request->permission_description;
             $permission->save();
       
             if ($permission) {
