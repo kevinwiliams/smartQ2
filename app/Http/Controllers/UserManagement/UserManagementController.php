@@ -11,17 +11,15 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\UserInfo;
 use App\Models\UserSocialAccount;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Validator;
 
 class UserManagementController extends Controller
 {
-    public function _permissionsList()
-    {
-        // get the default inner page
-        return view('pages.apps.user-management.permissions.permissions');
-    }
-
     public function permissionsList(PermissionsDataTable $dataTable)
     {
         return $dataTable->render('pages.apps.user-management.permissions.index');
@@ -36,7 +34,8 @@ class UserManagementController extends Controller
     public function usersList(UsersDataTable $dataTable)
     {
         $roles = Role::get();
-        return $dataTable->render('pages.apps.user-management.users.index', compact('roles'));
+        $departments = Department::get();
+        return $dataTable->render('pages.apps.user-management.users.index', compact('roles', 'departments'));
     }
 
     public function usersView()
@@ -51,25 +50,233 @@ class UserManagementController extends Controller
         $roles = Role::get();
         $departments = Department::get();
         // get the default inner page
-        return view('pages.apps.user-management.users.view',compact('user','roles','departments'));
+        return view('pages.apps.user-management.users.view', compact('user', 'roles', 'departments'));
     }
 
     public function deleteUser($id)
     {
 
         $user = User::find($id);
-        $_info = UserInfo::where('user_id',$id)->first();
-        $_social = UserSocialAccount::where('user_id',$id)->first();
-        if($_info)
-        $_info->delete();
+        $_info = UserInfo::where('user_id', $id)->first();
+        $_social = UserSocialAccount::where('user_id', $id)->first();
+        if ($_info)
+            $_info->delete();
 
-        if($_social)
-        $_social->delete();
+        if ($_social)
+            $_social->delete();
 
-        $user->delete(); 
+        $user->delete();
 
         $data['status'] = true;
-        $data['message'] = trans('app.user_deleted');        
+        $data['message'] = trans('app.user_deleted');
+
+        return response()->json($data);
+    }
+
+    public function updateUser(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'email' => 'required',
+            'language' => 'required',
+            'phone' => 'required',
+            'country' => 'required'
+        ])
+            ->setAttributeNames(array(
+                'firstname' => trans('app.firstname'),
+                'lastname' => trans('app.lastname'),
+                'email' => trans('app.email'),
+                'language' => trans('app.language'),
+                'phone' => trans('app.phone'),
+                'country' => trans('app.country')
+            ));
+
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $data['exception'] = "<ul class='list-unstyled'>";
+            $messages = $validator->messages();
+            foreach ($messages->all('<li>:message</li>') as $message) {
+                $data['exception'] .= $message;
+            }
+            $data['exception'] .= "</ul>";
+        } else {
+            $user = User::find($id);
+            $user->firstname = $request->firstname;
+            $user->lastname = $request->lastname;
+            $user->email = $request->email;
+            $user->mobile = $request->phone;
+
+            if ($request->has('department_id'))
+                $user->department_id = $request->department_id;
+
+            $user->save();
+
+            $userInfo = UserInfo::where('user_id', $id)->first();
+            if ($userInfo) {
+                $userInfo->phone = $request->phone;
+                $userInfo->country = $request->country;
+                $userInfo->language = $request->language;
+
+                if ($request->has('company'))
+                    $userInfo->company = $request->company;
+
+                if ($request->has('website'))
+                    $userInfo->website = $request->website;
+
+                $userInfo->save();
+            }
+
+            if ($user) {
+
+                $data['status'] = true;
+                $data['message'] = trans('app.user_updated');
+                $data['user']  = $user;
+            } else {
+                $data['status'] = false;
+                $data['exception'] = trans('app.please_try_again');
+            }
+        }
+        return response()->json($data);
+    }
+
+    public function createUser(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'email' => 'required',
+            'language' => 'required',
+            'phone' => 'required',
+            'language' => 'required',
+            'department' => 'required',
+            'country' => 'required',
+        ])
+            ->setAttributeNames(array(
+                'firstname' => trans('app.firstname'),
+                'lastname' => trans('app.lastname'),
+                'email' => trans('app.email'),
+                'language' => trans('app.language'),
+                'phone' => trans('app.phone'),
+                'country' => trans('app.country'),
+                'department' => trans('app.department'),
+                'language' => trans('app.language'),
+            ));
+
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $data['exception'] = "<ul class='list-unstyled'>";
+            $messages = $validator->messages();
+            foreach ($messages->all('<li>:message</li>') as $message) {
+                $data['exception'] .= $message;
+            }
+            $data['exception'] .= "</ul>";
+        } else {
+            $user = User::create([
+                'firstname' => $request->firstname,
+                'lastname'  => $request->lastname,
+                'email'      => $request->email,
+                'password'   => Hash::make($request->email),
+                'department_id'      => $request->department,
+                'photo'     => '',
+                'user_type' => '3', // client
+                'created_at' => date('Y-m-d H:i:s'),
+                'status'    => '1',
+            ]);
+
+            $role = Role::find($request->user_role);
+            $user->syncRoles($role);
+
+            $user_info         = new UserInfo;
+            $user_info->avatar = '';
+            $user_info->country = $request->country;
+            $user_info->language = $request->language;
+            $user_info->user()->associate($user);
+            $user_info->save();
+
+
+            ///TODO: implement email to user and autopassword
+
+            if ($user) {
+
+                $data['status'] = true;
+                $data['message'] = trans('app.user_created');
+                $data['user']  = $user;
+            } else {
+                $data['status'] = false;
+                $data['exception'] = trans('app.please_try_again');
+            }
+        }
+        return response()->json($data);
+    }
+
+    public function updateUserEmail(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'profile_email' => 'required'
+        ])
+            ->setAttributeNames(array(
+                'profile_email' => trans('app.email')
+            ));
+
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $data['exception'] = "<ul class='list-unstyled'>";
+            $messages = $validator->messages();
+            foreach ($messages->all('<li>:message</li>') as $message) {
+                $data['exception'] .= $message;
+            }
+            $data['exception'] .= "</ul>";
+        } else {
+            $user = User::find($id);
+            $user->email = $request->profile_email;
+            $user->save();
+
+            if ($user) {
+
+                $data['status'] = true;
+                $data['message'] = trans('app.user_updated');
+                $data['user']  = $user;
+            } else {
+                $data['status'] = false;
+                $data['exception'] = trans('app.please_try_again');
+            }
+        }
+        return response()->json($data);
+    }
+
+    public function updateUserPassword(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' => 'required'
+        ])->setAttributeNames(array(
+            'password' => trans('app.password')
+        ));
+
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $data['exception'] = "<ul class='list-unstyled'>";
+            $messages = $validator->messages();
+            foreach ($messages->all('<li>:message</li>') as $message) {
+                $data['exception'] .= $message;
+            }
+            $data['exception'] .= "</ul>";
+        } else {
+            $user = User::find($id);
+
+            if ($user) {
+                $user->password = Hash::make($request->password);
+                $user->save();
+            }
+
+            $data['status'] = true;
+            $data['message'] = trans('app.password_reset');
+            $data['user']  = $user;
+        }
 
         return response()->json($data);
     }
@@ -104,7 +311,7 @@ class UserManagementController extends Controller
         $user->syncRoles($role);
 
         $data['status'] = true;
-        $data['message'] = trans('app.user_role_assigned');        
+        $data['message'] = trans('app.user_role_assigned');
 
         return response()->json($data);
     }
@@ -193,7 +400,7 @@ class UserManagementController extends Controller
             $permissions = Permission::whereIn('id', $request->permissions)->get();
 
             $role->syncPermissions($permissions);
-      
+
             if ($role) {
 
                 $data['status'] = true;
@@ -212,11 +419,62 @@ class UserManagementController extends Controller
     {
 
         $role = Role::find($id);
-        $role->delete(); 
+        $role->delete();
 
         $data['status'] = true;
-        $data['message'] = trans('app.role_deleted');        
+        $data['message'] = trans('app.role_deleted');
 
         return response()->json($data);
     }
+
+
+    public function createPermission(Request $request)
+    {
+        @date_default_timezone_set(session('app.timezone'));
+        $validator = Validator::make($request->all(), [
+            'permission_name' => 'required'
+        ])
+            ->setAttributeNames(array(
+                'permission_name' => trans('app.permission_name')
+            ));
+
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $data['exception'] = "<ul class='list-unstyled'>";
+            $messages = $validator->messages();
+            foreach ($messages->all('<li>:message</li>') as $message) {
+                $data['exception'] .= $message;
+            }
+            $data['exception'] .= "</ul>";
+        } else {
+            $perm = Permission::create(['name' => $request->permission_name, 'guard_name' => 'web', 'created_at' => date('Y-m-d H:i:s'), 'editable' => ($request->has('permissions_core')) ? 0 : 1]);
+
+            if ($perm) {
+
+                $data['status'] = true;
+                $data['message'] = trans('app.permission_created');
+                $data['permission']  = $perm;
+            } else {
+                $data['status'] = false;
+                $data['exception'] = trans('app.please_try_again');
+            }
+        }
+        return response()->json($data);
+    }
+
+
+    
+    public function deletePermission($id)
+    {
+
+        $perm = Permission::find($id);
+        $perm->delete();
+
+        $data['status'] = true;
+        $data['message'] = trans('app.permission_deleted');
+
+        return response()->json($data);
+    }
+
 }

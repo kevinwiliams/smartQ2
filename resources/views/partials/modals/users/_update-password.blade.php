@@ -25,13 +25,7 @@
 				<!--begin::Modal body-->
 				<div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
 					<!--begin::Form-->
-					<form id="kt_modal_update_password_form" class="form" action="#">
-						<!--begin::Input group=-->
-						<div class="fv-row mb-10">
-							<label class="required form-label fs-6 mb-2">Current Password</label>
-							<input class="form-control form-control-lg form-control-solid" type="password" placeholder="" name="current_password" autocomplete="off" />
-						</div>
-						<!--end::Input group=-->
+					{{ Form::open(['url' => 'apps/user-management/users/resetpassword/', 'class'=>'transferFrm', 'id'=>'kt_modal_update_password_form']) }}            			
 						<!--begin::Input group-->
 						<div class="mb-10 fv-row" data-kt-password-meter="true">
 							<!--begin::Wrapper-->
@@ -41,7 +35,7 @@
 								<!--end::Label-->
 								<!--begin::Input wrapper-->
 								<div class="position-relative mb-3">
-									<input class="form-control form-control-lg form-control-solid" type="password" placeholder="" name="new_password" autocomplete="off" />
+									<input class="form-control form-control-lg form-control-solid" type="password" placeholder="" name="password" autocomplete="off" />
 									<span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-kt-password-meter-control="visibility">
 										<i class="bi bi-eye-slash fs-2"></i>
 										<i class="bi bi-eye fs-2 d-none"></i>
@@ -79,7 +73,7 @@
 							</button>
 						</div>
 						<!--end::Actions-->
-					</form>
+						{{ Form::close() }}
 					<!--end::Form-->
 				</div>
 				<!--end::Modal body-->

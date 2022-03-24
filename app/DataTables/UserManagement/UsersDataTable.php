@@ -110,8 +110,7 @@ class UsersDataTable extends DataTable
             ->addClass('align-items-right')
             ->exportable(false)
             ->printable(false)
-            ->width(100)
-            
+            ->width(100)            
             ->responsivePriority(-1),         
         ];
     }

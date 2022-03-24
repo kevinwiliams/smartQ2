@@ -68,11 +68,16 @@ Route::prefix('apps')->group(function () {
 	// User Management
 	Route::prefix('user-management')->group(function () {
 		Route::get('permissions', [UserManagementController::class, 'permissionsList']);
+		Route::post('permissions/create', [UserManagementController::class, 'createPermission']);	
+		Route::delete('permissions/{id}', [UserManagementController::class, 'deletePermission']);	
 		Route::get('users/list', [UserManagementController::class, 'usersList']);
 		Route::get('users/view/{id}', [UserManagementController::class, 'usersView'])->name('users.view');
 		Route::get('users/edit/{id}', [UserManagementController::class, 'usersEdit'])->name('users.edit');
 		Route::post('users/update/{id}', [UserManagementController::class, 'updateUser'])->name('users.update');
+		Route::post('users/updatemail/{id}', [UserManagementController::class, 'updateUserEmail'])->name('users.updatemail');
+		Route::post('users/resetpassword/{id}', [UserManagementController::class, 'updateUserPassword'])->name('users.resetpassword');
 		Route::post('users/assign-role', [UserManagementController::class, 'assignRole']);
+		Route::post('users/create', [UserManagementController::class, 'createUser']);
 		Route::delete('users/{id}', [UserManagementController::class, 'deleteUser'])->name('admin.user.destroy');
 		Route::get('roles/list', [UserManagementController::class, 'rolesList']);
 		Route::get('roles/view/{id}', [UserManagementController::class, 'rolesView'])->name('roles.view');

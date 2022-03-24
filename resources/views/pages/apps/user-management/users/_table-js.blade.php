@@ -75,7 +75,7 @@
                         }, // Disable ordering on column 0 (checkbox)
                         {
                             orderable: false,
-                            targets: 5
+                            targets: 6
                         }, // Disable ordering on column 6 (actions)
                     ]
                 });

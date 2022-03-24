@@ -23,7 +23,7 @@ class PermissionsDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->rawColumns(['assign'])        
+            ->rawColumns(['assign','action'])        
             ->editColumn('created_at', function (Permission $model) {      
                 return Carbon::parse($model->created_at)->format('d M Y, h:i a');
             })  
@@ -37,8 +37,10 @@ class PermissionsDataTable extends DataTable
                 }  
 
                 return $html;
-            });
-            // ->addColumn('action', 'pages.apps.user-management.users._action-menu') ;  
+            })            
+            ->addColumn('action', function (Permission $model) {
+                return view('pages.apps.user-management.permissions._action-menu', compact('model'));
+            });  
     }
 
     /**
@@ -60,7 +62,7 @@ class PermissionsDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('permissions-table')
+                    ->setTableId('kt_permissions_table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     // ->dom('Bfrtip')
@@ -79,15 +81,20 @@ class PermissionsDataTable extends DataTable
      */
     protected function getColumns()
     {
-        return [           
-            Column::make('id'),
+        return [                       
             Column::make('name'),                        
             Column::computed('assign')->title(__('Assigned To'))
             ->addClass('align-items-right')
             ->exportable(false)
             ->printable(false)
             ->responsivePriority(-1),       
-            Column::make('created_at'),  
+            Column::make('created_at'),    
+            Column::computed('action')
+            ->addClass('align-items-right')
+            ->exportable(false)
+            ->printable(false)
+            ->width(100)            
+            ->responsivePriority(-1)  
         ];
     }
 

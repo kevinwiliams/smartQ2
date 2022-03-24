@@ -20,6 +20,9 @@ class Permission extends Model implements PermissionContract
     
     protected $table = "permissions";
     protected $guarded = [];
+    protected $casts = [
+        'editable' => 'bool',
+    ];
 
     public function __construct(array $attributes = [])
     {

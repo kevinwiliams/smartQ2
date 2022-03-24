@@ -322,9 +322,9 @@ return array(
                             'plugins/custom/datatables/datatables.bundle.css',
                         ),
                         'js'  => array(
-                            'js/custom/user-management/permissions/list.js',
-                            'js/custom/user-management/permissions/add-permission.js',
-                            'js/custom/user-management/permissions/update-permission.js',
+                            // 'js/custom/user-management/permissions/list.js',
+                            // 'js/custom/user-management/permissions/add-permission.js',
+                            // 'js/custom/user-management/permissions/update-permission.js',
                             'plugins/custom/datatables/datatables.bundle.js',
                         ),
 
@@ -354,6 +354,30 @@ return array(
                         ),
                     ),
                 ),
+                'edit' => array(
+                    '*' => array(                 
+                        'title'  => 'Edit User Details',
+                        'assets' => array(
+                            'custom' => array(
+                                'css' => array(
+                                    'plugins/custom/datatables/datatables.bundle.css',
+                                ),
+                                'js' => array(
+                                    'plugins/custom/datatables/datatables.bundle.js',
+                                    // 'js/custom/user-management/users/view/view.js',
+                                    // 'js/custom/user-management/users/view/update-details.js',
+                                    // 'js/custom/user-management/users/view/add-schedule.js',
+                                    // 'js/custom/user-management/users/view/add-task.js',
+                                    // 'js/custom/user-management/users/view/update-email.js',
+                                    // 'js/custom/user-management/users/view/update-password.js',
+                                    // 'js/custom/user-management/users/view/update-role.js',
+                                    // 'js/custom/user-management/users/view/add-auth-app.js',
+                                    // 'js/custom/user-management/users/view/add-one-time-password.js',
+                                ),
+                            ),
+                        ),
+                    )
+                ),
                 'list' => array(
                     'title'  => 'Users List',
                     'assets' => array(
@@ -376,7 +400,7 @@ return array(
             'roles' => array(
                 'view' => array(
                     '*' => array(
-                        'title'  => 'View Role Details',                    
+                        'title'  => 'View Role Details',
                         'assets' => array(
                             'custom' => array(
                                 'css' => array(

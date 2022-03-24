@@ -235,7 +235,7 @@
                             id = $("#user_id").val();
 
                             $.ajax({
-                                url: form.action + id,
+                                url: form.action + "/" + id,
                                 type: form.method,
                                 dataType: 'json',
                                 headers: {

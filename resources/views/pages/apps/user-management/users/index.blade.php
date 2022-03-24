@@ -108,7 +108,8 @@
 		<!--begin::Modal - Add role-->
 		{{ theme()->getView('partials/modals/users/_add', 
         array(
-            'roles' => $roles
+            'roles' => $roles,
+			'departments' => $departments
             )) }}
 	<!--end::Modal - Add role-->
 	<!--begin::Modal - Add role-->

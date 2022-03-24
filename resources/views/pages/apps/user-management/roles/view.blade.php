@@ -468,6 +468,7 @@
 												<tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
 													<th tabindex="0" rowspan="1" colspan="1">ID</th>
 													<th tabindex="0" rowspan="1" colspan="1">User</th>
+													<th tabindex="0" rowspan="1" colspan="1">Department</th>
 													<th tabindex="0" rowspan="1" colspan="1">Joined Date</th>
 												</tr>
 												<!--end::Table row-->
@@ -475,32 +476,35 @@
 											<!--end::Table head-->
 											<!--begin::Table body-->
 											<tbody>
-												@foreach($role->users->toArray() as $_user)
+												@foreach($role->users as $_user)
 												<tr>
 													<!--begin::ID-->
-													<td>ID3300</td>
+													<td>ID{{ str_pad($_user->id, 5, "0", STR_PAD_LEFT) }}</td>
 													<!--begin::ID-->
 													<!--begin::User=-->
-													<td>
+													<td class="d-flex align-items-center">
 														<!--begin:: Avatar -->
 														<div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-															<a href="/metronic8/demo1/../demo1/dark/apps/user-management/users/view.html">
+															<a href="{{ theme()->getPageUrl('/apps/users/view/' . $_user->id) }}">
 																<div class="symbol-label">
-																	<img src="/metronic8/demo1/assets/media/avatars/300-6.jpg" alt="Emma Smith" class="w-100">
+																	<img src="{{ $_user->avatar_url }}" alt="{{ $_user->name }}" class="w-100" />
 																</div>
 															</a>
 														</div>
 														<!--end::Avatar-->
 														<!--begin::User details-->
 														<div class="d-flex flex-column">
-															<a href="/metronic8/demo1/../demo1/dark/apps/user-management/users/view.html" class="text-gray-800 text-hover-primary mb-1">Emma Smith</a>
-															<span>smith@kpmg.com</span>
+															<a href="{{ theme()->getPageUrl('/apps/user-management/users/edit/' . $_user->id) }}" class="text-gray-800 text-hover-primary mb-1">{{ $_user->name }}</a>
+															<span>{{ $_user->email }}</span>
 														</div>
 														<!--begin::User details-->
 													</td>
 													<!--end::user=-->
+													<!--begin::Department-->
+													<td>{{ ($_user->department)?$_user->department->name:'' }}</td>
+													<!--begin::Department-->
 													<!--begin::Joined date=-->
-													<td>10 Nov 2022, 2:40 pm</td>
+													<td>{{ Carbon\Carbon::parse($_user->created_at)->format('d M Y, h:i a'); }}</td>
 													<!--end::Joined date=-->
 												</tr>
 												@endforeach

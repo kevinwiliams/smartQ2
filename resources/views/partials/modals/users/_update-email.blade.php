@@ -25,7 +25,8 @@
 				<!--begin::Modal body-->
 				<div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
 					<!--begin::Form-->
-					<form id="kt_modal_update_email_form" class="form" action="#">
+					
+					{{ Form::open(['url' => 'apps/user-management/users/updatemail/', 'class'=>'transferFrm', 'id'=>'kt_modal_update_email_form']) }}            
 						<!--begin::Notice-->
 						<!--begin::Notice-->
 						<div class="notice d-flex bg-light-primary rounded border-primary border border-dashed mb-9 p-6">
@@ -74,7 +75,7 @@
 							</button>
 						</div>
 						<!--end::Actions-->
-					</form>
+						{{ Form::close() }}
 					<!--end::Form-->
 				</div>
 				<!--end::Modal body-->
