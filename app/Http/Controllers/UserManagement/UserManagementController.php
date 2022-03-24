@@ -87,10 +87,6 @@ class UserManagementController extends Controller
             $permission = Permission::find($id);
             $permission->name = $request->permission_name;
             $permission->save();
-
-            $permissions = Permission::whereIn('id', $request->permissions)->get();
-
-            $permission->syncPermissions($permissions);
       
             if ($permission) {
 

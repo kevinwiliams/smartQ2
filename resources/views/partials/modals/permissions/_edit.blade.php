@@ -43,7 +43,7 @@
 					<!--end::Notice-->
 					<!--end::Notice-->
 					<!--begin::Form-->
-					<form id="kt_modal_update_permission_form" class="form" action="#">
+                    {{ Form::open(['url' => 'apps/user-management/permissions/update', 'class'=>'transferFrm', 'id'=>'kt_modal_update_permission_form']) }}					
 						<!--begin::Input group-->
 						<div class="fv-row mb-7">
 							<!--begin::Label-->
@@ -68,7 +68,7 @@
 							</button>
 						</div>
 						<!--end::Actions-->
-					</form>
+                        {{ Form::close() }}
 					<!--end::Form-->
 				</div>
 				<!--end::Modal body-->

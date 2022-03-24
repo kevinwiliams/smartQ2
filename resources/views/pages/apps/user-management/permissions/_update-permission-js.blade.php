@@ -9,6 +9,7 @@
 
         var handleEditRows = () => {
             const editButtons = document.querySelectorAll('[data-kt-permissions-action="edit"]');
+            // console.log(editButtons);
             editButtons.forEach(d => {
                 d.addEventListener('click', e => {
                     e.preventDefault();
@@ -129,31 +130,54 @@
                             // Disable button to avoid multiple click 
                             submitButton.disabled = true;
 
-                            // Simulate form submission. For more info check the plugin's official documentation: https://sweetalert2.github.io/
-                            setTimeout(function() {
-                                // Remove loading indication
-                                submitButton.removeAttribute('data-kt-indicator');
+                            id = $('[name="permission_id"]').val();
 
-                                // Enable button
-                                submitButton.disabled = false;
+                            $.ajax({
+                                url: form.action + '/' + id,
+                                type: form.method,
+                                dataType: 'json',
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                contentType: false,
+                                cache: false,
+                                processData: false,
+                                data: new FormData(form),
+                                // success: function(data)
 
-                                // Show popup confirmation 
-                                Swal.fire({
-                                    text: "Form has been successfully submitted!",
-                                    icon: "success",
-                                    buttonsStyling: false,
-                                    confirmButtonText: "Ok, got it!",
-                                    customClass: {
-                                        confirmButton: "btn btn-primary"
-                                    }
-                                }).then(function(result) {
-                                    if (result.isConfirmed) {
-                                        modal.hide();
-                                    }
-                                });
+                                // url: '{{ URL::to("client/token/checkin") }}/' + id,
+                                // type: 'get',
+                                // dataType: 'json',
+                                success: function(data) {
+                                    console.log(data);
+                                    // document.location.href = '/client';
+                                    // setInterval( function () {
+                                    //     table.ajax.reload();
+                                    // }, 2000 );
+                                    // Remove loading indication
+                                    submitButton.removeAttribute('data-kt-indicator');
 
-                                //form.submit(); // Submit form
-                            }, 2000);
+                                    // Enable button
+                                    submitButton.disabled = false;
+
+                                    // Show popup confirmation 
+                                    Swal.fire({
+                                        text: "Permission has been successfully updated!",
+                                        icon: "success",
+                                        buttonsStyling: false,
+                                        confirmButtonText: "Ok, got it!",
+                                        customClass: {
+                                            confirmButton: "btn btn-primary"
+                                        }
+                                    }).then(function(result) {
+                                        if (result.isConfirmed) {
+                                            document.location.href = '/apps/user-management/permissions';
+                                            form.reset();
+                                            modal.hide();
+                                        }
+                                    });
+                                }
+                            });
                         } else {
                             // Show popup warning. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                             Swal.fire({
@@ -182,6 +206,8 @@
 
     // On document ready
     KTUtil.onDOMContentLoaded(function() {
-        KTUsersUpdatePermission.init();
+        setTimeout(() => {
+            KTUsersUpdatePermission.init();
+        }, 1000);
     });
 </script>
