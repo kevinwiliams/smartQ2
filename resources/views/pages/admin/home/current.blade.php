@@ -191,6 +191,7 @@
                         <a href="#" class="btn btn-danger w-100 py-3" data-id="{{ $token->id }}" name="cancel_token">Cancel Token</a>
                     @endif
                     </div>
+                    <input type="hidden" name="tokenID" id="tokenID" value="{{ $token->id }}" />
                 </div>
                 <!--end::Body-->
             </div>
@@ -237,7 +238,7 @@
 
     $('[name=cancel_token]').on('click', function(e) {
             // console.log(e.target.dataset.id);
-            var id = e.target.dataset.id;
+            var id = $('#tokenID').val();
             Swal.fire({
                 text: 'Are you sure?',
                 icon: 'warning',

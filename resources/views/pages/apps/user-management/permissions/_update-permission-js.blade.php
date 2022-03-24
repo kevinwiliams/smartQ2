@@ -17,9 +17,11 @@
                     var btn = $('#' + d.id);
                     var id = btn.data('id');
                     var name = btn.data('name');
+                    var desc = btn.data('description');
                     console.log(name);
                     $('[name="permission_name"]').val(name);
                     $('[name="permission_id"]').val(id);
+                    $('[name="permission_description"]').val(desc);
 
                     modal.show();
                 })
@@ -38,6 +40,13 @@
                             validators: {
                                 notEmpty: {
                                     message: 'Permission name is required'
+                                }
+                            }
+                        },
+                        'permission_description': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Description is required'
                                 }
                             }
                         },

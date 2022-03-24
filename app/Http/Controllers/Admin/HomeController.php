@@ -223,6 +223,41 @@ class HomeController extends Controller
         }
     }
 
+    public function confirmEmail(Request $request)
+    {
+
+        $OTP = $this->generateNumericOTP(6);
+
+
+        $update = User::where('id', auth()->user()->id)
+            ->update([
+                // 'mobile' => $request->phone,
+                'otp'   => $OTP,
+                'updated_at'  => date('Y-m-d'),
+            ]);
+
+        if ($update) {            
+            $user = User::where('id', auth()->user()->id)->first(); 
+
+            Mail::to(auth()->user()->email)->send(new OTPNotification($user));            
+
+            // return json_decode($data, true);
+            return json_encode(array(
+                'status'      => true,
+                'request_url' => "",
+                'error'       => "",
+                'message'     => $OTP
+            ));
+        } else {
+            return json_encode(array(
+                'status'      => false,
+                'request_url' => "",
+                'error'       => "",
+                'message'     => ""
+            ));
+        }
+    }
+    
     public function confirmOTP(Request $request)
     {
         $OTP = auth()->user()->otp;       
@@ -242,6 +277,27 @@ class HomeController extends Controller
                     'updated_at'  => date('Y-m-d'),
                 ]);
             }
+
+            return json_encode(array(
+                'status'      => true,
+            ));
+        } else {
+            return json_encode(array(
+                'status'      => false,
+            ));
+        }
+    }
+
+    public function confirmEmailOTP(Request $request)
+    {
+        $OTP = auth()->user()->otp;       
+
+        if ($request->code == $OTP) {
+      
+                $update = User::where('id', auth()->user()->id)
+                ->update([                    
+                    'updated_at'  => date('Y-m-d'),
+                ]);       
 
             return json_encode(array(
                 'status'      => true,

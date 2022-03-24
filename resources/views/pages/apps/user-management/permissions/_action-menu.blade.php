@@ -1,7 +1,7 @@
 <!--begin::Action=-->
 <td class="text-end">
     <!--begin::Update-->
-    <button class="btn btn-icon btn-active-light-primary w-30px h-30px me-3" data-kt-permissions-action="edit" data-id="{{ $model->id }}" data-name="{{ $model->name }}" id="btnEditPerm{{ $model->id }}"{{ (!$model->editable)?'disabled':'' }}>
+    <button class="btn btn-icon btn-active-light-primary w-30px h-30px me-3" data-kt-permissions-action="edit" data-id="{{ $model->id }}" data-name="{{ $model->name }}" data-description="{{ $model->description }}" id="btnEditPerm{{ $model->id }}"{{ (!$model->editable)?'disabled':'' }}>
         <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
         {!! theme()->getSvgIcon("icons/duotune/general/gen019.svg", "svg-icon-3") !!}
 

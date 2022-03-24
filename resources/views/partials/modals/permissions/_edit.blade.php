@@ -58,6 +58,19 @@
 							<!--end::Input-->
 						</div>
 						<!--end::Input group-->
+						   <!--begin::Input group-->
+						   <div class="fv-row mb-7">
+							<!--begin::Label-->
+							<label class="fs-6 fw-bold form-label mb-2">
+								<span class="required">Permission Description</span>
+								<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-content="Permission descriptions is required."></i>
+							</label>
+							<!--end::Label-->
+							<!--begin::Input-->
+							<textarea class="form-control form-control-solid" placeholder="Enter a permission description" name="permission_description"></textarea>
+							<!--end::Input-->
+						</div>
+						<!--end::Input group-->
 						<!--begin::Actions-->
 						<div class="text-center pt-15">
 							<button type="reset" class="btn btn-light me-3" data-kt-permissions-modal-action="cancel">Discard</button>
