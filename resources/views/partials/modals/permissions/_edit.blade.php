@@ -11,12 +11,7 @@
 					<!--begin::Close-->
 					<div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-permissions-modal-action="close">
 						<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-						<span class="svg-icon svg-icon-1">
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-								<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black" />
-								<rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black" />
-							</svg>
-						</span>
+						{!! theme()->getSvgIcon("icons/duotune/arrows/arr061.svg", "svg-icon-1") !!}
 						<!--end::Svg Icon-->
 					</div>
 					<!--end::Close-->
@@ -29,13 +24,8 @@
 					<div class="notice d-flex bg-light-warning rounded border-warning border border-dashed mb-9 p-6">
 						<!--begin::Icon-->
 						<!--begin::Svg Icon | path: icons/duotune/general/gen044.svg-->
-						<span class="svg-icon svg-icon-2tx svg-icon-warning me-4">
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-								<rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="black" />
-								<rect x="11" y="14" width="7" height="2" rx="1" transform="rotate(-90 11 14)" fill="black" />
-								<rect x="11" y="17" width="2" height="2" rx="1" transform="rotate(-90 11 17)" fill="black" />
-							</svg>
-						</span>
+                        {!! theme()->getSvgIcon("icons/duotune/general/gen044.svg", "svg-icon-2tx svg-icon-warning me-4") !!}
+
 						<!--end::Svg Icon-->
 						<!--end::Icon-->
 						<!--begin::Wrapper-->

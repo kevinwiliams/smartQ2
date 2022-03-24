@@ -20,7 +20,7 @@ class TokenDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        $query = Token::where('status', '0')
+        $query = Token::wherein('status', ['0', '3'])
         ->orderBy('is_vip', 'DESC')
         ->orderBy('id', 'ASC');
 
@@ -115,11 +115,6 @@ class TokenDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            // Column::computed('action')
-            //       ->exportable(false)
-            //       ->printable(false)
-            //       ->width(60)
-            //       ->addClass('text-center'),
             Column::make('id'),
             Column::make('token_no'),
             Column::make('client_id')->title(__('Client Name')),
