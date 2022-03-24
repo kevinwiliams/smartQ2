@@ -331,7 +331,7 @@ return array(
         // Messaging
         array(
             'title' => 'SMS',
-            'role'=> 'admin',
+            'permission'=> 'view configuration',
             'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/communication/com007.svg", "svg-icon-2"),
             'path'  => 'admin/sms',
           
@@ -339,7 +339,7 @@ return array(
         // Settings
         array(
             'title' => 'Settings',
-            'role' => 'admin',
+            'permission' => 'view configuration',
             'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/general/gen019.svg", "svg-icon-2"),
             'path'  => '#',
             'classes'    => array('item' => 'menu-accordion'),
