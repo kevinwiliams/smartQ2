@@ -196,6 +196,7 @@ return array(
         //// Dashboard
         array(
             'title' => 'Dashboard',
+            'permission' => 'view dashboard',
             'path'  => '',
             'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/art/art002.svg", "svg-icon-2"),
         ),

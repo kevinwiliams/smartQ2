@@ -4,7 +4,12 @@
     <div class="row gy-5 g-xl-8">
         <!--begin::Col-->
         <div class="col-xxl-4">
+            @can('view configuration')
             {{ theme()->getView('partials/widgets/mixed/_widget-2', array('class' => 'card-xxl-stretch', 'chartColor' => 'primary', 'chartHeight' => '200px')) }}
+            @endcan
+            @cannot('view configuration')
+            {{ theme()->getView('partials/widgets/mixed/_widget-11', array('class' => 'card-xxl-stretch', 'officer' => $officer)) }}
+            @endcan
         </div>
         <!--end::Col-->
 

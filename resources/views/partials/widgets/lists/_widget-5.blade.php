@@ -2,7 +2,9 @@
 <div class="card {{ $class }}">
     <!--begin::Header-->
     @php
-        $activities = auth()->user()->actions->where('log_name','activity')->sortByDesc('created_at');
+        // $activities = auth()->user()->actions->where('log_name','activity')->sortByDesc('created_at');
+        $activities = Spatie\Activitylog\Models\Activity::where('log_name', 'activity')->get();
+        
     @endphp
     <div class="card-header align-items-center border-0 mt-4">
         <h3 class="card-title align-items-start flex-column">
