@@ -20,8 +20,7 @@ class HomeController extends Controller
     public function home()
     {
         @date_default_timezone_set(session('app.timezone'));
-        // $departments = Department::where('status', 1)->pluck('name', 'id');
-
+    
         $current = Token::whereIn('status', ['0', '3'])
             ->where('client_id', auth()->user()->id)
             ->orderBy('is_vip', 'DESC')

@@ -407,10 +407,18 @@ class TokenController extends Controller
                     $data['message'] = trans('app.token_generate_successfully');
                     $data['token']  = $token;
                     $data['position']  = $cntr;
+
+                    activity('activity')
+                    ->withProperties(['activity' => 'Client Generate Token','department' => $token->department , 'token' => $token->token_no , 'display'=> 'success']) 
+                    ->log('Token (:properties.token) generated for :properties.department');
+
                 } else {
                     $data['status'] = false;
                     $data['exception'] = trans('app.please_try_again');
                 }
+
+   
+    
                 return response()->json($data);
             }
         } catch (\Exception $err) {
@@ -546,7 +554,7 @@ class TokenController extends Controller
         ->orderBy('is_vip', 'DESC')
         ->orderBy('id', 'ASC')
         ->get(); 
-
+    
         $counters = Counter::where('status',1)->pluck('name','id');
         $departments = Department::where('status',1)->pluck('name','id');
         $officers = User::select(DB::raw('CONCAT(firstname, " ", lastname) as name'), 'id')
@@ -894,6 +902,11 @@ class TokenController extends Controller
     public function stoped($id = null)
     { 
         Token::where('id', $id)->update(['updated_at' => null, 'status' => 2,'sms_status' => 1]);
+        $token = Token::where('id', $id)->first();
+        activity('activity')
+                    ->withProperties(['activity' => 'Client Stopped Token','department' => $token->department->name , 'token' => $token->token_no , 'display'=> 'danger']) 
+                    ->log('Token (:properties.token) stopped for :properties.department');
+
         return redirect()->back()->with('message', trans('app.update_successfully'));
     } 
 
@@ -1035,6 +1048,11 @@ class TokenController extends Controller
         $data['status'] = true;
         $data['exception'] = trans('app.update_successfully');
 
+        $token = Token::where('id', $id)->first();
+        activity('activity')
+                    ->withProperties(['activity' => 'Client Checked In Token' , 'department' => $token->department->name , 'token' => $token->token_no , 'display' => 'primary' ]) 
+                    ->log('Token :properties.token checked in for :properties.department');
+
         return response()->json($data);        
     }
 
@@ -1048,8 +1066,16 @@ class TokenController extends Controller
                 'sms_status' => 1
             ]);
 
+        $token = Token::where('id', $id)->get();
+
         $data['status'] = true;
         $data['exception'] = trans('app.update_successfully');
+
+        $token = Token::where('id', $id)->first();
+        activity('activity')
+                    ->withProperties(['activity' => 'Client Stopped Token','department' => $token->department->name , 'token' => $token->token_no , 'display'=> 'danger' ]) 
+                    ->log('Token (:properties.token) stopped for :properties.department');
+
 
         return response()->json($data);
     }

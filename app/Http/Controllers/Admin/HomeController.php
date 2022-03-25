@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -15,17 +16,19 @@ use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Http\Request;
 use DB;
+use Spatie\Activitylog\Models\Activity;
 
 class HomeController extends Controller
 {
-    
-    public function index(){
+
+    public function index()
+    {
 
         $current = Token::whereIn('status', ['0', '3'])
-        ->where('client_id', auth()->user()->id)
-        ->orderBy('is_vip', 'DESC')
-        ->orderBy('id', 'ASC')
-        ->first();
+            ->where('client_id', auth()->user()->id)
+            ->orderBy('is_vip', 'DESC')
+            ->orderBy('id', 'ASC')
+            ->first();
 
         if ($current) {
             return redirect('admin/home/current');
@@ -40,13 +43,15 @@ class HomeController extends Controller
             ->where('department.status', 1)
             ->orderBy('id', 'ASC')
             ->distinct()
-            ->get(); 
+            ->get();
 
         $display = DisplaySetting::first();
 
         $smsalert = $display->sms_alert;
 
         $maskedemail = $this->maskEmail(auth()->user()->email);
+
+
 
         return view('pages.admin.home.index', compact('departments', 'smsalert', 'maskedemail'));
     }
@@ -59,19 +64,20 @@ class HomeController extends Controller
     }
 
     public function home()
-    { 
+    {
         @date_default_timezone_set(session('app.timezone'));
-        
+
         $infobox = $this->infobox();
         $performance = $this->userPerformance();
         $month = $this->chart_month();
         $year = $this->chart_year();
         $begin = $this->chart_begin();
+
         return view('pages.admin.home.home', compact(
-            'infobox', 
-            'performance', 
-            'month', 
-            'year', 
+            'infobox',
+            'performance',
+            'month',
+            'year',
             'begin'
         ));
     }
@@ -95,7 +101,7 @@ class HomeController extends Controller
     }
 
     public function userPerformance()
-    { 
+    {
         return DB::table("user AS u")
             ->select(DB::raw("
                 u.id,
@@ -105,18 +111,18 @@ class HomeController extends Controller
                 COUNT(CASE WHEN t.status='2' THEN t.id END) AS stop,
                 COUNT(t.id) AS total 
             "))
-            ->leftJoin("token AS t", function($join) {
+            ->leftJoin("token AS t", function ($join) {
                 $join->on("t.user_id", "=", "u.id");
                 $join->whereDate("t.created_at", "=", date("Y-m-d"));
             })
             ->whereIn('u.user_type', [1])
             ->groupBy("u.id")
-            ->get(); 
-    } 
- 
+            ->get();
+    }
+
     //chart month wise token
     public function chart_month()
-    {  
+    {
         return DB::select(DB::raw("
             SELECT 
                 DATE_FORMAT(created_at, '%d') AS date,
@@ -136,7 +142,7 @@ class HomeController extends Controller
 
     //chart year wise token
     public function chart_year()
-    {  
+    {
         return DB::select(DB::raw("
             SELECT 
                 DATE_FORMAT(created_at, '%M') AS month,
@@ -156,7 +162,7 @@ class HomeController extends Controller
 
     //chart year wise token
     public function chart_begin()
-    {  
+    {
         return DB::select(DB::raw("
             SELECT 
                 DATE(created_at) AS date,
@@ -236,10 +242,10 @@ class HomeController extends Controller
                 'updated_at'  => date('Y-m-d'),
             ]);
 
-        if ($update) {            
-            $user = User::where('id', auth()->user()->id)->first(); 
+        if ($update) {
+            $user = User::where('id', auth()->user()->id)->first();
 
-            Mail::to(auth()->user()->email)->send(new OTPNotification($user));            
+            Mail::to(auth()->user()->email)->send(new OTPNotification($user));
 
             // return json_decode($data, true);
             return json_encode(array(
@@ -257,25 +263,25 @@ class HomeController extends Controller
             ));
         }
     }
-    
+
     public function confirmOTP(Request $request)
     {
-        $OTP = auth()->user()->otp;       
+        $OTP = auth()->user()->otp;
 
         if ($request->code == $OTP) {
             $display = DisplaySetting::first();
-            
+
             if ($display->sms_alert) {
-            $update = User::where('id', auth()->user()->id)
-                ->update([
-                    'mobile' => $request->phone,
-                    'updated_at'  => date('Y-m-d'),
-                ]);
-            }else{
                 $update = User::where('id', auth()->user()->id)
-                ->update([                    
-                    'updated_at'  => date('Y-m-d'),
-                ]);
+                    ->update([
+                        'mobile' => $request->phone,
+                        'updated_at'  => date('Y-m-d'),
+                    ]);
+            } else {
+                $update = User::where('id', auth()->user()->id)
+                    ->update([
+                        'updated_at'  => date('Y-m-d'),
+                    ]);
             }
 
             return json_encode(array(
@@ -290,14 +296,14 @@ class HomeController extends Controller
 
     public function confirmEmailOTP(Request $request)
     {
-        $OTP = auth()->user()->otp;       
+        $OTP = auth()->user()->otp;
 
         if ($request->code == $OTP) {
-      
-                $update = User::where('id', auth()->user()->id)
-                ->update([                    
+
+            $update = User::where('id', auth()->user()->id)
+                ->update([
                     'updated_at'  => date('Y-m-d'),
-                ]);       
+                ]);
 
             return json_encode(array(
                 'status'      => true,
@@ -347,6 +353,4 @@ class HomeController extends Controller
         // Return result
         return $result;
     }
-
-
 }
