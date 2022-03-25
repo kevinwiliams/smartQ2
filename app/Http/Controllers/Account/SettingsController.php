@@ -7,6 +7,7 @@ use App\Http\Requests\Account\SettingsEmailRequest;
 use App\Http\Requests\Account\SettingsInfoRequest;
 use App\Http\Requests\Account\SettingsPasswordRequest;
 use App\Models\UserInfo;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,10 +20,11 @@ class SettingsController extends Controller
      */
     public function index()
     {
+        $user = User::find(auth()->user()->id);
         $info = auth()->user()->info;
 
         // get the default inner page
-        return view('pages.account.settings.settings', compact('info'));
+        return view('pages.account.settings.settings', compact('info', 'user'));
     }
 
     /**

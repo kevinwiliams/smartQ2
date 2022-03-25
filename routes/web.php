@@ -93,6 +93,7 @@ Route::middleware('auth')->group(function () {
     // Account pages
     Route::prefix('account')->group(function () {
         Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
+        Route::get('overview', [SettingsController::class, 'index'])->name('account.overview');
         Route::put('settings', [SettingsController::class, 'update'])->name('settings.update');
         Route::put('settings/email', [SettingsController::class, 'changeEmail'])->name('settings.changeEmail');
         Route::put('settings/password', [SettingsController::class, 'changePassword'])->name('settings.changePassword');

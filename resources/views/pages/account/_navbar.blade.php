@@ -39,10 +39,15 @@
 
                         <!--begin::Info-->
                         <div class="d-flex flex-wrap fw-bold fs-6 mb-4 pe-2">
+                            @foreach($user->getRoleNames() as $_role)
                             <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
                                 {!! theme()->getSvgIcon("icons/duotune/communication/com006.svg", "svg-icon-4 me-1") !!}
-                                Developer
+                                <!--begin::Badge-->
+                                <div class="badge badge-lg badge-light-primary d-inline">{{ ucwords($_role) }}</div>
+						        <!--end::Badge-->
                             </a>
+                            @endforeach
+
                             <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
                                 {!! theme()->getSvgIcon("icons/duotune/general/gen018.svg", "svg-icon-4 me-1") !!}
                                 SF, Bay Area
