@@ -408,8 +408,8 @@ return array(
                                 ),
                                 'js' => array(
                                     'plugins/custom/datatables/datatables.bundle.js',
-                                    'js/custom/user-management/roles/view/view.js',
-                                    'js/custom/user-management/roles/view/update-role.js',
+                                    // 'js/custom/user-management/roles/view/view.js',
+                                    // 'js/custom/user-management/roles/view/update-role.js',
 
                                 ),
                             ),

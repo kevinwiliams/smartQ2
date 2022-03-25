@@ -415,9 +415,9 @@ class UserManagementController extends Controller
     public function rolesView($id)
     {
         $role = Role::find($id);
-
+        $permissions = Permission::get()->pluck('name', 'id');;
         // get the default inner page
-        return view('pages.apps.user-management.roles.view', compact('role'));
+        return view('pages.apps.user-management.roles.view', compact('role','permissions'));
     }
 
     public function createRole(Request $request)
