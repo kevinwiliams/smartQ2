@@ -16,9 +16,9 @@ class PagesController extends Controller
     {
         // Get view file location from menu config
         $view = theme()->getOption('page', 'view');
-        $month = $this->chart_month();
-        $performance = $this->userPerformance();
         $officer = $this->officerPerformance();
+        $month = $this->chart_month(intval($officer->user_type));
+        $performance = $this->userPerformance(intval($officer->user_type));
 
         // Check if the page view file exist
         if (view()->exists('pages.'.$view)) {
@@ -62,8 +62,11 @@ class PagesController extends Controller
     }
 
      //chart month wise token
-     public function chart_month()
+     public function chart_month($officer)
      {  
+                
+        $sql = " AND t.user_id = '". auth()->user()->id  ."'";
+        $sql = ($officer == 1) ? $sql : "";
          return DB::select(DB::raw("
          SELECT 
             DATE_FORMAT(created_at, '%b') AS date,
@@ -73,7 +76,7 @@ class PagesController extends Controller
         FROM 
             token AS t
         WHERE  
-            YEAR(created_at) >= YEAR(CURRENT_DATE()) 
+            YEAR(created_at) >= YEAR(CURRENT_DATE())".$sql." 
         GROUP BY 
             date
         ORDER BY 
@@ -81,30 +84,37 @@ class PagesController extends Controller
          "));
      }
 
-     public function userPerformance()
+     public function userPerformance($officer)
     { 
-        return DB::table("user AS u")
-            ->select(DB::raw("
-                u.id,
-                CONCAT_WS(' ', u.firstname, u.lastname) AS username,
-                d.name AS department,
-                u.photo,
-                COUNT(CASE WHEN t.status='0' THEN t.id END) AS pending,
-                COUNT(CASE WHEN t.status='1' THEN t.id END) AS complete,
-                COUNT(CASE WHEN t.status='2' THEN t.id END) AS stop,
-                COUNT(t.id) AS total 
-            "))
-            ->leftJoin("department as d", function($join){
-                $join->on("u.department_id", "=", "d.id");
-            })
-            ->leftJoin("token AS t", function($join) {
-                $join->on("t.user_id", "=", "u.id");
-                // $join->whereDate("t.created_at", "=", date("Y-m-d"));
-            })
-            ->whereNotNull('d.name')
-            ->whereIn('u.user_type', [1])
-            ->groupBy("u.id")
-            ->get(); 
+        $query = DB::table("user AS u")
+        ->select(DB::raw("
+            u.id,
+            CONCAT_WS(' ', u.firstname, u.lastname) AS username,
+            d.name AS department,
+            u.photo,
+            COUNT(CASE WHEN t.status='0' THEN t.id END) AS pending,
+            COUNT(CASE WHEN t.status='1' THEN t.id END) AS complete,
+            COUNT(CASE WHEN t.status='2' THEN t.id END) AS stop,
+            COUNT(t.id) AS total 
+        "))
+        ->leftJoin("department as d", function($join){
+            $join->on("u.department_id", "=", "d.id");
+        })
+        ->leftJoin("token AS t", function($join) {
+            $join->on("t.user_id", "=", "u.id");
+            // $join->whereDate("t.created_at", "=", date("Y-m-d"));
+        })
+        ->when($officer, function ($query, $id) {
+            if($id == 1)
+                return $query->where('u.id', auth()->user()->id);
+            else{
+                return $query->whereNotNull('d.name')->whereIn('u.user_type', [1]);
+            }
+        })
+        ->groupBy("u.id")
+        ->get();
+       
+        return $query;
     } 
 
     // user performance
