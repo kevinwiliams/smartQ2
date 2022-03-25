@@ -204,8 +204,8 @@ class UserManagementController extends Controller
             $user->email = $request->email;
             $user->mobile = $request->phone;
 
-            if ($request->has('department_id'))
-                $user->department_id = $request->department_id;
+            if ($request->has('department'))
+                $user->department_id = $request->department;
 
             $user->save();
 

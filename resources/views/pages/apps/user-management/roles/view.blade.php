@@ -78,6 +78,7 @@
 													<th tabindex="0" rowspan="1" colspan="1">User</th>
 													<th tabindex="0" rowspan="1" colspan="1">Department</th>
 													<th tabindex="0" rowspan="1" colspan="1">Joined Date</th>
+													<th tabindex="0" rowspan="1" colspan="1">Last Login</th>
 												</tr>
 												<!--end::Table row-->
 											</thead>
@@ -113,6 +114,11 @@
 													<!--begin::Department-->
 													<!--begin::Joined date=-->
 													<td>{{ Carbon\Carbon::parse($_user->created_at)->format('d M Y, h:i a'); }}</td>
+													<!--end::Joined date=-->
+													<!--begin::Joined date=-->
+													<td>
+														<div class="badge badge-light fw-bolder">{{ Carbon\Carbon::parse($_user->last_login_at)->diffForHumans() }}</div>
+													</td>
 													<!--end::Joined date=-->
 												</tr>
 												@endforeach
