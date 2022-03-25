@@ -66,7 +66,12 @@ class HomeController extends Controller
     public function home()
     {
         @date_default_timezone_set(session('app.timezone'));
+        // $activities = auth()->user()->actions->where('log_name', 'activity')->sortByDesc('created_at')->take(10);
 
+        // echo '<pre>';
+        // print_r($activities);
+        // echo '</pre>';
+        // die();
         $infobox = $this->infobox();
         $performance = $this->userPerformance();
         $month = $this->chart_month();

@@ -2,7 +2,7 @@
 <div class="card {{ $class }}">
     <!--begin::Header-->
     @php
-        $activities = auth()->user()->actions->where('log_name','activity');
+        $activities = auth()->user()->actions->where('log_name','activity')->sortByDesc('created_at');
     @endphp
     <div class="card-header align-items-center border-0 mt-4">
         <h3 class="card-title align-items-start flex-column">
@@ -25,7 +25,7 @@
     <div class="card-body pt-5">
         <!--begin::Timeline-->
         <div class="timeline-label">
-            @foreach($activities as $_activity)
+            @foreach($activities->take(10) as $_activity)
             <!--begin::Item-->
             <div class="timeline-item">
                 <!--begin::Label-->
