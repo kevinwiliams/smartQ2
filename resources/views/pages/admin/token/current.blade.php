@@ -13,6 +13,7 @@
                     <input type="text" data-kt-token-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="Search Active Tokens">
                 </div>
             </h3>
+            @can('run auto-token')
             <div class="card-toolbar" >
                 <a href="{{ theme()->getPageUrl('admin/token/auto') }}" class="btn btn-sm btn-light-success btn-active-success me-5" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to auto assign">
                 Auto Token</a>
@@ -21,6 +22,8 @@
                     {!! theme()->getSvgIcon("icons/duotune/arrows/arr075.svg", "svg-icon-3") !!}
                     <!--end::Svg Icon-->New Token</a>
             </div>
+            @endcan
+            
         </div>
         <!--begin::Card body-->
         <div class="card-body pt-6">

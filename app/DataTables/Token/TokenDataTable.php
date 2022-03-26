@@ -3,6 +3,7 @@
 namespace App\DataTables\Token;
 
 use App\Models\Token;
+use App\Models\User;
 use Carbon\Carbon;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -20,9 +21,21 @@ class TokenDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        $officer = \App\Models\User::where('id',auth()->user()->id)->get();
+        $user_type = $officer->first()->user_type;
+
         $query = Token::wherein('status', ['0', '3'])
+        ->when($user_type, function ($query, $id) {
+            if($id == 1)
+                return $query->where('user_id', auth()->user()->id);
+           
+        })
         ->orderBy('is_vip', 'DESC')
         ->orderBy('id', 'DESC');
+
+       
+
+
 
         return datatables()
             ->eloquent($query)

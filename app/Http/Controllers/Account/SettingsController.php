@@ -24,7 +24,7 @@ class SettingsController extends Controller
         $info = auth()->user()->info;
 
         // get the default inner page
-        return view('pages.account.settings.settings', compact('info'));
+        return view('pages.account.settings.settings', compact('info', 'user'));
     }
 
     /**
