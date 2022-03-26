@@ -3,7 +3,7 @@
 <!--begin::Row--> 
 <div class="row g-9" id="token-cards">
     {{-- flex-lg-row-fluid me-lg-15 order-2 order-lg-1 mb-10 mb-lg-0 --}}
-    <div class="col-md-4 col-lg-12 col-xl-4">
+    <div class="col-md-4 col-lg-4 col-xl-4">
         <!--begin::Col header-->
         <div class="mb-9">
             <div class="d-flex flex-stack">
@@ -119,7 +119,7 @@
         
         
     </div>
-    <div class="col-md-8 col-lg-12 col-xl-8">
+    <div class="col-md-8 col-lg-8 col-xl-8">
         <!--begin::Col header-->
         <div class="mb-9">
             <div class="d-flex flex-stack">
