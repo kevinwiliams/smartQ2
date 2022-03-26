@@ -33,19 +33,23 @@
                                 {!! theme()->getSvgIcon("icons/duotune/general/gen026.svg", "svg-icon-1 svg-icon-primary") !!}
                             </a>
 
-                            <a href="#" class="btn btn-sm btn-light-success fw-bolder ms-2 fs-8 py-1 px-3" data-bs-toggle="modal" data-bs-target="#kt_modal_upgrade_plan">{{ __('Upgrade to Pro') }}</a>
                         </div>
                         <!--end::Name-->
 
                         <!--begin::Info-->
                         <div class="d-flex flex-wrap fw-bold fs-6 mb-4 pe-2">
+                            <?php 
+                            $user = (\App\Models\User::find(auth()->user()->id));
+                            ?>
                             @foreach($user->getRoleNames() as $_role)
+                            @if(!empty($_role))
                             <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
                                 {!! theme()->getSvgIcon("icons/duotune/communication/com006.svg", "svg-icon-4 me-1") !!}
                                 <!--begin::Badge-->
                                 <div class="badge badge-lg badge-light-primary d-inline">{{ ucwords($_role) }}</div>
 						        <!--end::Badge-->
                             </a>
+                            @endif
                             @endforeach
 
                             <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
@@ -61,25 +65,7 @@
                     </div>
                     <!--end::User-->
 
-                    <!--begin::Actions-->
-                    <div class="d-flex my-4">
-                        <a href="#" class="btn btn-sm btn-light me-2" id="kt_user_follow_button">
-                            {!! theme()->getSvgIcon("icons/duotune/arrows/arr012.svg", "svg-icon-3 d-none") !!}
-                            {{ theme()->getView('partials/general/_button-indicator', array('label' => 'Follow')) }}
-                        </a>
-
-                        <a href="#" class="btn btn-sm btn-primary me-3" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-trigger="hover" title="Coming soon">Hire Me</a>
-
-                        <!--begin::Menu-->
-                        <div class="me-0">
-                            <button class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                <i class="bi bi-three-dots fs-3"></i>
-                            </button>
-                            {{ theme()->getView('partials/menus/_menu-3') }}
-                        </div>
-                        <!--end::Menu-->
-                    </div>
-                    <!--end::Actions-->
+                 
                 </div>
                 <!--end::Title-->
 
