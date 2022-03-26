@@ -22,10 +22,13 @@ class PagesController extends Controller
 
         // Check if the page view file exist
         if (view()->exists('pages.'.$view)) {
-            if(intval($officer->user_type) != 3)
-                return view('pages.'.$view,  compact('month', 'performance', 'officer'));
-            else
+            if(intval($officer->user_type) == 3)
                 return redirect('admin/home');
+            elseif(intval($officer->user_type) == 2)
+                return redirect('admin/token/current');
+            else
+                return view('pages.'.$view,  compact('month', 'performance', 'officer'));
+
         }
         // Get the default inner page
         return view('inner');

@@ -253,6 +253,7 @@ return array(
         // Reports
         array(
             'title' => 'Reports',
+            'permission' => 'view report',
             'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/graphs/gra010.svg", "svg-icon-2"),
             'path'  => '#',
             'classes'    => array('item' => 'menu-accordion'),
