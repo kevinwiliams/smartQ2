@@ -1,5 +1,6 @@
 <x-base-layout>
-    <!--begin::Card-->
+{{ Form::open(['url' => 'admin/token/performance', 'class' => 'performance form-inline mb-0', 'method' => 'get']) }}
+<!--begin::Card-->
 <div class="card">
 	<!--begin::Card header-->
 	<div class="card-header border-0 pt-6">
@@ -24,12 +25,12 @@
 	<!--end::Card header-->
 	<!--begin::Card body-->
 	<div class="card-body py-4">
-        {{ Form::open(['url' => 'admin/token/performance', 'class' => 'performance form-inline mb-0', 'method' => 'get']) }}
     
         <!--begin::Datatable-->
         <table id="performance-table" class="table align-middle table-row-dashed fs-6 gy-5">
             <thead>
                 <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
+                    <th>ID</th>
                     <th>{{ trans('app.officer') }}</th>
                     <th>Total</th>
                     <th>Stoped</th>
@@ -81,18 +82,20 @@
             </tfoot>
         </table>
         <!--end::Datatable-->
-        {{ Form::close() }}
 
     </div>
 	<!--end::Card body-->
 </div>
 <!--end::Card-->
+{{ Form::close() }}
+
 
 
 @section('scripts')
 <script type="text/javascript">
     $(function () {
             //drawDataTable();
+        $('#performance-table').DataTable();
 
         var start = moment().subtract(29, "days");
         var end = moment();
@@ -103,7 +106,6 @@
             $('#end_date').val(end);
             // alert($('#start_date').val());
             $('.performance').submit();
-
         }
 
         $("#kt_performance_report_daterangepicker").daterangepicker({
@@ -122,14 +124,14 @@
             "Last Month": [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")]
             }
         }, cb);
-
-        const filterSearch = document.querySelector('[data-kt-performance-table-filter="search"]');
-
-        filterSearch.addEventListener('keyup', function (e) {
-            var table = $('#performance-table').DataTable();
-            table.search(e.target.value).draw();
-        });
     
+    });
+
+    const filterSearch = document.querySelector('[data-kt-performance-table-filter="search"]');
+
+    filterSearch.addEventListener('keyup', function (e) {
+        var table = $('#performance-table').DataTable();
+        table.search(e.target.value).draw();
     });
 
 </script>
