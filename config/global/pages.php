@@ -165,7 +165,7 @@ return array(
         ),
         'token' => array(
             'current' => array(
-                'title' => 'Active Token',
+                'title' => 'Token List',
                 'view'   => 'admin/token/current',
                 'assets' => array(
                     'custom' => array(

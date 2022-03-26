@@ -452,7 +452,7 @@ class DisplayController extends Controller
                 foreach ($value as $html2):
 
                 if (sizeof($value) < $sl):
-                    $html .=  "<div class='queue2 ' style='height:{$height}px;background-color:".(!empty($setting->background_color)?$setting->background_color:'#cdcdcd') .";border-color:".(!empty($setting->border_color)?$setting->border_color:'#fff') .";color:".(!empty($setting->color)?$setting->color:'#cdcdcd') .";'>-----</div>";
+                    $html .=  "<div class='queue2 p-5 pb-10 px-10' style='height:{$height}px;background-color:".(!empty($setting->background_color)?$setting->background_color:'#cdcdcd') .";border-color:".(!empty($setting->border_color)?$setting->border_color:'#fff') .";color:".(!empty($setting->color)?$setting->color:'#cdcdcd') .";'>-----</div>";
                     $sl--;
                     goto label;
                 endif;
@@ -463,7 +463,7 @@ class DisplayController extends Controller
                 }
 
 
-                $html .=  "<div class=\"queue2 ".(($x==$sl)?'active':null)." \" style='height:{$height}px;background-color:".(!empty($setting->background_color)?$setting->background_color:'#cdcdcd') .";border-color:".(!empty($setting->border_color)?$setting->border_color:'#fff') .";color:".(!empty($setting->color)?$setting->color:'#cdcdcd') .";'>";
+                $html .=  "<div class=\"queue2 p-5 pb-10 px-10".(($x==$sl)?'active':null)." \" style='height:{$height}px;background-color:".(!empty($setting->background_color)?$setting->background_color:'#cdcdcd') .";border-color:".(!empty($setting->border_color)?$setting->border_color:'#fff') .";color:".(!empty($setting->color)?$setting->color:'#cdcdcd') .";'>";
                     foreach ($html2 as $key => $item):
                         if ($key=='token')
                         {

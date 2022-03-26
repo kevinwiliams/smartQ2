@@ -5,7 +5,7 @@
         height: 100%;
     }
     .queue {
-        font-family: 'Display';
+        /* font-family: 'Display'; */
         position: relative;
         height: 120px;
         z-index: 1;
@@ -25,7 +25,7 @@
     .queue-box {
         float: left;
         margin: 0 2px;
-        font-family: 'Display';
+        /* font-family: 'Display'; */
     }
     .queue-box-status {
         width: 120px !important;
@@ -63,6 +63,8 @@
         padding: 0px;
         margin: 0 0 0 5px;
         font-size: 28px;
+        color: white;
+
     }
     .queue2.active {
         background: #222222!important;
@@ -96,7 +98,7 @@
         <div class="media-left hidden-xs">
           {{-- <img class="media-object" style="height:59px;" src="{{ asset('public/assets/img/icons/logo.jpg') }}" alt="Logo"> --}}
         </div>
-        <div class="media-body" style="color:#FFF">
+        <div class="media-body" >
           <h2 class="media-heading">
             <marquee direction="{{ (!empty($setting->direction)?$setting->direction:null) }}">
               {{ (!empty($setting->message)?$setting->message:null) }}

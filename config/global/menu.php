@@ -228,12 +228,12 @@ return array(
                 'class' => 'menu-sub-accordion menu-active-bg',
                 'items' => array(
                     array(
-                        'title'  => 'Active Token',
+                        'title'  => 'Token List',
                         'path'   => 'admin/token/current',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
-                        'title'  => 'Active Cards',
+                        'title'  => 'Active Tokens',
                         'permission'  => 'view token-cards',
                         'path'   => 'admin/token/current/card',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
