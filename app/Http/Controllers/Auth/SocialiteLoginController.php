@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
 use App\Models\UserInfo;
 use App\Models\UserSocialAccount;
@@ -86,6 +87,9 @@ class SocialiteLoginController extends Controller
             $social_account->provider_name = $provider;
             $social_account->created_at = date('Y-m-d H:i:s');
             $social_account->save(); 
+
+            $role = Role::find(3);            
+            $user->syncRoles($role);
 
             if ($user->markEmailAsVerified()) {
                 event(new Verified($user));

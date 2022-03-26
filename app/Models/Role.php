@@ -20,7 +20,10 @@ class Role extends Model implements RoleContract
     
     protected $table = "roles";
     protected $guarded = [];
-
+    protected $casts = [
+        'editable' => 'bool',
+    ];
+    
     public function __construct(array $attributes = [])
     {
         $attributes['guard_name'] = $attributes['guard_name'] ?? config('auth.defaults.guard');

@@ -14,13 +14,21 @@
 							<div class="card-header">
 								<!--begin::Card title-->
 								<div class="card-title">
-									<h2 class="mb-0">{{ ucwords($role->name) }}</h2>
+									<h2 class="mb-0">{{ ucwords($role->name) }}
+										@if(!$role->editable)
+										<div class="badge badge-danger fw-bolder">Core</div>
+										@endif
+									</h2>
 								</div>
 								<!--end::Card title-->
 							</div>
-							<!--end::Card header-->
-							<!--begin::Card body-->
+
 							<div class="card-body pt-0">
+								<!--end::Card header-->
+								@if($role->description !== null || $role->description !== '')
+								<div class="text-gray-600 mb-5">{{ $role->description }}</div>
+								@endif
+								<!--begin::Card body-->
 								<!--begin::Permissions-->
 								<div class="d-flex flex-column text-gray-600">
 									@foreach($role->permissions->toArray() as $_permission)
@@ -34,7 +42,7 @@
 							<!--end::Card body-->
 							<!--begin::Card footer-->
 							<div class="card-footer pt-0">
-								<button type="button" class="btn btn-light btn-active-primary" data-kt-roles-action="edit" data-id="{{ $role->id }}" data-name="{{ $role->name }}" data-permissions="{{ $role->permissions()->pluck('id') }}" id="btn_Edit">Edit Role</button>								
+								<button type="button" class="btn btn-light btn-active-primary" data-kt-roles-action="edit" data-id="{{ $role->id }}" data-name="{{ $role->name }}" data-description="{{ $role->description }}" data-permissions="{{ $role->permissions()->pluck('id') }}" data-editable="{{ ($role->editable)?1:0 }}" id="btn_Edit">Edit Role</button>
 							</div>
 							<!--end::Card footer-->
 						</div>

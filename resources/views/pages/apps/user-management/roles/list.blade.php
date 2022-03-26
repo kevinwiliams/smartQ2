@@ -9,7 +9,11 @@
 				<div class="card-header">
 					<!--begin::Card title-->
 					<div class="card-title">
-						<h2>{{ ucwords($_role->name) }}</h2>
+						<h2>{{ ucwords($_role->name) }} 
+						@if(!$_role->editable)	
+						<div class="badge badge-danger fw-bolder">Core</div>
+						@endif	
+						</h2>
 					</div>
 					<!--end::Card title-->
 				</div>
@@ -45,8 +49,8 @@
 				<!--begin::Card footer-->
 				<div class="card-footer flex-wrap pt-0">
 					<a href="{{ url('apps/user-management/roles/view/' . $_role->id ) }}" class="btn btn-light btn-active-primary my-1 me-2">View</a>
-					<button type="button" class="btn btn-light btn-active-light-primary my-1" data-kt-roles-action="edit" data-id="{{ $_role->id }}" data-name="{{ $_role->name }}" data-permissions="{{ $_role->permissions()->pluck('id') }}" id="btn_Edit{{ $_role->id }}">Edit</button>
-					@if($_role->users()->count() == 0)
+					<button type="button" class="btn btn-light btn-active-light-primary my-1" data-kt-roles-action="edit" data-id="{{ $_role->id }}" data-name="{{ $_role->name }}" data-description="{{ $_role->description }}" data-editable="{{ ($_role->editable)?1:0 }}" data-permissions="{{ $_role->permissions()->pluck('id') }}" id="btn_Edit{{ $_role->id }}">Edit</button>
+					@if($_role->users()->count() == 0 && $_role->editable == true)
 					<button type="button" class="btn btn-danger btn-active-light-danger my-1" data-kt-roles-action="delete" data-id="{{ $_role->id }}" id="btn_Delete{{ $_role->id }}">Delete</button>
 					@endif
 				</div>

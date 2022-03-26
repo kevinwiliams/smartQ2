@@ -52,7 +52,7 @@
 						<div class="fv-row mb-7">
 							<!--begin::Checkbox-->
 							<label class="form-check form-check-custom form-check-solid me-9">
-								<input class="form-check-input" type="checkbox" value="" name="permissions_core" id="kt_permissions_core" />
+								<input class="form-check-input" type="checkbox" value="1" name="permissions_core" id="kt_permissions_core" />
 								<span class="form-check-label" for="kt_permissions_core">Set as core permission</span>
 							</label>
 							<!--end::Checkbox-->

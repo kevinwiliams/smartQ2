@@ -22,10 +22,17 @@ var KTUsersUpdatePermissions = function () {
                             }
                         }
                     },
-                    'permissions': {
+                    'permissions[]': {
                         validators: {
                             notEmpty: {
                                 message: 'Permissions are required'
+                            }
+                        }
+                    },
+                    'role_description': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Descriptions are required'
                             }
                         }
                     },
@@ -52,10 +59,17 @@ var KTUsersUpdatePermissions = function () {
                 var id = btn.data('id');
                 var name = btn.data('name');
                 var perms = btn.data('permissions');
-                console.log(name);
-                console.log(perms);
+                var desc = btn.data('description');                
+                var editable = btn.data('editable');                  
+                
                 $("#role_name").val(name);
                 $("#role_id").val(id);
+                $("#role_description").val(desc);
+
+                var _core = (editable == 0);
+                $("#kt_roles_core").prop("disabled",_core);
+                $("#kt_roles_core").prop("checked",_core);
+
                 var $ddlPermissions = $("#ddlPermissions").select2();
                 $ddlPermissions.val(perms).trigger("change");
                 modal.show();

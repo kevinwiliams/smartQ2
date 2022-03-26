@@ -51,7 +51,7 @@ class UserManagementController extends Controller
             }
             $data['exception'] .= "</ul>";
         } else {
-            $permission = Permission::create(['name' => $request->permission_name, 'description' => $request->permission_description]);
+            $permission = Permission::create(['name' => $request->permission_name, 'description' => $request->permission_description, 'editable'=> ($request->has('permissions_core'))?1:0]);
            
             if ($permission) {
 
@@ -93,6 +93,7 @@ class UserManagementController extends Controller
             $permission = Permission::find($id);
             $permission->name = $request->permission_name;
             $permission->description = $request->permission_description;
+            $permission->editable = ($request->has('permissions_core'))?1:0;
             $permission->save();
       
             if ($permission) {
@@ -446,7 +447,8 @@ class UserManagementController extends Controller
             }
             $data['exception'] .= "</ul>";
         } else {
-            $role = Role::create(['name' => $request->role_name, 'description' => $request->role_description]);
+            
+            $role = Role::create(['name' => $request->role_name, 'description' => $request->role_description, 'editable'=>($request->has('role_core'))?0:1]);
             $permissions = Permission::whereIn('id', $request->permissions)->get();
             foreach ($permissions as $_permission) {
                 $role->givePermissionTo($_permission);
@@ -491,6 +493,8 @@ class UserManagementController extends Controller
         } else {
             $role = Role::find($id);
             $role->name = $request->role_name;
+            $role->description = $request->role_description;
+            $role->editable = ($request->has('role_core'))?0:1;
             $role->save();
 
             $permissions = Permission::whereIn('id', $request->permissions)->get();

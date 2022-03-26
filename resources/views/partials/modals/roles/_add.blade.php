@@ -50,8 +50,24 @@
 	                        <!--end::Input-->
 	                    </div>
 	                    <!--end::Input group-->
+						<!--begin::Input group-->
+						<div class="fv-row mb-7">
+							<!--begin::Checkbox-->
+							<label class="form-check form-check-custom form-check-solid me-9">
+								<input class="form-check-input" type="checkbox" value="1" name="role_core" id="kt_roles_core" />
+								<span class="form-check-label" for="kt_roles_core">Set as core role</span>
+							</label>
+							<!--end::Checkbox-->
+						</div>
+						<!--end::Input group-->
+						<!--begin::Disclaimer-->
+						<div class="text-gray-600">Role set as a
+							<strong class="me-1">Core Role</strong>will be locked and
+							<strong class="me-1">not deletable</strong>in future
+						</div>
+						<!--end::Disclaimer-->
 	                    <!--begin::Input group-->
-	                    <div class="fv-row mb-7">
+	                    <div class="fv-row mb-7 pt-15">
 	                        <div class="form-group @error('permissions') has-error @enderror">
 	                            <label class="fs-6 fw-bolder form-label mb-2" for="permissions"><span class="required">{{ trans('app.permissions') }}</span>
 	                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-content="Please select valid permissions"></i></label>
