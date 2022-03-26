@@ -1,19 +1,21 @@
 <x-base-layout>
 	<!--begin::Row-->
-	<div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-5 g-xl-9">
+	<div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-5 g-xl-9">		
 		@foreach($roles as $_role)
 		<div class="col-md-4">
 			<!--begin::Card-->
 			<div class="card card-flush h-md-100">
 				<!--begin::Card header-->
-				<div class="card-header">
+				<div class="card-header ribbon ribbon-top">
+					@if(!$_role->editable)
+					<!-- <div class="badge badge-danger fw-bolder">Core</div> -->
+					<div class="ribbon-label bg-danger">
+						Core
+					</div>
+					@endif
 					<!--begin::Card title-->
 					<div class="card-title">
-						<h2>{{ ucwords($_role->name) }} 
-						@if(!$_role->editable)	
-						<div class="badge badge-danger fw-bolder">Core</div>
-						@endif	
-						</h2>
+						<h2>{{ ucwords($_role->name) }}</h2>
 					</div>
 					<!--end::Card title-->
 				</div>

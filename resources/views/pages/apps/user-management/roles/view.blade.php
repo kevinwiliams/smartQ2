@@ -10,15 +10,18 @@
 					<div class="flex-column flex-lg-row-auto w-100 w-lg-200px w-xl-300px mb-10">
 						<!--begin::Card-->
 						<div class="card card-flush">
+
 							<!--begin::Card header-->
-							<div class="card-header">
+							<div class="card-header ribbon ribbon-top">
+								@if(!$role->editable)
+								<!-- <div class="badge badge-danger fw-bolder">Core</div> -->
+								<div class="ribbon-label bg-danger">
+									Core
+								</div>
+								@endif
 								<!--begin::Card title-->
 								<div class="card-title">
-									<h2 class="mb-0">{{ ucwords($role->name) }}
-										@if(!$role->editable)
-										<div class="badge badge-danger fw-bolder">Core</div>
-										@endif
-									</h2>
+									<h2>{{ ucwords($role->name) }}</h2>
 								</div>
 								<!--end::Card title-->
 							</div>
