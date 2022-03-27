@@ -204,6 +204,7 @@ return array(
         //// Dashboard
         array(
             'title' => 'Home',
+            'permission' => 'view client-wizard',
             'path'  => 'admin/home',
             'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/art/art002.svg", "svg-icon-2"),
         ),

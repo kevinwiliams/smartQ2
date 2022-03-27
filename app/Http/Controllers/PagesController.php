@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-
+use App\Models\User;
 class PagesController extends Controller
 {
     /**
@@ -16,15 +16,22 @@ class PagesController extends Controller
     {
         // Get view file location from menu config
         $view = theme()->getOption('page', 'view');
-        $officer = $this->officerPerformance();
-        $month = $this->chart_month(intval($officer->user_type));
-        $performance = $this->userPerformance(intval($officer->user_type));
+
+        $isManager = 0;
+        $users = User::permission('view report')->where('id', auth()->user()->id)->get();
+        if(count($users) != 0){
+            $isManager = 1;
+        }
+
+        $officer = $this->officerPerformance($isManager);
+        $month = $this->chart_month($isManager);
+        $performance = $this->userPerformance($isManager);
 
         // Check if the page view file exist
         if (view()->exists('pages.'.$view)) {
-            if(intval($officer->user_type) == 3)
+            if(intval(auth()->user()->user_type ) == 3)
                 return redirect('admin/home');
-            elseif(intval($officer->user_type) == 2)
+            elseif(intval(auth()->user()->user_type ) == 2)
                 return redirect('admin/token/current');
             else
                 return view('pages.'.$view,  compact('month', 'performance', 'officer'));
@@ -65,12 +72,12 @@ class PagesController extends Controller
     }
 
      //chart month wise token
-     public function chart_month($officer)
+     public function chart_month($isManager)
      {  
-                
         $sql = " AND t.user_id = '". auth()->user()->id  ."'";
-        $sql = ($officer == 1) ? $sql : "";
-         return DB::select(DB::raw("
+        $sql = ($isManager == 0) ? $sql : "";
+        
+        return DB::select(DB::raw("
          SELECT 
             DATE_FORMAT(created_at, '%b') AS date,
             COUNT(CASE WHEN status = 1 THEN 1 END) as success,
@@ -87,8 +94,9 @@ class PagesController extends Controller
          "));
      }
 
-     public function userPerformance($officer)
+     public function userPerformance($isManager)
     { 
+        $managerArr = array('isManager' => $isManager);
         $query = DB::table("user AS u")
         ->select(DB::raw("
             u.id,
@@ -107,8 +115,8 @@ class PagesController extends Controller
             $join->on("t.user_id", "=", "u.id");
             // $join->whereDate("t.created_at", "=", date("Y-m-d"));
         })
-        ->when($officer, function ($query, $id) {
-            if($id == 1)
+        ->when($managerArr, function ($query, $manager) {
+            if($manager['isManager'] == 0)
                 return $query->where('u.id', auth()->user()->id);
             else{
                 return $query->whereNotNull('d.name')->whereIn('u.user_type', [1]);
@@ -121,9 +129,10 @@ class PagesController extends Controller
     } 
 
     // user performance
-    public function officerPerformance()
+    public function officerPerformance($isManager)
     {
-        return DB::table("user AS u")
+        $managerArr = array('isManager' => $isManager);
+        $query = DB::table("user AS u")
             ->select(DB::raw("
                 u.id,
                 CONCAT_WS(' ', u.firstname) AS username,
@@ -138,9 +147,14 @@ class PagesController extends Controller
                 $join->on("t.user_id", "=", "u.id");
                 // $join->whereDate("t.created_at", "=", date("Y-m-d"));
             })
-            ->where('u.id', auth()->user()->id )
-            ->groupBy("u.id")
+            ->when($managerArr, function($query, $manager){
+                 if($manager['isManager'] == 0)
+                    return $query->where('u.id', auth()->user()->id)->groupBy("t.user_id");
+            })
+            
             ->first(); 
+
+            return $query;
     } 
 
     

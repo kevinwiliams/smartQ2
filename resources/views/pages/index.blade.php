@@ -30,7 +30,7 @@
         <!--end::Col-->
     </div>
     <!--end::Row-->
-    @can('view configuration')
+    @can('view report')
     <!--begin::Row-->
     <div class="row gy-5 gx-xl-8">
          <!--begin::Col-->

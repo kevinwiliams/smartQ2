@@ -6,7 +6,9 @@
         <h3 class="card-title align-items-start flex-column text-white pt-15">
             <span class="fw-bolder fs-2x mb-3">Hello, {{$officer->username}}</span>
             <div class="fs-4 text-white">
-                <span class="opacity-75">You have</span>
+                <span class="opacity-75">
+                    @can('view report') There are @endcan
+                    @cannot('view report') You have @endcan
                 <span class="position-relative d-inline-block">
                     <a href="{{ url('admin/token/current/card') }}" class="link-white opacity-75-hover fw-bolder d-block mb-1">{{$officer->pending}} clients</a>
                     <!--begin::Separator-->
