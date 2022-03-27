@@ -62,13 +62,19 @@ var KTUsersUpdatePermissions = function () {
                 var desc = btn.data('description');                
                 var editable = btn.data('editable');                  
                 
-                $("#role_name").val(name);
+                $("#update_role_name").val(name);
                 $("#role_id").val(id);
-                $("#role_description").val(desc);
-
+                $("#update_role_description").val(desc);
+                
                 var _core = (editable == 0);
-                $("#kt_roles_core").prop("disabled",_core);
-                $("#kt_roles_core").prop("checked",_core);
+                
+                $("#kt_update_roles_core").prop("disabled",_core);
+                
+                if(desc != ""){
+                    $("#update_role_description").prop("disabled",_core);
+                }
+
+                $("#kt_update_roles_core").prop("checked",_core);
 
                 var $ddlPermissions = $("#ddlPermissions").select2();
                 $ddlPermissions.val(perms).trigger("change");

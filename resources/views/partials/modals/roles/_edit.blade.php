@@ -33,7 +33,7 @@
 							</label>
 							<!--end::Label-->
 							<!--begin::Input-->
-							<input class="form-control form-control-solid" placeholder="Enter a role name" name="role_name" id="role_name" value="" />
+							<input class="form-control form-control-solid" placeholder="Enter a role name" name="role_name" id="update_role_name" value="" />
 							<input type="hidden" name="role_id" id="role_id" value="" />
 							<!--end::Input-->
 						</div>
@@ -46,7 +46,7 @@
 							</label>
 							<!--end::Label-->
 							<!--begin::Input-->
-							<textarea class="form-control form-control-solid" placeholder="Enter a role description" name="role_description" id="role_description"></textarea>
+							<textarea class="form-control form-control-solid" placeholder="Enter a role description" name="role_description" id="update_role_description"></textarea>
 							<!--end::Input-->
 						</div>
 						<!--end::Input group-->
@@ -64,7 +64,7 @@
 						<div class="fv-row mb-7">
 							<!--begin::Checkbox-->
 							<label class="form-check form-check-custom form-check-solid me-9">
-								<input class="form-check-input" type="checkbox" value="1" name="role_core" id="kt_roles_core" />
+								<input class="form-check-input" type="checkbox" value="1" name="role_core" id="kt_update_roles_core" />
 								<span class="form-check-label" for="kt_roles_core">Set as core role</span>
 							</label>
 							<!--end::Checkbox-->

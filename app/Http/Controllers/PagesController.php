@@ -18,8 +18,8 @@ class PagesController extends Controller
         $view = theme()->getOption('page', 'view');
 
         $isManager = 0;
-        $users = User::permission('view report')->where('id', auth()->user()->id)->get();
-        if(count($users) != 0){
+      
+        if(auth()->user()->can('view report')){
             $isManager = 1;
         }
 
@@ -27,11 +27,13 @@ class PagesController extends Controller
         $month = $this->chart_month($isManager);
         $performance = $this->userPerformance($isManager);
 
+        $roles = auth()->user()->getRoleNames()->toArray();
         // Check if the page view file exist
-        if (view()->exists('pages.'.$view)) {
-            if(intval(auth()->user()->user_type ) == 3)
+        if (view()->exists('pages.'.$view)) {            
+            // if(intval(auth()->user()->user_type ) == 3)
+            if(in_array('client', $roles))
                 return redirect('admin/home');
-            elseif(intval(auth()->user()->user_type ) == 2)
+            elseif(in_array('receptionist', $roles))
                 return redirect('admin/token/current');
             else
                 return view('pages.'.$view,  compact('month', 'performance', 'officer'));

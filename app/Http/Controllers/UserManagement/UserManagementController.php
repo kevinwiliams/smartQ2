@@ -380,7 +380,7 @@ class UserManagementController extends Controller
 
     public function rolesList()
     {
-        $roles = Role::get();
+        $roles = Role::orderBy('name')->get();
         $permissions = Permission::get()->pluck('name', 'id');;
 
 

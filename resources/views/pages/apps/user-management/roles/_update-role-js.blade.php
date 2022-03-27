@@ -56,17 +56,19 @@
                 var perms = editButtons.data('permissions');
                 var desc = editButtons.data('description');
                 var editable = editButtons.data('editable');
-                console.log(name);
-                console.log(perms);
-                $("#role_name").val(name);
-                $("#role_id").val(id);
-                $("#role_description").val(desc);
-
-                console.log(editable);
-                var _core = (editable == 0);
-                $("#kt_roles_core").prop("disabled",_core);
-                $("#kt_roles_core").prop("checked",_core);
                 
+                $("#update_role_name").val(name);
+                $("#role_id").val(id);
+                $("#update_role_description").val(desc);
+                                
+                var _core = (editable == 0);
+                $("#kt_update_roles_core").prop("disabled",_core);
+                if(desc != ""){
+                    $("#update_role_description").prop("disabled",_core);
+                }
+                                
+                $("#kt_update_roles_core").prop("checked",_core);
+
                 var $ddlPermissions = $("#ddlPermissions").select2();
                 $ddlPermissions.val(perms).trigger("change");
                 modal.show();
