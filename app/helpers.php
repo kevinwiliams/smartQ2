@@ -7,7 +7,7 @@ if (!function_exists('get_svg_icon')) {
             $path = theme()->getMediaUrlPath().$path;
         }
 
-        $file_path = public_path($path);
+        $file_path = ($path);
 
         if (!file_exists($file_path)) {
             return '';
