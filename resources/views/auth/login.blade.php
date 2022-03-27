@@ -7,18 +7,18 @@
     <!--begin::Heading-->
         <div class="text-center mb-10">
             <!--begin::Title-->
-            <h1 class="text-dark mb-3">
+            {{-- <h1 class="text-dark mb-3">
                 {{ __('Sign In to SmartQ') }}
-            </h1>
+            </h1> --}}
             <!--end::Title-->
 
             <!--begin::Link-->
             <div class="text-gray-400 fw-bold fs-4">
-                {{-- {{ __('New Here?') }}
+                {{ __('New Here?') }}
 
                 <a href="{{ theme()->getPageUrl('register') }}" class="link-primary fw-bolder">
                     {{ __('Create an Account') }}
-                </a> --}}
+                </a>
             </div>
             <!--end::Link-->
         </div>
@@ -80,13 +80,13 @@
         <!--end::Input group-->
 
         <!--begin::Input group-->
-        <div class="fv-row mb-10">
+        {{-- <div class="fv-row mb-10">
             <label class="form-check form-check-custom form-check-solid">
                 <input class="form-check-input" type="checkbox" name="remember"/>
                 <span class="form-check-label fw-bold text-gray-700 fs-6">{{ __('Remember me') }}
             </span>
             </label>
-        </div>
+        </div> --}}
         <!--end::Input group-->
 
         <!--begin::Actions-->
