@@ -10,9 +10,24 @@ class Company extends Model
     use HasFactory;
     protected $table = "company";
 
+    protected $appends = ['location_count'];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'active' => 'bool',
+    ];
+
+    public function getLocationCountAttribute()
+    {
+        return count($this->locations);
+    }
 
     public function locations()
     {
-	    return $this->hasMany('App\Models\Location');
+	    return $this->hasMany(Location::class);
 	}
 }

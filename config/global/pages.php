@@ -222,7 +222,23 @@ return array(
                 ),
             ),
         ),
-
+        'company' => array(
+            'title'  => 'Companies',
+            'assets' => array(
+                'custom' => array(
+                    'css' => array(
+                        'plugins/custom/datatables/datatables.bundle.css',
+                    ),
+                    'js' => array(
+                        'plugins/custom/datatables/datatables.bundle.js',
+                        // 'js/custom/admin/department/add.js',
+                        // 'js/custom/admin/department/edit.js',
+                        // 'js/custom/admin/department/delete.js',
+                        // 'vendor/datatables/buttons.server-side.js',
+                    ),
+                ),
+            ),
+        ),
         'department' => array(
             'title'  => 'Departments',
             'assets' => array(

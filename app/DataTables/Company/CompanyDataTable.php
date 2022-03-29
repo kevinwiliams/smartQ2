@@ -23,12 +23,19 @@ class CompanyDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->rawColumns(['action'])        
+            ->rawColumns(['active','action'])        
             ->editColumn('created_at', function (Company $model) {      
                 return Carbon::parse($model->created_at)->format('d M Y, h:i a');
-            })                       
+            })
+            ->editColumn('active', function (Company $model) {      
+                if($model->active){
+                    return '<div class="badge badge-success fw-bolder">Active</div>';
+                }else{
+                    return '<div class="badge badge-danger fw-bolder">Inactive</div>';
+                }
+            })
             ->addColumn('action', function (Company $model) {
-                return view('pages.apps.user-management.permissions._action-menu', compact('model'));
+                return view('pages.admin.company._action-menu', compact('model'));
             });  
     }
 
@@ -38,7 +45,7 @@ class CompanyDataTable extends DataTable
      * @param \App\Models\User $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Permission $model)
+    public function query(Company $model)
     {
         return $model->newQuery();
     }
@@ -51,7 +58,7 @@ class CompanyDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('kt_permissions_table')
+                    ->setTableId('kt_company_table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     // ->dom('Bfrtip')
@@ -72,12 +79,10 @@ class CompanyDataTable extends DataTable
     {
         return [                       
             Column::make('name'),                        
-            Column::make('description'),    
-            Column::computed('assign')->title(__('Assigned To'))
-            ->addClass('align-items-right')
-            ->exportable(false)
-            ->printable(false)
-            ->responsivePriority(-1),       
+            Column::make('address'),        
+            Column::make('description'),
+            Column::make('active'),
+            Column::make('location_count')->title('Locations'),        
             Column::make('created_at'),    
             Column::computed('action')
             ->addClass('align-items-right')
@@ -95,6 +100,6 @@ class CompanyDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Permissions_' . date('YmdHis');
+        return 'Company_' . date('YmdHis');
     }
 }

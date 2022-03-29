@@ -291,6 +291,11 @@ return array(
                 'class' => 'menu-sub-accordion menu-active-bg',
                 'items' => array(
                     array(
+                        'title'  => 'Companies',
+                        'path'   => 'admin/company',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ),
+                    array(
                         'title'  => 'Departments',
                         'path'   => 'admin/department',
                         'bullet' => '<span class="bullet bullet-dot"></span>',

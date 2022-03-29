@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\Company\CompanyDataTable;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -13,9 +14,15 @@ class CompanyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(PermissionsDataTable $dataTable)
+    public function index(CompanyDataTable $dataTable)
     {
-        return $dataTable->render('pages.apps.user-management.permissions.index');
+        $companies = Company::get();
+
+        // echo '<pre>';
+        // print_r($companies);
+        // echo '</pre>';
+        // die();
+        return $dataTable->render('pages.admin.company.list');
     }
 
     /**
@@ -84,3 +91,4 @@ class CompanyController extends Controller
         //
     }
 }
+

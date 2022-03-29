@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Account\SettingsController;
+use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\CounterController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\HomeController;
@@ -202,6 +203,17 @@ Route::middleware('auth')->group(function () {
 		});
 		# setting
 		
+
+		// // Company pages
+		Route::prefix('company')->group(function () {
+			Route::get('/',[CompanyController::class, 'index']);
+			Route::get('create',[CompanyController::class, 'showForm']);
+			Route::post('create',[CompanyController::class, 'create']);
+			Route::get('edit/{id}',[CompanyController::class, 'showEditForm']);
+			Route::post('edit',[CompanyController::class, 'update']);
+			Route::get('delete/{id}',[CompanyController::class, 'delete']);
+		});
+				
 		 
 	});
 });
