@@ -56,7 +56,7 @@
                         </div>
                     </div>
                 </div>
-            {{ Form::close() }}
+            
             </div>
         
             <div class="col-sm-7">
@@ -91,6 +91,7 @@
 
                   
             </div> 
+            {{ Form::close() }}
         </div>
  
 </x-base-layout>

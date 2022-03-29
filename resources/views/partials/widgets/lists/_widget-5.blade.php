@@ -2,8 +2,8 @@
 <div class="card {{ $class }}">
     <!--begin::Header-->
     @php
-        // $activities = auth()->user()->actions->where('log_name','activity')->sortByDesc('created_at');
-        $activities = Spatie\Activitylog\Models\Activity::where('log_name', 'activity')->get();
+        
+        $activities = Spatie\Activitylog\Models\Activity::where('log_name', 'activity')->orderBy('created_at','desc')->get();
         
     @endphp
     <div class="card-header align-items-center border-0 mt-4">
@@ -18,6 +18,9 @@
     <!--begin::Body-->
     <div class="card-body pt-5">
         <!--begin::Timeline-->
+        <div class="scroll h-400px">
+
+        
         <div class="timeline-label">
             @foreach($activities->take(10) as $_activity)
             <!--begin::Item-->
@@ -58,6 +61,7 @@
             @endforeach
         </div>
         <!--end::Timeline-->
+        </div>
     </div>
     <!--end: Card Body-->
 </div>
