@@ -1,5 +1,5 @@
 <!--begin::Modal - Two-factor authentication-->
-<div class="modal fade" id="kt_modal_two_factor_authentication" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="mv_modal_two_factor_authentication" tabindex="-1" aria-hidden="true">
     <!--begin::Modal header-->
     <div class="modal-dialog modal-dialog-centered mw-650px">
         <!--begin::Modal content-->

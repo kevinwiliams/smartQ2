@@ -1,10 +1,10 @@
 "use strict";
 
 // Class definition
-var KTGeneralSweetAlertDemos = function() {
+var MVGeneralSweetAlertDemos = function() {
     // Private functions
     const exampleBasic = function() {
-        const button = document.getElementById('kt_docs_sweetalert_basic');
+        const button = document.getElementById('mv_docs_sweetalert_basic');
 
         button.addEventListener('click', e =>{
             e.preventDefault();
@@ -22,7 +22,7 @@ var KTGeneralSweetAlertDemos = function() {
     }
 
     const exampleHtml = function() {
-        const button = document.getElementById('kt_docs_sweetalert_html');
+        const button = document.getElementById('mv_docs_sweetalert_html');
 
         button.addEventListener('click', e =>{
             e.preventDefault();
@@ -44,11 +44,11 @@ var KTGeneralSweetAlertDemos = function() {
 
     const exampleStates = () => {
         // Select buttons
-        const infoButton = document.getElementById('kt_docs_sweetalert_state_info');
-        const warningButton = document.getElementById('kt_docs_sweetalert_state_warning');
-        const errorButton = document.getElementById('kt_docs_sweetalert_state_error');
-        const successButton = document.getElementById('kt_docs_sweetalert_state_success');
-        const questionButton = document.getElementById('kt_docs_sweetalert_state_question');
+        const infoButton = document.getElementById('mv_docs_sweetalert_state_info');
+        const warningButton = document.getElementById('mv_docs_sweetalert_state_warning');
+        const errorButton = document.getElementById('mv_docs_sweetalert_state_error');
+        const successButton = document.getElementById('mv_docs_sweetalert_state_success');
+        const questionButton = document.getElementById('mv_docs_sweetalert_state_question');
 
         // Click action handlers
         infoButton.addEventListener('click', e => {
@@ -133,6 +133,6 @@ var KTGeneralSweetAlertDemos = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTGeneralSweetAlertDemos.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVGeneralSweetAlertDemos.init();
 });

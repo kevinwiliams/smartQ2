@@ -1,13 +1,13 @@
 "use strict";
 
 // Class definition
-var KTFormsCKEditorDocument = function () {
+var MVFormsCKEditorDocument = function () {
     // Private functions
     var exampleDocument = function () {
         DecoupledEditor
-            .create(document.querySelector('#kt_docs_ckeditor_document'))
+            .create(document.querySelector('#mv_docs_ckeditor_document'))
             .then(editor => {
-                const toolbarContainer = document.querySelector('#kt_docs_ckeditor_document_toolbar');
+                const toolbarContainer = document.querySelector('#mv_docs_ckeditor_document_toolbar');
 
                 toolbarContainer.appendChild(editor.ui.view.toolbar.element);
             })
@@ -25,6 +25,6 @@ var KTFormsCKEditorDocument = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTFormsCKEditorDocument.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVFormsCKEditorDocument.init();
 });

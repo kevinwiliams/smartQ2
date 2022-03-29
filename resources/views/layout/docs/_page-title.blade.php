@@ -18,9 +18,9 @@
 
 <!--begin::Page title-->
 <div class="docs-page-title d-flex flex-column flex-lg-row align-items-lg-center py-5 mb-lg-0"
-     data-kt-swapper="true"
-     data-kt-swapper-mode="prepend"
-     data-kt-swapper-parent="{default: '#kt_docs_content_container', 'lg': '#kt_docs_header_title'}"
+     data-mv-swapper="true"
+     data-mv-swapper-mode="prepend"
+     data-mv-swapper-parent="{default: '#mv_docs_content_container', 'lg': '#mv_docs_header_title'}"
 >
 
     <!--begin::Title-->

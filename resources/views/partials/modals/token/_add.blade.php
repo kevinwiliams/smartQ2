@@ -1,4 +1,4 @@
-    <div class="modal fade" id="kt_modal_add_token" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="mv_modal_add_token" tabindex="-1" aria-hidden="true">
         <!--begin::Modal dialog-->
         <div class="modal-dialog modal-dialog-centered mw-650px">
             <!--begin::Modal content-->
@@ -9,7 +9,7 @@
                     <h2 class="fw-bolder">Create new token</h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
-                    <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-tokens-modal-action="close">
+                    <div class="btn btn-icon btn-sm btn-active-icon-primary" data-mv-tokens-modal-action="close">
                         <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                         {!! theme()->getSvgIcon("icons/duotune/arrows/arr061.svg", "svg-icon-1") !!}
                         <!--end::Svg Icon-->
@@ -21,7 +21,7 @@
                 <div class="modal-body scroll-y mx-5 mx-xl-15 my-5">
                 <div id="output" class="hide alert alert-danger alert-dismissible fade in shadowed mb-1"></div>
                     <!--begin::Form-->
-                    {{ Form::open(['url' => 'admin/token/create', 'class'=>'manualFrm form', 'id'=>'kt_modal_add_token_form']) }}
+                    {{ Form::open(['url' => 'admin/token/create', 'class'=>'manualFrm form', 'id'=>'mv_modal_add_token_form']) }}
                     @csrf <!-- {{ csrf_field() }} -->
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
@@ -85,8 +85,8 @@
                         <!--end::Input group-->
                         <!--begin::Actions-->
                         <div class="text-center pt-15">
-                            <button type="reset" class="btn btn-light me-3" data-kt-tokens-modal-action="cancel">Discard</button>
-                            <button type="submit" class="btn btn-primary" data-kt-tokens-modal-action="submit" >
+                            <button type="reset" class="btn btn-light me-3" data-mv-tokens-modal-action="cancel">Discard</button>
+                            <button type="submit" class="btn btn-primary" data-mv-tokens-modal-action="submit" >
                                 <span class="indicator-label">Submit</span>
                                 <span class="indicator-progress">Please wait...
                                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>

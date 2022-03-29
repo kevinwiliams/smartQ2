@@ -26,10 +26,10 @@
                     data    : {
                         _token : '{{ csrf_token() }}',
                         search: {
-                            status     : $('[data-kt-report-table-filter="status"]').val(),
-                            counter    : $('[data-kt-report-table-filter="counters"]').val(),
-                            department : $('[data-kt-report-table-filter="departments"]').val(),
-                            officer    : $('[data-kt-report-table-filter="officers"]').val(),
+                            status     : $('[data-mv-report-table-filter="status"]').val(),
+                            counter    : $('[data-mv-report-table-filter="counters"]').val(),
+                            department : $('[data-mv-report-table-filter="departments"]').val(),
+                            officer    : $('[data-mv-report-table-filter="officers"]').val(),
                             start_date : $('#start_date').val(),
                             end_date   : $('#end_date').val(),
                         }
@@ -86,24 +86,24 @@
             });
 
             table.on('draw', function () {
-                KTMenu.createInstances();
-                KTTokenActions.init();
+                MVMenu.createInstances();
+                MVTokenActions.init();
             });
         }
     
-        const filterButton = document.querySelector('[data-kt-report-table-filter="filter"]');
+        const filterButton = document.querySelector('[data-mv-report-table-filter="filter"]');
         // Filter datatable on submit
         filterButton.addEventListener('click', function () {
             // Get filter values
             drawDataTable();
         });
 
-        const filterStatus = $('[data-kt-report-table-filter="status"]');
-        const filterDepts = $('[data-kt-report-table-filter="departments"]');
-        const filterCntrs = $('[data-kt-report-table-filter="counters"]');
-        const filterOffcrs = $('[data-kt-report-table-filter="officers"]');
+        const filterStatus = $('[data-mv-report-table-filter="status"]');
+        const filterDepts = $('[data-mv-report-table-filter="departments"]');
+        const filterCntrs = $('[data-mv-report-table-filter="counters"]');
+        const filterOffcrs = $('[data-mv-report-table-filter="officers"]');
         
-        const resetButton = document.querySelector('[data-kt-report-table-filter="reset"]');
+        const resetButton = document.querySelector('[data-mv-report-table-filter="reset"]');
         // Reset datatable
         resetButton.addEventListener('click', function () {
 
@@ -124,7 +124,7 @@
         });
         
         // modal open with token id
-        $('#kt_modal_transfer_token').on('show.bs.modal', function (event) {
+        $('#mv_modal_transfer_token').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             $('input[name=id]').val(button.data('token-id'));
             //set back options from selected token
@@ -153,7 +153,7 @@
             var end = moment();
 
             function cb(start, end) {
-                $("#kt_token_report_daterangepicker").html(start.format("MMMM D, YYYY") + " - " + end.format("MMMM D, YYYY"));
+                $("#mv_token_report_daterangepicker").html(start.format("MMMM D, YYYY") + " - " + end.format("MMMM D, YYYY"));
                 $('#start_date').val(start);
                 $('#end_date').val(end);
                 // alert($('#start_date').val());
@@ -161,7 +161,7 @@
 
             }
 
-            $("#kt_token_report_daterangepicker").daterangepicker({
+            $("#mv_token_report_daterangepicker").daterangepicker({
                 // autoUpdateInput: false,
                 locale: {
                     cancelLabel: 'Clear'
@@ -183,7 +183,7 @@
     });
 
 
-    const filterSearch = document.querySelector('[data-kt-report-table-filter="search"]');
+    const filterSearch = document.querySelector('[data-mv-report-table-filter="search"]');
 
     filterSearch.addEventListener('keyup', function (e) {
         var table = $('#token-table').DataTable();

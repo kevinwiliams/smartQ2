@@ -17,17 +17,17 @@
             @endif
 
                 <!--begin::Wrapper-->
-                <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+                <div class="wrapper d-flex flex-column flex-row-fluid" id="mv_wrapper">
                 {{ theme()->getView('layout/header/_base') }}
 
                     <!--begin::Content-->
-                    <div class="content d-flex flex-column flex-column-fluid {{ theme()->printHtmlClasses('content', false) }}" id="kt_content">
+                    <div class="content d-flex flex-column flex-column-fluid {{ theme()->printHtmlClasses('content', false) }}" id="mv_content">
                     @if (theme()->getOption('layout', 'toolbar/display') === true)
                         {{ theme()->getView('layout/toolbars/_' . theme()->getOption('layout', 'toolbar/layout')) }}
                     @endif
 
                         <!--begin::Post-->
-                        <div class="post d-flex flex-column-fluid" id="kt_post">
+                        <div class="post d-flex flex-column-fluid" id="mv_post">
                             {{ theme()->getView('layout/_content', compact('slot')) }}
                         </div>
                         <!--end::Post-->

@@ -1,4 +1,4 @@
-<div class="modal fade" id="kt_modal_update_permission" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="mv_modal_update_permission" tabindex="-1" aria-hidden="true">
 	<!--begin::Modal dialog-->
 	<div class="modal-dialog modal-dialog-centered mw-650px">
 		<!--begin::Modal content-->
@@ -9,7 +9,7 @@
 				<h2 class="fw-bolder">Update Permission</h2>
 				<!--end::Modal title-->
 				<!--begin::Close-->
-				<div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-permissions-modal-action="close">
+				<div class="btn btn-icon btn-sm btn-active-icon-primary" data-mv-permissions-modal-action="close">
 					<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
 					{!! theme()->getSvgIcon("icons/duotune/arrows/arr061.svg", "svg-icon-1") !!}
 					<!--end::Svg Icon-->
@@ -43,7 +43,7 @@
 				<!--end::Notice-->
 				<!--end::Notice-->
 				<!--begin::Form-->
-				{{ Form::open(['url' => 'apps/user-management/permissions/update', 'class'=>'transferFrm', 'id'=>'kt_modal_update_permission_form']) }}
+				{{ Form::open(['url' => 'apps/user-management/permissions/update', 'class'=>'transferFrm', 'id'=>'mv_modal_update_permission_form']) }}
 				<!--begin::Input group-->
 				<div class="fv-row mb-7">
 					<!--begin::Label-->
@@ -75,8 +75,8 @@
 				<div class="fv-row mb-7">
 					<!--begin::Checkbox-->
 					<label class="form-check form-check-custom form-check-solid me-9">
-						<input class="form-check-input" type="checkbox" value="1" name="permissions_core" id="kt_permissions_core" />
-						<span class="form-check-label" for="kt_permissions_core">Set as core permission</span>
+						<input class="form-check-input" type="checkbox" value="1" name="permissions_core" id="mv_permissions_core" />
+						<span class="form-check-label" for="mv_permissions_core">Set as core permission</span>
 					</label>
 					<!--end::Checkbox-->
 				</div>
@@ -89,8 +89,8 @@
 				<!--end::Disclaimer-->
 				<!--begin::Actions-->
 				<div class="text-center pt-15">
-					<button type="reset" class="btn btn-light me-3" data-kt-permissions-modal-action="cancel">Discard</button>
-					<button type="submit" class="btn btn-primary" data-kt-permissions-modal-action="submit">
+					<button type="reset" class="btn btn-light me-3" data-mv-permissions-modal-action="cancel">Discard</button>
+					<button type="submit" class="btn btn-primary" data-mv-permissions-modal-action="submit">
 						<span class="indicator-label">Submit</span>
 						<span class="indicator-progress">Please wait...
 							<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>

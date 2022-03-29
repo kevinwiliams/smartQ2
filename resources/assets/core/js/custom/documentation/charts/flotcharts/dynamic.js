@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTFlotDemoDynamic = function () {
+var MVFlotDemoDynamic = function () {
     // Private functions
     var exampleDynamic = function () {
         var data = [];
@@ -30,7 +30,7 @@ var KTFlotDemoDynamic = function () {
 
 		//server load
 		var options = {
-			colors: [KTUtil.getCssVariableValue('--bs-active-danger'), KTUtil.getCssVariableValue('--bs-active-primary')],
+			colors: [MVUtil.getCssVariableValue('--bs-active-danger'), MVUtil.getCssVariableValue('--bs-active-primary')],
 			series: {
 				shadowSize: 1
 			},
@@ -49,7 +49,7 @@ var KTFlotDemoDynamic = function () {
 			yaxis: {
 				min: 0,
 				max: 100,
-				tickColor: KTUtil.getCssVariableValue('--bs-light-dark'),
+				tickColor: MVUtil.getCssVariableValue('--bs-light-dark'),
 				tickFormatter: function(v) {
 					return v + "%";
 				}
@@ -57,15 +57,15 @@ var KTFlotDemoDynamic = function () {
 			xaxis: {
 				show: false,
 			},
-			colors: [KTUtil.getCssVariableValue('--bs-active-primary')],
+			colors: [MVUtil.getCssVariableValue('--bs-active-primary')],
 			grid: {
-				tickColor: KTUtil.getCssVariableValue('--bs-light-dark'),
+				tickColor: MVUtil.getCssVariableValue('--bs-light-dark'),
 				borderWidth: 0,
 			}
 		};
 
 		var updateInterval = 30;
-		var plot = $.plot($("#kt_docs_flot_dynamic"), [getRandomData()], options);
+		var plot = $.plot($("#mv_docs_flot_dynamic"), [getRandomData()], options);
 
 		function update() {
 			plot.setData([getRandomData()]);
@@ -85,6 +85,6 @@ var KTFlotDemoDynamic = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTFlotDemoDynamic.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVFlotDemoDynamic.init();
 });

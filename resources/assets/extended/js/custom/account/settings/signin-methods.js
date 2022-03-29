@@ -1,21 +1,21 @@
 "use strict";
 
 // Class definition
-var KTAccountSettingsSigninMethods = function () {
+var MVAccountSettingsSigninMethods = function () {
     // Private functions
     var initSettings = function () {
 
         // UI elements
-        var signInMainEl = document.getElementById('kt_signin_email');
-        var signInEditEl = document.getElementById('kt_signin_email_edit');
-        var passwordMainEl = document.getElementById('kt_signin_password');
-        var passwordEditEl = document.getElementById('kt_signin_password_edit');
+        var signInMainEl = document.getElementById('mv_signin_email');
+        var signInEditEl = document.getElementById('mv_signin_email_edit');
+        var passwordMainEl = document.getElementById('mv_signin_password');
+        var passwordEditEl = document.getElementById('mv_signin_password_edit');
 
         // button elements
-        var signInChangeEmail = document.getElementById('kt_signin_email_button');
-        var signInCancelEmail = document.getElementById('kt_signin_cancel');
-        var passwordChange = document.getElementById('kt_signin_password_button');
-        var passwordCancel = document.getElementById('kt_password_cancel');
+        var signInChangeEmail = document.getElementById('mv_signin_email_button');
+        var signInCancelEmail = document.getElementById('mv_signin_cancel');
+        var passwordChange = document.getElementById('mv_signin_password_button');
+        var passwordCancel = document.getElementById('mv_password_cancel');
 
         // toggle UI
         signInChangeEmail.querySelector('button').addEventListener('click', function () {
@@ -51,8 +51,8 @@ var KTAccountSettingsSigninMethods = function () {
         var validation;
 
         // form elements
-        var form = document.getElementById('kt_signin_change_email');
-        var submitButton = form.querySelector('#kt_signin_submit');
+        var form = document.getElementById('mv_signin_change_email');
+        var submitButton = form.querySelector('#mv_signin_submit');
 
         validation = FormValidation.formValidation(
             form,
@@ -94,7 +94,7 @@ var KTAccountSettingsSigninMethods = function () {
                 if (status === 'Valid') {
 
                     // Show loading indication
-                    submitButton.setAttribute('data-kt-indicator', 'on');
+                    submitButton.setAttribute('data-mv-indicator', 'on');
 
                     // Disable button to avoid multiple click
                     submitButton.disabled = true;
@@ -137,7 +137,7 @@ var KTAccountSettingsSigninMethods = function () {
                         .then(function () {
                             // always executed
                             // Hide loading indication
-                            submitButton.removeAttribute('data-kt-indicator');
+                            submitButton.removeAttribute('data-mv-indicator');
 
                             // Enable button
                             submitButton.disabled = false;
@@ -162,8 +162,8 @@ var KTAccountSettingsSigninMethods = function () {
         var validation;
 
         // form elements
-        var form = document.getElementById('kt_signin_change_password');
-        var submitButton = form.querySelector('#kt_password_submit');
+        var form = document.getElementById('mv_signin_change_password');
+        var submitButton = form.querySelector('#mv_password_submit');
 
         validation = FormValidation.formValidation(
             form,
@@ -216,7 +216,7 @@ var KTAccountSettingsSigninMethods = function () {
                 if (status == 'Valid') {
 
                     // Show loading indication
-                    submitButton.setAttribute('data-kt-indicator', 'on');
+                    submitButton.setAttribute('data-mv-indicator', 'on');
 
                     // Disable button to avoid multiple click
                     submitButton.disabled = true;
@@ -259,7 +259,7 @@ var KTAccountSettingsSigninMethods = function () {
                         .then(function () {
                             // always executed
                             // Hide loading indication
-                            submitButton.removeAttribute('data-kt-indicator');
+                            submitButton.removeAttribute('data-mv-indicator');
 
                             // Enable button
                             submitButton.disabled = false;
@@ -291,6 +291,6 @@ var KTAccountSettingsSigninMethods = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTAccountSettingsSigninMethods.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVAccountSettingsSigninMethods.init();
 });

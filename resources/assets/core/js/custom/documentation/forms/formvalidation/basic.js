@@ -1,12 +1,12 @@
 "use strict";
 
 // Class definition
-var KTFormValidationDemoBasic = function () {
+var MVFormValidationDemoBasic = function () {
 
     // Private functions
     var exampleBasic = function () {
         // Define form element
-        const form = document.getElementById('kt_docs_formvalidation_basic');
+        const form = document.getElementById('mv_docs_formvalidation_basic');
 
         // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
         var validator = FormValidation.formValidation(
@@ -100,7 +100,7 @@ var KTFormValidationDemoBasic = function () {
         );
 
         // Submit button handler
-        const submitButton = document.getElementById('kt_docs_formvalidation_submit');
+        const submitButton = document.getElementById('mv_docs_formvalidation_submit');
         submitButton.addEventListener('click', function (e) {
             // Prevent default button action
             e.preventDefault();
@@ -112,7 +112,7 @@ var KTFormValidationDemoBasic = function () {
 
                     if (status == 'Valid') {
                         // Show loading indication
-                        submitButton.setAttribute('data-kt-indicator', 'on');
+                        submitButton.setAttribute('data-mv-indicator', 'on');
 
                         // Disable button to avoid multiple click 
                         submitButton.disabled = true;
@@ -120,7 +120,7 @@ var KTFormValidationDemoBasic = function () {
                         // Simulate form submission. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                         setTimeout(function () {
                             // Remove loading indication
-                            submitButton.removeAttribute('data-kt-indicator');
+                            submitButton.removeAttribute('data-mv-indicator');
 
                             // Enable button
                             submitButton.disabled = false;
@@ -147,7 +147,7 @@ var KTFormValidationDemoBasic = function () {
 
     var exampleText = function () {
         // Define form element
-        const form = document.getElementById('kt_docs_formvalidation_text');
+        const form = document.getElementById('mv_docs_formvalidation_text');
 
         // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
         var validator = FormValidation.formValidation(
@@ -175,7 +175,7 @@ var KTFormValidationDemoBasic = function () {
         );
 
         // Submit button handler
-        const submitButton = document.getElementById('kt_docs_formvalidation_text_submit');
+        const submitButton = document.getElementById('mv_docs_formvalidation_text_submit');
         submitButton.addEventListener('click', function (e) {
             // Prevent default button action
             e.preventDefault();
@@ -187,7 +187,7 @@ var KTFormValidationDemoBasic = function () {
 
                     if (status == 'Valid') {
                         // Show loading indication
-                        submitButton.setAttribute('data-kt-indicator', 'on');
+                        submitButton.setAttribute('data-mv-indicator', 'on');
 
                         // Disable button to avoid multiple click 
                         submitButton.disabled = true;
@@ -195,7 +195,7 @@ var KTFormValidationDemoBasic = function () {
                         // Simulate form submission. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                         setTimeout(function () {
                             // Remove loading indication
-                            submitButton.removeAttribute('data-kt-indicator');
+                            submitButton.removeAttribute('data-mv-indicator');
 
                             // Enable button
                             submitButton.disabled = false;
@@ -221,7 +221,7 @@ var KTFormValidationDemoBasic = function () {
 
     var exampleEmail = function () {
         // Define form element
-        const form = document.getElementById('kt_docs_formvalidation_email');
+        const form = document.getElementById('mv_docs_formvalidation_email');
 
         // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
         var validator = FormValidation.formValidation(
@@ -252,7 +252,7 @@ var KTFormValidationDemoBasic = function () {
         );
 
         // Submit button handler
-        const submitButton = document.getElementById('kt_docs_formvalidation_email_submit');
+        const submitButton = document.getElementById('mv_docs_formvalidation_email_submit');
         submitButton.addEventListener('click', function (e) {
             // Prevent default button action
             e.preventDefault();
@@ -264,7 +264,7 @@ var KTFormValidationDemoBasic = function () {
 
                     if (status == 'Valid') {
                         // Show loading indication
-                        submitButton.setAttribute('data-kt-indicator', 'on');
+                        submitButton.setAttribute('data-mv-indicator', 'on');
 
                         // Disable button to avoid multiple click 
                         submitButton.disabled = true;
@@ -272,7 +272,7 @@ var KTFormValidationDemoBasic = function () {
                         // Simulate form submission. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                         setTimeout(function () {
                             // Remove loading indication
-                            submitButton.removeAttribute('data-kt-indicator');
+                            submitButton.removeAttribute('data-mv-indicator');
 
                             // Enable button
                             submitButton.disabled = false;
@@ -298,7 +298,7 @@ var KTFormValidationDemoBasic = function () {
 
     var exampleTextarea = function () {
         // Define form element
-        const form = document.getElementById('kt_docs_formvalidation_textarea');
+        const form = document.getElementById('mv_docs_formvalidation_textarea');
 
         // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
         var validator = FormValidation.formValidation(
@@ -326,7 +326,7 @@ var KTFormValidationDemoBasic = function () {
         );
 
         // Submit button handler
-        const submitButton = document.getElementById('kt_docs_formvalidation_textarea_submit');
+        const submitButton = document.getElementById('mv_docs_formvalidation_textarea_submit');
         submitButton.addEventListener('click', function (e) {
             // Prevent default button action
             e.preventDefault();
@@ -338,7 +338,7 @@ var KTFormValidationDemoBasic = function () {
 
                     if (status == 'Valid') {
                         // Show loading indication
-                        submitButton.setAttribute('data-kt-indicator', 'on');
+                        submitButton.setAttribute('data-mv-indicator', 'on');
 
                         // Disable button to avoid multiple click 
                         submitButton.disabled = true;
@@ -346,7 +346,7 @@ var KTFormValidationDemoBasic = function () {
                         // Simulate form submission. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                         setTimeout(function () {
                             // Remove loading indication
-                            submitButton.removeAttribute('data-kt-indicator');
+                            submitButton.removeAttribute('data-mv-indicator');
 
                             // Enable button
                             submitButton.disabled = false;
@@ -372,7 +372,7 @@ var KTFormValidationDemoBasic = function () {
 
     var exampleRadio = function () {
         // Define form element
-        const form = document.getElementById('kt_docs_formvalidation_radio');
+        const form = document.getElementById('mv_docs_formvalidation_radio');
 
         // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
         var validator = FormValidation.formValidation(
@@ -400,7 +400,7 @@ var KTFormValidationDemoBasic = function () {
         );
 
         // Submit button handler
-        const submitButton = document.getElementById('kt_docs_formvalidation_radio_submit');
+        const submitButton = document.getElementById('mv_docs_formvalidation_radio_submit');
         submitButton.addEventListener('click', function (e) {
             // Prevent default button action
             e.preventDefault();
@@ -412,7 +412,7 @@ var KTFormValidationDemoBasic = function () {
 
                     if (status == 'Valid') {
                         // Show loading indication
-                        submitButton.setAttribute('data-kt-indicator', 'on');
+                        submitButton.setAttribute('data-mv-indicator', 'on');
 
                         // Disable button to avoid multiple click 
                         submitButton.disabled = true;
@@ -420,7 +420,7 @@ var KTFormValidationDemoBasic = function () {
                         // Simulate form submission. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                         setTimeout(function () {
                             // Remove loading indication
-                            submitButton.removeAttribute('data-kt-indicator');
+                            submitButton.removeAttribute('data-mv-indicator');
 
                             // Enable button
                             submitButton.disabled = false;
@@ -446,7 +446,7 @@ var KTFormValidationDemoBasic = function () {
 
     var exampleCheckbox = function () {
         // Define form element
-        const form = document.getElementById('kt_docs_formvalidation_checkbox');
+        const form = document.getElementById('mv_docs_formvalidation_checkbox');
 
         // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
         var validator = FormValidation.formValidation(
@@ -474,7 +474,7 @@ var KTFormValidationDemoBasic = function () {
         );
 
         // Submit button handler
-        const submitButton = document.getElementById('kt_docs_formvalidation_checkbox_submit');
+        const submitButton = document.getElementById('mv_docs_formvalidation_checkbox_submit');
         submitButton.addEventListener('click', function (e) {
             // Prevent default button action
             e.preventDefault();
@@ -486,7 +486,7 @@ var KTFormValidationDemoBasic = function () {
 
                     if (status == 'Valid') {
                         // Show loading indication
-                        submitButton.setAttribute('data-kt-indicator', 'on');
+                        submitButton.setAttribute('data-mv-indicator', 'on');
 
                         // Disable button to avoid multiple click 
                         submitButton.disabled = true;
@@ -494,7 +494,7 @@ var KTFormValidationDemoBasic = function () {
                         // Simulate form submission. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                         setTimeout(function () {
                             // Remove loading indication
-                            submitButton.removeAttribute('data-kt-indicator');
+                            submitButton.removeAttribute('data-mv-indicator');
 
                             // Enable button
                             submitButton.disabled = false;
@@ -531,6 +531,6 @@ var KTFormValidationDemoBasic = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTFormValidationDemoBasic.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVFormValidationDemoBasic.init();
 });

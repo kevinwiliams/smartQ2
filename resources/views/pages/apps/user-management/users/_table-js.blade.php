@@ -1,7 +1,7 @@
 <script>
-    var KTUsersList = function() {
+    var MVUsersList = function() {
         // Define shared variables
-        var table = document.getElementById('kt_table_users');
+        var table = document.getElementById('mv_table_users');
         var datatable;
         var toolbarBase;
         var toolbarSelected;
@@ -13,8 +13,8 @@
             //     var table = $('#users-table').DataTable();
 
             // table.on('draw', function() {
-            //     KTMenu.createInstances(); //load action menu options
-            //     const deleteButtons = table.querySelectorAll('[data-kt-users-table-filter="delete_row"]');
+            //     MVMenu.createInstances(); //load action menu options
+            //     const deleteButtons = table.querySelectorAll('[data-mv-users-table-filter="delete_row"]');
             //     console.log('delete');
             //     console.log(deleteButtons);
             // }); 
@@ -59,7 +59,7 @@
 
             // Init datatable --- more info on datatables: https://datatables.net/manual/
             // console.log($.fn.dataTable.isDataTable(table));
-            // datatable = window.LaravelDataTables["kt_table_users"];
+            // datatable = window.LaravelDataTables["mv_table_users"];
 
             if ($.fn.dataTable.isDataTable(table)) {
                 datatable = $(table).DataTable();
@@ -84,7 +84,7 @@
             // Re-init functions on every table re-draw -- more info: https://datatables.net/reference/event/draw
             datatable.on('draw', function() {
                 // console.log("raw")
-                KTMenu.createInstances();
+                MVMenu.createInstances();
                 initToggleToolbar();
                 handleDeleteRows();
                 toggleToolbars();
@@ -93,7 +93,7 @@
 
         // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
         var handleSearchDatatable = () => {
-            const filterSearch = document.querySelector('[data-kt-user-table-filter="search"]');
+            const filterSearch = document.querySelector('[data-mv-user-table-filter="search"]');
             filterSearch.addEventListener('keyup', function(e) {
                 datatable.search(e.target.value).draw();
             });
@@ -102,8 +102,8 @@
         // Filter Datatable
         var handleFilterDatatable = () => {
             // Select filter options
-            const filterForm = document.querySelector('[data-kt-user-table-filter="form"]');
-            const filterButton = filterForm.querySelector('[data-kt-user-table-filter="filter"]');
+            const filterForm = document.querySelector('[data-mv-user-table-filter="form"]');
+            const filterButton = filterForm.querySelector('[data-mv-user-table-filter="filter"]');
             const selectOptions = filterForm.querySelectorAll('select');
 
             // Filter datatable on submit
@@ -130,12 +130,12 @@
         // Reset Filter
         var handleResetForm = () => {
             // Select reset button
-            const resetButton = document.querySelector('[data-kt-user-table-filter="reset"]');
+            const resetButton = document.querySelector('[data-mv-user-table-filter="reset"]');
 
             // Reset datatable
             resetButton.addEventListener('click', function() {
                 // Select filter options
-                const filterForm = document.querySelector('[data-kt-user-table-filter="form"]');
+                const filterForm = document.querySelector('[data-mv-user-table-filter="form"]');
                 const selectOptions = filterForm.querySelectorAll('select');
 
                 // Reset select2 values -- more info: https://select2.org/programmatic-control/add-select-clear-items
@@ -152,7 +152,7 @@
         // Delete subscirption
         var handleDeleteRows = () => {
             // Select all delete buttons
-            const deleteButtons = table.querySelectorAll('[data-kt-users-table-filter="delete_row"]');
+            const deleteButtons = table.querySelectorAll('[data-mv-users-table-filter="delete_row"]');
 
             deleteButtons.forEach(d => {
                 // Delete button on click
@@ -243,11 +243,11 @@
             const checkboxes = table.querySelectorAll('[type="checkbox"]');
 
             // Select elements
-            toolbarBase = document.querySelector('[data-kt-user-table-toolbar="base"]');
-            toolbarSelected = document.querySelector('[data-kt-user-table-toolbar="selected"]');
-            selectedCount = document.querySelector('[data-kt-user-table-select="selected_count"]');
-            const deleteSelected = document.querySelector('[data-kt-user-table-select="delete_selected"]');
-            const titleCheckbox = document.querySelector('#kt_users_select_all');
+            toolbarBase = document.querySelector('[data-mv-user-table-toolbar="base"]');
+            toolbarSelected = document.querySelector('[data-mv-user-table-toolbar="selected"]');
+            selectedCount = document.querySelector('[data-mv-user-table-select="selected_count"]');
+            const deleteSelected = document.querySelector('[data-mv-user-table-select="delete_selected"]');
+            const titleCheckbox = document.querySelector('#mv_users_select_all');
             // Toggle delete selected toolbar
             checkboxes.forEach(c => {
                 // Checkbox on click event
@@ -365,10 +365,10 @@
     }();
 
     // On document ready
-    KTUtil.onDOMContentLoaded(function() {
+    MVUtil.onDOMContentLoaded(function() {
 
         setTimeout(() => {
-            KTUsersList.init();
+            MVUsersList.init();
         }, 1000);
     });
 </script>

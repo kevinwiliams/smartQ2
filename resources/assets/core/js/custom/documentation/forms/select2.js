@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTFormsSelect2Demo = function () {
+var MVFormsSelect2Demo = function () {
     // Private functions
     var exampleCountry = function () {
         // Format options
@@ -10,7 +10,7 @@ var KTFormsSelect2Demo = function () {
                 return item.text;
             }
 
-            var url = hostUrl + 'media/' + item.element.getAttribute('data-kt-select2-country');
+            var url = hostUrl + 'media/' + item.element.getAttribute('data-mv-select2-country');
             var img = $("<img>", {
                 class: "rounded-circle me-2",
                 width: 26,
@@ -24,7 +24,7 @@ var KTFormsSelect2Demo = function () {
         }
 
         // Init Select2 --- more info: https://select2.org/
-        $('#kt_docs_select2_country').select2({
+        $('#mv_docs_select2_country').select2({
             templateResult: function (item) {
                 return format(item);
             }
@@ -38,7 +38,7 @@ var KTFormsSelect2Demo = function () {
                 return item.text;
             }
 
-            var url = hostUrl + 'media/' + item.element.getAttribute('data-kt-select2-user');
+            var url = hostUrl + 'media/' + item.element.getAttribute('data-mv-select2-user');
             var img = $("<img>", {
                 class: "rounded-circle me-2",
                 width: 26,
@@ -52,7 +52,7 @@ var KTFormsSelect2Demo = function () {
         }
 
         // Init Select2 --- more info: https://select2.org/
-        $('#kt_docs_select2_users').select2({
+        $('#mv_docs_select2_users').select2({
             templateResult: function (item) {
                 return format(item);
             }
@@ -69,6 +69,6 @@ var KTFormsSelect2Demo = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTFormsSelect2Demo.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVFormsSelect2Demo.init();
 });

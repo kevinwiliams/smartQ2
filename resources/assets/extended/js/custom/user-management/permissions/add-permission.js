@@ -1,10 +1,10 @@
 "use strict";
 
 // Class definition
-var KTUsersAddPermission = function () {
+var MVUsersAddPermission = function () {
     // Shared variables
-    const element = document.getElementById('kt_modal_add_permission');
-    const form = element.querySelector('#kt_modal_add_permission_form');
+    const element = document.getElementById('mv_modal_add_permission');
+    const form = element.querySelector('#mv_modal_add_permission_form');
     const modal = new bootstrap.Modal(element);
 
     // Init add schedule modal
@@ -36,7 +36,7 @@ var KTUsersAddPermission = function () {
         );
 
         // Close button handler
-        const closeButton = element.querySelector('[data-kt-permissions-modal-action="close"]');
+        const closeButton = element.querySelector('[data-mv-permissions-modal-action="close"]');
         closeButton.addEventListener('click', e => {
             e.preventDefault();
 
@@ -59,7 +59,7 @@ var KTUsersAddPermission = function () {
         });
 
         // Cancel button handler
-        const cancelButton = element.querySelector('[data-kt-permissions-modal-action="cancel"]');
+        const cancelButton = element.querySelector('[data-mv-permissions-modal-action="cancel"]');
         cancelButton.addEventListener('click', e => {
             e.preventDefault();
 
@@ -93,7 +93,7 @@ var KTUsersAddPermission = function () {
         });
 
         // Submit button handler
-        const submitButton = element.querySelector('[data-kt-permissions-modal-action="submit"]');
+        const submitButton = element.querySelector('[data-mv-permissions-modal-action="submit"]');
         submitButton.addEventListener('click', function (e) {
             // Prevent default button action
             e.preventDefault();
@@ -105,7 +105,7 @@ var KTUsersAddPermission = function () {
 
                     if (status == 'Valid') {
                         // Show loading indication
-                        submitButton.setAttribute('data-kt-indicator', 'on');
+                        submitButton.setAttribute('data-mv-indicator', 'on');
 
                         // Disable button to avoid multiple click 
                         submitButton.disabled = true;
@@ -113,7 +113,7 @@ var KTUsersAddPermission = function () {
                         // Simulate form submission. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                         setTimeout(function () {
                             // Remove loading indication
-                            submitButton.removeAttribute('data-kt-indicator');
+                            submitButton.removeAttribute('data-mv-indicator');
 
                             // Enable button
                             submitButton.disabled = false;
@@ -161,6 +161,6 @@ var KTUsersAddPermission = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTUsersAddPermission.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVUsersAddPermission.init();
 });

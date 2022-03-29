@@ -1,5 +1,5 @@
 <!--begin::Footer-->
-<div class="py-4 d-flex flex-lg-column py-6" id="kt_footer">
+<div class="py-4 d-flex flex-lg-column py-6" id="mv_footer">
 	<!--begin::Container-->
 	<div class="container-xxl d-flex flex-column flex-md-row align-items-center justify-content-between">
 		<!--begin::Copyright-->

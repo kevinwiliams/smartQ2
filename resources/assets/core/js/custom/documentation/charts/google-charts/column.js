@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTGoogleChartColumnDemo = function () {
+var MVGoogleChartColumnDemo = function () {
     // Private functions
     var exampleColumn = function () {
         // GOOGLE CHARTS INIT
@@ -76,7 +76,7 @@ var KTGoogleChartColumnDemo = function () {
                 colors: ['#6e4ff5', '#fe3995']
             };
 
-            var chart = new google.visualization.ColumnChart(document.getElementById('kt_docs_google_chart_column'));
+            var chart = new google.visualization.ColumnChart(document.getElementById('mv_docs_google_chart_column'));
             chart.draw(data, options);
         });
     }
@@ -90,6 +90,6 @@ var KTGoogleChartColumnDemo = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTGoogleChartColumnDemo.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVGoogleChartColumnDemo.init();
 });

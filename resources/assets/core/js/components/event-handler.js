@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTEventHandler = function() {
+var MVEventHandler = function() {
     ////////////////////////////
     // ** Private Variables  ** //
     ////////////////////////////
@@ -11,8 +11,8 @@ var KTEventHandler = function() {
     // ** Private Methods  ** //
     ////////////////////////////
     var _triggerEvent = function(element, name, target, e) {
-        if ( KTUtil.data(element).has(name) === true ) {
-            var handlerId = KTUtil.data(element).get(name);
+        if ( MVUtil.data(element).has(name) === true ) {
+            var handlerId = MVUtil.data(element).get(name);
 
             if ( _handlers[name] && _handlers[name][handlerId] ) {
                 var handler = _handlers[name][handlerId];
@@ -35,9 +35,9 @@ var KTEventHandler = function() {
     }
 
     var _addEvent = function(element, name, callback, one) {
-        var handlerId = KTUtil.getUniqueId('event');
+        var handlerId = MVUtil.getUniqueId('event');
 
-        KTUtil.data(element).set(name, handlerId);
+        MVUtil.data(element).set(name, handlerId);
 
         if ( !_handlers[name] ) {
             _handlers[name] = {};
@@ -52,7 +52,7 @@ var KTEventHandler = function() {
     }
 
     var _removeEvent = function(element, name) {
-        var handlerId = KTUtil.data(element).get(name);
+        var handlerId = MVUtil.data(element).get(name);
 
         if (_handlers[name] && _handlers[name][handlerId]) {
             delete _handlers[name][handlerId];
@@ -89,5 +89,5 @@ var KTEventHandler = function() {
 
 // Webpack support
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    module.exports = KTEventHandler;
+    module.exports = MVEventHandler;
 }

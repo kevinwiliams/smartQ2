@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTFlotDemoTracking = function () {
+var MVFlotDemoTracking = function () {
     // Private functions
     var exampleTracking = function () {
         var sin = [],
@@ -11,7 +11,7 @@ var KTFlotDemoTracking = function () {
 			cos.push([i, Math.cos(i)]);
 		}
 
-		var plot = $.plot($("#kt_docs_flot_tracking"), [{
+		var plot = $.plot($("#mv_docs_flot_tracking"), [{
 			data: sin,
 			label: "sin(x) = -0.00",
 			lines: {
@@ -26,7 +26,7 @@ var KTFlotDemoTracking = function () {
 			},
 			shadowSize: 0
 		}], {
-			colors: [KTUtil.getCssVariableValue('--bs-active-primary'), KTUtil.getCssVariableValue('--bs-active-warning')],
+			colors: [MVUtil.getCssVariableValue('--bs-active-primary'), MVUtil.getCssVariableValue('--bs-active-warning')],
 			series: {
 				lines: {
 					show: true
@@ -38,8 +38,8 @@ var KTFlotDemoTracking = function () {
 			grid: {
 				hoverable: true,
 				autoHighlight: false,
-				tickColor: KTUtil.getCssVariableValue('--bs-light-dark'),
-				borderColor: KTUtil.getCssVariableValue('--bs-light-dark'),
+				tickColor: MVUtil.getCssVariableValue('--bs-light-dark'),
+				borderColor: MVUtil.getCssVariableValue('--bs-light-dark'),
 				borderWidth: 1
 			},
 			yaxis: {
@@ -48,7 +48,7 @@ var KTFlotDemoTracking = function () {
 			}
 		});
 
-		var legends = $("#kt_docs_flot_tracking .legendLabel");
+		var legends = $("#mv_docs_flot_tracking .legendLabel");
 		legends.each(function() {
 			// fix the widths so they don't jump around
 			$(this).css('width', $(this).width());
@@ -85,7 +85,7 @@ var KTFlotDemoTracking = function () {
 			}
 		}
 
-		$("#kt_docs_flot_tracking").bind("plothover", function(event, pos, item) {
+		$("#mv_docs_flot_tracking").bind("plothover", function(event, pos, item) {
 			latestPosition = pos;
 			if (!updateLegendTimeout) updateLegendTimeout = setTimeout(updateLegend, 50);
 		});
@@ -100,6 +100,6 @@ var KTFlotDemoTracking = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTFlotDemoTracking.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVFlotDemoTracking.init();
 });

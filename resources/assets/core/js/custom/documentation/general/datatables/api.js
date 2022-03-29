@@ -1,14 +1,14 @@
 "use strict";
 
 // Class definition
-var KTDatatablesApi = function () {
+var MVDatatablesApi = function () {
     // Private functions
 
     var _initExample1 = function() {
-        var t = $("#kt_datatable_example_1").DataTable();
+        var t = $("#mv_datatable_example_1").DataTable();
         var counter = 1;
     
-        $("#kt_datatable_example_1_addrow").on( "click", function () {
+        $("#mv_datatable_example_1_addrow").on( "click", function () {
             t.row.add( [
                 counter +".1",
                 counter +".2",
@@ -21,18 +21,18 @@ var KTDatatablesApi = function () {
         } );
     
         // Automatically add a first row of data
-        $("#kt_datatable_example_1_addrow").click();
+        $("#mv_datatable_example_1_addrow").click();
     }
 
     var _initExample2 = function() {
-        var table = $("#kt_datatable_example_2").DataTable({
+        var table = $("#mv_datatable_example_2").DataTable({
             columnDefs: [{
                 orderable: false,
                 targets: [1,2,3]
             }]
         });
      
-        $("#kt_datatable_example_2_submit").click( function() {
+        $("#mv_datatable_example_2_submit").click( function() {
             var data = table.$("input, select").serialize();
             alert(
                 "The following data would have been submitted to the server: \n\n"+
@@ -52,6 +52,6 @@ var KTDatatablesApi = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTDatatablesApi.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVDatatablesApi.init();
 });

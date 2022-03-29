@@ -41,7 +41,7 @@
         }
     }
 
-    [data-kt-scrolltop="on"] & {
+    [data-mv-scrolltop="on"] & {
         opacity: get($scrolltop, opacity, on);
         animation: animation-scrolltop .4s ease-out 1;
         display: flex;

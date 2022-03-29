@@ -1,14 +1,14 @@
 "use strict";
 
 // Class definition
-var KTGeneralFullCalendarTimezoneDemos = function () {
+var MVGeneralFullCalendarTimezoneDemos = function () {
     // Private functions
 
     var exampleTimezone = function () {
         // Define variables
         var initialTimeZone = 'local';
-        var timeZoneSelectorEl = document.getElementById('kt_docs_fullcalendar_timezone_selector');
-        var calendarEl = document.getElementById('kt_docs_fullcalendar_timezone');
+        var timeZoneSelectorEl = document.getElementById('mv_docs_fullcalendar_timezone_selector');
+        var calendarEl = document.getElementById('mv_docs_fullcalendar_timezone');
         var todayDate = moment().startOf('day');
         var YM = todayDate.format('YYYY-MM');
         var YESTERDAY = todayDate.clone().subtract(1, 'day').format('YYYY-MM-DD');
@@ -186,6 +186,6 @@ var KTGeneralFullCalendarTimezoneDemos = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTGeneralFullCalendarTimezoneDemos.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVGeneralFullCalendarTimezoneDemos.init();
 });

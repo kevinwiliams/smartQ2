@@ -1,11 +1,11 @@
 "use strict";
 
 // Class definition
-var KTJKanbanDemoBasic = function() {
+var MVJKanbanDemoBasic = function() {
     // Private functions
     var exampleBasic = function() {
         var kanban = new jKanban({
-            element: '#kt_docs_jkanban_basic',
+            element: '#mv_docs_jkanban_basic',
             gutter: '0',
             widthBoard: '250px',
             boards: [{
@@ -52,6 +52,6 @@ var KTJKanbanDemoBasic = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTJKanbanDemoBasic.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVJKanbanDemoBasic.init();
 });

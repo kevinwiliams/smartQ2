@@ -1,19 +1,19 @@
 "use strict";
 
 // Class definition
-var KTGeneralApexCharts = function () {
+var MVGeneralApexCharts = function () {
     // Shared variables
 
     // Private functions
     var example1 = function () {
-        var element = document.getElementById("kt_apexcharts_1");
+        var element = document.getElementById("mv_apexcharts_1");
 
-        var height = parseInt(KTUtil.css(element, 'height'));
-        var labelColor = KTUtil.getCssVariableValue('--bs-gray-500');
-        var borderColor = KTUtil.getCssVariableValue('--bs-gray-200');
-        var baseColor = KTUtil.getCssVariableValue('--bs-primary');
-        var secondaryColor = KTUtil.getCssVariableValue('--bs-gray-300');
-        var dangerColor = KTUtil.getCssVariableValue('--bs-danger');
+        var height = parseInt(MVUtil.css(element, 'height'));
+        var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
+        var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
+        var baseColor = MVUtil.getCssVariableValue('--bs-primary');
+        var secondaryColor = MVUtil.getCssVariableValue('--bs-gray-300');
+        var dangerColor = MVUtil.getCssVariableValue('--bs-danger');
 
         if (!element) {
             return;
@@ -130,13 +130,13 @@ var KTGeneralApexCharts = function () {
     }
 
     var example2 = function () {
-        var element = document.getElementById("kt_apexcharts_2");
+        var element = document.getElementById("mv_apexcharts_2");
 
-        var height = parseInt(KTUtil.css(element, 'height'));
-        var labelColor = KTUtil.getCssVariableValue('--bs-gray-500');
-        var borderColor = KTUtil.getCssVariableValue('--bs-gray-200');
-        var baseColor = KTUtil.getCssVariableValue('--bs-warning');
-        var secondaryColor = KTUtil.getCssVariableValue('--bs-gray-300');
+        var height = parseInt(MVUtil.css(element, 'height'));
+        var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
+        var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
+        var baseColor = MVUtil.getCssVariableValue('--bs-warning');
+        var secondaryColor = MVUtil.getCssVariableValue('--bs-gray-300');
 
         if (!element) {
             return;
@@ -250,13 +250,13 @@ var KTGeneralApexCharts = function () {
     }
 
     var example3 = function () {
-        var element = document.getElementById("kt_apexcharts_3");
+        var element = document.getElementById("mv_apexcharts_3");
 
-        var height = parseInt(KTUtil.css(element, 'height'));
-        var labelColor = KTUtil.getCssVariableValue('--bs-gray-500');
-        var borderColor = KTUtil.getCssVariableValue('--bs-gray-200');
-        var baseColor = KTUtil.getCssVariableValue('--bs-info');
-        var lightColor = KTUtil.getCssVariableValue('--bs-light-info');
+        var height = parseInt(MVUtil.css(element, 'height'));
+        var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
+        var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
+        var baseColor = MVUtil.getCssVariableValue('--bs-info');
+        var lightColor = MVUtil.getCssVariableValue('--bs-light-info');
 
         if (!element) {
             return;
@@ -385,16 +385,16 @@ var KTGeneralApexCharts = function () {
     }
 
     var example4 = function () {
-        var element = document.getElementById("kt_apexcharts_4");
+        var element = document.getElementById("mv_apexcharts_4");
 
-        var height = parseInt(KTUtil.css(element, 'height'));
-        var labelColor = KTUtil.getCssVariableValue('--bs-gray-500');
-        var borderColor = KTUtil.getCssVariableValue('--bs-gray-200');
+        var height = parseInt(MVUtil.css(element, 'height'));
+        var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
+        var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
 
-        var baseColor = KTUtil.getCssVariableValue('--bs-success');
-        var baseLightColor = KTUtil.getCssVariableValue('--bs-light-success');
-        var secondaryColor = KTUtil.getCssVariableValue('--bs-warning');
-        var secondaryLightColor = KTUtil.getCssVariableValue('--bs-light-warning');
+        var baseColor = MVUtil.getCssVariableValue('--bs-success');
+        var baseLightColor = MVUtil.getCssVariableValue('--bs-light-success');
+        var secondaryColor = MVUtil.getCssVariableValue('--bs-warning');
+        var secondaryLightColor = MVUtil.getCssVariableValue('--bs-light-warning');
 
         if (!element) {
             return;
@@ -522,15 +522,15 @@ var KTGeneralApexCharts = function () {
     }
 
     var example5 = function () {
-        var element = document.getElementById("kt_apexcharts_5");
+        var element = document.getElementById("mv_apexcharts_5");
 
-        var height = parseInt(KTUtil.css(element, 'height'));
-        var labelColor = KTUtil.getCssVariableValue('--bs-gray-500');
-        var borderColor = KTUtil.getCssVariableValue('--bs-gray-200');
+        var height = parseInt(MVUtil.css(element, 'height'));
+        var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
+        var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
 
-        var baseColor = KTUtil.getCssVariableValue('--bs-primary');
-        var baseLightColor = KTUtil.getCssVariableValue('--bs-light-primary');
-        var secondaryColor = KTUtil.getCssVariableValue('--bs-info');
+        var baseColor = MVUtil.getCssVariableValue('--bs-primary');
+        var baseLightColor = MVUtil.getCssVariableValue('--bs-light-primary');
+        var secondaryColor = MVUtil.getCssVariableValue('--bs-info');
 
         if (!element) {
             return;
@@ -661,13 +661,13 @@ var KTGeneralApexCharts = function () {
     }
 
     var example6 = function () {
-        var element = document.getElementById("kt_apexcharts_6");
+        var element = document.getElementById("mv_apexcharts_6");
 
-        var height = parseInt(KTUtil.css(element, 'height'));
+        var height = parseInt(MVUtil.css(element, 'height'));
 
-        var baseColor = KTUtil.getCssVariableValue('--bs-primary');
-        var baseLightColor = KTUtil.getCssVariableValue('--bs-success');
-        var secondaryColor = KTUtil.getCssVariableValue('--bs-info');
+        var baseColor = MVUtil.getCssVariableValue('--bs-primary');
+        var baseLightColor = MVUtil.getCssVariableValue('--bs-success');
+        var secondaryColor = MVUtil.getCssVariableValue('--bs-info');
 
         if (!element) {
             return;
@@ -839,6 +839,6 @@ var KTGeneralApexCharts = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTGeneralApexCharts.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVGeneralApexCharts.init();
 });

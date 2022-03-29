@@ -1,7 +1,7 @@
 "use strict";
 
 // Class Definition
-var KTPasswordResetNewPassword = function () {
+var MVPasswordResetNewPassword = function () {
     // Elements
     var form;
     var submitButton;
@@ -73,7 +73,7 @@ var KTPasswordResetNewPassword = function () {
             validator.validate().then(function (status) {
                 if (status == 'Valid') {
                     // Show loading indication
-                    submitButton.setAttribute('data-kt-indicator', 'on');
+                    submitButton.setAttribute('data-mv-indicator', 'on');
 
                     // Disable button to avoid multiple click
                     submitButton.disabled = true;
@@ -124,7 +124,7 @@ var KTPasswordResetNewPassword = function () {
                         .then(function () {
                             // always executed
                             // Hide loading indication
-                            submitButton.removeAttribute('data-kt-indicator');
+                            submitButton.removeAttribute('data-mv-indicator');
 
                             // Enable button
                             submitButton.disabled = false;
@@ -159,9 +159,9 @@ var KTPasswordResetNewPassword = function () {
     return {
         // public functions
         init: function () {
-            form = document.querySelector('#kt_new_password_form');
-            submitButton = document.querySelector('#kt_new_password_submit');
-            passwordMeter = KTPasswordMeter.getInstance(form.querySelector('[data-kt-password-meter="true"]'));
+            form = document.querySelector('#mv_new_password_form');
+            submitButton = document.querySelector('#mv_new_password_submit');
+            passwordMeter = MVPasswordMeter.getInstance(form.querySelector('[data-mv-password-meter="true"]'));
 
             handleForm();
         }
@@ -169,6 +169,6 @@ var KTPasswordResetNewPassword = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTPasswordResetNewPassword.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVPasswordResetNewPassword.init();
 });

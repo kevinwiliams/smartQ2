@@ -1,17 +1,17 @@
 "use strict";
 
 // Class definition
-var KTFlotDemoPie = function () {
+var MVFlotDemoPie = function () {
     // Private functions
     var examplePie = function () {
         var data = [
-            { label: "CSS", data: 10, color: KTUtil.getCssVariableValue('--bs-active-primary') },
-            { label: "HTML5", data: 40, color: KTUtil.getCssVariableValue('--bs-active-success') },
-            { label: "PHP", data: 30, color: KTUtil.getCssVariableValue('--bs-active-danger') },
-            { label: "Angular", data: 20, color: KTUtil.getCssVariableValue('--bs-active-warning') }
+            { label: "CSS", data: 10, color: MVUtil.getCssVariableValue('--bs-active-primary') },
+            { label: "HTML5", data: 40, color: MVUtil.getCssVariableValue('--bs-active-success') },
+            { label: "PHP", data: 30, color: MVUtil.getCssVariableValue('--bs-active-danger') },
+            { label: "Angular", data: 20, color: MVUtil.getCssVariableValue('--bs-active-warning') }
         ];
 
-        $.plot($("#kt_docs_flot_pie"), data, {
+        $.plot($("#mv_docs_flot_pie"), data, {
             series: {
                 pie: {
                     show: true
@@ -29,6 +29,6 @@ var KTFlotDemoPie = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTFlotDemoPie.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVFlotDemoPie.init();
 });

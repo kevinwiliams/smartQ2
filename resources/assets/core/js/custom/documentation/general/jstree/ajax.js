@@ -1,10 +1,10 @@
 "use strict";
 
 // Class definition
-var KTJSTreeAjax = function() {
+var MVJSTreeAjax = function() {
     // Private functions
     var exampleAjax = function() {
-        $("#kt_docs_jstree_ajax").jstree({
+        $("#mv_docs_jstree_ajax").jstree({
             "core": {
                 "themes": {
                     "responsive": false
@@ -46,6 +46,6 @@ var KTJSTreeAjax = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTJSTreeAjax.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVJSTreeAjax.init();
 });

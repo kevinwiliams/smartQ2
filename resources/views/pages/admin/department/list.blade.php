@@ -11,12 +11,12 @@
                     <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
                     {!! theme()->getSvgIcon("icons/duotune/general/gen021.svg", "svg-icon-1 position-absolute ms-6") !!}
                     <!--end::Svg Icon-->
-                    <input type="text" data-kt-dept-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="Search Depts">
+                    <input type="text" data-mv-dept-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="Search Depts">
                 </div>
             </h3>
             <div class="card-toolbar" >
                
-                <a href="#" class="btn btn-sm btn-light-primary btn-active-primary " data-bs-toggle="modal" data-bs-target="#kt_modal_add_dept" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to add new dept">
+                <a href="#" class="btn btn-sm btn-light-primary btn-active-primary " data-bs-toggle="modal" data-bs-target="#mv_modal_add_dept" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to add new dept">
                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                     {!! theme()->getSvgIcon("icons/duotune/arrows/arr075.svg", "svg-icon-3") !!}
                     <!--end::Svg Icon-->New Dept</a>
@@ -52,13 +52,13 @@
             var table = $('#department-table').DataTable();
 
             table.on('draw', function () {
-                    KTMenu.createInstances(); //load action menu options
+                    MVMenu.createInstances(); //load action menu options
                     handleEditRows(table); // setup edit buttons
                 });
             } ); 
 
         //search bar    
-        const filterSearch = document.querySelector('[data-kt-dept-table-filter="search"]');
+        const filterSearch = document.querySelector('[data-mv-dept-table-filter="search"]');
         filterSearch.addEventListener('keyup', function (e) {
             var table = $('#department-table').DataTable();
             table.search(e.target.value).draw();
@@ -68,7 +68,7 @@
         var handleEditRows = () => {
 
             table = document.querySelector('#department-table');
-            const editButtons = table.querySelectorAll('[data-kt-dept-table-filter="edit_row"]');
+            const editButtons = table.querySelectorAll('[data-mv-dept-table-filter="edit_row"]');
             // console.log(editButtons);
             // var datatable = $('#department-table').DataTable();
 
@@ -85,15 +85,15 @@
                             _token: $("input[name=_token]").val() },
                             success: function (data) {
                                 // Remove current row
-                                $('#kt_modal_edit_dept').modal('show');
+                                $('#mv_modal_edit_dept').modal('show');
 
-                                $('#kt_modal_edit_dept').on('shown.bs.modal', function(){
-                                    $('#kt_modal_edit_dept .load_modal').html(data);
-                                    KTTokenEditDept.init();
+                                $('#mv_modal_edit_dept').on('shown.bs.modal', function(){
+                                    $('#mv_modal_edit_dept .load_modal').html(data);
+                                    MVTokenEditDept.init();
                                 });
                                 //remove old data
-                                $('#kt_modal_edit_dept').on('hidden.bs.modal', function(){
-                                    $('#kt_modal_edit_dept .load_modal').html('');
+                                $('#mv_modal_edit_dept').on('hidden.bs.modal', function(){
+                                    $('#mv_modal_edit_dept .load_modal').html('');
                                 });
                             }
                     });
@@ -102,10 +102,10 @@
 
         }
 
-        var KTTokenEditDept = function () {
+        var MVTokenEditDept = function () {
             // Shared variables
-            const element = document.getElementById('kt_modal_edit_dept');
-            const form = element.querySelector('#kt_modal_edit_dept_form');
+            const element = document.getElementById('mv_modal_edit_dept');
+            const form = element.querySelector('#mv_modal_edit_dept_form');
             const modal = new bootstrap.Modal(element);
 
                 // Init add schedule modal
@@ -144,7 +144,7 @@
                 );
 
                 // Submit button handler
-                const submitButton = element.querySelector('[data-kt-dept-edit-modal-action="submit"]');
+                const submitButton = element.querySelector('[data-mv-dept-edit-modal-action="submit"]');
                 submitButton.addEventListener('click', e => {
                     e.preventDefault();
 
@@ -155,7 +155,7 @@
 
                             if (status == 'Valid') {
                                 // Show loading indication
-                                submitButton.setAttribute('data-kt-indicator', 'on');
+                                submitButton.setAttribute('data-mv-indicator', 'on');
 
                                 // Disable button to avoid multiple click 
                                 submitButton.disabled = true;
@@ -180,7 +180,7 @@
                                         //     table.ajax.reload();
                                         // }, 2000 );
                                         // Remove loading indication
-                                        submitButton.removeAttribute('data-kt-indicator');
+                                        submitButton.removeAttribute('data-mv-indicator');
 
                                         // Enable button
                                         submitButton.disabled = false;
@@ -221,7 +221,7 @@
                 });
 
                 // Cancel button handler
-                const cancelButton = element.querySelector('[data-kt-dept-edit-modal-action="cancel"]');
+                const cancelButton = element.querySelector('[data-mv-dept-edit-modal-action="cancel"]');
                 cancelButton.addEventListener('click', e => {
                     e.preventDefault();
 
@@ -255,7 +255,7 @@
                 });
 
                 // Close button handler
-                const closeButton = element.querySelector('[data-kt-dept-edit-modal-action="close"]');
+                const closeButton = element.querySelector('[data-mv-dept-edit-modal-action="close"]');
                 closeButton.addEventListener('click', e => {
                     e.preventDefault();
 

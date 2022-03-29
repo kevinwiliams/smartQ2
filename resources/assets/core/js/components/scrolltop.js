@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTScrolltop = function(element, options) {
+var MVScrolltop = function(element, options) {
     ////////////////////////////
     // ** Private variables  ** //
     ////////////////////////////
@@ -23,8 +23,8 @@ var KTScrolltop = function(element, options) {
     ////////////////////////////
 
     var _construct = function() {
-        if (KTUtil.data(element).has('scrolltop')) {
-            the = KTUtil.data(element).get('scrolltop');
+        if (MVUtil.data(element).has('scrolltop')) {
+            the = MVUtil.data(element).get('scrolltop');
         } else {
             _init();
         }
@@ -32,30 +32,30 @@ var KTScrolltop = function(element, options) {
 
     var _init = function() {
         // Variables
-        the.options = KTUtil.deepExtend({}, defaultOptions, options);
-        the.uid = KTUtil.getUniqueId('scrolltop');
+        the.options = MVUtil.deepExtend({}, defaultOptions, options);
+        the.uid = MVUtil.getUniqueId('scrolltop');
         the.element = element;
 
         // Set initialized
-        the.element.setAttribute('data-kt-scrolltop', 'true');
+        the.element.setAttribute('data-mv-scrolltop', 'true');
 
         // Event Handlers
         _handlers();
 
         // Bind Instance
-        KTUtil.data(the.element).set('scrolltop', the);
+        MVUtil.data(the.element).set('scrolltop', the);
     }
 
     var _handlers = function() {
         var timer;
 
         window.addEventListener('scroll', function() {
-            KTUtil.throttle(timer, function() {
+            MVUtil.throttle(timer, function() {
                 _scroll();
             }, 200);
         });
 
-        KTUtil.addEvent(the.element, 'click', function(e) {
+        MVUtil.addEvent(the.element, 'click', function(e) {
             e.preventDefault();
 
             _go();
@@ -65,15 +65,15 @@ var KTScrolltop = function(element, options) {
     var _scroll = function() {
         var offset = parseInt(_getOption('offset'));
 
-        var pos = KTUtil.getScrollTop(); // current vertical position
+        var pos = MVUtil.getScrollTop(); // current vertical position
 
         if ( pos > offset ) {
-            if ( body.hasAttribute('data-kt-scrolltop') === false ) {
-                body.setAttribute('data-kt-scrolltop', 'on');
+            if ( body.hasAttribute('data-mv-scrolltop') === false ) {
+                body.setAttribute('data-mv-scrolltop', 'on');
             }
         } else {
-            if ( body.hasAttribute('data-kt-scrolltop') === true ) {
-                body.removeAttribute('data-kt-scrolltop');
+            if ( body.hasAttribute('data-mv-scrolltop') === true ) {
+                body.removeAttribute('data-mv-scrolltop');
             }
         }
     }
@@ -81,13 +81,13 @@ var KTScrolltop = function(element, options) {
     var _go = function() {
         var speed = parseInt(_getOption('speed'));
 
-        KTUtil.scrollTop(0, speed);
+        MVUtil.scrollTop(0, speed);
     }
 
     var _getOption = function(name) {
-        if ( the.element.hasAttribute('data-kt-scrolltop-' + name) === true ) {
-            var attr = the.element.getAttribute('data-kt-scrolltop-' + name);
-            var value = KTUtil.getResponsiveValue(attr);
+        if ( the.element.hasAttribute('data-mv-scrolltop-' + name) === true ) {
+            var attr = the.element.getAttribute('data-mv-scrolltop-' + name);
+            var value = MVUtil.getResponsiveValue(attr);
 
             if ( value !== null && String(value) === 'true' ) {
                 value = true;
@@ -97,10 +97,10 @@ var KTScrolltop = function(element, options) {
 
             return value;
         } else {
-            var optionName = KTUtil.snakeToCamel(name);
+            var optionName = MVUtil.snakeToCamel(name);
 
             if ( the.options[optionName] ) {
-                return KTUtil.getResponsiveValue(the.options[optionName]);
+                return MVUtil.getResponsiveValue(the.options[optionName]);
             } else {
                 return null;
             }
@@ -108,7 +108,7 @@ var KTScrolltop = function(element, options) {
     }
 
     var _destroy = function() {
-        KTUtil.data(the.element).remove('scrolltop');
+        MVUtil.data(the.element).remove('scrolltop');
     }
 
     // Construct class
@@ -133,16 +133,16 @@ var KTScrolltop = function(element, options) {
 };
 
 // Static methods
-KTScrolltop.getInstance = function(element) {
-    if (element && KTUtil.data(element).has('scrolltop')) {
-        return KTUtil.data(element).get('scrolltop');
+MVScrolltop.getInstance = function(element) {
+    if (element && MVUtil.data(element).has('scrolltop')) {
+        return MVUtil.data(element).get('scrolltop');
     } else {
         return null;
     }
 }
 
 // Create instances
-KTScrolltop.createInstances = function(selector = '[data-kt-scrolltop="true"]') {
+MVScrolltop.createInstances = function(selector = '[data-mv-scrolltop="true"]') {
     var body = document.getElementsByTagName("BODY")[0];
 
     // Initialize Menus
@@ -151,24 +151,24 @@ KTScrolltop.createInstances = function(selector = '[data-kt-scrolltop="true"]') 
 
     if ( elements && elements.length > 0 ) {
         for (var i = 0, len = elements.length; i < len; i++) {
-            scrolltop = new KTScrolltop(elements[i]);
+            scrolltop = new MVScrolltop(elements[i]);
         }
     }
 }
 
 // Global initialization
-KTScrolltop.init = function() {
-    KTScrolltop.createInstances();
+MVScrolltop.init = function() {
+    MVScrolltop.createInstances();
 };
 
 // On document ready
 if (document.readyState === 'loading') {
-   document.addEventListener('DOMContentLoaded', KTScrolltop.init);
+   document.addEventListener('DOMContentLoaded', MVScrolltop.init);
 } else {
-    KTScrolltop.init();
+    MVScrolltop.init();
 }
 
 // Webpack support
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    module.exports = KTScrolltop;
+    module.exports = MVScrolltop;
 }

@@ -1,11 +1,11 @@
 "use strict";
 
 // Class definition
-var KTFormsCKEditorInline = function () {
+var MVFormsCKEditorInline = function () {
     // Private functions
     var exampleInline = function () {
         InlineEditor
-            .create(document.querySelector('#kt_docs_ckeditor_inline'))
+            .create(document.querySelector('#mv_docs_ckeditor_inline'))
             .then(editor => {
                 console.log(editor);
             })
@@ -23,6 +23,6 @@ var KTFormsCKEditorInline = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTFormsCKEditorInline.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVFormsCKEditorInline.init();
 });

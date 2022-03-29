@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTGeneralScrollDemos = function() {
+var MVGeneralScrollDemos = function() {
     // Private functions
     var _exampleBasic = function() {
         
@@ -16,6 +16,6 @@ var KTGeneralScrollDemos = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTGeneralScrollDemos.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVGeneralScrollDemos.init();
 });

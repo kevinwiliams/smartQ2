@@ -1,12 +1,12 @@
 "use strict";
 
 // Class definition
-var KTFormsNouisliderDemos = function() {
+var MVFormsNouisliderDemos = function() {
     // Private functions
     var _exampleBasic = function() {
-        var slider = document.querySelector("#kt_slider_basic");
-        var valueMin = document.querySelector("#kt_slider_basic_min");
-        var valueMax = document.querySelector("#kt_slider_basic_max");
+        var slider = document.querySelector("#mv_slider_basic");
+        var valueMin = document.querySelector("#mv_slider_basic_min");
+        var valueMax = document.querySelector("#mv_slider_basic_max");
 
         noUiSlider.create(slider, {
             start: [20, 80],
@@ -27,9 +27,9 @@ var KTFormsNouisliderDemos = function() {
     }
 
     var _exampleSizes = function() {
-        var slider1 = document.querySelector("#kt_slider_sizes_sm");
-        var slider2 = document.querySelector("#kt_slider_sizes_default");
-        var slider3 = document.querySelector("#kt_slider_sizes_lg");
+        var slider1 = document.querySelector("#mv_slider_sizes_sm");
+        var slider2 = document.querySelector("#mv_slider_sizes_default");
+        var slider3 = document.querySelector("#mv_slider_sizes_lg");
 
         noUiSlider.create(slider1, {
             start: [20, 80],
@@ -60,7 +60,7 @@ var KTFormsNouisliderDemos = function() {
     }   
 
     var _exampleVertical = function() {
-        var slider = document.querySelector("#kt_slider_vertical");
+        var slider = document.querySelector("#mv_slider_vertical");
 
         noUiSlider.create(slider, {
             start: [60, 160],
@@ -74,7 +74,7 @@ var KTFormsNouisliderDemos = function() {
     }
 
     var _exampleTooltip = function() {
-        var slider = document.querySelector("#kt_slider_tooltip");
+        var slider = document.querySelector("#mv_slider_tooltip");
 
         noUiSlider.create(slider, {
             start: [20, 80, 120],
@@ -87,7 +87,7 @@ var KTFormsNouisliderDemos = function() {
     }
 
     var _exampleSoftLimits = function() {
-        var slider = document.querySelector("#kt_slider_soft_limits");
+        var slider = document.querySelector("#mv_slider_soft_limits");
 
         noUiSlider.create(slider, {
             start: 50,
@@ -116,6 +116,6 @@ var KTFormsNouisliderDemos = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTFormsNouisliderDemos.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVFormsNouisliderDemos.init();
 });

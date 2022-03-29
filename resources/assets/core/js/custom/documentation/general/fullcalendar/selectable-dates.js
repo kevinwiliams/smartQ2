@@ -1,12 +1,12 @@
 "use strict";
 
 // Class definition
-var KTGeneralFullCalendarSelectDemos = function () {
+var MVGeneralFullCalendarSelectDemos = function () {
     // Private functions
 
     var exampleSelect = function () {
         // Define variables
-        var calendarEl = document.getElementById('kt_docs_fullcalendar_selectable');
+        var calendarEl = document.getElementById('mv_docs_fullcalendar_selectable');
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
             headerToolbar: {
@@ -159,6 +159,6 @@ var KTGeneralFullCalendarSelectDemos = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTGeneralFullCalendarSelectDemos.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVGeneralFullCalendarSelectDemos.init();
 });

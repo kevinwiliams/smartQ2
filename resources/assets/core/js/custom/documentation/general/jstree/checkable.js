@@ -1,10 +1,10 @@
 "use strict";
 
 // Class definition
-var KTJSTreeCheckable = function() {
+var MVJSTreeCheckable = function() {
     // Private functions
     var exampleCheckable = function() {
-        $('#kt_docs_jstree_checkable').jstree({
+        $('#mv_docs_jstree_checkable').jstree({
             'plugins': ["wholerow", "checkbox", "types"],
             'core': {
                 "themes" : {
@@ -61,6 +61,6 @@ var KTJSTreeCheckable = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTJSTreeCheckable.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVJSTreeCheckable.init();
 });

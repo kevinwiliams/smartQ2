@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTGeneralImageInputDemos = function() {
+var MVGeneralImageInputDemos = function() {
     // Private functions
     var _exampleBasic = function() {
         
@@ -16,6 +16,6 @@ var KTGeneralImageInputDemos = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTGeneralImageInputDemos.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVGeneralImageInputDemos.init();
 });

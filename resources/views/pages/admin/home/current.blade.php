@@ -15,13 +15,13 @@
                             <h3 class="m-0 text-white fw-bolder fs-3" id="tkn_position">Position: {{$position}}</h3>
                             <div class="ms-1">
                                 <!--begin::Menu-->
-                                <button type="button" class="btn btn-sm btn-icon btn-color-white btn-active-white btn-active-color-primary border-0 me-n3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                <button type="button" class="btn btn-sm btn-icon btn-color-white btn-active-white btn-active-color-primary border-0 me-n3" data-mv-menu-trigger="click" data-mv-menu-placement="bottom-end">
                                     <!--begin::Svg Icon | path: icons/duotune/general/gen024.svg-->
                                     {!! theme()->getSvgIcon("icons/duotune/general/gen024.svg", "svg-icon-2") !!}
                                     <!--end::Svg Icon-->
                                 </button>
                                 <!--begin::Menu 3-->
-                                <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-bold w-200px py-3" data-kt-menu="true">
+                                <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-bold w-200px py-3" data-mv-menu="true">
                                     <!--begin::Heading-->
                                     <div class="menu-item px-3">
                                         <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">Options</div>

@@ -1,10 +1,10 @@
 "use strict";
 
 // Class definition
-var KTFormRepeaterBasic = function () {
+var MVFormRepeaterBasic = function () {
     // Private functions
     var example1 = function () {
-        $('#kt_docs_repeater_basic').repeater({
+        $('#mv_docs_repeater_basic').repeater({
             initEmpty: false,
 
             defaultValues: {
@@ -30,6 +30,6 @@ var KTFormRepeaterBasic = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTFormRepeaterBasic.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVFormRepeaterBasic.init();
 });

@@ -135,7 +135,7 @@
 		</h3>
         <div class="card-toolbar">
             <!--begin::Menu-->
-            <button type="button" class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+            <button type="button" class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary" data-mv-menu-trigger="click" data-mv-menu-placement="bottom-end">
                 {!! theme()->getSvgIcon("icons/duotune/general/gen024.svg", "svg-icon-2") !!}
             </button>
             {{ theme()->getView('partials/menus/_menu-2') }}
@@ -155,7 +155,7 @@
                     <tr class="fw-bolder text-muted">
                         <th class="w-25px">
                             <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                <input class="form-check-input" type="checkbox" value="1" data-kt-check="true" data-kt-check-target=".widget-13-check"/>
+                                <input class="form-check-input" type="checkbox" value="1" data-mv-check="true" data-mv-check-target=".widget-13-check"/>
                             </div>
                         </th>
                         <th class="min-w-150px">Order Id</th>

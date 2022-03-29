@@ -1,7 +1,7 @@
 <script>
 
 // Class definition
-var KTUsersViewRole = function () {
+var MVUsersViewRole = function () {
     // Shared variables
     var datatable;
     var table;
@@ -32,7 +32,7 @@ var KTUsersViewRole = function () {
 
     // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
     var handleSearchDatatable = () => {
-        const filterSearch = document.querySelector('[data-kt-roles-table-filter="search"]');
+        const filterSearch = document.querySelector('[data-mv-roles-table-filter="search"]');
         filterSearch.addEventListener('keyup', function (e) {
             datatable.search(e.target.value).draw();
         });
@@ -41,7 +41,7 @@ var KTUsersViewRole = function () {
     // Delete user
     var handleDeleteRows = () => {
         // Select all delete buttons
-        const deleteButtons = table.querySelectorAll('[data-kt-roles-table-filter="delete_row"]');
+        const deleteButtons = table.querySelectorAll('[data-mv-roles-table-filter="delete_row"]');
 
         deleteButtons.forEach(d => {
             // Delete button on click
@@ -103,7 +103,7 @@ var KTUsersViewRole = function () {
         const checkboxes = table.querySelectorAll('[type="checkbox"]');
 
         // Select elements
-        const deleteSelected = document.querySelector('[data-kt-view-roles-table-select="delete_selected"]');
+        const deleteSelected = document.querySelector('[data-mv-view-roles-table-select="delete_selected"]');
 
         // Toggle delete selected toolbar
         checkboxes.forEach(c => {
@@ -172,9 +172,9 @@ var KTUsersViewRole = function () {
     // Toggle toolbars
     const toggleToolbars = () => {
         // Define variables
-        const toolbarBase = document.querySelector('[data-kt-view-roles-table-toolbar="base"]');
-        const toolbarSelected = document.querySelector('[data-kt-view-roles-table-toolbar="selected"]');
-        const selectedCount = document.querySelector('[data-kt-view-roles-table-select="selected_count"]');
+        const toolbarBase = document.querySelector('[data-mv-view-roles-table-toolbar="base"]');
+        const toolbarSelected = document.querySelector('[data-mv-view-roles-table-toolbar="selected"]');
+        const selectedCount = document.querySelector('[data-mv-view-roles-table-select="selected_count"]');
 
         // Select refreshed checkbox DOM elements 
         const allCheckboxes = table.querySelectorAll('tbody [type="checkbox"]');
@@ -205,7 +205,7 @@ var KTUsersViewRole = function () {
     return {
         // Public functions
         init: function () {
-            table = document.querySelector('#kt_roles_view_table');
+            table = document.querySelector('#mv_roles_view_table');
             
             if (!table) {
                 return;
@@ -220,8 +220,8 @@ var KTUsersViewRole = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTUsersViewRole.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVUsersViewRole.init();
 });
 
 </script>

@@ -1,10 +1,10 @@
 "use strict";
 
 // Class definition
-var KTJSTreeContextual = function() {
+var MVJSTreeContextual = function() {
     // Private functions
     var exampleContextual = function() {
-        $("#kt_docs_jstree_contextual").jstree({
+        $("#mv_docs_jstree_contextual").jstree({
             "core" : {
                 "themes" : {
                     "responsive": false
@@ -76,6 +76,6 @@ var KTJSTreeContextual = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTJSTreeContextual.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVJSTreeContextual.init();
 });

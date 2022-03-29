@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTDatatablesAdvanced = function () {
+var MVDatatablesAdvanced = function () {
     // Private functions
 
     var _initExample1 = function() {
@@ -15,14 +15,14 @@ var KTDatatablesAdvanced = function () {
             7: {"title": "Warning", "state": "warning"},
         };
 
-        $("#kt_datatable_example_1").DataTable({
+        $("#mv_datatable_example_1").DataTable({
             "columnDefs": [
                 {
                     // The `data` parameter refers to the data for the cell (defined by the
                     // `data` option, which defaults to the column being worked with, in
                     // this case `data: 0`.
                     "render": function ( data, type, row ) {
-                        var index = KTUtil.getRandomInt(1, 7);
+                        var index = MVUtil.getRandomInt(1, 7);
 
                         return data + '<span class="ms-2 badge badge-light-' + status[index]['state'] + ' fw-bold">' + status[index]['title'] + '</span>';
                     },
@@ -33,7 +33,7 @@ var KTDatatablesAdvanced = function () {
     }
 
     var _initExample2 = function() {
-        $("#kt_datatable_example_2").DataTable({
+        $("#mv_datatable_example_2").DataTable({
             "columnDefs": [ {
                 "visible": false,
                 "targets": -1
@@ -44,7 +44,7 @@ var KTDatatablesAdvanced = function () {
     var _initExample3 = function() {
         var groupColumn = 2;
 
-        var table = $('#kt_datatable_example_3').DataTable({
+        var table = $('#mv_datatable_example_3').DataTable({
             "columnDefs": [{
                 "visible": false,
                 "targets": groupColumn
@@ -75,7 +75,7 @@ var KTDatatablesAdvanced = function () {
         });
 
         // Order by the grouping
-        $('#kt_datatable_example_3 tbody').on('click', 'tr.group', function() {
+        $('#mv_datatable_example_3 tbody').on('click', 'tr.group', function() {
             var currentOrder = table.order()[0];
             if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
                 table.order([groupColumn, 'desc']).draw();
@@ -86,7 +86,7 @@ var KTDatatablesAdvanced = function () {
     }
 
     var _initExample4 = function() {
-        $("#kt_datatable_example_4").DataTable({
+        $("#mv_datatable_example_4").DataTable({
             "footerCallback": function ( row, data, start, end, display ) {
                 var api = this.api(), data;
      
@@ -123,7 +123,7 @@ var KTDatatablesAdvanced = function () {
     }
 
     var _initExample5 = function() {
-        $("#kt_datatable_example_5").DataTable({
+        $("#mv_datatable_example_5").DataTable({
             "language": {		
                 "lengthMenu": "Show _MENU_",
             },
@@ -153,7 +153,7 @@ var KTDatatablesAdvanced = function () {
             7: {"title": "Warning", "state": "warning"},
         };
 
-        $("#kt_datatable_example_6").DataTable({
+        $("#mv_datatable_example_6").DataTable({
             responsive: true,
             columnDefs: [
                 {
@@ -161,7 +161,7 @@ var KTDatatablesAdvanced = function () {
                     // `data` option, which defaults to the column being worked with, in
                     // this case `data: 0`.
                     "render": function ( data, type, row ) {
-                        var index = KTUtil.getRandomInt(1, 7);
+                        var index = MVUtil.getRandomInt(1, 7);
 
                         return data + '<span class="ms-2 badge badge-light-' + status[index]['state'] + ' fw-bold">' + status[index]['title'] + '</span>';
                     },
@@ -172,7 +172,7 @@ var KTDatatablesAdvanced = function () {
     }
 
     var _initExample7 = function() {
-        $("#kt_datatable_example_7").DataTable({
+        $("#mv_datatable_example_7").DataTable({
             select: true
         });
     }
@@ -192,6 +192,6 @@ var KTDatatablesAdvanced = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTDatatablesAdvanced.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVDatatablesAdvanced.init();
 });

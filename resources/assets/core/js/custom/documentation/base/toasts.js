@@ -1,12 +1,12 @@
 "use strict";
 
 // Class definition
-const KTBaseToastDemos = function () {
+const MVBaseToastDemos = function () {
     // Private functions
     const exampleToggle = () => {
         // Select elements
-        const button = document.getElementById('kt_docs_toast_toggle_button');
-        const toastElement = document.getElementById('kt_docs_toast_toggle');
+        const button = document.getElementById('mv_docs_toast_toggle_button');
+        const toastElement = document.getElementById('mv_docs_toast_toggle');
 
         // Get toast instance --- more info: https://getbootstrap.com/docs/5.1/components/toasts/#getinstance
         const toast = bootstrap.Toast.getOrCreateInstance(toastElement);
@@ -22,9 +22,9 @@ const KTBaseToastDemos = function () {
 
     const exampleStack = () => {
         // Select elements
-        const button = document.getElementById('kt_docs_toast_stack_button');
-        const container = document.getElementById('kt_docs_toast_stack_container');
-        const targetElement = document.querySelector('[data-kt-docs-toast="stack"]'); // Use CSS class or HTML attr to avoid duplicating ids
+        const button = document.getElementById('mv_docs_toast_stack_button');
+        const container = document.getElementById('mv_docs_toast_stack_container');
+        const targetElement = document.querySelector('[data-mv-docs-toast="stack"]'); // Use CSS class or HTML attr to avoid duplicating ids
 
         // Remove base element markup
         targetElement.parentNode.removeChild(targetElement);
@@ -55,6 +55,6 @@ const KTBaseToastDemos = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTBaseToastDemos.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVBaseToastDemos.init();
 });

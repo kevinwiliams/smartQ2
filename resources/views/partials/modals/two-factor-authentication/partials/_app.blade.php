@@ -1,5 +1,5 @@
 <!--begin::Apps-->
-<div class="d-none" data-kt-element="apps">
+<div class="d-none" data-mv-element="apps">
     <!--begin::Heading-->
     <h3 class="text-dark fw-bolder mb-7">
         Authenticator Apps
@@ -34,7 +34,7 @@
 ) }}
 
 <!--begin::Form-->
-    <form data-kt-element="apps-form" class="form" action="#">
+    <form data-mv-element="apps-form" class="form" action="#">
         <!--begin::Input group-->
         <div class="mb-10 fv-row">
             <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Enter authentication code" name="code"/>
@@ -43,11 +43,11 @@
 
         <!--begin::Actions-->
         <div class="d-flex flex-center">
-            <button type="reset" data-kt-element="apps-cancel" class="btn btn-white me-3">
+            <button type="reset" data-mv-element="apps-cancel" class="btn btn-white me-3">
                 Cancel
             </button>
 
-            <button type="submit" data-kt-element="apps-submit" class="btn btn-primary">
+            <button type="submit" data-mv-element="apps-submit" class="btn btn-primary">
                 @include('partials.general._button-indicator')
             </button>
         </div>

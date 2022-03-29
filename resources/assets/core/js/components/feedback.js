@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTFeedback = function(options) {
+var MVFeedback = function(options) {
     ////////////////////////////
     // ** Private Variables  ** //
     ////////////////////////////
@@ -26,8 +26,8 @@ var KTFeedback = function(options) {
 
     var _init = function() {
         // Variables
-        the.options = KTUtil.deepExtend({}, defaultOptions, options);
-        the.uid = KTUtil.getUniqueId('feedback');
+        the.options = MVUtil.deepExtend({}, defaultOptions, options);
+        the.uid = MVUtil.getUniqueId('feedback');
         the.element;
         the.shown = false;
 
@@ -35,11 +35,11 @@ var KTFeedback = function(options) {
         _handlers();
 
         // Bind Instance
-        KTUtil.data(the.element).set('feedback', the);
+        MVUtil.data(the.element).set('feedback', the);
     }
 
     var _handlers = function() {
-        KTUtil.addEvent(the.element, 'click', function(e) {
+        MVUtil.addEvent(the.element, 'click', function(e) {
             e.preventDefault();
 
             _go();
@@ -47,7 +47,7 @@ var KTFeedback = function(options) {
     }
 
     var _show = function() {
-        if ( KTEventHandler.trigger(the.element, 'kt.feedback.show', the) === false ) {
+        if ( MVEventHandler.trigger(the.element, 'mv.feedback.show', the) === false ) {
             return;
         }
 
@@ -55,13 +55,13 @@ var KTFeedback = function(options) {
             _showPopup();
         }
 
-        KTEventHandler.trigger(the.element, 'kt.feedback.shown', the);
+        MVEventHandler.trigger(the.element, 'mv.feedback.shown', the);
 
         return the;
     }
 
     var _hide = function() {
-        if ( KTEventHandler.trigger(the.element, 'kt.feedback.hide', the) === false ) {
+        if ( MVEventHandler.trigger(the.element, 'mv.feedback.hide', the) === false ) {
             return;
         }
 
@@ -71,7 +71,7 @@ var KTFeedback = function(options) {
 
         the.shown = false;
 
-        KTEventHandler.trigger(the.element, 'kt.feedback.hidden', the);
+        MVEventHandler.trigger(the.element, 'mv.feedback.hidden', the);
 
         return the;
     }
@@ -79,8 +79,8 @@ var KTFeedback = function(options) {
     var _showPopup = function() {
         the.element = document.createElement("DIV");
 
-        KTUtil.addClass(the.element, 'feedback feedback-popup');
-        KTUtil.setHTML(the.element, the.options.content);
+        MVUtil.addClass(the.element, 'feedback feedback-popup');
+        MVUtil.setHTML(the.element, the.options.content);
 
         if (the.options.placement == 'top-center') {
             _setPopupTopCenterPosition();
@@ -88,20 +88,20 @@ var KTFeedback = function(options) {
 
         body.appendChild(the.element);
 
-        KTUtil.addClass(the.element, 'feedback-shown');
+        MVUtil.addClass(the.element, 'feedback-shown');
 
         the.shown = true;
     }
 
     var _setPopupTopCenterPosition = function() {
-        var width = KTUtil.getResponsiveValue(the.options.width);
-        var height = KTUtil.css(the.element, 'height');
+        var width = MVUtil.getResponsiveValue(the.options.width);
+        var height = MVUtil.css(the.element, 'height');
 
-        KTUtil.addClass(the.element, 'feedback-top-center');
+        MVUtil.addClass(the.element, 'feedback-top-center');
 
-        KTUtil.css(the.element, 'width', width);
-        KTUtil.css(the.element, 'left', '50%');
-        KTUtil.css(the.element, 'top', '-' + height);
+        MVUtil.css(the.element, 'width', width);
+        MVUtil.css(the.element, 'left', '50%');
+        MVUtil.css(the.element, 'top', '-' + height);
     }
 
     var _hidePopup = function() {
@@ -109,7 +109,7 @@ var KTFeedback = function(options) {
     }
 
     var _destroy = function() {
-        KTUtil.data(the.element).remove('feedback');
+        MVUtil.data(the.element).remove('feedback');
     }
 
     // Construct class
@@ -142,23 +142,23 @@ var KTFeedback = function(options) {
 
     // Event API
     the.on = function(name, handler) {
-        return KTEventHandler.on(the.element, name, handler);
+        return MVEventHandler.on(the.element, name, handler);
     }
 
     the.one = function(name, handler) {
-        return KTEventHandler.one(the.element, name, handler);
+        return MVEventHandler.one(the.element, name, handler);
     }
 
     the.off = function(name) {
-        return KTEventHandler.off(the.element, name);
+        return MVEventHandler.off(the.element, name);
     }
 
     the.trigger = function(name, event) {
-        return KTEventHandler.trigger(the.element, name, event, the, event);
+        return MVEventHandler.trigger(the.element, name, event, the, event);
     }
 };
 
 // Webpack support
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    module.exports = KTFeedback;
+    module.exports = MVFeedback;
 }

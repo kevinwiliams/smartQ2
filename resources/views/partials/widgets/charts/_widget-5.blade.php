@@ -9,12 +9,12 @@
 		</h3>
 
         <!--begin::Toolbar-->
-        <div class="card-toolbar" data-kt-buttons="true">
-            <a class="btn btn-sm btn-color-muted btn-active btn-active-primary active px-4 me-1" id="kt_charts_widget_5_year_btn">Year</a>
+        <div class="card-toolbar" data-mv-buttons="true">
+            <a class="btn btn-sm btn-color-muted btn-active btn-active-primary active px-4 me-1" id="mv_charts_widget_5_year_btn">Year</a>
 
-            <a class="btn btn-sm btn-color-muted btn-active btn-active-primary px-4 me-1" id="kt_charts_widget_5_month_btn">Month</a>
+            <a class="btn btn-sm btn-color-muted btn-active btn-active-primary px-4 me-1" id="mv_charts_widget_5_month_btn">Month</a>
 
-            <a class="btn btn-sm btn-color-muted btn-active btn-active-primary px-4" id="kt_charts_widget_5_week_btn">Week</a>
+            <a class="btn btn-sm btn-color-muted btn-active btn-active-primary px-4" id="mv_charts_widget_5_week_btn">Week</a>
         </div>
         <!--end::Toolbar-->
     </div>
@@ -23,7 +23,7 @@
     <!--begin::Body-->
     <div class="card-body">
         <!--begin::Chart-->
-        <div id="kt_charts_widget_5_chart" style="height: 350px"></div>
+        <div id="mv_charts_widget_5_chart" style="height: 350px"></div>
         <!--end::Chart-->
     </div>
     <!--end::Body-->

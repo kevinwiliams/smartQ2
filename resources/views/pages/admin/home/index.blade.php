@@ -4,30 +4,30 @@
         <!--begin::Card body-->
         <div class="card-body">
             <!--begin::Stepper-->
-            <div class="stepper stepper-links d-flex flex-column pt-15" id="kt_create_token_stepper">
+            <div class="stepper stepper-links d-flex flex-column pt-15" id="mv_create_token_stepper">
                 <!--begin::Nav-->
                 <div class="stepper-nav mb-5">
                     <!--begin::Step 1-->
-                    <div class="stepper-item current" data-kt-stepper-element="nav">
+                    <div class="stepper-item current" data-mv-stepper-element="nav">
                         <h3 class="stepper-title">How can we contact you?</h3>
                     </div>
                     <!--end::Step 1-->
                     <!--begin::Step 2-->
-                    <div class="stepper-item " data-kt-stepper-element="nav">
+                    <div class="stepper-item " data-mv-stepper-element="nav">
                         <h3 class="stepper-title">How can we help?</h3>
                     </div>
                     <!--end::Step 2-->
                     <!--begin::Step 3-->
-                    <div class="stepper-item " data-kt-stepper-element="nav">
+                    <div class="stepper-item " data-mv-stepper-element="nav">
                         <h3 class="stepper-title">Joined the Q</h3>
                     </div>
                     <!--end::Step 3-->
                 </div>
                 <!--end::Nav-->
                 <!--begin::Form-->
-                <form class="mx-auto mw-600px w-100 pt-15 pb-10" novalidate="novalidate" id="kt_create_token_form" action="autotoken" method="post">
+                <form class="mx-auto mw-600px w-100 pt-15 pb-10" novalidate="novalidate" id="mv_create_token_form" action="autotoken" method="post">
                     <!--begin::Step 1-->
-                    <div class="current" data-kt-stepper-element="content">
+                    <div class="current" data-mv-stepper-element="content">
                         <!--begin::Wrapper-->
                         <div class="w-100">
                             <!--begin::Heading-->
@@ -165,7 +165,7 @@
                     </div>
                     <!--end::Step 1-->
                     <!--begin::Step 2-->
-                    <div class="" data-kt-stepper-element="content">
+                    <div class="" data-mv-stepper-element="content">
                         <!--begin::Wrapper-->
                         <div class="w-100">
                             <!--begin::Heading-->
@@ -247,7 +247,7 @@
                     </div>
                     <!--end::Step 2-->
                     <!--begin::Step 3-->
-                    <div class="" data-kt-stepper-element="content">
+                    <div class="" data-mv-stepper-element="content">
                         <!--begin::Wrapper-->
                         <div class="w-100">
                             <!--begin::Heading-->
@@ -302,7 +302,7 @@
                     <div class="d-flex flex-stack pt-15">
                         <!--begin::Wrapper-->
                         <div class="mr-2">
-                            <button type="button" class="btn btn-lg btn-light-primary me-3" data-kt-stepper-action="previous">
+                            <button type="button" class="btn btn-lg btn-light-primary me-3" data-mv-stepper-action="previous">
                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr063.svg-->
                                 {!! theme()->getSvgIcon("icons/duotune/arrows/arr063.svg", "svg-icon-4 me-1") !!}
                                 <!--end::Svg Icon-->Back
@@ -311,7 +311,7 @@
                         <!--end::Wrapper-->
                         <!--begin::Wrapper-->
                         <div>
-                            <button type="button" class="btn btn-lg btn-primary me-3" data-kt-stepper-action="submit">
+                            <button type="button" class="btn btn-lg btn-primary me-3" data-mv-stepper-action="submit">
                                 <span class="indicator-label">Finish!
                                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
                                     {!! theme()->getSvgIcon("icons/duotune/arrows/arr064.svg", "svg-icon-3 ms-2 me-0") !!}
@@ -320,7 +320,7 @@
                                 <span class="indicator-progress">Please wait...
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                             </button>
-                            <button type="button" class="btn btn-lg btn-primary" data-kt-stepper-action="next">Continue
+                            <button type="button" class="btn btn-lg btn-primary" data-mv-stepper-action="next">Continue
                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
                                 {!! theme()->getSvgIcon("icons/duotune/arrows/arr064.svg", "svg-icon-4 ms-1 me-0") !!}
                                 <!--end::Svg Icon-->
@@ -341,7 +341,7 @@
     <script>
         $(function() {
             //disable stepper until verified
-            $('[data-kt-stepper-action="next"]').addClass('disabled');
+            $('[data-mv-stepper-action="next"]').addClass('disabled');
             //show/hide email and sms confirmation fields
             $('[name="alert_type"]').on('click', function(e) {
                 var alrtType = e.target.value;
@@ -494,8 +494,8 @@
                     success: function(data) {
                         console.log(data);
                         if (data.status == true) {
-                            $('[data-kt-stepper-action="next"]').removeClass('disabled');
-                            $('[data-kt-stepper-action="next"]').trigger('click');
+                            $('[data-mv-stepper-action="next"]').removeClass('disabled');
+                            $('[data-mv-stepper-action="next"]').trigger('click');
                             $(this).remove();
                         } else {
                             Swal.fire({
@@ -540,8 +540,8 @@
                     success: function(data) {
                         console.log(data);
                         if (data.status == true) {
-                            $('[data-kt-stepper-action="next"]').removeClass('disabled');
-                            $('[data-kt-stepper-action="next"]').trigger('click');
+                            $('[data-mv-stepper-action="next"]').removeClass('disabled');
+                            $('[data-mv-stepper-action="next"]').trigger('click');
                             $(this).remove();
                         } else {
                             Swal.fire({

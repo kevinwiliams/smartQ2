@@ -1,10 +1,10 @@
 "use strict";
 
 // Class definition
-var KTFormRepeaterNested = function() {
+var MVFormRepeaterNested = function() {
     // Private functions
     var example1 = function() {
-        $('#kt_docs_repeater_nested').repeater({
+        $('#mv_docs_repeater_nested').repeater({
             // (Required if there is a nested repeater)
             // Specify the configuration of the nested repeaters.
             // Nested configuration follows the same format as the base configuration,
@@ -42,6 +42,6 @@ var KTFormRepeaterNested = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTFormRepeaterNested.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVFormRepeaterNested.init();
 });

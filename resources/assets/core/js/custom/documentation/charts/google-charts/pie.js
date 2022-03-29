@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTGoogleChartPieDemo = function () {
+var MVGoogleChartPieDemo = function () {
     // Private functions
     var examplePie = function () {
         // GOOGLE CHARTS INIT
@@ -24,7 +24,7 @@ var KTGoogleChartPieDemo = function () {
                 colors: ['#fe3995', '#f6aa33', '#6e4ff5', '#2abe81', '#c7d2e7', '#593ae1']
             };
 
-            var chart = new google.visualization.PieChart(document.getElementById('kt_docs_google_chart_pie'));
+            var chart = new google.visualization.PieChart(document.getElementById('mv_docs_google_chart_pie'));
             chart.draw(data, options);
 
             // Example of a doughnut chart
@@ -33,7 +33,7 @@ var KTGoogleChartPieDemo = function () {
             //     colors: ['#fe3995', '#f6aa33', '#6e4ff5', '#2abe81', '#c7d2e7', '#593ae1']
             // };
 
-            // var chart = new google.visualization.PieChart(document.getElementById('kt_docs_google_chart_pie'));
+            // var chart = new google.visualization.PieChart(document.getElementById('mv_docs_google_chart_pie'));
             // chart.draw(data, options);
         });
     }
@@ -47,6 +47,6 @@ var KTGoogleChartPieDemo = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTGoogleChartPieDemo.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVGoogleChartPieDemo.init();
 });

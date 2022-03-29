@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTLayoutSearch = function() {
+var MVLayoutSearch = function() {
     // Private variables
     var element;
     var formElement;
@@ -24,7 +24,7 @@ var KTLayoutSearch = function() {
     // Private functions
     var processs = function(search) {
         var timeout = setTimeout(function() {
-            var number = KTUtil.getRandomInt(1, 3);
+            var number = MVUtil.getRandomInt(1, 3);
 
             // Hide recently viewed
             mainElement.classList.add('d-none');
@@ -92,35 +92,35 @@ var KTLayoutSearch = function() {
 	return {
 		init: function() {
             // Elements
-            element = document.querySelector('#kt_header_search');
+            element = document.querySelector('#mv_header_search');
 
             if (!element) {
                 return;
             }
 
-            wrapperElement = element.querySelector('[data-kt-search-element="wrapper"]');
-            formElement = element.querySelector('[data-kt-search-element="form"]');
-            mainElement = element.querySelector('[data-kt-search-element="main"]');
-            resultsElement = element.querySelector('[data-kt-search-element="results"]');
-            emptyElement = element.querySelector('[data-kt-search-element="empty"]');
+            wrapperElement = element.querySelector('[data-mv-search-element="wrapper"]');
+            formElement = element.querySelector('[data-mv-search-element="form"]');
+            mainElement = element.querySelector('[data-mv-search-element="main"]');
+            resultsElement = element.querySelector('[data-mv-search-element="results"]');
+            emptyElement = element.querySelector('[data-mv-search-element="empty"]');
 
-            preferencesElement = element.querySelector('[data-kt-search-element="preferences"]');
-            preferencesShowElement = element.querySelector('[data-kt-search-element="preferences-show"]');
-            preferencesDismissElement = element.querySelector('[data-kt-search-element="preferences-dismiss"]');
+            preferencesElement = element.querySelector('[data-mv-search-element="preferences"]');
+            preferencesShowElement = element.querySelector('[data-mv-search-element="preferences-show"]');
+            preferencesDismissElement = element.querySelector('[data-mv-search-element="preferences-dismiss"]');
 
-            advancedOptionsFormElement = element.querySelector('[data-kt-search-element="advanced-options-form"]');
-            advancedOptionsFormShowElement = element.querySelector('[data-kt-search-element="advanced-options-form-show"]');
-            advancedOptionsFormCancelElement = element.querySelector('[data-kt-search-element="advanced-options-form-cancel"]');
-            advancedOptionsFormSearchElement = element.querySelector('[data-kt-search-element="advanced-options-form-search"]');
+            advancedOptionsFormElement = element.querySelector('[data-mv-search-element="advanced-options-form"]');
+            advancedOptionsFormShowElement = element.querySelector('[data-mv-search-element="advanced-options-form-show"]');
+            advancedOptionsFormCancelElement = element.querySelector('[data-mv-search-element="advanced-options-form-cancel"]');
+            advancedOptionsFormSearchElement = element.querySelector('[data-mv-search-element="advanced-options-form-search"]');
             
             // Initialize search handler
-            searchObject = new KTSearch(element);
+            searchObject = new MVSearch(element);
 
             // Search handler
-            searchObject.on('kt.search.process', processs);
+            searchObject.on('mv.search.process', processs);
 
             // Clear handler
-            searchObject.on('kt.search.clear', clear);
+            searchObject.on('mv.search.clear', clear);
 
             // Custom handlers
             handlePreferences();
@@ -130,6 +130,6 @@ var KTLayoutSearch = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTLayoutSearch.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVLayoutSearch.init();
 });

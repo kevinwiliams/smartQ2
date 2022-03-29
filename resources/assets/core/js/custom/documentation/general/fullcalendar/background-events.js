@@ -1,16 +1,16 @@
 "use strict";
 
 // Class definition
-var KTGeneralFullCalendarEventsDemos = function() {
+var MVGeneralFullCalendarEventsDemos = function() {
 	// Private functions
 
 	var exampleBackgroundEvents = function() {
 		// Define colors
-		var green = KTUtil.getCssVariableValue('--bs-active-success');
-		var red = KTUtil.getCssVariableValue('--bs-active-danger');
+		var green = MVUtil.getCssVariableValue('--bs-active-success');
+		var red = MVUtil.getCssVariableValue('--bs-active-danger');
 
 		// Initialize Fullcalendar -- for more info please visit the official site: https://fullcalendar.io/demos
-		var calendarEl = document.getElementById('kt_docs_fullcalendar_background_events');
+		var calendarEl = document.getElementById('mv_docs_fullcalendar_background_events');
 
 		var calendar = new FullCalendar.Calendar(calendarEl, {
 			headerToolbar: {
@@ -88,6 +88,6 @@ var KTGeneralFullCalendarEventsDemos = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-	KTGeneralFullCalendarEventsDemos.init();
+MVUtil.onDOMContentLoaded(function() {
+	MVGeneralFullCalendarEventsDemos.init();
 });

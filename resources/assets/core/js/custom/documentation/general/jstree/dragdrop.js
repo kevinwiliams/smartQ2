@@ -1,10 +1,10 @@
 "use strict";
 
 // Class definition
-var KTJSTreeDragDrop = function() {
+var MVJSTreeDragDrop = function() {
     // Private functions
     var exampleDragDrop = function() {
-        $("#kt_docs_jstree_dragdrop").jstree({
+        $("#mv_docs_jstree_dragdrop").jstree({
             "core" : {
                 "themes" : {
                     "responsive": false
@@ -76,6 +76,6 @@ var KTJSTreeDragDrop = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTJSTreeDragDrop.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVJSTreeDragDrop.init();
 });

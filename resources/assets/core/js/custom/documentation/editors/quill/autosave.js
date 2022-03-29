@@ -1,11 +1,11 @@
 "use strict";
 
 // Class definition
-var KTFormsQuillAutosave = function () {
+var MVFormsQuillAutosave = function () {
     // Private functions
     var exampleAutosave = function () {
         var Delta = Quill.import('delta');
-        var quill = new Quill('#kt_docs_quill_autosave', {
+        var quill = new Quill('#mv_docs_quill_autosave', {
             modules: {
                 toolbar: true
             },
@@ -55,6 +55,6 @@ var KTFormsQuillAutosave = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTFormsQuillAutosave.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVFormsQuillAutosave.init();
 });

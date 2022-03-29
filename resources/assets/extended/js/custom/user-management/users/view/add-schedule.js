@@ -1,23 +1,23 @@
 "use strict";
 
 // Class definition
-var KTUsersAddSchedule = function () {
+var MVUsersAddSchedule = function () {
     // Shared variables
-    const element = document.getElementById('kt_modal_add_schedule');
-    const form = element.querySelector('#kt_modal_add_schedule_form');
+    const element = document.getElementById('mv_modal_add_schedule');
+    const form = element.querySelector('#mv_modal_add_schedule_form');
     const modal = new bootstrap.Modal(element);
 
     // Init add schedule modal
     var initAddSchedule = () => {       
 
         // Init flatpickr -- for more info: https://flatpickr.js.org/
-        $("#kt_modal_add_schedule_datepicker").flatpickr({
+        $("#mv_modal_add_schedule_datepicker").flatpickr({
             enableTime: true,
             dateFormat: "Y-m-d H:i",
         });
 
         // Init tagify -- for more info: https://yaireo.github.io/tagify/
-        const tagifyInput = form.querySelector('#kt_modal_add_schedule_tagify');
+        const tagifyInput = form.querySelector('#mv_modal_add_schedule_tagify');
         new Tagify(tagifyInput, {
             whitelist: ["sean@dellito.com", "brian@exchange.com", "mikaela@pexcom.com", "f.mitcham@kpmg.com.au", "olivia@corpmail.com", "owen.neil@gmail.com", "dam@consilting.com", "emma@intenso.com", "ana.cf@limtel.com", "robert@benko.com", "lucy.m@fentech.com", "ethan@loop.com.au"],
             maxTags: 10,
@@ -82,7 +82,7 @@ var KTUsersAddSchedule = function () {
         });
 
         // Close button handler
-        const closeButton = element.querySelector('[data-kt-users-modal-action="close"]');
+        const closeButton = element.querySelector('[data-mv-users-modal-action="close"]');
         closeButton.addEventListener('click', e => {
             e.preventDefault();
 
@@ -116,7 +116,7 @@ var KTUsersAddSchedule = function () {
         });
 
         // Cancel button handler
-        const cancelButton = element.querySelector('[data-kt-users-modal-action="cancel"]');
+        const cancelButton = element.querySelector('[data-mv-users-modal-action="cancel"]');
         cancelButton.addEventListener('click', e => {
             e.preventDefault();
 
@@ -150,7 +150,7 @@ var KTUsersAddSchedule = function () {
         });
 
         // Submit button handler
-        const submitButton = element.querySelector('[data-kt-users-modal-action="submit"]');
+        const submitButton = element.querySelector('[data-mv-users-modal-action="submit"]');
 		submitButton.addEventListener('click', function (e) {
 			// Prevent default button action
 			e.preventDefault();
@@ -162,7 +162,7 @@ var KTUsersAddSchedule = function () {
 
 					if (status == 'Valid') {
 						// Show loading indication
-						submitButton.setAttribute('data-kt-indicator', 'on');
+						submitButton.setAttribute('data-mv-indicator', 'on');
 
 						// Disable button to avoid multiple click 
 						submitButton.disabled = true;
@@ -170,7 +170,7 @@ var KTUsersAddSchedule = function () {
 						// Simulate form submission. For more info check the plugin's official documentation: https://sweetalert2.github.io/
 						setTimeout(function() {
 							// Remove loading indication
-							submitButton.removeAttribute('data-kt-indicator');
+							submitButton.removeAttribute('data-mv-indicator');
 
 							// Enable button
 							submitButton.disabled = false;
@@ -218,6 +218,6 @@ var KTUsersAddSchedule = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTUsersAddSchedule.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVUsersAddSchedule.init();
 });

@@ -1,5 +1,5 @@
 <!--begin::Preferences-->
-<form data-kt-search-element="advanced-options-form" class="pt-1 d-none">
+<form data-mv-search-element="advanced-options-form" class="pt-1 d-none">
     <!--begin::Heading-->
     <h3 class="fw-bold text-dark mb-7">Advanced Search</h3>
     <!--end::Heading-->
@@ -126,9 +126,9 @@
 
     <!--begin::Actions-->
     <div class="d-flex justify-content-end">
-        <button type="reset" class="btn btn-sm btn-white fw-bolder btn-active-light-primary me-2" data-kt-search-element="advanced-options-form-cancel">Cancel</button>
+        <button type="reset" class="btn btn-sm btn-white fw-bolder btn-active-light-primary me-2" data-mv-search-element="advanced-options-form-cancel">Cancel</button>
 
-        <button type="submit" class="btn btn-sm fw-bolder btn-primary" data-kt-search-element="advanced-options-form-search">Search</button>
+        <button type="submit" class="btn btn-sm fw-bolder btn-primary" data-mv-search-element="advanced-options-form-search">Search</button>
     </div>
     <!--end::Actions-->
 </form>

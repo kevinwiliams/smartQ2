@@ -74,7 +74,7 @@ class UsersDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('kt_table_users')
+                    ->setTableId('mv_table_users')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     // ->dom('Bfrtip')
@@ -94,7 +94,7 @@ class UsersDataTable extends DataTable
     protected function getColumns()
     {
         return [           
-            Column::make('id')->title('<div class="form-check form-check-sm form-check-custom form-check-solid me-3"><input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_table_users .form-check-input" value="1" id="kt_users_select_all"></div>')
+            Column::make('id')->title('<div class="form-check form-check-sm form-check-custom form-check-solid me-3"><input class="form-check-input" type="checkbox" data-mv-check="true" data-mv-check-target="#mv_table_users .form-check-input" value="1" id="mv_users_select_all"></div>')
             ->orderable(false),
             Column::computed('user')
             ->addClass('d-flex align-items-center')           

@@ -1,7 +1,7 @@
 <x-base-layout>
 
     <!--begin:Search form-->
-    <form id="kt_devs_search_form" class="form mb-6" action="{{ theme()->getPageUrl('apps/devs/search') }}">
+    <form id="mv_devs_search_form" class="form mb-6" action="{{ theme()->getPageUrl('apps/devs/search') }}">
         <div class="d-flex">
             <input type="hidden" name="demo" value="{{ theme()->getDemo() }}">
 
@@ -10,7 +10,7 @@
             <!--end::Form control-->
 
             <!--begin::Submit-->
-            <button type="submit" id="kt_devs_ask_submit" class="btn btn-primary flex-shrink-0">
+            <button type="submit" id="mv_devs_ask_submit" class="btn btn-primary flex-shrink-0">
                 Search Again
             </button>
             <!--begin::Submit-->

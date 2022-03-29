@@ -1,14 +1,14 @@
 "use strict";
 
 // Class definition
-var KTFormsDialerDemos = function() {
+var MVFormsDialerDemos = function() {
     // Private functions
     var example1 = function(element) {
         // Dialer container element
-        var dialerElement = document.querySelector("#kt_dialer_example_1");
+        var dialerElement = document.querySelector("#mv_dialer_example_1");
 
         // Create dialer object and initialize a new instance
-        var dialerObject = new KTDialer(dialerElement, {
+        var dialerObject = new MVDialer(dialerElement, {
             min: 1000,
             max: 50000,
             step: 1000,
@@ -26,6 +26,6 @@ var KTFormsDialerDemos = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTFormsDialerDemos.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVFormsDialerDemos.init();
 });

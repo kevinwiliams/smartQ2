@@ -1,11 +1,11 @@
 "use strict";
 
 // Class definition
-var KTJKanbanDemoColor = function() {
+var MVJKanbanDemoColor = function() {
     // Private functions
     var exampleColor = function() {
         var kanban = new jKanban({
-            element: '#kt_docs_jkanban_color',
+            element: '#mv_docs_jkanban_color',
             gutter: '0',
             widthBoard: '250px',
             boards: [{
@@ -61,6 +61,6 @@ var KTJKanbanDemoColor = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTJKanbanDemoColor.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVJKanbanDemoColor.init();
 });

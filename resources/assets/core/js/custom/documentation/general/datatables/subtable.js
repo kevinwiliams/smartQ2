@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTDocsDatatableSubtable = function () {
+var MVDocsDatatableSubtable = function () {
     var table;
     var datatable;
     var template;
@@ -16,14 +16,14 @@ var KTDocsDatatableSubtable = function () {
             const realDate = moment(dateRow[1].innerHTML, "DD MMM YYYY, LT").format(); // select date from 2nd column in table
 
             // Skip template
-            if (!row.closest('[data-kt-docs-datatable-subtable="subtable_template"]')) {
+            if (!row.closest('[data-mv-docs-datatable-subtable="subtable_template"]')) {
                 dateRow[1].setAttribute('data-order', realDate);
                 dateRow[1].innerText = moment(realDate).fromNow();
             }
         });
 
         // Get subtable template
-        const subtable = document.querySelector('[data-kt-docs-datatable-subtable="subtable_template"]');
+        const subtable = document.querySelector('[data-mv-docs-datatable-subtable="subtable_template"]');
         template = subtable.cloneNode(true);
         template.classList.remove('d-none');
 
@@ -102,7 +102,7 @@ var KTDocsDatatableSubtable = function () {
 
     // Handle action button
     const handleActionButton = () => {
-        const buttons = document.querySelectorAll('[data-kt-docs-datatable-subtable="expand_row"]');
+        const buttons = document.querySelectorAll('[data-mv-docs-datatable-subtable="expand_row"]');
 
         // Sample row items counter --- for demo purpose only, remove this variable in your project
         const rowItems = [4, 1, 5, 1, 4, 2];
@@ -125,7 +125,7 @@ var KTDocsDatatableSubtable = function () {
                 // Handle subtable expanded state
                 if (row.classList.contains('isOpen')) {
                     // Remove all subtables from current order row
-                    while (row.nextSibling && row.nextSibling.getAttribute('data-kt-docs-datatable-subtable') === 'subtable_template') {
+                    while (row.nextSibling && row.nextSibling.getAttribute('data-mv-docs-datatable-subtable') === 'subtable_template') {
                         row.nextSibling.parentNode.removeChild(row.nextSibling);
                     }
                     row.classList.remove(...rowClasses);
@@ -150,13 +150,13 @@ var KTDocsDatatableSubtable = function () {
             const inStock = `<div class="badge badge-light-success">In Stock</div>`;
 
             // Select data elements
-            const image = newTemplate.querySelector('[data-kt-docs-datatable-subtable="template_image"]');
-            const name = newTemplate.querySelector('[data-kt-docs-datatable-subtable="template_name"]');
-            const description = newTemplate.querySelector('[data-kt-docs-datatable-subtable="template_description"]');
-            const cost = newTemplate.querySelector('[data-kt-docs-datatable-subtable="template_cost"]');
-            const qty = newTemplate.querySelector('[data-kt-docs-datatable-subtable="template_qty"]');
-            const total = newTemplate.querySelector('[data-kt-docs-datatable-subtable="template_total"]');
-            const stock = newTemplate.querySelector('[data-kt-docs-datatable-subtable="template_stock"]');
+            const image = newTemplate.querySelector('[data-mv-docs-datatable-subtable="template_image"]');
+            const name = newTemplate.querySelector('[data-mv-docs-datatable-subtable="template_name"]');
+            const description = newTemplate.querySelector('[data-mv-docs-datatable-subtable="template_description"]');
+            const cost = newTemplate.querySelector('[data-mv-docs-datatable-subtable="template_cost"]');
+            const qty = newTemplate.querySelector('[data-mv-docs-datatable-subtable="template_qty"]');
+            const total = newTemplate.querySelector('[data-mv-docs-datatable-subtable="template_total"]');
+            const stock = newTemplate.querySelector('[data-mv-docs-datatable-subtable="template_stock"]');
 
             // Populate elements with data
             const imageSrc = image.getAttribute('src');
@@ -209,7 +209,7 @@ var KTDocsDatatableSubtable = function () {
 
     // Reset subtable
     const resetSubtable = () => {
-        const subtables = document.querySelectorAll('[data-kt-docs-datatable-subtable="subtable_template"]');
+        const subtables = document.querySelectorAll('[data-mv-docs-datatable-subtable="subtable_template"]');
         subtables.forEach(st => {
             st.parentNode.removeChild(st);
         });
@@ -217,8 +217,8 @@ var KTDocsDatatableSubtable = function () {
         const rows = table.querySelectorAll('tbody tr');
         rows.forEach(r => {
             r.classList.remove('isOpen');
-            if (r.querySelector('[data-kt-docs-datatable-subtable="expand_row"]')) {
-                r.querySelector('[data-kt-docs-datatable-subtable="expand_row"]').classList.remove('active');
+            if (r.querySelector('[data-mv-docs-datatable-subtable="expand_row"]')) {
+                r.querySelector('[data-mv-docs-datatable-subtable="expand_row"]').classList.remove('active');
             }
         });
     }
@@ -226,7 +226,7 @@ var KTDocsDatatableSubtable = function () {
     // Public methods
     return {
         init: function () {
-            table = document.querySelector('#kt_docs_datatable_subtable');
+            table = document.querySelector('#mv_docs_datatable_subtable');
 
             if (!table) {
                 return;
@@ -240,10 +240,10 @@ var KTDocsDatatableSubtable = function () {
 
 // Webpack support
 if (typeof module !== 'undefined') {
-    module.exports = KTDocsDatatableSubtable;
+    module.exports = MVDocsDatatableSubtable;
 }
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTDocsDatatableSubtable.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVDocsDatatableSubtable.init();
 });

@@ -62,7 +62,7 @@ class PermissionsDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('kt_permissions_table')
+                    ->setTableId('mv_permissions_table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     // ->dom('Bfrtip')

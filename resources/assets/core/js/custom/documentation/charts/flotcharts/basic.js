@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTFlotDemoBasic = function () {
+var MVFlotDemoBasic = function () {
     // Private functions
     var exampleBasic = function () {
         var data = [];
@@ -40,7 +40,7 @@ var KTFlotDemoBasic = function () {
         for (var i = 0; i < Math.PI * 2; i += 0.1)
             d3.push([i, Math.tan(i)]);
 
-        $.plot($("#kt_docs_flot_basic"), [{
+        $.plot($("#mv_docs_flot_basic"), [{
             label: "sin(x)",
             data: d1,
             lines: {
@@ -62,7 +62,7 @@ var KTFlotDemoBasic = function () {
             },
             shadowSize: 0
         }], {
-            colors: [KTUtil.getCssVariableValue('--bs-active-success'), KTUtil.getCssVariableValue('--bs-active-primary'), KTUtil.getCssVariableValue('--bs-active-danger')],
+            colors: [MVUtil.getCssVariableValue('--bs-active-success'), MVUtil.getCssVariableValue('--bs-active-primary'), MVUtil.getCssVariableValue('--bs-active-danger')],
             series: {
                 lines: {
                     show: true,
@@ -75,7 +75,7 @@ var KTFlotDemoBasic = function () {
                 }
             },
             xaxis: {
-                tickColor: KTUtil.getCssVariableValue('--bs-light-dark'),
+                tickColor: MVUtil.getCssVariableValue('--bs-light-dark'),
                 ticks: [0, [Math.PI / 2, "\u03c0/2"],
                     [Math.PI, "\u03c0"],
                     [Math.PI * 3 / 2, "3\u03c0/2"],
@@ -83,13 +83,13 @@ var KTFlotDemoBasic = function () {
                 ]
             },
             yaxis: {
-                tickColor: KTUtil.getCssVariableValue('--bs-light-dark'),
+                tickColor: MVUtil.getCssVariableValue('--bs-light-dark'),
                 ticks: 10,
                 min: -2,
                 max: 2
             },
             grid: {
-                borderColor: KTUtil.getCssVariableValue('--bs-light-dark'),
+                borderColor: MVUtil.getCssVariableValue('--bs-light-dark'),
                 borderWidth: 1
             }
         });
@@ -104,6 +104,6 @@ var KTFlotDemoBasic = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTFlotDemoBasic.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVFlotDemoBasic.init();
 });

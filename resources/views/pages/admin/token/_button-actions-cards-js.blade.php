@@ -1,10 +1,10 @@
 <script>
 // Class definition
-var KTTokenActions = function () {
+var MVTokenActions = function () {
     var handleDeleteRows = () => {
  
         var _table = document.querySelector('#token-cards');
-        const deleteButtons = _table.querySelectorAll('[data-kt-token-cards-filter="delete_item"]');
+        const deleteButtons = _table.querySelectorAll('[data-mv-token-cards-filter="delete_item"]');
         //console.log(deleteButtons);
         
         deleteButtons.forEach(d => {
@@ -80,7 +80,7 @@ var KTTokenActions = function () {
     var handleCancelRows = () => {
 
         var _table = document.querySelector('#token-cards');
-        const cancelButtons = _table.querySelectorAll('[data-kt-token-cards-filter="cancel_item"]');
+        const cancelButtons = _table.querySelectorAll('[data-mv-token-cards-filter="cancel_item"]');
         // console.log(cancelButtons);
 
         cancelButtons.forEach(d => {
@@ -162,7 +162,7 @@ var KTTokenActions = function () {
     var handleCompleteRows = () => {
 
         var _table = document.querySelector('#token-cards');
-        const completeButtons = _table.querySelectorAll('[data-kt-token-cards-filter="complete_item"]');
+        const completeButtons = _table.querySelectorAll('[data-mv-token-cards-filter="complete_item"]');
         console.log(completeButtons);
         
         completeButtons.forEach(d => {
@@ -253,10 +253,10 @@ var KTTokenActions = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
+MVUtil.onDOMContentLoaded(function () {
 
 setTimeout(() => {
-    KTTokenActions.init();
+    MVTokenActions.init();
     
 }, 1000);
 });

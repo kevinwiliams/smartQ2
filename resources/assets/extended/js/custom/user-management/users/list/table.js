@@ -2,9 +2,9 @@
 // window.$ = window.jQuery = require( 'jquery' );
 // require( 'datatables.net' );
 
-// var KTUsersList = function () {
+// var MVUsersList = function () {
 //     // Define shared variables
-//     var table = document.getElementById('kt_table_users');
+//     var table = document.getElementById('mv_table_users');
 //     var datatable;
 //     var toolbarBase;
 //     var toolbarSelected;
@@ -72,7 +72,7 @@
 
 //     // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
 //     var handleSearchDatatable = () => {
-//         const filterSearch = document.querySelector('[data-kt-user-table-filter="search"]');
+//         const filterSearch = document.querySelector('[data-mv-user-table-filter="search"]');
 //         filterSearch.addEventListener('keyup', function (e) {
 //             datatable.search(e.target.value).draw();
 //         });
@@ -81,8 +81,8 @@
 //     // Filter Datatable
 //     var handleFilterDatatable = () => {
 //         // Select filter options
-//         const filterForm = document.querySelector('[data-kt-user-table-filter="form"]');
-//         const filterButton = filterForm.querySelector('[data-kt-user-table-filter="filter"]');
+//         const filterForm = document.querySelector('[data-mv-user-table-filter="form"]');
+//         const filterButton = filterForm.querySelector('[data-mv-user-table-filter="filter"]');
 //         const selectOptions = filterForm.querySelectorAll('select');
 
 //         // Filter datatable on submit
@@ -109,12 +109,12 @@
 //     // Reset Filter
 //     var handleResetForm = () => {
 //         // Select reset button
-//         const resetButton = document.querySelector('[data-kt-user-table-filter="reset"]');
+//         const resetButton = document.querySelector('[data-mv-user-table-filter="reset"]');
 
 //         // Reset datatable
 //         resetButton.addEventListener('click', function () {
 //             // Select filter options
-//             const filterForm = document.querySelector('[data-kt-user-table-filter="form"]');
+//             const filterForm = document.querySelector('[data-mv-user-table-filter="form"]');
 //             const selectOptions = filterForm.querySelectorAll('select');
 
 //             // Reset select2 values -- more info: https://select2.org/programmatic-control/add-select-clear-items
@@ -131,7 +131,7 @@
 //     // Delete subscirption
 //     var handleDeleteRows = () => {
 //         // Select all delete buttons
-//         const deleteButtons = table.querySelectorAll('[data-kt-users-table-filter="delete_row"]');
+//         const deleteButtons = table.querySelectorAll('[data-mv-users-table-filter="delete_row"]');
 
 //         deleteButtons.forEach(d => {
 //             // Delete button on click
@@ -196,10 +196,10 @@
 //         const checkboxes = table.querySelectorAll('[type="checkbox"]');
 
 //         // Select elements
-//         toolbarBase = document.querySelector('[data-kt-user-table-toolbar="base"]');
-//         toolbarSelected = document.querySelector('[data-kt-user-table-toolbar="selected"]');
-//         selectedCount = document.querySelector('[data-kt-user-table-select="selected_count"]');
-//         const deleteSelected = document.querySelector('[data-kt-user-table-select="delete_selected"]');
+//         toolbarBase = document.querySelector('[data-mv-user-table-toolbar="base"]');
+//         toolbarSelected = document.querySelector('[data-mv-user-table-toolbar="selected"]');
+//         selectedCount = document.querySelector('[data-mv-user-table-select="selected_count"]');
+//         const deleteSelected = document.querySelector('[data-mv-user-table-select="delete_selected"]');
 
 //         // Toggle delete selected toolbar
 //         checkboxes.forEach(c => {
@@ -312,6 +312,6 @@
 // }();
 
 // // On document ready
-// KTUtil.onDOMContentLoaded(function () {
-//     KTUsersList.init();
+// MVUtil.onDOMContentLoaded(function () {
+//     MVUsersList.init();
 // });

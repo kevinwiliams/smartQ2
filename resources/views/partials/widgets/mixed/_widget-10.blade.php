@@ -22,7 +22,7 @@
         <!--end::Hidden-->
 
         <!--begin::Chart-->
-        <div class="service-performance-chart" data-kt-color="{{ $chartColor }}" data-kt-chart-url="{{ route('profits') }}" style="height: {{ $chartHeight }}"></div>
+        <div class="service-performance-chart" data-mv-color="{{ $chartColor }}" data-mv-chart-url="{{ route('profits') }}" style="height: {{ $chartHeight }}"></div>
         <!--end::Chart-->
     </div>
 </div>

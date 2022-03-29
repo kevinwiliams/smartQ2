@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * @class KTUtil  base utilize class that privides helper functions
+ * @class MVUtil  base utilize class that privides helper functions
  */
 
 // Polyfills
@@ -123,11 +123,11 @@ if (Element.prototype.getAttributeNames == undefined) {
 }
 
 // Global variables
-window.KTUtilElementDataStore = {};
-window.KTUtilElementDataStoreID = 0;
-window.KTUtilDelegatedEventHandlers = {};
+window.MVUtilElementDataStore = {};
+window.MVUtilElementDataStoreID = 0;
+window.MVUtilDelegatedEventHandlers = {};
 
-var KTUtil = function() {
+var MVUtil = function() {
     var resizeHandlers = [];
 
     /**
@@ -146,7 +146,7 @@ var KTUtil = function() {
         var timer;
 
         window.addEventListener('resize', function() {
-            KTUtil.throttle(timer, function() {
+            MVUtil.throttle(timer, function() {
                 _runResizeHandlers();
             }, 200);
         });
@@ -242,7 +242,7 @@ var KTUtil = function() {
          * @returns {boolean}
          */
         isDesktopDevice: function() {
-            return KTUtil.isMobileDevice() ? false : true;
+            return MVUtil.isMobileDevice() ? false : true;
         },
 
         /**
@@ -359,14 +359,14 @@ var KTUtil = function() {
                 // Ignore z-index if position is set to a value where z-index is ignored by the browser
                 // This makes behavior of this function consistent across browsers
                 // WebKit always returns auto if the element is positioned
-                position = KTUtil.css(el, 'position');
+                position = MVUtil.css(el, 'position');
 
                 if (position === "absolute" || position === "relative" || position === "fixed") {
                     // IE returns 0 when zIndex is not specified
                     // other browsers return a string
                     // we ignore the case of nested elements with an explicit value of 0
                     // <div style="z-index: -10;"><div style="z-index: 0;"></div></div>
-                    value = parseInt(KTUtil.css(el, 'z-index'));
+                    value = parseInt(MVUtil.css(el, 'z-index'));
 
                     if (!isNaN(value) && value !== 0) {
                         return value;
@@ -388,7 +388,7 @@ var KTUtil = function() {
             var position;
 
             while (el && el !== document) {
-                position = KTUtil.css(el, 'position');
+                position = MVUtil.css(el, 'position');
 
                 if (position === "fixed") {
                     return true;
@@ -445,7 +445,7 @@ var KTUtil = function() {
 
                     // based on https://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator/
                     if ( Object.prototype.toString.call(obj[key]) === '[object Object]' ) {
-                        out[key] = KTUtil.deepExtend(out[key], obj[key]);
+                        out[key] = MVUtil.deepExtend(out[key], obj[key]);
                         continue;
                     }
 
@@ -491,7 +491,7 @@ var KTUtil = function() {
             var classesArr = classes.split(" ");
 
             for (var i = 0; i < classesArr.length; i++) {
-                if (KTUtil.hasClass(el, KTUtil.trim(classesArr[i])) == false) {
+                if (MVUtil.hasClass(el, MVUtil.trim(classesArr[i])) == false) {
                     return false;
                 }
             }
@@ -517,12 +517,12 @@ var KTUtil = function() {
             if (el.classList) {
                 for (var i = 0; i < classNames.length; i++) {
                     if (classNames[i] && classNames[i].length > 0) {
-                        el.classList.add(KTUtil.trim(classNames[i]));
+                        el.classList.add(MVUtil.trim(classNames[i]));
                     }
                 }
-            } else if (!KTUtil.hasClass(el, className)) {
+            } else if (!MVUtil.hasClass(el, className)) {
                 for (var x = 0; x < classNames.length; x++) {
-                    el.className += ' ' + KTUtil.trim(classNames[x]);
+                    el.className += ' ' + MVUtil.trim(classNames[x]);
                 }
             }
         },
@@ -536,11 +536,11 @@ var KTUtil = function() {
 
             if (el.classList) {
                 for (var i = 0; i < classNames.length; i++) {
-                    el.classList.remove(KTUtil.trim(classNames[i]));
+                    el.classList.remove(MVUtil.trim(classNames[i]));
                 }
-            } else if (KTUtil.hasClass(el, className)) {
+            } else if (MVUtil.hasClass(el, className)) {
                 for (var x = 0; x < classNames.length; x++) {
-                    el.className = el.className.replace(new RegExp('\\b' + KTUtil.trim(classNames[x]) + '\\b', 'g'), '');
+                    el.className = el.className.replace(new RegExp('\\b' + MVUtil.trim(classNames[x]) + '\\b', 'g'), '');
                 }
             }
         },
@@ -690,7 +690,7 @@ var KTUtil = function() {
                 l = el.childNodes.length;
 
             for (var i; i < l; ++i) {
-                if (el.childNodes[i].nodeType == 1 && KTUtil.matches(el.childNodes[i], selector, log)) {
+                if (el.childNodes[i].nodeType == 1 && MVUtil.matches(el.childNodes[i], selector, log)) {
                     result.push(el.childNodes[i]);
                 }
             }
@@ -699,7 +699,7 @@ var KTUtil = function() {
         },
 
         child: function(el, selector, log) {
-            var children = KTUtil.children(el, selector, log);
+            var children = MVUtil.children(el, selector, log);
 
             return children ? children[0] : null;
         },
@@ -725,15 +725,15 @@ var KTUtil = function() {
                     }
 
                     if (el.customDataTag === undefined) {
-                        window.KTUtilElementDataStoreID++;
-                        el.customDataTag = window.KTUtilElementDataStoreID;
+                        window.MVUtilElementDataStoreID++;
+                        el.customDataTag = window.MVUtilElementDataStoreID;
                     }
 
-                    if (window.KTUtilElementDataStore[el.customDataTag] === undefined) {
-                        window.KTUtilElementDataStore[el.customDataTag] = {};
+                    if (window.MVUtilElementDataStore[el.customDataTag] === undefined) {
+                        window.MVUtilElementDataStore[el.customDataTag] = {};
                     }
 
-                    window.KTUtilElementDataStore[el.customDataTag][name] = data;
+                    window.MVUtilElementDataStore[el.customDataTag][name] = data;
                 },
 
                 get: function(name) {
@@ -745,7 +745,7 @@ var KTUtil = function() {
                         return null;
                     }
 
-                    return this.has(name) ? window.KTUtilElementDataStore[el.customDataTag][name] : null;
+                    return this.has(name) ? window.MVUtilElementDataStore[el.customDataTag][name] : null;
                 },
 
                 has: function(name) {
@@ -757,12 +757,12 @@ var KTUtil = function() {
                         return false;
                     }
 
-                    return (window.KTUtilElementDataStore[el.customDataTag] && window.KTUtilElementDataStore[el.customDataTag][name]) ? true : false;
+                    return (window.MVUtilElementDataStore[el.customDataTag] && window.MVUtilElementDataStore[el.customDataTag][name]) ? true : false;
                 },
 
                 remove: function(name) {
                     if (el && this.has(name)) {
-                        delete window.KTUtilElementDataStore[el.customDataTag][name];
+                        delete window.MVUtilElementDataStore[el.customDataTag][name];
                     }
                 }
             };
@@ -773,7 +773,7 @@ var KTUtil = function() {
 
             if (margin === true) {
                 width = parseFloat(el.offsetWidth);
-                width += parseFloat(KTUtil.css(el, 'margin-left')) + parseFloat(KTUtil.css(el, 'margin-right'));
+                width += parseFloat(MVUtil.css(el, 'margin-left')) + parseFloat(MVUtil.css(el, 'margin-right'));
 
                 return parseFloat(width);
             } else {
@@ -811,7 +811,7 @@ var KTUtil = function() {
         },
 
         height: function(el) {
-            return KTUtil.css(el, 'height');
+            return MVUtil.css(el, 'height');
         },
 
         outerHeight: function(el, withMargin) {
@@ -925,7 +925,7 @@ var KTUtil = function() {
                 return;
             }
 
-            if (!el.getAttribute('kt-hidden-' + prop) || cache === false) {
+            if (!el.getAttribute('mv-hidden-' + prop) || cache === false) {
                 var value;
 
                 // the element is hidden so:
@@ -942,21 +942,21 @@ var KTUtil = function() {
                 el.style.cssText = css;
 
                 // store it in cache
-                el.setAttribute('kt-hidden-' + prop, value);
+                el.setAttribute('mv-hidden-' + prop, value);
 
                 return parseFloat(value);
             } else {
                 // store it in cache
-                return parseFloat(el.getAttribute('kt-hidden-' + prop));
+                return parseFloat(el.getAttribute('mv-hidden-' + prop));
             }
         },
 
         actualHeight: function(el, cache) {
-            return KTUtil.actualCss(el, 'height', cache);
+            return MVUtil.actualCss(el, 'height', cache);
         },
 
         actualWidth: function(el, cache) {
-            return KTUtil.actualCss(el, 'width', cache);
+            return MVUtil.actualCss(el, 'width', cache);
         },
 
         getScroll: function(element, method) {
@@ -1019,47 +1019,47 @@ var KTUtil = function() {
         },
 
         slide: function(el, dir, speed, callback, recalcMaxHeight) {
-            if (!el || (dir == 'up' && KTUtil.visible(el) === false) || (dir == 'down' && KTUtil.visible(el) === true)) {
+            if (!el || (dir == 'up' && MVUtil.visible(el) === false) || (dir == 'down' && MVUtil.visible(el) === true)) {
                 return;
             }
 
             speed = (speed ? speed : 600);
-            var calcHeight = KTUtil.actualHeight(el);
+            var calcHeight = MVUtil.actualHeight(el);
             var calcPaddingTop = false;
             var calcPaddingBottom = false;
 
-            if (KTUtil.css(el, 'padding-top') && KTUtil.data(el).has('slide-padding-top') !== true) {
-                KTUtil.data(el).set('slide-padding-top', KTUtil.css(el, 'padding-top'));
+            if (MVUtil.css(el, 'padding-top') && MVUtil.data(el).has('slide-padding-top') !== true) {
+                MVUtil.data(el).set('slide-padding-top', MVUtil.css(el, 'padding-top'));
             }
 
-            if (KTUtil.css(el, 'padding-bottom') && KTUtil.data(el).has('slide-padding-bottom') !== true) {
-                KTUtil.data(el).set('slide-padding-bottom', KTUtil.css(el, 'padding-bottom'));
+            if (MVUtil.css(el, 'padding-bottom') && MVUtil.data(el).has('slide-padding-bottom') !== true) {
+                MVUtil.data(el).set('slide-padding-bottom', MVUtil.css(el, 'padding-bottom'));
             }
 
-            if (KTUtil.data(el).has('slide-padding-top')) {
-                calcPaddingTop = parseInt(KTUtil.data(el).get('slide-padding-top'));
+            if (MVUtil.data(el).has('slide-padding-top')) {
+                calcPaddingTop = parseInt(MVUtil.data(el).get('slide-padding-top'));
             }
 
-            if (KTUtil.data(el).has('slide-padding-bottom')) {
-                calcPaddingBottom = parseInt(KTUtil.data(el).get('slide-padding-bottom'));
+            if (MVUtil.data(el).has('slide-padding-bottom')) {
+                calcPaddingBottom = parseInt(MVUtil.data(el).get('slide-padding-bottom'));
             }
 
             if (dir == 'up') { // up
                 el.style.cssText = 'display: block; overflow: hidden;';
 
                 if (calcPaddingTop) {
-                    KTUtil.animate(0, calcPaddingTop, speed, function(value) {
+                    MVUtil.animate(0, calcPaddingTop, speed, function(value) {
                         el.style.paddingTop = (calcPaddingTop - value) + 'px';
                     }, 'linear');
                 }
 
                 if (calcPaddingBottom) {
-                    KTUtil.animate(0, calcPaddingBottom, speed, function(value) {
+                    MVUtil.animate(0, calcPaddingBottom, speed, function(value) {
                         el.style.paddingBottom = (calcPaddingBottom - value) + 'px';
                     }, 'linear');
                 }
 
-                KTUtil.animate(0, calcHeight, speed, function(value) {
+                MVUtil.animate(0, calcHeight, speed, function(value) {
                     el.style.height = (calcHeight - value) + 'px';
                 }, 'linear', function() {
                     el.style.height = '';
@@ -1075,7 +1075,7 @@ var KTUtil = function() {
                 el.style.cssText = 'display: block; overflow: hidden;';
 
                 if (calcPaddingTop) {
-                    KTUtil.animate(0, calcPaddingTop, speed, function(value) {//
+                    MVUtil.animate(0, calcPaddingTop, speed, function(value) {//
                         el.style.paddingTop = value + 'px';
                     }, 'linear', function() {
                         el.style.paddingTop = '';
@@ -1083,14 +1083,14 @@ var KTUtil = function() {
                 }
 
                 if (calcPaddingBottom) {
-                    KTUtil.animate(0, calcPaddingBottom, speed, function(value) {
+                    MVUtil.animate(0, calcPaddingBottom, speed, function(value) {
                         el.style.paddingBottom = value + 'px';
                     }, 'linear', function() {
                         el.style.paddingBottom = '';
                     });
                 }
 
-                KTUtil.animate(0, calcHeight, speed, function(value) {
+                MVUtil.animate(0, calcHeight, speed, function(value) {
                     el.style.height = value + 'px';
                 }, 'linear', function() {
                     el.style.height = '';
@@ -1105,11 +1105,11 @@ var KTUtil = function() {
         },
 
         slideUp: function(el, speed, callback) {
-            KTUtil.slide(el, 'up', speed, callback);
+            MVUtil.slide(el, 'up', speed, callback);
         },
 
         slideDown: function(el, speed, callback) {
-            KTUtil.slide(el, 'down', speed, callback);
+            MVUtil.slide(el, 'down', speed, callback);
         },
 
         show: function(el, display) {
@@ -1141,9 +1141,9 @@ var KTUtil = function() {
                 return;
             }
 
-            var eventId = KTUtil.getUniqueId('event');
+            var eventId = MVUtil.getUniqueId('event');
 
-            window.KTUtilDelegatedEventHandlers[eventId] = function(e) {
+            window.MVUtilDelegatedEventHandlers[eventId] = function(e) {
                 var targets = element.querySelectorAll(selector);
                 var target = e.target;
 
@@ -1158,19 +1158,19 @@ var KTUtil = function() {
                 }
             }
 
-            KTUtil.addEvent(element, event, window.KTUtilDelegatedEventHandlers[eventId]);
+            MVUtil.addEvent(element, event, window.MVUtilDelegatedEventHandlers[eventId]);
 
             return eventId;
         },
 
         off: function(element, event, eventId) {
-            if (!element || !window.KTUtilDelegatedEventHandlers[eventId]) {
+            if (!element || !window.MVUtilDelegatedEventHandlers[eventId]) {
                 return;
             }
 
-            KTUtil.removeEvent(element, event, window.KTUtilDelegatedEventHandlers[eventId]);
+            MVUtil.removeEvent(element, event, window.MVUtilDelegatedEventHandlers[eventId]);
 
-            delete window.KTUtilDelegatedEventHandlers[eventId];
+            delete window.MVUtilDelegatedEventHandlers[eventId];
         },
 
         one: function onetime(el, type, callback) {
@@ -1220,14 +1220,14 @@ var KTUtil = function() {
                 }
             }
             
-            KTUtil.addClass(el, animationName);
+            MVUtil.addClass(el, animationName);
 
-            KTUtil.one(el, animation, function() {
-                KTUtil.removeClass(el, animationName);
+            MVUtil.one(el, animation, function() {
+                MVUtil.removeClass(el, animationName);
             });
 
             if (callback) {
-                KTUtil.one(el, animation, callback);
+                MVUtil.one(el, animation, callback);
             }
         },
 
@@ -1247,7 +1247,7 @@ var KTUtil = function() {
                 }
             }
 
-            KTUtil.one(el, transition, callback);
+            MVUtil.one(el, transition, callback);
         },
 
         animationEnd: function(el, callback) {
@@ -1266,26 +1266,26 @@ var KTUtil = function() {
                 }
             }
 
-            KTUtil.one(el, animation, callback);
+            MVUtil.one(el, animation, callback);
         },
 
         animateDelay: function(el, value) {
             var vendors = ['webkit-', 'moz-', 'ms-', 'o-', ''];
             for (var i = 0; i < vendors.length; i++) {
-                KTUtil.css(el, vendors[i] + 'animation-delay', value);
+                MVUtil.css(el, vendors[i] + 'animation-delay', value);
             }
         },
 
         animateDuration: function(el, value) {
             var vendors = ['webkit-', 'moz-', 'ms-', 'o-', ''];
             for (var i = 0; i < vendors.length; i++) {
-                KTUtil.css(el, vendors[i] + 'animation-duration', value);
+                MVUtil.css(el, vendors[i] + 'animation-duration', value);
             }
         },
 
         scrollTo: function(target, offset, duration) {
             var duration = duration ? duration : 500;
-            var targetPos = target ? KTUtil.offset(target).top : 0;
+            var targetPos = target ? MVUtil.offset(target).top : 0;
             var scrollPos = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
             var from, to;
 
@@ -1296,7 +1296,7 @@ var KTUtil = function() {
             from = scrollPos;
             to = targetPos;
 
-            KTUtil.animate(from, to, duration, function(value) {
+            MVUtil.animate(from, to, duration, function(value) {
                 document.documentElement.scrollTop = value;
                 document.body.parentNode.scrollTop = value;
                 document.body.scrollTop = value;
@@ -1304,7 +1304,7 @@ var KTUtil = function() {
         },
 
         scrollTop: function(offset, duration) {
-            KTUtil.scrollTo(null, offset, duration);
+            MVUtil.scrollTo(null, offset, duration);
         },
 
         isArray: function(obj) {
@@ -1450,7 +1450,7 @@ var KTUtil = function() {
             var width = this.getViewPort().width;
             var result;
 
-            value = KTUtil.parseJson(value);
+            value = MVUtil.parseJson(value);
 
             if (typeof value === 'object') {
                 var resultKey;
@@ -1488,7 +1488,7 @@ var KTUtil = function() {
 
         getSelectorMatchValue: function(value) {
             var result = null;
-            value = KTUtil.parseJson(value);
+            value = MVUtil.parseJson(value);
 
             if ( typeof value === 'object' ) {
                 // Match condition
@@ -1508,11 +1508,11 @@ var KTUtil = function() {
         },
 
         getConditionalValue: function(value) {
-            var value = KTUtil.parseJson(value);
-            var result = KTUtil.getResponsiveValue(value);
+            var value = MVUtil.parseJson(value);
+            var result = MVUtil.getResponsiveValue(value);
 
             if ( result !== null && result['match'] !== undefined ) {
-                result = KTUtil.getSelectorMatchValue(result);
+                result = MVUtil.getSelectorMatchValue(result);
             }
 
             if ( result === null && value !== null && value['default'] !== undefined ) {
@@ -1566,5 +1566,5 @@ var KTUtil = function() {
 
 // Webpack support
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    module.exports = KTUtil;
+    module.exports = MVUtil;
 }

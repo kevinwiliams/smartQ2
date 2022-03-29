@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTSigninGeneral = function () {
+var MVSigninGeneral = function () {
     // Elements
     var form;
     var submitButton;
@@ -55,7 +55,7 @@ var KTSigninGeneral = function () {
             validator.validate().then(function (status) {
                 if (status === 'Valid') {
                     // Show loading indication
-                    submitButton.setAttribute('data-kt-indicator', 'on');
+                    submitButton.setAttribute('data-mv-indicator', 'on');
 
                     // Disable button to avoid multiple click
                     submitButton.disabled = true;
@@ -104,7 +104,7 @@ var KTSigninGeneral = function () {
                         .then(function () {
                             // always executed
                             // Hide loading indication
-                            submitButton.removeAttribute('data-kt-indicator');
+                            submitButton.removeAttribute('data-mv-indicator');
 
                             // Enable button
                             submitButton.disabled = false;
@@ -129,8 +129,8 @@ var KTSigninGeneral = function () {
     return {
         // Initialization
         init: function () {
-            form = document.querySelector('#kt_sign_in_form');
-            submitButton = document.querySelector('#kt_sign_in_submit');
+            form = document.querySelector('#mv_sign_in_form');
+            submitButton = document.querySelector('#mv_sign_in_submit');
 
             handleForm();
         }
@@ -138,6 +138,6 @@ var KTSigninGeneral = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTSigninGeneral.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVSigninGeneral.init();
 });

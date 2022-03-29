@@ -2,13 +2,13 @@
     $(document).ready(function() { //required to fire menu on dt
         var table = $('#token-table').DataTable();
         table.on('draw', function () {
-                KTMenu.createInstances(); //load action menu options
-                KTTokenActions.init();
+                MVMenu.createInstances(); //load action menu options
+                MVTokenActions.init();
             });
 
         
 			// modal open with token id
-			$('#kt_modal_transfer_token').on('show.bs.modal', function (event) {
+			$('#mv_modal_transfer_token').on('show.bs.modal', function (event) {
 				var button = $(event.relatedTarget);
 				$('input[name=id]').val(button.data('token-id'));
 				//set back options from selected token
@@ -34,7 +34,7 @@
             
         } ); 
     //search bar    
-    const filterSearch = document.querySelector('[data-kt-token-table-filter="search"]');
+    const filterSearch = document.querySelector('[data-mv-token-table-filter="search"]');
     filterSearch.addEventListener('keyup', function (e) {
         var table = $('#token-table').DataTable();
         table.search(e.target.value).draw();

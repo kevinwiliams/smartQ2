@@ -1,11 +1,11 @@
 "use strict";
 
 // Class definition
-var KTFormsTinyMCEHidden = function() {
+var MVFormsTinyMCEHidden = function() {
     // Private functions
     var exampleHidden = function() {
         tinymce.init({
-            selector: '#kt_docs_tinymce_hidden',
+            selector: '#mv_docs_tinymce_hidden',
             menubar: false,
             toolbar: ['styleselect fontselect fontsizeselect',
                 'undo redo | cut copy paste | bold italic | link image | alignleft aligncenter alignright alignjustify',
@@ -23,6 +23,6 @@ var KTFormsTinyMCEHidden = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTFormsTinyMCEHidden.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVFormsTinyMCEHidden.init();
 });

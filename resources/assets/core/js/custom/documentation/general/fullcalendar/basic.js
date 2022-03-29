@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTGeneralFullCalendarBasicDemos = function () {
+var MVGeneralFullCalendarBasicDemos = function () {
     // Private functions
 
     var exampleBasic = function () {
@@ -11,7 +11,7 @@ var KTGeneralFullCalendarBasicDemos = function () {
         var TODAY = todayDate.format('YYYY-MM-DD');
         var TOMORROW = todayDate.clone().add(1, 'day').format('YYYY-MM-DD');
 
-        var calendarEl = document.getElementById('kt_docs_fullcalendar_basic');
+        var calendarEl = document.getElementById('mv_docs_fullcalendar_basic');
         var calendar = new FullCalendar.Calendar(calendarEl, {
             headerToolbar: {
                 left: 'prev,next today',
@@ -144,7 +144,7 @@ var KTGeneralFullCalendarBasicDemos = function () {
                     if (element.hasClass('fc-day-grid-event')) {
                         element.data('content', info.event.extendedProps.description);
                         element.data('placement', 'top');
-                        KTApp.initPopover(element);
+                        MVApp.initPopover(element);
                     } else if (element.hasClass('fc-time-grid-event')) {
                         element.find('.fc-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');
                     } else if (element.find('.fc-list-item-title').lenght !== 0) {
@@ -166,6 +166,6 @@ var KTGeneralFullCalendarBasicDemos = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTGeneralFullCalendarBasicDemos.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVGeneralFullCalendarBasicDemos.init();
 });

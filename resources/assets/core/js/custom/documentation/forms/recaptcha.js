@@ -1,10 +1,10 @@
 "use strict";
 
 // Class definition
-var KTFormsGoogleRecaptchaDemos = function () {
+var MVFormsGoogleRecaptchaDemos = function () {
     // Private functions
     var example = function (element) {
-        document.querySelector("#kt_form_submit_button").addEventListener("click", function (e) {
+        document.querySelector("#mv_form_submit_button").addEventListener("click", function (e) {
             e.preventDefault();
 
             grecaptcha.ready(function () {
@@ -26,6 +26,6 @@ var KTFormsGoogleRecaptchaDemos = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTFormsGoogleRecaptchaDemos.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVFormsGoogleRecaptchaDemos.init();
 });

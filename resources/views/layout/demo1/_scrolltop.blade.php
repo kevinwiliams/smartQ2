@@ -1,5 +1,5 @@
 <!--begin::Scrolltop-->
-<div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
+<div id="mv_scrolltop" class="scrolltop" data-mv-scrolltop="true">
     {!! theme()->getSvgIcon("icons/duotune/arrows/arr066.svg") !!}
 </div>
 <!--end::Scrolltop-->

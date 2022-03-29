@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTDatatablesServerSide = function () {
+var MVDatatablesServerSide = function () {
     // Shared variables
     var table;
     var dt;
@@ -9,7 +9,7 @@ var KTDatatablesServerSide = function () {
 
     // Private functions
     var initDatatable = function () {
-        dt = $("#kt_datatable_example_1").DataTable({
+        dt = $("#mv_datatable_example_1").DataTable({
             searchDelay: 500,
             processing: true,
             serverSide: true,
@@ -56,7 +56,7 @@ var KTDatatablesServerSide = function () {
                     className: 'text-end',
                     render: function (data, type, row) {
                         return `
-                            <a href="#" class="btn btn-light btn-active-light-primary btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                            <a href="#" class="btn btn-light btn-active-light-primary btn-sm" data-mv-menu-trigger="click" data-mv-menu-placement="bottom-end" data-mv-menu-flip="top-end">
                                 Actions
                                 <span class="svg-icon svg-icon-5 m-0">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -68,10 +68,10 @@ var KTDatatablesServerSide = function () {
                                 </span>
                             </a>
                             <!--begin::Menu-->
-                            <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4" data-kt-menu="true">
+                            <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4" data-mv-menu="true">
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="#" class="menu-link px-3" data-kt-docs-table-filter="edit_row">
+                                    <a href="#" class="menu-link px-3" data-mv-docs-table-filter="edit_row">
                                         Edit
                                     </a>
                                 </div>
@@ -79,7 +79,7 @@ var KTDatatablesServerSide = function () {
                                 
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="#" class="menu-link px-3" data-kt-docs-table-filter="delete_row">
+                                    <a href="#" class="menu-link px-3" data-mv-docs-table-filter="delete_row">
                                         Delete
                                     </a>
                                 </div>
@@ -103,13 +103,13 @@ var KTDatatablesServerSide = function () {
             initToggleToolbar();
             toggleToolbars();
             handleDeleteRows();
-            KTMenu.createInstances();
+            MVMenu.createInstances();
         });
     }
 
     // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
     var handleSearchDatatable = function () {
-        const filterSearch = document.querySelector('[data-kt-docs-table-filter="search"]');
+        const filterSearch = document.querySelector('[data-mv-docs-table-filter="search"]');
         filterSearch.addEventListener('keyup', function (e) {
             dt.search(e.target.value).draw();
         });
@@ -118,8 +118,8 @@ var KTDatatablesServerSide = function () {
     // Filter Datatable
     var handleFilterDatatable = () => {
         // Select filter options
-        filterPayment = document.querySelectorAll('[data-kt-docs-table-filter="payment_type"] [name="payment_type"]');
-        const filterButton = document.querySelector('[data-kt-docs-table-filter="filter"]');
+        filterPayment = document.querySelectorAll('[data-mv-docs-table-filter="payment_type"] [name="payment_type"]');
+        const filterButton = document.querySelector('[data-mv-docs-table-filter="filter"]');
 
         // Filter datatable on submit
         filterButton.addEventListener('click', function () {
@@ -146,7 +146,7 @@ var KTDatatablesServerSide = function () {
     // Delete customer
     var handleDeleteRows = () => {
         // Select all delete buttons
-        const deleteButtons = document.querySelectorAll('[data-kt-docs-table-filter="delete_row"]');
+        const deleteButtons = document.querySelectorAll('[data-mv-docs-table-filter="delete_row"]');
 
         deleteButtons.forEach(d => {
             // Delete button on click
@@ -213,7 +213,7 @@ var KTDatatablesServerSide = function () {
     // Reset Filter
     var handleResetForm = () => {
         // Select reset button
-        const resetButton = document.querySelector('[data-kt-docs-table-filter="reset"]');
+        const resetButton = document.querySelector('[data-mv-docs-table-filter="reset"]');
 
         // Reset datatable
         resetButton.addEventListener('click', function () {
@@ -229,11 +229,11 @@ var KTDatatablesServerSide = function () {
     var initToggleToolbar = function () {
         // Toggle selected action toolbar
         // Select all checkboxes
-        const container = document.querySelector('#kt_datatable_example_1');
+        const container = document.querySelector('#mv_datatable_example_1');
         const checkboxes = container.querySelectorAll('[type="checkbox"]');
 
         // Select elements
-        const deleteSelected = document.querySelector('[data-kt-docs-table-select="delete_selected"]');
+        const deleteSelected = document.querySelector('[data-mv-docs-table-select="delete_selected"]');
 
         // Toggle delete selected toolbar
         checkboxes.forEach(c => {
@@ -305,10 +305,10 @@ var KTDatatablesServerSide = function () {
     // Toggle toolbars
     var toggleToolbars = function () {
         // Define variables
-        const container = document.querySelector('#kt_datatable_example_1');
-        const toolbarBase = document.querySelector('[data-kt-docs-table-toolbar="base"]');
-        const toolbarSelected = document.querySelector('[data-kt-docs-table-toolbar="selected"]');
-        const selectedCount = document.querySelector('[data-kt-docs-table-select="selected_count"]');
+        const container = document.querySelector('#mv_datatable_example_1');
+        const toolbarBase = document.querySelector('[data-mv-docs-table-toolbar="base"]');
+        const toolbarSelected = document.querySelector('[data-mv-docs-table-toolbar="selected"]');
+        const selectedCount = document.querySelector('[data-mv-docs-table-select="selected_count"]');
 
         // Select refreshed checkbox DOM elements 
         const allCheckboxes = container.querySelectorAll('tbody [type="checkbox"]');
@@ -350,6 +350,6 @@ var KTDatatablesServerSide = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTDatatablesServerSide.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVDatatablesServerSide.init();
 });

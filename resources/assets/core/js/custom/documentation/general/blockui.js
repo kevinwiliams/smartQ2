@@ -1,13 +1,13 @@
 "use strict";
 
 // Class definition
-var KTGeneralBlockUI = function() {
+var MVGeneralBlockUI = function() {
     // Private functions
     var example1 = function() {
-        var button = document.querySelector("#kt_block_ui_1_button");
-        var target = document.querySelector("#kt_block_ui_1_target");
+        var button = document.querySelector("#mv_block_ui_1_button");
+        var target = document.querySelector("#mv_block_ui_1_target");
 
-        var blockUI = new KTBlockUI(target);
+        var blockUI = new MVBlockUI(target);
 
         button.addEventListener("click", function() {
             if (blockUI.isBlocked()) {
@@ -21,10 +21,10 @@ var KTGeneralBlockUI = function() {
     }
 
     var example2 = function() {
-        var button = document.querySelector("#kt_block_ui_2_button");
-        var target = document.querySelector("#kt_block_ui_2_target");
+        var button = document.querySelector("#mv_block_ui_2_button");
+        var target = document.querySelector("#mv_block_ui_2_target");
 
-        var blockUI = new KTBlockUI(target, {
+        var blockUI = new MVBlockUI(target, {
             message: '<div class="blockui-message"><span class="spinner-border text-primary"></span> Loading...</div>',
         });
 
@@ -40,10 +40,10 @@ var KTGeneralBlockUI = function() {
     }
 
     var example3 = function() {
-        var button = document.querySelector("#kt_block_ui_3_button");
-        var target = document.querySelector("#kt_block_ui_3_target");
+        var button = document.querySelector("#mv_block_ui_3_button");
+        var target = document.querySelector("#mv_block_ui_3_target");
 
-        var blockUI = new KTBlockUI(target, {
+        var blockUI = new MVBlockUI(target, {
             overlayClass: 'bg-danger bg-opacity-25',
         });
 
@@ -59,10 +59,10 @@ var KTGeneralBlockUI = function() {
     }
 
     var example4 = function() {
-        var button = document.querySelector("#kt_block_ui_4_button");
-        var target = document.querySelector("#kt_block_ui_4_target");
+        var button = document.querySelector("#mv_block_ui_4_button");
+        var target = document.querySelector("#mv_block_ui_4_target");
 
-        var blockUI = new KTBlockUI(target);
+        var blockUI = new MVBlockUI(target);
 
         button.addEventListener("click", function(e) {
             e.preventDefault();
@@ -76,9 +76,9 @@ var KTGeneralBlockUI = function() {
     }
 
     var example5 = function() {
-        var button = document.querySelector("#kt_block_ui_5_button");
+        var button = document.querySelector("#mv_block_ui_5_button");
 
-        var blockUI = new KTBlockUI(document.body);
+        var blockUI = new MVBlockUI(document.body);
 
         button.addEventListener("click", function(e) {
             e.preventDefault();
@@ -104,6 +104,6 @@ var KTGeneralBlockUI = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTGeneralBlockUI.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVGeneralBlockUI.init();
 });

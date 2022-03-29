@@ -15,7 +15,7 @@
 
         <div class="card-toolbar">
             <!--begin::Menu-->
-            <button type="button" class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+            <button type="button" class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary" data-mv-menu-trigger="click" data-mv-menu-placement="bottom-end">
                 {!! theme()->getSvgIcon("icons/duotune/general/gen024.svg", "svg-icon-2") !!}
             </button>
             {{ theme()->getView('partials/menus/_menu-3') }}
@@ -27,7 +27,7 @@
     <!--begin::Body-->
     <div class="card-body d-flex flex-column">
         <!--begin::Chart-->
-        <div class="mixed-widget-5-chart card-rounded-top" data-kt-chart-color="{{ $chartColor }}" data-kt-chart-url="{{ route('profits') }}" style="height: {{ $chartHeight }}"></div>
+        <div class="mixed-widget-5-chart card-rounded-top" data-mv-chart-color="{{ $chartColor }}" data-mv-chart-url="{{ route('profits') }}" style="height: {{ $chartHeight }}"></div>
         <!--end::Chart-->
 
         <!--begin::Items-->
@@ -102,7 +102,7 @@
                     <div class="py-1">
                         <a href="#" class="fs-6 text-gray-800 text-hover-primary fw-bolder">Top Engagement</a>
 
-                        <div class="fs-7 text-muted fw-bold mt-1">KT.com</div>
+                        <div class="fs-7 text-muted fw-bold mt-1">MV.com</div>
                     </div>
                     <!--end::Title-->
                 </div>

@@ -1,5 +1,5 @@
 <!--begin::Empty-->
-<div data-kt-search-element="empty" class="text-center d-none">
+<div data-mv-search-element="empty" class="text-center d-none">
     <!--begin::Icon-->
     <div class="pt-10 pb-10">
         {!! theme()->getSvgIcon("icons/duotune/files/fil024.svg", "svg-icon-4x opacity-50") !!}

@@ -1,12 +1,12 @@
 <script>
 // Class definition
-var KTTokenActions = function () {
+var MVTokenActions = function () {
 
 
 var handleDeleteRows = () => {
  
     var _table = document.querySelector('#token-table');
-    const deleteButtons = _table.querySelectorAll('[data-kt-token-table-filter="delete_row"]');
+    const deleteButtons = _table.querySelectorAll('[data-mv-token-table-filter="delete_row"]');
     // console.log(deleteButtons);
     
     deleteButtons.forEach(d => {
@@ -93,7 +93,7 @@ var handleDeleteRows = () => {
 var handleCompleteRows = () => {
  
     var _table = document.querySelector('#token-table');
-    const completeButtons = _table.querySelectorAll('[data-kt-token-table-filter="complete_row"]');
+    const completeButtons = _table.querySelectorAll('[data-mv-token-table-filter="complete_row"]');
     // console.log(completeButtons);
     
     completeButtons.forEach(d => {
@@ -180,7 +180,7 @@ var handleCompleteRows = () => {
 var handleCancelRows = () => {
  
     var _table = document.querySelector('#token-table');
-    const cancelButtons = _table.querySelectorAll('[data-kt-token-table-filter="cancel_row"]');
+    const cancelButtons = _table.querySelectorAll('[data-mv-token-table-filter="cancel_row"]');
     // console.log(cancelButtons);
     
     cancelButtons.forEach(d => {
@@ -267,7 +267,7 @@ var handleCancelRows = () => {
 var handleCheckInRows = () => {
  
     var _table = document.querySelector('#token-table');
-    const checkInButtons = _table.querySelectorAll('[data-kt-token-table-filter="checkin_row"]');
+    const checkInButtons = _table.querySelectorAll('[data-mv-token-table-filter="checkin_row"]');
     // console.log(checkInButtons);
     
     checkInButtons.forEach(d => {
@@ -354,7 +354,7 @@ var handleCheckInRows = () => {
 var handleRecallRows = () => {
  
     var _table = document.querySelector('#token-table');
-    const recallButtons = _table.querySelectorAll('[data-kt-token-table-filter="recall_row"]');
+    const recallButtons = _table.querySelectorAll('[data-mv-token-table-filter="recall_row"]');
     // console.log(recallButtons);
     
     recallButtons.forEach(d => {
@@ -484,7 +484,7 @@ var handleTransferRows = () => {
     });
 
     var _table = document.querySelector('#token-table');
-    const transferButtons = _table.querySelectorAll('[data-kt-token-table-filter="transfer_row"]');
+    const transferButtons = _table.querySelectorAll('[data-mv-token-table-filter="transfer_row"]');
     // console.log(transferButtons);
     
     transferButtons.forEach(d => {
@@ -554,10 +554,10 @@ return {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
+MVUtil.onDOMContentLoaded(function () {
 
 setTimeout(() => {
-    //KTTokenActions.init();
+    //MVTokenActions.init();
     
 }, 1000);
 });

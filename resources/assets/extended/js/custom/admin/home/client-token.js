@@ -3,7 +3,7 @@
 const { default: Swal } = require("sweetalert2");
 
 // Class definition
-var KTCreateToken = function () {
+var MVCreateToken = function () {
 	// Elements
 	var modal;	
 	var modalEl;
@@ -25,10 +25,10 @@ var KTCreateToken = function () {
             "mask" : "(999) 999-9999",        
         }).mask("[name='phone']");
 		// Initialize Stepper
-		stepperObj = new KTStepper(stepper);
+		stepperObj = new MVStepper(stepper);
 
 		// Stepper change event
-		stepperObj.on('kt.stepper.changed', function (stepper) {
+		stepperObj.on('mv.stepper.changed', function (stepper) {
 			if (stepperObj.getCurrentStepIndex() === 4) {
 				formSubmitButton.classList.remove('d-none');
 				formSubmitButton.classList.add('d-inline-block');
@@ -44,7 +44,7 @@ var KTCreateToken = function () {
 		});
 
 		// Validation before going to next page
-		stepperObj.on('kt.stepper.next', function (stepper) {
+		stepperObj.on('mv.stepper.next', function (stepper) {
 			console.log('stepper.next', stepper.getCurrentStepIndex());
 
             
@@ -71,8 +71,8 @@ var KTCreateToken = function () {
                             }).then(function (value) {
                                 if(value.isConfirmed) {
                                     var dept = $('input[name=department_id]:checked').val();
-                                    const element = document.getElementById('kt_create_token_stepper');
-                                    const form = element.querySelector('#kt_create_token_form');
+                                    const element = document.getElementById('mv_create_token_stepper');
+                                    const form = element.querySelector('#mv_create_token_form');
                                     
                                     //alert(dept);
                                     $.ajax({
@@ -89,8 +89,8 @@ var KTCreateToken = function () {
                                                 $("#tkn_position").text(msg);
                                                 $("#tkn_number").text(data.token.token_no);
                                                 stepper.goNext();
-                                                KTUtil.scrollTop();
-                                                $('[data-kt-stepper-action="previous"]').addClass('disabled');
+                                                MVUtil.scrollTop();
+                                                $('[data-mv-stepper-action="previous"]').addClass('disabled');
 
                                             }
                                                                      
@@ -100,7 +100,7 @@ var KTCreateToken = function () {
                             });
                         }else{
                             stepper.goNext();
-						    KTUtil.scrollTop();
+						    MVUtil.scrollTop();
                         }
 
 
@@ -115,23 +115,23 @@ var KTCreateToken = function () {
 								confirmButton: "btn btn-light"
 							}
 						}).then(function () {
-							KTUtil.scrollTop();
+							MVUtil.scrollTop();
 						});
 					}
 				});
 			} else {
 				stepper.goNext();
 
-				KTUtil.scrollTop();
+				MVUtil.scrollTop();
 			}
 		});
 
 		// Prev event
-		stepperObj.on('kt.stepper.previous', function (stepper) {
+		stepperObj.on('mv.stepper.previous', function (stepper) {
 			console.log('stepper.previous');
 
 			stepper.goPrevious();
-			KTUtil.scrollTop();
+			MVUtil.scrollTop();
 		});
 	}
 
@@ -345,10 +345,10 @@ var KTCreateToken = function () {
 			// Elements
 					
 
-			stepper = document.querySelector('#kt_create_token_stepper');
-			form = stepper.querySelector('#kt_create_token_form');
-			formSubmitButton = stepper.querySelector('[data-kt-stepper-action="submit"]');
-			formContinueButton = stepper.querySelector('[data-kt-stepper-action="next"]');
+			stepper = document.querySelector('#mv_create_token_stepper');
+			form = stepper.querySelector('#mv_create_token_form');
+			formSubmitButton = stepper.querySelector('[data-mv-stepper-action="submit"]');
+			formContinueButton = stepper.querySelector('[data-mv-stepper-action="next"]');
 
 			initStepper();
 			initValidation();
@@ -358,6 +358,6 @@ var KTCreateToken = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTCreateToken.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVCreateToken.init();
 });

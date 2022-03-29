@@ -80,7 +80,7 @@
                                 <!--begin::Number-->
                                 <div class="d-flex align-items-center">
                                     {!! theme()->getSvgIcon("icons/duotune/arrows/arr066.svg", "svg-icon-3 svg-icon-success me-2") !!}
-                                    <div class="fs-2 fw-bolder" data-kt-countup="true" data-kt-countup-value="4500" data-kt-countup-prefix="$">0</div>
+                                    <div class="fs-2 fw-bolder" data-mv-countup="true" data-mv-countup-value="4500" data-mv-countup-prefix="$">0</div>
                                 </div>
                                 <!--end::Number-->
 
@@ -95,7 +95,7 @@
                                 <!--begin::Number-->
                                 <div class="d-flex align-items-center">
                                     {!! theme()->getSvgIcon("icons/duotune/arrows/arr065.svg", "svg-icon-3 svg-icon-danger me-2") !!}
-                                    <div class="fs-2 fw-bolder" data-kt-countup="true" data-kt-countup-value="75">0</div>
+                                    <div class="fs-2 fw-bolder" data-mv-countup="true" data-mv-countup-value="75">0</div>
                                 </div>
                                 <!--end::Number-->
 
@@ -110,7 +110,7 @@
                                 <!--begin::Number-->
                                 <div class="d-flex align-items-center">
                                     {!! theme()->getSvgIcon("icons/duotune/arrows/arr066.svg", "svg-icon-3 svg-icon-success me-2") !!}
-                                    <div class="fs-2 fw-bolder" data-kt-countup="true" data-kt-countup-value="60" data-kt-countup-prefix="%">0</div>
+                                    <div class="fs-2 fw-bolder" data-mv-countup="true" data-mv-countup-value="60" data-mv-countup-prefix="%">0</div>
                                 </div>
                                 <!--end::Number-->
 

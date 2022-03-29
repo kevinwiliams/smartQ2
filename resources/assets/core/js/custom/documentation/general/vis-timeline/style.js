@@ -2,10 +2,10 @@
 
 
 // Class definition
-var KTVisTimelineStyle = function () {
+var MVVisTimelineStyle = function () {
     // Private functions
     var exampleStyle = function () {
-        var container = document.getElementById("kt_docs_vistimeline_style");
+        var container = document.getElementById("mv_docs_vistimeline_style");
 
         // Generate HTML content
         const getContent = (title, img) => {
@@ -84,6 +84,6 @@ var KTVisTimelineStyle = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTVisTimelineStyle.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVVisTimelineStyle.init();
 });

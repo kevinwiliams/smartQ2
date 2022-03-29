@@ -1,11 +1,11 @@
 "use strict";
 
 // Class definition
-var KTVisTimelineBasic = function () {
+var MVVisTimelineBasic = function () {
     // Private functions
     var exampleBasic = function () {
         // DOM element where the Timeline will be attached
-        var container = document.getElementById("kt_docs_vistimeline_basic");
+        var container = document.getElementById("mv_docs_vistimeline_basic");
 
         // Create a DataSet (allows two way data-binding)
         var items = new vis.DataSet([
@@ -33,6 +33,6 @@ var KTVisTimelineBasic = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTVisTimelineBasic.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVVisTimelineBasic.init();
 });

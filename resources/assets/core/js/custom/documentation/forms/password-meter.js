@@ -1,15 +1,15 @@
 "use strict";
 
 // Class definition
-var KTGeneralPasswordMeterDemos = function() {
+var MVGeneralPasswordMeterDemos = function() {
     // Private functions
     var _showScore = function() {
         // Select show score button
-        const showScoreButton = document.getElementById('kt_password_meter_example_show_score');  
+        const showScoreButton = document.getElementById('mv_password_meter_example_show_score');  
 
         // Get password meter instance
-        const passwordMeterElement = document.querySelector("#kt_password_meter_example");
-        const passwordMeter = KTPasswordMeter.getInstance(passwordMeterElement);
+        const passwordMeterElement = document.querySelector("#mv_password_meter_example");
+        const passwordMeter = MVPasswordMeter.getInstance(passwordMeterElement);
 
         // Handle show score button click
         showScoreButton.addEventListener('click', e => {
@@ -38,6 +38,6 @@ var KTGeneralPasswordMeterDemos = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTGeneralPasswordMeterDemos.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVGeneralPasswordMeterDemos.init();
 });

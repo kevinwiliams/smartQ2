@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTVisTimelineTemplate = function () {
+var MVVisTimelineTemplate = function () {
     // Template data --- handlebars is used as the template for this demo. For more info: https://handlebarsjs.com/
     const data = `<table class="score">
         <tr>
@@ -43,7 +43,7 @@ var KTVisTimelineTemplate = function () {
         var template = Handlebars.compile(data);
 
         // DOM element where the Timeline will be attached
-        var container = document.getElementById("kt_docs_vistimeline_template");
+        var container = document.getElementById("mv_docs_vistimeline_template");
 
         // Create a DataSet (allows two way data-binding)
         var items = new vis.DataSet([
@@ -225,6 +225,6 @@ var KTVisTimelineTemplate = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTVisTimelineTemplate.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVVisTimelineTemplate.init();
 });

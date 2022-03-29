@@ -1,7 +1,7 @@
 <!--begin::Sign-in Method-->
 <div class="card {{ $class ?? '' }}" {{ util()->putHtmlAttributes(array('id' => $id ?? '')) }}>
     <!--begin::Card header-->
-    <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_signin_method">
+    <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#mv_account_signin_method">
         <div class="card-title m-0">
             <h3 class="fw-bolder m-0">{{ __('Sign-in Method') }}</h3>
         </div>
@@ -9,22 +9,22 @@
     <!--end::Card header-->
 
     <!--begin::Content-->
-    <div id="kt_account_signin_method" class="collapse show">
+    <div id="mv_account_signin_method" class="collapse show">
         <!--begin::Card body-->
         <div class="card-body border-top p-9">
             <!--begin::Email Address-->
             <div class="d-flex flex-wrap align-items-center">
                 <!--begin::Label-->
-                <div id="kt_signin_email">
+                <div id="mv_signin_email">
                     <div class="fs-6 fw-bolder mb-1">{{ __('Email Address') }}</div>
                     <div class="fw-bold text-gray-600">{{ auth()->user()->email }}</div>
                 </div>
                 <!--end::Label-->
 
                 <!--begin::Edit-->
-                <div id="kt_signin_email_edit" class="flex-row-fluid d-none">
+                <div id="mv_signin_email_edit" class="flex-row-fluid d-none">
                     <!--begin::Form-->
-                    <form id="kt_signin_change_email" class="form" novalidate="novalidate" method="POST" action="{{ route('settings.changeEmail') }}">
+                    <form id="mv_signin_change_email" class="form" novalidate="novalidate" method="POST" action="{{ route('settings.changeEmail') }}">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="current_email" value="{{ auth()->user()->email }} "/>
@@ -43,10 +43,10 @@
                             </div>
                         </div>
                         <div class="d-flex">
-                            <button id="kt_signin_submit" type="button" class="btn btn-primary  me-2 px-6">
+                            <button id="mv_signin_submit" type="button" class="btn btn-primary  me-2 px-6">
                                 @include('partials.general._button-indicator', ['label' => __('Update Email')])
                             </button>
-                            <button id="kt_signin_cancel" type="button" class="btn btn-color-gray-400 btn-active-light-primary px-6">{{ __('Cancel') }}</button>
+                            <button id="mv_signin_cancel" type="button" class="btn btn-color-gray-400 btn-active-light-primary px-6">{{ __('Cancel') }}</button>
                         </div>
                     </form>
                     <!--end::Form-->
@@ -54,7 +54,7 @@
                 <!--end::Edit-->
 
                 <!--begin::Action-->
-                <div id="kt_signin_email_button" class="ms-auto">
+                <div id="mv_signin_email_button" class="ms-auto">
                     <button class="btn btn-light btn-active-light-primary">{{ __('Change Email') }}</button>
                 </div>
                 <!--end::Action-->
@@ -68,16 +68,16 @@
             <!--begin::Password-->
             <div class="d-flex flex-wrap align-items-center mb-10">
                 <!--begin::Label-->
-                <div id="kt_signin_password">
+                <div id="mv_signin_password">
                     <div class="fs-6 fw-bolder mb-1">{{ __('Password') }}</div>
                     <div class="fw-bold text-gray-600">************</div>
                 </div>
                 <!--end::Label-->
 
                 <!--begin::Edit-->
-                <div id="kt_signin_password_edit" class="flex-row-fluid d-none">
+                <div id="mv_signin_password_edit" class="flex-row-fluid d-none">
                     <!--begin::Form-->
-                    <form id="kt_signin_change_password" class="form" novalidate="novalidate" method="POST" action="{{ route('settings.changePassword') }}">
+                    <form id="mv_signin_change_password" class="form" novalidate="novalidate" method="POST" action="{{ route('settings.changePassword') }}">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="current_email" value="{{ auth()->user()->email }} "/>
@@ -107,10 +107,10 @@
                         <div class="form-text mb-5">{{ __('Password must be at least 8 character and contain symbols') }}</div>
 
                         <div class="d-flex">
-                            <button id="kt_password_submit" type="button" class="btn btn-primary me-2 px-6">
+                            <button id="mv_password_submit" type="button" class="btn btn-primary me-2 px-6">
                                 @include('partials.general._button-indicator', ['label' => __('Update Password')])
                             </button>
-                            <button id="kt_password_cancel" type="button" class="btn btn-color-gray-400 btn-active-light-primary px-6">{{ __('Cancel') }}</button>
+                            <button id="mv_password_cancel" type="button" class="btn btn-color-gray-400 btn-active-light-primary px-6">{{ __('Cancel') }}</button>
                         </div>
                     </form>
                     <!--end::Form-->
@@ -118,7 +118,7 @@
                 <!--end::Edit-->
 
                 <!--begin::Action-->
-                <div id="kt_signin_password_button" class="ms-auto">
+                <div id="mv_signin_password_button" class="ms-auto">
                     <button class="btn btn-light btn-active-light-primary">{{ __('Reset Password') }}</button>
                 </div>
                 <!--end::Action-->

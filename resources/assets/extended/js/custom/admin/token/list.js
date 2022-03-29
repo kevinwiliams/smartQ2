@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTActiveTokensList = function () {
+var MVActiveTokensList = function () {
     // Shared variables
     var datatable;
     var table;
@@ -28,7 +28,7 @@ var KTActiveTokensList = function () {
 }
     // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
     var handleSearchDatatable = () => {
-        const filterSearch = document.querySelector('[data-kt-token-table-filter="search"]');
+        const filterSearch = document.querySelector('[data-mv-token-table-filter="search"]');
         // console.log(filterSearch);
     //datatable = $(table).DataTable();  
         filterSearch.addEventListener('keyup', function (e) {
@@ -39,7 +39,7 @@ var KTActiveTokensList = function () {
     // Delete user
     var handleDeleteRows = () => {
         // Select all delete buttons
-        const deleteButtons = table.querySelectorAll('[data-kt-token-table-filter="delete_row"]');
+        const deleteButtons = table.querySelectorAll('[data-mv-token-table-filter="delete_row"]');
 
         deleteButtons.forEach(d => {
             // Delete button on click
@@ -112,6 +112,6 @@ var KTActiveTokensList = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTActiveTokensList.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVActiveTokensList.init();
 });

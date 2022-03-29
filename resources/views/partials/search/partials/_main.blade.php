@@ -39,7 +39,7 @@
     );
 ?>
 <!--begin::Recently viewed-->
-<div class="mb-4" data-kt-search-element="main">
+<div class="mb-4" data-mv-search-element="main">
     <!--begin::Heading-->
     <div class="d-flex flex-stack fw-bold mb-4">
         <!--begin::Label-->

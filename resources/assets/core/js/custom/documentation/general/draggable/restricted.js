@@ -1,11 +1,11 @@
 "use strict";
 
 // Class definition
-var KTDraggableRestricted = function () {
+var MVDraggableRestricted = function () {
     // Private functions
     var exampleRestricted = function () {
         var containers = document.querySelectorAll('.draggable-zone');
-        const restrcitedWrapper = document.querySelector('[data-kt-draggable-level="restricted"]');
+        const restrcitedWrapper = document.querySelector('[data-mv-draggable-level="restricted"]');
 
         if (containers.length === 0) {
             return false;
@@ -27,12 +27,12 @@ var KTDraggableRestricted = function () {
 
         // Handle drag start event -- more info: https://shopify.github.io/draggable/docs/class/src/Draggable/DragEvent/DragEvent.js~DragEvent.html
         droppable.on('drag:start', (e) => {
-            droppableOrigin = e.originalSource.getAttribute('data-kt-draggable-level');
+            droppableOrigin = e.originalSource.getAttribute('data-mv-draggable-level');
         });
 
         // Handle drag over event -- more info: https://shopify.github.io/draggable/docs/class/src/Draggable/DragEvent/DragEvent.js~DragOverEvent.html
         droppable.on('drag:over', (e) => {
-            const isRestricted = e.overContainer.closest('[data-kt-draggable-level="restricted"]');
+            const isRestricted = e.overContainer.closest('[data-mv-draggable-level="restricted"]');
             if (isRestricted) {
                 if (droppableOrigin !== 'admin') {
                     restrcitedWrapper.classList.add('bg-light-danger');
@@ -57,7 +57,7 @@ var KTDraggableRestricted = function () {
 
         // Handle drop event -- https://shopify.github.io/draggable/docs/class/src/Droppable/DroppableEvent/DroppableEvent.js~DroppableDroppedEvent.html
         droppable.on('droppable:dropped', (e) => {
-            const isRestricted = e.dropzone.closest('[data-kt-draggable-level="restricted"]');
+            const isRestricted = e.dropzone.closest('[data-mv-draggable-level="restricted"]');
             // Detect if drop container is restricted
             if (isRestricted) {
                 // Check if dragged element has permission level
@@ -78,6 +78,6 @@ var KTDraggableRestricted = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTDraggableRestricted.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVDraggableRestricted.init();
 });

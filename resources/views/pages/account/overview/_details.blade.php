@@ -1,5 +1,5 @@
 <!--begin::details View-->
-<div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
+<div class="card mb-5 mb-xl-10" id="mv_profile_details_view">
     <!--begin::Card header-->
     <div class="card-header cursor-pointer">
         <!--begin::Card title-->

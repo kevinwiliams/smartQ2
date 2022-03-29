@@ -33,7 +33,7 @@ body {
 		}
 
 		// Aside default enabled, aside fixed and aside minimize modes
-		.aside-enabled.aside-fixed[data-kt-aside-minimize="on"] & {
+		.aside-enabled.aside-fixed[data-mv-aside-minimize="on"] & {
 			transition: padding-left get($aside-config, transition-speed) ease;
 			padding-left: get($aside-config, minimized-width);
 		}
@@ -45,7 +45,7 @@ body {
 
 		// Fixed header & fixed toolbar modes
 		.header-fixed.toolbar-fixed & {
-			padding-top: calc(#{get($header-config, fixed, height, desktop)} + var(--kt-toolbar-height));
+			padding-top: calc(#{get($header-config, fixed, height, desktop)} + var(--mv-toolbar-height));
 		}
 	}
 }
@@ -69,7 +69,7 @@ body {
 
 		// Fixed header & fixed toolbar modes
 		.header-tablet-and-mobile-fixed.toolbar-tablet-and-mobile-fixed & {
-			padding-top: calc(#{get($header-config, fixed, height, tablet-and-mobile)} + var(--kt-toolbar-height-tablet-and-mobile));
+			padding-top: calc(#{get($header-config, fixed, height, tablet-and-mobile)} + var(--mv-toolbar-height-tablet-and-mobile));
 		}
 	}
 }

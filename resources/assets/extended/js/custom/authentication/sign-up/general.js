@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTSignupGeneral = function () {
+var MVSignupGeneral = function () {
     // Elements
     var form;
     var submitButton;
@@ -99,7 +99,7 @@ var KTSignupGeneral = function () {
             validator.validate().then(function (status) {
                 if (status === 'Valid') {
                     // Show loading indication
-                    submitButton.setAttribute('data-kt-indicator', 'on');
+                    submitButton.setAttribute('data-mv-indicator', 'on');
 
                     // Disable button to avoid multiple click
                     submitButton.disabled = true;
@@ -148,7 +148,7 @@ var KTSignupGeneral = function () {
                         .then(function () {
                             // always executed
                             // Hide loading indication
-                            submitButton.removeAttribute('data-kt-indicator');
+                            submitButton.removeAttribute('data-mv-indicator');
 
                             // Enable button
                             submitButton.disabled = false;
@@ -185,9 +185,9 @@ var KTSignupGeneral = function () {
     return {
         // Initialization
         init: function () {
-            form = document.querySelector('#kt_sign_up_form');
-            submitButton = document.querySelector('#kt_sign_up_submit');
-            passwordMeter = KTPasswordMeter.getInstance(form.querySelector('[data-kt-password-meter="true"]'));
+            form = document.querySelector('#mv_sign_up_form');
+            submitButton = document.querySelector('#mv_sign_up_submit');
+            passwordMeter = MVPasswordMeter.getInstance(form.querySelector('[data-mv-password-meter="true"]'));
 
             handleForm();
         }
@@ -195,6 +195,6 @@ var KTSignupGeneral = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTSignupGeneral.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVSignupGeneral.init();
 });
