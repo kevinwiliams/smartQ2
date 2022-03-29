@@ -41,7 +41,7 @@
     @endif
 
     <!--begin::Breadcrumb-->
-        <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+        <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1 d-none">
         @foreach ($breadcrumb as $item)
             <!--begin::Item-->
                 @if ( $item['active'] === true )
