@@ -26,27 +26,27 @@
                 <!--begin::Input group-->
                 <div class="mb-10">
                     <label class="form-label fs-6 fw-bold">Status:</label>
-                    {{ Form::select('status', ["'0'"=>trans("app.pending"), '1'=>trans("app.complete"), '2'=>trans("app.stop"), '3'=>"Booked"],  null,  ['id'=> 'status', 'data-placeholder' => trans("app.status"), 'placeholder' => trans("app.status"), 'data-kt-report-table-filter' => 'status', 'data-control' => 'select2', 'class'=>'form-select form-select-solid form-select-sm fw-bold filter']) }} 
+                    {{ Form::select('report_status', ["'0'"=>trans("app.pending"), '1'=>trans("app.complete"), '2'=>trans("app.stop"), '3'=>"Booked"],  null,  ['id'=> 'status', 'data-placeholder' => trans("app.status"), 'placeholder' => trans("app.status"), 'data-kt-report-table-filter' => 'status', 'data-control' => 'select2', 'class'=>'form-select form-select-solid form-select-sm fw-bold filter']) }} 
                 </div>
                 <!--end::Input group-->
                 <!--begin::Input group-->
                 <div class="mb-10">
                     <label class="form-label fs-6 fw-bold">Department:</label>
-                    {{ Form::select('department_id', $departments, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-kt-report-table-filter' => 'departments' ,'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-sm fw-bold filter']) }}
+                    {{ Form::select('report_department_id', $departments, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-kt-report-table-filter' => 'departments' ,'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-sm fw-bold filter']) }}
 
                 </div>
                 <!--end::Input group-->
                 <!--begin::Input group-->
                 <div class="mb-10">
                     <label class="form-label fs-6 fw-bold">Counter:</label>
-                    {{ Form::select('counter_id', $counters, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-kt-report-table-filter' => 'counters', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-sm fw-bold filter']) }}
+                    {{ Form::select('report_counter_id', $counters, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-kt-report-table-filter' => 'counters', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-sm fw-bold filter']) }}
 
                 </div>
                 <!--end::Input group-->
                 <!--begin::Input group-->
                 <div class="mb-10">
                     <label class="form-label fs-6 fw-bold">Officers:</label>
-                    {{ Form::select('user_id', $officers, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-kt-report-table-filter' => 'officers', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-sm fw-bold filter']) }}
+                    {{ Form::select('report_user_id', $officers, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-kt-report-table-filter' => 'officers', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-sm fw-bold filter']) }}
                 </div>
                 <!--end::Input group-->
                 <!--begin::Input group-->

@@ -26,6 +26,8 @@
             <input type="hidden" name="departmentID">
             <input type="hidden" name="counterID">
             <input type="hidden" name="officerID">
+            <input type="hidden" name="isVIP">
+            <input type="hidden" name="cNotes">
                 <div class="px-7 py-5">
                     <!--begin::Input group-->
                     <div class="fv-row mb-7">
@@ -57,6 +59,25 @@
                         </div> 
                     </div>
                     <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="fv-row mb-7">
+                        <div class="form-group">
+                            <label class="form-check form-switch form-check-custom form-check-solid" for="is_vip">
+                            <input class="form-check-input" type="checkbox" value="1" name="is_vip" id="is_vip">
+                            <span class="form-check-label fw-bold"> {{ trans('app.is_vip') }}</span>
+                        </div>
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="fv-row mb-7">
+                        <div class="form-group">
+                            <label class="fs-6 fw-bold form-label mb-2" for="note">
+                                <span class="form-check-label fw-bold"> Add a note</span>
+                            </label>
+                            <textarea class="form-control " placeholder="Enter a note" name="note" id="note"></textarea>
+                        </div>
+                    </div>
+					<!--end::Input group-->
                 </div>
             </div>
             <!--end::Modal body-->

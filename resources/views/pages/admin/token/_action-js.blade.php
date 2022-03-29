@@ -137,7 +137,12 @@
 
                 $('select[name=user_id]').val($('input[name=officerID]').val());
                 $('select[name=user_id]').trigger('change');
-                //alert($('select[name=department_id]').val());
+
+                $('[name=is_vip]').prop('checked', $('input[name=isVIP]').val());
+                // optional
+                $('[name=is_vip]').prop('disabled', ($('input[name=isVIP]').val() == 1) ? true : false);
+                
+                $('[name=note]').val($('input[name=cNotes]').val());
             }, 500);
             
 

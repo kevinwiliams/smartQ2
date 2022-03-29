@@ -491,8 +491,6 @@ var handleTransferRows = () => {
         // Delete button on click
         d.addEventListener('click', function (e) {
             e.preventDefault();
-            // $('[name=department_id]').val("0");
-            // alert(window.location.pathname);
             // Select parent row
             const parent = e.target.closest('tr');
             if(parent.querySelectorAll('input[name=dept]').length)
@@ -518,19 +516,23 @@ var handleTransferRows = () => {
             // alert(deptID);
             // Get token name
             const tokenNo = parent.querySelectorAll('td')[1].innerText;
-            if(parent.querySelectorAll('input[name=token-id]').length)
+            // console.log(tokenNo);
+            if(parent.querySelectorAll('input[name=token-id]').length){
                 var tokenID =  parent.querySelectorAll('input[name=token-id]')[0].value;
-            else
+                var isVIP = parent.querySelectorAll('input[name=token-id]')[0].getAttribute('data-vip');
+                var note =  parent.querySelectorAll('input[name=notes]')[0].getAttribute('value');
+            } else {
                 var tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
-
-            // console.log(tokenID);
-
+                var isVIP = parent.querySelectorAll('td')[1].querySelectorAll('.badge')[0].getAttribute('data-vip');
+                var note = parent.querySelectorAll('td')[1].querySelectorAll('[name=notes]')[0].getAttribute('value');
+            }
            
-            // alert(tokenID);
             $("input[name=id]").val(tokenID);
             $("input[name=departmentID]").val(deptID);
             $("input[name=counterID]").val(counterID);
             $("input[name=officerID]").val(officerID);
+            $("input[name=isVIP").val(isVIP);
+            $("input[name=cNotes").val(note);
             
         })
     });
