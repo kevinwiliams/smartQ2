@@ -176,9 +176,9 @@
                                 </h2>
                                 <!--end::Title-->
                                 <!--begin::Notice-->
-                                <div class="text-muted fw-bold fs-6">If you need more info, please check out
+                                {{-- <div class="text-muted fw-bold fs-6">If you need more info, please check out
                                     <a href="#" class="link-primary fw-bolder">Help Page</a>.
-                                </div>
+                                </div> --}}
                                 <!--end::Notice-->
                             </div>
                             <!--end::Heading-->
@@ -192,9 +192,27 @@
                                         <!--begin::Input group-->
                                         <div class="mb-0 fv-row">
                                             <!--begin::Label-->
-                                            <label class="d-flex align-items-center form-label mb-5">Select a department you wish to visit
-                                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Monthly billing will be based on your account plan"></i></label>
-                                            <!--end::Label-->
+                                            {{-- <label class="d-flex align-items-center form-label mb-5">Select a department you wish to visit
+                                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Select a department below to automate the queue"></i></label>
+                                            <!--end::Label--> --}}
+                                            <div class="d-flex align-items-center bg-light-info rounded p-5 mb-7">
+                                                <!--begin::Icon-->
+                                                <span class="svg-icon svg-icon-info me-5">
+                                                    <!--begin::Svg Icon | path: assets/media/icons/duotune/abstract/abs027.svg-->
+                                                    {!! theme()->getSvgIcon("icons/duotune/abstract/abs027.svg", "svg-icon-1") !!}
+                                                    <!--end::Svg Icon-->
+                                                </span>
+                                                <!--end::Icon-->
+                                
+                                                <!--begin::Title-->
+                                                <div class="flex-grow-1 me-2">
+                                                    <a href="#" class="fw-bolder text-gray-800 text-hover-warning fs-6">Potential wait time</a>
+                                                    <span id="span_wait" class="text-muted fw-bold d-block"></span>
+                                                </div>
+                                                <!--end::Title-->
+                                
+                                               
+                                            </div>
                                             <!--begin::Options-->
                                             <div class="mb-0">
                                                 @if (!empty($departments))
@@ -229,8 +247,8 @@
                                                 <!--end::Option-->
                                                 @endforeach
                                                 @endif
-                                                <span>Potential wait time <i class="fa fa-clock"></i>&nbsp;<span id="span_wait"></span></span>
-
+                                                {{-- <span>Potential wait time <i class="fa fa-clock"></i>&nbsp;<span id="span_wait"></span></span> --}}
+                                                
                                             </div>
                                             <!--end::Options-->
                                         </div>
