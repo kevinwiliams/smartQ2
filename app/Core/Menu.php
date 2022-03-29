@@ -134,9 +134,9 @@ class Menu {
             }
 
             // Add special attribute for links to pro pages
-            if (Theme::isFreeVersion() === true && Theme::isProPage($item['path']) === true) {
-                $attributes['data-kt-page'] = 'pro';
-            }
+            // if (Theme::isFreeVersion() === true && Theme::isProPage($item['path']) === true) {
+            //     $attributes['data-mv-page'] = 'pro';
+            // }
         } else {
             $tag = 'span';
         }
@@ -203,11 +203,11 @@ class Menu {
             }
 
             // Append pro badge
-			if (Theme::isFreeVersion()) {
-				if ((isset($item['path']) && Theme::isProPage($item['path']) === true) || (isset($item['pro']) && $item['pro'] === true)) {
-					echo '<span class="badge badge-pro badge-light-danger fw-bold fs-9 px-2 py-1 ms-1">Pro</span>';
-				}
-			}
+			// if (Theme::isFreeVersion()) {
+			// 	if ((isset($item['path']) && Theme::isProPage($item['path']) === true) || (isset($item['pro']) && $item['pro'] === true)) {
+			// 		echo '<span class="badge badge-pro badge-light-danger fw-bold fs-9 px-2 py-1 ms-1">Pro</span>';
+			// 	}
+			// }
         }
 
         echo '</span>';

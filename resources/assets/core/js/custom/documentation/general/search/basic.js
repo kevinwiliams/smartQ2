@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTGeneralSearchBasicDemos = function() {
+var MVGeneralSearchBasicDemos = function() {
     // Private variables
     var element;
     var suggestionsElement;
@@ -15,7 +15,7 @@ var KTGeneralSearchBasicDemos = function() {
     // Private functions
     var processs = function(search) {
         var timeout = setTimeout(function() {
-            var number = KTUtil.getRandomInt(1, 6);
+            var number = MVUtil.getRandomInt(1, 6);
 
             // Hide recently viewed
             suggestionsElement.classList.add('d-none');
@@ -50,28 +50,28 @@ var KTGeneralSearchBasicDemos = function() {
 	return {
 		init: function() {
             // Elements
-            element = document.querySelector('#kt_docs_search_handler_basic');
+            element = document.querySelector('#mv_docs_search_handler_basic');
 
             if (!element) {
                 return;
             }
 
-            wrapperElement = element.querySelector('[data-kt-search-element="wrapper"]');
-            suggestionsElement = element.querySelector('[data-kt-search-element="suggestions"]');
-            resultsElement = element.querySelector('[data-kt-search-element="results"]');
-            emptyElement = element.querySelector('[data-kt-search-element="empty"]');
+            wrapperElement = element.querySelector('[data-mv-search-element="wrapper"]');
+            suggestionsElement = element.querySelector('[data-mv-search-element="suggestions"]');
+            resultsElement = element.querySelector('[data-mv-search-element="results"]');
+            emptyElement = element.querySelector('[data-mv-search-element="empty"]');
             
             // Initialize search handler
-            searchObject = new KTSearch(element);
+            searchObject = new MVSearch(element);
 
             // Search handler
-            searchObject.on('kt.search.process', processs);
+            searchObject.on('mv.search.process', processs);
 
             // Clear handler
-            searchObject.on('kt.search.clear', clear);
+            searchObject.on('mv.search.clear', clear);
 
             // Handle select
-            KTUtil.on(element, '[data-kt-search-element="customer"]', 'click', function() {
+            MVUtil.on(element, '[data-mv-search-element="customer"]', 'click', function() {
                 //modal.hide();
             });
 		}
@@ -79,6 +79,6 @@ var KTGeneralSearchBasicDemos = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTGeneralSearchBasicDemos.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVGeneralSearchBasicDemos.init();
 });

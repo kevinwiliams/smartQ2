@@ -209,15 +209,15 @@
         <div class="card-toolbar">
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link btn btn-sm btn-color-muted btn-active btn-active-light-primary active fw-bolder px-4 me-1" data-bs-toggle="tab" href="#kt_table_widget_7_tab_1">Month</a>
+                    <a class="nav-link btn btn-sm btn-color-muted btn-active btn-active-light-primary active fw-bolder px-4 me-1" data-bs-toggle="tab" href="#mv_table_widget_7_tab_1">Month</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link btn btn-sm btn-color-muted btn-active btn-active-light-primary fw-bolder px-4 me-1" data-bs-toggle="tab" href="#kt_table_widget_7_tab_2">Week</a>
+                    <a class="nav-link btn btn-sm btn-color-muted btn-active btn-active-light-primary fw-bolder px-4 me-1" data-bs-toggle="tab" href="#mv_table_widget_7_tab_2">Week</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link btn btn-sm btn-color-muted btn-active btn-active-light-primary fw-bolder px-4" data-bs-toggle="tab" href="#kt_table_widget_7_tab_3">Day</a>
+                    <a class="nav-link btn btn-sm btn-color-muted btn-active btn-active-light-primary fw-bolder px-4" data-bs-toggle="tab" href="#mv_table_widget_7_tab_3">Day</a>
                 </li>
             </ul>
         </div>
@@ -234,7 +234,7 @@
                 ?>
 
                 <!--begin::Tap pane-->
-                <div class="tab-pane fade {{ $activeClass }}" id="kt_table_widget_7_tab_{{ $loopIndex }}">
+                <div class="tab-pane fade {{ $activeClass }}" id="mv_table_widget_7_tab_{{ $loopIndex }}">
                     <!--begin::Table container-->
                     <div class="table-responsive">
                         <!--begin::Table-->

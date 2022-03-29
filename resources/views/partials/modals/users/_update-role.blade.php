@@ -1,4 +1,4 @@
-<div class="modal fade" id="kt_modal_update_role" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="mv_modal_update_role" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered mw-650px">
         <!--begin::Modal content-->
@@ -9,7 +9,7 @@
                 <h2 class="fw-bolder">Update User Role</h2>
                 <!--end::Modal title-->
                 <!--begin::Close-->
-                <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
+                <div class="btn btn-icon btn-sm btn-active-icon-primary" data-mv-users-modal-action="close">
                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                     <span class="svg-icon svg-icon-1">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -25,7 +25,7 @@
             <!--begin::Modal body-->
             <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
                 <!--begin::Form-->
-                {{ Form::open(['url' => 'apps/user-management/users/assign-role', 'class'=>'transferFrm', 'id'=>'kt_modal_update_role_form']) }}
+                {{ Form::open(['url' => 'apps/user-management/users/assign-role', 'class'=>'transferFrm', 'id'=>'mv_modal_update_role_form']) }}
                 <form id="" class="form" action="#">
                     <!--begin::Notice-->
                     <!--begin::Notice-->
@@ -75,10 +75,10 @@
                             <!--begin::Radio-->
                             <div class="form-check form-check-custom form-check-solid">
                                 <!--begin::Input-->
-                                <input class="form-check-input me-3" name="user_role" type="radio" value="{{ $_role->id }}" id="kt_modal_update_role_option_{{ $_role->id }}" {{ ($_role->name == $rolename)?'checked="checked"':''}} />
+                                <input class="form-check-input me-3" name="user_role" type="radio" value="{{ $_role->id }}" id="mv_modal_update_role_option_{{ $_role->id }}" {{ ($_role->name == $rolename)?'checked="checked"':''}} />
                                 <!--end::Input-->
                                 <!--begin::Label-->
-                                <label class="form-check-label" for="kt_modal_update_role_option_{{ $_role->id }}">
+                                <label class="form-check-label" for="mv_modal_update_role_option_{{ $_role->id }}">
                                     <div class="fw-bolder text-gray-800">{{ ucwords($_role->name) }}</div>
                                     <div class="text-gray-600">{{ $_role->description }}</div>
                                 </label>
@@ -99,8 +99,8 @@
             <!--end::Input group-->
             <!--begin::Actions-->
             <div class="text-center pt-15">
-                <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
-                <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
+                <button type="reset" class="btn btn-light me-3" data-mv-users-modal-action="cancel">Discard</button>
+                <button type="submit" class="btn btn-primary" data-mv-users-modal-action="submit">
                     <span class="indicator-label">Submit</span>
                     <span class="indicator-progress">Please wait...
                         <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>

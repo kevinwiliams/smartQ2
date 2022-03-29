@@ -1,17 +1,17 @@
-<div class="modal fade" id="kt_modal_update_details" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="mv_modal_update_details" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered mw-650px">
         <!--begin::Modal content-->
         <div class="modal-content">
             <!--begin::Form-->
-            {{ Form::open(['url' => 'apps/user-management/users/update/', 'class'=>'transferFrm', 'id'=>'kt_modal_update_user_form', 'enctype'=>'multipart/form-data']) }}            
+            {{ Form::open(['url' => 'apps/user-management/users/update/', 'class'=>'transferFrm', 'id'=>'mv_modal_update_user_form', 'enctype'=>'multipart/form-data']) }}            
                 <!--begin::Modal header-->
-                <div class="modal-header" id="kt_modal_update_user_header">
+                <div class="modal-header" id="mv_modal_update_user_header">
                     <!--begin::Modal title-->
                     <h2 class="fw-bolder">Update User Details</h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
-                    <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
+                    <div class="btn btn-icon btn-sm btn-active-icon-primary" data-mv-users-modal-action="close">
                         <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                         <span class="svg-icon svg-icon-1">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -27,9 +27,9 @@
                 <!--begin::Modal body-->
                 <div class="modal-body py-10 px-lg-17">
                     <!--begin::Scroll-->
-                    <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_update_user_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_update_user_header" data-kt-scroll-wrappers="#kt_modal_update_user_scroll" data-kt-scroll-offset="300px">
+                    <div class="d-flex flex-column scroll-y me-n7 pe-7" id="mv_modal_update_user_scroll" data-mv-scroll="true" data-mv-scroll-activate="{default: false, lg: true}" data-mv-scroll-max-height="auto" data-mv-scroll-dependencies="#mv_modal_update_user_header" data-mv-scroll-wrappers="#mv_modal_update_user_scroll" data-mv-scroll-offset="300px">
                         <!--begin::User toggle-->
-                        <div class="fw-boldest fs-3 rotate collapsible mb-7" data-bs-toggle="collapse" href="#kt_modal_update_user_user_info" role="button" aria-expanded="false" aria-controls="kt_modal_update_user_user_info">User Information
+                        <div class="fw-boldest fs-3 rotate collapsible mb-7" data-bs-toggle="collapse" href="#mv_modal_update_user_user_info" role="button" aria-expanded="false" aria-controls="mv_modal_update_user_user_info">User Information
                             <span class="ms-2 rotate-180">
                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
                                 <span class="svg-icon svg-icon-3">
@@ -42,7 +42,7 @@
                         </div>
                         <!--end::User toggle-->
                         <!--begin::User form-->
-                        <div id="kt_modal_update_user_user_info" class="collapse show">
+                        <div id="mv_modal_update_user_user_info" class="collapse show">
                             <!--begin::Input group-->
                             <div class="mb-7">
                                 <!--begin::Label-->
@@ -54,12 +54,12 @@
                                 <!--begin::Image input wrapper-->
                                 <div class="mt-1">
                                     <!--begin::Image input-->
-                                    <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url('assets/media/svg/avatars/blank.svg')">
+                                    <div class="image-input image-input-outline" data-mv-image-input="true" style="background-image: url('assets/media/svg/avatars/blank.svg')">
                                         <!--begin::Preview existing avatar-->
                                         <div class="image-input-wrapper w-125px h-125px" style="background-image: url('{{ $user->avatar_url }}')"></div>
                                         <!--end::Preview existing avatar-->
                                         <!--begin::Edit-->
-                                        <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
+                                        <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-mv-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
                                             <i class="bi bi-pencil-fill fs-7"></i>
                                             <!--begin::Inputs-->
                                             <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
@@ -68,12 +68,12 @@
                                         </label>
                                         <!--end::Edit-->
                                         <!--begin::Cancel-->
-                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel avatar">
+                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-mv-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel avatar">
                                             <i class="bi bi-x fs-2"></i>
                                         </span>
                                         <!--end::Cancel-->
                                         <!--begin::Remove-->
-                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
+                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-mv-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
                                             <i class="bi bi-x fs-2"></i>
                                         </span>
                                         <!--end::Remove-->
@@ -140,7 +140,7 @@
                                 <select name="language" aria-label="{{ __('Select a Language') }}" data-placeholder="{{ __('Select a language...') }}" class="form-select form-select-solid form-select-lg" id="ddlLanguage">
                                     <option value="">{{ __('Select a Language...') }}</option>
                                     @foreach(\App\Core\Data::getLanguagesList() as $key => $value)
-                                    <option data-kt-flag="{{ $value['country']['flag'] }}" value="{{ $key }}" {{ ($user->userinfo->language == $key)? 'selected' :''  }}>{{ $value['name'] }}</option>
+                                    <option data-mv-flag="{{ $value['country']['flag'] }}" value="{{ $key }}" {{ ($user->userinfo->language == $key)? 'selected' :''  }}>{{ $value['name'] }}</option>
                                     @endforeach
                                 </select>
                                 <!--end::Input-->
@@ -149,7 +149,7 @@
                         </div>
                         <!--end::User form-->
                         <!--begin::Address toggle-->
-                        <div class="fw-boldest fs-3 rotate collapsible mb-7" data-bs-toggle="collapse" href="#kt_modal_update_user_address" role="button" aria-expanded="false" aria-controls="kt_modal_update_user_address">User Details
+                        <div class="fw-boldest fs-3 rotate collapsible mb-7" data-bs-toggle="collapse" href="#mv_modal_update_user_address" role="button" aria-expanded="false" aria-controls="mv_modal_update_user_address">User Details
                             <span class="ms-2 rotate-180">
                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
                                 <span class="svg-icon svg-icon-3">
@@ -162,7 +162,7 @@
                         </div>
                         <!--end::Address toggle-->
                         <!--begin::Address form-->
-                        <div id="kt_modal_update_user_address" class="collapse show">
+                        <div id="mv_modal_update_user_address" class="collapse show">
                             <!--begin::Input group-->
                             <div class="d-flex flex-column mb-7 fv-row">
                                 <!--begin::Label-->
@@ -205,7 +205,7 @@
                                 <select name="country" aria-label="{{ __('Select a Country') }}" data-placeholder="{{ __('Select a country...') }}" class="form-select form-select-solid form-select-lg fw-bold"  id="ddlCountry">
                                     <option value="">{{ __('Select a Country...') }}</option>
                                     @foreach(\App\Core\Data::getCountriesList() as $key => $value)
-                                    <option data-kt-flag="{{ $value['flag'] }}" value="{{ $key }}" {{ ($user->userinfo->country == $key)? 'selected' :''  }}>{{ $value['name'] }}</option>
+                                    <option data-mv-flag="{{ $value['flag'] }}" value="{{ $key }}" {{ ($user->userinfo->country == $key)? 'selected' :''  }}>{{ $value['name'] }}</option>
                                     @endforeach
                                 </select>
                                 <!--end::Input-->
@@ -220,10 +220,10 @@
                 <!--begin::Modal footer-->
                 <div class="modal-footer flex-center">
                     <!--begin::Button-->
-                    <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
+                    <button type="reset" class="btn btn-light me-3" data-mv-users-modal-action="cancel">Discard</button>
                     <!--end::Button-->
                     <!--begin::Button-->
-                    <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
+                    <button type="submit" class="btn btn-primary" data-mv-users-modal-action="submit">
                         <span class="indicator-label">Submit</span>
                         <span class="indicator-progress">Please wait...
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>

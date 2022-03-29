@@ -1,4 +1,4 @@
-<div class="modal fade" id="kt_modal_edit_counter" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="mv_modal_edit_counter" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered mw-650px">
         <!--begin::Modal content-->
@@ -9,7 +9,7 @@
                 <h2 class="fw-bolder">{{ trans('app.update_counter') }}</h2>
                 <!--end::Modal title-->
                 <!--begin::Close-->
-                <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-counter-edit-modal-action="close">
+                <div class="btn btn-icon btn-sm btn-active-icon-primary" data-mv-counter-edit-modal-action="close">
                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                     {!! theme()->getSvgIcon("icons/duotune/arrows/arr061.svg", "svg-icon-1") !!}
                     <!--end::Svg Icon-->
@@ -21,7 +21,7 @@
             <div class="modal-body scroll-y mx-5 mx-xl-15 my-5">
                 <div id="output" class="hide alert alert-danger alert-dismissible fade in shadowed mb-1"></div>
                 <!--begin::Form-->
-                {{ Form::open(['url' => 'admin/counter/edit', 'class'=>'manualFrm form', 'id'=>'kt_modal_edit_counter_form']) }}
+                {{ Form::open(['url' => 'admin/counter/edit', 'class'=>'manualFrm form', 'id'=>'mv_modal_edit_counter_form']) }}
                     @csrf <!-- {{ csrf_field() }} -->
                     <div class="load_modal"></div>
                     <!--end::Actions-->

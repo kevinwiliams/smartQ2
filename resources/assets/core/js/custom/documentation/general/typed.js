@@ -1,10 +1,10 @@
 "use strict";
 
 // Class definition
-var KTGeneralTypedJsDemos = function() {
+var MVGeneralTypedJsDemos = function() {
     // Private functions
     var exampleBasic = function() {
-        var typed = new Typed("#kt_typedjs_example_1", {
+        var typed = new Typed("#mv_typedjs_example_1", {
             strings: ["First sentence.", "Second sentence.", "Third sentense", "And some longer sentence"],
             typeSpeed: 30
         });
@@ -19,6 +19,6 @@ var KTGeneralTypedJsDemos = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTGeneralTypedJsDemos.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVGeneralTypedJsDemos.init();
 });

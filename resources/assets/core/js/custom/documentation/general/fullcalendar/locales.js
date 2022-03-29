@@ -1,14 +1,14 @@
 "use strict";
 
 // Class definition
-var KTGeneralFullCalendarLocalesDemos = function () {
+var MVGeneralFullCalendarLocalesDemos = function () {
     // Private functions
 
     var examplelocales = function () {
         // Define variables        
         var initialLocaleCode = 'en';
-        var localeSelectorEl = document.getElementById('kt_docs_fullcalendar_locale_selector');
-        var calendarEl = document.getElementById('kt_docs_fullcalendar_locales');
+        var localeSelectorEl = document.getElementById('mv_docs_fullcalendar_locale_selector');
+        var calendarEl = document.getElementById('mv_docs_fullcalendar_locales');
 
         // initialize the calendar -- for more info please visit the official site: https://fullcalendar.io/demos
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -112,6 +112,6 @@ var KTGeneralFullCalendarLocalesDemos = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTGeneralFullCalendarLocalesDemos.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVGeneralFullCalendarLocalesDemos.init();
 });

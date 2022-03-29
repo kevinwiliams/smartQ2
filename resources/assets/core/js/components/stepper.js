@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTStepper = function(element, options) {
+var MVStepper = function(element, options) {
     //////////////////////////////
     // ** Private variables  ** //
     //////////////////////////////
@@ -26,27 +26,27 @@ var KTStepper = function(element, options) {
     ////////////////////////////
 
     var _construct = function() {
-        if ( KTUtil.data(element).has('stepper') === true ) {
-            the = KTUtil.data(element).get('stepper');
+        if ( MVUtil.data(element).has('stepper') === true ) {
+            the = MVUtil.data(element).get('stepper');
         } else {
             _init();
         }
     }
 
     var _init = function() {
-        the.options = KTUtil.deepExtend({}, defaultOptions, options);
-        the.uid = KTUtil.getUniqueId('stepper');
+        the.options = MVUtil.deepExtend({}, defaultOptions, options);
+        the.uid = MVUtil.getUniqueId('stepper');
 
         the.element = element;
 
         // Set initialized
-        the.element.setAttribute('data-kt-stepper', 'true');
+        the.element.setAttribute('data-mv-stepper', 'true');
 
         // Elements
-        the.steps = KTUtil.findAll(the.element, '[data-kt-stepper-element="nav"]');
-        the.btnNext = KTUtil.find(the.element, '[data-kt-stepper-action="next"]');
-        the.btnPrevious = KTUtil.find(the.element, '[data-kt-stepper-action="previous"]');
-        the.btnSubmit = KTUtil.find(the.element, '[data-kt-stepper-action="submit"]');
+        the.steps = MVUtil.findAll(the.element, '[data-mv-stepper-element="nav"]');
+        the.btnNext = MVUtil.find(the.element, '[data-mv-stepper-action="next"]');
+        the.btnPrevious = MVUtil.find(the.element, '[data-mv-stepper-action="previous"]');
+        the.btnSubmit = MVUtil.find(the.element, '[data-mv-stepper-action="submit"]');
 
         // Variables
         the.totalStepsNumber = the.steps.length;
@@ -60,19 +60,19 @@ var KTStepper = function(element, options) {
         }
 
         // Event Handlers
-        KTUtil.addEvent(the.btnNext, 'click', function(e) {
+        MVUtil.addEvent(the.btnNext, 'click', function(e) {
             e.preventDefault();
 
-            KTEventHandler.trigger(the.element, 'kt.stepper.next', the);
+            MVEventHandler.trigger(the.element, 'mv.stepper.next', the);
         });
 
-        KTUtil.addEvent(the.btnPrevious, 'click', function(e) {
+        MVUtil.addEvent(the.btnPrevious, 'click', function(e) {
             e.preventDefault();
 
-            KTEventHandler.trigger(the.element, 'kt.stepper.previous', the);
+            MVEventHandler.trigger(the.element, 'mv.stepper.previous', the);
         });
 
-        KTUtil.on(the.element, '[data-kt-stepper-action="step"]', 'click', function(e) {
+        MVUtil.on(the.element, '[data-mv-stepper-action="step"]', 'click', function(e) {
             e.preventDefault();
 
             if ( the.steps && the.steps.length > 0 ) {
@@ -80,7 +80,7 @@ var KTStepper = function(element, options) {
                     if ( the.steps[i] === this ) {
                         the.clickedStepIndex = i + 1;
 
-                        KTEventHandler.trigger(the.element, 'kt.stepper.click', the);
+                        MVEventHandler.trigger(the.element, 'mv.stepper.click', the);
 
                         return;
                     }
@@ -89,12 +89,12 @@ var KTStepper = function(element, options) {
         });
 
         // Bind Instance
-        KTUtil.data(the.element).set('stepper', the);
+        MVUtil.data(the.element).set('stepper', the);
     }
 
     var _goTo = function(index) {
         // Trigger "change" event
-        KTEventHandler.trigger(the.element, 'kt.stepper.change', the);
+        MVEventHandler.trigger(the.element, 'mv.stepper.change', the);
 
         // Skip if this step is already shown
         if ( index === the.currentStepIndex || index > the.totalStepsNumber || index < 0 ) {
@@ -112,7 +112,7 @@ var KTStepper = function(element, options) {
         _refreshUI();
 
         // Trigger "changed" event
-        KTEventHandler.trigger(the.element, 'kt.stepper.changed', the);
+        MVEventHandler.trigger(the.element, 'mv.stepper.changed', the);
 
         return the;
     }
@@ -145,38 +145,38 @@ var KTStepper = function(element, options) {
         }
 
         // Set state class
-        KTUtil.removeClass(the.element, 'last');
-        KTUtil.removeClass(the.element, 'first');
-        KTUtil.removeClass(the.element, 'between');
+        MVUtil.removeClass(the.element, 'last');
+        MVUtil.removeClass(the.element, 'first');
+        MVUtil.removeClass(the.element, 'between');
 
-        KTUtil.addClass(the.element, state);
+        MVUtil.addClass(the.element, state);
 
         // Step Items
-        var elements = KTUtil.findAll(the.element, '[data-kt-stepper-element="nav"], [data-kt-stepper-element="content"], [data-kt-stepper-element="info"]');
+        var elements = MVUtil.findAll(the.element, '[data-mv-stepper-element="nav"], [data-mv-stepper-element="content"], [data-mv-stepper-element="info"]');
 
         if ( elements && elements.length > 0 ) {
             for (var i = 0, len = elements.length; i < len; i++) {
                 var element = elements[i];
-                var index = KTUtil.index(element) + 1;
+                var index = MVUtil.index(element) + 1;
 
-                KTUtil.removeClass(element, 'current');
-                KTUtil.removeClass(element, 'completed');
-                KTUtil.removeClass(element, 'pending');
+                MVUtil.removeClass(element, 'current');
+                MVUtil.removeClass(element, 'completed');
+                MVUtil.removeClass(element, 'pending');
 
                 if ( index == the.currentStepIndex ) {
-                    KTUtil.addClass(element, 'current');
+                    MVUtil.addClass(element, 'current');
 
-                    if ( the.options.animation !== false && element.getAttribute('data-kt-stepper-element') == 'content' ) {
-                        KTUtil.css(element, 'animationDuration', the.options.animationSpeed);
+                    if ( the.options.animation !== false && element.getAttribute('data-mv-stepper-element') == 'content' ) {
+                        MVUtil.css(element, 'animationDuration', the.options.animationSpeed);
 
                         var animation = _getStepDirection(the.passedStepIndex) === 'previous' ?  the.options.animationPreviousClass : the.options.animationNextClass;
-                        KTUtil.animateClass(element, animation);
+                        MVUtil.animateClass(element, animation);
                     }
                 } else {
                     if ( index < the.currentStepIndex ) {
-                        KTUtil.addClass(element, 'completed');
+                        MVUtil.addClass(element, 'completed');
                     } else {
-                        KTUtil.addClass(element, 'pending');
+                        MVUtil.addClass(element, 'pending');
                     }
                 }
             }
@@ -232,7 +232,7 @@ var KTStepper = function(element, options) {
     }
 
     var _getStepContent = function(index) {
-        var content = KTUtil.findAll(the.element, '[data-kt-stepper-element="content"]');
+        var content = MVUtil.findAll(the.element, '[data-mv-stepper-element="content"]');
 
         if ( content[index-1] ) {
             return content[index-1];
@@ -242,7 +242,7 @@ var KTStepper = function(element, options) {
     }
 
     var _destroy = function() {
-        KTUtil.data(the.element).remove('stepper');
+        MVUtil.data(the.element).remove('stepper');
     }
 
     // Construct Class
@@ -303,26 +303,26 @@ var KTStepper = function(element, options) {
 
     // Event API
     the.on = function(name, handler) {
-        return KTEventHandler.on(the.element, name, handler);
+        return MVEventHandler.on(the.element, name, handler);
     }
 
     the.one = function(name, handler) {
-        return KTEventHandler.one(the.element, name, handler);
+        return MVEventHandler.one(the.element, name, handler);
     }
 
     the.off = function(name) {
-        return KTEventHandler.off(the.element, name);
+        return MVEventHandler.off(the.element, name);
     }
 
     the.trigger = function(name, event) {
-        return KTEventHandler.trigger(the.element, name, event, the, event);
+        return MVEventHandler.trigger(the.element, name, event, the, event);
     }
 };
 
 // Static methods
-KTStepper.getInstance = function(element) {
-    if ( element !== null && KTUtil.data(element).has('stepper') ) {
-        return KTUtil.data(element).get('stepper');
+MVStepper.getInstance = function(element) {
+    if ( element !== null && MVUtil.data(element).has('stepper') ) {
+        return MVUtil.data(element).get('stepper');
     } else {
         return null;
     }
@@ -330,5 +330,5 @@ KTStepper.getInstance = function(element) {
 
 // Webpack support
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    module.exports = KTStepper;
+    module.exports = MVStepper;
 }

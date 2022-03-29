@@ -1,5 +1,5 @@
 	<!--begin::Modal - Update role-->
-	<div class="modal fade" id="kt_modal_update_role" tabindex="-1" aria-hidden="true">
+	<div class="modal fade" id="mv_modal_update_role" tabindex="-1" aria-hidden="true">
 		<!--begin::Modal dialog-->
 		<div class="modal-dialog modal-dialog-centered mw-750px">
 			<!--begin::Modal content-->
@@ -10,7 +10,7 @@
 					<h2 class="fw-bolder">Update Role</h2>
 					<!--end::Modal title-->
 					<!--begin::Close-->
-					<div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-roles-modal-action="close">
+					<div class="btn btn-icon btn-sm btn-active-icon-primary" data-mv-roles-modal-action="close">
 						<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
 						{!! theme()->getSvgIcon("icons/duotune/arrows/arr061.svg", "svg-icon-1") !!}
 						<!--end::Svg Icon-->
@@ -21,10 +21,10 @@
 				<!--begin::Modal body-->
 				<div class="modal-body scroll-y mx-5 my-7">
 					<!--begin::Form-->
-					{{ Form::open(['url' => 'apps/user-management/roles/update/', 'class'=>'manualFrm form', 'id'=>'kt_modal_update_role_form']) }}
+					{{ Form::open(['url' => 'apps/user-management/roles/update/', 'class'=>'manualFrm form', 'id'=>'mv_modal_update_role_form']) }}
 					@csrf
 					<!--begin::Scroll-->
-					<div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_update_role_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_update_role_header" data-kt-scroll-wrappers="#kt_modal_update_role_scroll" data-kt-scroll-offset="300px">
+					<div class="d-flex flex-column scroll-y me-n7 pe-7" id="mv_modal_update_role_scroll" data-mv-scroll="true" data-mv-scroll-activate="{default: false, lg: true}" data-mv-scroll-max-height="auto" data-mv-scroll-dependencies="#mv_modal_update_role_header" data-mv-scroll-wrappers="#mv_modal_update_role_scroll" data-mv-scroll-offset="300px">
 						<!--begin::Input group-->
 						<div class="fv-row mb-10">
 							<!--begin::Label-->
@@ -64,8 +64,8 @@
 						<div class="fv-row mb-7">
 							<!--begin::Checkbox-->
 							<label class="form-check form-check-custom form-check-solid me-9">
-								<input class="form-check-input" type="checkbox" value="1" name="role_core" id="kt_update_roles_core" />
-								<span class="form-check-label" for="kt_roles_core">Set as core role</span>
+								<input class="form-check-input" type="checkbox" value="1" name="role_core" id="mv_update_roles_core" />
+								<span class="form-check-label" for="mv_roles_core">Set as core role</span>
 							</label>
 							<!--end::Checkbox-->
 						</div>
@@ -80,8 +80,8 @@
 					<!--end::Scroll-->
 					<!--begin::Actions-->
 					<div class="text-center pt-15">
-						<button type="reset" class="btn btn-light me-3" data-kt-roles-modal-action="cancel">Discard</button>
-						<button type="submit" class="btn btn-primary" data-kt-roles-modal-action="submit">
+						<button type="reset" class="btn btn-light me-3" data-mv-roles-modal-action="cancel">Discard</button>
+						<button type="submit" class="btn btn-primary" data-mv-roles-modal-action="submit">
 							<span class="indicator-label">Submit</span>
 							<span class="indicator-progress">Please wait...
 								<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>

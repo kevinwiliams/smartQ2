@@ -24,7 +24,7 @@
         <!--end::Stats-->
 
         <!--begin::Chart-->
-        <div class="customers-served-chart card-rounded-bottom" data-kt-chart-color="{{ $chartColor }}" data-kt-chart-url="{{ route('profits') }}" style="height: {{ $chartHeight }}"></div>
+        <div class="customers-served-chart card-rounded-bottom" data-mv-chart-color="{{ $chartColor }}" data-mv-chart-url="{{ route('profits') }}" style="height: {{ $chartHeight }}"></div>
         <!--end::Chart-->
     </div>
     <!--end::Body-->

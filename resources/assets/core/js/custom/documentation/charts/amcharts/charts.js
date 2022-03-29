@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTGeneralAmCharts = function () {
+var MVGeneralAmCharts = function () {
     // Shared variable
     var chart;
     const bodyColor = getComputedStyle(document.documentElement).getPropertyValue('--bs-body-color');
@@ -13,7 +13,7 @@ var KTGeneralAmCharts = function () {
         am5.ready(function () {
             // Create root element
             // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-            var root = am5.Root.new("kt_amcharts_1");
+            var root = am5.Root.new("mv_amcharts_1");
 
             // Set themes
             // https://www.amcharts.com/docs/v5/concepts/themes/
@@ -169,7 +169,7 @@ var KTGeneralAmCharts = function () {
 
             // Create root element
             // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-            var root = am5.Root.new("kt_amcharts_2");
+            var root = am5.Root.new("mv_amcharts_2");
 
             // Set themes
             // https://www.amcharts.com/docs/v5/concepts/themes/
@@ -310,7 +310,7 @@ var KTGeneralAmCharts = function () {
         am5.ready(function () {
             // Create root element
             // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-            var root = am5.Root.new("kt_amcharts_3");
+            var root = am5.Root.new("mv_amcharts_3");
 
             // Set themes
             // https://www.amcharts.com/docs/v5/concepts/themes/
@@ -415,7 +415,7 @@ var KTGeneralAmCharts = function () {
         am5.ready(function () {
             // Create root element
             // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-            var root = am5.Root.new("kt_amcharts_4");
+            var root = am5.Root.new("mv_amcharts_4");
 
             // Create custom theme
             // https://www.amcharts.com/docs/v5/concepts/themes/#Quick_custom_theme
@@ -791,7 +791,7 @@ var KTGeneralAmCharts = function () {
         am5.ready(function () {
             // Create root element
             // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-            var root = am5.Root.new("kt_amcharts_5");
+            var root = am5.Root.new("mv_amcharts_5");
 
             // Set themes
             // https://www.amcharts.com/docs/v5/concepts/themes/
@@ -955,6 +955,6 @@ var KTGeneralAmCharts = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTGeneralAmCharts.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVGeneralAmCharts.init();
 });

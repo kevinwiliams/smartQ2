@@ -16,7 +16,7 @@
         {{--begin::Display screens--}}
     <div class="d-flex align-items-center {{ $toolbarButtonMarginClass }}">
         {{--begin::drawer toggle--}}
-        <div class="btn btn-icon btn-active-light-primary {{ $toolbarButtonHeightClass }}" id="kt_activities_toggle">
+        <div class="btn btn-icon btn-active-light-primary {{ $toolbarButtonHeightClass }}" id="mv_activities_toggle">
             {!! theme()->getSvgIcon("icons/duotune/electronics/elc004.svg", $toolbarButtonIconSizeClass) !!}
         </div>
         {{--end::drawer toggle--}}
@@ -28,7 +28,7 @@
     {{--begin::Notifications--}}
     <div class="d-flex align-items-center {{ $toolbarButtonMarginClass }}">
         {{--begin::Menu--}}
-        {{-- <div class="btn btn-icon btn-active-light-primary position-relative {{ $toolbarButtonHeightClass }}" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+        {{-- <div class="btn btn-icon btn-active-light-primary position-relative {{ $toolbarButtonHeightClass }}" data-mv-menu-trigger="click" data-mv-menu-attach="parent" data-mv-menu-placement="bottom-end">
             {!! theme()->getSvgIcon("icons/duotune/communication/com012.svg", $toolbarButtonIconSizeClass) !!}
 
             <span class="bullet bullet-dot bg-success h-6px w-6px position-absolute translate-middle top-0 start-50 animation-blink">
@@ -42,7 +42,7 @@
     {{--begin::Quick links--}}
     <div class="d-flex align-items-center {{ $toolbarButtonMarginClass }}">
         {{--begin::Menu--}}
-        <div class="btn btn-icon btn-active-light-primary {{ $toolbarButtonHeightClass }}" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+        <div class="btn btn-icon btn-active-light-primary {{ $toolbarButtonHeightClass }}" data-mv-menu-trigger="click" data-mv-menu-attach="parent" data-mv-menu-placement="bottom-end">
             {!! theme()->getSvgIcon("icons/duotune/general/gen025.svg", $toolbarButtonIconSizeClass) !!}
         </div>
         {{ theme()->getView('partials/topbar/_quick-links-menu') }}
@@ -52,9 +52,9 @@
 
     {{--begin::User--}}
     @if(Auth::check())
-        <div class="d-flex align-items-center {{ $toolbarButtonMarginClass }}" id="kt_header_user_menu_toggle">
+        <div class="d-flex align-items-center {{ $toolbarButtonMarginClass }}" id="mv_header_user_menu_toggle">
             {{--begin::Menu--}}
-            <div class="cursor-pointer symbol {{ $toolbarUserAvatarHeightClass }}" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+            <div class="cursor-pointer symbol {{ $toolbarUserAvatarHeightClass }}" data-mv-menu-trigger="click" data-mv-menu-attach="parent" data-mv-menu-placement="bottom-end">
                 <img src="{{ auth()->user()->avatarUrl }}" alt="metronic"/>
             </div>
             {{ theme()->getView('partials/topbar/_user-menu') }}
@@ -66,7 +66,7 @@
     {{--begin::Heaeder menu toggle--}}
     @if(theme()->getOption('layout', 'header/left') === 'menu')
         <div class="d-flex align-items-center d-lg-none ms-2 me-n3" data-bs-toggle="tooltip" title="Show header menu">
-            <div class="btn btn-icon btn-active-light-primary" id="kt_header_menu_mobile_toggle">
+            <div class="btn btn-icon btn-active-light-primary" id="mv_header_menu_mobile_toggle">
                 {!! theme()->getSvgIcon("icons/duotune/text/txt001.svg", "svg-icon-1") !!}
             </div>
         </div>

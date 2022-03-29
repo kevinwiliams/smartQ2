@@ -36,8 +36,8 @@
 
 <!--begin::Actions-->
 <div class="text-center pt-15">
-    <button type="reset" class="btn btn-light me-3" data-kt-counter-edit-modal-action="cancel">Discard</button>
-    <button type="submit" class="btn btn-primary" data-kt-counter-edit-modal-action="submit" >
+    <button type="reset" class="btn btn-light me-3" data-mv-counter-edit-modal-action="cancel">Discard</button>
+    <button type="submit" class="btn btn-primary" data-mv-counter-edit-modal-action="submit" >
         <span class="indicator-label">Submit</span>
         <span class="indicator-progress">Please wait...
         <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>

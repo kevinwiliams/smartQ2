@@ -1,7 +1,7 @@
-<div class="modal fade" id="kt_modal_transfer_token" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="mv_modal_transfer_token" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered mw-650px">
-        {{ Form::open(['url' => 'admin/token/transfer', 'class'=>'transferFrm', 'id'=>'kt_modal_transfer_token_form']) }}
+        {{ Form::open(['url' => 'admin/token/transfer', 'class'=>'transferFrm', 'id'=>'mv_modal_transfer_token_form']) }}
         <!--begin::Form-->
         <!--begin::Modal content-->
         <div class="modal-content">
@@ -11,7 +11,7 @@
                 <h2 class="fw-bolder">{{ trans('app.transfer_a_token_to_another_counter') }}</h2>
                 <!--end::Modal title-->
                 <!--begin::Close-->
-                <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-transfer-modal-action="close">
+                <div class="btn btn-icon btn-sm btn-active-icon-primary" data-mv-transfer-modal-action="close">
                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                     {!! theme()->getSvgIcon("icons/duotune/arrows/arr061.svg", "svg-icon-1") !!}
                     <!--end::Svg Icon-->
@@ -26,6 +26,8 @@
             <input type="hidden" name="departmentID">
             <input type="hidden" name="counterID">
             <input type="hidden" name="officerID">
+            <input type="hidden" name="isVIP">
+            <input type="hidden" name="cNotes">
                 <div class="px-7 py-5">
                     <!--begin::Input group-->
                     <div class="fv-row mb-7">
@@ -57,16 +59,35 @@
                         </div> 
                     </div>
                     <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="fv-row mb-7">
+                        <div class="form-group">
+                            <label class="form-check form-switch form-check-custom form-check-solid" for="is_vip">
+                            <input class="form-check-input" type="checkbox" value="1" name="is_vip" id="is_vip">
+                            <span class="form-check-label fw-bold"> {{ trans('app.is_vip') }}</span>
+                        </div>
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="fv-row mb-7">
+                        <div class="form-group">
+                            <label class="fs-6 fw-bold form-label mb-2" for="note">
+                                <span class="form-check-label fw-bold"> Add a note</span>
+                            </label>
+                            <textarea class="form-control " placeholder="Enter a note" name="note" id="note"></textarea>
+                        </div>
+                    </div>
+					<!--end::Input group-->
                 </div>
             </div>
             <!--end::Modal body-->
             <!--begin::Modal footer-->
             <div class="modal-footer flex-center">
                 <!--begin::Button-->
-                <button type="reset" class="btn btn-light me-3" data-kt-transfer-modal-action="cancel">Discard</button>
+                <button type="reset" class="btn btn-light me-3" data-mv-transfer-modal-action="cancel">Discard</button>
                 <!--end::Button-->
                 <!--begin::Button-->
-                <button type="submit" class="btn btn-primary" data-kt-transfer-modal-action="submit">
+                <button type="submit" class="btn btn-primary" data-mv-transfer-modal-action="submit">
                     <span class="indicator-label">{{ trans('app.transfer') }}</span>
                     <span class="indicator-progress">Please wait...
                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>

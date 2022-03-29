@@ -1,4 +1,4 @@
-<div class="modal fade" id="kt_modal_update_password" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="mv_modal_update_password" tabindex="-1" aria-hidden="true">
 		<!--begin::Modal dialog-->
 		<div class="modal-dialog modal-dialog-centered mw-650px">
 			<!--begin::Modal content-->
@@ -9,7 +9,7 @@
 					<h2 class="fw-bolder">Update Password</h2>
 					<!--end::Modal title-->
 					<!--begin::Close-->
-					<div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
+					<div class="btn btn-icon btn-sm btn-active-icon-primary" data-mv-users-modal-action="close">
 						<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
 						<span class="svg-icon svg-icon-1">
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -25,9 +25,9 @@
 				<!--begin::Modal body-->
 				<div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
 					<!--begin::Form-->
-					{{ Form::open(['url' => 'apps/user-management/users/resetpassword/', 'class'=>'transferFrm', 'id'=>'kt_modal_update_password_form']) }}            			
+					{{ Form::open(['url' => 'apps/user-management/users/resetpassword/', 'class'=>'transferFrm', 'id'=>'mv_modal_update_password_form']) }}            			
 						<!--begin::Input group-->
-						<div class="mb-10 fv-row" data-kt-password-meter="true">
+						<div class="mb-10 fv-row" data-mv-password-meter="true">
 							<!--begin::Wrapper-->
 							<div class="mb-1">
 								<!--begin::Label-->
@@ -36,14 +36,14 @@
 								<!--begin::Input wrapper-->
 								<div class="position-relative mb-3">
 									<input class="form-control form-control-lg form-control-solid" type="password" placeholder="" name="password" autocomplete="off" />
-									<span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-kt-password-meter-control="visibility">
+									<span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-mv-password-meter-control="visibility">
 										<i class="bi bi-eye-slash fs-2"></i>
 										<i class="bi bi-eye fs-2 d-none"></i>
 									</span>
 								</div>
 								<!--end::Input wrapper-->
 								<!--begin::Meter-->
-								<div class="d-flex align-items-center mb-3" data-kt-password-meter-control="highlight">
+								<div class="d-flex align-items-center mb-3" data-mv-password-meter-control="highlight">
 									<div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
 									<div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
 									<div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
@@ -65,8 +65,8 @@
 						<!--end::Input group=-->
 						<!--begin::Actions-->
 						<div class="text-center pt-15">
-							<button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
-							<button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
+							<button type="reset" class="btn btn-light me-3" data-mv-users-modal-action="cancel">Discard</button>
+							<button type="submit" class="btn btn-primary" data-mv-users-modal-action="submit">
 								<span class="indicator-label">Submit</span>
 								<span class="indicator-progress">Please wait...
 									<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>

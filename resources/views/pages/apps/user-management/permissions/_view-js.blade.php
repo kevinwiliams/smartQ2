@@ -2,7 +2,7 @@
     "use strict";
 
 // Class definition
-var KTUsersPermissionsList = function () {
+var MVUsersPermissionsList = function () {
     // Shared variables
     var datatable;
     var table;
@@ -29,8 +29,8 @@ var KTUsersPermissionsList = function () {
         }); 
         
         datatable.on('draw', function() {
-            KTMenu.createInstances(); //load action menu options
-            // const deleteButtons = table.querySelectorAll('[data-kt-permissons-table-filter="delete_row"]');
+            MVMenu.createInstances(); //load action menu options
+            // const deleteButtons = table.querySelectorAll('[data-mv-permissons-table-filter="delete_row"]');
             // console.log('delete');
             // console.log(deleteButtons);
         }); 
@@ -38,7 +38,7 @@ var KTUsersPermissionsList = function () {
 
     // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
     var handleSearchDatatable = () => {
-        const filterSearch = document.querySelector('[data-kt-permissions-table-filter="search"]');
+        const filterSearch = document.querySelector('[data-mv-permissions-table-filter="search"]');
         filterSearch.addEventListener('keyup', function (e) {
             var datatable = $('#permissions-table').DataTable();
             datatable.search(e.target.value).draw();
@@ -48,7 +48,7 @@ var KTUsersPermissionsList = function () {
     // Delete user
     var handleDeleteRows = () => {
         // Select all delete buttons
-        const deleteButtons = table.querySelectorAll('[data-kt-permissions-table-filter="delete_row"]');
+        const deleteButtons = table.querySelectorAll('[data-mv-permissions-table-filter="delete_row"]');
         // console.log(deleteButtons);
         deleteButtons.forEach(d => {
             // Delete button on click
@@ -120,8 +120,8 @@ var KTUsersPermissionsList = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    // KTUsersPermissionsList.init();
+MVUtil.onDOMContentLoaded(function () {
+    // MVUsersPermissionsList.init();
 
     
 });

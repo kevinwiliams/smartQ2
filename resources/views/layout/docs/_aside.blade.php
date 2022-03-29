@@ -12,18 +12,18 @@
 
 <!--begin::Aside-->
 <div
-    id="kt_docs_aside"
+    id="mv_docs_aside"
     class="docs-aside"
-    data-kt-drawer="true"
-    data-kt-drawer-name="aside"
-    data-kt-drawer-activate="{default: true, lg: false}"
-    data-kt-drawer-overlay="true"
-    data-kt-drawer-width="{default:'200px', '300px': '250px'}"
-    data-kt-drawer-direction="start"
-    data-kt-drawer-toggle="#kt_docs_aside_toggle">
+    data-mv-drawer="true"
+    data-mv-drawer-name="aside"
+    data-mv-drawer-activate="{default: true, lg: false}"
+    data-mv-drawer-overlay="true"
+    data-mv-drawer-width="{default:'200px', '300px': '250px'}"
+    data-mv-drawer-direction="start"
+    data-mv-drawer-toggle="#mv_docs_aside_toggle">
 
     <!--begin::Logo-->
-    <div class="docs-aside-logo flex-column-auto h-75px" id="kt_docs_aside_logo">
+    <div class="docs-aside-logo flex-column-auto h-75px" id="mv_docs_aside_logo">
         <!--begin::Link-->
         <a href="{{ theme()->getPageUrl('') }}">
             <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . $logoPath) }}" class="{{ theme()->getOption('layout', 'docs/logo-class') }}"/>

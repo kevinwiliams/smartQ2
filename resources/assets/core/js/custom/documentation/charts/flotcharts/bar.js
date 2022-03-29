@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTFlotDemoBar = function () {
+var MVFlotDemoBar = function () {
     // Private functions
     var exampleBar = function () {
         // horizontal bar chart:
@@ -19,7 +19,7 @@ var KTFlotDemoBar = function () {
 		];
 
 		var options = {
-			colors: [KTUtil.getCssVariableValue('--bs-active-primary')],
+			colors: [MVUtil.getCssVariableValue('--bs-active-primary')],
 			series: {
 				bars: {
 					show: true
@@ -33,13 +33,13 @@ var KTFlotDemoBar = function () {
 				align: 'left'
 			},
 			grid: {
-				tickColor: KTUtil.getCssVariableValue('--bs-light-dark'),
-				borderColor: KTUtil.getCssVariableValue('--bs-light-dark'),
+				tickColor: MVUtil.getCssVariableValue('--bs-light-dark'),
+				borderColor: MVUtil.getCssVariableValue('--bs-light-dark'),
 				borderWidth: 1
 			}
 		};
 
-		$.plot($("#kt_docs_flot_bar"), [data1], options);
+		$.plot($("#mv_docs_flot_bar"), [data1], options);
     }
 
     return {
@@ -51,6 +51,6 @@ var KTFlotDemoBar = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTFlotDemoBar.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVFlotDemoBar.init();
 });

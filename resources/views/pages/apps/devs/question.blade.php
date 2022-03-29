@@ -26,7 +26,7 @@
 
             <p>I’ve been doing some ajax request, to populate a inside drawer, the content of that drawer has a sub menu, that you are using in list and all card toolbar.</p>
 
-            <p>But they are not displaying, since it is an ajax, I tried “KTApp.init();” but didn’t work (worked for Tooltips sure, but not Menu).</p>
+            <p>But they are not displaying, since it is an ajax, I tried “MVApp.init();” but didn’t work (worked for Tooltips sure, but not Menu).</p>
 
             <p>Anyway to Re-init those https://ibb.co/gysPGpx Menu. ?</p>
 
@@ -57,7 +57,7 @@
 
             <!--begin::Info-->
             <div class="d-flex align-items-center py-1">
-                <a href="#answers" data-kt-scroll-toggle="true" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2">
+                <a href="#answers" data-mv-scroll-toggle="true" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2">
                     12 Answers
                 </a>
 
@@ -89,23 +89,23 @@
     <!--end::Separator-->
 
     <!--begin:Reply Form-->
-    <form id="kt_devs_reply_form" class="form mb-10" action="#">
+    <form id="mv_devs_reply_form" class="form mb-10" action="#">
         <!--begin::Input group-->
         <div class="form-group mb-2">
-            <textarea name="comment" class="form-control" rows="6" placeholder="Your reply here.." maxlength="1000" data-kt-autosize="true"></textarea>
+            <textarea name="comment" class="form-control" rows="6" placeholder="Your reply here.." maxlength="1000" data-mv-autosize="true"></textarea>
         </div>
         <!--end::Input group-->
 
         <!--begin::Action-->
         <div class="d-flex align-items-center justify-content-between py-2 mb-5">
             <!--begin::Formating toggle-->
-            <div class="text-primary fs-base fw-bold cursor-pointer" data-bs-toggle="collapse" data-bs-target="#kt_devs_ask_formatting">
+            <div class="text-primary fs-base fw-bold cursor-pointer" data-bs-toggle="collapse" data-bs-target="#mv_devs_ask_formatting">
                 Text formatting options
             </div>
             <!--end::Formating toggle-->
 
             <!--begin::Submit-->
-            <button class="btn btn-primary fw-bolder" data-kt-action="submit">Submit</button>
+            <button class="btn btn-primary fw-bolder" data-mv-action="submit">Submit</button>
             <!--end::Submit-->
         </div>
         <!--end::Action-->

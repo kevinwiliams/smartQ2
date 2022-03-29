@@ -1,14 +1,14 @@
 "use strict";
 
 // Class definition
-var KTFormsClipboard = function () {
+var MVFormsClipboard = function () {
     // Shared variables
     var clipboard;
 
     // Private functions
     var example1 = function () {
         // Select elements
-        const target = document.getElementById('kt_clipboard_1');
+        const target = document.getElementById('mv_clipboard_1');
         const button = target.nextElementSibling;
 
         // Init clipboard -- for more info, please read the offical documentation: https://clipboardjs.com/
@@ -40,7 +40,7 @@ var KTFormsClipboard = function () {
 
     var example2 = function () {
         // Select elements
-        const target = document.getElementById('kt_clipboard_2');
+        const target = document.getElementById('mv_clipboard_2');
         const button = target.nextElementSibling;
 
         // Init clipboard -- for more info, please read the offical documentation: https://clipboardjs.com/
@@ -72,7 +72,7 @@ var KTFormsClipboard = function () {
 
     var example3 = function () {
         // Select element
-        const target = document.getElementById('kt_clipboard_3');
+        const target = document.getElementById('mv_clipboard_3');
 
         // Init clipboard -- for more info, please read the offical documentation: https://clipboardjs.com/
         clipboard = new ClipboardJS(target);
@@ -98,7 +98,7 @@ var KTFormsClipboard = function () {
 
     var example4 = function () {
         // Select elements
-        const target = document.getElementById('kt_clipboard_4');
+        const target = document.getElementById('mv_clipboard_4');
         const button = target.nextElementSibling;
 
         // Init clipboard -- for more info, please read the offical documentation: https://clipboardjs.com/
@@ -167,6 +167,6 @@ var KTFormsClipboard = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTFormsClipboard.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVFormsClipboard.init();
 });

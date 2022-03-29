@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTTokenDelCounter = function () {
+var MVTokenDelCounter = function () {
 
 
     var handleDeleteRows = () => {
@@ -10,7 +10,7 @@ var KTTokenDelCounter = function () {
         // console.log(table);
         // var dt = table;
         var _table = document.querySelector('#counter-table');
-        const deleteButtons = _table.querySelectorAll('[data-kt-counter-table-filter="delete_row"]');
+        const deleteButtons = _table.querySelectorAll('[data-mv-counter-table-filter="delete_row"]');
         // console.log(deleteButtons);
         jQuery.noConflict();
         $.noConflict();
@@ -108,12 +108,12 @@ var KTTokenDelCounter = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
+MVUtil.onDOMContentLoaded(function () {
 
     setTimeout(() => {
     // var dt = $('#counter-table').DataTable();
     // console.log(table);
-    KTTokenDelCounter.init();
+    MVTokenDelCounter.init();
         
     }, 1000);
 });

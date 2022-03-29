@@ -1,12 +1,12 @@
 "use strict";
 
 // Class definition
-var KTGeneralFullCalendarDragDemos = function () {
+var MVGeneralFullCalendarDragDemos = function () {
     // Private functions
 
     var exampleDrag = function () {
         // Initialize the external events -- for more info please visit the official site: https://fullcalendar.io/demos
-        var containerEl = document.getElementById('kt_docs_fullcalendar_events_list');
+        var containerEl = document.getElementById('mv_docs_fullcalendar_events_list');
         new FullCalendar.Draggable(containerEl, {
           itemSelector: '.fc-event',
           eventData: function(eventEl) {
@@ -17,7 +17,7 @@ var KTGeneralFullCalendarDragDemos = function () {
         });
     
         // initialize the calendar -- for more info please visit the official site: https://fullcalendar.io/demos
-        var calendarEl = document.getElementById('kt_docs_fullcalendar_drag');
+        var calendarEl = document.getElementById('mv_docs_fullcalendar_drag');
         var calendar = new FullCalendar.Calendar(calendarEl, {
           headerToolbar: {
             left: 'prev,next today',
@@ -47,6 +47,6 @@ var KTGeneralFullCalendarDragDemos = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTGeneralFullCalendarDragDemos.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVGeneralFullCalendarDragDemos.init();
 });

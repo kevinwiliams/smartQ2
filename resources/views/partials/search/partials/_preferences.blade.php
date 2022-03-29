@@ -1,5 +1,5 @@
 <!--begin::Preferences-->
-<form data-kt-search-element="preferences" class="pt-1 d-none">
+<form data-mv-search-element="preferences" class="pt-1 d-none">
     <!--begin::Heading-->
     <h3 class="fw-bold text-dark mb-7">Search Preferences</h3>
     <!--end::Heading-->
@@ -62,7 +62,7 @@
 
     <!--begin::Actions-->
     <div class="d-flex justify-content-end pt-7">
-        <button type="reset" class="btn btn-sm btn-white fw-bolder btn-active-light-primary me-2" data-kt-search-element="preferences-dismiss">Cancel</button>
+        <button type="reset" class="btn btn-sm btn-white fw-bolder btn-active-light-primary me-2" data-mv-search-element="preferences-dismiss">Cancel</button>
         <button type="submit" class="btn btn-sm fw-bolder btn-primary">Save Changes</button>
     </div>
     <!--end::Actions-->

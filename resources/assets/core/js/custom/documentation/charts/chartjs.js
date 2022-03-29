@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTGeneralChartJS = function () {
+var MVGeneralChartJS = function () {
     // Randomizer function
     function getRandom(min = 1, max = 100) {
         return Math.floor(Math.random() * (max - min) + min);
@@ -18,15 +18,15 @@ var KTGeneralChartJS = function () {
     // Private functions
     var example1 = function () {
         // Define chart element
-        var ctx = document.getElementById('kt_chartjs_1');
+        var ctx = document.getElementById('mv_chartjs_1');
 
         // Define colors
-        var primaryColor = KTUtil.getCssVariableValue('--bs-primary');
-        var dangerColor = KTUtil.getCssVariableValue('--bs-danger');
-        var successColor = KTUtil.getCssVariableValue('--bs-success');
+        var primaryColor = MVUtil.getCssVariableValue('--bs-primary');
+        var dangerColor = MVUtil.getCssVariableValue('--bs-danger');
+        var successColor = MVUtil.getCssVariableValue('--bs-success');
 
         // Define fonts
-        var fontFamily = KTUtil.getCssVariableValue('--bs-font-sans-serif');
+        var fontFamily = MVUtil.getCssVariableValue('--bs-font-sans-serif');
 
         // Chart labels
         const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -87,15 +87,15 @@ var KTGeneralChartJS = function () {
 
     var example2 = function () {
         // Define chart element
-        var ctx = document.getElementById('kt_chartjs_2');
+        var ctx = document.getElementById('mv_chartjs_2');
 
         // Define colors
-        var primaryColor = KTUtil.getCssVariableValue('--bs-primary');
-        var dangerColor = KTUtil.getCssVariableValue('--bs-danger');
-        var successColor = KTUtil.getCssVariableValue('--bs-success');
+        var primaryColor = MVUtil.getCssVariableValue('--bs-primary');
+        var dangerColor = MVUtil.getCssVariableValue('--bs-danger');
+        var successColor = MVUtil.getCssVariableValue('--bs-success');
 
         // Define fonts
-        var fontFamily = KTUtil.getCssVariableValue('--bs-font-sans-serif');
+        var fontFamily = MVUtil.getCssVariableValue('--bs-font-sans-serif');
 
         // Chart labels
         const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
@@ -139,14 +139,14 @@ var KTGeneralChartJS = function () {
 
     var example3 = function () {
         // Define chart element
-        var ctx = document.getElementById('kt_chartjs_3');
+        var ctx = document.getElementById('mv_chartjs_3');
 
         // Define colors
-        var primaryColor = KTUtil.getCssVariableValue('--bs-primary');
-        var dangerColor = KTUtil.getCssVariableValue('--bs-danger');
-        var successColor = KTUtil.getCssVariableValue('--bs-success');
-        var warningColor = KTUtil.getCssVariableValue('--bs-warning');
-        var infoColor = KTUtil.getCssVariableValue('--bs-info');
+        var primaryColor = MVUtil.getCssVariableValue('--bs-primary');
+        var dangerColor = MVUtil.getCssVariableValue('--bs-danger');
+        var successColor = MVUtil.getCssVariableValue('--bs-success');
+        var warningColor = MVUtil.getCssVariableValue('--bs-warning');
+        var infoColor = MVUtil.getCssVariableValue('--bs-info');
 
         // Chart labels
         const labels = ['January', 'February', 'March', 'April', 'May'];
@@ -183,15 +183,15 @@ var KTGeneralChartJS = function () {
 
     var example4 = function () {
         // Define chart element
-        var ctx = document.getElementById('kt_chartjs_4');
+        var ctx = document.getElementById('mv_chartjs_4');
 
         // Define colors
-        var primaryColor = KTUtil.getCssVariableValue('--bs-primary');
-        var dangerColor = KTUtil.getCssVariableValue('--bs-danger');
-        var dangerLightColor = KTUtil.getCssVariableValue('--bs-light-danger');
+        var primaryColor = MVUtil.getCssVariableValue('--bs-primary');
+        var dangerColor = MVUtil.getCssVariableValue('--bs-danger');
+        var dangerLightColor = MVUtil.getCssVariableValue('--bs-light-danger');
 
         // Define fonts
-        var fontFamily = KTUtil.getCssVariableValue('--bs-font-sans-serif');
+        var fontFamily = MVUtil.getCssVariableValue('--bs-font-sans-serif');
 
         // Chart labels
         const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -252,18 +252,18 @@ var KTGeneralChartJS = function () {
 
     var example5 = function () {
         // Define chart element
-        var ctx = document.getElementById('kt_chartjs_5');
+        var ctx = document.getElementById('mv_chartjs_5');
 
         // Define colors
-        var infoColor = KTUtil.getCssVariableValue('--bs-info');
-        var infoLightColor = KTUtil.getCssVariableValue('--bs-light-info');
-        var warningColor = KTUtil.getCssVariableValue('--bs-warning');
-        var warningLightColor = KTUtil.getCssVariableValue('--bs-light-warning');
-        var primaryColor = KTUtil.getCssVariableValue('--bs-primary');
-        var primaryLightColor = KTUtil.getCssVariableValue('--bs-light-primary');
+        var infoColor = MVUtil.getCssVariableValue('--bs-info');
+        var infoLightColor = MVUtil.getCssVariableValue('--bs-light-info');
+        var warningColor = MVUtil.getCssVariableValue('--bs-warning');
+        var warningLightColor = MVUtil.getCssVariableValue('--bs-light-warning');
+        var primaryColor = MVUtil.getCssVariableValue('--bs-primary');
+        var primaryLightColor = MVUtil.getCssVariableValue('--bs-light-primary');
 
         // Define fonts
-        var fontFamily = KTUtil.getCssVariableValue('--bs-font-sans-serif');
+        var fontFamily = MVUtil.getCssVariableValue('--bs-font-sans-serif');
 
         // Chart labels
         const labels = ['January', 'February', 'March', 'April', 'May', 'June'];
@@ -316,7 +316,7 @@ var KTGeneralChartJS = function () {
         init: function () {
             // Global font settings: https://www.chartjs.org/docs/latest/general/fonts.html
             Chart.defaults.font.size = 13;
-            Chart.defaults.font.family = KTUtil.getCssVariableValue('--bs-font-sans-serif');
+            Chart.defaults.font.family = MVUtil.getCssVariableValue('--bs-font-sans-serif');
 
             example1();
             example2();
@@ -328,6 +328,6 @@ var KTGeneralChartJS = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTGeneralChartJS.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVGeneralChartJS.init();
 });

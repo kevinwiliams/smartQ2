@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTDocsSearch = function() {
+var MVDocsSearch = function() {
     // Private variables
     var element;
     var formElement;
@@ -16,7 +16,7 @@ var KTDocsSearch = function() {
         var results = 0;
 
         // Elements
-        var searchable = [].slice.call(resultsElement.querySelectorAll('[data-kt-searchable="true"]'));
+        var searchable = [].slice.call(resultsElement.querySelectorAll('[data-mv-searchable="true"]'));
 
         // Match elements
         searchable.map(function (element) {  
@@ -62,31 +62,31 @@ var KTDocsSearch = function() {
 	return {
 		init: function() {
             // Elements
-            element = document.querySelector('#kt_docs_search');
+            element = document.querySelector('#mv_docs_search');
 
             if (!element) {
                 return;
             }
 
-            wrapperElement = element.querySelector('[data-kt-search-element="wrapper"]');
-            formElement = element.querySelector('[data-kt-search-element="form"]');
-            mainElement = element.querySelector('[data-kt-search-element="main"]');
-            resultsElement = element.querySelector('[data-kt-search-element="results"]');
-            emptyElement = element.querySelector('[data-kt-search-element="empty"]');
+            wrapperElement = element.querySelector('[data-mv-search-element="wrapper"]');
+            formElement = element.querySelector('[data-mv-search-element="form"]');
+            mainElement = element.querySelector('[data-mv-search-element="main"]');
+            resultsElement = element.querySelector('[data-mv-search-element="results"]');
+            emptyElement = element.querySelector('[data-mv-search-element="empty"]');
             
             // Initialize search handler
-            searchObject = new KTSearch(element);
+            searchObject = new MVSearch(element);
 
             // Search handler
-            searchObject.on('kt.search.process', processs);
+            searchObject.on('mv.search.process', processs);
 
             // Clear handler
-            searchObject.on('kt.search.clear', clear);     
+            searchObject.on('mv.search.clear', clear);     
 		}
 	};
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTDocsSearch.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVDocsSearch.init();
 });

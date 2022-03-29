@@ -1,11 +1,11 @@
 "use strict";
 
 // Class definition
-var KTJKanbanDemoRestricted = function() {
+var MVJKanbanDemoRestricted = function() {
     // Private functions
     var exampleRestricted = function() {
         var kanban = new jKanban({
-            element: '#kt_docs_jkanban_restricted',
+            element: '#mv_docs_jkanban_restricted',
             gutter: '0',
             widthBoard: '250px',
             click: function(el) {
@@ -82,6 +82,6 @@ var KTJKanbanDemoRestricted = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTJKanbanDemoRestricted.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVJKanbanDemoRestricted.init();
 });

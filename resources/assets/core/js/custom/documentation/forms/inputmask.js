@@ -1,46 +1,46 @@
 "use strict";
 
 // Class definition
-var KTFormsInputmaskDemos = function() {
+var MVFormsInputmaskDemos = function() {
     // Private functions
     var _examples = function() {
         // Date
         Inputmask({
             "mask" : "99/99/9999"
-        }).mask("#kt_inputmask_1");
+        }).mask("#mv_inputmask_1");
 
         // Phone 
         Inputmask({
             "mask" : "(999) 999-9999"
-        }).mask("#kt_inputmask_2");
+        }).mask("#mv_inputmask_2");
 
         // Placeholder 
         Inputmask({
             "mask" : "(999) 999-9999",
             "placeholder": "(999) 999-9999",
-        }).mask("#kt_inputmask_3");
+        }).mask("#mv_inputmask_3");
 
         // Repeating 
         Inputmask({
             "mask": "9",
             "repeat": 10,
             "greedy": false
-        }).mask("#kt_inputmask_4");
+        }).mask("#mv_inputmask_4");
 
         // Right aligned 
         Inputmask("decimal", {
             "rightAlignNumerics": false
-        }).mask("#kt_inputmask_5");
+        }).mask("#mv_inputmask_5");
 
         // Currency
         Inputmask("€ 999.999.999,99", {
             "numericInput": true
-        }).mask("#kt_inputmask_6");
+        }).mask("#mv_inputmask_6");
 
         // Ip address
         Inputmask({
             "mask": "999.999.999.999"
-        }).mask("#kt_inputmask_7");
+        }).mask("#mv_inputmask_7");
 
         // Email address
         Inputmask({
@@ -57,7 +57,7 @@ var KTFormsInputmaskDemos = function() {
                     casing: "lower"
                 }
             }
-        }).mask("#kt_inputmask_8");
+        }).mask("#mv_inputmask_8");
     }
 
     return {
@@ -69,6 +69,6 @@ var KTFormsInputmaskDemos = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTFormsInputmaskDemos.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVFormsInputmaskDemos.init();
 });

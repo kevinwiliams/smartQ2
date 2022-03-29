@@ -1,10 +1,10 @@
 "use strict";
 
 // Class definition
-var KTJSTreeCustomIcons = function() {
+var MVJSTreeCustomIcons = function() {
     // Private functions
     var exampleCustomIcons = function() {
-        $('#kt_docs_jstree_customicons').jstree({
+        $('#mv_docs_jstree_customicons').jstree({
             "core" : {
                 "themes" : {
                     "responsive": false
@@ -22,7 +22,7 @@ var KTJSTreeCustomIcons = function() {
         });
 
         // handle link clicks in tree nodes(support target="_blank" as well)
-        $('#kt_docs_jstree_customicons').on('select_node.jstree', function(e,data) {
+        $('#mv_docs_jstree_customicons').on('select_node.jstree', function(e,data) {
             var link = $('#' + data.selected).find('a');
             if (link.attr("href") != "#" && link.attr("href") != "javascript:;" && link.attr("href") != "") {
                 if (link.attr("target") == "_blank") {
@@ -43,6 +43,6 @@ var KTJSTreeCustomIcons = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTJSTreeCustomIcons.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVJSTreeCustomIcons.init();
 });

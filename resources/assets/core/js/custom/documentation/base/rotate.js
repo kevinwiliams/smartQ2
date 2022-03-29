@@ -1,11 +1,11 @@
 "use strict";
 
 // Class definition
-var KTBaseRotateDemos = function() {
+var MVBaseRotateDemos = function() {
     // Private functions
     var _example1 = function(element) {
         // Element to indecate
-        var button = document.querySelector("#kt_button_1");
+        var button = document.querySelector("#mv_button_1");
 
         // Handle button click event
         button.addEventListener("click", function() {
@@ -15,7 +15,7 @@ var KTBaseRotateDemos = function() {
 
     var _example2 = function(element) {
         // Element to indecate
-        var button = document.querySelector("#kt_button_2");
+        var button = document.querySelector("#mv_button_2");
 
         // Handle button click event
         button.addEventListener("click", function() {
@@ -25,7 +25,7 @@ var KTBaseRotateDemos = function() {
 
     var _example3 = function(element) {
         // Element to indecate
-        var button = document.querySelector("#kt_button_3");
+        var button = document.querySelector("#mv_button_3");
 
         // Handle button click event
         button.addEventListener("click", function() {
@@ -45,6 +45,6 @@ var KTBaseRotateDemos = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTBaseRotateDemos.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVBaseRotateDemos.init();
 });

@@ -1,8 +1,8 @@
 @php
-    $menuId = 'kt_menu_' . uniqid() ;
+    $menuId = 'mv_menu_' . uniqid() ;
 @endphp
 <!--begin::Menu 1-->
-<div class="menu menu-sub menu-sub-dropdown w-250px w-md-300px" data-kt-menu="true" id="{{ $menuId }}">
+<div class="menu menu-sub menu-sub-dropdown w-250px w-md-300px" data-mv-menu="true" id="{{ $menuId }}">
     <!--begin::Header-->
     <div class="px-7 py-5">
         <div class="fs-5 text-dark fw-bolder">Filter Options</div>
@@ -23,7 +23,7 @@
 
             <!--begin::Input-->
             <div>
-                <select class="form-select form-select-solid" data-kt-select2="true" data-placeholder="Select option" data-dropdown-parent="#{{ $menuId }}" data-allow-clear="true">
+                <select class="form-select form-select-solid" data-mv-select2="true" data-placeholder="Select option" data-dropdown-parent="#{{ $menuId }}" data-allow-clear="true">
                     <option></option>
                     <option value="1">Approved</option>
                     <option value="2">Pending</option>
@@ -84,9 +84,9 @@
 
         <!--begin::Actions-->
         <div class="d-flex justify-content-end">
-            <button type="reset" class="btn btn-sm btn-light btn-active-light-primary me-2" data-kt-menu-dismiss="true">Reset</button>
+            <button type="reset" class="btn btn-sm btn-light btn-active-light-primary me-2" data-mv-menu-dismiss="true">Reset</button>
 
-            <button type="submit" class="btn btn-sm btn-primary" data-kt-menu-dismiss="true">Apply</button>
+            <button type="submit" class="btn btn-sm btn-primary" data-mv-menu-dismiss="true">Apply</button>
         </div>
         <!--end::Actions-->
     </div>

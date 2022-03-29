@@ -1,12 +1,12 @@
 "use strict";
 
 // Class definition
-var KTApp = function () {
+var MVApp = function () {
     var select2FocusFixInitialized = false;
 
     var initPageLoader = function () {
         // CSS3 Transitions only after page load(.page-loading class added to body tag and remove with JS on page load)
-        KTUtil.removeClass(document.body, 'page-loading');
+        MVUtil.removeClass(document.body, 'page-loading');
     }
 
     var initBootstrapTooltip = function (el, options) {
@@ -129,13 +129,13 @@ var KTApp = function () {
     }
 
     var initButtons = function () {
-        var buttonsGroup = [].slice.call(document.querySelectorAll('[data-kt-buttons="true"]'));
+        var buttonsGroup = [].slice.call(document.querySelectorAll('[data-mv-buttons="true"]'));
 
         buttonsGroup.map(function (group) {
-            var selector = group.hasAttribute('data-kt-buttons-target') ? group.getAttribute('data-kt-buttons-target') : '.btn';
+            var selector = group.hasAttribute('data-mv-buttons-target') ? group.getAttribute('data-mv-buttons-target') : '.btn';
 
             // Toggle Handler
-            KTUtil.on(group, selector, 'click', function (e) {
+            MVUtil.on(group, selector, 'click', function (e) {
                 var buttons = [].slice.call(group.querySelectorAll(selector + '.active'));
 
                 buttons.map(function (button) {
@@ -149,11 +149,11 @@ var KTApp = function () {
 
     var initCheck = function () {
         // Toggle Handler
-        KTUtil.on(document.body, '[data-kt-check="true"]', 'change', function (e) {
+        MVUtil.on(document.body, '[data-mv-check="true"]', 'change', function (e) {
             var check = this;
-            var targets = document.querySelectorAll(check.getAttribute('data-kt-check-target'));
+            var targets = document.querySelectorAll(check.getAttribute('data-mv-check-target'));
 
-            KTUtil.each(targets, function (target) {
+            MVUtil.each(targets, function (target) {
                 if (target.type == 'checkbox') {
                     target.checked = check.checked;
                 } else {
@@ -169,7 +169,7 @@ var KTApp = function () {
             return;
         }
 
-        var elements = [].slice.call(document.querySelectorAll('[data-control="select2"], [data-kt-select2="true"]'));
+        var elements = [].slice.call(document.querySelectorAll('[data-control="select2"], [data-mv-select2="true"]'));
 
         elements.map(function (element) {
             var options = {
@@ -219,7 +219,7 @@ var KTApp = function () {
     }
 
     var initAutosize = function () {
-        var inputs = [].slice.call(document.querySelectorAll('[data-kt-autosize="true"]'));
+        var inputs = [].slice.call(document.querySelectorAll('[data-mv-autosize="true"]'));
 
         inputs.map(function (input) {
             autosize(input);
@@ -227,37 +227,37 @@ var KTApp = function () {
     }
 
     var initCountUp = function () {
-        var elements = [].slice.call(document.querySelectorAll('[data-kt-countup="true"]:not(.counted)'));
+        var elements = [].slice.call(document.querySelectorAll('[data-mv-countup="true"]:not(.counted)'));
 
         elements.map(function (element) {
-            if (KTUtil.isInViewport(element) && KTUtil.visible(element)) {
+            if (MVUtil.isInViewport(element) && MVUtil.visible(element)) {
                 var options = {};
 
-                var value = element.getAttribute('data-kt-countup-value');
+                var value = element.getAttribute('data-mv-countup-value');
                 value = parseFloat(value.replace(/,/g, ""));
 
-                if (element.hasAttribute('data-kt-countup-start-val')) {
-                    options.startVal = parseFloat(element.getAttribute('data-kt-countup-start-val'));
+                if (element.hasAttribute('data-mv-countup-start-val')) {
+                    options.startVal = parseFloat(element.getAttribute('data-mv-countup-start-val'));
                 }
 
-                if (element.hasAttribute('data-kt-countup-duration')) {
-                    options.duration = parseInt(element.getAttribute('data-kt-countup-duration'));
+                if (element.hasAttribute('data-mv-countup-duration')) {
+                    options.duration = parseInt(element.getAttribute('data-mv-countup-duration'));
                 }
 
-                if (element.hasAttribute('data-kt-countup-decimal-places')) {
-                    options.decimalPlaces = parseInt(element.getAttribute('data-kt-countup-decimal-places'));
+                if (element.hasAttribute('data-mv-countup-decimal-places')) {
+                    options.decimalPlaces = parseInt(element.getAttribute('data-mv-countup-decimal-places'));
                 }
 
-                if (element.hasAttribute('data-kt-countup-prefix')) {
-                    options.prefix = element.getAttribute('data-kt-countup-prefix');
+                if (element.hasAttribute('data-mv-countup-prefix')) {
+                    options.prefix = element.getAttribute('data-mv-countup-prefix');
                 }
 
-                if (element.hasAttribute('data-kt-countup-separator')) {
-                    options.separator = element.getAttribute('data-kt-countup-separator');
+                if (element.hasAttribute('data-mv-countup-separator')) {
+                    options.separator = element.getAttribute('data-mv-countup-separator');
                 }
 
-                if (element.hasAttribute('data-kt-countup-suffix')) {
-                    options.suffix = element.getAttribute('data-kt-countup-suffix');
+                if (element.hasAttribute('data-mv-countup-suffix')) {
+                    options.suffix = element.getAttribute('data-mv-countup-suffix');
                 }
 
                 var count = new countUp.CountUp(element, value, options);
@@ -277,7 +277,7 @@ var KTApp = function () {
         window.addEventListener('scroll', initCountUp);
 
         // Tabs shown event handler
-        var tabs = [].slice.call(document.querySelectorAll('[data-kt-countup-tabs="true"][data-bs-toggle="tab"]'));
+        var tabs = [].slice.call(document.querySelectorAll('[data-mv-countup-tabs="true"][data-bs-toggle="tab"]'));
         tabs.map(function (tab) {
             tab.addEventListener('shown.bs.tab', initCountUp);
         });
@@ -337,7 +337,7 @@ var KTApp = function () {
             }, tnsOptions);
 
             if (el.closest('.tns')) {
-                KTUtil.addClass(el.closest('.tns'), 'tns-initiazlied');
+                MVUtil.addClass(el.closest('.tns'), 'tns-initiazlied');
             }
 
             return tns(opt);
@@ -358,15 +358,15 @@ var KTApp = function () {
     var initSmoothScroll = function () {
         if (SmoothScroll) {
 
-            new SmoothScroll('a[data-kt-scroll-toggle][href*="#"]', {
+            new SmoothScroll('a[data-mv-scroll-toggle][href*="#"]', {
                 speed: 900,
                 offset: function (anchor, toggle) {
                     // Integer or Function returning an integer. How far to offset the scrolling anchor location in pixels
                     // This example is a function, but you could do something as simple as `offset: 25`
 
                     // An example returning different values based on whether the clicked link was in the header nav or not
-                    if (anchor.hasAttribute('data-kt-scroll-offset')) {
-                        var val = KTUtil.getResponsiveValue(anchor.getAttribute('data-kt-scroll-offset'));
+                    if (anchor.hasAttribute('data-mv-scroll-offset')) {
+                        var val = MVUtil.getResponsiveValue(anchor.getAttribute('data-mv-scroll-offset'));
 
                         return val;
                     } else {
@@ -479,16 +479,16 @@ var KTApp = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTApp.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVApp.init();
 });
 
 // On window load
 window.addEventListener("load", function () {
-    KTApp.initPageLoader();
+    MVApp.initPageLoader();
 });
 
 // Webpack support
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    module.exports = KTApp;
+    module.exports = MVApp;
 }

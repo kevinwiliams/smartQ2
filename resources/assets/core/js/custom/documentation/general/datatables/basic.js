@@ -1,15 +1,15 @@
 "use strict";
 
 // Class definition
-var KTDatatablesBasic = function () {
+var MVDatatablesBasic = function () {
     // Private functions
 
     var _initExample1 = function() {
-        $("#kt_datatable_example_1").DataTable();
+        $("#mv_datatable_example_1").DataTable();
     }
 
     var _initExample2 = function() {
-        $("#kt_datatable_example_2").DataTable({
+        $("#mv_datatable_example_2").DataTable({
             "scrollY":        "500px",
             "scrollCollapse": true,
             "paging":         false,
@@ -18,13 +18,13 @@ var KTDatatablesBasic = function () {
     }
 
     var _initExample3 = function() {
-        $("#kt_datatable_example_3").DataTable({
+        $("#mv_datatable_example_3").DataTable({
             "scrollX": true
         });
     }
 
     var _initExample4 = function() {
-        $("#kt_datatable_example_4").DataTable({
+        $("#mv_datatable_example_4").DataTable({
             "scrollY": 300,
             "scrollX": true
         });
@@ -42,6 +42,6 @@ var KTDatatablesBasic = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTDatatablesBasic.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVDatatablesBasic.init();
 });

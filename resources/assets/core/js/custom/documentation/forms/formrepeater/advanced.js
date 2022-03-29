@@ -1,10 +1,10 @@
 "use strict";
 
 // Class definition
-var KTFormRepeaterAdvanced = function () {
+var MVFormRepeaterAdvanced = function () {
     // Private functions
     var example1 = function () {
-        $('#kt_docs_repeater_advanced').repeater({
+        $('#mv_docs_repeater_advanced').repeater({
             initEmpty: false,
 
             defaultValues: {
@@ -15,13 +15,13 @@ var KTFormRepeaterAdvanced = function () {
                 $(this).slideDown();
 
                 // Re-init select2
-                $(this).find('[data-kt-repeater="select2"]').select2();
+                $(this).find('[data-mv-repeater="select2"]').select2();
 
                 // Re-init flatpickr
-                $(this).find('[data-kt-repeater="datepicker"]').flatpickr();
+                $(this).find('[data-mv-repeater="datepicker"]').flatpickr();
 
                 // Re-init tagify
-                new Tagify(this.querySelector('[data-kt-repeater="tagify"]'));
+                new Tagify(this.querySelector('[data-mv-repeater="tagify"]'));
             },
 
             hide: function (deleteElement) {
@@ -30,13 +30,13 @@ var KTFormRepeaterAdvanced = function () {
 
             ready: function(){
                 // Init select
-                $('[data-kt-repeater="select2"]').select2();
+                $('[data-mv-repeater="select2"]').select2();
 
                 // Init flatpickr
-                $('[data-kt-repeater="datepicker"]').flatpickr();
+                $('[data-mv-repeater="datepicker"]').flatpickr();
 
                 // Init Tagify
-                new Tagify(document.querySelector('[data-kt-repeater="tagify"]'));
+                new Tagify(document.querySelector('[data-mv-repeater="tagify"]'));
             }
         });        
     }
@@ -50,6 +50,6 @@ var KTFormRepeaterAdvanced = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTFormRepeaterAdvanced.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVFormRepeaterAdvanced.init();
 });

@@ -1,7 +1,7 @@
 'use strict';
 
 // Class definition
-var KTCropperDemo = function () {
+var MVCropperDemo = function () {
 
 	// Private functions
 	var initCropperDemo = function () {
@@ -119,6 +119,6 @@ var KTCropperDemo = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-	KTCropperDemo.init();
+MVUtil.onDOMContentLoaded(function () {
+	MVCropperDemo.init();
 });

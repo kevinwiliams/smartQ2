@@ -1,9 +1,9 @@
 <x-base-layout>
-	<div class="d-flex flex-column flex-column-fluid" id="kt_content">
+	<div class="d-flex flex-column flex-column-fluid" id="mv_content">
 		<!--begin::Post-->
-		<div class="post d-flex flex-column-fluid" id="kt_post">
+		<div class="post d-flex flex-column-fluid" id="mv_post">
 			<!--begin::Container-->
-			<div id="kt_content_container" class="">
+			<div id="mv_content_container" class="">
 				<!--begin::Layout-->
 				<div class="d-flex flex-column flex-lg-row">
 					<!--begin::Sidebar-->
@@ -45,7 +45,7 @@
 							<!--end::Card body-->
 							<!--begin::Card footer-->
 							<div class="card-footer pt-0">
-								<button type="button" class="btn btn-light btn-active-primary" data-kt-roles-action="edit" data-id="{{ $role->id }}" data-name="{{ $role->name }}" data-description="{{ $role->description }}" data-permissions="{{ $role->permissions()->pluck('id') }}" data-editable="{{ ($role->editable)?1:0 }}" id="btn_Edit">Edit Role</button>
+								<button type="button" class="btn btn-light btn-active-primary" data-mv-roles-action="edit" data-id="{{ $role->id }}" data-name="{{ $role->name }}" data-description="{{ $role->description }}" data-permissions="{{ $role->permissions()->pluck('id') }}" data-editable="{{ ($role->editable)?1:0 }}" id="btn_Edit">Edit Role</button>
 							</div>
 							<!--end::Card footer-->
 						</div>
@@ -78,9 +78,9 @@
 							<!--begin::Card body-->
 							<div class="card-body pt-0">
 								<!--begin::Table-->
-								<div id="kt_roles_view_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+								<div id="mv_roles_view_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
 									<div class="table-responsive">
-										<table class="table align-middle table-row-dashed fs-6 gy-5 mb-0 no-footer" id="kt_roles_view_table" width="100%">
+										<table class="table align-middle table-row-dashed fs-6 gy-5 mb-0 no-footer" id="mv_roles_view_table" width="100%">
 											<!--begin::Table head-->
 											<thead>
 												<!--begin::Table row-->

@@ -32,7 +32,7 @@
 				<!--end::Summary-->
 				<!--begin::Details toggle-->
 				<div class="d-flex flex-stack fs-4 py-3">
-					<div class="fw-bolder rotate collapsible" data-bs-toggle="collapse" href="#kt_user_view_details" role="button" aria-expanded="false" aria-controls="kt_user_view_details">Details
+					<div class="fw-bolder rotate collapsible" data-bs-toggle="collapse" href="#mv_user_view_details" role="button" aria-expanded="false" aria-controls="mv_user_view_details">Details
 						<span class="ms-2 rotate-180">
 							<!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
 							{!! theme()->getSvgIcon("icons/duotune/arrows/arr072.svg", "svg-icon-3") !!}
@@ -41,13 +41,13 @@
 						</span>
 					</div>
 					<span data-bs-toggle="tooltip" data-bs-trigger="hover" title="Edit customer details">
-						<a href="#" class="btn btn-sm btn-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_update_details">Edit</a>
+						<a href="#" class="btn btn-sm btn-light-primary" data-bs-toggle="modal" data-bs-target="#mv_modal_update_details">Edit</a>
 					</span>
 				</div>
 				<!--end::Details toggle-->
 				<div class="separator"></div>
 				<!--begin::Details content-->
-				<div id="kt_user_view_details" class="collapse show">
+				<div id="mv_user_view_details" class="collapse show">
 					<div class="pb-5 fs-6">
 						<!--begin::Details item-->
 						<div class="fw-bolder mt-5">Email</div>
@@ -79,25 +79,25 @@
 		<ul class="nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x border-0 fs-4 fw-bold mb-8">
 			<!--begin:::Tab item-->
 			<li class="nav-item">
-				<a class="nav-link text-active-primary pb-4 active" data-kt-countup-tabs="true" data-bs-toggle="tab" href="#kt_user_view_overview_security">Security</a>
+				<a class="nav-link text-active-primary pb-4 active" data-mv-countup-tabs="true" data-bs-toggle="tab" href="#mv_user_view_overview_security">Security</a>
 			</li>
 			<!--end:::Tab item-->
 			<!--begin:::Tab item-->
 			<li class="nav-item">
-				<a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#kt_user_view_overview_events_and_logs_tab">Events</a>
+				<a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#mv_user_view_overview_events_and_logs_tab">Events</a>
 			</li>
 			<!--end:::Tab item-->
 			<!--begin:::Tab item-->
 			<li class="nav-item ms-auto">
 				<!--begin::Action menu-->
-				<a href="#" class="btn btn-primary ps-7" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">Actions
+				<a href="#" class="btn btn-primary ps-7" data-mv-menu-trigger="click" data-mv-menu-attach="parent" data-mv-menu-placement="bottom-end">Actions
 					<!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
 					{!! theme()->getSvgIcon("icons/duotune/arrows/arr072.svg", "svg-icon-2") !!}
 
 					<!--end::Svg Icon-->
 				</a>
 				<!--begin::Menu-->
-				<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-bold py-4 w-250px fs-6" data-kt-menu="true">
+				<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-bold py-4 w-250px fs-6" data-mv-menu="true">
 					<!--begin::Menu item-->
 					<div class="menu-item px-5">
 						<div class="menu-content text-muted pb-2 px-5 fs-7 text-uppercase">Account</div>
@@ -105,7 +105,7 @@
 					<!--end::Menu item-->
 					<!--begin::Menu item-->
 					<div class="menu-item px-5">
-						<a href="#" class="menu-link text-danger px-5" data-kt-users-table-filter="delete_row" id="btnDeleteUser" data-id="{{ $user->id }}">Delete User</a>
+						<a href="#" class="menu-link text-danger px-5" data-mv-users-table-filter="delete_row" id="btnDeleteUser" data-id="{{ $user->id }}">Delete User</a>
 					</div>
 					<!--end::Menu item-->
 				</div>
@@ -118,7 +118,7 @@
 		<!--begin:::Tab content-->
 		<div class="tab-content" id="myTabContent">
 			<!--begin:::Tab pane-->
-			<div class="tab-pane fade show active" id="kt_user_view_overview_security" role="tabpanel">
+			<div class="tab-pane fade show active" id="mv_user_view_overview_security" role="tabpanel">
 				<!--begin::Card-->
 				<div class="card pt-4 mb-6 mb-xl-9">
 					<!--begin::Card header-->
@@ -135,14 +135,14 @@
 						<!--begin::Table wrapper-->
 						<div class="table-responsive">
 							<!--begin::Table-->
-							<table class="table align-middle table-row-dashed gy-5" id="kt_table_users_login_session">
+							<table class="table align-middle table-row-dashed gy-5" id="mv_table_users_login_session">
 								<!--begin::Table body-->
 								<tbody class="fs-6 fw-bold text-gray-600">
 									<tr>
 										<td>Email</td>
 										<td>{{ $user->email }}</td>
 										<td class="text-end">
-											<button type="button" class="btn btn-icon btn-active-light-primary w-30px h-30px ms-auto" data-bs-toggle="modal" data-bs-target="#kt_modal_update_email" {{ ($user->usersocial)?'disabled':'' }}>
+											<button type="button" class="btn btn-icon btn-active-light-primary w-30px h-30px ms-auto" data-bs-toggle="modal" data-bs-target="#mv_modal_update_email" {{ ($user->usersocial)?'disabled':'' }}>
 												<!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
 												<span class="svg-icon svg-icon-3">
 													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -158,7 +158,7 @@
 										<td>Password</td>
 										<td>******</td>
 										<td class="text-end">
-											<button type="button" class="btn btn-icon btn-active-light-primary w-30px h-30px ms-auto" data-bs-toggle="modal" data-bs-target="#kt_modal_update_password"  {{ ($user->usersocial)?'disabled':'' }}>
+											<button type="button" class="btn btn-icon btn-active-light-primary w-30px h-30px ms-auto" data-bs-toggle="modal" data-bs-target="#mv_modal_update_password"  {{ ($user->usersocial)?'disabled':'' }}>
 												<!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
 												<span class="svg-icon svg-icon-3">
 													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -178,7 +178,7 @@
 											@endforeach
 										</td>
 										<td class="text-end">
-											<button type="button" class="btn btn-icon btn-active-light-primary w-30px h-30px ms-auto" data-bs-toggle="modal" data-bs-target="#kt_modal_update_role">
+											<button type="button" class="btn btn-icon btn-active-light-primary w-30px h-30px ms-auto" data-bs-toggle="modal" data-bs-target="#mv_modal_update_role">
 												<!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
 												<span class="svg-icon svg-icon-3">
 													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -203,7 +203,7 @@
 			</div>
 			<!--end:::Tab pane-->
 			<!--begin:::Tab pane-->
-			<div class="tab-pane fade" id="kt_user_view_overview_events_and_logs_tab" role="tabpanel">
+			<div class="tab-pane fade" id="mv_user_view_overview_events_and_logs_tab" role="tabpanel">
 				<!--begin::Card-->
 				<div class="card pt-4 mb-6 mb-xl-9">
 					<!--begin::Card header-->
@@ -234,7 +234,7 @@
 					<!--begin::Card body-->
 					<div class="card-body py-0">
 						<!--begin::Table-->
-						<table class="table align-middle table-row-dashed fs-6 text-gray-600 fw-bold gy-5" id="kt_table_customers_events">
+						<table class="table align-middle table-row-dashed fs-6 text-gray-600 fw-bold gy-5" id="mv_table_customers_events">
 							<!--begin::Table body-->
 							<tbody>
 								<tr>
@@ -267,7 +267,7 @@
             )) }}
 	<!--end::Modal - Update user details-->
 	<!--begin::Modal - Add schedule-->
-	<div class="modal fade" id="kt_modal_add_schedule" tabindex="-1" aria-hidden="true">
+	<div class="modal fade" id="mv_modal_add_schedule" tabindex="-1" aria-hidden="true">
 		<!--begin::Modal dialog-->
 		<div class="modal-dialog modal-dialog-centered mw-650px">
 			<!--begin::Modal content-->
@@ -278,7 +278,7 @@
 					<h2 class="fw-bolder">Add an Event</h2>
 					<!--end::Modal title-->
 					<!--begin::Close-->
-					<div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
+					<div class="btn btn-icon btn-sm btn-active-icon-primary" data-mv-users-modal-action="close">
 						<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
 						<span class="svg-icon svg-icon-1">
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -294,7 +294,7 @@
 				<!--begin::Modal body-->
 				<div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
 					<!--begin::Form-->
-					<form id="kt_modal_add_schedule_form" class="form" action="#">
+					<form id="mv_modal_add_schedule_form" class="form" action="#">
 						<!--begin::Input group-->
 						<div class="fv-row mb-7">
 							<!--begin::Label-->
@@ -314,7 +314,7 @@
 							</label>
 							<!--end::Label-->
 							<!--begin::Input-->
-							<input class="form-control form-control-solid" placeholder="Pick date &amp; time" name="event_datetime" id="kt_modal_add_schedule_datepicker" />
+							<input class="form-control form-control-solid" placeholder="Pick date &amp; time" name="event_datetime" id="mv_modal_add_schedule_datepicker" />
 							<!--end::Input-->
 						</div>
 						<!--end::Input group-->
@@ -334,14 +334,14 @@
 							<label class="required fs-6 fw-bold form-label mb-2">Send Event Details To</label>
 							<!--end::Label-->
 							<!--begin::Input-->
-							<input id="kt_modal_add_schedule_tagify" type="text" class="form-control form-control-solid" name="event_invitees" value="e.smith@kpmg.com.au, melody@altbox.com" />
+							<input id="mv_modal_add_schedule_tagify" type="text" class="form-control form-control-solid" name="event_invitees" value="e.smith@kpmg.com.au, melody@altbox.com" />
 							<!--end::Input-->
 						</div>
 						<!--end::Input group-->
 						<!--begin::Actions-->
 						<div class="text-center pt-15">
-							<button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
-							<button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
+							<button type="reset" class="btn btn-light me-3" data-mv-users-modal-action="cancel">Discard</button>
+							<button type="submit" class="btn btn-primary" data-mv-users-modal-action="submit">
 								<span class="indicator-label">Submit</span>
 								<span class="indicator-progress">Please wait...
 									<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
@@ -359,7 +359,7 @@
 	</div>
 	<!--end::Modal - Add schedule-->
 	<!--begin::Modal - Add task-->
-	<div class="modal fade" id="kt_modal_add_task" tabindex="-1" aria-hidden="true">
+	<div class="modal fade" id="mv_modal_add_task" tabindex="-1" aria-hidden="true">
 		<!--begin::Modal dialog-->
 		<div class="modal-dialog modal-dialog-centered mw-650px">
 			<!--begin::Modal content-->
@@ -370,7 +370,7 @@
 					<h2 class="fw-bolder">Add a Task</h2>
 					<!--end::Modal title-->
 					<!--begin::Close-->
-					<div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
+					<div class="btn btn-icon btn-sm btn-active-icon-primary" data-mv-users-modal-action="close">
 						<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
 						<span class="svg-icon svg-icon-1">
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -386,7 +386,7 @@
 				<!--begin::Modal body-->
 				<div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
 					<!--begin::Form-->
-					<form id="kt_modal_add_task_form" class="form" action="#">
+					<form id="mv_modal_add_task_form" class="form" action="#">
 						<!--begin::Input group-->
 						<div class="fv-row mb-7">
 							<!--begin::Label-->
@@ -406,7 +406,7 @@
 							</label>
 							<!--end::Label-->
 							<!--begin::Input-->
-							<input class="form-control form-control-solid" placeholder="Pick date" name="task_duedate" id="kt_modal_add_task_datepicker" />
+							<input class="form-control form-control-solid" placeholder="Pick date" name="task_duedate" id="mv_modal_add_task_datepicker" />
 							<!--end::Input-->
 						</div>
 						<!--end::Input group-->
@@ -422,8 +422,8 @@
 						<!--end::Input group-->
 						<!--begin::Actions-->
 						<div class="text-center pt-15">
-							<button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
-							<button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
+							<button type="reset" class="btn btn-light me-3" data-mv-users-modal-action="cancel">Discard</button>
+							<button type="submit" class="btn btn-primary" data-mv-users-modal-action="submit">
 								<span class="indicator-label">Submit</span>
 								<span class="indicator-progress">Please wait...
 									<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
@@ -460,7 +460,7 @@
             )) }}
 	<!--end::Modal - Update role-->
 	<!--begin::Modal - Add task-->
-	<div class="modal fade" id="kt_modal_add_auth_app" tabindex="-1" aria-hidden="true">
+	<div class="modal fade" id="mv_modal_add_auth_app" tabindex="-1" aria-hidden="true">
 		<!--begin::Modal dialog-->
 		<div class="modal-dialog modal-dialog-centered mw-650px">
 			<!--begin::Modal content-->
@@ -471,7 +471,7 @@
 					<h2 class="fw-bolder">Add Authenticator App</h2>
 					<!--end::Modal title-->
 					<!--begin::Close-->
-					<div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
+					<div class="btn btn-icon btn-sm btn-active-icon-primary" data-mv-users-modal-action="close">
 						<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
 						<span class="svg-icon svg-icon-1">
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -489,20 +489,20 @@
 					<!--begin::Content-->
 					<div class="fw-bolder d-flex flex-column justify-content-center mb-5">
 						<!--begin::Label-->
-						<div class="text-center mb-5" data-kt-add-auth-action="qr-code-label">Download the
+						<div class="text-center mb-5" data-mv-add-auth-action="qr-code-label">Download the
 							<a href="#">Authenticator app</a>, add a new account, then scan this barcode to set up your account.
 						</div>
-						<div class="text-center mb-5 d-none" data-kt-add-auth-action="text-code-label">Download the
+						<div class="text-center mb-5 d-none" data-mv-add-auth-action="text-code-label">Download the
 							<a href="#">Authenticator app</a>, add a new account, then enter this code to set up your account.
 						</div>
 						<!--end::Label-->
 						<!--begin::QR code-->
-						<div class="d-flex flex-center" data-kt-add-auth-action="qr-code">
+						<div class="d-flex flex-center" data-mv-add-auth-action="qr-code">
 							<img src="assets/media/misc/qr-code.png" alt="Scan this QR code" />
 						</div>
 						<!--end::QR code-->
 						<!--begin::Text code-->
-						<div class="border rounded p-5 d-flex flex-center d-none" data-kt-add-auth-action="text-code">
+						<div class="border rounded p-5 d-flex flex-center d-none" data-mv-add-auth-action="text-code">
 							<div class="fs-1">gi2kdnb54is709j</div>
 						</div>
 						<!--end::Text code-->
@@ -510,8 +510,8 @@
 					<!--end::Content-->
 					<!--begin::Action-->
 					<div class="d-flex flex-center">
-						<div class="btn btn-light-primary" data-kt-add-auth-action="text-code-button">Enter code manually</div>
-						<div class="btn btn-light-primary d-none" data-kt-add-auth-action="qr-code-button">Scan barcode instead</div>
+						<div class="btn btn-light-primary" data-mv-add-auth-action="text-code-button">Enter code manually</div>
+						<div class="btn btn-light-primary d-none" data-mv-add-auth-action="qr-code-button">Scan barcode instead</div>
 					</div>
 					<!--end::Action-->
 				</div>
@@ -523,7 +523,7 @@
 	</div>
 	<!--end::Modal - Add task-->
 	<!--begin::Modal - Add task-->
-	<div class="modal fade" id="kt_modal_add_one_time_password" tabindex="-1" aria-hidden="true">
+	<div class="modal fade" id="mv_modal_add_one_time_password" tabindex="-1" aria-hidden="true">
 		<!--begin::Modal dialog-->
 		<div class="modal-dialog modal-dialog-centered mw-650px">
 			<!--begin::Modal content-->
@@ -534,7 +534,7 @@
 					<h2 class="fw-bolder">Enable One Time Password</h2>
 					<!--end::Modal title-->
 					<!--begin::Close-->
-					<div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
+					<div class="btn btn-icon btn-sm btn-active-icon-primary" data-mv-users-modal-action="close">
 						<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
 						<span class="svg-icon svg-icon-1">
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -550,7 +550,7 @@
 				<!--begin::Modal body-->
 				<div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
 					<!--begin::Form-->
-					<form class="form" id="kt_modal_add_one_time_password_form">
+					<form class="form" id="mv_modal_add_one_time_password_form">
 						<!--begin::Label-->
 						<div class="fw-bolder mb-9">Enter the new phone number to receive an SMS to when you log in.</div>
 						<!--end::Label-->
@@ -596,8 +596,8 @@
 						<!--end::Input group-->
 						<!--begin::Actions-->
 						<div class="text-center pt-15">
-							<button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Cancel</button>
-							<button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
+							<button type="reset" class="btn btn-light me-3" data-mv-users-modal-action="cancel">Cancel</button>
+							<button type="submit" class="btn btn-primary" data-mv-users-modal-action="submit">
 								<span class="indicator-label">Submit</span>
 								<span class="indicator-progress">Please wait...
 									<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>

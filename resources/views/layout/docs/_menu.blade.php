@@ -15,16 +15,16 @@
 
 <div
     class="hover-scroll-overlay-y mb-5 mb-lg-5"
-    id="kt_docs_aside_menu_wrapper"
-    data-kt-scroll="true"
-    data-kt-scroll-activate="{default: false, lg: true}"
-    data-kt-scroll-height="auto"
-    data-kt-scroll-dependencies="#kt_docs_aside_logo"
-    data-kt-scroll-wrappers="#kt_docs_aside_menu"
-    data-kt-scroll-offset="10px"
+    id="mv_docs_aside_menu_wrapper"
+    data-mv-scroll="true"
+    data-mv-scroll-activate="{default: false, lg: true}"
+    data-mv-scroll-height="auto"
+    data-mv-scroll-dependencies="#mv_docs_aside_logo"
+    data-mv-scroll-wrappers="#mv_docs_aside_menu"
+    data-mv-scroll-offset="10px"
 >
     <!--begin::Menu-->
-    <div class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500" id="#kt_docs_aside_menu" data-kt-menu="true">
+    <div class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500" id="#mv_docs_aside_menu" data-mv-menu="true">
         {!! $menu->build() !!}
     </div>
     <!--end::Menu-->

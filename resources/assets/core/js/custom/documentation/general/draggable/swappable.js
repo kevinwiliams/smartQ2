@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTDraggableSwappable = function() {
+var MVDraggableSwappable = function() {
     // Private functions
     var exampleSwappable = function() {
         var containers = document.querySelectorAll('.draggable-zone');
@@ -30,6 +30,6 @@ var KTDraggableSwappable = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTDraggableSwappable.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVDraggableSwappable.init();
 });

@@ -1,16 +1,16 @@
 "use strict";
 
 // Class definition
-var KTUsersAddAuthApp = function () {
+var MVUsersAddAuthApp = function () {
     // Shared variables
-    const element = document.getElementById('kt_modal_add_auth_app');
+    const element = document.getElementById('mv_modal_add_auth_app');
     const modal = new bootstrap.Modal(element);
 
     // Init add schedule modal
     var initAddAuthApp = () => {
 
         // Close button handler
-        const closeButton = element.querySelector('[data-kt-users-modal-action="close"]');
+        const closeButton = element.querySelector('[data-mv-users-modal-action="close"]');
         closeButton.addEventListener('click', e => {
             e.preventDefault();
 
@@ -36,12 +36,12 @@ var KTUsersAddAuthApp = function () {
 
     // QR code to text code swapper
     var initCodeSwap = () => {
-        const qrCode = element.querySelector('[ data-kt-add-auth-action="qr-code"]');
-        const textCode = element.querySelector('[ data-kt-add-auth-action="text-code"]');
-        const qrCodeButton = element.querySelector('[ data-kt-add-auth-action="qr-code-button"]');
-        const textCodeButton = element.querySelector('[ data-kt-add-auth-action="text-code-button"]');
-        const qrCodeLabel = element.querySelector('[ data-kt-add-auth-action="qr-code-label"]');
-        const textCodeLabel = element.querySelector('[ data-kt-add-auth-action="text-code-label"]');
+        const qrCode = element.querySelector('[ data-mv-add-auth-action="qr-code"]');
+        const textCode = element.querySelector('[ data-mv-add-auth-action="text-code"]');
+        const qrCodeButton = element.querySelector('[ data-mv-add-auth-action="qr-code-button"]');
+        const textCodeButton = element.querySelector('[ data-mv-add-auth-action="text-code-button"]');
+        const qrCodeLabel = element.querySelector('[ data-mv-add-auth-action="qr-code-label"]');
+        const textCodeLabel = element.querySelector('[ data-mv-add-auth-action="text-code-label"]');
 
         const toggleClass = () =>{
             qrCode.classList.toggle('d-none');
@@ -76,6 +76,6 @@ var KTUsersAddAuthApp = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTUsersAddAuthApp.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVUsersAddAuthApp.init();
 });

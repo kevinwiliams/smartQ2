@@ -1,11 +1,11 @@
 "use strict";
 
 // Class definition
-var KTJKanbanDemoRich = function() {
+var MVJKanbanDemoRich = function() {
     // Private functions
     var exampleRich = function() {
         var kanban = new jKanban({
-            element: '#kt_docs_jkanban_rich',
+            element: '#mv_docs_jkanban_rich',
             gutter: '0',
             click: function(el) {
                 alert(el.innerHTML);
@@ -242,6 +242,6 @@ var KTJKanbanDemoRich = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTJKanbanDemoRich.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVJKanbanDemoRich.init();
 });

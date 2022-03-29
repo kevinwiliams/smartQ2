@@ -1,5 +1,5 @@
 <!--begin:Row-->
-<div class="row" data-kt-menu-dismiss="true">
+<div class="row" data-mv-menu-dismiss="true">
     <!--begin:Col-->
     <div class="col-lg-4 border-left-lg-1">
         <div class="menu-inline menu-column menu-active-bg">

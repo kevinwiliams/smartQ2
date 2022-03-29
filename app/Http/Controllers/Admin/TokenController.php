@@ -715,9 +715,38 @@ class TokenController extends Controller
                 //load options via render
                 $options = view('pages.admin.token._report-menu', compact('token'))->render();
 
+                switch ($token->status) {
+                    case 0:
+                        $color  = 'badge-light-primary';
+                        $bg     = 'bg-primary';
+                        $txt    = trans('app.pending');
+                        break;
+                    case 1:
+                        $color = 'badge-light-success';
+                        $bg     = 'bg-success';
+                        $txt    = trans('app.complete');
+                        break;
+                    case 2:
+                        $color = 'badge-light-danger';
+                        $bg     = 'bg-danger';
+                        $txt    = trans('app.stop');
+                        break;
+                    case 3:
+                        $color = 'badge-light-warning';
+                        $bg     = 'bg-warning';
+                        $txt    = 'Booked';
+                        break;
+                    default:
+                        $color = 'badge-light-danger';
+
+                        break;
+                }
+
+                $color = (!empty($token->is_vip)) ? 'bg-danger' : $color;
+
                 $data[] = [
                     'serial'     => $loop++,
-                    'token_no'   => (!empty($token->is_vip)?("<span class=\"badge bg-danger text-white\" title=\"VIP\">$token->token_no</span>"):$token->token_no),
+                    'token_no'   => "<div class=\"badge $color fw-bolder\" data-vip=\"$token->is_vip\" data-id=\"$token->token_no\">$token->token_no</div>".'<input type=hidden name=notes value='.$token->note.'>',
                     'department' => (!empty($token->department)?$token->department->name:null),
                     'counter'    => (!empty($token->counter)?$token->counter->name:null),
                     'officer'    => (!empty($token->officer)?("<a href='".url("admin/user/view/{$token->officer->id}")."'>".$token->officer->firstname." ". $token->officer->lastname."</a>"):null),
@@ -725,16 +754,7 @@ class TokenController extends Controller
                     'client_mobile'    => $token->client_mobile. "<br/>" .(!empty($token->client)?("(<a href='".url("admin/user/view/{$token->client->id}")."'>".$token->client->firstname." ". $token->client->lastname."</a>)"):null),
 
                     'note'       => $token->note,
-                    'status'     => (
-                        ($token->status==1)?("<span class='badge bg-success text-white'>".trans('app.complete')."</span>"):
-                        (
-                            ($token->status==2)? "<span class='badge bg-danger text-white'>".trans('app.stop')."</span>":
-                            (($token->status==3)? "<span class='badge bg-warning text-white'>Booked</span>": 
-                            "<span class='badge bg-primary text-white'>".trans('app.pending')."</span>"))
-                        
-                    )
-                    .(!empty($token->is_vip)?(''):''),
-                    // .(!empty($token->is_vip)?('<span class="badge bg-danger text-white" title="VIP">VIP</span>'):''),
+                    'status'     => "<span class='badge ".$bg." text-white'>".$txt."</span>",
                     'created_by'    => (!empty($token->generated_by)?("<a href='".url("admin/user/view/{$token->generated_by->id}")."'>".$token->generated_by->firstname." ". $token->generated_by->lastname."</a>"):null),
                     'created_at' => (!empty($token->created_at)?date('j M Y h:i a',strtotime($token->created_at)):null),
                     'updated_at' => (!empty($token->updated_at)?date('j M Y h:i a',strtotime($token->updated_at)):null),
@@ -944,6 +964,8 @@ class TokenController extends Controller
                 'department_id' => $request->department_id,
                 'counter_id'    => $request->counter_id, 
                 'user_id'       => $request->user_id, 
+                'is_vip'        => $request->is_vip, 
+                'note'          => $request->note, 
             ]);
 
             if ($update) 

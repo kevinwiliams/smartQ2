@@ -99,18 +99,18 @@
         var charts = document.querySelectorAll('.customers-served-chart');
 
         [].slice.call(charts).map(function(element) {
-            var height = parseInt(KTUtil.css(element, 'height'));
+            var height = parseInt(MVUtil.css(element, 'height'));
 
             if ( !element ) {
                 return;
             }
 
-            var color = element.getAttribute('data-kt-chart-color');
+            var color = element.getAttribute('data-mv-chart-color');
 
-            var labelColor = KTUtil.getCssVariableValue('--bs-' + 'gray-800');
-            var strokeColor = KTUtil.getCssVariableValue('--bs-' + 'gray-300');
-            var baseColor = KTUtil.getCssVariableValue('--bs-' + color);
-            var lightColor = KTUtil.getCssVariableValue('--bs-light-' + color);
+            var labelColor = MVUtil.getCssVariableValue('--bs-' + 'gray-800');
+            var strokeColor = MVUtil.getCssVariableValue('--bs-' + 'gray-300');
+            var baseColor = MVUtil.getCssVariableValue('--bs-' + color);
+            var lightColor = MVUtil.getCssVariableValue('--bs-light-' + color);
 
             var options = {
                 series: [{
@@ -259,18 +259,18 @@
 
         var color;
         var height;
-        var labelColor = KTUtil.getCssVariableValue('--bs-gray-500');
-        var borderColor = KTUtil.getCssVariableValue('--bs-gray-200');
+        var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
+        var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
         var baseLightColor;
-        var secondaryColor = KTUtil.getCssVariableValue('--bs-gray-300');
+        var secondaryColor = MVUtil.getCssVariableValue('--bs-gray-300');
         var baseColor;
         var options;
         var chart;
 
         [].slice.call(charts).map(function(element) {
-            color = element.getAttribute("data-kt-color");
-            height = parseInt(KTUtil.css(element, 'height'));
-            baseColor = KTUtil.getCssVariableValue('--bs-' + color);
+            color = element.getAttribute("data-mv-color");
+            height = parseInt(MVUtil.css(element, 'height'));
+            baseColor = MVUtil.getCssVariableValue('--bs-' + color);
 
             options = {
                 series: [{

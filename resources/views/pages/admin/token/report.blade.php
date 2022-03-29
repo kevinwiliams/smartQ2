@@ -10,7 +10,7 @@
 				<!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
 				{!! theme()->getSvgIcon("icons/duotune/general/gen021.svg", "svg-icon-1 position-absolute ms-6") !!}
 				<!--end::Svg Icon-->
-				<input type="text" data-kt-report-table-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="Search Tokens" />
+				<input type="text" data-mv-report-table-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="Search Tokens" />
 			</div>
 			<!--end::Search-->
 		</div>

@@ -1,14 +1,14 @@
 "use strict";
 
 // Class definition
-var KTFormsDaterangepickerDemos = function() {
+var MVFormsDaterangepickerDemos = function() {
     // Private functions
     var example1 = function(element) {
-        $("#kt_daterangepicker_1").daterangepicker();
+        $("#mv_daterangepicker_1").daterangepicker();
     }
 
     var example2 = function(element) {
-        $("#kt_daterangepicker_2").daterangepicker({
+        $("#mv_daterangepicker_2").daterangepicker({
             timePicker: true,
             startDate: moment().startOf("hour"),
             endDate: moment().startOf("hour").add(32, "hour"),
@@ -19,7 +19,7 @@ var KTFormsDaterangepickerDemos = function() {
     }
 
     var example3 = function(element) {
-        $("#kt_daterangepicker_3").daterangepicker({
+        $("#mv_daterangepicker_3").daterangepicker({
                 singleDatePicker: true,
                 showDropdowns: true,
                 minYear: 1901,
@@ -36,10 +36,10 @@ var KTFormsDaterangepickerDemos = function() {
         var end = moment();
 
         function cb(start, end) {
-            $("#kt_daterangepicker_4").html(start.format("MMMM D, YYYY") + " - " + end.format("MMMM D, YYYY"));
+            $("#mv_daterangepicker_4").html(start.format("MMMM D, YYYY") + " - " + end.format("MMMM D, YYYY"));
         }
 
-        $("#kt_daterangepicker_4").daterangepicker({
+        $("#mv_daterangepicker_4").daterangepicker({
             startDate: start,
             endDate: end,
             ranges: {
@@ -56,7 +56,7 @@ var KTFormsDaterangepickerDemos = function() {
     }
 
     var example5 = function(element) {
-        $("#kt_daterangepicker_5").daterangepicker();
+        $("#mv_daterangepicker_5").daterangepicker();
     }    
 
     return {
@@ -72,6 +72,6 @@ var KTFormsDaterangepickerDemos = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTFormsDaterangepickerDemos.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVFormsDaterangepickerDemos.init();
 });

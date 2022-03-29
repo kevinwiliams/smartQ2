@@ -11,13 +11,13 @@
 @endphp
 
 <!--begin::Header-->
-<div id="kt_docs_header" class="docs-header align-items-stretch mb-2 mb-lg-10">
+<div id="mv_docs_header" class="docs-header align-items-stretch mb-2 mb-lg-10">
 	<!--begin::Container-->
 	<div class="container">
 		<div class="d-flex align-items-stretch justify-content-between py-3 h-75px">
 			<!--begin::Aside toggle-->
 			<div class="d-flex align-items-center d-lg-none me-3" title="Show aside menu">
-				<div class="btn btn-icon btn-flex btn-active-color-primary" id="kt_docs_aside_toggle">
+				<div class="btn btn-icon btn-flex btn-active-color-primary" id="mv_docs_aside_toggle">
 					{!! theme()->getSvgIcon("icons/duotune/abstract/abs015.svg", "svg-icon-2tx mt-1") !!}
 				</div>
 			</div>
@@ -34,7 +34,7 @@
 			<!--begin::Wrapper-->
 			<div class="d-flex align-items-center justify-content-between flex-lg-grow-1">
 				<!--begin::Header title-->
-				<div class="d-flex align-items-center" id="kt_docs_header_title">
+				<div class="d-flex align-items-center" id="mv_docs_header_title">
 					@include('layout/docs/_page-title')
 				</div>
 				<!--end::Header title-->

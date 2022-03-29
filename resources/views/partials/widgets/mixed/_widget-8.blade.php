@@ -30,7 +30,7 @@
 
             <!--begin:Menu-->
             <div class="ms-1">
-                <button type="button" class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                <button type="button" class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary" data-mv-menu-trigger="click" data-mv-menu-placement="bottom-end">
                     {!! theme()->getSvgIcon("icons/duotune/general/gen024.svg", "svg-icon-2") !!}
                 </button>
                 {{ theme()->getView('partials/menus/_menu-2') }}

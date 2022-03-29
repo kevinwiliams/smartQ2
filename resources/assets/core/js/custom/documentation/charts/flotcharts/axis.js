@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTFlotDemoAxis = function () {
+var MVFlotDemoAxis = function () {
     // Private functions
     var exampleAxis = function () {
         function randValue() {
@@ -72,7 +72,7 @@ var KTFlotDemoAxis = function () {
 			[30, 31 + randValue()]
 		];
 
-		var plot = $.plot($("#kt_docs_flot_axis"), [{
+		var plot = $.plot($("#mv_docs_flot_axis"), [{
 			data: pageviews,
 			label: "Unique Visits",
 			lines: {
@@ -111,20 +111,20 @@ var KTFlotDemoAxis = function () {
 			grid: {
 				hoverable: true,
 				clickable: true,
-				tickColor: KTUtil.getCssVariableValue('--bs-light-dark'),
-				borderColor: KTUtil.getCssVariableValue('--bs-light-dark'),
+				tickColor: MVUtil.getCssVariableValue('--bs-light-dark'),
+				borderColor: MVUtil.getCssVariableValue('--bs-light-dark'),
 				borderWidth: 1
 			},
-			colors: [KTUtil.getCssVariableValue('--bs-active-primary'), KTUtil.getCssVariableValue('--bs-active-danger')],
+			colors: [MVUtil.getCssVariableValue('--bs-active-primary'), MVUtil.getCssVariableValue('--bs-active-danger')],
 			xaxis: {
 				ticks: 11,
 				tickDecimals: 0,
-				tickColor: KTUtil.getCssVariableValue('--bs-active-dark'),
+				tickColor: MVUtil.getCssVariableValue('--bs-active-dark'),
 			},
 			yaxis: {
 				ticks: 11,
 				tickDecimals: 0,
-				tickColor: KTUtil.getCssVariableValue('--bs-active-dark'),
+				tickColor: MVUtil.getCssVariableValue('--bs-active-dark'),
 			}
 		});
 
@@ -134,11 +134,11 @@ var KTFlotDemoAxis = function () {
 				display: 'none',
 				top: y + 5,
 				left: x + 15,
-				border: '1px solid ' + KTUtil.getCssVariableValue('--bs-light-dark'),
+				border: '1px solid ' + MVUtil.getCssVariableValue('--bs-light-dark'),
 				padding: '4px',
-				color:  + KTUtil.getCssVariableValue('--bs-active-dark'),
+				color:  + MVUtil.getCssVariableValue('--bs-active-dark'),
 				'border-radius': '3px',
-				'background-color':  + KTUtil.getCssVariableValue('--bs-light-dark'),
+				'background-color':  + MVUtil.getCssVariableValue('--bs-light-dark'),
 				opacity: 0.80
 			}).appendTo("body").fadeIn(200);
 		}
@@ -174,6 +174,6 @@ var KTFlotDemoAxis = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTFlotDemoAxis.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVFlotDemoAxis.init();
 });

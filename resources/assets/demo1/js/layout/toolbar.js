@@ -1,14 +1,14 @@
 "use strict";
 
 // Class definition
-var KTLayoutToolbar = function () {
+var MVLayoutToolbar = function () {
     // Private variables
     var toolbar;
 
     // Private functions
     var initForm = function () {
-        var rangeSlider = document.querySelector("#kt_toolbar_slider");
-        var rangeSliderValueElement = document.querySelector("#kt_toolbar_slider_value");
+        var rangeSlider = document.querySelector("#mv_toolbar_slider");
+        var rangeSliderValueElement = document.querySelector("#mv_toolbar_slider_value");
 
         if (!rangeSlider) {
             return;
@@ -57,7 +57,7 @@ var KTLayoutToolbar = function () {
     return {
         init: function () {
             // Elements
-            toolbar = document.querySelector('#kt_toolbar');
+            toolbar = document.querySelector('#mv_toolbar');
 
             if (!toolbar) {
                 return;
@@ -69,6 +69,6 @@ var KTLayoutToolbar = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTLayoutToolbar.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVLayoutToolbar.init();
 });

@@ -1,12 +1,12 @@
 "use strict";
 
 // Class definition
-var KTFormsTinyMCEBasic = function() {
+var MVFormsTinyMCEBasic = function() {
     // Private functions
     var exampleBasic = function() {
-        var options = {selector: '#kt_docs_tinymce_basic'};
+        var options = {selector: '#mv_docs_tinymce_basic'};
         
-        if (KTApp.isDarkMode()) {
+        if (MVApp.isDarkMode()) {
             options['skin'] = 'oxide-dark';
             options['content_css'] = 'dark';
         }
@@ -23,6 +23,6 @@ var KTFormsTinyMCEBasic = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTFormsTinyMCEBasic.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVFormsTinyMCEBasic.init();
 });

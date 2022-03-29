@@ -11,7 +11,7 @@
 					<!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
 					{!! theme()->getSvgIcon("icons/duotune/general/gen021.svg", "svg-icon-1 position-absolute ms-6") !!}
 					<!--end::Svg Icon-->
-					<input type="text" data-kt-permissions-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="Search Permissions">
+					<input type="text" data-mv-permissions-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="Search Permissions">
 				</div>
 				<!--end::Search-->
 			</div>
@@ -19,7 +19,7 @@
 			<!--begin::Card toolbar-->
 			<div class="card-toolbar">
 				<!--begin::Button-->
-				<button type="button" class="btn btn-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_permission">
+				<button type="button" class="btn btn-light-primary" data-bs-toggle="modal" data-bs-target="#mv_modal_add_permission">
 					<!--begin::Svg Icon | path: icons/duotune/general/gen035.svg-->
 
 					{!! theme()->getSvgIcon("icons/duotune/general/gen035.svg", "svg-icon-3") !!}

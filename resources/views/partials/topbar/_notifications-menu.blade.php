@@ -70,7 +70,7 @@
 ?>
 
 <!--begin::Menu-->
-<div class="menu menu-sub menu-sub-dropdown menu-column w-350px w-lg-375px" data-kt-menu="true">
+<div class="menu menu-sub menu-sub-dropdown menu-column w-350px w-lg-375px" data-mv-menu="true">
 	<!--begin::Heading-->
     <div class="d-flex flex-column bgi-no-repeat rounded-top" style="background-image:url('{{ asset(theme()->getMediaUrlPath() . 'misc/pattern-1.jpg') }}')">
         <!--begin::Title-->
@@ -82,15 +82,15 @@
         <!--begin::Tabs-->
         <ul class="nav nav-line-tabs nav-line-tabs-2x nav-stretch fw-bold px-9">
             <li class="nav-item">
-                <a class="nav-link text-white opacity-75 opacity-state-100 pb-4" data-bs-toggle="tab" href="#kt_topbar_notifications_1">Alerts</a>
+                <a class="nav-link text-white opacity-75 opacity-state-100 pb-4" data-bs-toggle="tab" href="#mv_topbar_notifications_1">Alerts</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link text-white opacity-75 opacity-state-100 pb-4 active" data-bs-toggle="tab" href="#kt_topbar_notifications_2">Updates</a>
+                <a class="nav-link text-white opacity-75 opacity-state-100 pb-4 active" data-bs-toggle="tab" href="#mv_topbar_notifications_2">Updates</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link text-white opacity-75 opacity-state-100 pb-4" data-bs-toggle="tab" href="#kt_topbar_notifications_3">Logs</a>
+                <a class="nav-link text-white opacity-75 opacity-state-100 pb-4" data-bs-toggle="tab" href="#mv_topbar_notifications_3">Logs</a>
             </li>
         </ul>
         <!--end::Tabs-->
@@ -100,7 +100,7 @@
     <!--begin::Tab content-->
     <div class="tab-content">
         <!--begin::Tab panel-->
-        <div class="tab-pane fade" id="kt_topbar_notifications_1" role="tabpanel">
+        <div class="tab-pane fade" id="mv_topbar_notifications_1" role="tabpanel">
             <!--begin::Items-->
             <div class="scroll-y mh-325px my-5 px-8">
                 <?php foreach($alerts as $alert):?>
@@ -146,7 +146,7 @@
         <!--end::Tab panel-->
 
         <!--begin::Tab panel-->
-        <div class="tab-pane fade show active" id="kt_topbar_notifications_2" role="tabpanel">
+        <div class="tab-pane fade show active" id="mv_topbar_notifications_2" role="tabpanel">
             <!--begin::Wrapper-->
             <div class="d-flex flex-column px-9">
                 <!--begin::Section-->
@@ -165,7 +165,7 @@
 
                     <!--begin::Action-->
                     <div class="text-center mt-5 mb-9">
-                        <a href="#" class="btn btn-sm btn-primary px-6" data-bs-toggle="modal" data-bs-target="#kt_modal_upgrade_plan">Upgrade</a>
+                        <a href="#" class="btn btn-sm btn-primary px-6" data-bs-toggle="modal" data-bs-target="#mv_modal_upgrade_plan">Upgrade</a>
                     </div>
                     <!--end::Action-->
                 </div>
@@ -180,7 +180,7 @@
         <!--end::Tab panel-->
 
         <!--begin::Tab panel-->
-        <div class="tab-pane fade" id="kt_topbar_notifications_3" role="tabpanel">
+        <div class="tab-pane fade" id="mv_topbar_notifications_3" role="tabpanel">
             <!--begin::Items-->
             <div class="scroll-y mh-325px my-5 px-8">
                 <?php foreach($logs as $log):?>

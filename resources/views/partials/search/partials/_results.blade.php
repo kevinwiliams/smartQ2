@@ -84,12 +84,12 @@
     $loop = 0;
 ?>
 <!--begin::Recently viewed-->
-<div data-kt-search-element="results" class="d-none">
+<div data-mv-search-element="results" class="d-none">
     <!--begin::Items-->
     <div class="scroll-y mh-200px mh-lg-325px">
         <?php foreach($items as $category => $categoryItems):?>
             <!--begin::Category title-->
-            <h3 class="fs-5 text-muted m-0 {{ ($loop > 1 ? 'pt-5' : '') }} pb-5" data-kt-search-element="category-title">
+            <h3 class="fs-5 text-muted m-0 {{ ($loop > 1 ? 'pt-5' : '') }} pb-5" data-mv-search-element="category-title">
                 {{ ucfirst($category) }}
             </h3>
             <!--end::Category title-->

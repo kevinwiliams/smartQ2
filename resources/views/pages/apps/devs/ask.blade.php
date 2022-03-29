@@ -1,7 +1,7 @@
 <x-base-layout>
 
     <!--begin:Form-->
-    <form id="kt_devs_ask_form" class="form" action="javascript:void(0)">
+    <form id="mv_devs_ask_form" class="form" action="javascript:void(0)">
         <!--begin::Input group-->
         <div class="d-flex flex-column mb-8 fv-row">
             <!--begin::Label-->
@@ -28,12 +28,12 @@
 
             <!--begin::Form control-->
             <div class="fv-row">
-                <textarea class="form-control mb-3" rows="10" name="question" placeholder="Please specify your question" data-kt-autosize="true"></textarea>
+                <textarea class="form-control mb-3" rows="10" name="question" placeholder="Please specify your question" data-mv-autosize="true"></textarea>
             </div>
             <!--end::Form control-->
 
             <!--begin::Formating toggle-->
-            <div class="text-primary fs-base fw-bold cursor-pointer" data-bs-toggle="collapse" data-bs-target="#kt_devs_ask_formatting">
+            <div class="text-primary fs-base fw-bold cursor-pointer" data-bs-toggle="collapse" data-bs-target="#mv_devs_ask_formatting">
                 Text formatting options
             </div>
             <!--end::Formating toggle-->
@@ -96,7 +96,7 @@
             <!--end::Public-->
 
             <!--begin::Submit-->
-            <button type="submit" id="kt_devs_ask_submit" class="btn btn-primary">
+            <button type="submit" id="mv_devs_ask_submit" class="btn btn-primary">
                 {{ theme()->getView('partials/general/_button-indicator') }}
             </button>
             <!--begin::Submit-->

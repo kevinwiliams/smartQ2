@@ -1,14 +1,14 @@
 "use strict";
 
 // Class definition
-var KTJKanbanDemoFixedHeight = function () {
+var MVJKanbanDemoFixedHeight = function () {
     var element;
     var kanbanEl;
 
     // Private functions
     var exampleFixedHeight = function () {
         // Get kanban height value
-        const kanbanHeight = kanbanEl.getAttribute('data-kt-jkanban-height');
+        const kanbanHeight = kanbanEl.getAttribute('data-mv-jkanban-height');
 
         // Init jKanban
         var kanban = new jKanban({
@@ -186,7 +186,7 @@ var KTJKanbanDemoFixedHeight = function () {
     return {
         // Public Functions
         init: function () {
-            element = '#kt_docs_jkanban_fixed_height';
+            element = '#mv_docs_jkanban_fixed_height';
             kanbanEl = document.querySelector(element);
 
             exampleFixedHeight();
@@ -195,6 +195,6 @@ var KTJKanbanDemoFixedHeight = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTJKanbanDemoFixedHeight.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVJKanbanDemoFixedHeight.init();
 });

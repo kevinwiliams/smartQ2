@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTDraggableCards = function() {
+var MVDraggableCards = function() {
     // Private functions
     var exampleCards = function() {
         var containers = document.querySelectorAll('.draggable-zone');
@@ -30,6 +30,6 @@ var KTDraggableCards = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTDraggableCards.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVDraggableCards.init();
 });

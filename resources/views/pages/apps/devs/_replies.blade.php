@@ -52,7 +52,7 @@
 ?>
 
 <!--begin::Heading-->
-<a id="answers" data-kt-scroll-offset="{default: 100, lg: 125}"></a>
+<a id="answers" data-mv-scroll-offset="{default: 100, lg: 125}"></a>
 <h2 class="fw-bolder text-gray-900 mb-10">
     Replies(14)
 </h2>

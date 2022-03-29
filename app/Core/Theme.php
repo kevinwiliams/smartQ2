@@ -645,7 +645,7 @@ class Theme {
     }
 
     public static function importModalById($id) {
-        $name = str_replace('#kt_modal_', '', $id);
+        $name = str_replace('#mv_modal_', '', $id);
         $name = str_replace('_', '-', $name);
 
         self::importModal($name);
@@ -661,7 +661,7 @@ class Theme {
         }
 
         $code = ' data-bs-toggle="modal"';
-        $code .= ' data-bs-target="#kt_modal_' . str_replace('-', '_', $name) . '"';
+        $code .= ' data-bs-target="#mv_modal_' . str_replace('-', '_', $name) . '"';
 
         if ($return === true) {
             return $code;

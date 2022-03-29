@@ -1,11 +1,11 @@
 "use strict";
 
 // Class definition
-var KTFormsDropzoneJSDemos = function () {
+var MVFormsDropzoneJSDemos = function () {
     // Private functions
     var exampleBasic = function () {
         // For more info about Dropzone plugin visit:  https://www.dropzonejs.com/#usage
-        var myDropzone = new Dropzone("#kt_dropzonejs_example_1", {
+        var myDropzone = new Dropzone("#mv_dropzonejs_example_1", {
             url: "https://keenthemes.com/scripts/void.php", // Set the url for your upload script location
             paramName: "file", // The name that will be used to transfer the file
             maxFiles: 10,
@@ -23,7 +23,7 @@ var KTFormsDropzoneJSDemos = function () {
 
     var exampleQueue = function () {
         // set the dropzone container id
-        const id = "#kt_dropzonejs_example_2";
+        const id = "#mv_dropzonejs_example_2";
         const dropzone = document.querySelector(id);
 
         // set the preview element template
@@ -115,7 +115,7 @@ var KTFormsDropzoneJSDemos = function () {
 
     var exampleQueueAutoUpload = function () {
         // set the dropzone container id
-        const id = "#kt_dropzonejs_example_3";
+        const id = "#mv_dropzonejs_example_3";
         const dropzone = document.querySelector(id);
 
         // set the preview element template
@@ -182,6 +182,6 @@ var KTFormsDropzoneJSDemos = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTFormsDropzoneJSDemos.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVFormsDropzoneJSDemos.init();
 });

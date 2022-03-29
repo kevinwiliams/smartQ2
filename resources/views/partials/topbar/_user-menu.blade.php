@@ -1,5 +1,5 @@
 <!--begin::Menu-->
-<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-275px" data-kt-menu="true">
+<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-275px" data-mv-menu="true">
     <!--begin::Menu item-->
     <div class="menu-item px-3">
         <div class="menu-content d-flex align-items-center px-3">
@@ -39,7 +39,7 @@
     <!--end::Menu separator-->
 
     <!--begin::Menu item-->
-    <div class="menu-item px-5" data-kt-menu-trigger="hover" data-kt-menu-placement="left-start">
+    <div class="menu-item px-5" data-mv-menu-trigger="hover" data-mv-menu-placement="left-start">
         <a href="#" class="menu-link px-5">
             <span class="menu-title position-relative">
                 {{ __('Language') }}
@@ -123,7 +123,7 @@
     <div class="menu-item px-5">
         <form action="{{ theme()->getPageUrl('logout') }}" method="post" id="logoutForm">
         @csrf <!-- {{ csrf_field() }} -->      
-           <a href="" class="button-ajax menu-link px-5" id="kt_user_sign_out">
+           <a href="" class="button-ajax menu-link px-5" id="mv_user_sign_out">
             {{ __('Sign Out') }}
         </a>  
         </form>
@@ -139,8 +139,8 @@
         <!--begin::Menu item-->
         <div class="menu-item px-5">
             <div class="menu-content px-5">
-                <label class="form-check form-switch form-check-custom form-check-solid pulse pulse-success" for="kt_user_menu_dark_mode_toggle">
-                    <input class="form-check-input w-30px h-20px" type="checkbox" value="1" name="skin" id="kt_user_menu_dark_mode_toggle" {{ theme()->isDarkMode() ? 'checked' : '' }} data-kt-url="{{ theme()->getPageUrl('', '', theme()->isDarkMode() ? '' : 'dark') }}"/>
+                <label class="form-check form-switch form-check-custom form-check-solid pulse pulse-success" for="mv_user_menu_dark_mode_toggle">
+                    <input class="form-check-input w-30px h-20px" type="checkbox" value="1" name="skin" id="mv_user_menu_dark_mode_toggle" {{ theme()->isDarkMode() ? 'checked' : '' }} data-mv-url="{{ theme()->getPageUrl('', '', theme()->isDarkMode() ? '' : 'dark') }}"/>
                     <span class="pulse-ring ms-n1"></span>
 
                     <span class="form-check-label text-gray-600 fs-7">

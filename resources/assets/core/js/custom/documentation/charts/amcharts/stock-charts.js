@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTGeneralAmChartsStock = function () {
+var MVGeneralAmChartsStock = function () {
     // Shared variables
     var chart;
     const bodyColor = getComputedStyle(document.documentElement).getPropertyValue('--bs-body-color');
@@ -14,7 +14,7 @@ var KTGeneralAmChartsStock = function () {
 
             // Create root element
             // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-            var root = am5.Root.new("kt_amcharts_1");
+            var root = am5.Root.new("mv_amcharts_1");
 
 
             // Set themes
@@ -258,7 +258,7 @@ var KTGeneralAmChartsStock = function () {
 
             // Create root element
             // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-            var root = am5.Root.new("kt_amcharts_2");
+            var root = am5.Root.new("mv_amcharts_2");
 
 
             // Set themes
@@ -531,7 +531,7 @@ var KTGeneralAmChartsStock = function () {
 
             // Create root element
             // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-            var root = am5.Root.new("kt_amcharts_3");
+            var root = am5.Root.new("mv_amcharts_3");
 
 
             // Set themes
@@ -790,6 +790,6 @@ var KTGeneralAmChartsStock = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTGeneralAmChartsStock.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVGeneralAmChartsStock.init();
 });

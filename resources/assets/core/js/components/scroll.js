@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTScroll = function(element, options) {
+var MVScroll = function(element, options) {
     ////////////////////////////
     // ** Private Variables  ** //
     ////////////////////////////
@@ -22,8 +22,8 @@ var KTScroll = function(element, options) {
     ////////////////////////////
 
     var _construct = function() {
-        if ( KTUtil.data(element).has('scroll') ) {
-            the = KTUtil.data(element).get('scroll');
+        if ( MVUtil.data(element).has('scroll') ) {
+            the = MVUtil.data(element).get('scroll');
         } else {
             _init();
         }
@@ -31,20 +31,20 @@ var KTScroll = function(element, options) {
 
     var _init = function() {
         // Variables
-        the.options = KTUtil.deepExtend({}, defaultOptions, options);
+        the.options = MVUtil.deepExtend({}, defaultOptions, options);
 
         // Elements
         the.element = element;        
         the.id = the.element.getAttribute('id');
 
         // Set initialized
-        the.element.setAttribute('data-kt-scroll', 'true');
+        the.element.setAttribute('data-mv-scroll', 'true');
 
         // Update
         _update();
 
         // Bind Instance
-        KTUtil.data(the.element).set('scroll', the);
+        MVUtil.data(the.element).set('scroll', the);
     }
 
     var _setupHeight = function() {
@@ -53,16 +53,16 @@ var KTScroll = function(element, options) {
 
         // Set height
         if ( height !== null && height.length > 0 ) {
-            KTUtil.css(the.element, heightType, height);
+            MVUtil.css(the.element, heightType, height);
         } else {
-            KTUtil.css(the.element, heightType, '');
+            MVUtil.css(the.element, heightType, '');
         }
     }
 
     var _setupState = function () {
-        if ( _getOption('save-state') === true && typeof KTCookie !== 'undefined' && the.id ) {
-            if ( KTCookie.get(the.id + 'st') ) {
-                var pos = parseInt(KTCookie.get(the.id + 'st'));
+        if ( _getOption('save-state') === true && typeof MVCookie !== 'undefined' && the.id ) {
+            if ( MVCookie.get(the.id + 'st') ) {
+                var pos = parseInt(MVCookie.get(the.id + 'st'));
 
                 if ( pos > 0 ) {
                     the.element.scrollTop = pos;
@@ -72,7 +72,7 @@ var KTScroll = function(element, options) {
     }
 
     var _setupScrollHandler = function() {
-        if ( _getOption('save-state') === true && typeof KTCookie !== 'undefined' && the.id ) {
+        if ( _getOption('save-state') === true && typeof MVCookie !== 'undefined' && the.id ) {
             the.element.addEventListener('scroll', _scrollHandler);
         } else {
             the.element.removeEventListener('scroll', _scrollHandler);
@@ -84,16 +84,16 @@ var KTScroll = function(element, options) {
     }
 
     var _resetHeight = function() {
-        KTUtil.css(the.element, _getHeightType(), '');
+        MVUtil.css(the.element, _getHeightType(), '');
     }
 
     var _scrollHandler = function () {
-        KTCookie.set(the.id + 'st', the.element.scrollTop);
+        MVCookie.set(the.id + 'st', the.element.scrollTop);
     }
 
     var _update = function() {
         // Activate/deactivate
-        if ( _getOption('activate') === true || the.element.hasAttribute('data-kt-scroll-activate') === false ) {
+        if ( _getOption('activate') === true || the.element.hasAttribute('data-mv-scroll-activate') === false ) {
             _setupHeight();
             _setupScrollHandler();
             _setupState();
@@ -116,7 +116,7 @@ var KTScroll = function(element, options) {
     }
 
     var _getAutoHeight = function() {
-        var height = KTUtil.getViewPort().height;
+        var height = MVUtil.getViewPort().height;
 
         var dependencies = _getOption('dependencies');
         var wrappers = _getOption('wrappers');
@@ -130,20 +130,20 @@ var KTScroll = function(element, options) {
                 for ( var i = 0, len = elements.length; i < len; i++ ) {
                     var element = elements[i];
 
-                    if ( KTUtil.visible(element) === false ) {
+                    if ( MVUtil.visible(element) === false ) {
                         continue;
                     }
 
-                    height = height - parseInt(KTUtil.css(element, 'height'));
-                    height = height - parseInt(KTUtil.css(element, 'margin-top'));
-                    height = height - parseInt(KTUtil.css(element, 'margin-bottom'));
+                    height = height - parseInt(MVUtil.css(element, 'height'));
+                    height = height - parseInt(MVUtil.css(element, 'margin-top'));
+                    height = height - parseInt(MVUtil.css(element, 'margin-bottom'));
 
-                    if (KTUtil.css(element, 'border-top')) {
-                        height = height - parseInt(KTUtil.css(element, 'border-top'));
+                    if (MVUtil.css(element, 'border-top')) {
+                        height = height - parseInt(MVUtil.css(element, 'border-top'));
                     }
 
-                    if (KTUtil.css(element, 'border-bottom')) {
-                        height = height - parseInt(KTUtil.css(element, 'border-bottom'));
+                    if (MVUtil.css(element, 'border-bottom')) {
+                        height = height - parseInt(MVUtil.css(element, 'border-bottom'));
                     }
                 }
             }
@@ -156,21 +156,21 @@ var KTScroll = function(element, options) {
                 for ( var i = 0, len = elements.length; i < len; i++ ) {
                     var element = elements[i];
 
-                    if ( KTUtil.visible(element) === false ) {
+                    if ( MVUtil.visible(element) === false ) {
                         continue;
                     }
 
-                    height = height - parseInt(KTUtil.css(element, 'margin-top'));
-                    height = height - parseInt(KTUtil.css(element, 'margin-bottom'));
-                    height = height - parseInt(KTUtil.css(element, 'padding-top'));
-                    height = height - parseInt(KTUtil.css(element, 'padding-bottom'));
+                    height = height - parseInt(MVUtil.css(element, 'margin-top'));
+                    height = height - parseInt(MVUtil.css(element, 'margin-bottom'));
+                    height = height - parseInt(MVUtil.css(element, 'padding-top'));
+                    height = height - parseInt(MVUtil.css(element, 'padding-bottom'));
 
-                    if (KTUtil.css(element, 'border-top')) {
-                        height = height - parseInt(KTUtil.css(element, 'border-top'));
+                    if (MVUtil.css(element, 'border-top')) {
+                        height = height - parseInt(MVUtil.css(element, 'border-top'));
                     }
 
-                    if (KTUtil.css(element, 'border-bottom')) {
-                        height = height - parseInt(KTUtil.css(element, 'border-bottom'));
+                    if (MVUtil.css(element, 'border-bottom')) {
+                        height = height - parseInt(MVUtil.css(element, 'border-bottom'));
                     }
                 }
             }
@@ -181,15 +181,15 @@ var KTScroll = function(element, options) {
             height = height - parseInt(offset);
         }
 
-        height = height - parseInt(KTUtil.css(the.element, 'margin-top'));
-        height = height - parseInt(KTUtil.css(the.element, 'margin-bottom'));
+        height = height - parseInt(MVUtil.css(the.element, 'margin-top'));
+        height = height - parseInt(MVUtil.css(the.element, 'margin-bottom'));
         
-        if (KTUtil.css(element, 'border-top')) {
-            height = height - parseInt(KTUtil.css(element, 'border-top'));
+        if (MVUtil.css(element, 'border-top')) {
+            height = height - parseInt(MVUtil.css(element, 'border-top'));
         }
 
-        if (KTUtil.css(element, 'border-bottom')) {
-            height = height - parseInt(KTUtil.css(element, 'border-bottom'));
+        if (MVUtil.css(element, 'border-bottom')) {
+            height = height - parseInt(MVUtil.css(element, 'border-bottom'));
         }
 
         height = String(height) + 'px';
@@ -198,10 +198,10 @@ var KTScroll = function(element, options) {
     }
 
     var _getOption = function(name) {
-        if ( the.element.hasAttribute('data-kt-scroll-' + name) === true ) {
-            var attr = the.element.getAttribute('data-kt-scroll-' + name);
+        if ( the.element.hasAttribute('data-mv-scroll-' + name) === true ) {
+            var attr = the.element.getAttribute('data-mv-scroll-' + name);
 
-            var value = KTUtil.getResponsiveValue(attr);
+            var value = MVUtil.getResponsiveValue(attr);
 
             if ( value !== null && String(value) === 'true' ) {
                 value = true;
@@ -211,10 +211,10 @@ var KTScroll = function(element, options) {
 
             return value;
         } else {
-            var optionName = KTUtil.snakeToCamel(name);
+            var optionName = MVUtil.snakeToCamel(name);
 
             if ( the.options[optionName] ) {
-                return KTUtil.getResponsiveValue(the.options[optionName]);
+                return MVUtil.getResponsiveValue(the.options[optionName]);
             } else {
                 return null;
             }
@@ -232,7 +232,7 @@ var KTScroll = function(element, options) {
     }
 
     var _destroy = function() {
-        KTUtil.data(the.element).remove('scroll');
+        MVUtil.data(the.element).remove('scroll');
     }
 
     // Construct Class
@@ -260,16 +260,16 @@ var KTScroll = function(element, options) {
 };
 
 // Static methods
-KTScroll.getInstance = function(element) {
-    if ( element !== null && KTUtil.data(element).has('scroll') ) {
-        return KTUtil.data(element).get('scroll');
+MVScroll.getInstance = function(element) {
+    if ( element !== null && MVUtil.data(element).has('scroll') ) {
+        return MVUtil.data(element).get('scroll');
     } else {
         return null;
     }
 }
 
 // Create instances
-KTScroll.createInstances = function(selector = '[data-kt-scroll="true"]') {
+MVScroll.createInstances = function(selector = '[data-mv-scroll="true"]') {
     var body = document.getElementsByTagName("BODY")[0];
 
     // Initialize Menus
@@ -277,7 +277,7 @@ KTScroll.createInstances = function(selector = '[data-kt-scroll="true"]') {
 
     if ( elements && elements.length > 0 ) {
         for (var i = 0, len = elements.length; i < len; i++) {
-            new KTScroll(elements[i]);
+            new MVScroll(elements[i]);
         }
     }
 }
@@ -287,13 +287,13 @@ window.addEventListener('resize', function() {
     var timer;
     var body = document.getElementsByTagName("BODY")[0];
 
-    KTUtil.throttle(timer, function() {
+    MVUtil.throttle(timer, function() {
         // Locate and update Offcanvas instances on window resize
-        var elements = body.querySelectorAll('[data-kt-scroll="true"]');
+        var elements = body.querySelectorAll('[data-mv-scroll="true"]');
 
         if ( elements && elements.length > 0 ) {
             for (var i = 0, len = elements.length; i < len; i++) {
-                var scroll = KTScroll.getInstance(elements[i]);
+                var scroll = MVScroll.getInstance(elements[i]);
                 if (scroll) {
                     scroll.update();
                 }
@@ -303,18 +303,18 @@ window.addEventListener('resize', function() {
 });
 
 // Global initialization
-KTScroll.init = function() {
-    KTScroll.createInstances();
+MVScroll.init = function() {
+    MVScroll.createInstances();
 };
 
 // On document ready
 if (document.readyState === 'loading') {
-   document.addEventListener('DOMContentLoaded', KTScroll.init);
+   document.addEventListener('DOMContentLoaded', MVScroll.init);
 } else {
-    KTScroll.init();
+    MVScroll.init();
 }
 
 // Webpack Support
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    module.exports = KTScroll;
+    module.exports = MVScroll;
 }

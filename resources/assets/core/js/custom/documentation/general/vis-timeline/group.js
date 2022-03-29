@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTVisTimelineGroup = function () {
+var MVVisTimelineGroup = function () {
     // Private functions
     var exampleGroup = function () {
         var now = Date.now();
@@ -45,7 +45,7 @@ var KTVisTimelineGroup = function () {
         }
 
         // create a Timeline
-        var container = document.getElementById("kt_docs_vistimeline_group");
+        var container = document.getElementById("mv_docs_vistimeline_group");
         var timeline = new vis.Timeline(container, items, groups, options);
         //timeline = new vis.Timeline(container, null, options);
         timeline.setGroups(groups);
@@ -77,7 +77,7 @@ var KTVisTimelineGroup = function () {
         // this.timeline.on("scrollSide", debounce(groupFocus, 200))        
 
         // Handle button click
-        const button = document.getElementById('kt_docs_vistimeline_group_button');
+        const button = document.getElementById('mv_docs_vistimeline_group_button');
         button.addEventListener('click', e => {
             e.preventDefault();
 
@@ -96,6 +96,6 @@ var KTVisTimelineGroup = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTVisTimelineGroup.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVVisTimelineGroup.init();
 });

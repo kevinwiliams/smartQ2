@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTVisTimelineInteraction = function () {
+var MVVisTimelineInteraction = function () {
     // Private functions
     var exampleInteraction = function () {
         // create a dataset with items
@@ -22,7 +22,7 @@ var KTVisTimelineInteraction = function () {
             { id: 6, content: "item 6", start: "2021-01-26" },
         ]);
 
-        var container = document.getElementById("kt_docs_vistimeline_interaction");
+        var container = document.getElementById("mv_docs_vistimeline_interaction");
         var options = {
             start: "2021-01-10",
             end: "2021-02-10",
@@ -61,6 +61,6 @@ var KTVisTimelineInteraction = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTVisTimelineInteraction.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVVisTimelineInteraction.init();
 });

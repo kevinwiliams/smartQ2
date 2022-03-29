@@ -35,7 +35,7 @@
         [
             'color' => 'warning',
             'title' => '40+ In-house Components',
-            'description' => 'Our exclusive components such as KTMenu, KTPasswordMeter, KTDrawer are made to empower your next project with our novel UI/UX vision.',
+            'description' => 'Our exclusive components such as MVMenu, MVPasswordMeter, MVDrawer are made to empower your next project with our novel UI/UX vision.',
             'icon' => 'icons/duotune/art/art006.svg',
             'link-text' => 'Browse components',
             'link-path' => theme()->getOption('product', 'preview') . '/' . theme()->getDemo() . '/documentation/forms/password-meter.html',

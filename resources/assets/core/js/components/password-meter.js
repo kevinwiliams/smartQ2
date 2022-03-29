@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTPasswordMeter = function(element, options) {
+var MVPasswordMeter = function(element, options) {
     ////////////////////////////
     // ** Private variables  ** //
     ////////////////////////////
@@ -27,8 +27,8 @@ var KTPasswordMeter = function(element, options) {
 
     // Constructor
     var _construct = function() {
-        if ( KTUtil.data(element).has('password-meter') === true ) {
-            the = KTUtil.data(element).get('password-meter');
+        if ( MVUtil.data(element).has('password-meter') === true ) {
+            the = MVUtil.data(element).get('password-meter');
         } else {
             _init();
         }
@@ -37,24 +37,24 @@ var KTPasswordMeter = function(element, options) {
     // Initialize
     var _init = function() {
         // Variables
-        the.options = KTUtil.deepExtend({}, defaultOptions, options);
+        the.options = MVUtil.deepExtend({}, defaultOptions, options);
         the.score = 0;
         the.checkSteps = 5;
 
         // Elements
         the.element = element;
         the.inputElement = the.element.querySelector('input[type]');
-        the.visibilityElement = the.element.querySelector('[data-kt-password-meter-control="visibility"]');
-        the.highlightElement = the.element.querySelector('[data-kt-password-meter-control="highlight"]'); 
+        the.visibilityElement = the.element.querySelector('[data-mv-password-meter-control="visibility"]');
+        the.highlightElement = the.element.querySelector('[data-mv-password-meter-control="highlight"]'); 
 
         // Set initialized
-        the.element.setAttribute('data-kt-password-meter', 'true');
+        the.element.setAttribute('data-mv-password-meter', 'true');
         
         // Event Handlers
         _handlers();
 
         // Bind Instance
-        KTUtil.data(the.element).set('password-meter', the);
+        MVUtil.data(the.element).set('password-meter', the);
     }
 
     // Handlers
@@ -190,7 +190,7 @@ var KTPasswordMeter = function(element, options) {
     }
 
     var _destroy = function() {
-        KTUtil.data(the.element).remove('password-meter');
+        MVUtil.data(the.element).remove('password-meter');
     }
 
     // Construct class
@@ -219,40 +219,40 @@ var KTPasswordMeter = function(element, options) {
 };
 
 // Static methods
-KTPasswordMeter.getInstance = function(element) {
-    if ( element !== null && KTUtil.data(element).has('password-meter') ) {
-        return KTUtil.data(element).get('password-meter');
+MVPasswordMeter.getInstance = function(element) {
+    if ( element !== null && MVUtil.data(element).has('password-meter') ) {
+        return MVUtil.data(element).get('password-meter');
     } else {
         return null;
     }
 }
 
 // Create instances
-KTPasswordMeter.createInstances = function(selector = '[data-kt-password-meter]') {
+MVPasswordMeter.createInstances = function(selector = '[data-mv-password-meter]') {
     // Get instances
     var elements = document.body.querySelectorAll(selector);
 
     if ( elements && elements.length > 0 ) {
         for (var i = 0, len = elements.length; i < len; i++) {
             // Initialize instances
-            new KTPasswordMeter(elements[i]);
+            new MVPasswordMeter(elements[i]);
         }
     }
 }
 
 // Global initialization
-KTPasswordMeter.init = function() {
-    KTPasswordMeter.createInstances();
+MVPasswordMeter.init = function() {
+    MVPasswordMeter.createInstances();
 };
 
 // On document ready
 if (document.readyState === 'loading') {
-   document.addEventListener('DOMContentLoaded', KTPasswordMeter.init);
+   document.addEventListener('DOMContentLoaded', MVPasswordMeter.init);
 } else {
-    KTPasswordMeter.init();
+    MVPasswordMeter.init();
 }
 
 // Webpack support
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    module.exports = KTPasswordMeter;
+    module.exports = MVPasswordMeter;
 }

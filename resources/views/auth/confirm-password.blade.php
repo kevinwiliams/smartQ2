@@ -28,7 +28,7 @@
 
         <!--begin::Actions-->
         <div class="d-flex flex-wrap justify-content-center pb-lg-0">
-            <button type="submit" id="kt_password_reset_submit" class="btn btn-lg btn-primary fw-bolder me-4">
+            <button type="submit" id="mv_password_reset_submit" class="btn btn-lg btn-primary fw-bolder me-4">
                 @include('partials.general._button-indicator')
             </button>
 

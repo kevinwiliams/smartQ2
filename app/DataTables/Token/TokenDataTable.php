@@ -43,11 +43,12 @@ class TokenDataTable extends DataTable
                 $col = ($model->is_vip == 1)? 'danger' : (($model->status == 3) ? 'warning' : 'primary');
                 $txt = ($model->status == 1)? 'Active' : 'Inactive';
                 
-                $str = '<div class="badge badge-light-'.$col.' fw-bolder">' .$model->token_no .'</div><input type=hidden name=token-id value='.$model->id.'>';     
+                $str = '<div class="badge badge-light-'.$col.' fw-bolder">' .$model->token_no .'</div><input type=hidden name=token-id data-vip="'.$model->is_vip.'" value='.$model->id.'>';     
                 return $str;
             })
             ->editColumn('client_id', function (Token $model) {
-                $clientName = !empty( $model->client->firstname)? $model->client->firstname:'N/A';
+                $notes = '<input type=hidden name=notes value='.$model->note.'>';
+                $clientName = !empty( $model->client->firstname)? $model->client->firstname.$notes:'N/A'.$notes;
                 return $clientName;
                 // return $model->client->firstname;
             })
@@ -73,7 +74,7 @@ class TokenDataTable extends DataTable
             ->addColumn('action', function (Token $model) {
                 return view('pages.admin.token._active-menu', compact('model'));
             })
-            ->rawColumns(['action','token_no','created_at', 'department_id', 'counter_id', 'user_id']);
+            ->rawColumns(['action','token_no','created_at', 'department_id', 'counter_id', 'user_id', 'client_id']);
     }
 
     /**

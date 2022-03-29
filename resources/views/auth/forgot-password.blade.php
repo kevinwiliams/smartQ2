@@ -1,6 +1,6 @@
 <x-auth-layout>
     <!--begin::Forgot Password Form-->
-    <form method="POST" action="{{ theme()->getPageUrl('password.email') }}" class="form w-100" novalidate="novalidate" id="kt_password_reset_form">
+    <form method="POST" action="{{ theme()->getPageUrl('password.email') }}" class="form w-100" novalidate="novalidate" id="mv_password_reset_form">
     @csrf
 
         <!--begin::Heading-->
@@ -28,7 +28,7 @@
 
         <!--begin::Actions-->
         <div class="d-flex flex-wrap justify-content-center pb-lg-0">
-            <button type="submit" id="kt_password_reset_submit" class="btn btn-lg btn-primary fw-bolder me-4">
+            <button type="submit" id="mv_password_reset_submit" class="btn btn-lg btn-primary fw-bolder me-4">
                 @include('partials.general._button-indicator')
             </button>
 

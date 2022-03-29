@@ -1,10 +1,10 @@
 "use strict";
 
 // Class definition
-var KTJSTreeBasic = function() {
+var MVJSTreeBasic = function() {
     // Private functions
     var exampleBasic = function() {
-        $('#kt_docs_jstree_basic').jstree({
+        $('#mv_docs_jstree_basic').jstree({
             "core" : {
                 "themes" : {
                     "responsive": false
@@ -31,6 +31,6 @@ var KTJSTreeBasic = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTJSTreeBasic.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVJSTreeBasic.init();
 });

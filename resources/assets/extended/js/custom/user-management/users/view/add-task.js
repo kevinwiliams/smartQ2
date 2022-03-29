@@ -1,17 +1,17 @@
 "use strict";
 
 // Class definition
-var KTUsersAddTask = function () {
+var MVUsersAddTask = function () {
     // Shared variables
-    const element = document.getElementById('kt_modal_add_task');
-    const form = element.querySelector('#kt_modal_add_task_form');
+    const element = document.getElementById('mv_modal_add_task');
+    const form = element.querySelector('#mv_modal_add_task_form');
     const modal = new bootstrap.Modal(element);
 
     // Init add task modal
     var initAddTask = () => {
 
         // Init flatpickr -- for more info: https://flatpickr.js.org/
-        $("#kt_modal_add_task_datepicker").flatpickr({
+        $("#mv_modal_add_task_datepicker").flatpickr({
             dateFormat: "Y-m-d",
         });
 
@@ -48,7 +48,7 @@ var KTUsersAddTask = function () {
         );
 
         // Close button handler
-        const closeButton = element.querySelector('[data-kt-users-modal-action="close"]');
+        const closeButton = element.querySelector('[data-mv-users-modal-action="close"]');
         closeButton.addEventListener('click', e => {
             e.preventDefault();
 
@@ -82,7 +82,7 @@ var KTUsersAddTask = function () {
         });
 
         // Cancel button handler
-        const cancelButton = element.querySelector('[data-kt-users-modal-action="cancel"]');
+        const cancelButton = element.querySelector('[data-mv-users-modal-action="cancel"]');
         cancelButton.addEventListener('click', e => {
             e.preventDefault();
 
@@ -116,7 +116,7 @@ var KTUsersAddTask = function () {
         });
 
         // Submit button handler
-        const submitButton = element.querySelector('[data-kt-users-modal-action="submit"]');
+        const submitButton = element.querySelector('[data-mv-users-modal-action="submit"]');
         submitButton.addEventListener('click', function (e) {
             // Prevent default button action
             e.preventDefault();
@@ -128,7 +128,7 @@ var KTUsersAddTask = function () {
 
                     if (status == 'Valid') {
                         // Show loading indication
-                        submitButton.setAttribute('data-kt-indicator', 'on');
+                        submitButton.setAttribute('data-mv-indicator', 'on');
 
                         // Disable button to avoid multiple click 
                         submitButton.disabled = true;
@@ -136,7 +136,7 @@ var KTUsersAddTask = function () {
                         // Simulate form submission. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                         setTimeout(function () {
                             // Remove loading indication
-                            submitButton.removeAttribute('data-kt-indicator');
+                            submitButton.removeAttribute('data-mv-indicator');
 
                             // Enable button
                             submitButton.disabled = false;
@@ -177,12 +177,12 @@ var KTUsersAddTask = function () {
 
     // Init update task status
     var initUpdateTaskStatus = () => {
-        const allTaskMenus = document.querySelectorAll('[data-kt-menu-id="kt-users-tasks"]');
+        const allTaskMenus = document.querySelectorAll('[data-mv-menu-id="mv-users-tasks"]');
 
         allTaskMenus.forEach(el => {
-            const resetButton = el.querySelector('[data-kt-users-update-task-status="reset"]');
-            const submitButton = el.querySelector('[data-kt-users-update-task-status="submit"]');
-            const taskForm = el.querySelector('[data-kt-menu-id="kt-users-tasks-form"]');
+            const resetButton = el.querySelector('[data-mv-users-update-task-status="reset"]');
+            const submitButton = el.querySelector('[data-mv-users-update-task-status="submit"]');
+            const taskForm = el.querySelector('[data-mv-menu-id="mv-users-tasks-form"]');
 
             // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
             var validator = FormValidation.formValidation(
@@ -259,7 +259,7 @@ var KTUsersAddTask = function () {
 
                         if (status == 'Valid') {
                             // Show loading indication
-                            submitButton.setAttribute('data-kt-indicator', 'on');
+                            submitButton.setAttribute('data-mv-indicator', 'on');
 
                             // Disable button to avoid multiple click 
                             submitButton.disabled = true;
@@ -267,7 +267,7 @@ var KTUsersAddTask = function () {
                             // Simulate form submission. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                             setTimeout(function () {
                                 // Remove loading indication
-                                submitButton.removeAttribute('data-kt-indicator');
+                                submitButton.removeAttribute('data-mv-indicator');
 
                                 // Enable button
                                 submitButton.disabled = false;
@@ -319,6 +319,6 @@ var KTUsersAddTask = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTUsersAddTask.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVUsersAddTask.init();
 });

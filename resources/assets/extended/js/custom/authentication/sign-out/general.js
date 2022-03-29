@@ -1,11 +1,11 @@
 "use strict";
 
 // Class definition
-var KTUserSessionMain = function () {
+var MVUserSessionMain = function () {
 
     // Init logout session button
     var initLogoutSession = () => {
-        const button = document.getElementById('kt_user_sign_out');
+        const button = document.getElementById('mv_user_sign_out');
 
         button.addEventListener('click', e => {
             e.preventDefault();
@@ -48,6 +48,6 @@ var KTUserSessionMain = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTUserSessionMain.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVUserSessionMain.init();
 });

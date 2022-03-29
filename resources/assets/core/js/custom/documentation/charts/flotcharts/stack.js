@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTFlotDemoStack = function () {
+var MVFlotDemoStack = function () {
     // Private functions
     var exampleStack = function () {
         var d1 = [];
@@ -22,7 +22,7 @@ var KTFlotDemoStack = function () {
 			steps = false;
 
 		function plotWithOptions() {
-			$.plot($("#kt_docs_flot_stack"),
+			$.plot($("#mv_docs_flot_stack"),
 
 				[{
 					label: "sales",
@@ -46,7 +46,7 @@ var KTFlotDemoStack = function () {
 					},
 					shadowSize: 0
 				}], {
-					colors: [KTUtil.getCssVariableValue('--bs-active-danger'), KTUtil.getCssVariableValue('--bs-active-primary')],
+					colors: [MVUtil.getCssVariableValue('--bs-active-danger'), MVUtil.getCssVariableValue('--bs-active-primary')],
 					series: {
 						stack: stack,
 						lines: {
@@ -64,8 +64,8 @@ var KTFlotDemoStack = function () {
 						}
 					},
 					grid: {
-						tickColor: KTUtil.getCssVariableValue('--bs-light-dark'),
-						borderColor: KTUtil.getCssVariableValue('--bs-light-dark'),
+						tickColor: MVUtil.getCssVariableValue('--bs-light-dark'),
+						borderColor: MVUtil.getCssVariableValue('--bs-light-dark'),
 						borderWidth: 1
 					}
 				}
@@ -98,6 +98,6 @@ var KTFlotDemoStack = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTFlotDemoStack.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVFlotDemoStack.init();
 });

@@ -39,7 +39,7 @@ return array(
                 'Fixed undefined <code>DataTables</code> jquery plugin when initialized multiple tables.',
                 'Fixed missing <code>flatpickr</code> plugin CSS.',
                 'Fixed missing <code>CSRF token</code> in the reset password page.',
-                '<code>KTMenu</code> dropdown position issue caused by <code>Popper v2.11.0</code> auto update. Requires packages update with <code>Yarn</code>.',
+                '<code>MVMenu</code> dropdown position issue caused by <code>Popper v2.11.0</code> auto update. Requires packages update with <code>Yarn</code>.',
             ),
         ),
     ),
@@ -143,7 +143,7 @@ return array(
 
             'fix' => array(
                 'Fixed null variable error <code>$info</code> in profile setting page.',
-                '<code>KTMenu</code>dropdown alignment issue on mobile mode',
+                '<code>MVMenu</code>dropdown alignment issue on mobile mode',
             ),
         ),
     ),
@@ -156,13 +156,13 @@ return array(
             ),
 
             'update' => array(
-                'Removed <code>data-kt-menu-flip</code> attributes from the HTML code of <code>KTMenu</code> instances to automatically handle the responsive and parent overflow modes.',
+                'Removed <code>data-mv-menu-flip</code> attributes from the HTML code of <code>MVMenu</code> instances to automatically handle the responsive and parent overflow modes.',
             ),
 
             'fix' => array(
                 'Fixed <code>Overview</code> route page error.',
                 'Fixed missing icons for RTL mode.',
-                'Fixed <code>KTMenu</code> responsive and parent overflow issues.',
+                'Fixed <code>MVMenu</code> responsive and parent overflow issues.',
             ),
         ),
     ),

@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTDraggableMultiple = function() {
+var MVDraggableMultiple = function() {
     // Private functions
     var exampleMultiple = function() {
         var containers = document.querySelectorAll('.draggable-zone');
@@ -30,6 +30,6 @@ var KTDraggableMultiple = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTDraggableMultiple.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVDraggableMultiple.init();
 });

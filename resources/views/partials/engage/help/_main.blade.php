@@ -35,27 +35,27 @@ $items = array(
 ?>
 <!--begin::Help drawer-->
 <div
-    id="kt_help"
+    id="mv_help"
     class="bg-body"
-    data-kt-drawer="true"
-    data-kt-drawer-name="help"
-    data-kt-drawer-activate="true"
-    data-kt-drawer-overlay="true"
-    data-kt-drawer-width="{default:'350px', 'md': '525px'}"
-    data-kt-drawer-direction="{{ theme()->getOption('layout', 'engage/help/direction') }}"
-    data-kt-drawer-toggle="#kt_help_toggle"
-    data-kt-drawer-close="#kt_help_close">
+    data-mv-drawer="true"
+    data-mv-drawer-name="help"
+    data-mv-drawer-activate="true"
+    data-mv-drawer-overlay="true"
+    data-mv-drawer-width="{default:'350px', 'md': '525px'}"
+    data-mv-drawer-direction="{{ theme()->getOption('layout', 'engage/help/direction') }}"
+    data-mv-drawer-toggle="#mv_help_toggle"
+    data-mv-drawer-close="#mv_help_close">
 
     <!--begin::Card-->
     <div class="card shadow-none rounded-0 w-100">
         <!--begin::Header-->
-        <div class="card-header" id="kt_help_header">
+        <div class="card-header" id="mv_help_header">
             <h5 class="card-title fw-bold text-gray-600">
                 Learn & Get Inspired
             </h5>
 
             <div class="card-toolbar">
-                <button type="button" class="btn btn-sm btn-icon explore-btn-dismiss me-n5" id="kt_help_close">
+                <button type="button" class="btn btn-sm btn-icon explore-btn-dismiss me-n5" id="mv_help_close">
                     {!! theme()->getSvgIcon("icons/duotune/arrows/arr061.svg", "svg-icon-2") !!}
                 </button>
             </div>
@@ -63,18 +63,18 @@ $items = array(
         <!--end::Header-->
 
         <!--begin::Body-->
-        <div class="card-body" id="kt_help_body">
+        <div class="card-body" id="mv_help_body">
             <!--begin::Content-->
             <div
-                id="kt_help_scroll"
+                id="mv_help_scroll"
 
                 class="hover-scroll-overlay-y"
 
-                data-kt-scroll="true"
-                data-kt-scroll-height="auto"
-                data-kt-scroll-wrappers="#kt_help_body"
-                data-kt-scroll-dependencies="#kt_help_header"
-                data-kt-scroll-offset="5px">
+                data-mv-scroll="true"
+                data-mv-scroll-height="auto"
+                data-mv-scroll-wrappers="#mv_help_body"
+                data-mv-scroll-dependencies="#mv_help_header"
+                data-mv-scroll-offset="5px">
 
                 <!--begin::Support-->
                 <div class="rounded border border-dashed border-gray-300 p-6 p-lg-8 mb-10">

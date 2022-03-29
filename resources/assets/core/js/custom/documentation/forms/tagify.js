@@ -1,12 +1,12 @@
 "use strict";
 
 // Class definition
-var KTFormsTagifyDemos = function () {
+var MVFormsTagifyDemos = function () {
     // Private functions
     var example1 = function (element) {
         // The DOM elements you wish to replace with Tagify
-        var input1 = document.querySelector("#kt_tagify_1");
-        var input2 = document.querySelector("#kt_tagify_2");
+        var input1 = document.querySelector("#mv_tagify_1");
+        var input2 = document.querySelector("#mv_tagify_2");
 
         // Initialize Tagify components on the above inputs
         new Tagify(input1, {
@@ -19,9 +19,9 @@ var KTFormsTagifyDemos = function () {
 
     var example2 = function (element) {
         // The DOM elements you wish to replace with Tagify
-        var input1 = document.querySelector("#kt_tagify_3");
-        var input2 = document.querySelector("#kt_tagify_4");
-        var input3 = document.querySelector("#kt_tagify_5");
+        var input1 = document.querySelector("#mv_tagify_3");
+        var input2 = document.querySelector("#mv_tagify_4");
+        var input3 = document.querySelector("#mv_tagify_5");
 
         // Initialize Tagify components on the above inputs
         new Tagify(input1);
@@ -31,8 +31,8 @@ var KTFormsTagifyDemos = function () {
 
     var example3 = function (element) {
         // The DOM elements you wish to replace with Tagify
-        var input1 = document.querySelector("#kt_tagify_6");
-        var input2 = document.querySelector("#kt_tagify_7");
+        var input1 = document.querySelector("#mv_tagify_6");
+        var input2 = document.querySelector("#mv_tagify_7");
 
         // Initialize Tagify components on the above inputs
         new Tagify(input1, {
@@ -60,14 +60,14 @@ var KTFormsTagifyDemos = function () {
 
     var example4 = function (element) {
         // The DOM elements you wish to replace with Tagify
-        var input1 = document.querySelector("#kt_tagify_8");
+        var input1 = document.querySelector("#mv_tagify_8");
 
         // Initialize Tagify components on the above inputs
         new Tagify(input1);
     }
 
     const exampleCountry = () => {
-        var tagify = new Tagify(document.querySelector('#kt_tagify_country'), {
+        var tagify = new Tagify(document.querySelector('#mv_tagify_country'), {
             delimiters: null,
             templates: {
                 tag: function (tagData) {
@@ -150,7 +150,7 @@ var KTFormsTagifyDemos = function () {
     }
 
     const exampleUsers = () => {
-        var inputElm = document.querySelector('#kt_tagify_users');
+        var inputElm = document.querySelector('#mv_tagify_users');
 
         const usersList = [
             { value: 1, name: 'Emma Smith', avatar: 'avatars/300-6.jpg', email: 'e.smith@kpmg.com.au' },
@@ -270,6 +270,6 @@ var KTFormsTagifyDemos = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTFormsTagifyDemos.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVFormsTagifyDemos.init();
 });

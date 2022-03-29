@@ -11,7 +11,7 @@
 				<!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
 				{!! theme()->getSvgIcon("icons/duotune/general/gen021.svg", "svg-icon-1 position-absolute ms-6") !!}
 				<!--end::Svg Icon-->
-				<input type="text" data-kt-performance-table-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="Search Officers" />
+				<input type="text" data-mv-performance-table-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="Search Officers" />
 			</div>
 			<!--end::Search-->
 		</div>
@@ -101,14 +101,14 @@
         var end = moment();
 
         function cb(start, end) {
-            $("#kt_performance_report_daterangepicker").html(start.format("MMMM D, YYYY") + " - " + end.format("MMMM D, YYYY"));
+            $("#mv_performance_report_daterangepicker").html(start.format("MMMM D, YYYY") + " - " + end.format("MMMM D, YYYY"));
             $('#start_date').val(start);
             $('#end_date').val(end);
             // alert($('#start_date').val());
             $('.performance').submit();
         }
 
-        $("#kt_performance_report_daterangepicker").daterangepicker({
+        $("#mv_performance_report_daterangepicker").daterangepicker({
             // autoUpdateInput: false,
             locale: {
                 cancelLabel: 'Clear'
@@ -127,7 +127,7 @@
     
     });
 
-    const filterSearch = document.querySelector('[data-kt-performance-table-filter="search"]');
+    const filterSearch = document.querySelector('[data-mv-performance-table-filter="search"]');
 
     filterSearch.addEventListener('keyup', function (e) {
         var table = $('#performance-table').DataTable();

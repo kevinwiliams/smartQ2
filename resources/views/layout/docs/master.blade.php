@@ -9,11 +9,11 @@
         @include('layout/docs/_aside')
 
         <!--begin::Wrapper-->
-            <div class="docs-wrapper d-flex flex-column flex-row-fluid" id="kt_docs_wrapper">
+            <div class="docs-wrapper d-flex flex-column flex-row-fluid" id="mv_docs_wrapper">
             @include('layout/docs/_header')
 
             <!--begin::Content-->
-                <div class="docs-content d-flex flex-column flex-column-fluid" id="kt_docs_content">
+                <div class="docs-content d-flex flex-column flex-column-fluid" id="mv_docs_content">
                     @include('layout/docs/_content')
                 </div>
                 <!--end::Content-->

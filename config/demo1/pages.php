@@ -25,7 +25,7 @@ return array(
                     'layout'            => 'documentation',
                     'description'       => false,
                     'responsive'        => true,
-                    'responsive-target' => '#kt_header_nav' // Responsive target selector
+                    'responsive-target' => '#mv_header_nav' // Responsive target selector
                 ),
             ),
         ),

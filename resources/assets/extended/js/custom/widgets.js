@@ -1,24 +1,24 @@
 "use strict";
 
 // Class definition
-var KTWidgets = function () {
+var MVWidgets = function () {
     
     // Statistics widgets
     var initStatisticsWidget3 = function() {
         var charts = document.querySelectorAll('.statistics-widget-3-chart');
 
         [].slice.call(charts).map(function(element) {
-            var height = parseInt(KTUtil.css(element, 'height'));
+            var height = parseInt(MVUtil.css(element, 'height'));
 
             if ( !element ) {
                 return;
             }
 
-            var color = element.getAttribute('data-kt-chart-color');
+            var color = element.getAttribute('data-mv-chart-color');
 
-            var labelColor = KTUtil.getCssVariableValue('--bs-' + 'gray-800');
-            var baseColor = KTUtil.getCssVariableValue('--bs-' + color);
-            var lightColor = KTUtil.getCssVariableValue('--bs-light-' + color );
+            var labelColor = MVUtil.getCssVariableValue('--bs-' + 'gray-800');
+            var baseColor = MVUtil.getCssVariableValue('--bs-' + color);
+            var lightColor = MVUtil.getCssVariableValue('--bs-light-' + color );
 
             var options = {
                 series: [{
@@ -148,17 +148,17 @@ var KTWidgets = function () {
         var charts = document.querySelectorAll('.statistics-widget-4-chart');
 
         [].slice.call(charts).map(function(element) {
-            var height = parseInt(KTUtil.css(element, 'height'));
+            var height = parseInt(MVUtil.css(element, 'height'));
 
             if ( !element ) {
                 return;
             }
 
-            var color = element.getAttribute('data-kt-chart-color');
+            var color = element.getAttribute('data-mv-chart-color');
 
-            var labelColor = KTUtil.getCssVariableValue('--bs-' + 'gray-800');
-            var baseColor = KTUtil.getCssVariableValue('--bs-' + color);
-            var lightColor = KTUtil.getCssVariableValue('--bs-light-' + color );
+            var labelColor = MVUtil.getCssVariableValue('--bs-' + 'gray-800');
+            var baseColor = MVUtil.getCssVariableValue('--bs-' + color);
+            var lightColor = MVUtil.getCssVariableValue('--bs-light-' + color );
 
             var options = {
                 series: [{
@@ -286,13 +286,13 @@ var KTWidgets = function () {
 
     // Charts widgets
     var initChartsWidget1 = function() {
-        var element = document.getElementById("kt_charts_widget_1_chart");
+        var element = document.getElementById("mv_charts_widget_1_chart");
 
-        var height = parseInt(KTUtil.css(element, 'height'));
-        var labelColor = KTUtil.getCssVariableValue('--bs-gray-500');
-        var borderColor = KTUtil.getCssVariableValue('--bs-gray-200');
-        var baseColor = KTUtil.getCssVariableValue('--bs-primary');
-        var secondaryColor = KTUtil.getCssVariableValue('--bs-gray-300');
+        var height = parseInt(MVUtil.css(element, 'height'));
+        var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
+        var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
+        var baseColor = MVUtil.getCssVariableValue('--bs-primary');
+        var secondaryColor = MVUtil.getCssVariableValue('--bs-gray-300');
 
         if (!element) {
             return;
@@ -406,13 +406,13 @@ var KTWidgets = function () {
     }
 
     var initChartsWidget2 = function() {
-        var element = document.getElementById("kt_charts_widget_2_chart");
+        var element = document.getElementById("mv_charts_widget_2_chart");
 
-        var height = parseInt(KTUtil.css(element, 'height'));
-        var labelColor = KTUtil.getCssVariableValue('--bs-gray-500');
-        var borderColor = KTUtil.getCssVariableValue('--bs-gray-200');
-        var baseColor = KTUtil.getCssVariableValue('--bs-warning');
-        var secondaryColor = KTUtil.getCssVariableValue('--bs-gray-300');
+        var height = parseInt(MVUtil.css(element, 'height'));
+        var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
+        var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
+        var baseColor = MVUtil.getCssVariableValue('--bs-warning');
+        var secondaryColor = MVUtil.getCssVariableValue('--bs-gray-300');
 
         if (!element) {
             return;
@@ -523,13 +523,13 @@ var KTWidgets = function () {
     }
 
     var initChartsWidget3 = function() {
-        var element = document.getElementById("kt_charts_widget_3_chart");
+        var element = document.getElementById("mv_charts_widget_3_chart");
 
-        var height = parseInt(KTUtil.css(element, 'height'));
-        var labelColor = KTUtil.getCssVariableValue('--bs-gray-500');
-        var borderColor = KTUtil.getCssVariableValue('--bs-gray-200');
-        var baseColor = KTUtil.getCssVariableValue('--bs-info');
-        var lightColor = KTUtil.getCssVariableValue('--bs-light-info');
+        var height = parseInt(MVUtil.css(element, 'height'));
+        var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
+        var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
+        var baseColor = MVUtil.getCssVariableValue('--bs-info');
+        var lightColor = MVUtil.getCssVariableValue('--bs-light-info');
 
         if (!element) {
             return;
@@ -658,16 +658,16 @@ var KTWidgets = function () {
     }
 
     var initChartsWidget4 = function() {
-        var element = document.getElementById("kt_charts_widget_4_chart");
+        var element = document.getElementById("mv_charts_widget_4_chart");
 
-        var height = parseInt(KTUtil.css(element, 'height'));
-        var labelColor = KTUtil.getCssVariableValue('--bs-gray-500');
-        var borderColor = KTUtil.getCssVariableValue('--bs-gray-200');
+        var height = parseInt(MVUtil.css(element, 'height'));
+        var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
+        var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
 
-        var baseColor = KTUtil.getCssVariableValue('--bs-success');
-        var baseLightColor = KTUtil.getCssVariableValue('--bs-light-success');
-        var secondaryColor = KTUtil.getCssVariableValue('--bs-warning');
-        var secondaryLightColor = KTUtil.getCssVariableValue('--bs-light-warning');
+        var baseColor = MVUtil.getCssVariableValue('--bs-success');
+        var baseLightColor = MVUtil.getCssVariableValue('--bs-light-success');
+        var secondaryColor = MVUtil.getCssVariableValue('--bs-warning');
+        var secondaryLightColor = MVUtil.getCssVariableValue('--bs-light-warning');
 
         if (!element) {
             return;
@@ -795,14 +795,14 @@ var KTWidgets = function () {
     }
 
     var initChartsWidget5 = function() {
-        var element = document.getElementById("kt_charts_widget_5_chart");
+        var element = document.getElementById("mv_charts_widget_5_chart");
 
-        var height = parseInt(KTUtil.css(element, 'height'));
-        var labelColor = KTUtil.getCssVariableValue('--bs-gray-500');
-        var borderColor = KTUtil.getCssVariableValue('--bs-gray-200');
+        var height = parseInt(MVUtil.css(element, 'height'));
+        var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
+        var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
 
-        var baseColor = KTUtil.getCssVariableValue('--bs-primary');
-        var secondaryColor = KTUtil.getCssVariableValue('--bs-info');
+        var baseColor = MVUtil.getCssVariableValue('--bs-primary');
+        var secondaryColor = MVUtil.getCssVariableValue('--bs-info');
 
         if (!element) {
             return;
@@ -919,15 +919,15 @@ var KTWidgets = function () {
     }
 
     var initChartsWidget6 = function() {
-        var element = document.getElementById("kt_charts_widget_6_chart");
+        var element = document.getElementById("mv_charts_widget_6_chart");
 
-        var height = parseInt(KTUtil.css(element, 'height'));
-        var labelColor = KTUtil.getCssVariableValue('--bs-gray-500');
-        var borderColor = KTUtil.getCssVariableValue('--bs-gray-200');
+        var height = parseInt(MVUtil.css(element, 'height'));
+        var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
+        var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
 
-        var baseColor = KTUtil.getCssVariableValue('--bs-primary');
-        var baseLightColor = KTUtil.getCssVariableValue('--bs-light-primary');
-        var secondaryColor = KTUtil.getCssVariableValue('--bs-info');
+        var baseColor = MVUtil.getCssVariableValue('--bs-primary');
+        var baseLightColor = MVUtil.getCssVariableValue('--bs-light-primary');
+        var secondaryColor = MVUtil.getCssVariableValue('--bs-info');
 
         if (!element) {
             return;
@@ -1058,22 +1058,22 @@ var KTWidgets = function () {
     }
 
     var initChartsWidget7 = function() {
-        var element = document.getElementById("kt_charts_widget_7_chart");
+        var element = document.getElementById("mv_charts_widget_7_chart");
 
-        var height = parseInt(KTUtil.css(element, 'height'));
+        var height = parseInt(MVUtil.css(element, 'height'));
 
-        var labelColor = KTUtil.getCssVariableValue('--bs-gray-500');
-        var borderColor = KTUtil.getCssVariableValue('--bs-gray-200');
-        var strokeColor = KTUtil.getCssVariableValue('--bs-gray-300');
+        var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
+        var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
+        var strokeColor = MVUtil.getCssVariableValue('--bs-gray-300');
 
-        var color1 = KTUtil.getCssVariableValue('--bs-warning');
-        var color1Light = KTUtil.getCssVariableValue('--bs-light-warning');
+        var color1 = MVUtil.getCssVariableValue('--bs-warning');
+        var color1Light = MVUtil.getCssVariableValue('--bs-light-warning');
 
-        var color2 = KTUtil.getCssVariableValue('--bs-success');
-        var color2Light = KTUtil.getCssVariableValue('--bs-light-success');
+        var color2 = MVUtil.getCssVariableValue('--bs-success');
+        var color2Light = MVUtil.getCssVariableValue('--bs-light-success');
 
-        var color3 = KTUtil.getCssVariableValue('--bs-primary');
-        var color3Light = KTUtil.getCssVariableValue('--bs-light-primary');
+        var color3 = MVUtil.getCssVariableValue('--bs-primary');
+        var color3Light = MVUtil.getCssVariableValue('--bs-light-primary');
 
         if (!element) {
             return;
@@ -1216,22 +1216,22 @@ var KTWidgets = function () {
     }
 
     var initChartsWidget8 = function() {
-        var element = document.getElementById("kt_charts_widget_8_chart");
+        var element = document.getElementById("mv_charts_widget_8_chart");
 
-        var height = parseInt(KTUtil.css(element, 'height'));
+        var height = parseInt(MVUtil.css(element, 'height'));
 
-        var labelColor = KTUtil.getCssVariableValue('--bs-gray-500');
-        var borderColor = KTUtil.getCssVariableValue('--bs-gray-200');
-        var strokeColor = KTUtil.getCssVariableValue('--bs-gray-300');
+        var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
+        var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
+        var strokeColor = MVUtil.getCssVariableValue('--bs-gray-300');
 
-        var color1 = KTUtil.getCssVariableValue('--bs-warning');
-        var color1Light = KTUtil.getCssVariableValue('--bs-light-warning');
+        var color1 = MVUtil.getCssVariableValue('--bs-warning');
+        var color1Light = MVUtil.getCssVariableValue('--bs-light-warning');
 
-        var color2 = KTUtil.getCssVariableValue('--bs-success');
-        var color2Light = KTUtil.getCssVariableValue('--bs-light-success');
+        var color2 = MVUtil.getCssVariableValue('--bs-success');
+        var color2Light = MVUtil.getCssVariableValue('--bs-light-success');
 
-        var color3 = KTUtil.getCssVariableValue('--bs-primary');
-        var color3Light = KTUtil.getCssVariableValue('--bs-light-primary');
+        var color3 = MVUtil.getCssVariableValue('--bs-primary');
+        var color3Light = MVUtil.getCssVariableValue('--bs-light-primary');
 
         if (!element) {
             return;
@@ -1396,15 +1396,15 @@ var KTWidgets = function () {
         var color;
         var strokeColor;
         var height;
-        var labelColor = KTUtil.getCssVariableValue('--bs-gray-500');
-        var borderColor = KTUtil.getCssVariableValue('--bs-gray-200');
+        var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
+        var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
         var options;
         var chart;
 
         [].slice.call(charts).map(function(element) {
-            height = parseInt(KTUtil.css(element, 'height'));
-            color = KTUtil.getCssVariableValue('--bs-' + element.getAttribute("data-kt-color"));
-            strokeColor = KTUtil.colorDarken(color, 15);
+            height = parseInt(MVUtil.css(element, 'height'));
+            color = MVUtil.getCssVariableValue('--bs-' + element.getAttribute("data-mv-color"));
+            strokeColor = MVUtil.colorDarken(color, 15);
 
             options = {
                 series: [{
@@ -1540,18 +1540,18 @@ var KTWidgets = function () {
         var charts = document.querySelectorAll('.mixed-widget-3-chart');
 
         [].slice.call(charts).map(function(element) {
-            var height = parseInt(KTUtil.css(element, 'height'));
+            var height = parseInt(MVUtil.css(element, 'height'));
 
             if ( !element ) {
                 return;
             }
 
-            var color = element.getAttribute('data-kt-chart-color');
+            var color = element.getAttribute('data-mv-chart-color');
 
-            var labelColor = KTUtil.getCssVariableValue('--bs-' + 'gray-800');
-            var strokeColor = KTUtil.getCssVariableValue('--bs-' + 'gray-300');
-            var baseColor = KTUtil.getCssVariableValue('--bs-' + color);
-            var lightColor = KTUtil.getCssVariableValue('--bs-light-' + color );
+            var labelColor = MVUtil.getCssVariableValue('--bs-' + 'gray-800');
+            var strokeColor = MVUtil.getCssVariableValue('--bs-' + 'gray-300');
+            var baseColor = MVUtil.getCssVariableValue('--bs-' + color);
+            var lightColor = MVUtil.getCssVariableValue('--bs-light-' + color );
 
             var options = {
                 series: [{
@@ -1681,17 +1681,17 @@ var KTWidgets = function () {
         var charts = document.querySelectorAll('.mixed-widget-4-chart');
 
         [].slice.call(charts).map(function(element) {
-            var height = parseInt(KTUtil.css(element, 'height'));
+            var height = parseInt(MVUtil.css(element, 'height'));
 
             if ( !element ) {
                 return;
             }
 
-            var color = element.getAttribute('data-kt-chart-color');
+            var color = element.getAttribute('data-mv-chart-color');
 
-            var baseColor = KTUtil.getCssVariableValue('--bs-' + color);
-            var lightColor = KTUtil.getCssVariableValue('--bs-light-' + color );
-            var labelColor = KTUtil.getCssVariableValue('--bs-' + 'gray-700');
+            var baseColor = MVUtil.getCssVariableValue('--bs-' + color);
+            var lightColor = MVUtil.getCssVariableValue('--bs-light-' + color );
+            var labelColor = MVUtil.getCssVariableValue('--bs-' + 'gray-700');
 
             var options = {
                 series: [74],
@@ -1745,18 +1745,18 @@ var KTWidgets = function () {
         var charts = document.querySelectorAll('.mixed-widget-5-chart');
 
         [].slice.call(charts).map(function(element) {
-            var height = parseInt(KTUtil.css(element, 'height'));
+            var height = parseInt(MVUtil.css(element, 'height'));
 
             if ( !element ) {
                 return;
             }
 
-            var color = element.getAttribute('data-kt-chart-color');
+            var color = element.getAttribute('data-mv-chart-color');
 
-            var labelColor = KTUtil.getCssVariableValue('--bs-' + 'gray-800');
-            var strokeColor = KTUtil.getCssVariableValue('--bs-' + 'gray-300');
-            var baseColor = KTUtil.getCssVariableValue('--bs-' + color);
-            var lightColor = KTUtil.getCssVariableValue('--bs-light-' + color );
+            var labelColor = MVUtil.getCssVariableValue('--bs-' + 'gray-800');
+            var strokeColor = MVUtil.getCssVariableValue('--bs-' + 'gray-300');
+            var baseColor = MVUtil.getCssVariableValue('--bs-' + color);
+            var lightColor = MVUtil.getCssVariableValue('--bs-light-' + color );
 
             var options = {
                 series: [{
@@ -1900,18 +1900,18 @@ var KTWidgets = function () {
         var charts = document.querySelectorAll('.mixed-widget-6-chart');
 
         [].slice.call(charts).map(function(element) {
-            var height = parseInt(KTUtil.css(element, 'height'));
+            var height = parseInt(MVUtil.css(element, 'height'));
 
             if ( !element ) {
                 return;
             }
 
-            var color = element.getAttribute('data-kt-chart-color');
+            var color = element.getAttribute('data-mv-chart-color');
 
-            var labelColor = KTUtil.getCssVariableValue('--bs-' + 'gray-800');
-            var strokeColor = KTUtil.getCssVariableValue('--bs-' + 'gray-300');
-            var baseColor = KTUtil.getCssVariableValue('--bs-' + color);
-            var lightColor = KTUtil.getCssVariableValue('--bs-light-' + color );
+            var labelColor = MVUtil.getCssVariableValue('--bs-' + 'gray-800');
+            var strokeColor = MVUtil.getCssVariableValue('--bs-' + 'gray-300');
+            var baseColor = MVUtil.getCssVariableValue('--bs-' + color);
+            var lightColor = MVUtil.getCssVariableValue('--bs-light-' + color );
 
             var options = {
                 series: [{
@@ -2041,18 +2041,18 @@ var KTWidgets = function () {
         var charts = document.querySelectorAll('.mixed-widget-7-chart');
 
         [].slice.call(charts).map(function(element) {
-            var height = parseInt(KTUtil.css(element, 'height'));
+            var height = parseInt(MVUtil.css(element, 'height'));
 
             if ( !element ) {
                 return;
             }
 
-            var color = element.getAttribute('data-kt-chart-color');
+            var color = element.getAttribute('data-mv-chart-color');
 
-            var labelColor = KTUtil.getCssVariableValue('--bs-' + 'gray-800');
-            var strokeColor = KTUtil.getCssVariableValue('--bs-' + 'gray-300');
-            var baseColor = KTUtil.getCssVariableValue('--bs-' + color);
-            var lightColor = KTUtil.getCssVariableValue('--bs-light-' + color);
+            var labelColor = MVUtil.getCssVariableValue('--bs-' + 'gray-800');
+            var strokeColor = MVUtil.getCssVariableValue('--bs-' + 'gray-300');
+            var baseColor = MVUtil.getCssVariableValue('--bs-' + color);
+            var lightColor = MVUtil.getCssVariableValue('--bs-light-' + color);
 
             var options = {
                 series: [{
@@ -2183,18 +2183,18 @@ var KTWidgets = function () {
 
         var color;
         var height;
-        var labelColor = KTUtil.getCssVariableValue('--bs-gray-500');
-        var borderColor = KTUtil.getCssVariableValue('--bs-gray-200');
+        var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
+        var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
         var baseLightColor;
-        var secondaryColor = KTUtil.getCssVariableValue('--bs-gray-300');
+        var secondaryColor = MVUtil.getCssVariableValue('--bs-gray-300');
         var baseColor;
         var options;
         var chart;
 
         [].slice.call(charts).map(function(element) {
-            color = element.getAttribute("data-kt-color");
-            height = parseInt(KTUtil.css(element, 'height'));
-            baseColor = KTUtil.getCssVariableValue('--bs-' + color);
+            color = element.getAttribute("data-mv-color");
+            height = parseInt(MVUtil.css(element, 'height'));
+            baseColor = MVUtil.getCssVariableValue('--bs-' + color);
 
             options = {
                 series: [{
@@ -2316,13 +2316,13 @@ var KTWidgets = function () {
         var color;
         var strokeColor;
         var height;
-        var labelColor = KTUtil.getCssVariableValue('--bs-gray-500');
-        var borderColor = KTUtil.getCssVariableValue('--bs-gray-200');
+        var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
+        var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
         var options;
         var chart;
 
         [].slice.call(charts).map(function(element) {
-            height = parseInt(KTUtil.css(element, 'height'));
+            height = parseInt(MVUtil.css(element, 'height'));
 
             var options = {
                 series: [{
@@ -2450,14 +2450,14 @@ var KTWidgets = function () {
         var charts = document.querySelectorAll('.mixed-widget-13-chart');
 
         [].slice.call(charts).map(function(element) {
-            height = parseInt(KTUtil.css(element, 'height'));
+            height = parseInt(MVUtil.css(element, 'height'));
 
             if ( !element ) {
                 return;
             }
 
-            var labelColor = KTUtil.getCssVariableValue('--bs-' + 'gray-800');
-            var strokeColor = KTUtil.getCssVariableValue('--bs-' + 'gray-300');
+            var labelColor = MVUtil.getCssVariableValue('--bs-' + 'gray-800');
+            var strokeColor = MVUtil.getCssVariableValue('--bs-' + 'gray-300');
 
             var options = {
                 series: [{
@@ -2603,8 +2603,8 @@ var KTWidgets = function () {
         var height;
 
         [].slice.call(charts).map(function(element) {
-            height = parseInt(KTUtil.css(element, 'height'));
-            var labelColor = KTUtil.getCssVariableValue('--bs-' + 'gray-800');
+            height = parseInt(MVUtil.css(element, 'height'));
+            var labelColor = MVUtil.getCssVariableValue('--bs-' + 'gray-800');
 
             options = {
                 series: [{
@@ -2692,8 +2692,8 @@ var KTWidgets = function () {
 	}
 
     var initMixedWidget16 = function() {
-        var element = document.getElementById("kt_charts_mixed_widget_16_chart");
-        var height = parseInt(KTUtil.css(element, 'height'));
+        var element = document.getElementById("mv_charts_mixed_widget_16_chart");
+        var height = parseInt(MVUtil.css(element, 'height'));
 
         if (!element) {
             return;
@@ -2724,10 +2724,10 @@ var KTWidgets = function () {
                             fontSize: "13px",
                             fontWeight: "700",
                             offsetY: -5,
-                            color: KTUtil.getCssVariableValue('--bs-gray-500')
+                            color: MVUtil.getCssVariableValue('--bs-gray-500')
                         },
                         value: {
-                            color: KTUtil.getCssVariableValue('--bs-gray-700'),
+                            color: MVUtil.getCssVariableValue('--bs-gray-700'),
                             fontSize: "30px",
                             fontWeight: "700",
                             offsetY: -40,
@@ -2735,12 +2735,12 @@ var KTWidgets = function () {
                         }
                     },
                     track: {
-                        background: KTUtil.getCssVariableValue('--bs-light-primary'),
+                        background: MVUtil.getCssVariableValue('--bs-light-primary'),
                         strokeWidth: '100%'
                     }
                 }
             },
-            colors: [KTUtil.getCssVariableValue('--bs-primary')],
+            colors: [MVUtil.getCssVariableValue('--bs-primary')],
             stroke: {
                 lineCap: "round",
             }
@@ -2752,8 +2752,8 @@ var KTWidgets = function () {
 
     // Feeds Widgets
     var initFeedWidget1 = function() {
-        var formEl = document.querySelector("#kt_forms_widget_1_form");
-        var editorId = 'kt_forms_widget_1_editor';
+        var formEl = document.querySelector("#mv_forms_widget_1_form");
+        var editorId = 'mv_forms_widget_1_editor';
 
         if ( !formEl ) {
             return;
@@ -2763,7 +2763,7 @@ var KTWidgets = function () {
         var options = {
             modules: {
                 toolbar: {
-                    container: "#kt_forms_widget_1_editor_toolbar"
+                    container: "#mv_forms_widget_1_editor_toolbar"
                 }
             },
             placeholder: 'What is on your mind ?',
@@ -2779,20 +2779,20 @@ var KTWidgets = function () {
     }
 
     var initFeedsWidget4 = function() {
-        var btn = document.querySelector('#kt_widget_5_load_more_btn');
-        var widget5 = document.querySelector('#kt_widget_5');
+        var btn = document.querySelector('#mv_widget_5_load_more_btn');
+        var widget5 = document.querySelector('#mv_widget_5');
 
         if (btn) {
             btn.addEventListener('click', function(e){
                 e.preventDefault();
-                btn.setAttribute('data-kt-indicator', 'on');
+                btn.setAttribute('data-mv-indicator', 'on');
 
                 setTimeout(function() {
-                    btn.removeAttribute('data-kt-indicator');
+                    btn.removeAttribute('data-mv-indicator');
                     widget5.classList.remove('d-none');
                     btn.classList.add('d-none');
 
-                    KTUtil.scrollTo(widget5, 200);
+                    MVUtil.scrollTo(widget5, 200);
                 }, 2000);
             });
         }
@@ -2800,7 +2800,7 @@ var KTWidgets = function () {
 
     // Follow button
     var initUserFollowButton = function() {
-        var follow = document.querySelector('#kt_user_follow_button');
+        var follow = document.querySelector('#mv_user_follow_button');
 
         if (follow) {
             follow.addEventListener('click', function(e){
@@ -2808,7 +2808,7 @@ var KTWidgets = function () {
                 e.preventDefault();
 
                 // Show indicator
-                follow.setAttribute('data-kt-indicator', 'on');
+                follow.setAttribute('data-mv-indicator', 'on');
 
                 // Disable button to avoid multiple click
 				follow.disabled = true;
@@ -2816,7 +2816,7 @@ var KTWidgets = function () {
                 // Check button state
                 if (follow.classList.contains("btn-success")) {
                      setTimeout(function() {
-                        follow.removeAttribute('data-kt-indicator');
+                        follow.removeAttribute('data-mv-indicator');
                         follow.classList.remove("btn-success");
                         follow.classList.add("btn-light");
                         follow.querySelector(".svg-icon").classList.add("d-none");
@@ -2825,7 +2825,7 @@ var KTWidgets = function () {
                     }, 1500);
                 } else {
                      setTimeout(function() {
-                        follow.removeAttribute('data-kt-indicator');
+                        follow.removeAttribute('data-mv-indicator');
                         follow.classList.add("btn-success");
                         follow.classList.remove("btn-light");
                         follow.querySelector(".svg-icon").classList.remove("d-none");
@@ -2839,7 +2839,7 @@ var KTWidgets = function () {
 
     // Calendar
     var initCalendarWidget1 = function() {
-        if (typeof FullCalendar === 'undefined' || !document.querySelector('#kt_calendar_widget_1')) {
+        if (typeof FullCalendar === 'undefined' || !document.querySelector('#mv_calendar_widget_1')) {
             return;
         }
 
@@ -2849,7 +2849,7 @@ var KTWidgets = function () {
         var TODAY = todayDate.format('YYYY-MM-DD');
         var TOMORROW = todayDate.clone().add(1, 'day').format('YYYY-MM-DD');
 
-        var calendarEl = document.getElementById('kt_calendar_widget_1');
+        var calendarEl = document.getElementById('mv_calendar_widget_1');
         var calendar = new FullCalendar.Calendar(calendarEl, {
             headerToolbar: {
                 left: 'prev,next today',
@@ -2981,11 +2981,11 @@ var KTWidgets = function () {
 
     // Dark mode toggler
     var initDarkModeToggle = function() {
-        var toggle = document.querySelector('#kt_user_menu_dark_mode_toggle');
+        var toggle = document.querySelector('#mv_user_menu_dark_mode_toggle');
 
         if (toggle) {
             toggle.addEventListener('click', function() {
-                window.location.href = this.getAttribute('data-kt-url');
+                window.location.href = this.getAttribute('data-mv-url');
             });
         }
     }
@@ -3041,10 +3041,10 @@ var KTWidgets = function () {
 
 // Webpack support
 if (typeof module !== 'undefined') {
-    module.exports = KTWidgets;
+    module.exports = MVWidgets;
 }
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTWidgets.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVWidgets.init();
 });

@@ -1,23 +1,23 @@
 "use strict";
 
 // Class definition
-var KTFormsFlatpickrDemos = function() {
+var MVFormsFlatpickrDemos = function() {
     // Private functions
     var example1 = function(element) {
-        $("#kt_datepicker_1").flatpickr();
+        $("#mv_datepicker_1").flatpickr();
 
-        $("#kt_datepicker_2").flatpickr();
+        $("#mv_datepicker_2").flatpickr();
     }
 
     var example2 = function(element) {
-        $("#kt_datepicker_3").flatpickr({
+        $("#mv_datepicker_3").flatpickr({
             enableTime: true,
             dateFormat: "Y-m-d H:i",
         });
     }
 
     var example3 = function(element) {
-        $("#kt_datepicker_4").flatpickr({
+        $("#mv_datepicker_4").flatpickr({
             onReady: function () {
                 this.jumpToDate("2025-01")
             },
@@ -25,7 +25,7 @@ var KTFormsFlatpickrDemos = function() {
             dateFormat: "Y-m-d",
         });
 
-        $("#kt_datepicker_5").flatpickr({
+        $("#mv_datepicker_5").flatpickr({
             onReady: function () {
                 this.jumpToDate("2025-01")
             },
@@ -44,7 +44,7 @@ var KTFormsFlatpickrDemos = function() {
     }
 
     var example4 = function(element) {
-        $("#kt_datepicker_6").flatpickr({
+        $("#mv_datepicker_6").flatpickr({
             onReady: function () {
                 this.jumpToDate("2025-01")
             },
@@ -55,7 +55,7 @@ var KTFormsFlatpickrDemos = function() {
     }
 
     var example5 = function(element) {
-        $("#kt_datepicker_7").flatpickr({
+        $("#mv_datepicker_7").flatpickr({
             altInput: true,
             altFormat: "F j, Y",
             dateFormat: "Y-m-d",
@@ -64,7 +64,7 @@ var KTFormsFlatpickrDemos = function() {
     }
 
     var example6 = function(element) {
-        $("#kt_datepicker_8").flatpickr({
+        $("#mv_datepicker_8").flatpickr({
             enableTime: true,
             noCalendar: true,
             dateFormat: "H:i",
@@ -72,13 +72,13 @@ var KTFormsFlatpickrDemos = function() {
     }
 
     var example7 = function(element) {
-        $("#kt_datepicker_9").flatpickr({
+        $("#mv_datepicker_9").flatpickr({
             weekNumbers: true
         });
     }
 
     var example8 = function(element) {
-        $("#kt_datepicker_10").flatpickr();
+        $("#mv_datepicker_10").flatpickr();
     }
     
 
@@ -98,6 +98,6 @@ var KTFormsFlatpickrDemos = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTFormsFlatpickrDemos.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVFormsFlatpickrDemos.init();
 });

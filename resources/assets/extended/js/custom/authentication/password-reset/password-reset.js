@@ -1,7 +1,7 @@
 "use strict";
 
 // Class Definition
-var KTPasswordResetGeneral = function () {
+var MVPasswordResetGeneral = function () {
     // Elements
     var form;
     var submitButton;
@@ -45,7 +45,7 @@ var KTPasswordResetGeneral = function () {
             validator.validate().then(function (status) {
                 if (status === 'Valid') {
                     // Show loading indication
-                    submitButton.setAttribute('data-kt-indicator', 'on');
+                    submitButton.setAttribute('data-mv-indicator', 'on');
 
                     // Disable button to avoid multiple click
                     submitButton.disabled = true;
@@ -92,7 +92,7 @@ var KTPasswordResetGeneral = function () {
                         .then(function () {
                             // always executed
                             // Hide loading indication
-                            submitButton.removeAttribute('data-kt-indicator');
+                            submitButton.removeAttribute('data-mv-indicator');
 
                             // Enable button
                             submitButton.disabled = false;
@@ -117,8 +117,8 @@ var KTPasswordResetGeneral = function () {
     return {
         // Initialization
         init: function () {
-            form = document.querySelector('#kt_password_reset_form');
-            submitButton = document.querySelector('#kt_password_reset_submit');
+            form = document.querySelector('#mv_password_reset_form');
+            submitButton = document.querySelector('#mv_password_reset_submit');
 
             handleForm();
         }
@@ -126,6 +126,6 @@ var KTPasswordResetGeneral = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTPasswordResetGeneral.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVPasswordResetGeneral.init();
 });

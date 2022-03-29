@@ -1,10 +1,10 @@
 "use strict";
 
 // Class definition
-var KTTokenTransferToken = function () {
+var MVTokenTransferToken = function () {
     // Shared variables
-    const element = document.getElementById('kt_modal_transfer_token');
-    const form = element.querySelector('#kt_modal_transfer_token_form');
+    const element = document.getElementById('mv_modal_transfer_token');
+    const form = element.querySelector('#mv_modal_transfer_token_form');
     // console.log(form);
 
     const modal = new bootstrap.Modal(element);
@@ -52,7 +52,7 @@ var KTTokenTransferToken = function () {
         );
 
         // Submit button handler
-        const submitButton = element.querySelector('[data-kt-transfer-modal-action="submit"]');
+        const submitButton = element.querySelector('[data-mv-transfer-modal-action="submit"]');
         // console.log(submitButton);
 
         submitButton.addEventListener('click', e => {
@@ -65,7 +65,7 @@ var KTTokenTransferToken = function () {
 
                     if (status == 'Valid') {
                         // Show loading indication
-                        submitButton.setAttribute('data-kt-indicator', 'on');
+                        submitButton.setAttribute('data-mv-indicator', 'on');
 
                         // Disable button to avoid multiple click 
                         submitButton.disabled = true;
@@ -90,7 +90,7 @@ var KTTokenTransferToken = function () {
                                 //     table.ajax.reload();
                                 // }, 2000 );
                                  // Remove loading indication
-                                submitButton.removeAttribute('data-kt-indicator');
+                                submitButton.removeAttribute('data-mv-indicator');
 
                                 // Enable button
                                 submitButton.disabled = false;
@@ -131,7 +131,7 @@ var KTTokenTransferToken = function () {
         });
 
         // Cancel button handler
-        const cancelButton = element.querySelector('[data-kt-transfer-modal-action="cancel"]');
+        const cancelButton = element.querySelector('[data-mv-transfer-modal-action="cancel"]');
         // console.log(cancelButton);
 
         cancelButton.addEventListener('click', e => {
@@ -167,7 +167,7 @@ var KTTokenTransferToken = function () {
         });
 
         // Close button handler
-        const closeButton = element.querySelector('[data-kt-transfer-modal-action="close"]');
+        const closeButton = element.querySelector('[data-mv-transfer-modal-action="close"]');
         // console.log(closeButton);
 
         closeButton.addEventListener('click', e => {
@@ -212,6 +212,6 @@ var KTTokenTransferToken = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTTokenTransferToken.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVTokenTransferToken.init();
 });

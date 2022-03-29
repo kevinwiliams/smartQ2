@@ -1,11 +1,11 @@
 "use strict";
 
 // Class definition
-var KTFormsCKEditorBalloon = function () {
+var MVFormsCKEditorBalloon = function () {
     // Private functions
     var exampleBalloon = function () {
         BalloonEditor
-            .create(document.querySelector('#kt_docs_ckeditor_balloon'))
+            .create(document.querySelector('#mv_docs_ckeditor_balloon'))
             .then(editor => {
                 console.log(editor);
             })
@@ -23,6 +23,6 @@ var KTFormsCKEditorBalloon = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTFormsCKEditorBalloon.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVFormsCKEditorBalloon.init();
 });

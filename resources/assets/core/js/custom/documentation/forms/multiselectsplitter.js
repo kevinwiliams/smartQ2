@@ -1,14 +1,14 @@
 "use strict";
 
 // Class definition
-var KTFormsMultiselectsplitterDemos = function() {
+var MVFormsMultiselectsplitterDemos = function() {
     // Private functions
     var example1 = function() {
-        $("#kt_multiselectsplitter_example_1").multiselectsplitter();
+        $("#mv_multiselectsplitter_example_1").multiselectsplitter();
     }
 
     var example2 = function() {
-        $('#kt_multiselectsplitter_example_2').multiselectsplitter({
+        $('#mv_multiselectsplitter_example_2').multiselectsplitter({
     		selectSize: 7,
             clearOnFirstChange: true,
     		groupCounter: true
@@ -16,14 +16,14 @@ var KTFormsMultiselectsplitterDemos = function() {
     }
 
     var example3 = function() {
-        $('#kt_multiselectsplitter_example_3').multiselectsplitter({
+        $('#mv_multiselectsplitter_example_3').multiselectsplitter({
     		groupCounter: true,
             maximumSelected: 2
         });
     }
 
     var example4 = function() {
-        $('#kt_multiselectsplitter_example_4').multiselectsplitter({
+        $('#mv_multiselectsplitter_example_4').multiselectsplitter({
     		groupCounter: true,
             maximumSelected: 3,
             onlySameGroup: true
@@ -31,7 +31,7 @@ var KTFormsMultiselectsplitterDemos = function() {
     }
 
     var example5 = function() {
-        $('#kt_multiselectsplitter_example_5').multiselectsplitter({
+        $('#mv_multiselectsplitter_example_5').multiselectsplitter({
     		size: 6,
     		groupCounter: true,
             maximumSelected: 2,
@@ -60,6 +60,6 @@ var KTFormsMultiselectsplitterDemos = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTFormsMultiselectsplitterDemos.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVFormsMultiselectsplitterDemos.init();
 });

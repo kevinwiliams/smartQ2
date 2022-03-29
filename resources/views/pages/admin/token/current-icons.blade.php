@@ -31,14 +31,14 @@
                     <!--end::Badge-->
                     <!--begin::Menu-->
                     <div>
-                        <button type="button" class="btn btn-sm btn-icon btn-color-light-dark btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                        <button type="button" class="btn btn-sm btn-icon btn-color-light-dark btn-active-light-primary" data-mv-menu-trigger="click" data-mv-menu-placement="bottom-end">
                             <!--begin::Svg Icon | path: icons/duotune/general/gen024.svg-->
                             {!! theme()->getSvgIcon("icons/duotune/general/gen024.svg", "svg-icon-2") !!}
 
                             <!--end::Svg Icon-->
                         </button>
                         <!--begin::Menu 3-->
-                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-bold w-200px py-3" data-kt-menu="true">
+                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-bold w-200px py-3" data-mv-menu="true">
                             <!--begin::Heading-->
                             <div class="menu-item px-3">
                                 <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">Options</div>
@@ -46,12 +46,12 @@
                             <!--end::Heading-->
                             <!--begin::Menu item-->
                             <div class="menu-item px-3">
-                                <a href="#" class="menu-link px-3" data-kt-token-cards-filter="cancel_item" data-id="{{$token->id}}" data-token-number="{{$token->token_no}}">Cancel Ticket</a>
+                                <a href="#" class="menu-link px-3" data-mv-token-cards-filter="cancel_item" data-id="{{$token->id}}" data-token-number="{{$token->token_no}}">Cancel Ticket</a>
                             </div>
                             <!--end::Menu item-->
                             <!--begin::Menu item-->
                             <div class="menu-item px-3">
-                                <a href="#" class="menu-link px-3" data-kt-token-cards-filter="delete_item" data-id="{{$token->id}}" data-token-number="{{$token->token_no}}">Remove</a>
+                                <a href="#" class="menu-link px-3" data-mv-token-cards-filter="delete_item" data-id="{{$token->id}}" data-token-number="{{$token->token_no}}">Remove</a>
                             </div>
                             <!--end::Menu item-->
                         </div>
@@ -134,14 +134,14 @@
         @if (!empty($tokens[0]))
         <!--begin::Card-->
         <div class="card mb-6 mb-xl-9 bg-success" 
-            data-kt-sticky="true" 
-            data-kt-sticky-name="serving-token" 
-            {{-- data-kt-sticky-offset="{default: false, lg: '200px'}"  --}}
-            data-kt-sticky-width="{lg: '720px', xl: '730px'}" 
-            data-kt-sticky-left="auto" 
-            data-kt-sticky-top="100px" 
-            data-kt-sticky-animation="true" 
-            data-kt-sticky-zindex="95"
+            data-mv-sticky="true" 
+            data-mv-sticky-name="serving-token" 
+            {{-- data-mv-sticky-offset="{default: false, lg: '200px'}"  --}}
+            data-mv-sticky-width="{lg: '720px', xl: '730px'}" 
+            data-mv-sticky-left="auto" 
+            data-mv-sticky-top="100px" 
+            data-mv-sticky-animation="true" 
+            data-mv-sticky-zindex="95"
             >
             <!--begin::Card body-->
             <div class="card-body p-10">
@@ -152,7 +152,7 @@
                     <!--end::Badge-->
                     <!--begin::Menu-->
                     <div>
-                        <button type="button" class="btn btn-sm btn-icon btn-color-light btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                        <button type="button" class="btn btn-sm btn-icon btn-color-light btn-active-light-primary" data-mv-menu-trigger="click" data-mv-menu-placement="bottom-end">
                             <!--begin::Svg Icon | path: icons/duotune/general/gen024.svg-->
                             <span class="svg-icon svg-icon-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
@@ -167,7 +167,7 @@
                             <!--end::Svg Icon-->
                         </button>
                         <!--begin::Menu 3-->
-                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-bold w-200px py-3" data-kt-menu="true">
+                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-bold w-200px py-3" data-mv-menu="true">
                             <!--begin::Heading-->
                             <div class="menu-item px-3">
                                 <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">Options</div>
@@ -175,12 +175,12 @@
                             <!--end::Heading-->
                             <!--begin::Menu item-->
                             <div class="menu-item px-3">
-                                <a href="#" class="menu-link px-3" data-kt-token-cards-filter="cancel_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">Cancel</a>
+                                <a href="#" class="menu-link px-3" data-mv-token-cards-filter="cancel_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">Cancel</a>
                             </div>
                             <!--end::Menu item-->
                                                        <!--begin::Menu item-->
                             <div class="menu-item px-3">
-                                <a href="#" class="menu-link px-3" data-kt-token-cards-filter="delete_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">Close</a>
+                                <a href="#" class="menu-link px-3" data-mv-token-cards-filter="delete_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">Close</a>
                             </div>
                             <!--end::Menu item-->
                                                         
@@ -223,7 +223,7 @@
                        
                     </div>
                     <!--end::Users-->
-                    <a href="#" class="btn btn-primary er w-50 fs-6 px-8 py-4" data-kt-token-cards-filter="complete_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">Call next customer</a>
+                    <a href="#" class="btn btn-primary er w-50 fs-6 px-8 py-4" data-mv-token-cards-filter="complete_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">Call next customer</a>
                    
                 </div>
                 <!--end::Footer-->

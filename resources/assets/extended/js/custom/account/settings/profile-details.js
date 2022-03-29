@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTAccountSettingsProfileDetails = function () {
+var MVAccountSettingsProfileDetails = function () {
     // Private variables
     var form;
     var submitButton;
@@ -93,7 +93,7 @@ var KTAccountSettingsProfileDetails = function () {
             validation.validate().then(function (status) {
                 if (status === 'Valid') {
                     // Show loading indication
-                    submitButton.setAttribute('data-kt-indicator', 'on');
+                    submitButton.setAttribute('data-mv-indicator', 'on');
 
                     // Disable button to avoid multiple click
                     submitButton.disabled = true;
@@ -139,7 +139,7 @@ var KTAccountSettingsProfileDetails = function () {
                         .then(function () {
                             // always executed
                             // Hide loading indication
-                            submitButton.removeAttribute('data-kt-indicator');
+                            submitButton.removeAttribute('data-mv-indicator');
 
                             // Enable button
                             submitButton.disabled = false;
@@ -163,8 +163,8 @@ var KTAccountSettingsProfileDetails = function () {
     // Public methods
     return {
         init: function () {
-            form = document.getElementById('kt_account_profile_details_form');
-            submitButton = form.querySelector('#kt_account_profile_details_submit');
+            form = document.getElementById('mv_account_profile_details_form');
+            submitButton = form.querySelector('#mv_account_profile_details_submit');
 
             initValidation();
             handleForm();
@@ -173,6 +173,6 @@ var KTAccountSettingsProfileDetails = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTAccountSettingsProfileDetails.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVAccountSettingsProfileDetails.init();
 });

@@ -1,6 +1,6 @@
 "use strict";
 
-var KTLayoutDocumentation = function() {
+var MVLayoutDocumentation = function() {
     var _init = function(element) {
         var elements = element;
 
@@ -50,6 +50,6 @@ var KTLayoutDocumentation = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTLayoutDocumentation.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVLayoutDocumentation.init();
 });

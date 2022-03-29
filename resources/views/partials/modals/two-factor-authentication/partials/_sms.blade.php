@@ -1,5 +1,5 @@
 <!--begin::SMS-->
-<div class="d-none" data-kt-element="sms">
+<div class="d-none" data-mv-element="sms">
     <!--begin::Heading-->
     <h3 class="text-dark fw-bolder fs-3 mb-5">
         SMS: Verify Your Mobile Number
@@ -13,7 +13,7 @@
     <!--end::Notice-->
 
     <!--begin::Form-->
-    <form data-kt-element="sms-form" class="form" action="#">
+    <form data-mv-element="sms-form" class="form" action="#">
         <!--begin::Input group-->
         <div class="mb-10 fv-row">
             <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Mobile number with country code..." name="mobile"/>
@@ -22,11 +22,11 @@
 
         <!--begin::Actions-->
         <div class="d-flex flex-center">
-            <button type="reset" data-kt-element="sms-cancel" class="btn btn-white me-3">
+            <button type="reset" data-mv-element="sms-cancel" class="btn btn-white me-3">
                 Cancel
             </button>
 
-            <button type="submit" data-kt-element="sms-submit" class="btn btn-primary">
+            <button type="submit" data-mv-element="sms-submit" class="btn btn-primary">
                 @include('partials.general._button-indicator')
             </button>
         </div>

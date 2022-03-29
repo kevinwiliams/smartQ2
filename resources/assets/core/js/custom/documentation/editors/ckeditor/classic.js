@@ -1,11 +1,11 @@
 "use strict";
 
 // Class definition
-var KTFormsCKEditorClassic = function () {
+var MVFormsCKEditorClassic = function () {
     // Private functions
     var exampleClassic = function () {
         ClassicEditor
-            .create(document.querySelector('#kt_docs_ckeditor_classic'))
+            .create(document.querySelector('#mv_docs_ckeditor_classic'))
             .then(editor => {
                 console.log(editor);
             })
@@ -23,6 +23,6 @@ var KTFormsCKEditorClassic = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTFormsCKEditorClassic.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVFormsCKEditorClassic.init();
 });

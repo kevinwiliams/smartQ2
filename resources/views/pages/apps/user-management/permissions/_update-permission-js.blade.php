@@ -1,14 +1,14 @@
 <script>
     // Class definition
-    var KTUsersUpdatePermission = function() {
+    var MVUsersUpdatePermission = function() {
         // Shared variables
-        const element = document.getElementById('kt_modal_update_permission');
-        const form = element.querySelector('#kt_modal_update_permission_form');
+        const element = document.getElementById('mv_modal_update_permission');
+        const form = element.querySelector('#mv_modal_update_permission_form');
         const modal = new bootstrap.Modal(element);
 
 
         var handleEditRows = () => {
-            const editButtons = document.querySelectorAll('[data-kt-permissions-action="edit"]');
+            const editButtons = document.querySelectorAll('[data-mv-permissions-action="edit"]');
             // console.log(editButtons);
             editButtons.forEach(d => {
                 d.addEventListener('click', e => {
@@ -64,7 +64,7 @@
             );
 
             // Close button handler
-            const closeButton = element.querySelector('[data-kt-permissions-modal-action="close"]');
+            const closeButton = element.querySelector('[data-mv-permissions-modal-action="close"]');
             closeButton.addEventListener('click', e => {
                 e.preventDefault();
 
@@ -88,7 +88,7 @@
             });
 
             // Cancel button handler
-            const cancelButton = element.querySelector('[data-kt-permissions-modal-action="cancel"]');
+            const cancelButton = element.querySelector('[data-mv-permissions-modal-action="cancel"]');
             cancelButton.addEventListener('click', e => {
                 e.preventDefault();
 
@@ -122,7 +122,7 @@
             });
 
             // Submit button handler
-            const submitButton = element.querySelector('[data-kt-permissions-modal-action="submit"]');
+            const submitButton = element.querySelector('[data-mv-permissions-modal-action="submit"]');
             submitButton.addEventListener('click', function(e) {
                 // Prevent default button action
                 e.preventDefault();
@@ -134,7 +134,7 @@
 
                         if (status == 'Valid') {
                             // Show loading indication
-                            submitButton.setAttribute('data-kt-indicator', 'on');
+                            submitButton.setAttribute('data-mv-indicator', 'on');
 
                             // Disable button to avoid multiple click 
                             submitButton.disabled = true;
@@ -164,7 +164,7 @@
                                     //     table.ajax.reload();
                                     // }, 2000 );
                                     // Remove loading indication
-                                    submitButton.removeAttribute('data-kt-indicator');
+                                    submitButton.removeAttribute('data-mv-indicator');
 
                                     // Enable button
                                     submitButton.disabled = false;
@@ -214,9 +214,9 @@
     }();
 
     // On document ready
-    KTUtil.onDOMContentLoaded(function() {
+    MVUtil.onDOMContentLoaded(function() {
         setTimeout(() => {
-            KTUsersUpdatePermission.init();
+            MVUsersUpdatePermission.init();
         }, 1000);
     });
 </script>

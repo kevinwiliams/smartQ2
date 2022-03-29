@@ -1,7 +1,7 @@
 <x-base-layout>
 
     <!--begin::Changelog-->
-    <div class="accordion accordion-flush accordion-icon-toggle" id="kt_accordion">
+    <div class="accordion accordion-flush accordion-icon-toggle" id="mv_accordion">
     @foreach(config('changelog') as $version => $info)
         @php
             $id = \Illuminate\Support\Str::slug($version);
@@ -10,7 +10,7 @@
         <!--begin::Item-->
             <div class="accordion-item mb-5">
                 <!--begin::Header-->
-                <div class="accordion-header py-3 d-flex {{ $loop->index === 0 ? '' : 'collapsed' }}" data-bs-toggle="collapse" data-bs-target="#kt_accordion_body_{{ $id }}">
+                <div class="accordion-header py-3 d-flex {{ $loop->index === 0 ? '' : 'collapsed' }}" data-bs-toggle="collapse" data-bs-target="#mv_accordion_body_{{ $id }}">
                     <span class="accordion-icon">{!! theme()->getSvgIcon('icons/duotune/arrows/arr064.svg', 'svg-icon-3') !!}</span>
                     <h3 class="fs-2 text-gray-800 fw-bolder mb-0 ms-4">
                         {{ theme()->getProductName() }} {{ $version }} - {{ $info['date'] }}
@@ -19,7 +19,7 @@
                 <!--end::Header-->
 
                 <!--begin::Body-->
-                <div id="kt_accordion_body_{{ $id }}" class="fs-6 my-1 py-0 ps-10 collapse {{ $loop->index === 0 || (isset($info['open']) && $info['open']) ? 'show' : '' }}" data-bs-parent="#kt_accordion">
+                <div id="mv_accordion_body_{{ $id }}" class="fs-6 my-1 py-0 ps-10 collapse {{ $loop->index === 0 || (isset($info['open']) && $info['open']) ? 'show' : '' }}" data-bs-parent="#mv_accordion">
                     <div class="accordion-body ps-0 pt-0">
                         @if(is_array($info['changelog']))
                             @foreach($info['changelog'] as $label => $records)

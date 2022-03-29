@@ -1,17 +1,17 @@
 "use strict";
 
 // Class definition
-var KTLayoutAside = function () {
+var MVLayoutAside = function () {
     // Private variables
     var toggle;
     var aside;
 
     // Private functions
     var handleToggle = function () {
-       var toggleObj = KTToggle.getInstance(toggle);
+       var toggleObj = MVToggle.getInstance(toggle);
 
        // Add a class to prevent aside hover effect after toggle click
-       toggleObj.on('kt.toggle.change', function() {
+       toggleObj.on('mv.toggle.change', function() {
            aside.classList.add('animating');
 
            setTimeout(function() {
@@ -24,8 +24,8 @@ var KTLayoutAside = function () {
     return {
         init: function () {
             // Elements
-            aside = document.querySelector('#kt_aside');
-            toggle = document.querySelector('#kt_aside_toggle');
+            aside = document.querySelector('#mv_aside');
+            toggle = document.querySelector('#mv_aside_toggle');
 
             if (!aside || !toggle) {
                 return;
@@ -37,6 +37,6 @@ var KTLayoutAside = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTLayoutAside.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVLayoutAside.init();
 });

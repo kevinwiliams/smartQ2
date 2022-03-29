@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTGoogleChartLineDemo = function () {
+var MVGoogleChartLineDemo = function () {
     // Private functions
     var exampleLine = function () {
         // GOOGLE CHARTS INIT
@@ -42,7 +42,7 @@ var KTGoogleChartLineDemo = function () {
                 colors: ['#6e4ff5', '#f6aa33', '#fe3995']
             };
 
-            var chart = new google.charts.Line(document.getElementById('kt_docs_google_chart_line'));
+            var chart = new google.charts.Line(document.getElementById('mv_docs_google_chart_line'));
             chart.draw(data, options);
         });
     }
@@ -56,6 +56,6 @@ var KTGoogleChartLineDemo = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTGoogleChartLineDemo.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVGoogleChartLineDemo.init();
 });

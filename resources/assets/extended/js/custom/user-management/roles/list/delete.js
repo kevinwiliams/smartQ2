@@ -1,10 +1,10 @@
 "use strict";
 
 // Class definition
-var KTUsersDeleteRole = function () {
+var MVUsersDeleteRole = function () {
     // Shared variables
-    // const element = document.getElementById('kt_modal_add_role');
-    // const form = element.querySelector('#kt_modal_add_role_form');
+    // const element = document.getElementById('mv_modal_add_role');
+    // const form = element.querySelector('#mv_modal_add_role_form');
     // const modal = new bootstrap.Modal(element);
 
     // Init add schedule modal
@@ -13,7 +13,7 @@ var KTUsersDeleteRole = function () {
 
 
         // Delete button handler
-        const deleteButtons = document.querySelectorAll('[data-kt-roles-action="delete"]');        
+        const deleteButtons = document.querySelectorAll('[data-mv-roles-action="delete"]');        
         deleteButtons.forEach(d => {
             d.addEventListener('click', e => {
                 e.preventDefault();
@@ -77,7 +77,7 @@ var KTUsersDeleteRole = function () {
     // Select all handler
     const handleSelectAll = () => {
         // Define variables
-        const selectAll = form.querySelector('#kt_roles_select_all');
+        const selectAll = form.querySelector('#mv_roles_select_all');
         const allCheckboxes = form.querySelectorAll('[type="checkbox"]');
 
         // Handle check state
@@ -100,6 +100,6 @@ var KTUsersDeleteRole = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTUsersDeleteRole.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVUsersDeleteRole.init();
 });

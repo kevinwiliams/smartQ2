@@ -84,7 +84,7 @@ class Util {
                 echo '<ul class="nav nav-pills" role="tablist">';
                 foreach ( $options as $key => $each ) {
                     if ( isset($each['lang']) === true ) {
-                        $uid = 'kt_highlight_' . uniqid();
+                        $uid = 'mv_highlight_' . uniqid();
                         $options[$key]['id'] = $uid;
 
                         echo '<li class="nav-item">';

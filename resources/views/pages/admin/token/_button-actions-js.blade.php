@@ -1,12 +1,12 @@
 <script>
 // Class definition
-var KTTokenActions = function () {
+var MVTokenActions = function () {
 
 
 var handleDeleteRows = () => {
  
     var _table = document.querySelector('#token-table');
-    const deleteButtons = _table.querySelectorAll('[data-kt-token-table-filter="delete_row"]');
+    const deleteButtons = _table.querySelectorAll('[data-mv-token-table-filter="delete_row"]');
     // console.log(deleteButtons);
     
     deleteButtons.forEach(d => {
@@ -93,7 +93,7 @@ var handleDeleteRows = () => {
 var handleCompleteRows = () => {
  
     var _table = document.querySelector('#token-table');
-    const completeButtons = _table.querySelectorAll('[data-kt-token-table-filter="complete_row"]');
+    const completeButtons = _table.querySelectorAll('[data-mv-token-table-filter="complete_row"]');
     // console.log(completeButtons);
     
     completeButtons.forEach(d => {
@@ -180,7 +180,7 @@ var handleCompleteRows = () => {
 var handleCancelRows = () => {
  
     var _table = document.querySelector('#token-table');
-    const cancelButtons = _table.querySelectorAll('[data-kt-token-table-filter="cancel_row"]');
+    const cancelButtons = _table.querySelectorAll('[data-mv-token-table-filter="cancel_row"]');
     // console.log(cancelButtons);
     
     cancelButtons.forEach(d => {
@@ -267,7 +267,7 @@ var handleCancelRows = () => {
 var handleCheckInRows = () => {
  
     var _table = document.querySelector('#token-table');
-    const checkInButtons = _table.querySelectorAll('[data-kt-token-table-filter="checkin_row"]');
+    const checkInButtons = _table.querySelectorAll('[data-mv-token-table-filter="checkin_row"]');
     // console.log(checkInButtons);
     
     checkInButtons.forEach(d => {
@@ -354,7 +354,7 @@ var handleCheckInRows = () => {
 var handleRecallRows = () => {
  
     var _table = document.querySelector('#token-table');
-    const recallButtons = _table.querySelectorAll('[data-kt-token-table-filter="recall_row"]');
+    const recallButtons = _table.querySelectorAll('[data-mv-token-table-filter="recall_row"]');
     // console.log(recallButtons);
     
     recallButtons.forEach(d => {
@@ -484,15 +484,13 @@ var handleTransferRows = () => {
     });
 
     var _table = document.querySelector('#token-table');
-    const transferButtons = _table.querySelectorAll('[data-kt-token-table-filter="transfer_row"]');
+    const transferButtons = _table.querySelectorAll('[data-mv-token-table-filter="transfer_row"]');
     // console.log(transferButtons);
     
     transferButtons.forEach(d => {
         // Delete button on click
         d.addEventListener('click', function (e) {
             e.preventDefault();
-            // $('[name=department_id]').val("0");
-            // alert(window.location.pathname);
             // Select parent row
             const parent = e.target.closest('tr');
             if(parent.querySelectorAll('input[name=dept]').length)
@@ -518,19 +516,23 @@ var handleTransferRows = () => {
             // alert(deptID);
             // Get token name
             const tokenNo = parent.querySelectorAll('td')[1].innerText;
-            if(parent.querySelectorAll('input[name=token-id]').length)
+            // console.log(tokenNo);
+            if(parent.querySelectorAll('input[name=token-id]').length){
                 var tokenID =  parent.querySelectorAll('input[name=token-id]')[0].value;
-            else
+                var isVIP = parent.querySelectorAll('input[name=token-id]')[0].getAttribute('data-vip');
+                var note =  parent.querySelectorAll('input[name=notes]')[0].getAttribute('value');
+            } else {
                 var tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
-
-            // console.log(tokenID);
-
+                var isVIP = parent.querySelectorAll('td')[1].querySelectorAll('.badge')[0].getAttribute('data-vip');
+                var note = parent.querySelectorAll('td')[1].querySelectorAll('[name=notes]')[0].getAttribute('value');
+            }
            
-            // alert(tokenID);
             $("input[name=id]").val(tokenID);
             $("input[name=departmentID]").val(deptID);
             $("input[name=counterID]").val(counterID);
             $("input[name=officerID]").val(officerID);
+            $("input[name=isVIP").val(isVIP);
+            $("input[name=cNotes").val(note);
             
         })
     });
@@ -552,10 +554,10 @@ return {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
+MVUtil.onDOMContentLoaded(function () {
 
 setTimeout(() => {
-    //KTTokenActions.init();
+    //MVTokenActions.init();
     
 }, 1000);
 });

@@ -1,9 +1,9 @@
 <script>
     // Class definition
-    var KTUsersUpdatePermissions = function() {
+    var MVUsersUpdatePermissions = function() {
         // Shared variables
-        const element = document.getElementById('kt_modal_update_role');
-        const form = element.querySelector('#kt_modal_update_role_form');
+        const element = document.getElementById('mv_modal_update_role');
+        const form = element.querySelector('#mv_modal_update_role_form');
         const modal = new bootstrap.Modal(element);
 
         // Init add schedule modal
@@ -62,12 +62,12 @@
                 $("#update_role_description").val(desc);
                                 
                 var _core = (editable == 0);
-                $("#kt_update_roles_core").prop("disabled",_core);
+                $("#mv_update_roles_core").prop("disabled",_core);
                 if(desc != ""){
                     $("#update_role_description").prop("disabled",_core);
                 }
                                 
-                $("#kt_update_roles_core").prop("checked",_core);
+                $("#mv_update_roles_core").prop("checked",_core);
 
                 var $ddlPermissions = $("#ddlPermissions").select2();
                 $ddlPermissions.val(perms).trigger("change");
@@ -76,7 +76,7 @@
 
 
             // Close button handler
-            const closeButton = element.querySelector('[data-kt-roles-modal-action="close"]');
+            const closeButton = element.querySelector('[data-mv-roles-modal-action="close"]');
             closeButton.addEventListener('click', e => {
                 e.preventDefault();
 
@@ -99,7 +99,7 @@
             });
 
             // Cancel button handler
-            const cancelButton = element.querySelector('[data-kt-roles-modal-action="cancel"]');
+            const cancelButton = element.querySelector('[data-mv-roles-modal-action="cancel"]');
             cancelButton.addEventListener('click', e => {
                 e.preventDefault();
 
@@ -133,7 +133,7 @@
             });
 
             // Submit button handler
-            const submitButton = element.querySelector('[data-kt-roles-modal-action="submit"]');
+            const submitButton = element.querySelector('[data-mv-roles-modal-action="submit"]');
             submitButton.addEventListener('click', function(e) {
                 // Prevent default button action
                 e.preventDefault();
@@ -145,7 +145,7 @@
 
                         if (status == 'Valid') {
                             // Show loading indication
-                            submitButton.setAttribute('data-kt-indicator', 'on');
+                            submitButton.setAttribute('data-mv-indicator', 'on');
 
                             // Disable button to avoid multiple click 
                             submitButton.disabled = true;
@@ -173,7 +173,7 @@
                                     //     table.ajax.reload();
                                     // }, 2000 );
                                     // Remove loading indication
-                                    submitButton.removeAttribute('data-kt-indicator');
+                                    submitButton.removeAttribute('data-mv-indicator');
 
                                     // Enable button
                                     submitButton.disabled = false;
@@ -221,7 +221,7 @@
         // Select all handler
         const handleSelectAll = () => {
             // Define variables
-            const selectAll = form.querySelector('#kt_roles_select_all');
+            const selectAll = form.querySelector('#mv_roles_select_all');
             const allCheckboxes = form.querySelectorAll('[type="checkbox"]');
 
             // Handle check state
@@ -244,7 +244,7 @@
     }();
 
     // On document ready
-    KTUtil.onDOMContentLoaded(function() {
-        KTUsersUpdatePermissions.init();
+    MVUtil.onDOMContentLoaded(function() {
+        MVUsersUpdatePermissions.init();
     });
 </script>

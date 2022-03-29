@@ -1,63 +1,63 @@
 "use strict";
 
 // Class definition
-var KTGeneralStepperDemos = function() {
+var MVGeneralStepperDemos = function() {
     // Private functions
     var _exampleBasic = function() {
         // Stepper lement
-        var element = document.querySelector("#kt_stepper_example_basic");
+        var element = document.querySelector("#mv_stepper_example_basic");
 
         // Initialize Stepper
-		var stepper = new KTStepper(element);
+		var stepper = new MVStepper(element);
 
         // Handle next step
-		stepper.on("kt.stepper.next", function (stepper) {
+		stepper.on("mv.stepper.next", function (stepper) {
 			stepper.goNext(); // go next step
 		});
 
 		// Handle previous step
-		stepper.on("kt.stepper.previous", function (stepper) {
+		stepper.on("mv.stepper.previous", function (stepper) {
 			stepper.goPrevious(); // go previous step
 		});
     }
 
     var _exampleVertical = function() {
         // Stepper lement
-        var element = document.querySelector("#kt_stepper_example_vertical");
+        var element = document.querySelector("#mv_stepper_example_vertical");
 
         // Initialize Stepper
-		var stepper = new KTStepper(element);
+		var stepper = new MVStepper(element);
 
         // Handle next step
-		stepper.on("kt.stepper.next", function (stepper) {
+		stepper.on("mv.stepper.next", function (stepper) {
 			stepper.goNext(); // go next step
 		});
 
 		// Handle previous step
-		stepper.on("kt.stepper.previous", function (stepper) {
+		stepper.on("mv.stepper.previous", function (stepper) {
 			stepper.goPrevious(); // go previous step
 		});
     }
 
     var _exampleClickable = function() {
         // Stepper lement
-        var element = document.querySelector("#kt_stepper_example_clickable");
+        var element = document.querySelector("#mv_stepper_example_clickable");
 
         // Initialize Stepper
-		var stepper = new KTStepper(element);
+		var stepper = new MVStepper(element);
 
         // Handle navigation click
-		stepper.on("kt.stepper.click", function (stepper) {
+		stepper.on("mv.stepper.click", function (stepper) {
 			stepper.goTo(stepper.getClickedStepIndex()); // go to clicked step
 		});
 
         // Handle next step
-		stepper.on("kt.stepper.next", function (stepper) {
+		stepper.on("mv.stepper.next", function (stepper) {
 			stepper.goNext(); // go next step
 		});
 
 		// Handle previous step
-		stepper.on("kt.stepper.previous", function (stepper) {
+		stepper.on("mv.stepper.previous", function (stepper) {
 			stepper.goPrevious(); // go previous step
 		});
     }
@@ -73,6 +73,6 @@ var KTGeneralStepperDemos = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTGeneralStepperDemos.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVGeneralStepperDemos.init();
 });

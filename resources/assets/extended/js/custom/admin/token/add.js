@@ -1,10 +1,10 @@
 "use strict";
 
 // Class definition
-var KTTokenAddToken = function () {
+var MVTokenAddToken = function () {
     // Shared variables
-    const element = document.getElementById('kt_modal_add_token');
-    const form = element.querySelector('#kt_modal_add_token_form');
+    const element = document.getElementById('mv_modal_add_token');
+    const form = element.querySelector('#mv_modal_add_token_form');
     const modal = new bootstrap.Modal(element);
 
     // Placeholder
@@ -62,7 +62,7 @@ var KTTokenAddToken = function () {
         );
 
         // Submit button handler
-        const submitButton = element.querySelector('[data-kt-tokens-modal-action="submit"]');
+        const submitButton = element.querySelector('[data-mv-tokens-modal-action="submit"]');
         submitButton.addEventListener('click', e => {
             e.preventDefault();
 
@@ -73,7 +73,7 @@ var KTTokenAddToken = function () {
 
                     if (status == 'Valid') {
                         // Show loading indication
-                        submitButton.setAttribute('data-kt-indicator', 'on');
+                        submitButton.setAttribute('data-mv-indicator', 'on');
 
                         // Disable button to avoid multiple click 
                         submitButton.disabled = true;
@@ -98,7 +98,7 @@ var KTTokenAddToken = function () {
                                 //     table.ajax.reload();
                                 // }, 2000 );
                                  // Remove loading indication
-                                submitButton.removeAttribute('data-kt-indicator');
+                                submitButton.removeAttribute('data-mv-indicator');
 
                                 // Enable button
                                 submitButton.disabled = false;
@@ -139,7 +139,7 @@ var KTTokenAddToken = function () {
         });
 
         // Cancel button handler
-        const cancelButton = element.querySelector('[data-kt-tokens-modal-action="cancel"]');
+        const cancelButton = element.querySelector('[data-mv-tokens-modal-action="cancel"]');
         cancelButton.addEventListener('click', e => {
             e.preventDefault();
 
@@ -173,7 +173,7 @@ var KTTokenAddToken = function () {
         });
 
         // Close button handler
-        const closeButton = element.querySelector('[data-kt-tokens-modal-action="close"]');
+        const closeButton = element.querySelector('[data-mv-tokens-modal-action="close"]');
         closeButton.addEventListener('click', e => {
             e.preventDefault();
 
@@ -216,6 +216,6 @@ var KTTokenAddToken = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTTokenAddToken.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVTokenAddToken.init();
 });

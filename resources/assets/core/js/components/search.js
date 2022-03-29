@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTSearch = function(element, options) {
+var MVSearch = function(element, options) {
     ////////////////////////////
     // ** Private variables  ** //
     ////////////////////////////
@@ -27,8 +27,8 @@ var KTSearch = function(element, options) {
 
     // Construct
     var _construct = function() {
-        if ( KTUtil.data(element).has('search') === true ) {
-            the = KTUtil.data(element).get('search');
+        if ( MVUtil.data(element).has('search') === true ) {
+            the = MVUtil.data(element).get('search');
         } else {
             _init();
         }
@@ -37,7 +37,7 @@ var KTSearch = function(element, options) {
     // Init
     var _init = function() {
         // Variables
-        the.options = KTUtil.deepExtend({}, defaultOptions, options);
+        the.options = MVUtil.deepExtend({}, defaultOptions, options);
         the.processing = false;
 
         // Elements
@@ -56,14 +56,14 @@ var KTSearch = function(element, options) {
         the.emptyElement = _getElement('empty'); 
 
         // Set initialized
-        the.element.setAttribute('data-kt-search', 'true');
+        the.element.setAttribute('data-mv-search', 'true');
         
         // Layout
         the.layout = _getOption('layout');
         
         // Menu
         if ( the.layout === 'menu' ) {
-            the.menuObject = new KTMenu(the.contentElement);
+            the.menuObject = new MVMenu(the.contentElement);
         } else {
             the.menuObject = null;
         }
@@ -75,7 +75,7 @@ var KTSearch = function(element, options) {
         _handlers();
 
         // Bind Instance
-        KTUtil.data(the.element).set('search', the);
+        MVUtil.data(the.element).set('search', the);
     }
 
     // Handlera
@@ -112,22 +112,22 @@ var KTSearch = function(element, options) {
             if ( the.toggleElement ) {
                 the.toggleElement.addEventListener('click', _show);
 
-                the.menuObject.on('kt.menu.dropdown.show', function(item) {
-                    if (KTUtil.visible(the.toggleElement)) {
+                the.menuObject.on('mv.menu.dropdown.show', function(item) {
+                    if (MVUtil.visible(the.toggleElement)) {
                         the.toggleElement.classList.add('active');
                         the.toggleElement.classList.add('show');
                     } 
                 });
     
-                the.menuObject.on('kt.menu.dropdown.hide', function(item) {
-                    if (KTUtil.visible(the.toggleElement)) {
+                the.menuObject.on('mv.menu.dropdown.hide', function(item) {
+                    if (MVUtil.visible(the.toggleElement)) {
                         the.toggleElement.classList.remove('active');
                         the.toggleElement.classList.remove('show');
                     }
                 });
             }            
 
-            the.menuObject.on('kt.menu.dropdown.shown', function() {
+            the.menuObject.on('mv.menu.dropdown.shown', function() {
                 the.inputElement.focus();
             });
         } 
@@ -136,7 +136,7 @@ var KTSearch = function(element, options) {
         window.addEventListener('resize', function() {
             var timer;
 
-            KTUtil.throttle(timer, function() {
+            MVUtil.throttle(timer, function() {
                 _update();
             }, 200);
         });
@@ -202,7 +202,7 @@ var KTSearch = function(element, options) {
             the.inputElement.focus();
 
             the.processing = true;
-            KTEventHandler.trigger(the.element, 'kt.search.process', the);
+            MVEventHandler.trigger(the.element, 'mv.search.process', the);
         }
     }
 
@@ -231,7 +231,7 @@ var KTSearch = function(element, options) {
 
     // Clear
     var _clear = function() {
-        if ( KTEventHandler.trigger(the.element, 'kt.search.clear', the) === false )  {
+        if ( MVEventHandler.trigger(the.element, 'mv.search.clear', the) === false )  {
             return;
         }
 
@@ -254,7 +254,7 @@ var KTSearch = function(element, options) {
             _hide();
         }
 
-        KTEventHandler.trigger(the.element, 'kt.search.cleared', the);
+        MVEventHandler.trigger(the.element, 'mv.search.cleared', the);
     }
 
     // Update
@@ -293,9 +293,9 @@ var KTSearch = function(element, options) {
 
     // Get option
     var _getOption = function(name) {
-        if ( the.element.hasAttribute('data-kt-search-' + name) === true ) {
-            var attr = the.element.getAttribute('data-kt-search-' + name);
-            var value = KTUtil.getResponsiveValue(attr);
+        if ( the.element.hasAttribute('data-mv-search-' + name) === true ) {
+            var attr = the.element.getAttribute('data-mv-search-' + name);
+            var value = MVUtil.getResponsiveValue(attr);
 
             if ( value !== null && String(value) === 'true' ) {
                 value = true;
@@ -305,10 +305,10 @@ var KTSearch = function(element, options) {
 
             return value;
         } else {
-            var optionName = KTUtil.snakeToCamel(name);
+            var optionName = MVUtil.snakeToCamel(name);
 
             if ( the.options[optionName] ) {
-                return KTUtil.getResponsiveValue(the.options[optionName]);
+                return MVUtil.getResponsiveValue(the.options[optionName]);
             } else {
                 return null;
             }
@@ -317,19 +317,19 @@ var KTSearch = function(element, options) {
 
     // Get element
     var _getElement = function(name) {
-        return the.element.querySelector('[data-kt-search-element="' + name + '"]');
+        return the.element.querySelector('[data-mv-search-element="' + name + '"]');
     }
 
     // Check if responsive form mode is enabled
     var _getResponsiveFormMode = function() {
         var responsive = _getOption('responsive');
-        var width = KTUtil.getViewPort().width;
+        var width = MVUtil.getViewPort().width;
 
         if (!responsive) {
             return null;
         }
 
-        var breakpoint = KTUtil.getBreakpoint(responsive);
+        var breakpoint = MVUtil.getBreakpoint(responsive);
 
         if (!breakpoint ) {
             breakpoint = parseInt(responsive);
@@ -343,7 +343,7 @@ var KTSearch = function(element, options) {
     }
 
     var _destroy = function() {
-        KTUtil.data(the.element).remove('search');
+        MVUtil.data(the.element).remove('search');
     }    
 
     // Construct class
@@ -412,22 +412,22 @@ var KTSearch = function(element, options) {
 
     // Event API
     the.on = function(name, handler) {
-        return KTEventHandler.on(the.element, name, handler);
+        return MVEventHandler.on(the.element, name, handler);
     }
 
     the.one = function(name, handler) {
-        return KTEventHandler.one(the.element, name, handler);
+        return MVEventHandler.one(the.element, name, handler);
     }
 
     the.off = function(name) {
-        return KTEventHandler.off(the.element, name);
+        return MVEventHandler.off(the.element, name);
     }
 };
 
 // Static methods
-KTSearch.getInstance = function(element) {
-    if ( element !== null && KTUtil.data(element).has('search') ) {
-        return KTUtil.data(element).get('search');
+MVSearch.getInstance = function(element) {
+    if ( element !== null && MVUtil.data(element).has('search') ) {
+        return MVUtil.data(element).get('search');
     } else {
         return null;
     }
@@ -435,5 +435,5 @@ KTSearch.getInstance = function(element) {
 
 // Webpack support
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    module.exports = KTSearch;
+    module.exports = MVSearch;
 }

@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTGeneralAmChartsMaps = function () {
+var MVGeneralAmChartsMaps = function () {
     // Shared variables
     var chart;
     const bodyColor = getComputedStyle(document.documentElement).getPropertyValue('--bs-body-color');
@@ -13,7 +13,7 @@ var KTGeneralAmChartsMaps = function () {
         am5.ready(function () {
             // Create root element
             // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-            var root = am5.Root.new("kt_amcharts_1");
+            var root = am5.Root.new("mv_amcharts_1");
 
             // Set themes
             // https://www.amcharts.com/docs/v5/concepts/themes/
@@ -95,7 +95,7 @@ var KTGeneralAmChartsMaps = function () {
 
             // Create root element
             // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-            var root = am5.Root.new("kt_amcharts_2");
+            var root = am5.Root.new("mv_amcharts_2");
 
             // Set themes
             // https://www.amcharts.com/docs/v5/concepts/themes/
@@ -283,7 +283,7 @@ var KTGeneralAmChartsMaps = function () {
 
             // Create root element
             // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-            var root = am5.Root.new("kt_amcharts_3");
+            var root = am5.Root.new("mv_amcharts_3");
 
 
             // Set themes
@@ -364,7 +364,7 @@ var KTGeneralAmChartsMaps = function () {
 
             // Create root element
             // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-            var root = am5.Root.new("kt_amcharts_4");
+            var root = am5.Root.new("mv_amcharts_4");
 
             // Set themes
             // https://www.amcharts.com/docs/v5/concepts/themes/
@@ -517,6 +517,6 @@ var KTGeneralAmChartsMaps = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTGeneralAmChartsMaps.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVGeneralAmChartsMaps.init();
 });

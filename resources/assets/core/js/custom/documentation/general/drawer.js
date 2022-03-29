@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTGeneralDrawerDemos = function() {
+var MVGeneralDrawerDemos = function() {
     // Private functions
     var _exampleBasic = function() {
     }
@@ -15,6 +15,6 @@ var KTGeneralDrawerDemos = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTGeneralDrawerDemos.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVGeneralDrawerDemos.init();
 });

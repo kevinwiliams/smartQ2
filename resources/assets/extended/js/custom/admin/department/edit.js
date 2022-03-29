@@ -1,10 +1,10 @@
 "use strict";
 
 // Class definition
-var KTTokenEditDept = function () {
+var MVTokenEditDept = function () {
     // Shared variables
-    const element = document.getElementById('kt_modal_edit_dept');
-    const form = element.querySelector('#kt_modal_edit_dept_form');
+    const element = document.getElementById('mv_modal_edit_dept');
+    const form = element.querySelector('#mv_modal_edit_dept_form');
     const modal = new bootstrap.Modal(element);
 
         // Init add schedule modal
@@ -43,7 +43,7 @@ var KTTokenEditDept = function () {
         );
 
         // Submit button handler
-        const submitButton = element.querySelector('[data-kt-dept-edit-modal-action="submit"]');
+        const submitButton = element.querySelector('[data-mv-dept-edit-modal-action="submit"]');
         submitButton.addEventListener('click', e => {
             e.preventDefault();
 
@@ -54,7 +54,7 @@ var KTTokenEditDept = function () {
 
                     if (status == 'Valid') {
                         // Show loading indication
-                        submitButton.setAttribute('data-kt-indicator', 'on');
+                        submitButton.setAttribute('data-mv-indicator', 'on');
 
                         // Disable button to avoid multiple click 
                         submitButton.disabled = true;
@@ -79,7 +79,7 @@ var KTTokenEditDept = function () {
                                 //     table.ajax.reload();
                                 // }, 2000 );
                                  // Remove loading indication
-                                submitButton.removeAttribute('data-kt-indicator');
+                                submitButton.removeAttribute('data-mv-indicator');
 
                                 // Enable button
                                 submitButton.disabled = false;
@@ -120,7 +120,7 @@ var KTTokenEditDept = function () {
         });
 
         // Cancel button handler
-        const cancelButton = element.querySelector('[data-kt-dept-edit-modal-action="cancel"]');
+        const cancelButton = element.querySelector('[data-mv-dept-edit-modal-action="cancel"]');
         cancelButton.addEventListener('click', e => {
             e.preventDefault();
 
@@ -154,7 +154,7 @@ var KTTokenEditDept = function () {
         });
 
         // Close button handler
-        const closeButton = element.querySelector('[data-kt-dept-edit-modal-action="close"]');
+        const closeButton = element.querySelector('[data-mv-dept-edit-modal-action="close"]');
         closeButton.addEventListener('click', e => {
             e.preventDefault();
 
@@ -197,6 +197,6 @@ var KTTokenEditDept = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTTokenEditDept.init();
+MVUtil.onDOMContentLoaded(function () {
+    MVTokenEditDept.init();
 });

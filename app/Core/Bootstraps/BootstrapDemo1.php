@@ -56,11 +56,11 @@ class BootstrapDemo1 extends BootstrapBase {
 
         if ($typeOptions) {
             if (isset($typeOptions['height'])) {
-                Theme::addCssVariable('body', '--kt-toolbar-height', $typeOptions['height']);
+                Theme::addCssVariable('body', '--mv-toolbar-height', $typeOptions['height']);
             }
 
             if (isset($typeOptions['height-tablet-and-mobile'])) {
-                Theme::addCssVariable('body', '--kt-toolbar-height-tablet-and-mobile', $typeOptions['height-tablet-and-mobile']);
+                Theme::addCssVariable('body', '--mv-toolbar-height-tablet-and-mobile', $typeOptions['height-tablet-and-mobile']);
             }
         }
     }
@@ -77,16 +77,16 @@ class BootstrapDemo1 extends BootstrapBase {
         }
 
         if (Theme::getOption('layout', 'header/left') === 'page-title') {
-            Theme::setOption('layout', 'page-title/responsive-target', '#kt_header_nav');
+            Theme::setOption('layout', 'page-title/responsive-target', '#mv_header_nav');
         }
 
         if (Theme::getOption('layout', 'page-title/responsive') === true) {
             Theme::addHtmlClass('page-title', 'mb-5 mb-lg-0');
 
             $attr = array();
-            $attr['data-kt-swapper'] = 'true';
-            $attr['data-kt-swapper-mode'] = 'prepend';
-            $attr['data-kt-swapper-parent'] = "{default: '#kt_content_container', '" . Theme::getOption('layout', 'page-title/responsive-breakpoint') . "': '" . Theme::getOption('layout', 'page-title/responsive-target') . "'}";
+            $attr['data-mv-swapper'] = 'true';
+            $attr['data-mv-swapper-mode'] = 'prepend';
+            $attr['data-mv-swapper-parent'] = "{default: '#mv_content_container', '" . Theme::getOption('layout', 'page-title/responsive-breakpoint') . "': '" . Theme::getOption('layout', 'page-title/responsive-target') . "'}";
 
             Theme::addHtmlAttributes('page-title', $attr);
         }
@@ -124,7 +124,7 @@ class BootstrapDemo1 extends BootstrapBase {
 
         // Default minimized
         if (Theme::getOption('layout', 'aside/minimized')) {
-            Theme::addHtmlAttribute('body', 'data-kt-aside-minimize', 'on');
+            Theme::addHtmlAttribute('body', 'data-mv-aside-minimize', 'on');
         }
 
         // Hoverable on minimize

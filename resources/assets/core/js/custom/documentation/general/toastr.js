@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTGeneralToastr = function() {
+var MVGeneralToastr = function() {
     // Private functions
     var example1 = function() {
         var i = -1;
@@ -158,6 +158,6 @@ var KTGeneralToastr = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTGeneralToastr.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVGeneralToastr.init();
 });

@@ -104,7 +104,7 @@ return array(
             'direction'             => 'row', // Flex direction(column|row))
             'responsive'            => true, // Move page title to cotnent on mobile mode
             'responsive-breakpoint' => 'lg', // Responsive breakpoint value(e.g: md, lg, or 300px)
-            'responsive-target'     => '#kt_toolbar_container' // Responsive target selector
+            'responsive-target'     => '#mv_toolbar_container' // Responsive target selector
         ),
 
         // Aside

@@ -1,10 +1,10 @@
 "use strict";
 
 // Class definition
-var KTFormsQuillBasic = function() {
+var MVFormsQuillBasic = function() {
     // Private functions
     var exampleBasic = function() {
-        var quill = new Quill('#kt_docs_quill_basic', {
+        var quill = new Quill('#mv_docs_quill_basic', {
             modules: {
                 toolbar: [
                     [{
@@ -28,6 +28,6 @@ var KTFormsQuillBasic = function() {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
-    KTFormsQuillBasic.init();
+MVUtil.onDOMContentLoaded(function() {
+    MVFormsQuillBasic.init();
 });

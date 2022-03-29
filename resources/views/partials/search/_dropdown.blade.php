@@ -1,23 +1,23 @@
 <!--begin::Search-->
 <div
-    id="kt_header_search"
+    id="mv_header_search"
     class="d-flex align-items-stretch"
 
-    data-kt-search-keypress="true"
-    data-kt-search-min-length="2"
-    data-kt-search-enter="enter"
-    data-kt-search-layout="menu"
+    data-mv-search-keypress="true"
+    data-mv-search-min-length="2"
+    data-mv-search-enter="enter"
+    data-mv-search-layout="menu"
 
-    data-kt-menu-trigger="auto"
-    data-kt-menu-overflow="false"
-    data-kt-menu-permanent="true"
-    data-kt-menu-placement="bottom-end"
+    data-mv-menu-trigger="auto"
+    data-mv-menu-overflow="false"
+    data-mv-menu-permanent="true"
+    data-mv-menu-placement="bottom-end"
 
     {{ isset($attributes) ? util()->putHtmlAttributes($attributes) : '' }}
    >
 
     <!--begin::Search toggle-->
-    <div class="d-flex align-items-center" data-kt-search-element="toggle" id="kt_header_search_toggle">
+    <div class="d-flex align-items-center" data-mv-search-element="toggle" id="mv_header_search_toggle">
         <div class="{{ $toggleBtnClass }}">
             {!! $toggleBtnIcon ?? theme()->getSvgIcon('icons/duotune/general/gen021.svg', $toggleBtnIconClass ?? 'svg-icon-1') !!}
         </div>
@@ -25,9 +25,9 @@
     <!--end::Search toggle-->
 
     <!--begin::Menu-->
-    <div data-kt-search-element="content" class="menu menu-sub menu-sub-dropdown p-7 w-325px w-md-375px">
+    <div data-mv-search-element="content" class="menu menu-sub menu-sub-dropdown p-7 w-325px w-md-375px">
         <!--begin::Wrapper-->
-        <div data-kt-search-element="wrapper">
+        <div data-mv-search-element="wrapper">
             {{ theme()->getView('partials/search/partials/_form') }}
 
             {{ theme()->getView('partials/search/partials/_results') }}

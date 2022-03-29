@@ -22,7 +22,7 @@ return array(
 
         array(
             'title'      => 'Multi-demo',
-            'attributes' => array("data-kt-menu-trigger" => "click"),
+            'attributes' => array("data-mv-menu-trigger" => "click"),
             'classes'    => array('item' => 'menu-accordion'),
             'sub'        => array(
                 'class' => 'menu-sub-accordion',
@@ -50,7 +50,7 @@ return array(
         // Customization
         array(
             'title'      => 'Customization',
-            'attributes' => array("data-kt-menu-trigger" => "click"),
+            'attributes' => array("data-mv-menu-trigger" => "click"),
             'classes'    => array('item' => 'menu-accordion'),
             'sub'        => array(
                 'class' => 'menu-sub-accordion',
@@ -150,7 +150,7 @@ return array(
         array(
             'title'      => 'DataTables',
             'classes'    => array('item' => 'menu-accordion'),
-            'attributes' => array("data-kt-menu-trigger" => "click"),
+            'attributes' => array("data-mv-menu-trigger" => "click"),
             'sub'        => array(
                 'class' => 'menu-sub-accordion',
                 'items' => array(
@@ -223,7 +223,7 @@ return array(
             'path'  => '#',
             'classes'    => array('item' => 'menu-accordion'),
             'attributes' => array(
-                "data-kt-menu-trigger" => "click",
+                "data-mv-menu-trigger" => "click",
             ),
             'sub'        => array(
                 'class' => 'menu-sub-accordion menu-active-bg',
@@ -259,7 +259,7 @@ return array(
             'path'  => '#',
             'classes'    => array('item' => 'menu-accordion'),
             'attributes' => array(
-                "data-kt-menu-trigger" => "click",
+                "data-mv-menu-trigger" => "click",
             ),
             'sub'        => array(
                 'class' => 'menu-sub-accordion menu-active-bg',
@@ -285,7 +285,7 @@ return array(
             'path'  => '#',
             'classes'    => array('item' => 'menu-accordion'),
             'attributes' => array(
-                "data-kt-menu-trigger" => "click",
+                "data-mv-menu-trigger" => "click",
             ),
             'sub'        => array(
                 'class' => 'menu-sub-accordion menu-active-bg',
@@ -352,7 +352,7 @@ return array(
             'path'  => '#',
             'classes'    => array('item' => 'menu-accordion'),
             'attributes' => array(
-                "data-kt-menu-trigger" => "click",
+                "data-mv-menu-trigger" => "click",
             ),
             'sub'        => array(
                 'class' => 'menu-sub-accordion menu-active-bg',
@@ -390,7 +390,7 @@ return array(
             ),
             'classes'    => array('item' => 'menu-accordion'),
             'attributes' => array(
-                "data-kt-menu-trigger" => "click",
+                "data-mv-menu-trigger" => "click",
             ),
             'sub'        => array(
                 'class' => 'menu-sub-accordion menu-active-bg',
@@ -425,8 +425,8 @@ return array(
             'title'      => 'Resources',
             'classes'    => array('item' => 'menu-lg-down-accordion me-lg-1', 'arrow' => 'd-lg-none'),
             'attributes' => array(
-                'data-kt-menu-trigger'   => "click",
-                'data-kt-menu-placement' => "bottom-start",
+                'data-mv-menu-trigger'   => "click",
+                'data-mv-menu-placement' => "bottom-start",
             ),
             'sub'        => array(
                 'class' => 'menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-rounded-0 py-lg-4 w-lg-225px',
@@ -453,8 +453,8 @@ return array(
             'title'      => 'Account',
             'classes'    => array('item' => 'menu-lg-down-accordion me-lg-1', 'arrow' => 'd-lg-none'),
             'attributes' => array(
-                'data-kt-menu-trigger'   => "click",
-                'data-kt-menu-placement' => "bottom-start",
+                'data-mv-menu-trigger'   => "click",
+                'data-mv-menu-placement' => "bottom-start",
             ),
             'sub'        => array(
                 'class' => 'menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-rounded-0 py-lg-4 w-lg-225px',
@@ -492,8 +492,8 @@ return array(
             'title'      => 'System',
             'classes'    => array('item' => 'menu-lg-down-accordion me-lg-1', 'arrow' => 'd-lg-none'),
             'attributes' => array(
-                'data-kt-menu-trigger'   => "click",
-                'data-kt-menu-placement' => "bottom-start",
+                'data-mv-menu-trigger'   => "click",
+                'data-mv-menu-placement' => "bottom-start",
             ),
             'sub'        => array(
                 'class' => 'menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-rounded-0 py-lg-4 w-lg-225px',
