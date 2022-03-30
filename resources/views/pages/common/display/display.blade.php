@@ -16,6 +16,11 @@
       </div>
     </div> 
 </div>  
+
+<!--begin::Modal - Now Serving -->
+{{ theme()->getView('partials/modals/display/_notification', 
+   ) }}
+<!--end::Modal - Now Serving -->
 @endsection
 
 @section('scripts')
@@ -53,15 +58,29 @@ $(document).ready(function(){
           $("#display1").html(data.result);
  
           view_token = data.view_token;
-
+         
           //notification sound
           if (data.status)
           {  
-              var url  = "{{ URL::to('') }}"; 
-              var lang = "{{ in_array(session()->get('locale'), $setting->languages)?session()->get('locale'):'en' }}";
-              var player = new Notification;
-              player.call([data.new_token], lang, url);
-          } 
+            var url  = "{{ URL::to('') }}"; 
+            var lang = "{{ in_array(session()->get('locale'), $setting->languages)?session()->get('locale'):'en' }}";
+            var player = new Notification;
+            
+            
+            //show notification
+            $('#mv_modal_now_serving').modal('show'); 
+            $("#token_no").html(view_token.token);
+            $("#counter_no").html(view_token.counter);
+
+            setInterval(() => {
+              // hide notification
+              $('#mv_modal_now_serving').modal('hide'); 
+            }, 10000);
+
+            player.call([data.new_token], lang, url);
+
+
+            } 
 
           setTimeout(display, data.interval);
        }
