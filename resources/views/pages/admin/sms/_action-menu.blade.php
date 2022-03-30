@@ -1,7 +1,18 @@
 <!--begin::Action--->
 <td class="text-end">
-    <button data-destroy="{{ route('log.system.destroy', $model->get('id')) }}" class="btn btn-sm btn-light btn-active-light-primary">
-        Delete
+    <!--begin::Update-->
+    <button class="btn btn-icon btn-active-light-primary w-30px h-30px me-3" data-mv-permissions-action="edit" id="btnViewSMS{{ $model->id }}" >
+        <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
+        {!! theme()->getSvgIcon("icons/duotune/general/gen019.svg", "svg-icon-3") !!}
+
+        <!--end::Svg Icon-->
     </button>
+    <!--end::Update-->
+    <button data-mv-smshistory-table-filter="delete_row" data-id="{{ $model->id }}" id="btnDeleteSMS{{ $model->id }}" class="btn btn-icon btn-active-light-primary w-30px h-30px me-3">
+        <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
+        {!! theme()->getSvgIcon("icons/duotune/general/gen027.svg", "svg-icon-3") !!}
+        <!--end::Svg Icon-->
+    </button>
+
 </td>
 <!--end::Action--->

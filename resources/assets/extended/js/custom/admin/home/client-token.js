@@ -22,7 +22,7 @@ var MVCreateToken = function () {
 
          // Placeholder
         Inputmask({
-            "mask" : "(999) 999-9999",        
+            "mask" : "1 (999) 999-9999",        
         }).mask("[name='phone']");
 		// Initialize Stepper
 		stepperObj = new MVStepper(stepper);

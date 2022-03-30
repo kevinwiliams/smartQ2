@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
+use App\Mail\TokenNotification;
 use Illuminate\Http\Request; 
 use App\Models\Display; 
 use App\Models\DisplaySetting; 
@@ -9,8 +10,9 @@ use Carbon\Carbon;
 use App\Models\SmsSetting;
 use App\Models\SmsHistory;
 use App\Models\Token;
+use App\Models\User;
 use DB, Response, File, Validator;
-
+use Mail;
 
 class CronjobController extends Controller
 { 
@@ -52,6 +54,7 @@ class CronjobController extends Controller
         $tokenInfo = DB::table('token AS t')
             ->select(
                 "t.id",
+                "t.client_id AS client",
                 "t.token_no AS token",
                 "t.client_mobile AS mobile",
                 "d.name AS department",
@@ -80,9 +83,12 @@ class CronjobController extends Controller
             }
             else
             {
-                //nothing
+                //Send email
                 $data['status'] = false;
                 $data['result'] = $tokenInfo; 
+                // send Email 
+                $this->sendEmail($tokenInfo);
+                
             }  
 
         return Response::json($data);
@@ -105,6 +111,7 @@ class CronjobController extends Controller
                 ->select(
                     "t.id",
                     "t.token_no AS token",
+                    "t.client_id AS client",
                     "t.client_mobile AS mobile",
                     "d.name AS department",
                     "c.name AS counter",
@@ -153,6 +160,8 @@ class CronjobController extends Controller
             {
                 $data['status'] = false;
                 $data['result'][] = $tokenInfo;
+               // send Email 
+               $this->sendEmail($tokenInfo);
             }
         }
 
@@ -176,6 +185,7 @@ class CronjobController extends Controller
                 ->select(
                     "t.id",
                     "t.token_no AS token",
+                    "t.client_id AS client",
                     "t.client_mobile AS mobile",
                     "d.name AS department",
                     "c.name AS counter",
@@ -222,8 +232,10 @@ class CronjobController extends Controller
             }
             else 
             {
-                $data['status'] = false;
+                $data['status'] = true;
                 $data['result'][] = $tokenInfo;
+                // send Email 
+                $this->sendEmail($tokenInfo);
             }
         }
 
@@ -277,5 +289,20 @@ class CronjobController extends Controller
         Token::where('id', $token->id)->update(['sms_status' => 1]);
     } 
 
+
+        /*
+    *---------------------------------------------------------
+    * SEND Email
+    *--------------------------------------------------------- 
+    */
+    public function sendEmail($token)
+    {
+        //send Email immediately
+
+        $client = User::find($token->client);
+        if($client){
+            Mail::to()->send(new TokenNotification($client,$token));
+        }
+    } 
 
 }

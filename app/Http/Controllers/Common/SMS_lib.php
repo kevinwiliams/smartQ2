@@ -47,7 +47,7 @@ use Illuminate\Support\Facades\Config;
 
 class SMS_lib extends Controller
 { 
-    private $_provider = "d7";
+    private $_provider = "nexmo";
     private $_url;
     private $_data;
     private $_api_key;

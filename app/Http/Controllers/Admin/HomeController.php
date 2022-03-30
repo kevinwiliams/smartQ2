@@ -9,6 +9,8 @@ use App\Models\Token;
 use App\Models\DisplaySetting;
 use App\Http\Controllers\Common\SMS_lib;
 use App\Mail\OTPNotification;
+use App\Models\SmsHistory;
+use App\Models\SmsSetting;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -190,6 +192,7 @@ class HomeController extends Controller
 
         $OTP = $this->generateNumericOTP(6);
 
+        $phonenum = $this->sanitizePhoneNumber($request->phone);
 
         $update = User::where('id', auth()->user()->id)
             ->update([
@@ -204,26 +207,57 @@ class HomeController extends Controller
             $user = User::where('id', auth()->user()->id)->first();
 
             if ($display->sms_alert) {
+                $setting  = SmsSetting::first();
                 $sms_lib = new SMS_lib;
 
                 $msg = "Hi " . auth()->user()->firstname . ", you're OTP is: $OTP";
 
+
                 $data = $sms_lib
-                    ->to($request->phone)
-                    ->message($msg)
+                    ->provider("$setting->provider")
+                    ->api_key("$setting->api_key")
+                    ->username("$setting->username")
+                    ->password("$setting->password")
+                    ->from("$setting->from")
+                    ->to("$phonenum")
+                    ->message("$msg")
                     ->response();
+
+                //store sms information 
+                $sms = new SmsHistory();
+                $sms->from        = $setting->from;
+                $sms->to          = $request->to;
+                $sms->message     = $request->message;
+                $sms->response    = $data;
+                $sms->created_at  = date('Y-m-d H:i:s');
+
+                $sms->save();
+
+                // $data = $sms_lib
+                //     ->to($request->phone)
+                //     ->message($msg)
+                //     ->response();
+                return json_encode(array(
+                    'status'      => true,
+                    'request_url' => "",
+                    'error'       => "",
+                    'message'     => $OTP,
+                    'data'        => $data
+                ));
             } else {
 
                 Mail::to(auth()->user()->email)->send(new OTPNotification($user));
+                return json_encode(array(
+                    'status'      => true,
+                    'request_url' => "",
+                    'error'       => "",
+                    'message'     => $OTP,
+                    'data'        => ""
+                ));
             }
 
             // return json_decode($data, true);
-            return json_encode(array(
-                'status'      => true,
-                'request_url' => "",
-                'error'       => "",
-                'message'     => $OTP
-            ));
+
         } else {
             return json_encode(array(
                 'status'      => false,
@@ -357,5 +391,20 @@ class HomeController extends Controller
 
         // Return result
         return $result;
+    }
+
+
+    function sanitizePhoneNumber($phone)
+    {
+
+        // Using str_replace() function 
+        // to replace the word 
+        $res = str_replace(array(
+            '(', ')',
+            '-', ' '
+        ), '', $phone);
+
+        // Returning the result 
+        return $res;
     }
 }
