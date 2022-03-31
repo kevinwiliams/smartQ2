@@ -42,7 +42,7 @@
                         <!--begin::Balance-->
                         <div class="d-flex text-center flex-column text-white pt-8">
                             <span class="fw-bold fs-7">TOKEN NUMBER</span>
-                            <span class="fw-bolder fs-2x pt-1">{{$token->token_no}}</span>
+                            <span class="fw-bolder fs-5tx pt-1">{{$token->token_no}}</span>
                         </div>
                         <!--end::Balance-->
                     </div>
@@ -178,12 +178,24 @@
               
                                 </div>
                                 <!--end::Label-->
+
                             </div>
                             <!--end::Description-->
                         </div>
                         <!--end::Item-->
+                        @if($token->status==3)
+                        <!--start::Separator-->  
+                        <div class="separator separator-dashed my-4"></div>
+                        <!--end::Separator-->  
+                        <!--start::QR Code -->  
+                        <div class="text-center">
+                            {!! QrCode::style('round')->eyeColor(0, 0,178,0, 1,162,217)->size(250)->color(1,162,217)->generate(url("admin/token/checkin/$token->id")) !!}
+                        </div>
+                        <!--end::QR Code -->  
+                        @endif
                     </div>
                     <!--end::Items-->
+
                     <div class="p-5">
                     @if($token->status==3)  
                         <a href="#" class="btn btn-primary w-100 py-3" data-id="{{ $token->id }}" name="check_in">Check In</a>
