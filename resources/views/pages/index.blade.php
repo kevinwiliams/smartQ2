@@ -23,7 +23,7 @@
                 }
             }
             ?>
-            {{ theme()->getView('partials/widgets/mixed/_widget-7', array('visitors'=> $visitors, 'class' => 'card-xxl-stretch-50 mb-5 mb-xl-8', 'chartColor' => 'primary', 'chartHeight' => '150px')) }}
+            {{ theme()->getView('partials/widgets/mixed/_widget-7', array('visitors'=> $visitors ?? 0, 'class' => 'card-xxl-stretch-50 mb-5 mb-xl-8', 'chartColor' => 'primary', 'chartHeight' => '150px')) }}
 
             {{ theme()->getView('partials/widgets/mixed/_widget-10', array('class' => 'card-xxl-stretch-50 mb-5 mb-xl-8', 'chartColor' => 'primary', 'chartHeight' => '175px')) }}
         </div>

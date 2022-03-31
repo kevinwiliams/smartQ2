@@ -199,7 +199,7 @@
                                                 <!--begin::Icon-->
                                                 <span class="svg-icon svg-icon-info me-5">
                                                     <!--begin::Svg Icon | path: assets/media/icons/duotune/abstract/abs027.svg-->
-                                                    {!! theme()->getSvgIcon("icons/duotune/abstract/abs027.svg", "svg-icon-1") !!}
+                                                    {!! theme()->getSvgIcon("icons/duotune/general/gen012.svg", "svg-icon-1") !!}
                                                     <!--end::Svg Icon-->
                                                 </span>
                                                 <!--end::Icon-->

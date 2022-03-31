@@ -75,7 +75,7 @@ $(document).ready(function(){
             setInterval(() => {
               // hide notification
               $('#mv_modal_now_serving').modal('hide'); 
-            }, 10000);
+            }, 15000);
 
             player.call([data.new_token], lang, url);
 

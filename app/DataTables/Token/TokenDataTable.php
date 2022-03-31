@@ -47,7 +47,7 @@ class TokenDataTable extends DataTable
                 return $str;
             })
             ->editColumn('client_id', function (Token $model) {
-                $notes = '<input type=hidden name=notes value='.$model->note.'>';
+                $notes = '<input type=hidden name=notes value='.$model->note.'>'.'<input type=hidden name=off_notes value='.$model->officer_note.'>';
                 $clientName = !empty( $model->client->firstname)? $model->client->firstname.$notes:'N/A'.$notes;
                 return $clientName;
                 // return $model->client->firstname;

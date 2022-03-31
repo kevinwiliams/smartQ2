@@ -26,7 +26,8 @@
 					// optional
 					$('[name=is_vip]').prop('disabled', ($('input[name=isVIP]').val() == 1) ? true : false);
 
-					$('[name=note]').val($('input[name=cNotes]').val());
+					$('[name=note]').html($('input[name=cNotes]').val());
+					$('[name=officer_note]').html($('input[name=oNotes]').val());
 				}, 500);
 				
 

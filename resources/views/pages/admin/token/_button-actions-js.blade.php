@@ -521,18 +521,21 @@ var handleTransferRows = () => {
                 var tokenID =  parent.querySelectorAll('input[name=token-id]')[0].value;
                 var isVIP = parent.querySelectorAll('input[name=token-id]')[0].getAttribute('data-vip');
                 var note =  parent.querySelectorAll('input[name=notes]')[0].getAttribute('value');
+                var officerNote =  parent.querySelectorAll('input[name=off_notes]')[0].getAttribute('value');
             } else {
                 var tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
                 var isVIP = parent.querySelectorAll('td')[1].querySelectorAll('.badge')[0].getAttribute('data-vip');
                 var note = parent.querySelectorAll('td')[1].querySelectorAll('[name=notes]')[0].getAttribute('value');
+                var officerNote = parent.querySelectorAll('td')[1].querySelectorAll('[name=off_notes]')[0].getAttribute('value');
             }
            
             $("input[name=id]").val(tokenID);
             $("input[name=departmentID]").val(deptID);
             $("input[name=counterID]").val(counterID);
             $("input[name=officerID]").val(officerID);
-            $("input[name=isVIP").val(isVIP);
-            $("input[name=cNotes").val(note);
+            $("input[name=isVIP]").val(isVIP);
+            $("input[name=cNotes]").val(note);
+            $("input[name=oNotes]").val(officerNote);
             
         })
     });

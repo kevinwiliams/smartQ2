@@ -28,13 +28,14 @@
             <input type="hidden" name="officerID">
             <input type="hidden" name="isVIP">
             <input type="hidden" name="cNotes">
+            <input type="hidden" name="oNotes">
                 <div class="px-7 py-5">
                     <!--begin::Input group-->
                     <div class="fv-row mb-7">
                         <div class="form-group @error('department_id') has-error @enderror">
                             <label class="fs-6 fw-bold form-label mb-2" for="department_id"><span class="required">{{ trans('app.department') }}</span>
                             <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-content="Please assign the correct department"></i></label>
-                            {{ Form::select('department_id', $departments, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-lg fw-bold']) }}
+                            {{ Form::select('department_id', $departments, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-sm fw-bold']) }}
                             <span class="text-danger">{{ $errors->first('department_id') }}</span>
                         </div> 
                     </div>
@@ -44,7 +45,7 @@
                         <div class="form-group @error('counter_id') has-error @enderror">
                             <label class="fs-6 fw-bold form-label mb-2" for="counter_id"><span class="required">{{ trans('app.counter') }}</span>
                             <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-content="Assign user to a counter"></i></label>
-                            {{ Form::select('counter_id', $counters, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-lg fw-bold']) }}
+                            {{ Form::select('counter_id', $counters, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-sm fw-bold']) }}
                             <span class="text-danger">{{ $errors->first('counter_id') }}</span>
                         </div> 
                     </div>
@@ -54,7 +55,7 @@
                         <div class="form-group @error('user_id') has-error @enderror">
                             <label class="fs-6 fw-bold form-label mb-2" for="user_id"><span class="required">{{ trans('app.officer') }}</span>
                             <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-content="Assign user to a officer"></i></label>
-                            {{ Form::select('user_id', $officers, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-lg fw-bold']) }}
+                            {{ Form::select('user_id', $officers, null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-sm fw-bold']) }}
                             <span class="text-danger">{{ $errors->first('user_id') }}</span>
                         </div> 
                     </div>
@@ -72,9 +73,20 @@
                     <div class="fv-row mb-7">
                         <div class="form-group">
                             <label class="fs-6 fw-bold form-label mb-2" for="note">
-                                <span class="form-check-label fw-bold"> Add a note</span>
+                                <span class="form-check-label fw-bold">Notes: </span>
                             </label>
-                            <textarea class="form-control " placeholder="Enter a note" name="note" id="note"></textarea>
+                            <span class="text-gray-400" name="note" id="note">N/A</span>
+                            {{-- <textarea class="form-control " placeholder="Enter a note" name="note" id="note"></textarea> --}}
+                        </div>
+                    </div>
+					<!--end::Input group-->
+                     <!--begin::Input group-->
+                     <div class="fv-row mb-7">
+                        <div class="form-group">
+                            <label class="fs-6 fw-bold form-label mb-2" for="note">
+                                <span class="form-check-label fw-bold"> Officer Note</span>
+                            </label>
+                            <textarea class="form-control " placeholder="Notes" name="officer_note" id="officer_note"></textarea>
                         </div>
                     </div>
 					<!--end::Input group-->

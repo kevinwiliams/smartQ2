@@ -746,24 +746,26 @@ class TokenController extends Controller
 
                 $data[] = [
                     'serial'     => $loop++,
-                    'token_no'   => "<div class=\"badge $color fw-bolder\" data-vip=\"$token->is_vip\" data-id=\"$token->token_no\">$token->token_no</div>".'<input type=hidden name=notes value='.$token->note.'>',
+                    'token_no'   => "<div class=\"badge $color fw-bolder\" data-vip=\"$token->is_vip\" data-id=\"$token->token_no\">$token->token_no</div>".'<input type=hidden name=notes value='.$token->note.'><input type=hidden name=off_notes value='.$token->officer_note.'>',
                     'department' => (!empty($token->department)?$token->department->name:null),
                     'counter'    => (!empty($token->counter)?$token->counter->name:null),
                     'officer'    => (!empty($token->officer)?("<a href='".url("admin/user/view/{$token->officer->id}")."'>".$token->officer->firstname." ". $token->officer->lastname."</a>"):null),
 
-                    'client_mobile'    => $token->client_mobile. "<br/>" .(!empty($token->client)?("(<a href='".url("admin/user/view/{$token->client->id}")."'>".$token->client->firstname." ". $token->client->lastname."</a>)"):null),
+                    'client_mobile' => $token->client_mobile. "<br/>" .(!empty($token->client)?("(<a href='".url("admin/user/view/{$token->client->id}")."'>".$token->client->firstname." ". $token->client->lastname."</a>)"):null),
 
-                    'note'       => $token->note,
-                    'status'     => "<span class='badge ".$bg." text-white'>".$txt."</span>",
+                    'note'          => $token->note,
+                    'status'        => "<span class='badge ".$bg." text-white'>".$txt."</span>",
                     'created_by'    => (!empty($token->generated_by)?("<a href='".url("admin/user/view/{$token->generated_by->id}")."'>".$token->generated_by->firstname." ". $token->generated_by->lastname."</a>"):null),
-                    'created_at' => (!empty($token->created_at)?date('j M Y h:i a',strtotime($token->created_at)):null),
-                    'updated_at' => (!empty($token->updated_at)?date('j M Y h:i a',strtotime($token->updated_at)):null),
+                    'created_at'    => (!empty($token->created_at)?date('j M Y h:i a',strtotime($token->created_at)):null),
+                    'updated_at'    => (!empty($token->updated_at)?date('j M Y h:i a',strtotime($token->updated_at)):null),
                     'complete_time' => $complete_time,
-                    'options'    => $options,
-                    'token_id' => $token->id,
+                    'options'       => $options,
+                    'token_id'      => $token->id,
                     'department_id' => $token->department->id,
-                    'counter_id' => $token->counter->id,
-                    'officer_id' => (!empty($token->officer) ? $token->officer->id : 0),
+                    'counter_id'    => $token->counter->id,
+                    'officer_id'    => (!empty($token->officer) ? $token->officer->id : 0),
+                    'officer_note'  => $token->officer_note,
+
                 ];  
             }
         }
