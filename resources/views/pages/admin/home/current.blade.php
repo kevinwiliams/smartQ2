@@ -40,9 +40,9 @@
                         </div>
                         <!--end::Heading-->
                         <!--begin::Balance-->
-                        <div class="d-flex text-center flex-column text-white pt-8">
+                        <div class="d-flex text-center flex-column text-white pt-3">
                             <span class="fw-bold fs-7">TOKEN NUMBER</span>
-                            <span class="fw-bolder fs-5tx pt-1">{{$token->token_no}}</span>
+                            <span class="fw-bolder fs-4tx pt-1">{{$token->token_no}}</span>
                         </div>
                         <!--end::Balance-->
                     </div>
