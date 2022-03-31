@@ -388,6 +388,7 @@ class DisplayController extends Controller
                     token.client_mobile AS mobile,
                     token.note AS note,
                     token.updated_at,
+                    token.is_vip,
                     department.name AS department,
                     counter.name AS counter,
                     CONCAT_WS(' ', user.firstname, user.lastname) as officer
@@ -427,75 +428,109 @@ class DisplayController extends Controller
 
         $size  = sizeof($token_list)>0?sizeof($token_list):1;
         $width = (($request->width-150-($size*13.5))/$size);
-        $height = (($request->height-200)/5);
+        $height = (($request->height-250)/5);
             
-        $html = "<div id=\"clock\" class=\"well text-center\" style=\"background-color:".(!empty($setting->background_color)?$setting->background_color:'#cdcdcd') .";border-color:".(!empty($setting->border_color)?$setting->border_color:'#fff') .";color:".(!empty($setting->color)?$setting->color:'#fff') .";padding:5px 0;margin:-20px 0 0 0;font-size:24px;\">".date("$setting->date_format $setting->time_format")."</div>
-            <div class=\"queue-box queue-box-status\">
-                <h4 class='deprt'>".trans('app.q_c')."</h4> 
-                <div class=\"item text-center\">
-                    <div class='queue2' style='height:{$height}px;'>".trans('app.waiting_4')." </div>
-                    <div class='queue2' style='height:{$height}px;'>".trans('app.waiting_3')." </div>
-                    <div class='queue2' style='height:{$height}px;'>".trans('app.waiting_2')."</div>
-                    <div class='queue2' style='height:{$height}px;'>".trans('app.waiting_1')."</div>
-                    <div class='queue2 active' style='height:{$height}px;'>".trans('app.now_serving')."</div>
-                </div>
-            </div>";
+        $html = "<div id=\"clock\" class=\" fs-2tx p-5 text-center\" style=\"background-color:".(!empty($setting->background_color)?$setting->background_color:'#cdcdcd') .";border-color:".(!empty($setting->border_color)?$setting->border_color:'#fff') .";color:".(!empty($setting->color)?$setting->color:'#fff') .";\">".date("$setting->date_format $setting->time_format")."</div>
+            ";
 
-        foreach ($token_list as $key => $value):
-            $html .= "<div class=\"queue-box queue-box-element\" style=\"width:{$width}px\">
-                <h4 class='deprt'>$key</h4> 
-                <div class=\"item text-center\">";
-
+            foreach ($token_list as $key => $value):
+                $html .= "<div class=\"col-md p-5 text-center \" style=\"width:{$width}px\">";
+                // $html .= "<!--begin::Col header-->";
+                // $html .= "<div class=\"mb-2\">";
+                // $html .= "<div class=\"d-flex flex-stack\">";
+                // $html .= "<div style=\"color:".(!empty($setting->color)?$setting->color:'#fff')."\";' class=\"fw-bolder fs-4 text-center\">$key</div>";
+                // $html .= "</div>";
+                // $html .= "<div class=\"h-3px w-100 bg-gray-400\"></div>";
+                // $html .= "</div>";
+                // $html .= "<!--end::Col header-->";
+                $html .= "<h4 style=\"color:".(!empty($setting->color)?$setting->color:'#fff')."\";' class='deprt'>$key</h4> ";
+                
                 $sl = 5;
                 $x  = 1; 
+                $p = 5;
+
                 label:
                 foreach ($value as $html2):
+            
+                    if (sizeof($value) < $sl):
+                        //card empty
+                        $html .= "<!--begin::Card-->";
+                        $html .= "<div class=\"card mb-6 mb-xl-8 border-primary \" style='opacity: 0.3; height:{$height}px;background-color:".(!empty($setting->background_color)?$setting->background_color:'#cdcdcd') .";border-color:".(!empty($setting->border_color)?$setting->border_color:'#000') .";color:".(!empty($setting->color)?$setting->color:'#cdcdcd') .";'>";
+                        $html .= "<!--begin::Card body-->";
+                        $html .= "<div class=\"card-body text-center p-5\">";
+                        $html .= "<!--begin::Content-->";
+                        $html .= "<div class=\"fs-6 fw-bold text-gray-600 mb-5\">";
+                        // $html .= "-- -- -- --";
+                        $html .= "</div>";
+                        $html .= "<!--end::Content-->";
+                        $html .= "</div>";
+                        $html .= "<!--end::Card body-->";
+                        $html .= "<!--end::Card-->";
+                        $html .= "</div>";
+                        $sl--;
+                        $p--;
+                        goto label;
 
-                if (sizeof($value) < $sl):
-                    $html .=  "<div class='queue2 p-5 pb-10 px-10' style='height:{$height}px;background-color:".(!empty($setting->background_color)?$setting->background_color:'#cdcdcd') .";border-color:".(!empty($setting->border_color)?$setting->border_color:'#fff') .";color:".(!empty($setting->color)?$setting->color:'#cdcdcd') .";'>-----</div>";
-                    $sl--;
-                    goto label;
-                endif;
- 
-                if ($x == $sl)
-                {
-                    $allTokens[] = $html2;  
-                }
-
-
-                $html .=  "<div class=\"queue2 p-5 pb-10 px-10".(($x==$sl)?'active':null)." \" style='height:{$height}px;background-color:".(!empty($setting->background_color)?$setting->background_color:'#cdcdcd') .";border-color:".(!empty($setting->border_color)?$setting->border_color:'#fff') .";color:".(!empty($setting->color)?$setting->color:'#cdcdcd') .";'>";
+                    endif;
+                    
+                    
+                    if ($x == $sl)
+                        $allTokens[] = $html2;  
+            
+                    //waiting list
+                    $html .= "<!--begin::Card-->";
+                    $html .= "<div class=\"card mb-6 mb-xl-9 ".(($x==$sl)?'bg-success':'')." \" style='height:{$height}px; background-color:".(!empty($setting->background_color)?$setting->background_color:'#cdcdcd') .";border-color:".(!empty($setting->border_color)?$setting->border_color:'#fff') .";color:".(!empty($setting->color)?$setting->color:'#cdcdcd') .";'>";
                     foreach ($html2 as $key => $item):
-                        if ($key=='token')
-                        {
-                            $html .=  "<h1 class=\"title\">$item</h1>";
+                        if ($key=='token'){
+                            $html .= "<!--begin::Card body-->";
+                            $html .= "<div class=\"card-body text-center p-3 \">";
+                            $html .= "<!--begin::Header-->";
+                            $html .= "<div class=\"d-flex flex-stack mb-1\">";
+                            $html .= "<!--begin::Badge-->";
+                            $html .= "<div class=\"badge badge-lg badge-primary\">Pos: ". $p--. "</div>";
+                            $html .= "<!--end::Badge-->";
+                            $html .= "</div>";
+                            $html .= "<!--end::Header-->";
+            
+                            $html .= "<!--begin::Title-->";
+                            $html .= "<div class=\"mb-0\">";
+                            $html .= "<span class=\"fs-2x fw-bolder mb-0 pb-0 ".(($x==$sl)?'text-white':'text-gray-800')." text-hover-primary\">$item</span>";
+                            $html .= "</div>";
+                            $html .= "<!--end::Title-->";
                         }
-                        else
-                        {
-                            if ($setting->show_note == "1" && $key=='note')
-                            {
-                                $html .=  "<strong>".trans("app.note")."</strong>: <span>$item</span><br>";
-                            }
-                            if ($setting->sms_alert == "1" && $key=='mobile')
-                            {
-                                $html .=  "<strong>".trans("app.mobile")."</strong>: <span>$item</span><br>";
-                            }
-                            if ($setting->show_department == "1" && $key=='department')
-                            {
-                                $html .=  "<strong>".trans("app.department")."</strong>: <span>$item</span><br>";
-                            }
-                            if ($setting->show_officer == "1" && $key=='officer')
-                            {
-                                $html .=  "<strong>".trans("app.officer")."</strong>: <span>$item</span><br>";
-                            }
-                        }
-                    endforeach;
-                    $html .=  "</div>";
-                $x++;
+                        $html .= "<!--begin::Content-->";
+                        $html .= "<div class=\"fs-6 fw-bold text-gray-600 mb-1\">";
+            
+                        if ($setting->show_note == "1" && $key=='note')
+                            $html .=  "<strong>".trans("app.note")."</strong>: <span>$item</span><br>";
+            
+                        if ($setting->sms_alert == "1" && $key=='mobile')
+                            $html .=  "<span>$item</span><br>";
+            
+                        if ($setting->show_department == "1" && $key=='department')
+                            $html .=  "<span class=\"fs-6\">$item</span><br>";
+            
+                        // if ($setting->show_officer == "1" && $key=='officer')
+                        if ($key=='officer')
+                            $html .=  "<span>$item</span><br>";
+            
+                        $html .= "</div>";
+                        
+                        
+                     
+            
                 endforeach;
-
-                $html .=  "</div>";
-            $html .=  "</div>";
-        endforeach;
+                    $html .= "</div>";
+                    $html .= "<!--end::Content-->";
+                    $html .= "</div>";
+                    $html .= "<!--end::Card body-->";
+                    
+                    $x++;
+                endforeach;
+                $html .= "</div>";
+                $html .= "<!--end::Card-->";
+                $html .= "</div>";
+            endforeach;
 
 
         /*NOTIFICATION*/
@@ -705,3 +740,5 @@ class DisplayController extends Controller
     }
 
 }
+
+

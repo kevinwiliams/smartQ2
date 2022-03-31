@@ -3,9 +3,8 @@
 @section('content')
 @include('pages.common.display._header', array('title' => trans('app.display_4')))
 
-
         <div class="row">  
-           <div id="display4"></div>
+           <div class="row" id="display4"></div>
         </div>
  
         <div class="panel-footer row" style="margin-top:10px">
@@ -15,7 +14,12 @@
         </div>
     </div> 
      
-</div>  
+</div>
+
+<!--begin::Modal - Now Serving -->
+{{ theme()->getView('partials/modals/display/_notification', 
+   ) }}
+<!--end::Modal - Now Serving -->
 @endsection
 
 @section('scripts')
@@ -62,6 +66,17 @@ $(document).ready(function(){
                 var url  = "{{ URL::to('') }}"; 
                 var lang = "{{ in_array(session()->get('locale'), $setting->languages)?session()->get('locale'):'en' }}";
                 var player = new Notification;
+
+                 //show notification
+                $('#mv_modal_now_serving').modal('show');
+                $('#mv_modal_now_serving').appendTo('#fullscreen'); 
+                $("#token_no").html(data.new_token[0].token);
+                $("#counter_no").html(data.new_token[0].counter);
+
+                setInterval(() => {
+                  // hide notification
+                  $('#mv_modal_now_serving').modal('hide'); 
+                }, 15000);
                 player.call(data.new_token, lang, url);
             } 
 

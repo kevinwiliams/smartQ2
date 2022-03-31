@@ -76,7 +76,7 @@
   </style>
 <!--begin::Card-->
 <div class="card">
-    <div class="card-header border-0 pt-5">
+    <div class="card-header border-0 py-10">
         <h1 class="card-title align-items-center flex-column">
             <h4>{{ $title }} </h3>
                 <span class="text-danger">(enable full-screen mode and wait 10 seconds to adjust the screen)</span>
@@ -98,11 +98,11 @@
         <div class="media-left hidden-xs">
           {{-- <img class="media-object" style="height:59px;" src="{{ asset('public/assets/img/icons/logo.jpg') }}" alt="Logo"> --}}
         </div>
-        <div class="media-body" >
+        {{-- <div class="media-body" >
           <h2 class="media-heading">
             <marquee direction="{{ (!empty($setting->direction)?$setting->direction:null) }}">
               {{ (!empty($setting->message)?$setting->message:null) }}
             </marquee>
           </h2> 
-        </div>
+        </div> --}}
       </div>
