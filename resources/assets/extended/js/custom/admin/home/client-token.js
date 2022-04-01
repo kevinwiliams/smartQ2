@@ -71,6 +71,7 @@ var MVCreateToken = function () {
                             }).then(function (value) {
                                 if(value.isConfirmed) {
                                     var dept = $('input[name=department_id]:checked').val();
+									var note = $('#userNote').val();
                                     const element = document.getElementById('mv_create_token_stepper');
                                     const form = element.querySelector('#mv_create_token_form');
                                     
@@ -82,6 +83,7 @@ var MVCreateToken = function () {
                                         dataType: 'json',
                                         data: {
                                             'department_id' : dept,
+											'note': note
                                         },
                                         success: function(data) {
                                             if(data.status == true){

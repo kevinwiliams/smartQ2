@@ -169,7 +169,7 @@
                                 <!--begin::Title-->
                                 <div class="mb-1 pe-3 flex-grow-1">
                                     <a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder">Notes</a>
-                                    <div class="text-gray-400 fw-bold fs-7">{{ !empty($token->notes)? $token->notes : 'No notes were provided'}}</div>
+                                    <div class="text-gray-400 fw-bold fs-7">{{ !empty($token->note)? $token->note : 'No notes were provided'}}</div>
                                 </div>
                                 <!--end::Title-->
                                 <!--begin::Label-->

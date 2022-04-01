@@ -128,9 +128,9 @@
                                             <div class="form-group">
                                                 <span>{{ $maskedemail }}</span>
                                                 <input type="hidden" id="emailAddress" name="emailAddress" value="{{ auth()->user()->email }}">
-                                            </div>                                            
+                                            </div>
                                             <div class="d-flex flex-stack pt-3">
-                                                <div class="my-2">                                            
+                                                <div class="my-2">
                                                     <button id="btnConfirmEmail" type="button" class="btn btn-lg btn-primary">Next
                                                         <!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
                                                         {!! theme()->getSvgIcon("icons/duotune/arrows/arr064.svg", "svg-icon-4 ms-1 me-0") !!}
@@ -203,15 +203,15 @@
                                                     <!--end::Svg Icon-->
                                                 </span>
                                                 <!--end::Icon-->
-                                
+
                                                 <!--begin::Title-->
                                                 <div class="flex-grow-1 me-2">
                                                     <a href="#" class="fw-bolder text-gray-800 text-hover-warning fs-6">Potential wait time</a>
                                                     <span id="span_wait" class="text-muted fw-bold d-block"></span>
                                                 </div>
                                                 <!--end::Title-->
-                                
-                                               
+
+
                                             </div>
                                             <!--begin::Options-->
                                             <div class="mb-0">
@@ -248,9 +248,17 @@
                                                 @endforeach
                                                 @endif
                                                 {{-- <span>Potential wait time <i class="fa fa-clock"></i>&nbsp;<span id="span_wait"></span></span> --}}
-                                                
+
                                             </div>
                                             <!--end::Options-->
+                                            @if($shownote == 1)
+                                            <!--begin::Notes-->
+                                            <div class="mb-0">
+                                                <label for="userNote" class="form-label">Note</label>
+                                                <textarea class="form-control" id="userNote" aria-describedby="userNote" name="userNote">{{ old('userNote') }}</textarea>
+                                            </div>
+                                            <!--end::Notes-->
+                                            @endif
                                         </div>
                                         <!--end::Input group-->
 
@@ -416,7 +424,7 @@
 
             });
 
-            $('#btnConfirm').on('click', function(e) {                
+            $('#btnConfirm').on('click', function(e) {
                 var phone = $("#phone").val();
                 if (phone == "") {
 
@@ -432,9 +440,9 @@
                     return;
                 }
 
-            
+
                 var msg = "My number is: " + phone;
-               
+
 
                 Swal.fire({
                     html: msg + "<br>Are you sure?.",
@@ -459,8 +467,8 @@
                                 $("#phoneCard").hide();
                                 $("#codeCard").show();
                             }
-                        }); 
-                    } 
+                        });
+                    }
                 });
 
 
@@ -468,10 +476,10 @@
             });
 
             $('#btnConfirm2').on('click', function(e) {
-                alert('ok');
+                // alert('ok');
             });
 
-            $('#activate-step-2').on('click', function(e) {                
+            $('#activate-step-2').on('click', function(e) {
                 var phone = $("#phone").val();
                 var code = $("#code").val();
 
@@ -528,10 +536,9 @@
                 $(this).remove();
             });
 
-            $('#activate-step-2-email').on('click', function(e) {
-                alert('');
+            $('#activate-step-2-email').on('click', function(e) {                
                 var phone = $("#emailAddress").val();
-                var code = $("#emailCode").val(); 
+                var code = $("#emailCode").val();
 
                 if (code == "") {
                     Swal.fire({
@@ -580,13 +587,13 @@
                 console.log(e);
                 var dept = $(this).find(":checked").val();
                 var dept = e.target.value;
-                if (phone == "") {
-                    Swal.fire({
-                        title: 'Enter your contact number',
-                        icon: 'error'
-                    });
-                    return;
-                }
+                // if (phone == "") {
+                //     Swal.fire({
+                //         title: 'Enter your contact number',
+                //         icon: 'error'
+                //     });
+                //     return;
+                // }
 
                 $.ajax({
                     type: 'post',

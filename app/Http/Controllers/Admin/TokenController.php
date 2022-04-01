@@ -363,7 +363,7 @@ class TokenController extends Controller
                     'department_id' => $min['department_id'],
                     'counter_id'    => $min['counter_id'],
                     'user_id'       => $min['user_id'],
-                    // 'note'          => $request->note,
+                    'note'          => ($request->note != "")?$request->note:null,
                     'created_by'    => auth()->user()->id,
                     'created_at'    => date('Y-m-d H:i:s'),
                     'updated_at'    => null,

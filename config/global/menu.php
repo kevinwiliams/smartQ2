@@ -395,11 +395,11 @@ return array(
             'sub'        => array(
                 'class' => 'menu-sub-accordion menu-active-bg',
                 'items' => array(
-                    array(
-                        'title'  => 'Overview',
-                        'path'   => 'account/overview',
-                        'bullet' => '<span class="bullet bullet-dot"></span>',
-                    ),
+                    // array(
+                    //     'title'  => 'Overview',
+                    //     'path'   => 'account/overview',
+                    //     'bullet' => '<span class="bullet bullet-dot"></span>',
+                    // ),
                     array(
                         'title'  => 'Settings',
                         'path'   => 'account/settings',

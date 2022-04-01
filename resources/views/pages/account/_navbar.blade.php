@@ -50,12 +50,7 @@
 						        <!--end::Badge-->
                             </a>
                             @endif
-                            @endforeach
-
-                            <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
-                                {!! theme()->getSvgIcon("icons/duotune/general/gen018.svg", "svg-icon-4 me-1") !!}
-                                SF, Bay Area
-                            </a>
+                            @endforeach                     
                             <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary mb-2">
                                 {!! theme()->getSvgIcon("icons/duotune/communication/com011.svg", "svg-icon-4 me-1") !!}
                                 {{ auth()->user()->email }}
@@ -75,50 +70,7 @@
                     <div class="d-flex flex-column flex-grow-1 pe-8">
                         <!--begin::Stats-->
                         <div class="d-flex flex-wrap">
-                            <!--begin::Stat-->
-                            <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
-                                <!--begin::Number-->
-                                <div class="d-flex align-items-center">
-                                    {!! theme()->getSvgIcon("icons/duotune/arrows/arr066.svg", "svg-icon-3 svg-icon-success me-2") !!}
-                                    <div class="fs-2 fw-bolder" data-mv-countup="true" data-mv-countup-value="4500" data-mv-countup-prefix="$">0</div>
-                                </div>
-                                <!--end::Number-->
-
-                                <!--begin::Label-->
-                                <div class="fw-bold fs-6 text-gray-400">{{ __('Earnings') }}</div>
-                                <!--end::Label-->
-                            </div>
-                            <!--end::Stat-->
-
-                            <!--begin::Stat-->
-                            <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
-                                <!--begin::Number-->
-                                <div class="d-flex align-items-center">
-                                    {!! theme()->getSvgIcon("icons/duotune/arrows/arr065.svg", "svg-icon-3 svg-icon-danger me-2") !!}
-                                    <div class="fs-2 fw-bolder" data-mv-countup="true" data-mv-countup-value="75">0</div>
-                                </div>
-                                <!--end::Number-->
-
-                                <!--begin::Label-->
-                                <div class="fw-bold fs-6 text-gray-400">{{ __('Projects') }}</div>
-                                <!--end::Label-->
-                            </div>
-                            <!--end::Stat-->
-
-                            <!--begin::Stat-->
-                            <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
-                                <!--begin::Number-->
-                                <div class="d-flex align-items-center">
-                                    {!! theme()->getSvgIcon("icons/duotune/arrows/arr066.svg", "svg-icon-3 svg-icon-success me-2") !!}
-                                    <div class="fs-2 fw-bolder" data-mv-countup="true" data-mv-countup-value="60" data-mv-countup-prefix="%">0</div>
-                                </div>
-                                <!--end::Number-->
-
-                                <!--begin::Label-->
-                                <div class="fw-bold fs-6 text-gray-400">{{ __('Success Rate') }}</div>
-                                <!--end::Label-->
-                            </div>
-                            <!--end::Stat-->
+              
                         </div>
                         <!--end::Stats-->
                     </div>
@@ -132,7 +84,7 @@
                         </div>
 
                         <div class="h-5px mx-3 w-100 bg-light mb-3">
-                            <div class="bg-success rounded h-5px" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="bg-success rounded h-5px" role="progressbar" style="width: 10%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                     <!--end::Progress-->

@@ -50,12 +50,11 @@ class HomeController extends Controller
         $display = DisplaySetting::first();
 
         $smsalert = $display->sms_alert;
+        $shownote = $display->show_note;
 
         $maskedemail = $this->maskEmail(auth()->user()->email);
 
-
-
-        return view('pages.admin.home.index', compact('departments', 'smsalert', 'maskedemail'));
+        return view('pages.admin.home.index', compact('departments', 'smsalert', 'maskedemail','shownote'));
     }
 
     function maskEmail($x)
@@ -244,20 +243,7 @@ class HomeController extends Controller
                     'message'     => $OTP,
                     'data'        => $data
                 ));
-            } else {
-
-                Mail::to(auth()->user()->email)->send(new OTPNotification($user));
-                return json_encode(array(
-                    'status'      => true,
-                    'request_url' => "",
-                    'error'       => "",
-                    'message'     => $OTP,
-                    'data'        => ""
-                ));
             }
-
-            // return json_decode($data, true);
-
         } else {
             return json_encode(array(
                 'status'      => false,
