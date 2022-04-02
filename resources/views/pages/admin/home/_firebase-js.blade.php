@@ -5,13 +5,13 @@
     // errorElement = document.getElementById('error');
 
     var config = {
-        apiKey: "AIzaSyA5Z0VuHZovrlMu789_MUU8nvLYegltj1g",
-        authDomain: "smartq-340122.firebaseapp.com",
-        projectId: "smartq-340122",
-        storageBucket: "smartq-340122.appspot.com",
-        messagingSenderId: "27808109599",
-        appId: "1:27808109599:web:58f55608b16d0b6b33b12a",
-        measurementId: "G-8C6E8MQGC8"
+        apiKey: "{{ config('larafirebase.authentication_key') }}",
+        authDomain: "{{ config('larafirebase.authDomain') }}",
+        projectId: "{{ config('larafirebase.projectId') }}",
+        storageBucket: "{{ config('larafirebase.storageBucket') }}",
+        messagingSenderId: "{{ config('larafirebase.messagingSenderId') }}",
+        appId: "{{ config('larafirebase.appId') }}",
+        measurementId: "{{ config('larafirebase.measurementId') }}"
     };
     firebase.initializeApp(config);
     var _requestPerm = '{{ auth()->user()->getRefreshToken() }}';
