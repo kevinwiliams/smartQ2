@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Traits\SpatieLogsActivity;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -27,8 +28,8 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
 
-	protected $fillable = ['firstname', 'lastname', 'email', 'api_token', 'password', 'department_id', 'mobile', 'photo', 'user_type', 'remember_token', 'status','otp'];
-	
+    protected $fillable = ['firstname', 'lastname', 'email', 'api_token', 'password', 'department_id', 'mobile', 'photo', 'user_type', 'remember_token', 'status', 'otp', 'user_token', 'token_date', 'push_notifications'];
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -53,6 +54,8 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'push_notifications' => 'bool',
+        'token_date' => 'datetime'
     ];
 
     protected $avaliableRoles = [
@@ -93,7 +96,7 @@ class User extends Authenticatable implements MustVerifyEmail
             return asset($this->info->avatar_url);
         }
 
-        return asset(theme()->getMediaUrlPath().'avatars/blank.png');
+        return asset(theme()->getMediaUrlPath() . 'avatars/blank.png');
     }
 
     /**
@@ -106,6 +109,17 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(UserInfo::class);
     }
 
+    public function getRefreshToken()
+    {
+        $current = Carbon::now();
+        if ($this->token_date == null)
+            return 0;
+
+        if ($this->token_date->addDays(30) < $current)
+            return 1;
+        else
+            return 0;
+    }
 
 
     // public function hasRole($role)
@@ -130,22 +144,21 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function accounts()
     {
-	    return $this->hasMany('App\Models\UserSocialAccount');
-	}
+        return $this->hasMany('App\Models\UserSocialAccount');
+    }
 
-    public function department() 
+    public function department()
     {
         return $this->hasOne('App\Models\Department', 'id', 'department_id');
     }
 
-    public function userinfo() 
+    public function userinfo()
     {
         return $this->hasOne('App\Models\UserInfo', 'user_id', 'id');
     }
 
-    public function usersocial() 
+    public function usersocial()
     {
         return $this->hasOne('App\Models\UserSocialAccount', 'user_id', 'id');
     }
-
 }

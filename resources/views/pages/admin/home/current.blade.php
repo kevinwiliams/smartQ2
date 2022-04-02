@@ -347,5 +347,7 @@
             });
     }
 </script>    
+
+@include('pages.admin.home._firebase-js')
 @endsection
 </x-base-layout>

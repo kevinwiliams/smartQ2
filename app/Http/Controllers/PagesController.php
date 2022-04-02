@@ -33,7 +33,7 @@ class PagesController extends Controller
             // if(intval(auth()->user()->user_type ) == 3)
             if(in_array('client', $roles))
                 return redirect('admin/home');
-            elseif(in_array('receptionist', $roles))
+            elseif(in_array('staff', $roles))
                 return redirect('admin/token/current');
             else
                 return view('pages.'.$view,  compact('month', 'performance', 'officer'));

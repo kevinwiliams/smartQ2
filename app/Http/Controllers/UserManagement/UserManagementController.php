@@ -11,6 +11,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\UserInfo;
 use App\Models\UserSocialAccount;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
@@ -51,8 +52,8 @@ class UserManagementController extends Controller
             }
             $data['exception'] .= "</ul>";
         } else {
-            $permission = Permission::create(['name' => $request->permission_name, 'description' => $request->permission_description, 'editable'=> ($request->has('permissions_core'))?1:0]);
-           
+            $permission = Permission::create(['name' => $request->permission_name, 'description' => $request->permission_description, 'editable' => ($request->has('permissions_core')) ? 1 : 0]);
+
             if ($permission) {
 
                 $data['status'] = true;
@@ -93,9 +94,9 @@ class UserManagementController extends Controller
             $permission = Permission::find($id);
             $permission->name = $request->permission_name;
             $permission->description = $request->permission_description;
-            $permission->editable = ($request->has('permissions_core'))?1:0;
+            $permission->editable = ($request->has('permissions_core')) ? 1 : 0;
             $permission->save();
-      
+
             if ($permission) {
 
                 $data['status'] = true;
@@ -114,10 +115,10 @@ class UserManagementController extends Controller
     {
 
         $permission = Permission::find($id);
-        $permission->delete(); 
+        $permission->delete();
 
         $data['status'] = true;
-        $data['message'] = trans('app.permission_deleted');        
+        $data['message'] = trans('app.permission_deleted');
 
         return response()->json($data);
     }
@@ -418,7 +419,7 @@ class UserManagementController extends Controller
         $role = Role::find($id);
         $permissions = Permission::get()->pluck('name', 'id');;
         // get the default inner page
-        return view('pages.apps.user-management.roles.view', compact('role','permissions'));
+        return view('pages.apps.user-management.roles.view', compact('role', 'permissions'));
     }
 
     public function createRole(Request $request)
@@ -447,8 +448,8 @@ class UserManagementController extends Controller
             }
             $data['exception'] .= "</ul>";
         } else {
-            
-            $role = Role::create(['name' => $request->role_name, 'description' => $request->role_description, 'editable'=>($request->has('role_core'))?0:1]);
+
+            $role = Role::create(['name' => $request->role_name, 'description' => $request->role_description, 'editable' => ($request->has('role_core')) ? 0 : 1]);
             $permissions = Permission::whereIn('id', $request->permissions)->get();
             foreach ($permissions as $_permission) {
                 $role->givePermissionTo($_permission);
@@ -494,7 +495,7 @@ class UserManagementController extends Controller
             $role = Role::find($id);
             $role->name = $request->role_name;
             $role->description = $request->role_description;
-            $role->editable = ($request->has('role_core'))?0:1;
+            $role->editable = ($request->has('role_core')) ? 0 : 1;
             $role->save();
 
             $permissions = Permission::whereIn('id', $request->permissions)->get();
@@ -527,4 +528,44 @@ class UserManagementController extends Controller
         return response()->json($data);
     }
 
+
+    public function savePushNotificationToken(Request $request)
+    {
+        auth()->user()->update(['user_token' => $request->token, 'token_date' => Carbon::now(), 'push_notifications' => true]);
+        return response()->json(['token saved successfully.']);
+    }
+
+    public function sendPushNotification(Request $request)
+    {
+        $firebaseToken = User::whereNotNull('user_token')->pluck('user_token')->all();
+        $SERVER_API_KEY = config('larafirebase.authentication_key');
+
+        $data = [
+            "registration_ids" => $firebaseToken,
+            "notification" => [
+                "title" => $request->title,
+                "body" => $request->body,
+            ]
+        ];
+        $dataString = json_encode($data);
+
+        $headers = [
+            'Authorization: key=' . $SERVER_API_KEY,
+            'Content-Type: application/json',
+        ];
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+
+        $response = curl_exec($ch);
+
+        dd($response);
+    }
 }
