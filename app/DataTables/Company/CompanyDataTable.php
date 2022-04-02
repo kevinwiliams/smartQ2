@@ -58,7 +58,7 @@ class CompanyDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('mv_permissions_table')
+                    ->setTableId('mv_company_table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     // ->dom('Bfrtip')

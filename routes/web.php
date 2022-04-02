@@ -208,10 +208,10 @@ Route::middleware('auth')->group(function () {
 		Route::prefix('company')->group(function () {
 			Route::get('/', [CompanyController::class, 'index']);
 			Route::get('create', [CompanyController::class, 'showForm']);
-			Route::post('create', [CompanyController::class, 'create']);
+			Route::post('create', [CompanyController::class, 'store']);
 			Route::get('edit/{id}', [CompanyController::class, 'showEditForm']);
-			Route::post('edit', [CompanyController::class, 'update']);
-			Route::get('delete/{id}', [CompanyController::class, 'delete']);
+			Route::post('edit/{id}', [CompanyController::class, 'update']);
+			Route::get('delete/{id}', [CompanyController::class, 'destroy']);
 		});
 	});
 });
