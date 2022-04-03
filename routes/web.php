@@ -206,10 +206,11 @@ Route::middleware('auth')->group(function () {
 
 		// // Company pages
 		Route::prefix('company')->group(function () {
-			Route::get('/', [CompanyController::class, 'index']);
+			Route::get('list', [CompanyController::class, 'index']);
 			Route::get('create', [CompanyController::class, 'showForm']);
 			Route::post('create', [CompanyController::class, 'store']);
 			Route::get('edit/{id}', [CompanyController::class, 'showEditForm']);
+			Route::get('view/{id}', [CompanyController::class, 'show']);
 			Route::post('edit/{id}', [CompanyController::class, 'update']);
 			Route::get('delete/{id}', [CompanyController::class, 'destroy']);
 		});

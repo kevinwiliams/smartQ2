@@ -105,9 +105,11 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function show(Company $company)
+    public function show($id)
     {
-        //
+        $company = Company::find($id);        
+        // get the default inner page
+        return view('pages.admin.company.view', compact('company'));
     }
 
     /**

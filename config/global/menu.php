@@ -292,7 +292,7 @@ return array(
                 'items' => array(
                     array(
                         'title'  => 'Companies',
-                        'path'   => 'admin/company',
+                        'path'   => 'admin/company/list',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(

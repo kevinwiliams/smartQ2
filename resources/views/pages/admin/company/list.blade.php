@@ -36,7 +36,8 @@
     {{ theme()->getView('partials/modals/company/_add') }}
     <!--end::Modal - Add Company-->
     <!--begin::Modal - Edit Company -->
-    <{{ theme()->getView('partials/modals/company/_edit') }} <!--end::Modal dialog-->
+    <{{ theme()->getView('partials/modals/company/_edit') }} 
+    <!--end::Modal dialog-->
         {{-- Inject Scripts --}}
         @section('scripts')
         {{ $dataTable->scripts() }}

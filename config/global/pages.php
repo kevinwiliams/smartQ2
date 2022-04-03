@@ -223,21 +223,42 @@ return array(
             ),
         ),
         'company' => array(
-            'title'  => 'Companies',
-            'assets' => array(
-                'custom' => array(
-                    'css' => array(
-                        'plugins/custom/datatables/datatables.bundle.css',
+            'view' => array(
+                '*' => array(
+                    'title'  => 'View Company Details',
+                    'assets' => array(
+                        'custom' => array(
+                            'css' => array(
+                                'plugins/custom/datatables/datatables.bundle.css',
+                            ),
+                            'js' => array(
+                                'plugins/custom/datatables/datatables.bundle.js',
+                                // 'js/custom/user-management/roles/view/view.js',
+                                // 'js/custom/user-management/roles/view/update-role.js',
+
+                            ),
+                        ),
                     ),
-                    'js' => array(
-                        'plugins/custom/datatables/datatables.bundle.js',
-                        // 'js/custom/admin/department/add.js',
-                        // 'js/custom/admin/department/edit.js',
-                        // 'js/custom/admin/department/delete.js',
-                        // 'vendor/datatables/buttons.server-side.js',
+                )
+            ),
+            'list' => array(
+                'title'  => 'Company List',
+                'assets' => array(
+                    'custom' => array(
+                        'css' => array(
+                            'plugins/custom/datatables/datatables.bundle.css',
+                        ),
+                        'js' => array(
+                            'plugins/custom/datatables/datatables.bundle.js',
+                            // 'js/custom/user-management/roles/list/update-role.js',
+                            // 'js/custom/user-management/roles/list/add.js',
+                            // 'js/custom/user-management/roles/list/delete.js',
+
+                        ),
                     ),
                 ),
             ),
+
         ),
         'department' => array(
             'title'  => 'Departments',
@@ -371,7 +392,7 @@ return array(
                     ),
                 ),
                 'edit' => array(
-                    '*' => array(                 
+                    '*' => array(
                         'title'  => 'Edit User Details',
                         'assets' => array(
                             'custom' => array(

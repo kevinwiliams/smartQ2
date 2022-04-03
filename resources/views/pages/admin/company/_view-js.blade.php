@@ -93,7 +93,8 @@
                                         }
                                     }).then(function() {
                                         // Remove current row
-                                        document.location.href = '/admin/company/list';
+                                        // var dt = $('#mv-company-table').DataTable();
+                                        datatable.row($(parent)).remove().draw();
                                     });
                                 }
                             }).fail(function(jqXHR, textStatus, error) {
@@ -227,7 +228,7 @@
                     var _contact_person = parent.querySelectorAll('input[name=company-contact_person]')[0].value;
                     var _description = parent.querySelectorAll('input[name=company-description]')[0].value;
                     var _active = parent.querySelectorAll('input[name=company-active]')[0].value;
-                    
+
                     form.querySelector('input[name=company_edit_id]').value = _id;
                     form.querySelector('input[name=name]').value = _name;
                     form.querySelector('input[name=address]').value = _address;
@@ -301,7 +302,7 @@
 
             // Submit button handler
             const submitButton = element.querySelector('[data-mv-company-edit-modal-action="submit"]');
-            
+
             submitButton.addEventListener('click', function(e) {
                 // Prevent default button action
                 e.preventDefault();
@@ -357,7 +358,7 @@
                                         }
                                     }).then(function(result) {
                                         // if (result.isConfirmed) {     
-                                        document.location.href = '/admin/company/list';
+                                        document.location.href = '/admin/company';
                                         // datatable.draw();
                                         form.reset();
                                         modal.hide();
@@ -462,7 +463,7 @@
 
             // Submit button handler
             const submitButton = element.querySelector('[data-mv-company-modal-action="submit"]');
-            
+
             submitButton.addEventListener('click', e => {
                 e.preventDefault();
 
@@ -516,7 +517,7 @@
                                         }
                                     }).then(function(result) {
                                         if (result.isConfirmed) {
-                                            document.location.href = '/admin/company/list';
+                                            document.location.href = '/admin/company';
                                             // datatable.draw();
                                             form.reset();
                                             modal.hide();
@@ -609,18 +610,40 @@
                 });
             });
         }
+
+
+        // Init add schedule modal
+        var initViewCompany = () => {
+            // Set date data order
+            const tableRows = table.querySelectorAll('tbody tr');
+
+            // tableRows.forEach(row => {
+            //     const dateRow = row.querySelectorAll('td');
+            //     const realDate = moment(dateRow[3].innerHTML, "DD MMM YYYY, LT").format(); // select date from 5th column in table
+            //     dateRow[3].setAttribute('data-order', realDate);
+            // });
+
+            // Init datatable --- more info on datatables: https://datatables.net/manual/
+            datatable = $(table).DataTable({
+                "info": false,
+                'order': [],
+                "pageLength": 5,
+                // "lengthChange": false,
+                'columnDefs': []
+            });
+        }
         return {
             // Public functions
             init: function() {
-                table = document.querySelector('#mv_company_table');
+                table = document.querySelector('#mv_company_view_table');
                 // console.log(table);
                 if (!table) {
                     return;
                 }
-                initCompanyTable();
+                // initCompanyTable();
                 // handleDeleteRows();
                 // handleEditRows();
-                initAddCompany();
+                initViewCompany();
                 // handleEditRows();
                 // handleCompleteRows();
                 // handleCancelRows();
@@ -632,11 +655,7 @@
     }();
 
     // On document ready
-    MVUtil.onDOMContentLoaded(function() {
-
-        setTimeout(() => {
+    MVUtil.onDOMContentLoaded(function() {       
             MVCountryActions.init();
-
-        }, 1000);
     });
 </script>
