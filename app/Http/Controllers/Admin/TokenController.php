@@ -932,6 +932,32 @@ class TokenController extends Controller
         return redirect()->back()->with('message', trans('app.update_successfully'));
     } 
 
+    public function noshow($id = null)
+    { 
+        @date_default_timezone_set(session('app.timezone'));
+        
+        Token::where('id', $id)->update(['updated_at' => date('Y-m-d H:i:s'), 'status' => 2,'sms_status' => 1, 'no_show' => 1]);
+        $token = Token::where('id', $id)->first();
+        activity('activity')
+                    ->withProperties(['activity' => 'Staff Cancelled Token','department' => $token->department->name , 'token' => $token->token_no , 'display'=> 'danger']) 
+                    ->log('Token (:properties.token) cancelled for :properties.department');
+
+        return redirect()->back()->with('message', trans('app.update_successfully'));
+    }
+
+    public function start($id = null)
+    { 
+        @date_default_timezone_set(session('app.timezone'));
+        
+        Token::where('id', $id)->update(['started_at' => date('Y-m-d H:i:s'), 'status' => 0]);
+        $token = Token::where('id', $id)->first();
+        activity('activity')
+                    ->withProperties(['activity' => 'Now Serving Token','department' => $token->department->name , 'token' => $token->token_no , 'display'=> 'info']) 
+                    ->log('Token (:properties.token) started for :properties.department');
+
+        return redirect()->back()->with('message', trans('app.update_successfully'));
+    } 
+
     public function transfer(Request $request)
     {
         // transfer token

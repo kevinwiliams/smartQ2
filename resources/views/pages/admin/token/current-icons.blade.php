@@ -128,12 +128,12 @@
             </div>
            
             </div>
-            <div class="h-3px w-100 bg-success"></div>
+            <div class="h-3px w-100 bg-gray-800"></div>
         </div>
         <!--end::Col header-->
         @if (!empty($tokens[0]))
         <!--begin::Card-->
-        <div class="card mb-6 mb-xl-9 bg-success" 
+        <div class="card mb-6 mb-xl-9 bg-gray-800" 
             data-mv-sticky="true" 
             data-mv-sticky-name="serving-token" 
             {{-- data-mv-sticky-offset="{default: false, lg: '200px'}"  --}}
@@ -158,7 +158,7 @@
                             <!--end::Svg Icon-->
                         </button>
                         <!--begin::Menu 3-->
-                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-bold w-200px py-3" data-mv-menu="true">
+                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-gray-400 fw-bold w-200px py-3" data-mv-menu="true">
                             <!--begin::Heading-->
                             <div class="menu-item px-3">
                                 <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">Options</div>
@@ -187,34 +187,53 @@
                 </div>
                 <!--end::Title-->
                 <!--begin::Content-->
-                <div class="mb-13 text-center">
-                    <h1 class="fs-2hx fw-bolder mb-5 text-white"> {!! !empty($tokens[0]->client)? ($tokens[0]->client->firstname." ". $tokens[0]->client->lastname): "Auto Token" !!}</h1>
-                    <div class="text-gray-100 fw-bold fs-5">
-                        Counter: {{ !empty($tokens[0]->counter)?$tokens[0]->counter->name:null }} <br>
-                        Name: {{ !empty($tokens[0]->client)? ($tokens[0]->client->firstname." ". $tokens[0]->client->lastname): null }} <br> 
-                        Phone: {{ $tokens[0]->client_mobile }}<br/> {{ \Illuminate\Support\Str::limit($tokens[0]->client_mobile, 7, $end='****') }} <br>
-                        {!! (!empty($tokens[0]->client)?("(<a href='".url("officer/user/view/{$tokens[0]->client->id}")."'>".$tokens[0]->client->firstname." ". $tokens[0]->client->lastname."</a>)"):null) !!}
-                         
+                <div class="mb-13 ">
+                    <h1 class="fs-2hx fw-bolder mb-5 text-white text-center"> {!! !empty($tokens[0]->client)? ($tokens[0]->client->firstname." ". $tokens[0]->client->lastname): "Auto Token" !!}</h1>
+                    <div class="text-gray-100 fw-bold fs-5 d-flex flex-stack flex-wrapr">
+                      
+                        
+                    </div>
+                    <div class="row text-gray-100 fw-bold fs-5">
+                        <div class="col-4">
+                            Counter: {{ !empty($tokens[0]->counter)?$tokens[0]->counter->name:null }} <br>
+                            Name: {{ !empty($tokens[0]->client)? ($tokens[0]->client->firstname." ". $tokens[0]->client->lastname): null }} <br> 
+                            Phone: {{ $tokens[0]->client_mobile }}<br/> 
+                            {{ \Illuminate\Support\Str::limit($tokens[0]->client_mobile, 7, $end='****') }} <br>
+                            Client Note :<br>
+                            <div class="fs-6 fw-bold text-gray-100 mb-5">{{$tokens[0]->note}} </div>
+                        </div>
+
+                        <div class="col-8">
+                            <a href="#" class="btn btn-sm btn-light-primary btn-active-primary " data-bs-toggle="modal" data-bs-target="#mv_modal_add_staff_note" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to add note">
+                                <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
+                                {!! theme()->getSvgIcon("icons/duotune/arrows/arr075.svg", "svg-icon-3") !!}
+                                <!--end::Svg Icon-->Add Note</a>
+                        </div>
                     </div>
                 </div>
-                Note :
-                <div class="fs-6 fw-bold text-gray-200 mb-5">{{$tokens[0]->note}} </div>
+               
                 {{-- <div class="fs-6 fw-bold text-gray-200 mb-5">{{$tokens[0]}} </div> --}}
                 
                 <!--end::Content-->
                 <!--begin::Footer-->
                 <div class="d-flex flex-stack flex-wrapr">
                     <!--begin::Users-->
-                    <div class="symbol-group symbol-hover my-1">
+                    {{-- <div class="symbol-group symbol-hover my-1">
                         <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="" data-bs-original-title="{!! !empty($tokens[0]->client)? ($tokens[0]->client->firstname." ". $tokens[0]->client->lastname): "Auto Token" !!}">
-                            {{-- <span class="symbol-label bg-success text-inverse-success fw-bolder">R</span> --}}
                             <img alt="Pic" src="{{ !empty($tokens[0]->client)?$tokens[0]->client->photo : asset(theme()->getMediaUrlPath() . 'avatars/blank.png') }}">
 
                         </div>
                        
-                    </div>
+                    </div> --}}
                     <!--end::Users-->
-                    <a href="#" class="btn btn-primary er w-50 fs-6 px-8 py-4" data-mv-token-cards-filter="complete_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">Call next customer</a>
+
+                    @if (empty($tokens[0]->started_at))
+                    <a href="#" class="btn btn-success er w-25 fs-6 px-4 py-4 m-1" data-mv-token-cards-filter="start_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">Start</a>
+                    <a href="#" class="btn btn-danger er w-25 fs-6 px-4 py-4 m-1" data-mv-token-cards-filter="noshow_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">No Show</a>
+                    <a href="#" class="btn btn-warning er w-25 fs-6 px-4 py-4 m-1" data-mv-token-cards-filter="call_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">Call again</a>
+                    @else
+                    <a href="#" class="btn btn-primary er w-25 fs-6 px-4 py-4 m-1" data-mv-token-cards-filter="complete_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">Next Customer</a>
+                    @endif
                    
                 </div>
                 <!--end::Footer-->
@@ -233,5 +252,6 @@
 @section('scripts')
 
 @include('pages.admin.token._button-actions-cards-js')
+@include('partials.modals.token._staff_note')
 @endsection
 </x-base-layout>
