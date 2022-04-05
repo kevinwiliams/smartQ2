@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Core\Data;
 use App\DataTables\Company\CompanyDataTable;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\models\DisplayCustom;
+use App\Models\DisplaySetting;
+use App\Models\Location;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
@@ -75,7 +79,7 @@ class CompanyController extends Controller
             return response()->json($data);
         } else {
 
-            $save = Company::insert([
+            $company = Company::create([
                 'name'        => $request->name,
                 'description' => $request->description,
                 'address' => $request->address,
@@ -86,9 +90,25 @@ class CompanyController extends Controller
                 'active' => ($request->active) ? $request->active : 0
             ]);
 
-            if ($save) {
+            if ($company) {
+                ///Generate: default location
+                $location = Location::create([
+                    'company_id' => $company->id,
+                    'name'  => 'Default',
+                    'address' =>  $request->address,
+                    'lat' => 0,
+                    'lon' => 0,
+                    'active' => 0
+                ]);
+
+                ///Generate: default display settings
+                $displaysettings = Data::getDefaultDisplay();
+                $displaysettings['location_id'] = $location->id;                
+                $display = DisplaySetting::insert($displaysettings);
+
+
                 $data['status'] = true;
-                $data['data'] = $save;
+                $data['data'] = $company;
                 $data['message'] = trans('app.save_successfully');
             } else {
                 $data['status'] = false;
@@ -107,7 +127,7 @@ class CompanyController extends Controller
      */
     public function show($id)
     {
-        $company = Company::find($id);        
+        $company = Company::find($id);
         // get the default inner page
         return view('pages.admin.company.view', compact('company'));
     }

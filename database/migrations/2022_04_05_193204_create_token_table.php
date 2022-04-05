@@ -16,7 +16,8 @@ class CreateTokenTable extends Migration
         Schema::create('token', function (Blueprint $table) {
             $table->integer('id', true);
             $table->string('token_no', 10)->nullable();
-            $table->integer('client_id')->nullable()->default(null);
+            $table->integer('location_id');
+            $table->integer('client_id')->nullable();
             $table->string('client_mobile', 20)->nullable();
             $table->integer('department_id')->nullable();
             $table->integer('counter_id')->nullable();
@@ -24,9 +25,15 @@ class CreateTokenTable extends Migration
             $table->string('note', 512)->nullable();
             $table->integer('created_by')->nullable();
             $table->timestamps();
+            $table->timestamp('started_at')->nullable();
             $table->boolean('is_vip')->nullable();
-            $table->boolean('status')->default(0)->comment('0-pending, 1-complete, 2-stop');
-            $table->boolean('sms_status')->default(0)->comment('0-pending, 1-sent, 2-quick-send');
+            $table->boolean('status')->default(false)->comment('0-pending, 1-complete, 2-stop');
+            $table->boolean('sms_status')->default(false)->comment('0-pending, 1-sent, 2-quick-send');
+            $table->boolean('no_show')->nullable()->default(false);
+            $table->string('officer_note')->nullable();
+            $table->string('user_token')->nullable();
+            $table->dateTime('token_date')->nullable();
+            $table->boolean('push_notifications')->nullable();
         });
     }
 

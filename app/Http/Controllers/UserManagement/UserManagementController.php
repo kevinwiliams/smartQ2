@@ -382,19 +382,22 @@ class UserManagementController extends Controller
     public function rolesList()
     {
         $roles = Role::orderBy('name')->get();
-        $permissions = Permission::get()->pluck('name', 'id');;
+        $permissions = Permission::get();
 
 
         // foreach ($roles as $_role) {
 
-        //     foreach ($_role->permissions as $_perm) {
-        //         // echo '<pre>';
-        //         // print_r($_perm);
-        //         // echo '</pre>';
-        //         echo $_perm->name;
+        //     foreach ($permissions as $_perm) {
+        //         echo '<pre>';
+        //         print_r($_perm);
+        //         echo '</pre>';
+        //         // echo $_perm->name;
         //     }
 
-        // }
+        // // }
+        // echo '<pre>';
+        // print_r($permissions);
+        // echo '</pre>';
         // die();
 
         // get the default inner page

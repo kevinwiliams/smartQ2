@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddLastLoginAtToUsersTable extends Migration
+class AddForeignKeysToUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddLastLoginAtToUsersTable extends Migration
     public function up()
     {
         Schema::table('user', function (Blueprint $table) {
-            $table->timestamp('last_login_at')->nullable()->after('remember_token');
+            $table->foreign(['location_id'], 'FK_user_locations')->references(['id'])->on('locations')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 
@@ -26,7 +26,7 @@ class AddLastLoginAtToUsersTable extends Migration
     public function down()
     {
         Schema::table('user', function (Blueprint $table) {
-            $table->dropColumn(['last_login_at']);
+            $table->dropForeign('FK_user_locations');
         });
     }
 }

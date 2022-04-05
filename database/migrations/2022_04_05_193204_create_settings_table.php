@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddLastLoginIpToUsersTable extends Migration
+class CreateSettingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddLastLoginIpToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('user', function (Blueprint $table) {
-            $table->string('last_login_ip')->nullable()->after('last_login_at');
+        Schema::create('settings', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('key')->index();
+            $table->text('value');
+            $table->unsignedBigInteger('user_id')->nullable();
         });
     }
 
@@ -25,8 +28,6 @@ class AddLastLoginIpToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('user', function (Blueprint $table) {
-            $table->dropColumn(['last_login_ip']);
-        });
+        Schema::dropIfExists('settings');
     }
 }

@@ -15,14 +15,15 @@ class CreateMessageTable extends Migration
     {
         Schema::create('message', function (Blueprint $table) {
             $table->integer('id', true);
+            $table->unsignedInteger('location_id');
             $table->integer('sender_id');
             $table->integer('receiver_id');
             $table->string('subject');
             $table->text('message');
             $table->string('attachment', 128)->nullable();
             $table->dateTime('datetime');
-            $table->boolean('sender_status')->default(0)->comment('0=unseen, 1=seen, 2=delete');
-            $table->boolean('receiver_status')->default(0)->comment('0=unseen, 1=seen, 2=delete');
+            $table->boolean('sender_status')->default(false)->comment('0=unseen, 1=seen, 2=delete');
+            $table->boolean('receiver_status')->default(false)->comment('0=unseen, 1=seen, 2=delete');
         });
     }
 

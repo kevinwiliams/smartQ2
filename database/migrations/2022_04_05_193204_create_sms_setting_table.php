@@ -15,6 +15,7 @@ class CreateSmsSettingTable extends Migration
     {
         Schema::create('sms_setting', function (Blueprint $table) {
             $table->integer('id', true);
+            $table->unsignedInteger('company_id');
             $table->string('provider', 20)->default('nexmo');
             $table->string('api_key')->nullable();
             $table->string('username')->nullable();

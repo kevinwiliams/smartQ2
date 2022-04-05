@@ -15,6 +15,7 @@ class CreateSettingTable extends Migration
     {
         Schema::create('setting', function (Blueprint $table) {
             $table->integer('id', true);
+            $table->unsignedInteger('location_id');
             $table->string('title', 100);
             $table->string('description')->nullable();
             $table->string('logo', 50)->nullable();
