@@ -183,6 +183,13 @@ return array(
                 ),
                 'card' => array(
                     'title' => 'Active Tokens',
+                    'assets' => array(
+                        'custom' => array(
+                            'js'  => array(
+                                'js/custom/admin/token/add_note.js',
+                            ),
+                        ),
+                    ),
                 ),
             ),
             'auto' => array(

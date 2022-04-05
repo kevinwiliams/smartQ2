@@ -152,31 +152,10 @@
                     <!--end::Badge-->
                     <!--begin::Menu-->
                     <div>
-                        <button type="button" class="btn btn-sm btn-icon btn-color-light btn-active-light-primary" data-mv-menu-trigger="click" data-mv-menu-placement="bottom-end">
-                            <!--begin::Svg Icon | path: icons/duotune/general/gen024.svg-->
-                            {!! theme()->getSvgIcon("icons/duotune/general/gen024.svg", "svg-icon-2") !!}
-                            <!--end::Svg Icon-->
-                        </button>
-                        <!--begin::Menu 3-->
-                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-gray-400 fw-bold w-200px py-3" data-mv-menu="true">
-                            <!--begin::Heading-->
-                            <div class="menu-item px-3">
-                                <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">Options</div>
-                            </div>
-                            <!--end::Heading-->
-                            <!--begin::Menu item-->
-                            <div class="menu-item px-3">
-                                <a href="#" class="menu-link px-3" data-mv-token-cards-filter="cancel_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">Cancel</a>
-                            </div>
-                            <!--end::Menu item-->
-                                                       <!--begin::Menu item-->
-                            <div class="menu-item px-3">
-                                <a href="#" class="menu-link px-3" data-mv-token-cards-filter="delete_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">Close</a>
-                            </div>
-                            <!--end::Menu item-->
-                                                        
-                        </div>
-                        <!--end::Menu 3-->
+                        <a href="#" class="btn btn-sm btn-light-primary btn-active-primary " data-bs-toggle="modal" data-bs-target="#mv_modal_add_staff_note" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to add note">
+                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
+                            {!! theme()->getSvgIcon("icons/duotune/arrows/arr075.svg", "svg-icon-3") !!}
+                            <!--end::Svg Icon-->Add Note</a>
                     </div>
                     <!--end::Menu-->
                 </div>
@@ -199,15 +178,12 @@
                             Name: {{ !empty($tokens[0]->client)? ($tokens[0]->client->firstname." ". $tokens[0]->client->lastname): null }} <br> 
                             Phone: {{ $tokens[0]->client_mobile }}<br/> 
                             {{ \Illuminate\Support\Str::limit($tokens[0]->client_mobile, 7, $end='****') }} <br>
-                            Client Note :<br>
-                            <div class="fs-6 fw-bold text-gray-100 mb-5">{{$tokens[0]->note}} </div>
-                        </div>
+                           </div>
 
                         <div class="col-8">
-                            <a href="#" class="btn btn-sm btn-light-primary btn-active-primary " data-bs-toggle="modal" data-bs-target="#mv_modal_add_staff_note" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to add note">
-                                <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
-                                {!! theme()->getSvgIcon("icons/duotune/arrows/arr075.svg", "svg-icon-3") !!}
-                                <!--end::Svg Icon-->Add Note</a>
+                            Client Note :<br>
+                            <div class="fs-6 fw-bold text-gray-100 mb-5">{{$tokens[0]->note}} </div>
+                        
                         </div>
                     </div>
                 </div>

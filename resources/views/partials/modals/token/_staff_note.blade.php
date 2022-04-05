@@ -10,7 +10,7 @@
 	                <h2 class="fw-bolder">Add a Note </h2>
 	                <!--end::Modal title-->
 	                <!--begin::Close-->
-	                <div class="btn btn-icon btn-sm btn-active-icon-primary" data-mv-roles-modal-action="close">
+	                <div class="btn btn-icon btn-sm btn-active-icon-primary" data-mv-notes-modal-action="close">
 	                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
 	                    {!! theme()->getSvgIcon("icons/duotune/arrows/arr061.svg", "svg-icon-1") !!}
 	                    <!--end::Svg Icon-->
@@ -39,8 +39,8 @@
 	                <!--end::Scroll-->
 	                <!--begin::Actions-->
 	                <div class="text-center pt-15">
-	                    <button type="reset" class="btn btn-light me-3" data-mv-roles-modal-action="cancel">Discard</button>
-	                    <button type="submit" class="btn btn-primary" data-mv-roles-modal-action="submit">
+	                    <button type="reset" class="btn btn-light me-3" data-mv-notes-modal-action="cancel">Discard</button>
+	                    <button type="submit" class="btn btn-primary" data-mv-notes-modal-action="submit">
 	                        <span class="indicator-label">Submit</span>
 	                        <span class="indicator-progress">Please wait...
 	                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
