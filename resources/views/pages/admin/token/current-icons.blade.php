@@ -154,8 +154,10 @@
                     <div>
                         <a href="#" class="btn btn-sm btn-light-primary btn-active-primary " data-bs-toggle="modal" data-bs-target="#mv_modal_add_staff_note" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to add note">
                             <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
-                            {!! theme()->getSvgIcon("icons/duotune/arrows/arr075.svg", "svg-icon-3") !!}
-                            <!--end::Svg Icon-->Add Note</a>
+                            {!! theme()->getSvgIcon("icons/duotune/".(!empty($tokens[0]->officer_note) ? "general/gen055.svg" : "arrows/arr075.svg"), "svg-icon-3") !!}
+                            <!--end::Svg Icon-->
+                            {!! (!empty($tokens[0]->officer_note)? "Edit Note" :"Add Note") !!}
+                        </a>
                     </div>
                     <!--end::Menu-->
                 </div>
@@ -183,7 +185,8 @@
                         <div class="col-8">
                             Client Note :<br>
                             <div class="fs-6 fw-bold text-gray-100 mb-5">{{$tokens[0]->note}} </div>
-                        
+                            Comments :<br>
+                            <div class="fs-6 fw-bold text-gray-100 mb-5">{!! $tokens[0]->officer_note !!} </div>
                         </div>
                     </div>
                 </div>

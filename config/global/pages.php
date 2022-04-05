@@ -186,6 +186,7 @@ return array(
                     'assets' => array(
                         'custom' => array(
                             'js'  => array(
+                                'plugins/custom/tinymce/tinymce.bundle.js',
                                 'js/custom/admin/token/add_note.js',
                             ),
                         ),

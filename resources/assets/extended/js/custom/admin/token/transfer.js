@@ -202,7 +202,6 @@ var MVTokenTransferToken = function () {
             });
         });
     }
-
     return {
         // Public functions
         init: function () {

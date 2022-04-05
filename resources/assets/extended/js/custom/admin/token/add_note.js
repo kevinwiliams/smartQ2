@@ -14,6 +14,36 @@ var MVAddStaffNote = function(){
     const form = element.querySelector('#mv_modal_add_staff_note_form');
 
 
+    // var quill = new Quill('#officer_note', {
+    //     modules: {
+    //         toolbar: [
+    //             [{
+    //                 header: [1, 2, false]
+    //             }],
+    //             ['bold', 'italic', 'underline'],
+    //             ['image', 'code-block']
+    //         ]
+    //     },
+    //     placeholder: 'Type your text here...',
+    //     theme: 'snow' // or 'bubble'
+    // });
+    var options = {
+        selector: "#officer_note",
+        menubar: false,
+        toolbar: [
+            "styleselect fontselect fontsizeselect",
+            "undo redo |  bold italic | link | alignleft aligncenter alignright alignjustify",
+            "bullist numlist | outdent indent | blockquote subscript superscript"],
+        plugins : " "
+    };
+
+    if (MVApp.isDarkMode()) {
+        options["skin"] = "oxide-dark";
+        options["content_css"] = "dark";
+    }
+
+    tinymce.init(options);
+
     const modal = new bootstrap.Modal(element);
 
         // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
@@ -60,7 +90,7 @@ var MVAddStaffNote = function(){
 
                         // Disable button to avoid multiple click 
                         submitButton.disabled = true;
-
+                        console.log(new FormData(form));
                         $.ajax({
                             url: form.action,
                             type: form.method,
@@ -88,7 +118,7 @@ var MVAddStaffNote = function(){
                                     }
                                 }).then(function (result) {
                                     if (result.isConfirmed) {     
-                                        document.location.href = '/admin/token/current';                              
+                                        document.location.href = '/admin/token/current/card';                              
                                         form.reset();
                                         modal.hide();
                                     }

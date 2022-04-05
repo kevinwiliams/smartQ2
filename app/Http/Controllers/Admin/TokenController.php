@@ -993,7 +993,7 @@ class TokenController extends Controller
                 'counter_id'    => $request->counter_id, 
                 'user_id'       => $request->user_id, 
                 'is_vip'        => $request->is_vip, 
-                'note'          => $request->note, 
+                'officer_note'  => $request->officer_note, 
             ]);
 
             if ($update) 
@@ -1013,7 +1013,28 @@ class TokenController extends Controller
     { 
         Token::where('id', $id)->delete();
         return redirect()->back()->with('message', trans('app.delete_successfully'));
-    }  
+    }
+    
+    public function addnote(Request $request)
+    {
+        @date_default_timezone_set(session('app.timezone'));
+
+        $update = Token::where('id', $request->id)
+            ->update([
+                'officer_note'  => $request->officer_note, 
+            ]);
+            if ($update) 
+            {  
+                $data['status'] = true;
+                $data['message'] = trans('app.note_added_successfully');
+            } else {
+                $data['status'] = false;
+                $data['exception'] = trans('app.please_try_again');
+            }
+
+        return response()->json($data);
+
+    } 
 
 
      /*-----------------------------------
