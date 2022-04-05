@@ -29,9 +29,10 @@
 	                <div class="d-flex flex-column scroll-y me-n7 pe-7" id="mv_modal_add_staff_note_scroll" data-mv-scroll="true" data-mv-scroll-activate="{default: false, lg: true}" data-mv-scroll-max-height="auto" data-mv-scroll-dependencies="#mv_modal_add_staff_note_header" data-mv-scroll-wrappers="#mv_modal_add_staff_note_scroll" data-mv-scroll-offset="300px">
 	                    <!--begin::Input group-->
                         <div class="fv-row mb-7">
-                            <div class="form-group">
+                            <div class="form-group @error('officer_note') has-error @enderror">
+                                <label for="officer_note">{{ trans('app.officer_note') }} </label> 
                                 <textarea name="officer_note" id="officer_note" class="form-control h-200px" placeholder="{{ trans('app.officer_note') }}">{{ old('officer_note')?old('officer_note'):$tokens[0]->officer_note }}</textarea>
-                                {{-- <div id="officer_note" name="officer_note" class="form-control">{{ old('officer_note')?old('officer_note'):$tokens[0]->officer_note }}</div> --}}
+                                {{-- <div id="officer_note" name="officer_note">{{ old('officer_note')?old('officer_note'):$tokens[0]->officer_note }}</div> --}}
                                 <span class="help-block text-danger">{{ $errors->first('officer_note') }}</span>
                             </div>
                         </div>
