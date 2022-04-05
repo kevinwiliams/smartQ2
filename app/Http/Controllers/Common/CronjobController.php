@@ -211,7 +211,7 @@ class CronjobController extends Controller
                 $data['status'] = true;
                 $data['result'][] = $tokenInfo;
                 // send sms 
-                $this->sendSMS($tokenInfo, $setting->alert_position);                
+                $this->sendSMS($tokenInfo, $setting->alert_position);
             } else {
                 $data['status'] = true;
                 $data['result'][] = $tokenInfo;
@@ -319,8 +319,11 @@ class CronjobController extends Controller
                 Department: $token->department, Counter: $token->counter and Officer: $token->officer. <br />
                 Your waiting no is $token->token.<br />
                 $token->date.";
-                
-                return Larafirebase::fromArray(['title' => 'SmartQ Notification', 'body' => $body])->sendNotification($deviceTokens);
+
+                Larafirebase::fromArray(['title' => 'SmartQ Notification', 'body' => $body])->sendNotification($deviceTokens);
+
+                //SMS SENT
+                Token::where('id', $token->id)->update(['push_notifications' => 1]);
             }
         }
     }

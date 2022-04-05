@@ -3,10 +3,9 @@
 		<!--begin::Post-->
 		<div class="post d-flex flex-column-fluid" id="mv_post">
 			<!--begin::Container-->
-			<div id="mv_content_container" class="container-xxl">
+			<div id="mv_content_container" class="">
 				<!--begin::Layout-->
 				<div class="d-flex flex-column flex-lg-row">
-
 					<!--begin::Sidebar-->
 					<div class="flex-column flex-lg-row-auto w-100 w-lg-200px w-xl-300px mb-10">
 						<!--begin::Card-->
@@ -54,14 +53,6 @@
 					<!--end::Sidebar-->
 					<!--begin::Content-->
 					<div class="flex-lg-row-fluid ms-lg-10">
-						<div class="nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x border-0 fs-4 fw-bold mb-5">
-							<a href="#" class="btn btn-primary ps-7 ms-auto" data-bs-toggle="modal" data-bs-target="#mv_modal_add_company" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to add new Company">
-								<!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
-								{!! theme()->getSvgIcon("icons/duotune/arrows/arr075.svg", "svg-icon-3") !!}
-								<!--end::Svg Icon-->New Location
-							</a>
-						</div>
-
 						<!--begin::Card-->
 						<div class="card card-flush mb-6 mb-xl-9">
 							<!--begin::Card header-->
@@ -80,36 +71,49 @@
 								<!--begin::Table-->
 								<div id="mv_companys_view_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
 									<div class="table-responsive">
-										<table class="table align-middle table-row-dashed fs-6 gy-5 mb-0 no-footer" style="width: 100%;">
-											@foreach($company->locations as $_location)
-											<tr>
-												<!--begin::ID-->
-												<td>
-													<h4>{{ $_location->name }}</h4>
-													
-													<span>Team size:</span><span> {{ $_location->users()->count() }}</span> <span>Departments:</span> <span>{{ $_location->departments()->count() }}</span> <br />
-													{!! theme()->getSvgIcon("icons/duotune/general/gen018.svg", "svg-icon-3") !!} <span>{{ $_location->address }}</span>
-													<br />
-													<!-- {{ Carbon\Carbon::parse($_location->created_at)->format('d M Y, h:i a'); }} -->
-												</td>
-												<td>
-													<br />
-													<span>Service Setup</span><br />
-													<span>Greeting: </span><span> {{ ($_location->settings->enable_greeting)?'Yes':'No' }}</span><br />
-													<span>Displays: </span><span> {{ $_location->displays()->count() }}</span><br />
-													<span>Counters: </span><span> {{ $_location->counters()->count() }}</span><br />
-												</td>
-												<td>
-													<br />
-													<span>Statistics</span><br />
-													<span>Visitors Last Week: </span><span> 114</span><br />
-													<span>Wait Time: </span><span> 3 mins</span><br />
-													<span>Service Time: </span><span> 7 mins</span><br />
-												</td>
-
-											</tr>
-											@endforeach
-
+										<table class="table align-middle table-row-dashed fs-6 gy-5 mb-0 no-footer" id="mv_company_view_table" width="100%">
+											<!--begin::Table head-->
+											<thead>
+												<!--begin::Table row-->
+												<tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
+													<th tabindex="0" rowspan="1" colspan="1">ID</th>
+													<th tabindex="0" rowspan="1" colspan="1">Name</th>
+													<th tabindex="0" rowspan="1" colspan="1">Address</th>
+													<th tabindex="0" rowspan="1" colspan="1">Status</th>
+													<th tabindex="0" rowspan="1" colspan="1">Created</th>
+												</tr>
+												<!--end::Table row-->
+											</thead>
+											<!--end::Table head-->
+											<!--begin::Table body-->
+											<tbody>
+												@foreach($company->locations as $_company)
+												<tr>
+													<!--begin::ID-->
+													<td>ID{{ str_pad($_company->id, 5, "0", STR_PAD_LEFT) }}</td>
+													<!--begin::ID-->
+													<!--begin::name-->
+													<td>{{ $_company->name }}</td>
+													<!--begin::name-->
+													<!--begin::name-->
+													<td>{{ $_company->address }}</td>
+													<!--begin::name-->
+													<!--begin::name-->
+													<td>
+														@if($_company->active)
+														<div class="badge badge-success fw-bolder">Active</div>
+														@else
+														<div class="badge badge-danger fw-bolder">Inactive</div>
+														@endif
+													</td>
+													<!--begin::name-->
+													<!--begin::Joined date=-->
+													<td>{{ Carbon\Carbon::parse($_company->created_at)->format('d M Y, h:i a'); }}</td>
+													<!--end::Joined date=-->
+												</tr>
+												@endforeach
+											</tbody>
+											<!--end::Table body-->
 										</table>
 									</div>
 								</div>
@@ -128,7 +132,7 @@
 		<!--end::Post-->
 	</div>
 	@section('scripts')
-
+	@include('pages.admin.company._view-js')
 
 	@endsection
 </x-base-layout>

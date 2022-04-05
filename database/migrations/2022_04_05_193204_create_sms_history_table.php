@@ -15,6 +15,7 @@ class CreateSmsHistoryTable extends Migration
     {
         Schema::create('sms_history', function (Blueprint $table) {
             $table->integer('id', true);
+            $table->unsignedInteger('location_id');
             $table->string('from', 20)->nullable();
             $table->string('to', 20)->nullable();
             $table->string('message', 512)->nullable();

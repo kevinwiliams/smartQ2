@@ -15,11 +15,12 @@ class CreateTokenSettingTable extends Migration
     {
         Schema::create('token_setting', function (Blueprint $table) {
             $table->integer('id', true);
+            $table->unsignedInteger('location_id');
             $table->integer('department_id');
             $table->integer('counter_id');
             $table->integer('user_id');
             $table->timestamps();
-            $table->boolean('status')->default(1);
+            $table->boolean('status')->default(true);
         });
     }
 

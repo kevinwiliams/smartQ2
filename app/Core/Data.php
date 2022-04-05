@@ -4,8 +4,10 @@ namespace App\Core;
 
 use function PHPSTORM_META\map;
 
-class Data {
-    public static function getCountriesList() {
+class Data
+{
+    public static function getCountriesList()
+    {
         return array(
             'AF' => array('name' => 'Afghanistan', 'flag' => 'flags/afghanistan.svg'),
             'AX' => array('name' => 'Aland Islands', 'flag' => 'flags/aland-islands.svg'),
@@ -235,7 +237,8 @@ class Data {
         );
     }
 
-    public static function getLanguagesList() {
+    public static function getLanguagesList()
+    {
         $countryArr = Data::getCountriesList();
 
         return array(
@@ -288,7 +291,8 @@ class Data {
         );
     }
 
-    public static function getCurrencyList() {
+    public static function getCurrencyList()
+    {
         $countryArr = Data::getCountriesList();
 
         return array(
@@ -302,7 +306,8 @@ class Data {
         );
     }
 
-    public static function getTimeZonesList() {
+    public static function getTimeZonesList()
+    {
         return array(
             'International Date Line West' => array('name' => '(GMT-11:00) International Date Line West', 'offset' => '-39600'),
             'Midway Island' => array('name' => '(GMT-11:00) Midway Island', 'offset' => '-39600'),
@@ -450,7 +455,8 @@ class Data {
         );
     }
 
-    public static function getSampleUserInfo($index = -1) {
+    public static function getSampleUserInfo($index = -1)
+    {
         $users = array(
             array(
                 'name' => 'Emma Smith',
@@ -570,13 +576,14 @@ class Data {
         $total = count($users);
 
         if ($index === -1 || isset($users[$index]) === false) {
-           $index = rand(0, $total - 1);
+            $index = rand(0, $total - 1);
         }
 
         return $users[$index];
     }
 
-    public static function getSampleStatus($index = -1) {
+    public static function getSampleStatus($index = -1)
+    {
         $statuses = array(
             array('label' => 'Approved', 'state' => 'success'),
             array('label' => 'Pending', 'state' => 'warning'),
@@ -588,13 +595,14 @@ class Data {
         $total = count($statuses);
 
         if ($index === -1 || isset($statuses[$index]) === false) {
-           $index = rand(0, $total - 2);
+            $index = rand(0, $total - 2);
         }
 
         return $statuses[$index];
     }
 
-    public static function getSampleDate() {
+    public static function getSampleDate()
+    {
         $dates = array('Feb 21', 'Mar 10', 'Apr 15', 'May 05', 'Jun 20', 'Jun 24', 'Jul 25', 'Aug 19', 'Sep 22', 'Oct 25', 'Nov 10', 'Dec 20');
 
         $date = $dates[rand(0, count($dates) - 1)] . ", " . date("Y");
@@ -602,12 +610,34 @@ class Data {
         return $date;
     }
 
-    public static function getSampleDatetime() {
+    public static function getSampleDatetime()
+    {
         $dates = array('21 Feb', '10 Mar', '15 Apr', '05 May', '20 Jun', '24 Jun', '25 Jul', '19 Aug', '22 Sep', '25 Oct', '10 Nov', '20 Dec');
         $times = array('8:43 pm', '10:30 am', '5:20 pm', '2:40 pm', '11:05 am', '10:10 pm', '6:05 pm', '11:30 am', '5:30 pm', '9:23 pm', '6:43 am');
 
         $date = $dates[rand(0, count($dates) - 1)] . " " . date("Y") . ", " . $times[rand(0, count($times) - 1)];
 
         return $date;
+    }
+
+    public static function getDefaultDisplay()
+    {
+        return array(
+            "message" => "Token - Queue Management System",
+            "direction" => "left",
+            "color" => "#ffffff",
+            "background_color" => "#b0b0b0",
+            "border_color" => "#fafdff",
+            "time_format" => "H:i:s",
+            "date_format" => "d M, Y",
+            "display" => 2,
+            "keyboard_mode" => 0,
+            "sms_alert" => 1,
+            "show_note" => 0,
+            "show_officer" => 0,
+            "show_department" => 1,
+            "alert_position" => 2,
+            "language" => "English",
+        );
     }
 }

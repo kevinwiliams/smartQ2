@@ -12,8 +12,7 @@ var MVUsersAddRole = function () {
 
         // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
         var validator = FormValidation.formValidation(
-            form,
-            {
+            form, {
                 fields: {
                     'role_name': {
                         validators: {
@@ -68,7 +67,7 @@ var MVUsersAddRole = function () {
             }).then(function (result) {
                 if (result.value) {
                     modal.hide(); // Hide modal				
-                } 
+                }
             });
         });
 
@@ -106,45 +105,48 @@ var MVUsersAddRole = function () {
             });
         });
 
-         // Submit button handler
-         const submitButton = element.querySelector('[data-mv-roles-modal-action="submit"]');
-         submitButton.addEventListener('click', function (e) {
-             // Prevent default button action
-             e.preventDefault();
- 
-             // Validate form before submit
-             if (validator) {
-                 validator.validate().then(function (status) {
-                     console.log('validated!');
- 
-                     if (status == 'Valid') {
-                         // Show loading indication
-                         submitButton.setAttribute('data-mv-indicator', 'on');
- 
-                         // Disable button to avoid multiple click 
-                         submitButton.disabled = true;
-                        
-                         $.ajax({
+        // Submit button handler
+        const submitButton = element.querySelector('[data-mv-roles-modal-action="submit"]');
+        submitButton.addEventListener('click', function (e) {
+            // Prevent default button action
+            e.preventDefault();
+
+            // Validate form before submit
+            if (validator) {
+                validator.validate().then(function (status) {
+                    console.log('validated!');
+
+                    //  return;
+                    if (status == 'Valid') {
+                        // Show loading indication
+                        submitButton.setAttribute('data-mv-indicator', 'on');
+
+                        // Disable button to avoid multiple click 
+                        submitButton.disabled = true;
+
+                        $.ajax({
                             url: form.action,
                             type: form.method,
-                            dataType: 'json', 
-                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                            contentType: false,  
-                            cache: false,  
+                            dataType: 'json',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            contentType: false,
+                            cache: false,
                             processData: false,
-                            data:  new FormData(form),
+                            data: new FormData(form),
                             // success: function(data)
 
                             // url: '{{ URL::to("client/token/checkin") }}/' + id,
                             // type: 'get',
                             // dataType: 'json',
-                            success: function(data) {
+                            success: function (data) {
                                 console.log(data);
                                 // document.location.href = '/client';
                                 // setInterval( function () {
                                 //     table.ajax.reload();
                                 // }, 2000 );
-                                 // Remove loading indication
+                                // Remove loading indication
                                 submitButton.removeAttribute('data-mv-indicator');
 
                                 // Enable button
@@ -161,9 +163,9 @@ var MVUsersAddRole = function () {
                                     }
                                 }).then(function (result) {
                                     // if (result.isConfirmed) {     
-                                        document.location.href = '/apps/user-management/roles/list';                              
-                                        form.reset();
-                                        modal.hide();
+                                    document.location.href = '/apps/user-management/roles/list';
+                                    form.reset();
+                                    modal.hide();
                                     // }
                                 });
                             }
@@ -173,30 +175,30 @@ var MVUsersAddRole = function () {
                             //     alert('Error - ' + errorMessage);
                             // }
                         });
-                     } else {
-                         // Show popup warning. For more info check the plugin's official documentation: https://sweetalert2.github.io/
-                         Swal.fire({
-                             text: "Sorry, looks like there are some errors detected, please try again.",
-                             icon: "error",
-                             buttonsStyling: false,
-                             confirmButtonText: "Ok, got it!",
-                             customClass: {
-                                 confirmButton: "btn btn-primary"
-                             }
-                         });
-                     }
-                 });
-             }
-         });
-        
+                    } else {
+                        // Show popup warning. For more info check the plugin's official documentation: https://sweetalert2.github.io/
+                        Swal.fire({
+                            text: "Sorry, looks like there are some errors detected, please try again.",
+                            icon: "error",
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok, got it!",
+                            customClass: {
+                                confirmButton: "btn btn-primary"
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
 
     }
 
     // Select all handler
-    const handleSelectAll = () =>{
+    const handleSelectAll = () => {
         // Define variables
         const selectAll = form.querySelector('#mv_roles_select_all');
-        const allCheckboxes = form.querySelectorAll('[type="checkbox"]');
+        const allCheckboxes = form.querySelectorAll('[type="checkbox"][name="permissions[]"]');
 
         // Handle check state
         selectAll.addEventListener('change', e => {
@@ -212,7 +214,7 @@ var MVUsersAddRole = function () {
         // Public functions
         init: function () {
             initAddRole();
-            // handleSelectAll();
+            handleSelectAll();
         }
     };
 }();

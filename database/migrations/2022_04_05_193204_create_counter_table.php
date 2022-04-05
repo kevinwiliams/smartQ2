@@ -15,11 +15,12 @@ class CreateCounterTable extends Migration
     {
         Schema::create('counter', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('location_id');
             $table->string('name', 50)->nullable();
             $table->string('description')->nullable();
             $table->date('created_at')->nullable();
             $table->date('updated_at')->nullable();
-            $table->boolean('status')->default(1);
+            $table->boolean('status')->default(true);
         });
     }
 
