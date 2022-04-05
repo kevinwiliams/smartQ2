@@ -21,7 +21,7 @@
 	            <!--begin::Modal body-->
 	            <div class="modal-body scroll-y mx-lg-5 my-7">
 	                <!--begin::Form-->
-	                {{ Form::open(['url' => 'admin/token/note', 'class'=>'manualFrm form', 'id'=>'mv_modal_add_staff_note_form']) }}
+	                {{ Form::open(['url' => 'admin/token/addnote', 'class'=>'manualFrm form', 'id'=>'mv_modal_add_staff_note_form']) }}
 	                @csrf
 	                <!-- {{ csrf_field() }} -->
 	                <!--begin::Scroll-->

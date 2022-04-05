@@ -217,6 +217,13 @@
             <!--end::Card body-->
             
         </div>
+
+         <!--begin::Modal - Add Token -->
+            {{ theme()->getView('partials/modals/token/_staff_note', 
+            array(
+                'tokens' => $tokens, 
+                               )) }}
+        <!--end::Modal - Add Token-->
         @endif
         
     
@@ -228,6 +235,5 @@
 @section('scripts')
 
 @include('pages.admin.token._button-actions-cards-js')
-@include('partials.modals.token._staff_note')
 @endsection
 </x-base-layout>

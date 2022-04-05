@@ -192,6 +192,7 @@ Route::middleware('auth')->group(function () {
 			Route::get('delete/{id}', [TokenController::class, 'delete']);
 			Route::post('transfer', [TokenController::class, 'transfer']);
 			Route::get('start/{id}', [TokenController::class, 'start']);
+			Route::post('addnote', [TokenController::class, 'addnote']);
 		});
 
 		// Setting pages
