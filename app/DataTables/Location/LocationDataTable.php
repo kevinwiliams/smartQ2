@@ -35,10 +35,12 @@ class LocationDataTable extends DataTable
             return Carbon::parse($model->created_at)->format('d M Y, h:i a');
         })
         ->addColumn('location_stat', function(){
-            $html   = '<div class="d-flex flex-column w-100 me-2"><div class="d-flex flex-stack mb-2">';
+            $html   = '<div class="d-flex flex-column w-100 me-2">';
+            $html   .= '<div class="d-flex flex-stack mb-2">';
             $html   .= '<span class="text-muted me-2 fs-7 fw-bold">Pending: 50%</span>';
             $html   .= '</div>';
             $html   .= '<div class="progress-bar bg-primary" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>';
+            $html   .= '</div>';
             $html   .= '</div>';
 
             return $html;
