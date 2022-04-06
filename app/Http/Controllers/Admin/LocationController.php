@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\Location\LocationDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Company;
 use App\Models\Location;
 use Illuminate\Http\Request;
 
@@ -13,9 +15,16 @@ class LocationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(LocationDataTable $dataTable)
     {
-        //
+        $companies1 = Company::get();
+        $companies = Company::where('active', 1)->pluck('name','id');
+
+        // echo '<pre>';
+        // print_r($companies);
+        // echo '</pre>';
+        // die();
+        return $dataTable->render('pages.admin.location.list', compact('companies'));
     }
 
     /**

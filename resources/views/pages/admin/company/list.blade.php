@@ -10,7 +10,7 @@
                     <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
                     {!! theme()->getSvgIcon("icons/duotune/general/gen021.svg", "svg-icon-1 position-absolute ms-6") !!}
                     <!--end::Svg Icon-->
-                    <input type="text" data-kt-company-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="Search Companies">
+                    <input type="text" data-mv-company-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="Search Companies">
                 </div>
             </h3>
             <div class="card-toolbar">

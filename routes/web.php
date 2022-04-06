@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Common\CronjobController;
 use App\Http\Controllers\Common\DisplayController;
 use App\Http\Controllers\Admin\DisplaySettingController;
+use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Common\LanguageController;
 use App\Http\Controllers\Common\MessageController;
 use App\Http\Controllers\Common\NotificationController;
@@ -216,6 +217,17 @@ Route::middleware('auth')->group(function () {
 			Route::get('view/{id}', [CompanyController::class, 'show']);
 			Route::post('edit/{id}', [CompanyController::class, 'update']);
 			Route::get('delete/{id}', [CompanyController::class, 'destroy']);
+		});
+
+		// // Company pages
+		Route::prefix('location')->group(function () {
+			Route::get('list', [LocationController::class, 'index']);
+			Route::get('create', [LocationController::class, 'showForm']);
+			Route::post('create', [LocationController::class, 'store']);
+			Route::get('edit/{id}', [LocationController::class, 'showEditForm']);
+			Route::get('view/{id}', [LocationController::class, 'show']);
+			Route::post('edit/{id}', [LocationController::class, 'update']);
+			Route::get('delete/{id}', [LocationController::class, 'destroy']);
 		});
 	});
 });
