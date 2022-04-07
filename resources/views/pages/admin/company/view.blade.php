@@ -100,7 +100,7 @@
 													<span class="badge bagde-lg badge-light-info fw-bolder fs-6 me-1 my-3">Service Setup</span>
 													<br />
 													<div class="border border-gray-300 border-dashed rounded min-w-100px w-100 py-2 px-4 me-6 mb-3">
-													<span class="text-muted fw-bold p-5">Greeting: </span><span>{{ ($_location->settings->enable_greeting)?'Yes':'No' }}</span><br />
+													<span class="text-muted fw-bold p-5">Greeting: </span><span>{{ ($company->locations[0]->settings->enable_greeting)?'Yes':'No' }}</span><br />
 													<span class="text-muted fw-bold p-5">Displays: </span><span>{{ $_location->displays()->count() }}</span><br />
 													<span class="text-muted fw-bold p-5">Counters: </span><span>{{ $_location->counters()->count() }}</span><br />
 													</div>
@@ -147,9 +147,11 @@
 		var path = window.location.pathname.split("/");
 		var location_id = path[path.length - 1]; 
 		//auto select company
-		$('select[name=company_id]').val(location_id);
-		$('select[name=company_id]').trigger('change');
-		$('select[name=company_id]').attr("disabled", true);
+		if (location_id) {
+			$('select[name=company_id]').val(location_id);
+			$('select[name=company_id]').trigger('change');
+			$('select[name=company_id]').attr("disabled", true);
+		}
 
 		let map;
 		let defLat = 10.668741351384037;

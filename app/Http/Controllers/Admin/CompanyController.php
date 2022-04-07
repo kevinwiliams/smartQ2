@@ -128,8 +128,7 @@ class CompanyController extends Controller
     public function show($id)
     {
         $company = Company::find($id);
-        $companies = Company::where('active', 1)->pluck('name','id');
-        
+        $companies = Company::where('id', $id)->pluck('name','id');
         // get the default inner page
         return view('pages.admin.company.view', compact('company', 'companies'));
     }
