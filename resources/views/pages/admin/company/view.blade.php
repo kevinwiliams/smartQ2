@@ -54,14 +54,6 @@
 					<!--end::Sidebar-->
 					<!--begin::Content-->
 					<div class="flex-lg-row-fluid ms-lg-10">
-						<div class="nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x border-0 fs-4 fw-bold mb-5">
-							<a href="#" class="btn btn-primary ps-7 ms-auto" data-bs-toggle="modal" data-bs-target="#mv_modal_add_location" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to add new Company">
-								<!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
-								{!! theme()->getSvgIcon("icons/duotune/arrows/arr075.svg", "svg-icon-3") !!}
-								<!--end::Svg Icon-->New Location
-							</a>
-						</div>
-
 						<!--begin::Card-->
 						<div class="card card-flush mb-6 mb-xl-9">
 							<!--begin::Card header-->
@@ -73,6 +65,20 @@
 									</h2>
 								</div>
 								<!--end::Card title-->
+								<!--begin::Card toolbar-->
+								<div class="card-toolbar">
+									<!--begin::Button-->
+									<button type="button" class="btn btn-light-primary" data-bs-toggle="modal" data-bs-target="#mv_modal_add_location" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to add new Company">
+										<!--begin::Svg Icon | path: icons/duotune/general/gen035.svg-->
+
+										{!! theme()->getSvgIcon("icons/duotune/general/gen035.svg", "svg-icon-3") !!}
+
+										<!--end::Svg Icon-->
+										New Location
+									</button>
+									<!--end::Button-->
+								</div>
+								<!--end::Card toolbar-->
 							</div>
 							<!--end::Card header-->
 							<!--begin::Card body-->
