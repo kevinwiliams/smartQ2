@@ -144,6 +144,13 @@
 	@include('pages.admin.company._view-js')
 
 	<script>
+		var path = window.location.pathname.split("/");
+		var location_id = path[path.length - 1]; 
+		//auto select company
+		$('select[name=company_id]').val(location_id);
+		$('select[name=company_id]').trigger('change');
+		$('select[name=company_id]').attr("disabled", true);
+
 		let map;
 		let defLat = 10.668741351384037;
 		let defLng = -61.508404969650044;
