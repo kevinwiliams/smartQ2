@@ -85,35 +85,35 @@
 											<tr class="align-top">
 												<!--begin::ID-->
 												<td>
-													<h4>{{ $_location->name }}</h4>
+													<h4 class="text-gray-800">{{ $_location->name }}</h4>
 													<span class="text-muted fw-bold d-block fs-7">{!! theme()->getSvgIcon("icons/duotune/general/gen018.svg", "svg-icon-3") !!} {{ $_location->address }}</span>
 													<br>
-													<div class="border border-gray-300 border-dashed rounded min-w-100px w-100 py-4 px-6 me-4 mb-3">
-													<span class="text-black fw-bold d-block fs-6 py-1">Team size: {{ $_location->users()->count() }}</span><span class=""> </span> 
-													<span class="text-black fw-bold d-block fs-6">Departments: {{ $_location->departments()->count() }}</span> <span class=""></span> 
+													<div class="border border-gray-300 border-dashed rounded min-w-100px w-100 py-3 px-6 me-4 mb-3">
+													<span class="text-gray-600 fw-bold d-block fs-6 py-1">Team size: <span class="text-black">{{ $_location->users()->count() }}</span> </span>
+													<span class="text-gray-600 fw-bold d-block fs-6">Departments: <span class="text-black">{{ $_location->departments()->count() }}</span> </span> 
 													<!-- {{ Carbon\Carbon::parse($_location->created_at)->format('d M Y, h:i a'); }} -->
 													</div>
 												</td>
 												<td >
 													<br />
 													{{-- <span>Service Setup</span> --}}
-													<span class="badge bagde-lg badge-light-info fw-bolder fs-6 me-1 my-3">Service Setup</span>
+													<span class="badge bagde-lg badge-secondary fw-bolder fs-7 me-1 my-3">Service Setup</span>
 													<br />
-													<div class="border border-gray-300 border-dashed rounded min-w-100px w-100 py-2 px-4 me-6 mb-3">
-													<span class="text-muted fw-bold p-5">Greeting: </span><span>{{ ($company->locations[0]->settings->enable_greeting)?'Yes':'No' }}</span><br />
-													<span class="text-muted fw-bold p-5">Displays: </span><span>{{ $_location->displays()->count() }}</span><br />
-													<span class="text-muted fw-bold p-5">Counters: </span><span>{{ $_location->counters()->count() }}</span><br />
+													<div class="border border-gray-300 border-dashed rounded min-w-100px w-100 py-2 px-4 me-6 mb-3 fs-7">
+													<span class="text-muted fw-bold p-1">Greeting: </span><span>{{ ($company->locations[0]->settings->enable_greeting)?'Yes':'No' }}</span><br />
+													<span class="text-muted fw-bold p-1">Displays: </span><span>{{ $_location->displays()->count() }}</span><br />
+													<span class="text-muted fw-bold p-1">Counters: </span><span>{{ $_location->counters()->count() }}</span><br />
 													</div>
 												</td>
 												<td>
 													<br />
 													{{-- <span>Statistics</span> --}}
-													<span class="badge bagde-lg badge-light-primary fw-bolder fs-6 me-1 my-3">Statistics</span>
+													<span class="badge bagde-lg badge-light-primary fw-bolder fs-7 me-1 my-3">Statistics</span>
 													<br />
-													<div class="border border-gray-300 border-dashed rounded min-w-200px w-100 py-2 px-4 me-6 mb-3">
-													<span class="text-muted fw-bold p-5">Visitors Last Wk: </span><span> 114</span><br />
-													<span class="text-muted fw-bold p-5">Avg. Wait Time: </span><span> 3 mins</span><br />
-													<span class="text-muted fw-bold p-5">Avg. Service Time: </span><span> 7 mins</span><br />
+													<div class="border border-gray-300 border-dashed rounded min-w-200px w-100 py-2 px-4 me-6 mb-3 fs-7">
+													<span class="text-muted fw-bold p-1">Visitors Last Wk: </span><span> 114</span><br />
+													<span class="text-muted fw-bold p-1">Avg. Wait Time: </span><span> 3 mins</span><br />
+													<span class="text-muted fw-bold p-1">Avg. Service Time: </span><span> 7 mins</span><br />
 													</div>
 												</td>
 
