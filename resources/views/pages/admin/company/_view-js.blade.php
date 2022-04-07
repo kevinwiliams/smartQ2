@@ -825,13 +825,7 @@
             // Set date data order
             const tableRows = table.querySelectorAll('tbody tr');
             console.log(tableRows);
-            // tableRows.forEach(row => {
-            //     const dateRow = row.querySelectorAll('td');
-            //     const realDate = moment(dateRow[3].innerHTML, "DD MMM YYYY, LT").format(); // select date from 5th column in table
-            //     dateRow[3].setAttribute('data-order', realDate);
-            // });
-
-            // Init datatable --- more info on datatables: https://datatables.net/manual/
+              // Init datatable --- more info on datatables: https://datatables.net/manual/
             datatable = $(table).DataTable({
                 "info": false,
                 'order': [],
@@ -843,7 +837,7 @@
         return {
             // Public functions
             init: function() {
-                table = document.querySelector('#mv_companys_view_table_wrapper');
+                table = document.querySelector('#mv_locations_view_table');
                 // console.log(table);
                 if (!table) {
                     return;
@@ -851,7 +845,7 @@
                 // initCompanyTable();
                 // handleDeleteRows();
                 // handleEditRows();
-                //initViewCompany();
+                 initViewCompany();
                 // handleEditRows();
                 // handleCompleteRows();
                 // handleCancelRows();

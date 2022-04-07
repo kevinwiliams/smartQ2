@@ -86,7 +86,14 @@
 								<!--begin::Table-->
 								<div id="mv_companys_view_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
 									<div class="table-responsive">
-										<table class="table align-middle table-row-dashed fs-6 gy-5 mb-0 no-footer" style="width: 100%;">
+										<table class="table align-middle table-row-dashed fs-6 gy-5 mb-0 no-footer" style="width: 100%;" id="mv_locations_view_table">
+											<thead>
+												<tr>
+													<th></th>
+													<th></th>
+													<th></th>
+												</tr>
+											<tbody>
 											@foreach($company->locations as $_location)
 											<tr class="align-top">
 												<!--begin::ID-->
@@ -125,7 +132,7 @@
 
 											</tr>
 											@endforeach
-
+											</tbody>
 										</table>
 									</div>
 								</div>
