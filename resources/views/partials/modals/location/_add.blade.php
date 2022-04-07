@@ -88,7 +88,7 @@
                     <!--end::Col-->
                     <!--begin::Col-->
                     <div class="col-xl-6">
-                        Please use the map below to set the coordinates <br>
+                        <span class="text-gray=500">Please use the map below to set the coordinates</span> <br>
                        
                         
                         <!--start::Google map-->
