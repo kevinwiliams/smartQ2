@@ -23,7 +23,7 @@ class LocationDataTable extends DataTable
     {
         return datatables()
         ->eloquent($query)
-        ->rawColumns(['active','coords', 'name', 'location_stat'])
+        ->rawColumns(['active','coords', 'name', 'location_stat', 'location_setup'])
         ->editColumn('name', function (Location $model) {
             $company = Company::where('id', $model->company_id)->pluck('name')->first();
 
@@ -33,6 +33,13 @@ class LocationDataTable extends DataTable
         })        
         ->editColumn('created_at', function (Location $model) {      
             return Carbon::parse($model->created_at)->format('d M Y, h:i a');
+        })
+        ->addColumn('location_setup', function(){
+            $setupStats   = '<span class="text-dark fw-bold text-hover-primary mb-1 fs-6">Departments</span>: 4 <br>';
+            $setupStats   .= '<span class="text-dark fw-bold text-hover-primary mb-1 fs-6">Counters</span>: 14';
+            // $setupStats   .= '<span class="text-muted fw-bold d-block fs-7">Counters</span>: 12';
+
+            return $setupStats;
         })
         ->addColumn('location_stat', function(){
             $html   = '<div class="d-flex flex-column w-100 me-2">';
@@ -96,6 +103,7 @@ class LocationDataTable extends DataTable
             Column::make('name'),                        
             Column::make('address'),        
             Column::make('coords'),
+            Column::make('location_setup')->title('Setup'),        
             Column::make('location_stat')->title('Stats'),        
             Column::make('created_at'),    
             Column::make('updated_at'),    
