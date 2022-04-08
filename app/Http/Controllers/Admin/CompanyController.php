@@ -133,6 +133,13 @@ class CompanyController extends Controller
         return view('pages.admin.company.view', compact('company', 'companies'));
     }
 
+
+    public function getLocations($id)
+    {
+        $locations = Location::where('company_id',$id)->get();
+        return response()->json($locations);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

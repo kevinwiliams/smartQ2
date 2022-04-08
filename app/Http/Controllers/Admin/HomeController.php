@@ -9,6 +9,7 @@ use App\Models\Token;
 use App\Models\DisplaySetting;
 use App\Http\Controllers\Common\SMS_lib;
 use App\Mail\OTPNotification;
+use App\Models\Company;
 use App\Models\SmsHistory;
 use App\Models\SmsSetting;
 use Illuminate\Support\Facades\Mail;
@@ -53,8 +54,10 @@ class HomeController extends Controller
         $shownote = $display->show_note;
 
         $maskedemail = $this->maskEmail(auth()->user()->email);
+        
+        $companies = Company::orderBy('name','asc')->pluck('name','id');
 
-        return view('pages.admin.home.index', compact('departments', 'smsalert', 'maskedemail','shownote'));
+        return view('pages.admin.home.index', compact('departments', 'smsalert', 'maskedemail','shownote','companies'));
     }
 
     function maskEmail($x)

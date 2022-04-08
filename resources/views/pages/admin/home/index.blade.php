@@ -9,25 +9,84 @@
                 <div class="stepper-nav mb-5">
                     <!--begin::Step 1-->
                     <div class="stepper-item current" data-mv-stepper-element="nav">
-                        <h3 class="stepper-title">How can we contact you?</h3>
+                        <h3 class="stepper-title">Where would you like to go?</h3>
                     </div>
                     <!--end::Step 1-->
                     <!--begin::Step 2-->
-                    <div class="stepper-item " data-mv-stepper-element="nav">
-                        <h3 class="stepper-title">How can we help?</h3>
+                    <div class="stepper-item" data-mv-stepper-element="nav">
+                        <h3 class="stepper-title">How can we contact you?</h3>
                     </div>
                     <!--end::Step 2-->
                     <!--begin::Step 3-->
                     <div class="stepper-item " data-mv-stepper-element="nav">
-                        <h3 class="stepper-title">Joined the Q</h3>
+                        <h3 class="stepper-title">How can we help?</h3>
                     </div>
                     <!--end::Step 3-->
+                    <!--begin::Step 4-->
+                    <div class="stepper-item " data-mv-stepper-element="nav">
+                        <h3 class="stepper-title">Joined the Q</h3>
+                    </div>
+                    <!--end::Step 5-->
                 </div>
                 <!--end::Nav-->
                 <!--begin::Form-->
                 <form class="mx-auto mw-600px w-100 pt-15 pb-10" novalidate="novalidate" id="mv_create_token_form" action="autotoken" method="post">
                     <!--begin::Step 1-->
                     <div class="current" data-mv-stepper-element="content">
+                        <!--begin::Wrapper-->
+                        <div class="w-100">
+                            <!--begin::Heading-->
+                            <div class="pb-10 pb-lg-15">
+                                <!--begin::Title-->
+                                <h2 class="fw-bolder d-flex align-items-center text-dark">Choose where you want Queue
+                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Billing is issued based on your selected account type"></i>
+                                </h2>
+                                <!--end::Title-->
+                            </div>
+                            <!--end::Heading-->
+                            <!--begin::Input group-->
+                            <div class="fv-row mb-7">
+                                <div class="form-group @error('company_id') has-error @enderror">
+                                    <label for="company_id">{{ trans('app.company') }} <i class="text-danger">*</i></label>
+                                    {{ Form::select('company_id', $companies, null, ['data-placeholder' => 'Select Company','placeholder' => 'Select Option' ,'data-control' => 'select2' , 'id' => 'company_id', 'class'=>'form-select form-select-solid form-select-lg fw-bold filter']) }}
+                                    <span class="text-danger">{{ $errors->first('company_id') }}</span>
+                                </div>
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Repeater-->
+
+
+                            <div class="fv-row">
+                                <div id="mv_repeater_locations" class="row">
+                                    <div style="display:none" id="mv-repeater-item">
+                                        <!--begin::Option-->
+                                        <input type="radio" class="btn-check" name="location" value="" id="mv-repeater-location" />
+                                        <label class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center mb-10" for="location_">
+                                            <!--begin::Svg Icon | path: icons/duotune/communication/com005.svg-->
+                                            {!! theme()->getSvgIcon("icons/duotune/communication/com011.svg", "svg-icon-3x me-5") !!}
+                                            <!--end::Svg Icon-->
+                                            <!--begin::Info-->
+                                            <span class="d-block fw-bold text-start">
+                                                <span class="text-dark fw-bolder d-block fs-4 mb-2" id="mv-repeater-name">Company</span>
+                                                <span class="text-muted fw-bold fs-6" id="mv-repeater-address">Address</span>
+                                            </span>
+                                            <!--end::Info-->
+                                        </label>
+                                        <!--end::Option-->
+                                    </div>
+
+                                    <div id="mv-repeater-content" class="row">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end::Repeater-->
+                        </div>
+                        <!--end::Wrapper-->
+                    </div>
+                    <!--end::Step 1-->
+                    <!--begin::Step 2-->
+                    <div class="" data-mv-stepper-element="content">
                         <!--begin::Wrapper-->
                         <div class="w-100">
                             <!--begin::Heading-->
@@ -163,8 +222,8 @@
                         </div>
                         <!--end::Wrapper-->
                     </div>
-                    <!--end::Step 1-->
-                    <!--begin::Step 2-->
+                    <!--end::Step 2-->
+                    <!--begin::Step 3-->
                     <div class="" data-mv-stepper-element="content">
                         <!--begin::Wrapper-->
                         <div class="w-100">
@@ -271,8 +330,8 @@
                         </div>
                         <!--end::Wrapper-->
                     </div>
-                    <!--end::Step 2-->
-                    <!--begin::Step 3-->
+                    <!--end::Step 3-->
+                    <!--begin::Step 4-->
                     <div class="" data-mv-stepper-element="content">
                         <!--begin::Wrapper-->
                         <div class="w-100">
@@ -323,7 +382,7 @@
                         </div>
                         <!--end::Wrapper-->
                     </div>
-                    <!--end::Step 3-->
+                    <!--end::Step 4-->
                     <!--begin::Actions-->
                     <div class="d-flex flex-stack pt-15">
                         <!--begin::Wrapper-->
@@ -536,7 +595,7 @@
                 $(this).remove();
             });
 
-            $('#activate-step-2-email').on('click', function(e) {                
+            $('#activate-step-2-email').on('click', function(e) {
                 var phone = $("#emailAddress").val();
                 var code = $("#emailCode").val();
 
@@ -627,6 +686,62 @@
                     $('[name="emailFld"]').show();
                     $('[name="emailFldCode"]').hide();
                 }
+            });
+
+            $('#company_id').on('change', function(e) {
+                var company = $("#company_id").find(":selected").val();
+
+                var repItem = $('#mv-repeater-item');
+                var content = $('#mv-repeater-content');
+
+                // console.log(repItem);
+                // repItem.find("#mv-repeater-name")
+                $('[data-mv-stepper-action="next"]').addClass('disabled');
+                $.ajax({
+                    type: 'get',
+                    url: '{{ URL::to("admin/company/getLocations") }}' + "/" + company,
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log(data);
+                        content.html("")
+                        var cntr = 1;
+                        data.forEach(element => {
+                            var _clone = repItem.clone();
+                            _clone.removeAttr("id");
+                            var name = _clone.find("#mv-repeater-name");
+                            name.text(element.name);
+
+                            var address = _clone.find("#mv-repeater-address");
+                            address.text(element.address);
+
+                            var radio = _clone.find("#mv-repeater-location");
+                            radio.val(element.id);
+
+                            //update ids
+                            var __id = radio.attr('id');
+                            radio.attr('id', __id + element.id);
+                            var label = _clone.find('label');
+                            label.attr('for', __id + element.id);
+
+
+
+                            _clone.css('display', 'inline-block');
+                            _clone.addClass("col-lg-6");
+                            if (cntr % 2 == 1) {
+                                // _clone.addClass("mr-5");
+                            }
+
+                            _clone.on('click', function(e) {
+                                $('[data-mv-stepper-action="next"]').removeClass('disabled');
+                            });
+
+                            content.append(_clone);
+                            cntr++;
+                        });
+
+                        
+                    }
+                });
             });
 
         });

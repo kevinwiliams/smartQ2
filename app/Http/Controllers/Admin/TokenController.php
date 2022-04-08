@@ -358,6 +358,7 @@ class TokenController extends Controller
                 $min = min($tokenAssignTo);
                 $saveToken = [
                     'token_no'      => (new Token_lib)->newToken($min['department_id'], $min['counter_id']),
+                    'location_id'   => $request->location,
                     'client_mobile' => $client_mobile,
                     'client_id'     => $client_id,
                     'department_id' => $min['department_id'],

@@ -215,6 +215,7 @@ Route::middleware('auth')->group(function () {
 			Route::post('create', [CompanyController::class, 'store']);
 			Route::get('edit/{id}', [CompanyController::class, 'showEditForm']);
 			Route::get('view/{id}', [CompanyController::class, 'show']);
+			Route::get('getLocations/{id}', [CompanyController::class, 'getLocations']);
 			Route::post('edit/{id}', [CompanyController::class, 'update']);
 			Route::get('delete/{id}', [CompanyController::class, 'destroy']);
 		});

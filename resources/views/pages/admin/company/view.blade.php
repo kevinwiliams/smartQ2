@@ -163,7 +163,7 @@
 		if (location_id) {
 			$('select[name=company_id]').val(location_id);
 			$('select[name=company_id]').trigger('change');
-			$('select[name=company_id]').attr("disabled", true);
+			// $('select[name=company_id]').attr("disabled", true);
 		}
 
 		let map;
@@ -198,7 +198,7 @@
 			})
 		}
 	</script>
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" type="text/javascript"></script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps') }}&callback=initMap" type="text/javascript"></script>
 
 	@endsection
 </x-base-layout>
