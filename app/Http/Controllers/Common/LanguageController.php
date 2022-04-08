@@ -9,6 +9,6 @@ use Session;
 class LanguageController extends Controller
 {   
     public function index(Request $request){
-	    \Session::put('locale', $request->locale);
+	    \Session::put('locale', $request->locale);        
     }
 }

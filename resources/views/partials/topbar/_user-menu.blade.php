@@ -43,10 +43,27 @@
         <a href="#" class="menu-link px-5">
             <span class="menu-title position-relative">
                 {{ __('Language') }}
-
+                @if(app()->getLocale() == 'en')
                 <span class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0">
                     {{ __('English') }} <img class="w-15px h-15px rounded-1 ms-2" src="{{ asset(theme()->getMediaUrlPath() . 'flags/united-states.svg') }}" alt="metronic"/>
                 </span>
+                @elseif(app()->getLocale() == 'sp')
+                <span class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0">
+                    {{ __('Spanish') }} <img class="w-15px h-15px rounded-1 ms-2" src="{{ asset(theme()->getMediaUrlPath() . 'flags/spain.svg') }}" alt="metronic"/>
+                </span>
+                @elseif(app()->getLocale() == 'de')
+                <span class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0">
+                    {{ __('German') }} <img class="w-15px h-15px rounded-1 ms-2" src="{{ asset(theme()->getMediaUrlPath() . 'flags/germany.svg') }}" alt="metronic"/>
+                </span>
+                @elseif(app()->getLocale() == 'ja')
+                <span class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0">
+                    {{ __('Japanese') }} <img class="w-15px h-15px rounded-1 ms-2" src="{{ asset(theme()->getMediaUrlPath() . 'flags/japan.svg') }}" alt="metronic"/>
+                </span>
+                @elseif(app()->getLocale() == 'fr')
+                <span class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0">
+                    {{ __('French') }} <img class="w-15px h-15px rounded-1 ms-2" src="{{ asset(theme()->getMediaUrlPath() . 'flags/france.svg') }}" alt="metronic"/>
+                </span>
+                @endif
             </span>
         </a>
 
@@ -54,7 +71,7 @@
         <div class="menu-sub menu-sub-dropdown w-175px py-4">
             <!--begin::Menu item-->
             <div class="menu-item px-3">
-                <a href="#" class="menu-link d-flex px-5 active">
+                <a href="#" class="menu-link d-flex px-5 {{ (app()->getLocale() == 'en')?'active':'' }}" data-mv-language-switcher="en" name="data-mv-language-switcher">
                     <span class="symbol symbol-20px me-4">
                         <img class="rounded-1" src="{{ asset(theme()->getMediaUrlPath() . 'flags/united-states.svg') }}" alt="metronic"/>
                     </span>
@@ -65,7 +82,7 @@
 
             <!--begin::Menu item-->
             <div class="menu-item px-3">
-                <a href="#" class="menu-link d-flex px-5">
+                <a href="#" class="menu-link d-flex px-5 {{ (app()->getLocale() == 'sp')?'active':'' }}" data-mv-language-switcher="sp" name="data-mv-language-switcher">
                     <span class="symbol symbol-20px me-4">
                         <img class="rounded-1" src="{{ asset(theme()->getMediaUrlPath() . 'flags/spain.svg') }}" alt="metronic"/>
                     </span>
@@ -76,7 +93,7 @@
 
             <!--begin::Menu item-->
             <div class="menu-item px-3">
-                <a href="#" class="menu-link d-flex px-5">
+                <a href="#" class="menu-link d-flex px-5 {{ (app()->getLocale() == 'de')?'active':'' }}" data-mv-language-switcher="de" name="data-mv-language-switcher">
                     <span class="symbol symbol-20px me-4">
                         <img class="rounded-1" src="{{ asset(theme()->getMediaUrlPath() . 'flags/germany.svg') }}" alt="metronic"/>
                     </span>
@@ -87,7 +104,7 @@
 
             <!--begin::Menu item-->
             <div class="menu-item px-3">
-                <a href="#" class="menu-link d-flex px-5">
+                <a href="#" class="menu-link d-flex px-5 {{ (app()->getLocale() == 'ja')?'active':'' }}" data-mv-language-switcher="ja" name="data-mv-language-switcher">
                     <span class="symbol symbol-20px me-4">
                         <img class="rounded-1" src="{{ asset(theme()->getMediaUrlPath() . 'flags/japan.svg') }}" alt="metronic"/>
                     </span>
@@ -98,7 +115,7 @@
 
             <!--begin::Menu item-->
             <div class="menu-item px-3">
-                <a href="#" class="menu-link d-flex px-5">
+                <a href="#" class="menu-link d-flex px-5 {{ (app()->getLocale() == 'fr')?'active':'' }}" data-mv-language-switcher="fr" name="data-mv-language-switcher">
                     <span class="symbol symbol-20px me-4">
                         <img class="rounded-1" src="{{ asset(theme()->getMediaUrlPath() . 'flags/france.svg') }}" alt="metronic"/>
                     </span>

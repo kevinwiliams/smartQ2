@@ -58,6 +58,9 @@ class HomeController extends Controller
         
         $companies = Company::orderBy('name','asc')->pluck('name','id');
 
+        // echo \Session::get('locale');
+        // echo app()->getLocale();
+        // die();
         return view('pages.home.index', compact('departments', 'smsalert', 'maskedemail','shownote','companies'));
     }
 
