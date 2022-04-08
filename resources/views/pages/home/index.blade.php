@@ -3,9 +3,6 @@
     <div class="card">
         <!--begin::Card body-->
         <div class="card-body">
-        {{ auth()->user()->otp_timestamp->addMinutes(10) }}
-        <br />
-        
             <!--begin::Stepper-->
             <div class="stepper stepper-links d-flex flex-column pt-15" id="mv_create_token_stepper">
                 <!--begin::Nav-->
@@ -92,10 +89,10 @@
                     <div class="" data-mv-stepper-element="content">
                         <!--begin::Wrapper-->
                         <div class="w-100">
-                            @if(auth()->user()->getCurrentOTP() == '')  
+                            @if(auth()->user()->getCurrentOTP() == '')
                             <!--begin::Heading-->
                             <div class="pb-10 pb-lg-15">
-                             
+
                                 <!--begin::Title-->
                                 <h2 class="fw-bolder d-flex align-items-center text-dark">Choose how we should contact you
                                     <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Billing is issued based on your selected account type"></i>
@@ -106,13 +103,13 @@
                                     <a href="#" class="link-primary fw-bolder">Help Page</a>.
                                 </div>
                                 <!--end::Notice-->
-                             
+
                             </div>
-                            <!--end::Heading-->   
+                            <!--end::Heading-->
                             @endif
                             <!--begin::Input group-->
                             <div class="fv-row">
-                                @if(auth()->user()->getCurrentOTP() == '')                                
+                                @if(auth()->user()->getCurrentOTP() == '')
                                 <!--begin::Row-->
                                 <div class="row">
                                     <!--begin::Col-->
@@ -160,13 +157,24 @@
                                     <div class="col-lg-12 text-center">
                                         {{-- @if($smsalert) --}}
                                         <div class="col-md-12 card p-3" id="phoneCard" name="smsFld" style="display: none;">
-                                            <span class="text-muted fw-bold fs-6 pb-3">What number should we text to alert you?</span>
-                                            <div class="form-group">
+                                            <!--begin::Heading-->
+                                            <div class="text-center mb-10">
+                                                <!--begin::Title-->
+                                                <h1 class="text-dark mb-3">OTP Verification</h1>
+                                                <!--end::Title-->
+                                                <!--begin::Sub-title-->
+                                                <div class="text-muted fw-bold fs-5 mb-5">What number should we text to alert you?</div>
+                                                <!--end::Sub-title-->
 
-                                                <input type="phone" class="form-control form-control-user" id="phone" aria-describedby="phoneHelp" name="phone" placeholder="(555)555-1234 " value="{{ old('phone', auth()->user()->mobile) }}" autocomplete="off">
+                                                <div class="form-group">
 
-                                                <span class="text-danger">{{ $errors->first('phone') }}</span>
+                                                    <input type="phone" class="form-control form-control-user" id="phone" aria-describedby="phoneHelp" name="phone" placeholder="(555)555-1234 " value="{{ old('phone', auth()->user()->mobile) }}" autocomplete="off">
+
+                                                    <span class="text-danger">{{ $errors->first('phone') }}</span>
+                                                </div>
                                             </div>
+                                            <!--end::Heading-->
+
                                             <div class="d-flex flex-stack pt-3">
                                                 <div class="mr-2">
                                                     {{-- <button id="btnConfirm" class="button btn btn-primary">Next</button> --}}
@@ -179,23 +187,56 @@
                                             </div>
                                         </div>
                                         <div class="col-md-12 card p-3" id="codeCard" name="smsFldCode" style="display: none;">
-                                            <span>Confirm the SMS code we sent below:</span>
-                                            <input type="text" class="form-control form-control-user" id="code" aria-describedby="codeHelp" name="code" placeholder="555555" value="{{ old('code') }}" autocomplete="off">
+                                            <!-- <span>Confirm the SMS code we sent below:</span>
+                                            <input type="text" class="form-control form-control-user" id="code" aria-describedby="codeHelp" name="code" placeholder="555555" value="{{ old('code') }}" autocomplete="off"> -->
+
+                                            <!--begin::Section-->
+                                            <div class="mb-10 px-md-10">
+                                                <!--begin::Label-->
+                                                <div class="fw-bolder text-start text-dark fs-6 mb-1 ms-1">Type your 6 digit security code</div>
+                                                <!--end::Label-->
+                                                <!--begin::Input group-->
+                                                <div class="d-flex flex-wrap flex-stack">
+                                                    <input name="otp_code_1" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
+                                                    <input name="otp_code_2" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
+                                                    <input name="otp_code_3" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
+                                                    <input name="otp_code_4" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
+                                                    <input name="otp_code_5" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
+                                                    <input name="otp_code_6" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
+                                                </div>
+                                                <!--begin::Input group-->
+                                            </div>
+                                            <!--end::Section-->
 
                                             <span class="pt-5">It might take a few minutes, please be patient</span>
 
                                             <div class="form-group">
-                                                <button type="button" id="activate-step-2" class=" button btn btn-primary mr-3">Next</button>
                                                 <button type="button" class="button btn btn-warning" id="cancel_otp" data-cancel="sms">Cancel</button>
+                                                <button type="button" id="activate-step-2" class=" button btn btn-primary mr-3">Next
+                                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
+                                                    {!! theme()->getSvgIcon("icons/duotune/arrows/arr064.svg", "svg-icon-4 ms-1 me-0") !!}
+                                                    <!--end::Svg Icon-->
+                                                </button>
+
                                             </div>
                                         </div>
                                         {{-- @else --}}
                                         <div class="col-md-12 card p-3" id="emailCard" name="emailFld" style="display: none;">
-                                            <span class="text-muted fw-bold fs-6 pb-3">We'll send a password to your email</span>
-                                            <div class="form-group">
-                                                <span>{{ $maskedemail }}</span>
+                                            <!--begin::Heading-->
+                                            <div class="text-center mb-10">
+                                                <!--begin::Title-->
+                                                <h1 class="text-dark mb-3">OTP Verification</h1>
+                                                <!--end::Title-->
+                                                <!--begin::Sub-title-->
+                                                <div class="text-muted fw-bold fs-5 mb-5">We'll send a password to your email</div>
+                                                <!--end::Sub-title-->
+
+                                                <!--begin::Mobile no-->
+                                                <div class="fw-bolder text-dark fs-3">{{ $maskedemail }}</div>
+                                                <!--end::Mobile no-->
                                                 <input type="hidden" id="emailAddress" name="emailAddress" value="{{ auth()->user()->email }}">
                                             </div>
+                                            <!--end::Heading-->
                                             <div class="d-flex flex-stack pt-3">
                                                 <div class="my-2">
                                                     <button id="btnConfirmEmail" type="button" class="btn btn-lg btn-primary">Next
@@ -207,14 +248,35 @@
                                             </div>
                                         </div>
                                         <div class="col-md-12 card p-3" id="eCodeCard" name="emailFldCode" style="display: none;">
-                                            <span>Confirm the OTP code we sent below:</span>
-                                            <input type="text" class="form-control form-control-user" id="emailCode" aria-describedby="codeHelp" name="code" placeholder="555555" value="{{ old('code') }}" autocomplete="off">
+                                            <!-- <span>Confirm the OTP code we sent below:</span>
+                                            <input type="text" class="form-control form-control-user" id="emailCode" aria-describedby="codeHelp" name="code" placeholder="555555" value="{{ old('code') }}" autocomplete="off"> -->
+                                            <!--begin::Section-->
+                                            <div class="mb-10 px-md-10">
+                                                <!--begin::Label-->
+                                                <div class="fw-bolder text-start text-dark fs-6 mb-1 ms-1">Type your 6 digit security code</div>
+                                                <!--end::Label-->
+                                                <!--begin::Input group-->
+                                                <div class="d-flex flex-wrap flex-stack">
+                                                    <input name="otp_code_1" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
+                                                    <input name="otp_code_2" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
+                                                    <input name="otp_code_3" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
+                                                    <input name="otp_code_4" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
+                                                    <input name="otp_code_5" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
+                                                    <input name="otp_code_6" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
+                                                </div>
+                                                <!--begin::Input group-->
+                                            </div>
+                                            <!--end::Section-->
 
                                             <span class="pt-5">It might take a few minutes, please be patient</span>
 
                                             <div class="form-group">
-                                                <button type="button" id="activate-step-2-email" class=" button btn btn-primary mr-3">Next</button>
                                                 <button type="button" class="button btn btn-warning" id="cancel_otp" data-cancel="email">Cancel</button>
+                                                <button type="button" id="activate-step-2-email" class=" button btn btn-primary mr-3">Next
+                                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
+                                                    {!! theme()->getSvgIcon("icons/duotune/arrows/arr064.svg", "svg-icon-4 ms-1 me-0") !!}
+                                                    <!--end::Svg Icon-->
+                                                </button>
                                             </div>
                                         </div>
                                         {{-- @endif --}}
@@ -222,54 +284,60 @@
                                     <!--end::Col-->
                                 </div>
                                 <!--end::Row-->
-                                @else                                
-								<!--begin::Icon-->
-								<!-- <div class="text-center mb-10">
+                                @else
+                                <!--begin::Icon-->
+                                <!-- <div class="text-center mb-10">
 									<img alt="Logo" class="mh-125px" src=" {{ asset(theme()->getMediaUrlPath() . 'svg/misc/smartphone.svg') }} ">
 								</div> -->
-								<!--end::Icon-->
-								<!--begin::Heading-->
-								<div class="text-center mb-10">
-									<!--begin::Title-->
-									<h1 class="text-dark mb-3">OTP Verification</h1>
-									<!--end::Title-->
-									<!--begin::Sub-title-->
-									<div class="text-muted fw-bold fs-5 mb-5">Enter the verification code we sent to</div>
-									<!--end::Sub-title-->
-									<!--begin::Mobile no-->
-									<div class="fw-bolder text-dark fs-3">{{ Str::mask(auth()->user()->mobile,'*', 0, strlen(auth()->user()->mobile) - 4) }}</div>
-									<!--end::Mobile no-->
-								</div>
-								<!--end::Heading-->
-								<!--begin::Section-->
-								<div class="mb-10 px-md-10">
-									<!--begin::Label-->
-									<div class="fw-bolder text-start text-dark fs-6 mb-1 ms-1">Type your 6 digit security code</div>
-									<!--end::Label-->
-									<!--begin::Input group-->
+                                <!--end::Icon-->
+                                <!--begin::Heading-->
+                                <div class="text-center mb-10">
+                                    <!--begin::Title-->
+                                    <h1 class="text-dark mb-3">OTP Verification</h1>
+                                    <!--end::Title-->
+                                    <!--begin::Sub-title-->
+                                    <div class="text-muted fw-bold fs-5 mb-5">Enter the verification code we sent to</div>
+                                    <!--end::Sub-title-->
+                                    @if(auth()->user()->otp_type == 'email')
+                                    <!--begin::Mobile no-->
+                                    <div class="fw-bolder text-dark fs-3">{{ $maskedemail }}</div>
+                                    <!--end::Mobile no-->
+                                    @else
+                                    <!--begin::Mobile no-->
+                                    <div class="fw-bolder text-dark fs-3">{{ Str::mask(auth()->user()->mobile,'*', 0, strlen(auth()->user()->mobile) - 4) }}</div>
+                                    <!--end::Mobile no-->
+                                    @endif
+                                </div>
+                                <!--end::Heading-->
+                                <!--begin::Section-->
+                                <div class="mb-10 px-md-10">
+                                    <!--begin::Label-->
+                                    <div class="fw-bolder text-start text-dark fs-6 mb-1 ms-1">Type your 6 digit security code</div>
+                                    <!--end::Label-->
+                                    <!--begin::Input group-->
                                     @php
-                                        $otparray = str_split(auth()->user()->getCurrentOTP());
+                                    $otparray = str_split(auth()->user()->getCurrentOTP());
                                     @endphp
-									<div class="d-flex flex-wrap flex-stack">
-										<input type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="{{ $otparray[0] }}" inputmode="text">
-										<input type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="{{ $otparray[1] }}" inputmode="text">
-										<input type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="{{ $otparray[2] }}" inputmode="text">
-										<input type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
-										<input type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
-										<input type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
-									</div>
-									<!--begin::Input group-->
-								</div>
-								<!--end::Section-->
-								<!--begin::Submit-->
-								<div class="d-flex flex-center">
-									<button type="button" id="mv_verify_otp" class="btn btn-lg btn-primary fw-bolder">
-										<span class="indicator-label">Submit</span>
-										<span class="indicator-progress">Please wait... 
-										<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-									</button>
-								</div>
-								<!--end::Submit-->
+                                    <div class="d-flex flex-wrap flex-stack">
+                                        <input name="otp_code_1" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="{{ $otparray[0] }}" inputmode="text">
+                                        <input name="otp_code_2" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="{{ $otparray[1] }}" inputmode="text">
+                                        <input name="otp_code_3" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="{{ $otparray[2] }}" inputmode="text">
+                                        <input name="otp_code_4" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
+                                        <input name="otp_code_5" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
+                                        <input name="otp_code_6" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
+                                    </div>
+                                    <!--begin::Input group-->
+                                </div>
+                                <!--end::Section-->
+                                <!--begin::Submit-->
+                                <div class="d-flex flex-center">
+                                    <button type="button" id="{{(auth()->user()->otp_type == 'email')?'activate-step-2-email':'activate-step-2'}}" class="btn btn-lg btn-primary fw-bolder">
+                                        <span class="indicator-label">Submit</span>
+                                        <span class="indicator-progress">Please wait...
+                                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                    </button>
+                                </div>
+                                <!--end::Submit-->
                                 @endif
                             </div>
                             <!--end::Input group-->
@@ -596,6 +664,10 @@
                 var phone = $("#phone").val();
                 var code = $("#code").val();
 
+                if (code == "" || code == undefined) {
+                    code = collateOTPCode('otp_code_');
+                }
+
                 if (phone == "") {
                     Swal.fire({
                         text: 'Enter your contact number',
@@ -652,6 +724,9 @@
             $('#activate-step-2-email').on('click', function(e) {
                 var phone = $("#emailAddress").val();
                 var code = $("#emailCode").val();
+                if (code == "" || code == undefined) {
+                    code = collateOTPCode('otp_code_');
+                }
 
                 if (code == "") {
                     Swal.fire({
@@ -691,7 +766,6 @@
                     }
                 });
 
-                $(this).remove();
             });
 
 
@@ -799,6 +873,17 @@
             });
 
         });
+
+
+        function collateOTPCode(prefix) {
+            var str = "";
+            $('input[name^="' + prefix + '"]').each(function() {
+                console.log($(this).val());
+                str = str + $(this).val();
+            });
+
+            return (str.length != 6) ? "" : str;
+        }
     </script>
     @endsection
 </x-base-layout>

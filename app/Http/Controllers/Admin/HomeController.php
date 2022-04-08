@@ -198,7 +198,7 @@ class HomeController extends Controller
                 'otp'   => $OTP,
                 'otp_type'   => 'sms',
                 'otp_timestamp'   => Carbon::now(),
-                'updated_at'  => date('Y-m-d'),
+                'updated_at'  => Carbon::now(),
             ]);
 
         if ($update) {
@@ -267,7 +267,7 @@ class HomeController extends Controller
                 'otp'   => $OTP,
                 'otp_type'   => 'email',
                 'otp_timestamp'   => Carbon::now(),
-                'updated_at'  => date('Y-m-d'),
+                'updated_at'  => Carbon::now(),
             ]);
 
         if ($update) {
@@ -303,12 +303,14 @@ class HomeController extends Controller
                 $update = User::where('id', auth()->user()->id)
                     ->update([
                         'mobile' => $request->phone,
-                        'updated_at'  => date('Y-m-d'),
+                        'otp_timestamp'   => Carbon::now(),
+                        'updated_at'  => Carbon::now(),
                     ]);
             } else {
                 $update = User::where('id', auth()->user()->id)
                     ->update([
-                        'updated_at'  => date('Y-m-d'),
+                        'otp_timestamp'   => Carbon::now(),
+                        'updated_at'  => Carbon::now()
                     ]);
             }
 
@@ -330,7 +332,8 @@ class HomeController extends Controller
 
             $update = User::where('id', auth()->user()->id)
                 ->update([
-                    'updated_at'  => date('Y-m-d'),
+                    'otp_timestamp'   => Carbon::now(),
+                    'updated_at'  => Carbon::now(),
                 ]);
 
             return json_encode(array(
