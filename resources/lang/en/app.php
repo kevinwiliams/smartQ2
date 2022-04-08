@@ -266,4 +266,5 @@ return [
     'company' => 'Company',
 
     'officer_note' => 'Officer Note',
+    'no_permissions' => 'You do not have permission to access this page',
 ];

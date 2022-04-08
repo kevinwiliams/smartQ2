@@ -12,16 +12,20 @@
             <a href="{{ url('company/view/' . $model->id ) }}" data-id="{{$model->id}}" data-action="view" data-mv-company-table-filter="view_row" name="view" class="menu-link px-3">View</a>
         </div>
         <!--end::Menu item-->
+        @can('edit company')
         <!--begin::Menu item-->
         <div class="menu-item px-3">
             <a href="#" data-id="{{$model->id}}" data-action="edit" data-mv-company-table-filter="edit_row" name="edit" class="menu-link px-3">Edit</a>
         </div>
         <!--end::Menu item-->
+        @endcan
+        @can('delete company')
         <!--begin::Menu item-->
         <div class="menu-item px-3">
             <a href="#" data-id="{{$model->id}}" class="menu-link px-3" data-mv-company-table-filter="delete_row">Delete</a>
         </div>
         <!--end::Menu item-->
+        @endcan
     </div>
     <!--end::Menu-->
     <input type="hidden" value="{{$model->id}}" name="company-id" id="company-id-{{$model->id}}" />

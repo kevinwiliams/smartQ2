@@ -11,6 +11,7 @@ use App\models\DisplayCustom;
 use App\Models\DisplaySetting;
 use App\Models\Location;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
 class CompanyController extends Controller
@@ -22,12 +23,10 @@ class CompanyController extends Controller
      */
     public function index(CompanyDataTable $dataTable)
     {
-        $companies = Company::get();
-
-        // echo '<pre>';
-        // print_r($companies);
-        // echo '</pre>';
-        // die();
+        if (!auth()->user()->can('view company')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+  
         return $dataTable->render('pages.company.list');
     }
 
@@ -50,6 +49,10 @@ class CompanyController extends Controller
 
     public function store(Request $request)
     {
+        if (!auth()->user()->can('create company')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+
         @date_default_timezone_set(session('app.timezone'));
         $validator = Validator::make($request->all(), [
             'name'        => 'required|unique:company,name|max:50',
@@ -103,7 +106,7 @@ class CompanyController extends Controller
 
                 ///Generate: default display settings
                 $displaysettings = Data::getDefaultDisplay();
-                $displaysettings['location_id'] = $location->id;                
+                $displaysettings['location_id'] = $location->id;
                 $display = DisplaySetting::insert($displaysettings);
 
 
@@ -127,8 +130,12 @@ class CompanyController extends Controller
      */
     public function show($id)
     {
+        if (!auth()->user()->can('view company')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+
         $company = Company::find($id);
-        $companies = Company::where('id', $id)->pluck('name','id');
+        $companies = Company::where('id', $id)->pluck('name', 'id');
         // get the default inner page
         return view('pages.company.view', compact('company', 'companies'));
     }
@@ -136,7 +143,7 @@ class CompanyController extends Controller
 
     public function getLocations($id)
     {
-        $locations = Location::where('company_id',$id)->get();
+        $locations = Location::where('company_id', $id)->get();
         return response()->json($locations);
     }
 
@@ -160,6 +167,11 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        if (!auth()->user()->can('edit company')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+
         @date_default_timezone_set(session('app.timezone'));
 
         $validator = Validator::make($request->all(), [
@@ -226,6 +238,10 @@ class CompanyController extends Controller
 
     public function destroy($id = null)
     {
+        if (!auth()->user()->can('delete company')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+
         $delete = Company::where('id', $id)
             ->delete();
 
