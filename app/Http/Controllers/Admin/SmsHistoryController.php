@@ -16,13 +16,13 @@ class SmsHistoryController extends Controller
     
     public function index(SMSHistoryDataTable $dataTable)
     {          
-        return $dataTable->render('pages.admin.sms.index');
+        return $dataTable->render('pages.sms.index');
     }
 
     # Show the SMS list
     public function show()
     { 
-        return view('pages.admin.sms.list');
+        return view('pages.sms.list');
     } 
 
     public function smsData(Request $request) 
@@ -93,7 +93,7 @@ class SmsHistoryController extends Controller
                 'options'    => "<div class=\"btn-group\">
                     <button type=\"button\" class=\"btn btn-sm btn-primary btn-sm\" data-mobile='{$sms->to}' data-data='{$sms->response}' data-toggle=\"modal\" data-target=\"#showApiResponse\"><i class=\"fa fa-eye\"></i></button>
 
-                    <a href='".url("admin/sms/delete/$sms->id")."' onclick=\"return confirm('".trans('app.are_you_sure')."')\" class=\"btn btn-sm btn-danger\"><i class=\"fa fa-times\"></i></a>
+                    <a href='".url("sms/delete/$sms->id")."' onclick=\"return confirm('".trans('app.are_you_sure')."')\" class=\"btn btn-sm btn-danger\"><i class=\"fa fa-times\"></i></a>
                 </div>" 
             ];   
         }
@@ -110,7 +110,7 @@ class SmsHistoryController extends Controller
     public function form()
     {
     	$sms_setting = SmsSetting::first();
-        return view('pages.admin.sms.form', compact('sms_setting'));
+        return view('pages.sms.form', compact('sms_setting'));
     }
 
     # Send a sms
@@ -211,7 +211,7 @@ class SmsHistoryController extends Controller
             $data->recall_sms_template = 'Please contact urgently. Token No: [TOKEN] \r\n Department: [DEPARTMENT], Counter: [COUNTER] and Officer: [OFFICER].\r\n[DATE]';
             $data->save();
         } 
-        return view('pages.admin.sms.setting', compact('setting'));
+        return view('pages.sms.setting', compact('setting'));
     }
 
 

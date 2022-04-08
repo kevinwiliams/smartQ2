@@ -33,7 +33,7 @@ class SettingController extends Controller
 
         $timezoneList = $this->timezoneList();
 
-    	return view('pages.admin.settings.setting', compact(
+    	return view('pages.settings.setting', compact(
             'setting',
             'timezoneList'
         ));
@@ -69,7 +69,7 @@ class SettingController extends Controller
 
 
         if ($validator->fails()) {
-            return redirect('admin/setting')
+            return redirect('setting')
                         ->withErrors($validator)
                         ->withInput();
         } 

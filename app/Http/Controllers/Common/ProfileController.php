@@ -27,7 +27,7 @@ class ProfileController extends Controller
             ->groupBy('status')
             ->pluck("total", "status");
 
-        // created by me {as a admin/client/reciptionist}
+        // created by me {as a client/reciptionist}
         $generatedByMe = Token::where('created_by', auth()->user()->id)
             ->selectRaw("COUNT(id) as total, status")
             ->groupBy('status')

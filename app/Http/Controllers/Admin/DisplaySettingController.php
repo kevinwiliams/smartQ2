@@ -37,7 +37,7 @@ class DisplaySettingController extends Controller
             ]);
         }
  
-        return view('pages.admin.display.setting', compact(
+        return view('pages.display.setting', compact(
             'setting',
             'counters',
             'customDisplays'
@@ -81,7 +81,7 @@ class DisplaySettingController extends Controller
 
         if ($validator->fails()) 
         {
-            return redirect('admin/display/setting')
+            return redirect('display/setting')
                         ->withErrors($validator)
                         ->withInput();
         } 

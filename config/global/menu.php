@@ -205,7 +205,7 @@ return array(
         array(
             'title' => 'Home',
             'permission' => 'view client-wizard',
-            'path'  => 'admin/home',
+            'path'  => 'home',
             'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/art/art002.svg", "svg-icon-2"),
         ),
 
@@ -230,19 +230,19 @@ return array(
                 'items' => array(
                     array(
                         'title'  => 'Token List',
-                        'path'   => 'admin/token/current',
+                        'path'   => 'token/current',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
                         'title'  => 'Active Tokens',
                         'permission'  => 'view token-cards',
-                        'path'   => 'admin/token/current/card',
+                        'path'   => 'token/current/card',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
                         'title'      => 'Auto Token',
                         'permission' => 'run auto-token',
-                        'path'       => 'admin/token/auto',
+                        'path'       => 'token/auto',
                         'bullet'     => '<span class="bullet bullet-dot"></span>',
                        
                     ),
@@ -266,12 +266,12 @@ return array(
                 'items' => array(
                     array(
                         'title'  => 'Tokens',
-                        'path'   => 'admin/token/report',
+                        'path'   => 'token/report',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
                         'title'  => 'Performance',
-                        'path'   => 'admin/token/performance',
+                        'path'   => 'token/performance',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                 ),
@@ -292,22 +292,22 @@ return array(
                 'items' => array(
                     array(
                         'title'  => 'Companies',
-                        'path'   => 'admin/company/list',
+                        'path'   => 'company/list',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
                         'title'  => 'Locations',
-                        'path'   => 'admin/location/list',
+                        'path'   => 'location/list',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
                         'title'  => 'Departments',
-                        'path'   => 'admin/department',
+                        'path'   => 'department',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
                         'title'  => 'Counters',
-                        'path'   => 'admin/counter',
+                        'path'   => 'counter',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
@@ -346,7 +346,7 @@ return array(
             'title' => 'SMS',
             'permission'=> 'view configuration',
             'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/communication/com007.svg", "svg-icon-2"),
-            'path'  => 'admin/sms',
+            'path'  => 'sms',
           
         ),
         // Settings
@@ -364,22 +364,22 @@ return array(
                 'items' => array(
                     array(
                         'title'  => 'Setup',
-                        'path'   => 'admin/settings',
+                        'path'   => 'settings',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
                         'title'  => 'Display',
-                        'path'   => 'admin/settings/display',
+                        'path'   => 'settings/display',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
                         'title'  => 'Auto Queue',
-                        'path'   => 'admin/token/setting',
+                        'path'   => 'token/setting',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
                         'title'  => 'SMS',
-                        'path'   => 'admin/sms/setting',
+                        'path'   => 'sms/setting',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     

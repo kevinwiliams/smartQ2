@@ -35,7 +35,7 @@ class CompanyDataTable extends DataTable
                 }
             })
             ->addColumn('action', function (Company $model) {
-                return view('pages.admin.company._action-menu', compact('model'));
+                return view('pages.company._action-menu', compact('model'));
             });  
     }
 

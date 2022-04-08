@@ -30,7 +30,7 @@ class SMSHistoryDataTable extends DataTable
                 return Str::limit($model->response, 50);
             })
             ->addColumn('action', function (SMSHistory $model) {
-                return view('pages.admin.sms._action-menu', compact('model'));
+                return view('pages.sms._action-menu', compact('model'));
             });
     }
 

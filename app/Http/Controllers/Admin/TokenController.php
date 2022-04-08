@@ -38,7 +38,7 @@ class TokenController extends Controller
         $departmentList = Department::where('status',1)->pluck('name','id');
         $userList = User::select('id', DB::raw('CONCAT(firstname, " ", lastname, " <", email, ">") AS name'))->where('user_type',1)->where('status',1)->orderBy('name', 'ASC')->pluck('name', 'id');
 
-        return view('pages.admin.token.setting', compact('tokens','countertList','departmentList','userList')); 
+        return view('pages.token.setting', compact('tokens','countertList','departmentList','userList')); 
     }
 
     public function tokenSetting(Request $request)
@@ -58,7 +58,7 @@ class TokenController extends Controller
         )); 
 
         if ($validator->fails()) {
-            return redirect('admin/token/setting')
+            return redirect('token/setting')
                         ->withErrors($validator)
                         ->withInput();
         } else { 
@@ -148,7 +148,7 @@ class TokenController extends Controller
                 ->get(); 
         }
 
-        return view('pages.admin.token.auto', compact('display', 'departmentList', 'keyList'));
+        return view('pages.token.auto', compact('display', 'departmentList', 'keyList'));
     }    
 
     public function tokenAuto(Request $request)
@@ -443,7 +443,7 @@ class TokenController extends Controller
             ->orderBy('firstname', 'ASC')
             ->pluck('name', 'id'); 
 
-        return view('pages.admin.token.manual', compact('display', 'counters', 'departments','officers' ));
+        return view('pages.token.manual', compact('display', 'counters', 'departments','officers' ));
     }  
 
     public function create(Request $request)
@@ -564,7 +564,7 @@ class TokenController extends Controller
             ->orderBy('firstname', 'ASC')
             ->pluck('name', 'id'); 
                     
-        return view('pages.admin.token.current', compact('counters', 'departments', 'officers', 'tokens'));
+        return view('pages.token.current', compact('counters', 'departments', 'officers', 'tokens'));
     } 
 
     public function current(TokenDataTable $dataTable)
@@ -579,7 +579,7 @@ class TokenController extends Controller
             ->orderBy('full_name', 'ASC')
             ->pluck('full_name', 'id');  
         
-        return $dataTable->render('pages.admin.token.current', compact('counters', 'departments', 'officers', 'waiting'));
+        return $dataTable->render('pages.token.current', compact('counters', 'departments', 'officers', 'waiting'));
     }
 
     public function currentOfficer()
@@ -591,7 +591,7 @@ class TokenController extends Controller
             ->orderBy('id', 'ASC')
             ->get(); 
 
-        return view('pages.admin.token.current-icons', compact('tokens'));
+        return view('pages.token.current-icons', compact('tokens'));
     } 
 
     public function report(Request $request)
@@ -605,7 +605,7 @@ class TokenController extends Controller
             ->orderBy('full_name', 'ASC')
             ->pluck('full_name', 'id'); 
 
-        return view('pages.admin.token.report', compact('counters', 'departments', 'officers'));
+        return view('pages.token.report', compact('counters', 'departments', 'officers'));
     }  
 
     public function reportData(Request $request)
@@ -714,7 +714,7 @@ class TokenController extends Controller
                 }
 
                 //load options via render
-                $options = view('pages.admin.token._report-menu', compact('token'))->render();
+                $options = view('pages.token._report-menu', compact('token'))->render();
 
                 switch ($token->status) {
                     case 0:
@@ -750,13 +750,13 @@ class TokenController extends Controller
                     'token_no'   => "<div class=\"badge $color fw-bolder\" data-vip=\"$token->is_vip\" data-id=\"$token->token_no\">$token->token_no</div>".'<input type=hidden name=notes value='.$token->note.'><input type=hidden name=off_notes value='.$token->officer_note.'>',
                     'department' => (!empty($token->department)?$token->department->name:null),
                     'counter'    => (!empty($token->counter)?$token->counter->name:null),
-                    'officer'    => (!empty($token->officer)?("<a href='".url("admin/user/view/{$token->officer->id}")."'>".$token->officer->firstname." ". $token->officer->lastname."</a>"):null),
+                    'officer'    => (!empty($token->officer)?("<a href='".url("user/view/{$token->officer->id}")."'>".$token->officer->firstname." ". $token->officer->lastname."</a>"):null),
 
-                    'client_mobile' => $token->client_mobile. "<br/>" .(!empty($token->client)?("(<a href='".url("admin/user/view/{$token->client->id}")."'>".$token->client->firstname." ". $token->client->lastname."</a>)"):null),
+                    'client_mobile' => $token->client_mobile. "<br/>" .(!empty($token->client)?("(<a href='".url("user/view/{$token->client->id}")."'>".$token->client->firstname." ". $token->client->lastname."</a>)"):null),
 
                     'note'          => $token->note,
                     'status'        => "<span class='badge ".$bg." text-white'>".$txt."</span>",
-                    'created_by'    => (!empty($token->generated_by)?("<a href='".url("admin/user/view/{$token->generated_by->id}")."'>".$token->generated_by->firstname." ". $token->generated_by->lastname."</a>"):null),
+                    'created_by'    => (!empty($token->generated_by)?("<a href='".url("user/view/{$token->generated_by->id}")."'>".$token->generated_by->firstname." ". $token->generated_by->lastname."</a>"):null),
                     'created_at'    => (!empty($token->created_at)?date('j M Y h:i a',strtotime($token->created_at)):null),
                     'updated_at'    => (!empty($token->updated_at)?date('j M Y h:i a',strtotime($token->updated_at)):null),
                     'complete_time' => $complete_time,
@@ -834,7 +834,7 @@ class TokenController extends Controller
         ");
         //ENDS OF REPORT DATA PROCESSING...
 
-        return view('pages.admin.token.performance', compact(  'report','tokens'));
+        return view('pages.token.performance', compact(  'report','tokens'));
     }
 
 
@@ -1053,7 +1053,7 @@ class TokenController extends Controller
 
     
         if (!$token) {
-            return redirect('admin/home');
+            return redirect('home');
         }
 
         $dept = Department::find($token->department_id);
@@ -1075,7 +1075,7 @@ class TokenController extends Controller
         $position = $cntr;
         $wait = date('H:i', mktime(0, $waittime));
 
-        return view('pages.admin.home.current', compact('token','position','wait'));
+        return view('pages.home.current', compact('token','position','wait'));
     }
 
     public function currentposition()

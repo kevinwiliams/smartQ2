@@ -64,7 +64,7 @@
 
 		<!--begin::Footer-->
 		<div class="card-footer py-5 text-center" id="mv_activities_footer">
-			<a href="{{ theme()->getPageUrl('admin/settings/display') }}" class="btn btn-bg-white text-primary">
+			<a href="{{ theme()->getPageUrl('settings/display') }}" class="btn btn-bg-white text-primary">
 				View Display Settings {!! theme()->getSvgIcon("icons/duotune/arrows/arr064.svg", "svg-icon-3 svg-icon-primary") !!}
 			</a>
 		</div>

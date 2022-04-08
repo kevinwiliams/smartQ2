@@ -32,9 +32,9 @@ class PagesController extends Controller
         if (view()->exists('pages.'.$view)) {            
             // if(intval(auth()->user()->user_type ) == 3)
             if(in_array('client', $roles))
-                return redirect('admin/home');
+                return redirect('home');
             elseif(in_array('staff', $roles))
-                return redirect('admin/token/current');
+                return redirect('token/current');
             else
                 return view('pages.'.$view,  compact('month', 'performance', 'officer'));
 
