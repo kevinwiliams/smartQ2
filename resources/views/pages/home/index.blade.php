@@ -3,6 +3,9 @@
     <div class="card">
         <!--begin::Card body-->
         <div class="card-body">
+        {{ auth()->user()->otp_timestamp->addMinutes(10) }}
+        <br />
+        
             <!--begin::Stepper-->
             <div class="stepper stepper-links d-flex flex-column pt-15" id="mv_create_token_stepper">
                 <!--begin::Nav-->
@@ -89,8 +92,10 @@
                     <div class="" data-mv-stepper-element="content">
                         <!--begin::Wrapper-->
                         <div class="w-100">
+                            @if(auth()->user()->getCurrentOTP() == '')  
                             <!--begin::Heading-->
                             <div class="pb-10 pb-lg-15">
+                             
                                 <!--begin::Title-->
                                 <h2 class="fw-bolder d-flex align-items-center text-dark">Choose how we should contact you
                                     <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Billing is issued based on your selected account type"></i>
@@ -101,10 +106,13 @@
                                     <a href="#" class="link-primary fw-bolder">Help Page</a>.
                                 </div>
                                 <!--end::Notice-->
+                             
                             </div>
-                            <!--end::Heading-->
+                            <!--end::Heading-->   
+                            @endif
                             <!--begin::Input group-->
                             <div class="fv-row">
+                                @if(auth()->user()->getCurrentOTP() == '')                                
                                 <!--begin::Row-->
                                 <div class="row">
                                     <!--begin::Col-->
@@ -214,9 +222,55 @@
                                     <!--end::Col-->
                                 </div>
                                 <!--end::Row-->
-
-
-
+                                @else                                
+								<!--begin::Icon-->
+								<!-- <div class="text-center mb-10">
+									<img alt="Logo" class="mh-125px" src=" {{ asset(theme()->getMediaUrlPath() . 'svg/misc/smartphone.svg') }} ">
+								</div> -->
+								<!--end::Icon-->
+								<!--begin::Heading-->
+								<div class="text-center mb-10">
+									<!--begin::Title-->
+									<h1 class="text-dark mb-3">OTP Verification</h1>
+									<!--end::Title-->
+									<!--begin::Sub-title-->
+									<div class="text-muted fw-bold fs-5 mb-5">Enter the verification code we sent to</div>
+									<!--end::Sub-title-->
+									<!--begin::Mobile no-->
+									<div class="fw-bolder text-dark fs-3">{{ Str::mask(auth()->user()->mobile,'*', 0, strlen(auth()->user()->mobile) - 4) }}</div>
+									<!--end::Mobile no-->
+								</div>
+								<!--end::Heading-->
+								<!--begin::Section-->
+								<div class="mb-10 px-md-10">
+									<!--begin::Label-->
+									<div class="fw-bolder text-start text-dark fs-6 mb-1 ms-1">Type your 6 digit security code</div>
+									<!--end::Label-->
+									<!--begin::Input group-->
+                                    @php
+                                        $otparray = str_split(auth()->user()->getCurrentOTP());
+                                    @endphp
+									<div class="d-flex flex-wrap flex-stack">
+										<input type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="{{ $otparray[0] }}" inputmode="text">
+										<input type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="{{ $otparray[1] }}" inputmode="text">
+										<input type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="{{ $otparray[2] }}" inputmode="text">
+										<input type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
+										<input type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
+										<input type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
+									</div>
+									<!--begin::Input group-->
+								</div>
+								<!--end::Section-->
+								<!--begin::Submit-->
+								<div class="d-flex flex-center">
+									<button type="button" id="mv_verify_otp" class="btn btn-lg btn-primary fw-bolder">
+										<span class="indicator-label">Submit</span>
+										<span class="indicator-progress">Please wait... 
+										<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+									</button>
+								</div>
+								<!--end::Submit-->
+                                @endif
                             </div>
                             <!--end::Input group-->
                         </div>
@@ -739,7 +793,7 @@
                             cntr++;
                         });
 
-                        
+
                     }
                 });
             });

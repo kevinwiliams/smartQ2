@@ -55,7 +55,8 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
         'push_notifications' => 'bool',
-        'token_date' => 'datetime'
+        'token_date' => 'datetime',
+        'otp_timestamp' => 'datetime'
     ];
 
     protected $avaliableRoles = [
@@ -122,12 +123,12 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function getCurrentOTP()
-    {
+    {        
         $current = Carbon::now();
         if ($this->otp_timestamp == null)
             return '';
 
-        if ($this->otp_timestamp->addMinutes(10) < $current)
+        if ($this->otp_timestamp->addMinutes(10) > $current)
             return $this->otp;
         else
             return '';
