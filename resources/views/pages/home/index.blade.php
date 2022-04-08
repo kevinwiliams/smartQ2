@@ -47,7 +47,7 @@
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <div class="form-group @error('company_id') has-error @enderror">
-                                    <label for="company_id">{{ trans('app.company') }} <i class="text-danger">*</i></label>
+                                    <!-- <label for="company_id">{{ trans('app.company') }} <i class="text-danger">*</i></label> -->
                                     {{ Form::select('company_id', $companies, null, ['data-placeholder' => 'Select Company','placeholder' => 'Select Option' ,'data-control' => 'select2' , 'id' => 'company_id', 'class'=>'form-select form-select-solid form-select-lg fw-bold filter']) }}
                                     <span class="text-danger">{{ $errors->first('company_id') }}</span>
                                 </div>
