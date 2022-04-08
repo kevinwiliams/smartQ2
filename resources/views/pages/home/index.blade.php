@@ -6,25 +6,29 @@
             <!--begin::Stepper-->
             <div class="stepper stepper-links d-flex flex-column pt-15" id="mv_create_token_stepper">
                 <!--begin::Nav-->
-                <div class="stepper-nav mb-5">
+                <div class="stepper-nav mb-5  ">
                     <!--begin::Step 1-->
                     <div class="stepper-item current" data-mv-stepper-element="nav">
-                        <h3 class="stepper-title">Where would you like to go?</h3>
+                        <h3 class="stepper-title d-none d-xl-inline-flex">Where would you like to go?</h3>
+                        <h3 class="stepper-title d-inline-flex d-md-inline-flex d-sm-none d-xl-none">1.</h3>
                     </div>
                     <!--end::Step 1-->
                     <!--begin::Step 2-->
                     <div class="stepper-item" data-mv-stepper-element="nav">
-                        <h3 class="stepper-title">How can we contact you?</h3>
+                        <h3 class="stepper-title d-none d-xl-inline-flex">How can we contact you?</h3>
+                        <h3 class="stepper-title d-inline-flex d-md-inline-flex d-sm-none d-xl-none">2.</h3>
                     </div>
                     <!--end::Step 2-->
                     <!--begin::Step 3-->
                     <div class="stepper-item " data-mv-stepper-element="nav">
-                        <h3 class="stepper-title">How can we help?</h3>
+                        <h3 class="stepper-title d-none d-xl-inline-flex">How can we help?</h3>
+                        <h3 class="stepper-title d-inline-flex d-md-inline-flex d-sm-none d-xl-none">3.</h3>
                     </div>
                     <!--end::Step 3-->
                     <!--begin::Step 4-->
                     <div class="stepper-item " data-mv-stepper-element="nav">
-                        <h3 class="stepper-title">Joined the Q</h3>
+                        <h3 class="stepper-title d-none d-xl-inline-flex">Joined the Q</h3>
+                        <h3 class="stepper-title d-inline-flex d-md-inline-flex d-sm-none d-xl-none">Q'd!</h3>
                     </div>
                     <!--end::Step 5-->
                 </div>
