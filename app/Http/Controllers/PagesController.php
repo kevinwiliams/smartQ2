@@ -23,13 +23,15 @@ class PagesController extends Controller
         $performance = $this->userPerformance();
 
         $roles = auth()->user()->getRoleNames()->toArray();
+
+        $dmode = (theme()->isDarkMode()) ? '?mode=dark' : '';
         // Check if the page view file exist
         if (view()->exists('pages.'.$view)) {            
             // if(intval(auth()->user()->user_type ) == 3)
             if(in_array('client', $roles))
-                return redirect('home');
+                return redirect('home' . $dmode);
             elseif(in_array('staff', $roles))
-                return redirect('token/current');
+                return redirect('token/current'. $dmode);
             else
                 return view('pages.'.$view,  compact('month', 'performance', 'officer'));
 

@@ -19,7 +19,7 @@
                 </p>
                 <!--end::Description-->
                 <!--begin::Action-->
-                <a href="{{url("home/home")}}" class="btn btn-primary er fs-6 px-8 py-4">Join the line</a>
+                <a href="{{theme()->getPageUrl("home/home")}}" class="btn btn-primary er fs-6 px-8 py-4">Join the line</a>
                 <!--end::Action-->
             </div>
             <!--end::Heading-->
