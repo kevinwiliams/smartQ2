@@ -177,6 +177,8 @@ return array(
                             'js/custom/admin/token/add.js',
                             'js/custom/admin/token/transfer.js',
                             // 'js/custom/admin/token/delete.js',
+                            'plugins/custom/tinymce/tinymce.bundle.js',
+                            'js/custom/admin/token/add_note.js',
                         ),
 
                     ),

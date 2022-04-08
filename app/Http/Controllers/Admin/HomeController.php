@@ -12,6 +12,7 @@ use App\Mail\OTPNotification;
 use App\Models\Company;
 use App\Models\SmsHistory;
 use App\Models\SmsSetting;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -195,6 +196,8 @@ class HomeController extends Controller
             ->update([
                 // 'mobile' => $request->phone,
                 'otp'   => $OTP,
+                'otp_type'   => 'sms',
+                'otp_timestamp'   => Carbon::now(),
                 'updated_at'  => date('Y-m-d'),
             ]);
 
@@ -262,6 +265,8 @@ class HomeController extends Controller
             ->update([
                 // 'mobile' => $request->phone,
                 'otp'   => $OTP,
+                'otp_type'   => 'email',
+                'otp_timestamp'   => Carbon::now(),
                 'updated_at'  => date('Y-m-d'),
             ]);
 

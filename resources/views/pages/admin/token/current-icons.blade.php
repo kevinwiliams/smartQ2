@@ -236,7 +236,7 @@
 </div>   
 
 @section('scripts')
-
+<script src="assets/plugins/custom/tinymce/tinymce.bundle.js"></script>
 @include('pages.admin.token._button-actions-cards-js')
 @endsection
 </x-base-layout>

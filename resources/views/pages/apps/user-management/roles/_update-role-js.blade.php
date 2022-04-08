@@ -56,21 +56,26 @@
                 var perms = editButtons.data('permissions');
                 var desc = editButtons.data('description');
                 var editable = editButtons.data('editable');
-                
+
                 $("#update_role_name").val(name);
                 $("#role_id").val(id);
                 $("#update_role_description").val(desc);
-                                
-                var _core = (editable == 0);
-                $("#mv_update_roles_core").prop("disabled",_core);
-                if(desc != ""){
-                    $("#update_role_description").prop("disabled",_core);
-                }
-                                
-                $("#mv_update_roles_core").prop("checked",_core);
 
-                var $ddlPermissions = $("#ddlPermissions").select2();
-                $ddlPermissions.val(perms).trigger("change");
+                var _core = (editable == 0);
+                $("#mv_update_roles_core").prop("disabled", _core);
+                if (desc != "") {
+                    $("#update_role_description").prop("disabled", _core);
+                }
+
+                $("#mv_update_roles_core").prop("checked", _core);
+
+                // var $ddlPermissions = $("#ddlPermissions").select2();
+                // $ddlPermissions.val(perms).trigger("change");
+
+                $.each(perms, function(index, obj) {
+                    //We can access the object using obj or this
+                    $('[type="checkbox"][value="' + obj + '"][name="permissions[]"]').prop("checked", true);
+                });
                 modal.show();
             });
 
