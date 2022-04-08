@@ -24,7 +24,7 @@ class LocationController extends Controller
         // print_r($companies);
         // echo '</pre>';
         // die();
-        return $dataTable->render('pages.admin.location.list', compact('companies'));
+        return $dataTable->render('pages.location.list', compact('companies'));
     }
 
     /**

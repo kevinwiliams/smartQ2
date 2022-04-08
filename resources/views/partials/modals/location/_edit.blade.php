@@ -21,7 +21,7 @@
             <div class="modal-body scroll-y mx-5 mx-xl-15 my-5">
                 <!-- <div id="output" class="hide alert alert-danger alert-dismissible fade in shadowed mb-1"></div> -->
                 <!--begin::Form-->
-                {{ Form::open(['url' => 'admin/company/edit', 'class'=>'manualFrm form', 'id'=>'mv_modal_edit_location_form']) }}                
+                {{ Form::open(['url' => 'company/edit', 'class'=>'manualFrm form', 'id'=>'mv_modal_edit_location_form']) }}                
                 <!-- {{ csrf_field() }} -->
                 <input type="hidden" name="company_edit_id" id="company_edit_id" value="">
                 <!--begin::Input group-->

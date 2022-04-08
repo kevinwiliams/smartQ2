@@ -14,19 +14,19 @@ class DepartmentController extends Controller
     public function _index()
     { 
         $departments = Department::get();
-        return view('pages.admin.department.list', compact('departments'));
+        return view('pages.department.list', compact('departments'));
     }
 
     public function index(DepartmentDataTable $dataTable)
     {          
         $keyList = $this->keyList();
-        return $dataTable->render('pages.admin.department.list', compact('keyList'));
+        return $dataTable->render('pages.department.list', compact('keyList'));
     }
 
     public function showForm()
     {
         $keyList = $this->keyList();
-        return view('pages.admin.department.form', compact('keyList'));
+        return view('pages.department.form', compact('keyList'));
     }
     
     public function create(Request $request)
@@ -48,7 +48,7 @@ class DepartmentController extends Controller
         ));
 
         if ($validator->fails()) {
-            return redirect('admin/department/create')
+            return redirect('department/create')
                 ->withErrors($validator)
                 ->withInput();
         } else {
@@ -102,7 +102,7 @@ class DepartmentController extends Controller
         ));
 
         if ($validator->fails()) {
-            return redirect('admin/department/edit/'.$request->id)
+            return redirect('department/edit/'.$request->id)
                         ->withErrors($validator)
                         ->withInput();
         } else {
@@ -131,7 +131,7 @@ class DepartmentController extends Controller
     public function delete($id = null)
     {
         $delete = Department::where('id', $id)->delete();
-        return redirect('admin/department')->with('message', trans('app.delete_successfully'));
+        return redirect('department')->with('message', trans('app.delete_successfully'));
     } 
  
     public function keyList()

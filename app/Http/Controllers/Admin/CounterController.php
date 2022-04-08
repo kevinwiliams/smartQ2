@@ -13,17 +13,17 @@ class CounterController extends Controller
 	public function _index()
 	{   
         $counters = Counter::get();
-    	return view('pages.admin.counter.list', ['counters' => $counters]);
+    	return view('pages.counter.list', ['counters' => $counters]);
 	}
 
     public function index(CounterDataTable $dataTable)
     {          
-        return $dataTable->render('pages.admin.counter.list');
+        return $dataTable->render('pages.counter.list');
     }
 
     public function showForm()
     {
-    	return view('pages.admin.counter.form');
+    	return view('pages.counter.form');
     }
     
     public function create(Request $request)
@@ -42,7 +42,7 @@ class CounterController extends Controller
         ));
 
         if ($validator->fails()) {
-            return redirect('admin/counter/create')
+            return redirect('counter/create')
                         ->withErrors($validator)
                         ->withInput();
         } else {
@@ -88,7 +88,7 @@ class CounterController extends Controller
         ));
 
         if ($validator->fails()) {
-            return redirect('admin/counter/edit/'.$request->id)
+            return redirect('counter/edit/'.$request->id)
                         ->withErrors($validator)
                         ->withInput();
         } else {
@@ -115,6 +115,6 @@ class CounterController extends Controller
     {
         $delete = Counter::where('id', $id)
             ->delete();
-        return redirect('admin/counter')->with('message', trans('app.delete_successfully'));
+        return redirect('counter')->with('message', trans('app.delete_successfully'));
     }  
 }

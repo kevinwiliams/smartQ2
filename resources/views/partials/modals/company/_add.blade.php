@@ -21,7 +21,7 @@
             <div class="modal-body scroll-y mx-5 mx-xl-15 my-5">
                 <!-- <div id="output" class="hide alert alert-danger alert-dismissible fade in shadowed mb-1"></div> -->
                 <!--begin::Form-->
-                {{ Form::open(['url' => 'admin/company/create', 'class'=>'manualFrm form', 'id'=>'mv_modal_add_company_form']) }}
+                {{ Form::open(['url' => 'company/create', 'class'=>'manualFrm form', 'id'=>'mv_modal_add_company_form']) }}
                 @csrf
                 <!-- {{ csrf_field() }} -->
                 <!--begin::Input group-->

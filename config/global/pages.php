@@ -142,10 +142,30 @@ return array(
         ),
     ),
 
-    'admin' => array(
-        'sms' => array(
-            'title' => 'SMS History',
-            'view' => 'admin/sms',
+    'sms' => array(
+        'title' => 'SMS History',
+        'view' => 'sms',
+        'assets' => array(
+            'custom' => array(
+                'css' => array(
+                    'plugins/custom/datatables/datatables.bundle.css',
+                ),
+                'js'  => array(
+                    'plugins/custom/datatables/datatables.bundle.js',
+                    'vendor/datatables/buttons.server-side.js',
+                ),
+
+            ),
+        ),
+        'setting' => array(
+            'title' => 'SMS Settings'
+        ),
+
+    ),
+    'token' => array(
+        'current' => array(
+            'title' => 'Token List',
+            'view'   => 'token/current',
             'assets' => array(
                 'custom' => array(
                     'css' => array(
@@ -153,159 +173,33 @@ return array(
                     ),
                     'js'  => array(
                         'plugins/custom/datatables/datatables.bundle.js',
-                        'vendor/datatables/buttons.server-side.js',
+                        'js/custom/token/add.js',
+                        'js/custom/token/transfer.js',
+                        // 'js/custom/token/delete.js',
                     ),
 
                 ),
             ),
-            'setting' => array(
-                'title' => 'SMS Settings'
-            ),
-
-        ),
-        'token' => array(
-            'current' => array(
-                'title' => 'Token List',
-                'view'   => 'admin/token/current',
+            'card' => array(
+                'title' => 'Active Tokens',
                 'assets' => array(
                     'custom' => array(
-                        'css' => array(
-                            'plugins/custom/datatables/datatables.bundle.css',
-                        ),
                         'js'  => array(
-                            'plugins/custom/datatables/datatables.bundle.js',
-                            'js/custom/admin/token/add.js',
-                            'js/custom/admin/token/transfer.js',
-                            // 'js/custom/admin/token/delete.js',
-                        ),
-
-                    ),
-                ),
-                'card' => array(
-                    'title' => 'Active Tokens',
-                    'assets' => array(
-                        'custom' => array(
-                            'js'  => array(
-                                'plugins/custom/tinymce/tinymce.bundle.js',
-                                'js/custom/admin/token/add_note.js',
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-            'auto' => array(
-                'title' => 'Auto Token'
-            ),
-            'setting' => array(
-                'title' => 'Auto Queue Settings'
-            ),
-            'report' => array(
-                'title' => 'Tokens Report',
-                'assets' => array(
-                    'custom' => array(
-                        'css' => array(
-                            'plugins/custom/datatables/datatables.bundle.css',
-                        ),
-                        'js' => array(
-                            'plugins/custom/datatables/datatables.bundle.js',
-                            'js/custom/admin/token/transfer.js',
-                            // 'vendor/datatables/buttons.server-side.js',
-                        ),
-                    ),
-                ),
-            ),
-            'performance' => array(
-                'title' => 'Officer Performance',
-                'assets' => array(
-                    'custom' => array(
-                        'css' => array(
-                            'plugins/custom/datatables/datatables.bundle.css',
-                        ),
-                        'js' => array(
-                            'plugins/custom/datatables/datatables.bundle.js',
-                            // 'js/custom/admin/token/delete.js',
-                            // 'vendor/datatables/buttons.server-side.js',
+                            'plugins/custom/tinymce/tinymce.bundle.js',
+                            'js/custom/token/add_note.js',
                         ),
                     ),
                 ),
             ),
         ),
-        'company' => array(
-            'view' => array(
-                '*' => array(
-                    'title'  => 'View Company Details',
-                    'assets' => array(
-                        'custom' => array(
-                            'css' => array(
-                                'plugins/custom/datatables/datatables.bundle.css',
-                            ),
-                            'js' => array(
-                                'plugins/custom/datatables/datatables.bundle.js',
-                                // 'js/custom/user-management/roles/view/view.js',
-                                // 'js/custom/user-management/roles/view/update-role.js',
-
-                            ),
-                        ),
-                    ),
-                )
-            ),
-            'list' => array(
-                'title'  => 'Company List',
-                'assets' => array(
-                    'custom' => array(
-                        'css' => array(
-                            'plugins/custom/datatables/datatables.bundle.css',
-                        ),
-                        'js' => array(
-                            'plugins/custom/datatables/datatables.bundle.js',
-                            // 'js/custom/user-management/roles/list/update-role.js',
-                            // 'js/custom/user-management/roles/list/add.js',
-                            // 'js/custom/user-management/roles/list/delete.js',
-
-                        ),
-                    ),
-                ),
-            ),
+        'auto' => array(
+            'title' => 'Auto Token'
         ),
-        'location' => array(
-            'view' => array(
-                '*' => array(
-                    'title'  => 'View Location Details',
-                    'assets' => array(
-                        'custom' => array(
-                            'css' => array(
-                                'plugins/custom/datatables/datatables.bundle.css',
-                            ),
-                            'js' => array(
-                                'plugins/custom/datatables/datatables.bundle.js',
-                                // 'js/custom/user-management/roles/view/view.js',
-                                // 'js/custom/user-management/roles/view/update-role.js',
-
-                            ),
-                        ),
-                    ),
-                )
-            ),
-            'list' => array(
-                'title'  => 'Locations',
-                'assets' => array(
-                    'custom' => array(
-                        'css' => array(
-                            'plugins/custom/datatables/datatables.bundle.css',
-                        ),
-                        'js' => array(
-                            'plugins/custom/datatables/datatables.bundle.js',
-                            // 'js/custom/user-management/roles/list/update-role.js',
-                            // 'js/custom/user-management/roles/list/add.js',
-                            // 'js/custom/user-management/roles/list/delete.js',
-
-                        ),
-                    ),
-                ),
-            ),
+        'setting' => array(
+            'title' => 'Auto Queue Settings'
         ),
-        'department' => array(
-            'title'  => 'Departments',
+        'report' => array(
+            'title' => 'Tokens Report',
             'assets' => array(
                 'custom' => array(
                     'css' => array(
@@ -313,16 +207,14 @@ return array(
                     ),
                     'js' => array(
                         'plugins/custom/datatables/datatables.bundle.js',
-                        'js/custom/admin/department/add.js',
-                        // 'js/custom/admin/department/edit.js',
-                        // 'js/custom/admin/department/delete.js',
+                        'js/custom/token/transfer.js',
                         // 'vendor/datatables/buttons.server-side.js',
                     ),
                 ),
             ),
         ),
-        'counter' => array(
-            'title'  => 'Counters',
+        'performance' => array(
+            'title' => 'Officer Performance',
             'assets' => array(
                 'custom' => array(
                     'css' => array(
@@ -330,46 +222,151 @@ return array(
                     ),
                     'js' => array(
                         'plugins/custom/datatables/datatables.bundle.js',
-                        'js/custom/admin/counter/add.js',
-                        'js/custom/admin/counter/delete.js',
+                        // 'js/custom/token/delete.js',
                         // 'vendor/datatables/buttons.server-side.js',
                     ),
                 ),
             ),
         ),
-        'settings' => array(
-            'title' => 'App Settings',
-            'display' => array(
-                'title' => 'Display Settings',
+    ),
+    'company' => array(
+        'view' => array(
+            '*' => array(
+                'title'  => 'View Company Details',
                 'assets' => array(
                     'custom' => array(
-                        'js'  => array(
-                            'plugins/custom/datatables/datatables.bundle.js',
+                        'css' => array(
+                            'plugins/custom/datatables/datatables.bundle.css',
                         ),
+                        'js' => array(
+                            'plugins/custom/datatables/datatables.bundle.js',
+                            // 'js/custom/user-management/roles/view/view.js',
+                            // 'js/custom/user-management/roles/view/update-role.js',
 
+                        ),
                     ),
                 ),
             )
         ),
-        'home' => array(
-            'title' => 'Home',
-
-            'home' => array(
-                'title' => 'Client Token',
-                'assets' => array(
-                    'custom' => array(
-                        'js'  => array(
-                            'js/custom/admin/home/client-token.js',
-                        ),
+        'list' => array(
+            'title'  => 'Company List',
+            'assets' => array(
+                'custom' => array(
+                    'css' => array(
+                        'plugins/custom/datatables/datatables.bundle.css',
+                    ),
+                    'js' => array(
+                        'plugins/custom/datatables/datatables.bundle.js',
+                        // 'js/custom/user-management/roles/list/update-role.js',
+                        // 'js/custom/user-management/roles/list/add.js',
+                        // 'js/custom/user-management/roles/list/delete.js',
 
                     ),
                 ),
             ),
-            'current' => array(
-                'title' => 'Your Token'
+        ),
+    ),
+    'location' => array(
+        'view' => array(
+            '*' => array(
+                'title'  => 'View Location Details',
+                'assets' => array(
+                    'custom' => array(
+                        'css' => array(
+                            'plugins/custom/datatables/datatables.bundle.css',
+                        ),
+                        'js' => array(
+                            'plugins/custom/datatables/datatables.bundle.js',
+                            // 'js/custom/user-management/roles/view/view.js',
+                            // 'js/custom/user-management/roles/view/update-role.js',
+
+                        ),
+                    ),
+                ),
             )
+        ),
+        'list' => array(
+            'title'  => 'Locations',
+            'assets' => array(
+                'custom' => array(
+                    'css' => array(
+                        'plugins/custom/datatables/datatables.bundle.css',
+                    ),
+                    'js' => array(
+                        'plugins/custom/datatables/datatables.bundle.js',
+                        // 'js/custom/user-management/roles/list/update-role.js',
+                        // 'js/custom/user-management/roles/list/add.js',
+                        // 'js/custom/user-management/roles/list/delete.js',
+
+                    ),
+                ),
+            ),
+        ),
+    ),
+    'department' => array(
+        'title'  => 'Departments',
+        'assets' => array(
+            'custom' => array(
+                'css' => array(
+                    'plugins/custom/datatables/datatables.bundle.css',
+                ),
+                'js' => array(
+                    'plugins/custom/datatables/datatables.bundle.js',
+                    'js/custom/department/add.js',
+                    // 'js/custom/department/edit.js',
+                    // 'js/custom/department/delete.js',
+                    // 'vendor/datatables/buttons.server-side.js',
+                ),
+            ),
+        ),
+    ),
+    'counter' => array(
+        'title'  => 'Counters',
+        'assets' => array(
+            'custom' => array(
+                'css' => array(
+                    'plugins/custom/datatables/datatables.bundle.css',
+                ),
+                'js' => array(
+                    'plugins/custom/datatables/datatables.bundle.js',
+                    'js/custom/counter/add.js',
+                    'js/custom/counter/delete.js',
+                    // 'vendor/datatables/buttons.server-side.js',
+                ),
+            ),
+        ),
+    ),
+    'settings' => array(
+        'title' => 'App Settings',
+        'display' => array(
+            'title' => 'Display Settings',
+            'assets' => array(
+                'custom' => array(
+                    'js'  => array(
+                        'plugins/custom/datatables/datatables.bundle.js',
+                    ),
+
+                ),
+            ),
         )
+    ),
+    'home' => array(
+        'title' => 'Home',
 
+        'home' => array(
+            'title' => 'Client Token',
+            'assets' => array(
+                'custom' => array(
+                    'js'  => array(
+                        'js/custom/home/client-token.js',
+                    ),
+
+                ),
+            ),
+        ),
+        'current' => array(
+            'title' => 'Your Token'
+        )
     ),
 
 

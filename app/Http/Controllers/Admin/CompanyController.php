@@ -28,7 +28,7 @@ class CompanyController extends Controller
         // print_r($companies);
         // echo '</pre>';
         // die();
-        return $dataTable->render('pages.admin.company.list');
+        return $dataTable->render('pages.company.list');
     }
 
     /**
@@ -130,7 +130,7 @@ class CompanyController extends Controller
         $company = Company::find($id);
         $companies = Company::where('id', $id)->pluck('name','id');
         // get the default inner page
-        return view('pages.admin.company.view', compact('company', 'companies'));
+        return view('pages.company.view', compact('company', 'companies'));
     }
 
 

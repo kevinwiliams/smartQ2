@@ -17,7 +17,7 @@ class UserController extends Controller
         $departments = Department::where('status', 1)
             ->pluck('name', 'id');
 
-    	return view('pages.admin.user.list', compact('departments'));
+    	return view('pages.user.list', compact('departments'));
 	}
 
 
@@ -113,11 +113,11 @@ class UserController extends Controller
                     'status'     => (($user->status==1)?"<span class='badge bg-success text-white'>".trans('app.active')."</span>":"<span class='badge bg-danger text-white'>".trans('app.deactive')."</span>"),
 
                     'options'    => "<div class=\"btn-group\">
-                        <a href='".url("admin/user/view/$user->id")."' class=\"btn btn-sm btn-info\"><i class=\"fa fa-eye\"></i></a>". 
+                        <a href='".url("user/view/$user->id")."' class=\"btn btn-sm btn-info\"><i class=\"fa fa-eye\"></i></a>". 
                         (
                             ($user->user_type != 5)?
-                            "<a href='".url("admin/user/edit/$user->id")."' class=\"btn btn-sm btn-success\"><i class=\"fa fa-edit\"></i></a>
-                            <a href='".url("admin/user/delete/$user->id")."' onclick=\"return confirm('".trans('app.are_you_sure')."')\" class=\"btn btn-sm btn-danger\"><i class=\"fa fa-times\"></i></a>":""
+                            "<a href='".url("user/edit/$user->id")."' class=\"btn btn-sm btn-success\"><i class=\"fa fa-edit\"></i></a>
+                            <a href='".url("user/delete/$user->id")."' onclick=\"return confirm('".trans('app.are_you_sure')."')\" class=\"btn btn-sm btn-danger\"><i class=\"fa fa-times\"></i></a>":""
                         ).
                         "</div>" 
                 ];  
@@ -137,7 +137,7 @@ class UserController extends Controller
     {
         $departmentList = Department::where('status', 1)
             ->pluck('name','id'); 
-    	return view('pages.admin.user.form', compact('departmentList'));
+    	return view('pages.user.form', compact('departmentList'));
     }
     
  
@@ -179,7 +179,7 @@ class UserController extends Controller
         } 
 
         if ($validator->fails()) {
-            return redirect('admin/user/create')
+            return redirect('user/create')
                         ->withErrors($validator)
                         ->withInput()
                         ->with('photo', $filePath);
@@ -229,7 +229,7 @@ class UserController extends Controller
             ->groupBy('status')
             ->pluck("total", "status");
 
-        // created by me {as a admin/client/reciptionist}
+        // created by me {as a client/reciptionist}
         $generatedByMe = Token::where('created_by', $id)
             ->selectRaw("COUNT(id) as total, status")
             ->groupBy('status')
@@ -241,7 +241,7 @@ class UserController extends Controller
             ->groupBy('status')
             ->pluck("total", "status"); 
 
-        return view('pages.admin.user.view', compact(
+        return view('pages.user.view', compact(
             'user',
             'assignedToMe',
             'generatedByMe',
@@ -258,7 +258,7 @@ class UserController extends Controller
 
         $departmentList = Department::where('status', 1)->pluck('name','id'); 
 
-        return view('pages.admin.user.edit',
+        return view('pages.user.edit',
             compact('departmentList','user'));
     }
 
@@ -302,7 +302,7 @@ class UserController extends Controller
         }  
  
         if ($validator->fails()) { 
-            return redirect('admin/user/edit/'.$request->id)
+            return redirect('user/edit/'.$request->id)
                 ->withErrors($validator)
                 ->withInput()
                 ->with('photo', $filePath);

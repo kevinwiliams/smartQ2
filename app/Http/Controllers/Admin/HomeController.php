@@ -34,7 +34,7 @@ class HomeController extends Controller
             ->first();
 
         if ($current) {
-            return redirect('admin/home/current');
+            return redirect('home/current');
         }
         // $departments = Department::where('status',1)->pluck('name','id');
         $departments = Department::select(
@@ -57,7 +57,7 @@ class HomeController extends Controller
         
         $companies = Company::orderBy('name','asc')->pluck('name','id');
 
-        return view('pages.admin.home.index', compact('departments', 'smsalert', 'maskedemail','shownote','companies'));
+        return view('pages.home.index', compact('departments', 'smsalert', 'maskedemail','shownote','companies'));
     }
 
     function maskEmail($x)
@@ -77,7 +77,7 @@ class HomeController extends Controller
         $year = $this->chart_year();
         $begin = $this->chart_begin();
 
-        return view('pages.admin.home.home', compact(
+        return view('pages.home.home', compact(
             'infobox',
             'performance',
             'month',

@@ -1,7 +1,7 @@
 <div class="modal fade" id="mv_modal_transfer_token" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered mw-650px">
-        {{ Form::open(['url' => 'admin/token/transfer', 'class'=>'transferFrm', 'id'=>'mv_modal_transfer_token_form']) }}
+        {{ Form::open(['url' => 'token/transfer', 'class'=>'transferFrm', 'id'=>'mv_modal_transfer_token_form']) }}
         <!--begin::Form-->
         <!--begin::Modal content-->
         <div class="modal-content">

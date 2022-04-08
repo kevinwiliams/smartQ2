@@ -58,7 +58,7 @@ class LocationDataTable extends DataTable
            
         })
         ->addColumn('action', function (Location $model) {
-            return view('pages.admin.location._action-menu', compact('model'));
+            return view('pages.location._action-menu', compact('model'));
         });
     }
 

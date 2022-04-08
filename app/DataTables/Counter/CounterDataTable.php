@@ -38,7 +38,7 @@ class CounterDataTable extends DataTable
                 return $str;
             })
             ->addColumn('action', function (Counter $model) {
-                return view('pages.admin.counter._action-menu', compact('model'));
+                return view('pages.counter._action-menu', compact('model'));
             });  
     }
 

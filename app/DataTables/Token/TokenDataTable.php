@@ -72,7 +72,7 @@ class TokenDataTable extends DataTable
                 return $str;
             })
             ->addColumn('action', function (Token $model) {
-                return view('pages.admin.token._active-menu', compact('model'));
+                return view('pages.token._active-menu', compact('model'));
             })
             ->rawColumns(['action','token_no','created_at', 'department_id', 'counter_id', 'user_id', 'client_id']);
     }

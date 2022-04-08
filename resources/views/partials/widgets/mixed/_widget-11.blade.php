@@ -10,7 +10,7 @@
                     @can('view report') There are @endcan
                     @cannot('view report') You have @endcan
                 <span class="position-relative d-inline-block">
-                    <a href="{{ url('admin/token/current/card') }}" class="link-white opacity-75-hover fw-bolder d-block mb-1">{{$officer->pending}} clients</a>
+                    <a href="{{ url('token/current/card') }}" class="link-white opacity-75-hover fw-bolder d-block mb-1">{{$officer->pending}} clients</a>
                     <!--begin::Separator-->
                     <span class="position-absolute opacity-50 bottom-0 start-0 border-2 border-white border-bottom w-100"></span>
                     <!--end::Separator-->
