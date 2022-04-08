@@ -264,4 +264,6 @@ return [
     'add_company' => 'Add Company',
     'update_company' => 'Update Company',
     'company' => 'Company',
+
+    'officer_note' => 'Officer Note',
 ];

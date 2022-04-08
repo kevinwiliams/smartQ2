@@ -53,9 +53,20 @@ var MVAddStaffNote = function(){
                 fields: {
                     'officer_note': {
                         validators: {
-                            notEmpty: {
-                                message: 'Note is required'
-                            }
+                            // notEmpty: {
+                            //     message: 'Note is required'
+                            // }
+                            callback: {
+                                message: 'The note must be between 5 and 200 characters long',
+                                callback: function (value) {
+                                    // Get the plain text without HTML
+                                    const text = tinyMCE.activeEditor.getContent({
+                                        format: 'text',
+                                    });
+
+                                    return text.length <= 200 && text.length >= 5;
+                                },
+                            },
                         }
                     },
     
@@ -87,6 +98,8 @@ var MVAddStaffNote = function(){
                     if (status == 'Valid') {
                         // Show loading indication
                         submitButton.setAttribute('data-mv-indicator', 'on');
+
+                        $("#officer_note").text(tinyMCE.activeEditor.getContent());
 
                         // Disable button to avoid multiple click 
                         submitButton.disabled = true;
