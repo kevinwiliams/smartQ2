@@ -752,7 +752,7 @@ class TokenController extends Controller
                     'counter'    => (!empty($token->counter)?$token->counter->name:null),
                     'officer'    => (!empty($token->officer)?("<a href='".url("user/view/{$token->officer->id}")."'>".$token->officer->firstname." ". $token->officer->lastname."</a>"):null),
 
-                    'client_mobile' => $token->client_mobile. "<br/>" .(!empty($token->client)?("(<a href='".url("user/view/{$token->client->id}")."'>".$token->client->firstname." ". $token->client->lastname."</a>)"):null),
+                    'client_mobile' => $token->client_mobile,
 
                     'note'          => $token->note,
                     'status'        => "<span class='badge ".$bg." text-white'>".$txt."</span>",
