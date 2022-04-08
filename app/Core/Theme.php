@@ -817,9 +817,9 @@ class Theme {
 
     public static function getPageUrl($path, $demo = '', $mode = null) {
         // Disable pro page URL's for the free version
-        if (self::isFreeVersion() === true && self::isProPage($path) === true) {
-            return "#";
-        }
+        // if (self::isFreeVersion() === true && self::isProPage($path) === true) {
+        //     return "#";
+        // }
 
         if ($path === '#') {
             return $path;

@@ -21,12 +21,11 @@ class TokenDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        $officer = \App\Models\User::where('id',auth()->user()->id)->get();
-        $user_type = $officer->first()->user_type;
 
+        $roles = auth()->user()->getRoleNames()->toArray();
         $query = Token::wherein('status', ['0', '3'])
-        ->when($user_type, function ($query, $id) {
-            if($id == 1)
+        ->when($roles, function ($query, $role) {
+            if(in_array('officer', $role))
                 return $query->where('user_id', auth()->user()->id);
            
         })

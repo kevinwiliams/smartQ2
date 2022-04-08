@@ -547,6 +547,10 @@
     @section('scripts')
     <script>
         $(function() {
+            $("[name^=otp_code]").on("keypress", function(e){
+                $(this).next().trigger("focus");
+            });
+
             //disable stepper until verified
             $('[data-mv-stepper-action="next"]').addClass('disabled');
             //show/hide email and sms confirmation fields

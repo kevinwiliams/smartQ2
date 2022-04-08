@@ -17,15 +17,10 @@ class PagesController extends Controller
         // Get view file location from menu config
         $view = theme()->getOption('page', 'view');
 
-        $isManager = 0;
-      
-        if(auth()->user()->can('view report')){
-            $isManager = 1;
-        }
-
-        $officer = $this->officerPerformance($isManager);
-        $month = $this->chart_month($isManager);
-        $performance = $this->userPerformance($isManager);
+       
+        $officer = $this->officerPerformance();
+        $month = $this->chart_month();
+        $performance = $this->userPerformance();
 
         $roles = auth()->user()->getRoleNames()->toArray();
         // Check if the page view file exist
@@ -74,10 +69,14 @@ class PagesController extends Controller
     }
 
      //chart month wise token
-     public function chart_month($isManager)
+     public function chart_month()
      {  
-        $sql = " AND t.user_id = '". auth()->user()->id  ."'";
-        $sql = ($isManager == 0) ? $sql : "";
+        $roles = auth()->user()->getRoleNames()->toArray();
+        if(in_array('officer', $roles))
+            $sql = " AND t.user_id = '". auth()->user()->id  ."'";
+        else
+            $sql = "";
+
         
         return DB::select(DB::raw("
          SELECT 
@@ -96,9 +95,9 @@ class PagesController extends Controller
          "));
      }
 
-     public function userPerformance($isManager)
+     public function userPerformance()
     { 
-        $managerArr = array('isManager' => $isManager);
+        $roles = auth()->user()->getRoleNames()->toArray();
         $query = DB::table("user AS u")
         ->select(DB::raw("
             u.id,
@@ -117,12 +116,12 @@ class PagesController extends Controller
             $join->on("t.user_id", "=", "u.id");
             // $join->whereDate("t.created_at", "=", date("Y-m-d"));
         })
-        ->when($managerArr, function ($query, $manager) {
-            if($manager['isManager'] == 0)
+        ->when($roles, function ($query, $role) {
+            if(in_array('officer', $role))
                 return $query->where('u.id', auth()->user()->id);
-            else{
+            else
                 return $query->whereNotNull('d.name')->whereIn('u.user_type', [1]);
-            }
+            
         })
         ->groupBy("u.id")
         ->get();
@@ -131,9 +130,9 @@ class PagesController extends Controller
     } 
 
     // user performance
-    public function officerPerformance($isManager)
+    public function officerPerformance()
     {
-        $managerArr = array('isManager' => $isManager);
+        $roles = auth()->user()->getRoleNames()->toArray();
         $query = DB::table("user AS u")
             ->select(DB::raw("
                 u.id,
@@ -149,8 +148,8 @@ class PagesController extends Controller
                 $join->on("t.user_id", "=", "u.id");
                 // $join->whereDate("t.created_at", "=", date("Y-m-d"));
             })
-            ->when($managerArr, function($query, $manager){
-                 if($manager['isManager'] == 0)
+            ->when($roles, function($query, $role){
+                if(in_array('officer', $role))
                     return $query->where('u.id', auth()->user()->id)->groupBy("t.user_id");
             })
             
