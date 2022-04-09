@@ -33,7 +33,7 @@
 
             //search bar    
             const filterSearch = document.querySelector('[data-mv-location-table-filter="search"]');
-            filterSearch.addEventListener('keyup', function (e) {
+            filterSearch.addEventListener('keyup', function(e) {
                 var table = $('#mv_location_table').DataTable();
                 table.search(e.target.value).draw();
             });
@@ -224,7 +224,7 @@
                     var _contact_person = parent.querySelectorAll('input[name=company-contact_person]')[0].value;
                     var _description = parent.querySelectorAll('input[name=company-description]')[0].value;
                     var _active = parent.querySelectorAll('input[name=company-active]')[0].value;
-                    
+
                     form.querySelector('input[name=company_edit_id]').value = _id;
                     form.querySelector('input[name=name]').value = _name;
                     form.querySelector('input[name=address]').value = _address;
@@ -298,7 +298,7 @@
 
             // Submit button handler
             const submitButton = element.querySelector('[data-mv-location-edit-modal-action="submit"]');
-            
+
             submitButton.addEventListener('click', function(e) {
                 // Prevent default button action
                 e.preventDefault();
@@ -459,7 +459,7 @@
 
             // Submit button handler
             const submitButton = element.querySelector('[data-mv-location-modal-action="submit"]');
-            
+
             submitButton.addEventListener('click', e => {
                 e.preventDefault();
 
@@ -606,6 +606,15 @@
                 });
             });
         }
+
+        var initAddressSearch = () => {
+            var btn = $("#address-search-addon");
+            var address = $("#address-add").val();
+            btn.addEventListener('click', function(e) {
+                alert(address); 
+            });          
+        }
+
         return {
             // Public functions
             init: function() {
@@ -616,7 +625,7 @@
                 }
                 initLocationTable();
                 initAddLocation();
-
+                initAddressSearch();
             }
         };
     }();

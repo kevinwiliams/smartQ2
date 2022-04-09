@@ -727,8 +727,7 @@
                                         }
                                     }).then(function(result) {
                                         if (result.isConfirmed) {
-                                            document.location.href = '/company/list';
-                                            // datatable.draw();
+                                            location.reload();
                                             form.reset();
                                             modal.hide();
                                         }
@@ -835,6 +834,14 @@
                 'columnDefs': []
             });
         }
+
+        var initAddressSearch = () => {
+            var btn = $("#address-search-addon");
+            var address = $("#address-add");
+            btn.on('click', function(e) {
+                alert(address.val()); 
+            });          
+        }
         return {
             // Public functions
             init: function() {
@@ -843,17 +850,20 @@
                 if (!table) {
                     return;
                 }
+
+                initViewCompany();
+                initAddLocation();
+
                 // initCompanyTable();
                 // handleDeleteRows();
-                // handleEditRows();
-                 initViewCompany();
+                // handleEditRows();                
                 // handleEditRows();
                 // handleCompleteRows();
                 // handleCancelRows();
                 // handleCheckInRows();
                 // handleTransferRows();
-                // handleRecallRows();
-                initAddLocation();
+                // handleRecallRows();                
+                // initAddressSearch();
             }
         };
     }();

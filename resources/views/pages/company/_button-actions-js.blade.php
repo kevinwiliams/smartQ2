@@ -609,6 +609,7 @@
                 });
             });
         }
+
         return {
             // Public functions
             init: function() {
@@ -620,7 +621,7 @@
                 initCompanyTable();
                 // handleDeleteRows();
                 // handleEditRows();
-                initAddCompany();
+                initAddCompany();                
                 // handleEditRows();
                 // handleCompleteRows();
                 // handleCancelRows();

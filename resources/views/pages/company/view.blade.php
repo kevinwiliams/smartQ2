@@ -67,6 +67,7 @@
 								<!--end::Card title-->
 								<!--begin::Card toolbar-->
 								<div class="card-toolbar">
+									@can('create location')
 									<!--begin::Button-->
 									<button type="button" class="btn btn-light-primary" data-bs-toggle="modal" data-bs-target="#mv_modal_add_location" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to add new Company">
 										<!--begin::Svg Icon | path: icons/duotune/general/gen035.svg-->
@@ -77,6 +78,7 @@
 										New Location
 									</button>
 									<!--end::Button-->
+									@endcan
 								</div>
 								<!--end::Card toolbar-->
 							</div>
@@ -94,44 +96,44 @@
 													<th></th>
 												</tr>
 											<tbody>
-											@foreach($company->locations as $_location)
-											<tr class="align-top">
-												<!--begin::ID-->
-												<td>
-													<h4 class="text-gray-800">{{ $_location->name }}</h4>
-													<span class="text-muted fw-bold d-block fs-7">{!! theme()->getSvgIcon("icons/duotune/general/gen018.svg", "svg-icon-3") !!} {{ $_location->address }}</span>
-													<br>
-													<div class="border border-gray-300 border-dashed rounded min-w-100px w-100 py-3 px-6 me-4 mb-3">
-													<span class="text-gray-600 fw-bold d-block fs-6 py-1">Team size: <span class="text-black">{{ $_location->users()->count() }}</span> </span>
-													<span class="text-gray-600 fw-bold d-block fs-6">Departments: <span class="text-black">{{ $_location->departments()->count() }}</span> </span> 
-													<!-- {{ Carbon\Carbon::parse($_location->created_at)->format('d M Y, h:i a'); }} -->
-													</div>
-												</td>
-												<td >
-													<br />
-													{{-- <span>Service Setup</span> --}}
-													<span class="badge bagde-lg badge-secondary fw-bolder fs-7 me-1 my-3">Service Setup</span>
-													<br />
-													<div class="border border-gray-300 border-dashed rounded min-w-100px w-100 py-2 px-4 me-6 mb-3 fs-7">
-													<span class="text-muted fw-bold p-1">Greeting: </span><span>{{ ($company->locations[0]->settings->enable_greeting)?'Yes':'No' }}</span><br />
-													<span class="text-muted fw-bold p-1">Displays: </span><span>{{ $_location->displays()->count() }}</span><br />
-													<span class="text-muted fw-bold p-1">Counters: </span><span>{{ $_location->counters()->count() }}</span><br />
-													</div>
-												</td>
-												<td>
-													<br />
-													{{-- <span>Statistics</span> --}}
-													<span class="badge bagde-lg badge-light-primary fw-bolder fs-7 me-1 my-3">Statistics</span>
-													<br />
-													<div class="border border-gray-300 border-dashed rounded min-w-200px w-100 py-2 px-4 me-6 mb-3 fs-7">
-													<span class="text-muted fw-bold p-1">Visitors Last Wk: </span><span> 114</span><br />
-													<span class="text-muted fw-bold p-1">Avg. Wait Time: </span><span> 3 mins</span><br />
-													<span class="text-muted fw-bold p-1">Avg. Service Time: </span><span> 7 mins</span><br />
-													</div>
-												</td>
+												@foreach($company->locations as $_location)
+												<tr class="align-top">
+													<!--begin::ID-->
+													<td>
+														<h4 class="text-gray-800"><a href="{{ theme()->getPageUrl('location/view/') }}/{{ $_location->id }}">{{ $_location->name }}</a></h4>
+														<span class="text-muted fw-bold d-block fs-7">{!! theme()->getSvgIcon("icons/duotune/general/gen018.svg", "svg-icon-3") !!} {{ $_location->address }}</span>
+														<br>
+														<div class="border border-gray-300 border-dashed rounded min-w-100px w-100 py-3 px-6 me-4 mb-3">
+															<span class="text-gray-600 fw-bold d-block fs-6 py-1">Team size: <span class="text-black">{{ $_location->users()->count() }}</span> </span>
+															<span class="text-gray-600 fw-bold d-block fs-6">Departments: <span class="text-black">{{ $_location->departments()->count() }}</span> </span>
+															<!-- {{ Carbon\Carbon::parse($_location->created_at)->format('d M Y, h:i a'); }} -->
+														</div>
+													</td>
+													<td>
+														<br />
+														{{-- <span>Service Setup</span> --}}
+														<span class="badge bagde-lg badge-secondary fw-bolder fs-7 me-1 my-3">Service Setup</span>
+														<br />
+														<div class="border border-gray-300 border-dashed rounded min-w-100px w-100 py-2 px-4 me-6 mb-3 fs-7">
+															<span class="text-muted fw-bold p-1">Greeting: </span><span>{{ ($company->locations[0]->settings->enable_greeting)?'Yes':'No' }}</span><br />
+															<span class="text-muted fw-bold p-1">Displays: </span><span>{{ $_location->displays()->count() }}</span><br />
+															<span class="text-muted fw-bold p-1">Counters: </span><span>{{ $_location->counters()->count() }}</span><br />
+														</div>
+													</td>
+													<td>
+														<br />
+														{{-- <span>Statistics</span> --}}
+														<span class="badge bagde-lg badge-light-primary fw-bolder fs-7 me-1 my-3">Statistics</span>
+														<br />
+														<div class="border border-gray-300 border-dashed rounded min-w-200px w-100 py-2 px-4 me-6 mb-3 fs-7">
+															<span class="text-muted fw-bold p-1">Visitors Last Wk: </span><span> 114</span><br />
+															<span class="text-muted fw-bold p-1">Avg. Wait Time: </span><span> 3 mins</span><br />
+															<span class="text-muted fw-bold p-1">Avg. Service Time: </span><span> 7 mins</span><br />
+														</div>
+													</td>
 
-											</tr>
-											@endforeach
+												</tr>
+												@endforeach
 											</tbody>
 										</table>
 									</div>
@@ -150,15 +152,15 @@
 		</div>
 		<!--end::Post-->
 	</div>
-	    <!--begin::Modal - Add Company -->
-		{{ theme()->getView('partials/modals/location/_add', array('companies' => $companies)) }}
-		<!--end::Modal - Add Company-->
+	<!--begin::Modal - Add Company -->
+	{{ theme()->getView('partials/modals/location/_add', array('company' => $company)) }}
+	<!--end::Modal - Add Company-->
 	@section('scripts')
 	@include('pages.company._view-js')
 
 	<script>
 		var path = window.location.pathname.split("/");
-		var location_id = path[path.length - 1]; 
+		var location_id = path[path.length - 1];
 		//auto select company
 		if (location_id) {
 			$('select[name=company_id]').val(location_id);
@@ -169,33 +171,82 @@
 		let map;
 		let defLat = 10.668741351384037;
 		let defLng = -61.508404969650044;
+		let geocoder;
+		let marker;
+
 		function initMap() {
 			map = new google.maps.Map(document.getElementById("map"), {
-				center: { lat: defLat, lng: defLng },
+				center: {
+					lat: defLat,
+					lng: defLng
+				},
 				zoom: 15,
 				scrollwheel: true,
 			});
 
-			const uluru = { lat: defLat, lng: defLng };
-			let marker = new google.maps.Marker({
+			const uluru = {
+				lat: defLat,
+				lng: defLng
+			};
+			marker = new google.maps.Marker({
 				position: uluru,
 				map: map,
 				draggable: true
 			});
 
-			google.maps.event.addListener(marker,'position_changed',
-				function (){
+			google.maps.event.addListener(marker, 'position_changed',
+				function() {
 					let lat = marker.position.lat()
 					let lng = marker.position.lng()
 					$('#lat').val(lat)
 					$('#lng').val(lng)
 				})
 
-			google.maps.event.addListener(map,'click',
-			function (event){
-				pos = event.latLng
-				marker.setPosition(pos)
-			})
+			google.maps.event.addListener(map, 'click',
+				function(event) {
+					pos = event.latLng
+					marker.setPosition(pos)
+				})
+
+			geocoder = new google.maps.Geocoder();
+
+			var btn = $("#address-search-addon");
+			var address = $("#address-add");
+			btn.on('click', function(e) {
+				// alert(address.val());
+				if (address.val().length > 3) {
+					geocode({
+						address: address.val()
+					});
+				}
+			});
+		}
+
+		function clear() {
+			marker.setMap(null);
+		}
+
+
+		function geocode(request) {
+			clear();
+
+			geocoder.geocode(request).then((result) => {
+					const {
+						results
+					} = result;
+
+					console.log(results);
+					map.setCenter(results[0].geometry.location);
+					map.setZoom(15);
+					marker.setPosition(results[0].geometry.location);
+					marker.setMap(map);
+					// responseDiv.style.display = "block";
+					// response.innerText = JSON.stringify(result, null, 2);
+					return results;
+				})
+				.catch((e) => {
+					alert("Geocode was not successful for the following reason: " + e);
+				});
 		}
 	</script>
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps') }}&callback=initMap" type="text/javascript"></script>

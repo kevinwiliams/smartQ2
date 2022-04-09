@@ -21,7 +21,7 @@
             <div class="modal-body scroll-y mx-5 mx-xl-15 my-5">
                 <!-- <div id="output" class="hide alert alert-danger alert-dismissible fade in shadowed mb-1"></div> -->
                 <!--begin::Form-->
-                {{ Form::open(['url' => 'company/create', 'class'=>'manualFrm form', 'id'=>'mv_modal_add_location_form']) }}
+                {{ Form::open(['url' => 'location/create', 'class'=>'manualFrm form', 'id'=>'mv_modal_add_location_form']) }}
                 @csrf
                 <!-- {{ csrf_field() }} -->
                 <div class="row fv-row mb-7 fv-plugins-icon-container">
@@ -31,8 +31,9 @@
                         <div class="fv-row mb-7">
                             <div class="form-group @error('company_id') has-error @enderror">
                                 <label for="company_id">{{ trans('app.company') }} <i class="text-danger">*</i></label>
-                                {{ Form::select('company_id', $companies, null, ['data-placeholder' => 'Select Company','placeholder' => 'Select Option' ,'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-lg fw-bold filter']) }}
-                            <span class="text-danger">{{ $errors->first('company_id') }}</span>
+                                <input type="text" name="company" id="company" class="form-control" placeholder="{{ trans('app.name') }}" value="{{ $company->name }}" disabled>
+                                <input type="hidden" name="company_id" id="company_id" value="{{ $company->id }}">
+                                <span class="text-danger">{{ $errors->first('company_id') }}</span>
                             </div>
                         </div>
                         <!--end::Input group-->
@@ -46,13 +47,14 @@
                             </div>
                         </div>
                         <!--end::Input group-->
-                    
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
-                            <div class="form-group @error('address') has-error @enderror">
-                                <label for="address">{{ trans('app.address') }} <i class="text-danger">*</i></label>
-                                <input type="text" name="address" id="address" class="form-control" placeholder="{{ trans('app.address') }}" value="{{ old('address') }}">
-                                <span class="text-danger">{{ $errors->first('address') }}</span>
+                        <label for="address">{{ trans('app.address') }} <i class="text-danger">*</i></label>
+                            <div class="input-group @error('address') has-error @enderror">                                
+                                <input type="text" name="address" id="address-add" class="form-control" placeholder="{{ trans('app.address') }}" value="{{ old('address') }}" aria-label="{{ trans('app.address') }}" aria-describedby="address-search-addon">
+                                <span class="input-group-text" id="address-search-addon">
+                                    <i class="fas fa-location-arrow fs-4"></i>
+                                </span>
                             </div>
                         </div>
                         <!--end::Input group-->
@@ -89,17 +91,17 @@
                     <!--begin::Col-->
                     <div class="col-xl-6">
                         <span class="text-gray=500">Please use the map below to set the coordinates</span> <br>
-                       
-                        
+
+
                         <!--start::Google map-->
-                    <div id="map" style="height:400px; width: 600px;" class="my-3"></div>
-                    <!--end::Google map-->
+                        <div id="map" style="height:400px; width: 600px;" class="my-3"></div>
+                        <!--end::Google map-->
                     </div>
                     <!--end::Col-->
                 </div>
 
-                
-               
+
+
                 <!--begin::Actions-->
                 <div class="text-center pt-15">
                     <button type="reset" class="btn btn-light me-3" data-mv-location-modal-action="cancel">Discard</button>

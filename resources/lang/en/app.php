@@ -267,4 +267,8 @@ return [
 
     'officer_note' => 'Officer Note',
     'no_permissions' => 'You do not have permission to access this page',
+    'add_company' => 'Add Company',
+    'add_location' => 'Add Location',
+    'lat' => 'Latitude',
+    'lng' => 'Longitude',
 ];

@@ -37,11 +37,11 @@
     {{ theme()->getView('partials/modals/company/_add') }}
     <!--end::Modal - Add Company-->
     <!--begin::Modal - Edit Company -->
-    <{{ theme()->getView('partials/modals/company/_edit') }} 
+    {{ theme()->getView('partials/modals/company/_edit') }}
     <!--end::Modal dialog-->
-        {{-- Inject Scripts --}}
-        @section('scripts')
-        {{ $dataTable->scripts() }}
-        @include('pages.company._button-actions-js')
-        @endsection
+    {{-- Inject Scripts --}}
+    @section('scripts')
+    {{ $dataTable->scripts() }}
+    @include('pages.company._button-actions-js')
+    @endsection
 </x-base-layout>
