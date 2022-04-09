@@ -32,7 +32,7 @@ class TokenController extends Controller
                 ->leftJoin('department', 'token_setting.department_id', '=', 'department.id')
                 ->leftJoin('counter', 'token_setting.counter_id', '=', 'counter.id')
                 ->leftJoin('user', 'token_setting.user_id', '=', 'user.id')
-                // ->groupBy('token_setting.location_id')
+                ->groupBy('token_setting.location_id', 'department', 'token_setting.user_id')
                 ->orderBy('token_setting.location_id')
                 ->orderBy('department')
                 ->get();
