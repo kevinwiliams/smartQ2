@@ -182,6 +182,7 @@ class Menu {
 
     private function _generateItemLinkTitle($item) {
         $classes = array('menu-title');
+        $resource = config('app.default_menu_resource');
 
         if ( isset($item['classes']) && isset($item['classes']['title']) ) {
             $classes[] = $item['classes']['title'];
@@ -196,7 +197,7 @@ class Menu {
         if ( isset($this->callbacks['title']) && is_callable($this->callbacks['title']) ) {
             echo call_user_func($this->callbacks['title'], $item, $item['title']);
         } else {
-            echo __($item['title']);
+            echo __($resource . $item['title']);
             // Append exclusive badge
             if (isset($item['path']) && Theme::isExclusivePage($item['path']) === true) {
                 echo '<span class="badge badge-exclusive badge-light-success fw-bold fs-9 px-2 py-1 ms-1">Exclusive</span>';

@@ -1,6 +1,6 @@
 <?php
 return [
-    /*Common*/
+    /*Common*/    
     'application' => 'APPLICATION.TOKEN',
     'email'       => 'Email',
     'password'    => 'Password',

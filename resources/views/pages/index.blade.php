@@ -1,5 +1,4 @@
-<x-base-layout>
-
+<x-base-layout>    
     <!--begin::Row-->
     <div class="row gy-5 g-xl-8">
         <!--begin::Col-->
