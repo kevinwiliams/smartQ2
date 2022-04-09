@@ -16,30 +16,33 @@
                 <!--begin::Card body-->
                 <div class="card-body p-9">
                 {{ Form::open(['url' => 'token/setting']) }}
-
+                <div class="fv-row mb-7">
                     <div class="form-group @error('department_id') has-error @enderror">
-                        <label for="department_id">{{ trans('app.department') }} <i class="text-danger">*</i></label><br/>
-                        {{ Form::select('department_id', $departmentList, null, ['placeholder' => 'Select Option', 'class'=>'select2 form-control']) }}<br/>
+                        <label class="form-label fs-6 fw-bold" for="department_id">{{ trans('app.department') }} <i class="text-danger">*</i></label><br/>
+                        {{ Form::select('department_id', $departmentList, null, ['placeholder' => 'Select Option', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-lg fw-bold filter']) }}<br/>
                         <span class="text-danger">{{ $errors->first('department_id') }}</span>
                     </div> 
-
+                </div>
+                <div class="fv-row mb-7">
                     <div class="form-group @error('counter_id') has-error @enderror">
-                        <label for="counter">{{ trans('app.counter') }} <i class="text-danger">*</i></label><br/>
-                        {{ Form::select('counter_id', $countertList, null, ['placeholder' => 'Select Option', 'class'=>'select2 form-control']) }}<br/>
+                        <label class="form-label fs-6 fw-bold" for="counter">{{ trans('app.counter') }} <i class="text-danger">*</i></label><br/>
+                        {{ Form::select('counter_id', $countertList, null, ['placeholder' => 'Select Option', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-lg fw-bold filter' ]) }}<br/>
                         <span class="text-danger">{{ $errors->first('counter_id') }}</span> 
                     </div> 
-
+                </div>
+                <div class="fv-row mb-7">
                     <div class="form-group @error('user_id') has-error @enderror">
-                        <label for="officer">{{ trans('app.officer') }} <i class="text-danger">*</i></label><br/>
-                        {{ Form::select('user_id', $userList, null, ['placeholder' => 'Select Option', 'class'=>'select2 form-control']) }}<br/>
+                        <label class="form-label fs-6 fw-bold" for="officer">{{ trans('app.officer') }} <i class="text-danger">*</i></label><br/>
+                        {{ Form::select('user_id', $userList, null, ['placeholder' => 'Select Option', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-lg fw-bold filter']) }}<br/>
                         <span class="text-danger">{{ $errors->first('user_id') }}</span>
                     </div> 
-                    
+                </div>
+                <div class="fv-row mb-7">
                     <div class="btn-group">
                         <button type="reset" class="btn btn-primary">{{ trans('app.reset') }}</button>
                         <button type="submit" class="btn btn-success">{{ trans('app.save') }}</button> 
                     </div>
-                
+                </div>
                 {{ Form::close() }}
                 </div>
                 </div>

@@ -189,12 +189,16 @@
                     content += "<div class=\"float-left\">";
                     content += "<h1>#"+data.token.token_no+"</h1>";
                     content +="<ul class=\"list-unstyled\">";
+                    content += "<li><strong>{{ trans('app.location') }}: </strong>"+data.token.location+"</li>";
                     content += "<li><strong>{{ trans('app.department') }}: </strong>"+data.token.department+"</li>";
                     content += "<li><strong>{{ trans('app.counter') }}: </strong>"+data.token.counter+"</li>";
                     content += "<li><strong>{{ trans('app.officer') }}: </strong>"+data.token.firstname+' '+data.token.lastname+"</li>";
                     content += "<li><strong>{{ trans('app.date') }}: </strong>"+data.token.created_at+"</li>";
                     content += "</ul>";
                     content += "</div>";
+                    
+                    // print 
+                    //printThis(content);
 
                     Swal.fire({
                         // html: "You have created " + data.token.token_no + "<br>"+
@@ -229,38 +233,7 @@
         });
     }
 
-    $("body #toggleScreen").on("click", function(){
-        if ( $("body #cm-menu").is(":hidden") )
-        {
-            $("body #cm-menu").show();
-            $("body #cm-header").show();
-            $("body .cm-footer").removeClass('hide');
-            $("body.cm-1-navbar #global").removeClass('p-0');
-            $("body .container-fluid").removeClass('m-0 p-0');
-            $("body .panel").removeClass('m-0');
-            $("body #toggleScreenArea #screen-note").show();
-            $("body .panel-heading h3").text("{{ trans('app.auto_token') }}");
-
-            $("body #toggleScreenArea #screen-content").attr({'style': ''});
-            $("body #toggleScreen").html('<i class="fa fa-arrows-alt"></i>');
-        }
-        else
-        {
-            $("body #cm-menu").hide();
-            $("body #cm-header").hide();
-            $("body .cm-footer").addClass('hide');
-            $("body.cm-1-navbar #global").addClass('p-0');
-            $("body .container-fluid").addClass('m-0 p-0');
-            $("body .panel").addClass('m-0');
-            $("body .panel-heading h3").text($('.cm-navbar>.cm-flex').text());
-
-            $("body #toggleScreenArea #screen-note").hide(); 
-            $("body #toggleScreenArea #screen-content").attr({'style': 'width:100%;text-align:center'});
-            $("body #toggleScreen").html('<i class="fa fa-arrows"></i>');
-        }
-    });
- 
-
+    
     $('body').on("keydown", function (e) { 
         var key = e.key;
         var code = e.keyCode; 
@@ -293,6 +266,7 @@
         }
     });
 </script>
+@include('pages.token._print-token-js')
     
 @endsection
 </x-base-layout>

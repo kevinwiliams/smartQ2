@@ -34,9 +34,20 @@ class TokenController extends Controller
                 ->leftJoin('user', 'token_setting.user_id', '=', 'user.id')
                 ->get();
  
-        $countertList = Counter::where('status',1)->pluck('name','id');
+        $countertList = Counter::select('counter.*', 'token_setting.counter_id')
+                ->leftJoin('token_setting', 'counter.id', '=', 'token_setting.counter_id')
+                ->where('counter.status',1)
+                ->whereNull('token_setting.counter_id')
+                ->pluck('name','id');
+        
+
         $departmentList = Department::where('status',1)->pluck('name','id');
-        $userList = User::select('id', DB::raw('CONCAT(firstname, " ", lastname, " <", email, ">") AS name'))->where('user_type',1)->where('status',1)->orderBy('name', 'ASC')->pluck('name', 'id');
+
+        $userList = User::select('id', DB::raw('CONCAT(firstname, " ", lastname) AS name'))
+                ->where('user_type',1)
+                ->where('status',1)
+                ->orderBy('name', 'ASC')
+                ->pluck('name', 'id');
 
         return view('pages.token.setting', compact('tokens','countertList','departmentList','userList')); 
     }
@@ -844,7 +855,8 @@ class TokenController extends Controller
 
     public function viewSingleToken(Request $request)
     {
-        return Token::select('token.*', 'department.name as department', 'counter.name as counter', 'user.firstname', 'user.lastname')
+        return Token::select('token.*', 'department.name as department', 'counter.name as counter', 'user.firstname', 'user.lastname', 'location.name as location')
+            ->leftJoin('locations', 'token.location_id', '=', 'locations.id')
             ->leftJoin('department', 'token.department_id', '=', 'department.id')
             ->leftJoin('counter', 'token.counter_id', '=', 'counter.id')
             ->leftJoin('user', 'token.user_id', '=', 'user.id')
