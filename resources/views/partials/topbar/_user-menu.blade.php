@@ -37,92 +37,52 @@
       <!--begin::Menu separator-->
     <div class="separator my-2"></div>
     <!--end::Menu separator-->
-
+    <?php
+        // $lang = [ 'en' => 'English', 'ar' => 'العَرَبِيَّة', 'tr' => 'Türkçe', 'bn' => 'বাংলা', 'es' => 'Español', 'fr'=>'Français', 'pt'=>'Português', 'te'=>'తెలుగు', 'th' => 'ภาษาไทย', 'vi'=> 'Tiếng Việt' ];
+        //available languages
+        $lang['en'] = array('English' => 'united-states'); 
+        $lang['ar'] = array('العَرَبِيَّة' => 'saudi-arabia'); 
+        $lang['tr'] = array('Türkçe' => 'turkey'); 
+        $lang['bn'] = array('বাংলা' => 'bangladesh'); 
+        $lang['es'] = array('Español' => 'spain'); 
+        $lang['fr'] = array('Français' => 'france');
+        $lang['pt'] = array('Português' => 'brazil'); 
+        $lang['te'] = array('తెలుగు' => 'india'); 
+        $lang['th'] = array('ภาษาไทย' => 'thailand'); 
+        $lang['vi'] = array('Tiếng Việt' => 'vietnam');
+    ?>
     <!--begin::Menu item-->
     <div class="menu-item px-5" data-mv-menu-trigger="hover" data-mv-menu-placement="left-start">
         <a href="#" class="menu-link px-5">
             <span class="menu-title position-relative">
                 {{ __('Language') }}
-                @if(app()->getLocale() == 'en')
+                <?php foreach ($lang as $locale => $values) { ?>
+                    @if(app()->getLocale() == $locale)
+                <?php foreach ($values as $txt => $flag) { ?>
                 <span class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0">
-                    {{ __('English') }} <img class="w-15px h-15px rounded-1 ms-2" src="{{ asset(theme()->getMediaUrlPath() . 'flags/united-states.svg') }}" alt="metronic"/>
+                    {{ $txt }} <img class="w-15px h-15px rounded-1 ms-2" src="{{ asset(theme()->getMediaUrlPath() . 'flags/'.$flag.'.svg') }}" alt="{{$flag}}_flag"/>
                 </span>
-                @elseif(app()->getLocale() == 'sp')
-                <span class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0">
-                    {{ __('Spanish') }} <img class="w-15px h-15px rounded-1 ms-2" src="{{ asset(theme()->getMediaUrlPath() . 'flags/spain.svg') }}" alt="metronic"/>
-                </span>
-                @elseif(app()->getLocale() == 'de')
-                <span class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0">
-                    {{ __('German') }} <img class="w-15px h-15px rounded-1 ms-2" src="{{ asset(theme()->getMediaUrlPath() . 'flags/germany.svg') }}" alt="metronic"/>
-                </span>
-                @elseif(app()->getLocale() == 'ja')
-                <span class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0">
-                    {{ __('Japanese') }} <img class="w-15px h-15px rounded-1 ms-2" src="{{ asset(theme()->getMediaUrlPath() . 'flags/japan.svg') }}" alt="metronic"/>
-                </span>
-                @elseif(app()->getLocale() == 'fr')
-                <span class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0">
-                    {{ __('French') }} <img class="w-15px h-15px rounded-1 ms-2" src="{{ asset(theme()->getMediaUrlPath() . 'flags/france.svg') }}" alt="metronic"/>
-                </span>
-                @endif
+                <?php } ?>
+                    @endif
+                <?php } ?>
             </span>
         </a>
 
         <!--begin::Menu sub-->
         <div class="menu-sub menu-sub-dropdown w-175px py-4">
             <!--begin::Menu item-->
+            <?php foreach ($lang as $locale => $values) { ?>
             <div class="menu-item px-3">
-                <a href="#" class="menu-link d-flex px-5 {{ (app()->getLocale() == 'en')?'active':'' }}" data-mv-language-switcher="en" name="data-mv-language-switcher">
+                <a href="#" class="menu-link d-flex px-5 {{ (app()->getLocale() == $locale )? 'active' : '' }}" data-mv-language-switcher="{{ $locale }}" name="data-mv-language-switcher">
+                    <?php foreach ($values as $txt => $flag) { ?>
                     <span class="symbol symbol-20px me-4">
-                        <img class="rounded-1" src="{{ asset(theme()->getMediaUrlPath() . 'flags/united-states.svg') }}" alt="metronic"/>
+                        <img class="rounded-1" src="{{ asset(theme()->getMediaUrlPath() . 'flags/'.$flag.'.svg') }}" alt="{{$flag}}_flag"/>
                     </span>
-                    {{ __('English') }}
+                    {{ $txt }}
+                    <?php } ?>
                 </a>
             </div>
-            <!--end::Menu item-->
-
-            <!--begin::Menu item-->
-            <div class="menu-item px-3">
-                <a href="#" class="menu-link d-flex px-5 {{ (app()->getLocale() == 'sp')?'active':'' }}" data-mv-language-switcher="sp" name="data-mv-language-switcher">
-                    <span class="symbol symbol-20px me-4">
-                        <img class="rounded-1" src="{{ asset(theme()->getMediaUrlPath() . 'flags/spain.svg') }}" alt="metronic"/>
-                    </span>
-                    {{ __('Spanish') }}
-                </a>
-            </div>
-            <!--end::Menu item-->
-
-            <!--begin::Menu item-->
-            <div class="menu-item px-3">
-                <a href="#" class="menu-link d-flex px-5 {{ (app()->getLocale() == 'de')?'active':'' }}" data-mv-language-switcher="de" name="data-mv-language-switcher">
-                    <span class="symbol symbol-20px me-4">
-                        <img class="rounded-1" src="{{ asset(theme()->getMediaUrlPath() . 'flags/germany.svg') }}" alt="metronic"/>
-                    </span>
-                    {{ __('German') }}
-                </a>
-            </div>
-            <!--end::Menu item-->
-
-            <!--begin::Menu item-->
-            <div class="menu-item px-3">
-                <a href="#" class="menu-link d-flex px-5 {{ (app()->getLocale() == 'ja')?'active':'' }}" data-mv-language-switcher="ja" name="data-mv-language-switcher">
-                    <span class="symbol symbol-20px me-4">
-                        <img class="rounded-1" src="{{ asset(theme()->getMediaUrlPath() . 'flags/japan.svg') }}" alt="metronic"/>
-                    </span>
-                    {{ __('Japanese') }}
-                </a>
-            </div>
-            <!--end::Menu item-->
-
-            <!--begin::Menu item-->
-            <div class="menu-item px-3">
-                <a href="#" class="menu-link d-flex px-5 {{ (app()->getLocale() == 'fr')?'active':'' }}" data-mv-language-switcher="fr" name="data-mv-language-switcher">
-                    <span class="symbol symbol-20px me-4">
-                        <img class="rounded-1" src="{{ asset(theme()->getMediaUrlPath() . 'flags/france.svg') }}" alt="metronic"/>
-                    </span>
-                    {{ __('French') }}
-                </a>
-            </div>
-            <!--end::Menu item-->
+            <?php } ?>
         </div>
         <!--end::Menu sub-->
     </div>
