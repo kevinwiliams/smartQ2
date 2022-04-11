@@ -133,7 +133,7 @@ class LocationController extends Controller
         
     }
 
-    public function dept($id = null, DepartmentDataTable $locationDataTable)
+    public function dept($id = null, DepartmentDataTable $dataTable)
     {
         $departments = Department::where('location_id', $id)->count();
         $counters = Counter::where('location_id', $id)->count();
@@ -146,19 +146,9 @@ class LocationController extends Controller
         $keyList = $this->keyList();
 
         $model = Department::query();
-        $dataTable = DataTables::eloquent($model)
-                // ->filter(function ($query) {
-                //     if (request()->has('name')) {
-                //         $query->where('name', 'like', "%" . request('name') . "%");
-                //     }
-
-                //     if (request()->has('email')) {
-                //         $query->where('email', 'like', "%" . request('email') . "%");
-                //     }
-                // })
-                ->toJson();
+   
         
-        return $locationDataTable->render('pages.location.departments', compact('keyList', 'location','departments', 'counters', 'officers'));
+        return $dataTable->with('deptlocation_id', $id)->render('pages.location.departments', compact('keyList', 'location','departments', 'counters', 'officers'));
     }
 
     public function keyList()

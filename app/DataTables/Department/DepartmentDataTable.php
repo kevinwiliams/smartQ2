@@ -56,7 +56,8 @@ class DepartmentDataTable extends DataTable
      */
     public function query(Department $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()
+            ->where('department.location_id', $this->deptlocation_id);
     }
 
     /**
