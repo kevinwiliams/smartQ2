@@ -117,12 +117,12 @@
         <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder">
             <!--begin::Nav item-->
             <li class="nav-item">
-                <a class="nav-link text-active-primary py-5 me-6 active" href="#">Overview</a>
+                <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='view') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/view/' . $location->id)}}">Overview</a>
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item">
-                <a class="nav-link text-active-primary py-5 me-6" href="#">Departments</a>
+                <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='departments') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/departments/' . $location->id)}}">Departments</a>
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->
@@ -133,6 +133,11 @@
             <!--begin::Nav item-->
             <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6" href="#">Staff</a>
+            </li>
+            <!--end::Nav item-->
+            <!--begin::Nav item-->
+            <li class="nav-item">
+                <a class="nav-link text-active-primary py-5 me-6" href="#">Queue Setup</a>
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->

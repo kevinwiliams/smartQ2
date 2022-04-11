@@ -100,7 +100,7 @@
 												<tr class="align-top">
 													<!--begin::ID-->
 													<td>
-														<h4 class="text-gray-800"><a href="{{ theme()->getPageUrl('location/view/') }}/{{ $_location->id }}">{{ $_location->name }}</a></h4>
+														<h4 class="text-gray-800"><a href="{{ theme()->getPageUrl('location/view/'.$_location->id) }}">{{ $_location->name }}</a></h4>
 														<span class="text-muted fw-bold d-block fs-7">{!! theme()->getSvgIcon("icons/duotune/general/gen018.svg", "svg-icon-3") !!} {{ $_location->address }}</span>
 														<br>
 														<div class="border border-gray-300 border-dashed rounded min-w-100px w-100 py-3 px-6 me-4 mb-3">

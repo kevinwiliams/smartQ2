@@ -9,7 +9,7 @@
     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4" data-mv-menu="true">
         <!--begin::Menu item-->
         <div class="menu-item px-3">
-            <a href="{{ url('company/view/' . $model->id ) }}" data-id="{{$model->id}}" data-action="view" data-mv-company-table-filter="view_row" name="view" class="menu-link px-3">View</a>
+            <a href="{{theme()->getPageUrl('company/view/' . $model->id)}}" data-id="{{$model->id}}" data-action="view" data-mv-company-table-filter="view_row" name="view" class="menu-link px-3">View</a>
         </div>
         <!--end::Menu item-->
         @can('edit company')
