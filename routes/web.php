@@ -214,6 +214,8 @@ Route::middleware('auth')->group(function () {
 		Route::get('view/{id}', [LocationController::class, 'show']);
 		Route::post('edit/{id}', [LocationController::class, 'update']);
 		Route::get('delete/{id}', [LocationController::class, 'destroy']);
+		Route::get('departments/{id}', [LocationController::class, 'dept']);
+
 	});
 
 	

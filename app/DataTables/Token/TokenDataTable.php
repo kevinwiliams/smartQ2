@@ -128,14 +128,14 @@ class TokenDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('id'),
+            // Column::make('id'),
             Column::make('token_no'),
             Column::make('client_id')->title(__('Client Name')),
             Column::make('department_id')->title(__('Department')),
             Column::make('counter_id')->title(__('Counter')),
             Column::make('user_id')->title(__('Officer')),
             // Column::make('is_vip'),
-            Column::make('created_by'),
+            // Column::make('created_by'),
             Column::make('created_at'),
             //Column::make('updated_at'),
             Column::computed('action')

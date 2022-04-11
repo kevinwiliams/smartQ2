@@ -193,7 +193,17 @@ return array(
             ),
         ),
         'auto' => array(
-            'title' => 'Auto Token'
+            'title' => 'Auto Token',
+            'assets' => array(
+                'custom' => array(
+                    'css' => array(
+                        'plugins/custom/datatables/datatables.bundle.css',
+                    ),
+                    'js'  => array(
+                        'plugins/custom/datatables/datatables.bundle.js',
+                    ),
+                ),
+            ),
         ),
         'setting' => array(
             'title' => 'Auto Queue Settings'
@@ -285,22 +295,21 @@ return array(
                 ),
             )
         ),
-        'list' => array(
-            'title'  => 'Locations',
-            'assets' => array(
-                'custom' => array(
-                    'css' => array(
-                        'plugins/custom/datatables/datatables.bundle.css',
-                    ),
-                    'js' => array(
-                        'plugins/custom/datatables/datatables.bundle.js',
-                        // 'js/custom/user-management/roles/list/update-role.js',
-                        // 'js/custom/user-management/roles/list/add.js',
-                        // 'js/custom/user-management/roles/list/delete.js',
-
+        'departments' => array(
+            '*' => array(
+                'title'  => 'Departments',
+                'assets' => array(
+                    'custom' => array(
+                        'css' => array(
+                            'plugins/custom/datatables/datatables.bundle.css',
+                        ),
+                        'js' => array(
+                            'plugins/custom/datatables/datatables.bundle.js',
+                        ),
                     ),
                 ),
-            ),
+            )
+            
         ),
     ),
     'department' => array(

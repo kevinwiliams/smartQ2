@@ -1,47 +1,70 @@
 <x-base-layout>
-    <div class="col-sm-12" id="screen-content">
-        @if($display->sms_alert || $display->show_note)
-            <!-- With Mobile No -->
-            @foreach ($departmentList as $department) 
-            <div class="p-1 m-1 btn btn-primary text-capitalize text-center">
-                <button 
-                    type="button" 
-                    class="p-1 m-1 btn btn-primary text-center"
-                    style="min-width: 15vw;white-space: pre-wrap;box-shadow:0px 0px 0px 2px#<?= substr(dechex(crc32($department->name)), 0, 6); ?>" 
-                    data-bs-toggle="modal" 
-                    data-bs-target="#tokenModal"
-                    data-department-id="{{ $department->department_id }}"
-                    data-counter-id="{{ $department->counter_id }}"
-                    data-user-id="{{ $department->user_id }}"
+    <!--begin::Row-->
+    <div class="row gy-5 gx-xl-12">
+        <!--begin::Col-->
+        <div class="col-4">
+            @if($display->sms_alert || $display->show_note)
+                <!-- With Mobile No -->
+                @foreach ($departmentList as $department) 
+                <div class=" mw-200px p-1 m-1 btn btn-primary text-capitalize text-center">
+                    <button 
+                        type="button" 
+                        class="m-1 btn btn-primary text-center"
+                        style="background-color: #<?= substr(dechex(crc32($department->name)), 0, 6); ?>" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#tokenModal"
+                        data-department-id="{{ $department->department_id }}"
+                        data-counter-id="{{ $department->counter_id }}"
+                        data-user-id="{{ $department->user_id }}"
+                        >
+                        {{-- <div class="symbol symbol-60px mb-5 lh-1" style="display: block !important;"><img src="{{ asset(theme()->getMediaUrlPath() . "svg/misc/puzzle.svg" ?? '') }}" class="h-50 align-self-center" alt=""/> --}}
+                            <div class="fs-3 fw-bolder m-0 text-capitalize">{{ $department->name }} </div>
+                            <div class="fs-7 fw-bold text-gray-100 p-0 m-0">{{ $department->officer }}</div>
+                            
+                    </button>  
+                </div>
+                @endforeach  
+                <!--Ends of With Mobile No -->
+            @else
+                <!-- Without Mobile No -->
+                @foreach ($departmentList as $department )
+                {{ Form::open(['url' => 'token/auto', 'class' => 'AutoFrm p-1 m-1 btn btn-primary text-capitalize ']) }} 
+                    <input type="hidden" name="department_id" value="{{ $department->department_id }}">
+                    <input type="hidden" name="counter_id" value="{{ $department->counter_id }}">
+                    <input type="hidden" name="user_id" value="{{ $department->user_id }}">
+                    <button 
+                        type="submit" 
+                        class="p-1 m-1 btn btn-primary  text-center"
+                        style="white-space: pre-wrap;box-shadow:0px 0px 0px 2px#<?= substr(dechex(crc32($department->name)), 0, 6); ?>" 
                     >
-                    <div class="symbol symbol-60px mb-5 lh-1" style="display: block !important;"><img src="{{ asset(theme()->getMediaUrlPath() . "svg/misc/puzzle.svg" ?? '') }}" class="h-50 align-self-center" alt=""/>
-                        <div class="fs-3 fw-bolder mb-0 text-capitalize">{{ $department->name }} </div>
-                        {{-- <p class="fs-5 m-0 text-capitalize text-center">{{ $department->description }}</p> --}}
-                        <div class="fs-7 fw-bold text-gray-100">{{ $department->officer }}</div>
-                        
-                </button>  
-            </div>
-            @endforeach  
-            <!--Ends of With Mobile No -->
-        @else
-            <!-- Without Mobile No -->
-            @foreach ($departmentList as $department )
-              {{ Form::open(['url' => 'token/auto', 'class' => 'AutoFrm p-1 m-1 btn btn-primary text-capitalize ']) }} 
-                <input type="hidden" name="department_id" value="{{ $department->department_id }}">
-                <input type="hidden" name="counter_id" value="{{ $department->counter_id }}">
-                <input type="hidden" name="user_id" value="{{ $department->user_id }}">
-                <button 
-                    type="submit" 
-                    class="p-1 m-1 btn btn-primary  text-center"
-                    style="min-width: 15vw;white-space: pre-wrap;box-shadow:0px 0px 0px 2px#<?= substr(dechex(crc32($department->name)), 0, 6); ?>" 
-                >
-                <div class="symbol symbol-60px mb-5 lh-1" style="display: block !important;"><img src="{{ asset(theme()->getMediaUrlPath() . "svg/misc/puzzle.svg" ?? '') }}" class="h-50 align-self-center" alt=""/>
-                <p class="fs-5 fw-bolder mb-0 text-capitalize">{{ $department->name }}</p>
-                {{-- <div class="fs-5 mb-0 text-capitalize">{{ $department->description }}</div> --}}
-                <p class="fs-7 fw-bold text-gray-100">{{ $department->officer }}</p>
-</button>
-            {{ Form::close() }}
-@endforeach <!--Ends of Without Mobile No -->@endif</div>  
+                    {{-- <div class="symbol symbol-60px mb-5 lh-1" style="display: block !important;"><img src="{{ asset(theme()->getMediaUrlPath() . "svg/misc/puzzle.svg" ?? '') }}" class="h-50 align-self-center" alt=""/> --}}
+                    <p class="fs-5 fw-bolder mb-0 text-capitalize">{{ $department->name }}</p>
+                    {{-- <div class="fs-5 mb-0 text-capitalize">{{ $department->description }}</div> --}}
+                    {{-- <p class="fs-7 fw-bold text-gray-100">{{ $department->officer }}</p> --}}
+                    </button>
+                    {{ Form::close() }}
+                @endforeach <!--Ends of Without Mobile No -->
+            @endif
+       </div>
+       <!--end::Col-->
+
+       <!--begin::Col-->
+       <div class="col-8">
+           {{ theme()->getView('partials/widgets/tables/_active-tokens', array(
+            'dataTable' => $dataTable,
+            'officers' => $officers, 
+            'counters' => $counters, 
+            'departments' => $departments
+            )) }}
+       </div>
+       <!--end::Col-->
+   </div>
+   <!--end::Row-->
+
+
+
+
+
 
 <div class="modal fade" tabindex="-1" id="tokenModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered mw-650px" role="document">
@@ -53,7 +76,8 @@
         </div>
         <div class="modal-body">
           @if($display->sms_alert)
-          <p><input type="text" name="client_mobile" class="form-control" placeholder="{{ trans('app.client_mobile') }}" required><span class="text-danger">The Mobile No. field is required!</span></p>
+          <p><input type="phone" name="client_mobile" class="form-control" placeholder="{{ trans('app.client_mobile') }}" required>
+            <span class="text-danger">The Mobile No. field is required!</span></p>
           @endif
   
           @if($display->show_note)
@@ -77,6 +101,20 @@
 
 @section('scripts')
 <script>
+   $(document).ready(function() {
+    Inputmask({
+                    "mask": "1 (999) 999-9999",
+            }).mask("[name='client_mobile']");
+} );
+    // On document ready
+        MVUtil.onDOMContentLoaded(function() {
+            // Placeholder
+            Inputmask({
+                    "mask": "1 (999) 999-9999",
+            }).mask("[name='client_mobile']");
+    });
+
+   
     $('.modal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         $('input[name=department_id]').val(button.data('department-id'));

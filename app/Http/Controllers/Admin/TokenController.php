@@ -117,7 +117,7 @@ class TokenController extends Controller
     | AUTO TOKEN 
     |-----------------------------------*/
 
-    public function tokenAutoView()
+    public function tokenAutoView(TokenDataTable $dataTable)
     {
         $display = DisplaySetting::first();
         $keyList = DB::table('token_setting AS s')
@@ -164,7 +164,20 @@ class TokenController extends Controller
                 ->get(); 
         }
 
-        return view('pages.token.auto', compact('display', 'departmentList', 'keyList'));
+        @date_default_timezone_set(session('app.timezone'));
+        $waiting = Token::where('status', '0')->count();
+        $counters = Counter::where('status',1)->pluck('name','id');
+        $departments = Department::where('status',1)->pluck('name','id');
+        $officers = User::select('id',DB::raw('CONCAT(firstname, " ", lastname) as full_name'))
+            ->where('user_type',1)
+            ->where('status',1)
+            ->orderBy('full_name', 'ASC')
+            ->pluck('full_name', 'id');  
+        
+        return $dataTable->render('pages.token.auto', compact('display', 'departmentList', 'keyList', 'counters', 'departments', 'officers', 'waiting'));
+   
+
+        // return view('pages.token.auto', compact('display', 'departmentList', 'keyList'));
     }    
 
     public function tokenAuto(Request $request)

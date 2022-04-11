@@ -4,13 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use App\Core\Data;
 use App\DataTables\Location\LocationDataTable;
+use App\DataTables\Department\DepartmentDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\Department;
+use App\Models\Counter;
 use App\Models\DisplaySetting;
 use App\Models\Location;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use DataTables;
 
 class LocationController extends Controller
 {
@@ -113,9 +118,59 @@ class LocationController extends Controller
      * @param  \App\Models\Location  $location
      * @return \Illuminate\Http\Response
      */
-    public function show(Location $location)
+    public function show($id = null)
     {
-        //
+        
+        $departments = Department::where('location_id', $id)->count();
+        $counters = Counter::where('location_id', $id)->count();
+        $officers = User::where('location_id', 0)
+                    ->where('status', 1)
+                    ->get();
+                    // ->count();
+        $location = Location::where('id', $id)->first();
+        
+        return view('pages.location.view', compact('location','departments', 'counters', 'officers'));
+        
+    }
+
+    public function dept($id = null, DepartmentDataTable $locationDataTable)
+    {
+        $departments = Department::where('location_id', $id)->count();
+        $counters = Counter::where('location_id', $id)->count();
+        $officers = User::where('location_id', 0)
+                    ->where('status', 1)
+                    ->get();
+                    // ->count();
+        $location = Location::where('id', $id)->first();
+
+        $keyList = $this->keyList();
+
+        $model = Department::query();
+        $dataTable = DataTables::eloquent($model)
+                // ->filter(function ($query) {
+                //     if (request()->has('name')) {
+                //         $query->where('name', 'like', "%" . request('name') . "%");
+                //     }
+
+                //     if (request()->has('email')) {
+                //         $query->where('email', 'like', "%" . request('email') . "%");
+                //     }
+                // })
+                ->toJson();
+        
+        return $locationDataTable->render('pages.location.departments', compact('keyList', 'location','departments', 'counters', 'officers'));
+    }
+
+    public function keyList()
+    {
+        $chars = array_merge(range('1','9'), range('a','z'));
+        $list = array();
+        foreach($chars as $char)
+        {
+            if ($char != "v")
+            $list[$char] = $char;
+        }
+        return $list;
     }
 
     /**
