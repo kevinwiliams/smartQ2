@@ -128,7 +128,7 @@ return [
     |
     */
 
-    'default_menu_resource' => env('MENU_RESOURCE', ''),
+    'default_menu_resource' => env('MENU_RESOURCE', 'menu.'),
 
     /*
     |--------------------------------------------------------------------------
