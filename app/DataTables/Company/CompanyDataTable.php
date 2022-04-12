@@ -29,12 +29,21 @@ class CompanyDataTable extends DataTable
                 return Carbon::parse($model->created_at)->format('d M Y, h:i a');
             })
             ->editColumn('name', function(Company $model){
-				
-				$html = '<h4 class="text-gray-800"><a href="'.theme()->getPageUrl('company/view/'.$model->id) .'">'.$model->name.'</a></h4>';
+                $html = '<div class="d-flex align-items-sm-center mb-7">';
+                // $html .= '<div class="symbol symbol-60px symbol-2by3 flex-shrink-0 me-4">';
+                // $html .= '<img src="'. asset(theme()->getMediaUrlPath() . 'media/stock/600x400/img-3.jpg').'" class="mw-100" alt=""></div>';
+
+                $html .= '<div class="symbol symbol-50px me-2">';
+                $html .= '<span class="symbol-label bg-light-success">'. theme()->getSvgIcon("icons/duotune/general/gen025.svg", "svg-icon-2x svg-icon-success").' </span></div>';
+
+				$html .= '<div class="d-flex flex-row-fluid flex-wrap align-items-center">';
+                $html .= '<div class="flex-grow-1 me-2">';
+				$html .= '<a class="text-gray-800 fw-bolder text-hover-primary fs-4" href="'.theme()->getPageUrl('company/view/'.$model->id) .'">'.$model->name.'</a>';
                 
                 if(!empty($model->address))
-                    $html .= '<span class="text-muted fw-bold d-block fs-6">'. theme()->getSvgIcon("icons/duotune/general/gen018.svg", "svg-icon-3"). $model->address. '</span>';
-
+                    $html .= '<span class="text-muted fw-bold d-block pt-1">'. theme()->getSvgIcon("icons/duotune/general/gen018.svg", "svg-icon-3"). $model->address. '</span>';
+                
+                $html  .= '</div></div></div>';
 				return $html;
             })
             ->editColumn('active', function (Company $model) {      
