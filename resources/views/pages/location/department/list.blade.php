@@ -80,7 +80,7 @@
                 const deptID = parent.querySelectorAll('td')[0].innerText;
 
                 $.ajax({
-                    url: '/department/edit/'+ deptID,
+                    url: '/location/department/edit/'+ deptID,
                     data:   {
                         _token: $("input[name=_token]").val() },
                         success: function (data) {

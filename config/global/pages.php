@@ -295,7 +295,7 @@ return array(
                 ),
             )
         ),
-        'departments' => array(
+        'department' => array(
             '*' => array(
                 'title'  => 'Departments',
                 'assets' => array(
@@ -305,46 +305,34 @@ return array(
                         ),
                         'js' => array(
                             'plugins/custom/datatables/datatables.bundle.js',
+                            'js/custom/department/add.js',
+
                         ),
                     ),
                 ),
             )
             
         ),
-    ),
-    'department' => array(
-        'title'  => 'Departments',
-        'assets' => array(
-            'custom' => array(
-                'css' => array(
-                    'plugins/custom/datatables/datatables.bundle.css',
-                ),
-                'js' => array(
-                    'plugins/custom/datatables/datatables.bundle.js',
-                    'js/custom/department/add.js',
-                    // 'js/custom/department/edit.js',
-                    // 'js/custom/department/delete.js',
-                    // 'vendor/datatables/buttons.server-side.js',
-                ),
-            ),
-        ),
-    ),
-    'counter' => array(
-        'title'  => 'Counters',
-        'assets' => array(
-            'custom' => array(
-                'css' => array(
-                    'plugins/custom/datatables/datatables.bundle.css',
-                ),
-                'js' => array(
-                    'plugins/custom/datatables/datatables.bundle.js',
-                    'js/custom/counter/add.js',
-                    'js/custom/counter/delete.js',
-                    // 'vendor/datatables/buttons.server-side.js',
+        'counter' => array(
+            '*' => array(
+                'title'  => 'Counters',
+                'assets' => array(
+                    'custom' => array(
+                        'css' => array(
+                            'plugins/custom/datatables/datatables.bundle.css',
+                        ),
+                        'js' => array(
+                            'plugins/custom/datatables/datatables.bundle.js',
+                            'js/custom/counter/add.js',
+                            'js/custom/counter/delete.js',
+                            // 'vendor/datatables/buttons.server-side.js',
+                        ),
+                    ),
                 ),
             ),
         ),
     ),
+
     'settings' => array(
         'title' => 'App Settings',
         'display' => array(

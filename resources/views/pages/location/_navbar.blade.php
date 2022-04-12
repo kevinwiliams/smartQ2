@@ -122,12 +122,12 @@
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item">
-                <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='departments') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/departments/' . $location->id)}}">Departments</a>
+                <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='department') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/department/' . $location->id)}}">Departments</a>
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item">
-                <a class="nav-link text-active-primary py-5 me-6" href="#">Counters</a>
+                <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='counter') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/counter/' . $location->id)}}"">Counters</a>
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->

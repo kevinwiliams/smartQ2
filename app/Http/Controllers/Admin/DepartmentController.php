@@ -7,6 +7,9 @@ use Validator;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\Department;
+use App\Models\Counter;
+use App\Models\User;
+use App\Models\Location;
 
 class DepartmentController extends Controller
 {
@@ -14,13 +17,25 @@ class DepartmentController extends Controller
     public function _index()
     { 
         $departments = Department::get();
-        return view('pages.department.list', compact('departments'));
+        return view('pages.location.department.list', compact('departments'));
     }
 
-    public function index(DepartmentDataTable $dataTable)
+    public function index(DepartmentDataTable $dataTable, $id = null)
     {          
+        $departments = Department::where('location_id', $id)->count();
+        $counters = Counter::where('location_id', $id)->count();
+        $officers = User::where('location_id', 0)
+                    ->where('status', 1)
+                    ->get();
+                    // ->count();
+        $location = Location::where('id', $id)->first();
+
         $keyList = $this->keyList();
-        return $dataTable->render('pages.department.list', compact('keyList'));
+
+        $model = Department::query();
+   
+        
+        return $dataTable->with('deptlocation_id', $id)->render('pages.location.department.list', compact('keyList', 'location','departments', 'counters', 'officers'));
     }
 
     public function showForm()
@@ -48,7 +63,7 @@ class DepartmentController extends Controller
         ));
 
         if ($validator->fails()) {
-            return redirect('department/create')
+            return redirect('location/department/create')
                 ->withErrors($validator)
                 ->withInput();
         } else {

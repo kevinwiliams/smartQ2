@@ -23,9 +23,19 @@ class CompanyDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->rawColumns(['active','action'])        
+            ->orderColumn('created_at', true)
+            ->rawColumns(['active','action', 'name'])        
             ->editColumn('created_at', function (Company $model) {      
                 return Carbon::parse($model->created_at)->format('d M Y, h:i a');
+            })
+            ->editColumn('name', function(Company $model){
+				
+				$html = '<h4 class="text-gray-800"><a href="'.theme()->getPageUrl('company/view/'.$model->id) .'">'.$model->name.'</a></h4>';
+                
+                if(!empty($model->address))
+                    $html .= '<span class="text-muted fw-bold d-block fs-6">'. theme()->getSvgIcon("icons/duotune/general/gen018.svg", "svg-icon-3"). $model->address. '</span>';
+
+				return $html;
             })
             ->editColumn('active', function (Company $model) {      
                 if($model->active){
@@ -62,7 +72,7 @@ class CompanyDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     // ->dom('Bfrtip')
-                    ->orderBy(0)
+                    ->orderBy(4, 'desc')
                     ->responsive()
                     ->autoWidth(false)
                     ->parameters(['scrollX' => true])
@@ -79,7 +89,7 @@ class CompanyDataTable extends DataTable
     {
         return [                       
             Column::make('name'),                        
-            Column::make('address'),        
+            // Column::make('address'),        
             Column::make('description'),
             Column::make('active'),
             Column::make('location_count')->title('Locations'),        

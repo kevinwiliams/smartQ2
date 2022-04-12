@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests; 
 use App\Models\Counter;
+use App\Models\Department;
+use App\Models\User;
+use App\Models\Location;
 use Validator, App;
 
 class CounterController extends Controller
@@ -16,9 +19,18 @@ class CounterController extends Controller
     	return view('pages.counter.list', ['counters' => $counters]);
 	}
 
-    public function index(CounterDataTable $dataTable)
+    public function index(CounterDataTable $dataTable, $id = null)
     {          
-        return $dataTable->render('pages.counter.list');
+        
+        $departments = Department::where('location_id', $id)->count();
+        $counters = Counter::where('location_id', $id)->count();
+        $officers = User::where('location_id', 0)
+                    ->where('status', 1)
+                    ->get();
+                    // ->count();
+        $location = Location::where('id', $id)->first();
+
+        return $dataTable->with('ctrlocation_id', $id)->render('pages.location.counter.list', compact('location','departments', 'counters', 'officers'));
     }
 
     public function showForm()
@@ -42,7 +54,7 @@ class CounterController extends Controller
         ));
 
         if ($validator->fails()) {
-            return redirect('counter/create')
+            return redirect('location/counter/create')
                         ->withErrors($validator)
                         ->withInput();
         } else {

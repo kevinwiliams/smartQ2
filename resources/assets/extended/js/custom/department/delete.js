@@ -48,7 +48,7 @@ var MVTokenDeleteDept = function () {
                 }).then(function (result) {
                     if (result.value) {
                         $.ajax({
-                            url: '/department/delete/'+ deptID,
+                            url: '/location/department/delete/'+ deptID,
                             data:   {
                                 _token: $("input[name=_token]").val() },
                                 success: function (res) {

@@ -38,7 +38,7 @@ class CounterDataTable extends DataTable
                 return $str;
             })
             ->addColumn('action', function (Counter $model) {
-                return view('pages.counter._action-menu', compact('model'));
+                return view('pages.location.counter._action-menu', compact('model'));
             });  
     }
 
@@ -50,7 +50,8 @@ class CounterDataTable extends DataTable
      */
     public function query(Counter $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()
+        ->where('counter.location_id', $this->ctrlocation_id);
     }
 
     /**

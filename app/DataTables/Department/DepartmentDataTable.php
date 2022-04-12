@@ -42,7 +42,7 @@ class DepartmentDataTable extends DataTable
                 return $str;
             })
             ->addColumn('action', function (Department $model) {
-                return view('pages.department._action-menu', compact('model'));
+                return view('pages.location.department._action-menu', compact('model'));
             })
             ->rawColumns(['updated_at', 'status', 'avg_wait_time']);  
             // ->addColumn('action', 'department.action');
