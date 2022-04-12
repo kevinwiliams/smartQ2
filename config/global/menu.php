@@ -301,16 +301,6 @@ return array(
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
-                        'title'  => 'Departments',
-                        'path'   => 'department',
-                        'bullet' => '<span class="bullet bullet-dot"></span>',
-                    ),
-                    array(
-                        'title'  => 'Counters',
-                        'path'   => 'counter',
-                        'bullet' => '<span class="bullet bullet-dot"></span>',
-                    ),
-                    array(
                         'title'      => 'Users',
                         'path'       => 'apps/user-management/users/list',
                         'bullet'     => '<span class="bullet bullet-dot"></span>',                       

@@ -138,10 +138,10 @@ Route::middleware('auth')->group(function () {
 
 	// Token pages
 	Route::prefix('token')->group(function () {
-		Route::get('setting', [TokenController::class, 'tokenSettingView']);
-		Route::post('setting', [TokenController::class, 'tokenSetting']);
-		Route::get('setting/delete/{id}', [TokenController::class, 'tokenDeleteSetting']);
-		Route::get('auto', [TokenController::class, 'tokenAutoView']);
+		// Route::get('setting', [TokenController::class, 'tokenSettingView']);
+		// Route::post('setting', [TokenController::class, 'tokenSetting']);
+		// Route::get('setting/delete/{id}', [TokenController::class, 'tokenDeleteSetting']);
+		// Route::get('auto', [TokenController::class, 'tokenAutoView']);
 		Route::post('auto', [TokenController::class, 'tokenAuto']);
 		Route::get('current', [TokenController::class, 'current']);
 		Route::get('current/card', [TokenController::class, 'currentOfficer']);
@@ -197,7 +197,9 @@ Route::middleware('auth')->group(function () {
 		Route::post('edit/{id}', [LocationController::class, 'update']);
 		Route::get('delete/{id}', [LocationController::class, 'destroy']);
 		// Route::get('department/{id}', [LocationController::class, 'dept']);
-
+		Route::get('token/setting/{id}', [TokenController::class, 'tokenSettingView']);
+		Route::post('token/setting/{id}', [TokenController::class, 'tokenSetting']);
+		Route::get('token/setting/delete/{id}', [TokenController::class, 'tokenDeleteSetting']);
 		// // Department pages
 		Route::prefix('department')->group(function () {
 			Route::get('/{id}', [DepartmentController::class, 'index']);

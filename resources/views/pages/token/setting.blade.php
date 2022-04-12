@@ -1,5 +1,11 @@
 <x-base-layout>
-    <div class="row">
+<!--begin::Post-->
+<div class="post d-flex flex-column-fluid" id="mv_post">
+    <!--begin::Container-->
+    <div id="mv_content_container" class="container-xxl">
+        {{ theme()->getView('pages/location/_navbar', array('officers' => $officers, 'counters' => $counters, 'departments' => $departments, 'location' => $location )) }}
+        
+        <div class="row">
         <!-- setting form -->
             <div class="col-sm-6 col-lg-5">  
                 <div class="card">
@@ -7,7 +13,7 @@
                 <div class="card-header cursor-pointer">
                     <!--begin::Card title-->
                     <div class="card-title m-0">
-                        <h3 class="fw-bolder m-0">{{ __('Add Dept to Auto Q') }}</h3>
+                        <h3 class="fw-bolder m-0">{{ __('Assign Counters') }}</h3>
                     </div>
                     <!--end::Card title-->
                 </div>
@@ -15,7 +21,8 @@
 
                 <!--begin::Card body-->
                 <div class="card-body p-9">
-                {{ Form::open(['url' => 'token/setting']) }}
+                {{ Form::open(['url' => 'location/token/setting/'.$location->id]) }}
+                <input type="hidden" name="location_id" value="{{ $location->id }}">
                 <div class="fv-row mb-7">
                     <div class="form-group @error('department_id') has-error @enderror">
                         <label class="form-label fs-6 fw-bold" for="department_id">{{ trans('app.department') }} <i class="text-danger">*</i></label><br/>
@@ -40,7 +47,7 @@
                 <div class="fv-row mb-7">
                     <div class="btn-group">
                         <button type="reset" class="btn btn-primary">{{ trans('app.reset') }}</button>
-                        <button type="submit" class="btn btn-success">{{ trans('app.save') }}</button> 
+                        <button type="submit" class="btn btn-success">{{ trans('app.add') }}</button> 
                     </div>
                 </div>
                 {{ Form::close() }}
@@ -52,10 +59,10 @@
             <div class="col-sm-6 col-lg-7">
                 <div class="card">
                     <div class="card-body">
-                        <table class="display table" width="100%" cellspacing="0">
+                        <table class="display table" width="100%" cellspacing="0" name="mv_queue_config" id="mv_queue_config">
                             <thead>
-                                <tr>
-                                    <th>#</th> 
+                                <tr class="fw-bolder text-muted bg-light">
+                                    {{-- <th>#</th>  --}}
                                     <th>{{ trans('app.department') }}</th>
                                     <th>{{ trans('app.counter') }}</th>
                                     <th>{{ trans('app.officer') }}</th> 
@@ -68,7 +75,7 @@
                                     <?php $sl = 1 ?>
                                     @foreach ($tokens as $token)
                                         <tr>
-                                            <td>{{ $sl++ }}</td> 
+                                            {{-- <td>{{ $sl++ }}</td>  --}}
                                             <td>{{ $token->department }}</td>
                                             <td>{{ $token->counter }}</td>
                                             <td>{{ $token->firstname }} {{ $token->lastname }}</td>
@@ -77,7 +84,7 @@
                                                     {{-- <a href="{{ url("token/setting/delete/$token->id") }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')" title="Delete"><i class="fa fa-trash"></i></a> --}}
                                                 </div>
         
-                                                <a href="{{ url("token/setting/delete/$token->id") }}" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm" onclick="return confirm('Are you sure?')">
+                                                <a href="{{ url("location/token/setting/delete/$token->id") }}" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm" onclick="return confirm('Are you sure?')">
                                                     <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                     {!! theme()->getSvgIcon("icons/duotune/general/gen027.svg", "svg-icon-3") !!}
                                                     <!--end::Svg Icon-->
@@ -95,4 +102,19 @@
             </div>
 
         </div>
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::Post-->
+
+@section('scripts')
+<script>
+    $(document).ready(function() {
+   $('#mv_queue_config').dataTable({
+                    "info": false,
+                });
+} );
+</script>
+    
+@endsection
 </x-base-layout>

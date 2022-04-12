@@ -123,7 +123,7 @@ class LocationController extends Controller
         
         $departments = Department::where('location_id', $id)->count();
         $counters = Counter::where('location_id', $id)->count();
-        $officers = User::where('location_id', 0)
+        $officers = User::where('location_id', $id)
                     ->where('status', 1)
                     ->get();
                     // ->count();
@@ -137,7 +137,7 @@ class LocationController extends Controller
     {
         $departments = Department::where('location_id', $id)->count();
         $counters = Counter::where('location_id', $id)->count();
-        $officers = User::where('location_id', 0)
+        $officers = User::where('location_id', $id)
                     ->where('status', 1)
                     ->get();
                     // ->count();
