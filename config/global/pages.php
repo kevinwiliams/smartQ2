@@ -162,6 +162,13 @@ return array(
         ),
 
     ),
+    'reports'         => array(
+        'title' => 'Reports',
+
+        '*' => array(
+            'title' => 'Generate Reorts',
+        ),
+    ),
     'token' => array(
         'current' => array(
             'title' => 'Token List',

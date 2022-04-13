@@ -21,6 +21,7 @@ use App\Http\Controllers\Common\CronjobController;
 use App\Http\Controllers\Common\DisplayController;
 use App\Http\Controllers\Admin\DisplaySettingController;
 use App\Http\Controllers\Admin\LocationController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Common\LanguageController;
 use App\Http\Controllers\Common\MessageController;
 use App\Http\Controllers\Common\NotificationController;
@@ -106,6 +107,11 @@ Route::middleware('auth')->group(function () {
 	Route::prefix('log')->name('log.')->group(function () {
 		Route::resource('system', SystemLogsController::class)->only(['index', 'destroy']);
 		Route::resource('audit', AuditLogsController::class)->only(['index', 'destroy']);
+	});
+
+	// Report pages
+	Route::prefix('reports')->group(function () {
+		Route::get('/', [ReportController::class, 'index'])->name('reports.index');
 	});
 
 	# home

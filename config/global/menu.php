@@ -256,26 +256,26 @@ return array(
             'title' => 'Reports',
             'permission' => 'view report',
             'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/graphs/gra010.svg", "svg-icon-2"),
-            'path'  => '#',
-            'classes'    => array('item' => 'menu-accordion'),
-            'attributes' => array(
-                "data-mv-menu-trigger" => "click",
-            ),
-            'sub'        => array(
-                'class' => 'menu-sub-accordion menu-active-bg',
-                'items' => array(
-                    array(
-                        'title'  => 'Tokens',
-                        'path'   => 'token/report',
-                        'bullet' => '<span class="bullet bullet-dot"></span>',
-                    ),
-                    array(
-                        'title'  => 'Performance',
-                        'path'   => 'token/performance',
-                        'bullet' => '<span class="bullet bullet-dot"></span>',
-                    ),
-                ),
-            ),
+            'path'  => 'reports',
+            // 'classes'    => array('item' => 'menu-accordion'),
+            // 'attributes' => array(
+            //     "data-mv-menu-trigger" => "click",
+            // ),
+            // 'sub'        => array(
+            //     'class' => 'menu-sub-accordion menu-active-bg',
+            //     'items' => array(
+            //         array(
+            //             'title'  => 'Tokens',
+            //             'path'   => 'token/report',
+            //             'bullet' => '<span class="bullet bullet-dot"></span>',
+            //         ),
+            //         array(
+            //             'title'  => 'Performance',
+            //             'path'   => 'token/performance',
+            //             'bullet' => '<span class="bullet bullet-dot"></span>',
+            //         ),
+            //     ),
+            // ),
         ),
         // Configuration
         array(
