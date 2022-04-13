@@ -3,7 +3,9 @@
 <div class="post d-flex flex-column-fluid" id="mv_post">
     <!--begin::Container-->
     <div id="mv_content_container" class="container-xxl">
-        {{ theme()->getView('pages/location/_navbar', array('officers' => $officers, 'counters' => $counters, 'departments' => $departments, 'location' => $location )) }}
+        {{ theme()->getView('pages/location/_navbar', 
+            array('officers' => $officers, 'counters' => $counters, 
+                'departments' => $departments, 'location' => $location )) }}
         
         <div class="row">
             {{ Form::open(['url' => 'location/settings/display/'.$location->id, 'class'=>'row']) }}
@@ -273,7 +275,7 @@
                 <table class="table table-bordered table-striped" id="custom-display">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            {{-- <th>#</th> --}}
                             <th>{{ trans('app.name') }}</th>
                             <th>{{ trans('app.counter') }}</th>
                             <th>{{ trans('app.description') }}</th>
@@ -284,7 +286,7 @@
                     <tbody>
                         @foreach($customDisplays as $display) 
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
+                            {{-- <td>{{ $loop->iteration }}</td> --}}
                             <td>{{ $display->name }}</td>
                             <td>
                             @if (!empty($display->counters))
@@ -301,12 +303,11 @@
 								<a class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1" data-bs-toggle="modal" data-bs-target=".customDisplayModal" title="{{ trans('app.update_display') }}" data-id="{{ $display->id }}" data-location="{{ $location->id }}">
                                 		{!! theme()->getSvgIcon("icons/duotune/art/art005.svg", "svg-icon-3") !!}
                                 </a>
-                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target=".customDisplayModal" title="{{ trans('app.update_display') }}" data-id="{{ $display->id }}">
-                                    <i class="fa fa-edit"></i>
-                                </button>
-                                <a href="{{ url('common/display?type=6') }}&custom={{ $display->id }}" target="_blank" class="btn btn-success btn-sm" title="{{ trans('app.display') }}">
-                                    <i class="fa fa-desktop"></i>
+                                <a href="{{ url('common/display?type=6') }}&custom={{ $display->id }}" target="_blank" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"  title="{{ trans('app.display') }}">
+                                    {!! theme()->getSvgIcon("icons/duotune/electronics/elc004.svg", "svg-icon-1") !!}
                                 </a>
+                            
+                                
                             </td>
                         </tr>
                         @endforeach

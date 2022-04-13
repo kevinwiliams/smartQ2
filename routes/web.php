@@ -224,7 +224,7 @@ Route::middleware('auth')->group(function () {
 			Route::get('/{id}', [SettingController::class, 'showForm']);
 			Route::post('/{id}', [SettingController::class, 'create']);
 			Route::get('display/{id}', [DisplaySettingController::class, 'showForm']);
-			Route::post('display', [DisplaySettingController::class, 'setting']);
+			Route::post('display/{id}', [DisplaySettingController::class, 'setting']);
 			Route::get('display/custom', [DisplaySettingController::class, 'getCustom']);
 			Route::post('display/custom', [DisplaySettingController::class, 'custom']);
 		});

@@ -139,7 +139,9 @@ class DisplaySettingController extends Controller
     {
         $data   = [];
 
-        $result = DisplayCustom::find($request->id);
+        // $result = DisplayCustom::find($request->id);
+        $result = DisplayCustom::where('id', $request->id)->where('location_id', $request->location_id)->first();
+        
         if ($result)
         {
             $data = [

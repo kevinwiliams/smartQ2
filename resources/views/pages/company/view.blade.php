@@ -94,6 +94,7 @@
 													<th></th>
 													<th></th>
 													<th></th>
+													<th></th>
 												</tr>
 											<tbody>
 												@foreach($company->locations as $_location)
@@ -130,6 +131,10 @@
 															<span class="text-muted fw-bold p-1">Avg. Wait Time: </span><span> 3 mins</span><br />
 															<span class="text-muted fw-bold p-1">Avg. Service Time: </span><span> 7 mins</span><br />
 														</div>
+													</td>
+													<td valign="middle">
+														<a href="{{ theme()->getPageUrl('location/view/'.$_location->id) }}" class="btn btn-bg-light btn-color-muted btn-active-color-primary btn-sm px-4 me-2">View</a>
+
 													</td>
 
 												</tr>

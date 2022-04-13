@@ -1,33 +1,28 @@
 <!--begin::Action=-->
 <td class="text-end">
-    <a href="#" class="btn btn-light btn-active-light-primary btn-sm" data-mv-menu-trigger="click" data-mv-menu-placement="bottom-end">...
-        <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
-
-        <!--end::Svg Icon-->
-    </a>
-    <!--begin::Menu-->
-    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4" data-mv-menu="true">
+    <div class="d-flex justify-content-end flex-shrink-0">
         <!--begin::Menu item-->
-        <div class="menu-item px-3">
-            <a href="{{theme()->getPageUrl('company/view/' . $model->id)}}" data-id="{{$model->id}}" data-action="view" data-mv-company-table-filter="view_row" name="view" class="menu-link px-3">View</a>
-        </div>
+        <a href="{{theme()->getPageUrl('company/view/' . $model->id)}}" data-id="{{$model->id}}" data-action="view" data-mv-company-table-filter="view_row" name="view" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1">
+            {!! theme()->getSvgIcon("icons/duotune/general/gen019.svg", "svg-icon-1") !!}
+        </a>
         <!--end::Menu item-->
         @can('edit company')
         <!--begin::Menu item-->
-        <div class="menu-item px-3">
-            <a href="#" data-id="{{$model->id}}" data-action="edit" data-mv-company-table-filter="edit_row" name="edit" class="menu-link px-3">Edit</a>
-        </div>
+        <a href="#" data-id="{{$model->id}}" data-action="edit" data-mv-company-table-filter="edit_row" name="edit" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+            {!! theme()->getSvgIcon("icons/duotune/art/art005.svg", "svg-icon-3") !!}
+        </a>
         <!--end::Menu item-->
         @endcan
         @can('delete company')
         <!--begin::Menu item-->
-        <div class="menu-item px-3">
-            <a href="#" data-id="{{$model->id}}" class="menu-link px-3" data-mv-company-table-filter="delete_row">Delete</a>
-        </div>
+        <a href="#" data-id="{{$model->id}}" data-mv-company-table-filter="delete_row" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm me-1">
+            {!! theme()->getSvgIcon("icons/duotune/general/gen027.svg", "svg-icon-1") !!}
+        </a>
         <!--end::Menu item-->
         @endcan
+    
     </div>
-    <!--end::Menu-->
+  
     <input type="hidden" value="{{$model->id}}" name="company-id" id="company-id-{{$model->id}}" />
     <input type="hidden" value="{{$model->name}}" name="company-name" id="company-name-{{$model->name}}" />
     <input type="hidden" value="{{$model->address}}" name="company-address" id="company-address-{{$model->address}}" />
