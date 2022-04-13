@@ -4,62 +4,67 @@
         <!--begin::Container-->
         <div id="mv_content_container" class="container-xxl">
             <!--begin::Navbar-->
-            <form action="#" method="POST">
+            <form action="#" id="mv_report_search_form">
                 <!--begin::Card-->
                 <div class="card mb-7">
                     <!--begin::Card body-->
                     <div class="card-body">
                         <div class="col-xxl-5">
-                            <!--begin::Row-->
-                            <div class="row" style="flex-wrap: nowrap;">
-                                <!--begin::Col-->
-                                <div class="col-lg-6 pe-5">
-                                    <label class="fs-6 form-label fw-bolder text-dark">Report Type</label>
-                                    <!--begin::Select-->
-                                    <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Report" tabindex="-1" aria-hidden="true" name="report_name">
-                                        <option value=""></option>
-                                        <optgroup label="Visit Reports">
-                                            <option value="1">Hourly</option>
-                                            <option value="2">Daily</option>
-                                            <option value="3">Weekly</option>
-                                            <option value="4">Monthly</option>
-                                        </optgroup>
-                                        <optgroup label="KPI Reports">
-                                            <option value="5">Wait Time</option>
-                                            <option value="6">Service Time</option>
-                                        </optgroup>
-                                        <optgroup label="Stat Reports">
-                                            <option value="7">Customers Served</option>
-                                            <option value="8">No Shows</option>
-                                        </optgroup>
-                                    </select>
-                                    <!--end::Select-->
+                            <div class="d-flex flex-row">
+                                <div class="fv-row m-2 col-4">
+                                    <div class="form-group @error('report') has-error @enderror">
+                                        <label class="fs-6 form-label fw-bolder text-dark">Report Type</label>
+                                        <!--begin::Select-->
+                                        <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Report" tabindex="-1" aria-hidden="true" name="report" id="report">
+                                            <option value=""></option>
+                                            <optgroup label="Visit Reports">
+                                                <option value="1" {{ ($data->report == "1")?"selected":"" }}>Hourly</option>
+                                                <option value="2" {{ ($data->report == "2")?"selected":"" }}>Daily</option>
+                                                <option value="3" {{ ($data->report == "3")?"selected":"" }}>Weekly</option>
+                                                <option value="4" {{ ($data->report == "4")?"selected":"" }}>Monthly</option>
+                                            </optgroup>
+                                            <optgroup label="KPI Reports">
+                                                <option value="5" {{ ($data->report == "5")?"selected":"" }} disabled>Wait Time</option>
+                                                <option value="6" {{ ($data->report == "6")?"selected":"" }} disabled>Service Time</option>
+                                            </optgroup>
+                                            <optgroup label="Stat Reports">
+                                                <option value="7" {{ ($data->report == "7")?"selected":"" }} disabled>Customers Served</option>
+                                                <option value="8" {{ ($data->report == "8")?"selected":"" }} disabled>No Shows</option>
+                                            </optgroup>
+                                        </select>
+                                        <!--end::Select-->
+                                        <span class="text-danger">{{ $errors->first('report') }}</span>
+                                    </div>
                                 </div>
-                                <!--end::Col-->
-                                <!--begin::Col-->
-                                <div class="col-lg-12 pe-5">
-                                    <label class="fs-6 form-label fw-bolder text-dark">Location</label>
-                                    <!--begin::Select-->
-                                    {{ Form::select('location_id', $locations, null, ['data-placeholder' => 'Select Location', 'data-control' => 'select2', 'multiple' => 'multiple' , 'class'=>'form-select form-select-solid form-select-lg fw-bold']) }}
-                                    <!--end::Select-->
+                                <div class="fv-row m-2 col-12">
+                                    <div class="form-group @error('location_id') has-error @enderror">
+                                        <label class="fs-6 form-label fw-bolder text-dark">Location</label>
+                                        <!--begin::Select-->
+                                        <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Location" tabindex="-1" aria-hidden="true" name="location_id" id="location_id" multiple="multiple">
+                                            @foreach($locations as $_location)
+                                            <option value="{{ $_location->id }}" {{ in_array($_location->id, explode(",",$data->location_id))?"selected":"" }}>{{ $_location->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <!--end::Select-->
+                                        <span class="text-danger">{{ $errors->first('location_id') }}</span>
+                                    </div>
                                 </div>
-                                <!--end::Col-->
-                                <!--begin::Col-->
-                                <div class="col-lg-6">
-                                    <label class="fs-6 form-label fw-bolder text-dark">Date</label>
-                                    <!--begin::Select-->
-                                    <input class="form-control form-control-solid" placeholder="Pick date rage" id="mv_daterangepicker" name="daterange" />
-                                    <!--end::Select-->
+                                <div class="fv-row m-2 col-6">
+                                    <div class="form-group @error('daterange') has-error @enderror">
+                                        <label class="fs-6 form-label fw-bolder text-dark">Date</label>
+                                        <!--begin::Select-->
+                                        <input class="form-control form-control-solid" placeholder="Pick date rage" id="mv_daterangepicker" name="daterange" value="{{ $data->daterange }}" />
+                                        <!--end::Select-->
+                                        <span class="text-danger">{{ $errors->first('daterange') }}</span>
+                                    </div>
                                 </div>
-                                <!--end::Col-->
-                                <!--begin:Action-->
-                                <div class="col-lg-1 align-items-bottom">
-                                    <label class="fs-6 form-label fw-bolder text-dark">&nbsp;</label>
-                                    <button type="submit" class="btn btn-primary me-5">Search</button>
-                                </div>
-                                <!--end:Action-->
+                                <div class="fv-row m-2 col-1">
+                                    <div class="form-group">
+                                        <label class="fs-6 form-label fw-bolder text-dark">&nbsp;</label>
+                                        <button type="submit" class="btn btn-primary me-5" data-mv-search-action="submit">Search</button>
+                                    </div>
+                                </div>                      
                             </div>
-                            <!--end::Row-->
                         </div>
                     </div>
                     <!--end::Card body-->
@@ -72,10 +77,12 @@
             <div class="row g-6 g-xl-9">
                 <!--begin::Col-->
                 <div class="col-lg-12">
+
                     <!--begin::Summary-->
                     <div class="card card-flush h-lg-100">
                         <!--begin::Card body-->
-                        <div class="card-body p-9 pt-5">                
+                        <div class="card-body p-9 pt-5">
+                            @if($data->data == null)
                             <!--begin::Notice-->
                             <div class="notice d-flex bg-light-primary rounded border-primary border border-dashed p-6">
                                 <!--begin::Wrapper-->
@@ -90,12 +97,24 @@
                                 <!--end::Wrapper-->
                             </div>
                             <!--end::Notice-->
+                            @else
+                            @if($data->report == '1')
+                            {{ theme()->getView('partials/reports/hourly-token-report', array('data' => $data->data)) }}
+                            @elseif($data->report == '2')
+                            {{ theme()->getView('partials/reports/daily-token-report', array('data' => $data->data)) }}
+                            @elseif($data->report == '3')
+                            {{ theme()->getView('partials/reports/weekly-token-report', array('data' => $data->data)) }}
+                            @elseif($data->report == '4')
+                            {{ theme()->getView('partials/reports/monthly-token-report', array('data' => $data->data)) }}
+                            @endif
+                            @endif
                         </div>
                         <!--end::Card body-->
                     </div>
                     <!--end::Summary-->
+
                 </div>
-                <!--end::Col-->      
+                <!--end::Col-->
             </div>
             <!--end::Row-->
 
