@@ -212,9 +212,7 @@ return array(
                 ),
             ),
         ),
-        'setting' => array(
-            'title' => 'Auto Queue Settings'
-        ),
+        
         'report' => array(
             'title' => 'Tokens Report',
             'assets' => array(
@@ -337,6 +335,24 @@ return array(
                     ),
                 ),
             ),
+        ),
+        'token' => array(
+            'setting' => array(
+                '*' => array(
+                    'title' => 'Token Queue Configuration',
+                    'assets' => array(
+                        'custom' => array(
+                            'css' => array(
+                                'plugins/custom/datatables/datatables.bundle.css',
+                            ),
+                            'js'  => array(
+                                'plugins/custom/datatables/datatables.bundle.js',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+                
         ),
     ),
 

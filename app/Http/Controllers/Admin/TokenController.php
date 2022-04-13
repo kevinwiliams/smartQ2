@@ -14,6 +14,7 @@ use App\Models\Token;
 use App\Models\DisplaySetting;
 use App\Models\TokenSetting;
 use App\Models\SmsSetting;
+use App\Models\Location;
 use App\Models\SmsHistory;
 use Carbon\Carbon;
 
@@ -26,35 +27,49 @@ class TokenController extends Controller
     | AUTO TOKEN SETTING
     |-----------------------------------*/
 
-    public function tokenSettingView()
+    public function tokenSettingView($id = null)
     { 
+        
+        $departments = Department::where('location_id', $id)->count();
+        $counters = Counter::where('location_id', $id)->count();
+        $officers = User::where('location_id', $id)
+                    ->where('status', 1)
+                    ->get();
+                    // ->count();
+        $location = Location::where('id', $id)->first();
+        
+        
         $tokens = TokenSetting::select('token_setting.*', 'department.name as department', 'counter.name as counter', 'user.firstname', 'user.lastname')
                 ->leftJoin('department', 'token_setting.department_id', '=', 'department.id')
                 ->leftJoin('counter', 'token_setting.counter_id', '=', 'counter.id')
                 ->leftJoin('user', 'token_setting.user_id', '=', 'user.id')
                 ->groupBy('token_setting.location_id', 'department', 'token_setting.user_id')
-                ->orderBy('token_setting.location_id')
+                ->where('token_setting.location_id', $id)
                 ->orderBy('department')
                 ->get();
  
         $countertList = Counter::select('counter.*', 'token_setting.counter_id')
                 ->leftJoin('token_setting', 'counter.id', '=', 'token_setting.counter_id')
+                ->where('counter.location_id', $id)
                 ->where('counter.status',1)
                 ->whereNull('token_setting.counter_id')
                 ->pluck('name','id');
         
 
-        $departmentList = Department::where('status',1)->pluck('name','id');
+        $departmentList = Department::where('status',1)
+                ->where('location_id', $id)
+                ->pluck('name','id');
 
         $userList = User::select('user.id', DB::raw('CONCAT(user.firstname, " ", user.lastname) as full_name') )
                 ->leftJoin('token_setting', 'user.id', '=', 'token_setting.user_id')
                 ->where('user.user_type',1)
+                ->where('user.location_id', $id)
                 ->where('user.status',1)
                 ->whereNull('token_setting.user_id')
                 ->orderBy('user.firstname', 'ASC')
                 ->pluck('full_name', 'user.id'); 
 
-        return view('pages.token.setting', compact('tokens','countertList','departmentList','userList')); 
+        return view('pages.token.setting', compact('tokens','countertList','departmentList','userList','officers', 'counters', 'departments', 'location')); 
     }
 
     public function tokenSetting(Request $request)
@@ -81,6 +96,7 @@ class TokenController extends Controller
 
             $check = TokenSetting::where('department_id',$request->department_id)
                     ->where('counter_id',$request->counter_id)
+                    ->where('location_id',$request->location_id)
                     ->where('user_id',$request->user_id)
                     ->count();
             if ($check > 0) {
@@ -89,6 +105,7 @@ class TokenController extends Controller
             }
 
             $save = TokenSetting::insert([ 
+                'location_id' => $request->location_id,
                 'department_id' => $request->department_id,
                 'counter_id'    => $request->counter_id, 
                 'user_id'       => $request->user_id, 
@@ -119,6 +136,8 @@ class TokenController extends Controller
 
     public function tokenAutoView(TokenDataTable $dataTable)
     {
+        
+        
         $display = DisplaySetting::first();
         $keyList = DB::table('token_setting AS s')
             ->select('d.key', 's.department_id', 's.counter_id', 's.user_id')

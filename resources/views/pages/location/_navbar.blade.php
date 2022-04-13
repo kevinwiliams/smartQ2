@@ -42,7 +42,7 @@
                         <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
                             <!--begin::Number-->
                             <div class="d-flex align-items-center">
-                                <div class="fs-4 fw-bolder">{{ $location->created_at }}</div>
+                                <div class="fs-4 fw-bolder">{{ Carbon\Carbon::parse($location->created_at)->toFormattedDateString() }}</div>
                             </div>
                             <!--end::Number-->
                             <!--begin::Label-->
@@ -127,7 +127,7 @@
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item">
-                <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='counter') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/counter/' . $location->id)}}"">Counters</a>
+                <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='counter') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/counter/' . $location->id)}}">Counters</a>
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->
@@ -137,7 +137,7 @@
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item">
-                <a class="nav-link text-active-primary py-5 me-6" href="#">Queue Setup</a>
+                <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='token') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/token/setting/' . $location->id)}}">Queue Token Setup</a>
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->
