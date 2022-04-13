@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\DisplaySetting; 
 use App\Models\DisplayCustom; 
 use App\Models\Counter; 
+use App\Models\Department; 
+use App\Models\User; 
+use App\Models\Location; 
 use Carbon\Carbon; 
 use DB, Response, File, Validator;
 
@@ -13,16 +16,21 @@ use DB, Response, File, Validator;
 class DisplaySettingController extends Controller
 { 
 
-    public function showForm()
+    public function showForm($id = null)
     { 
+        $departments = Department::where('location_id', $id)->count();
+        $counters = Counter::where('location_id', $id)->count();
+        $officers = User::where('location_id', $id)->where('status', 1)->get();
+        $location = Location::where('id', $id)->first();
+        
         $setting  = DisplaySetting::first(); 
-        $counters = Counter::where('status', 1)->pluck('name', 'id'); 
-        $customDisplays = DisplayCustom::get();  
+        $counters = Counter::where('status', 1)->where('location_id', $id)->pluck('name', 'id'); 
+        $customDisplays = DisplayCustom::where('location_id', $id)->get();  
 
         if (empty($setting)) 
         {
             $insert = DisplaySetting::insert([
-                'message'      => "Token - Queue Management System",
+                'message'      => "SmartQ - Queue Management System",
                 'color'        => "#3c8dbc",
                 'background_color' => "#e0f7ff",
                 'border_color' => "#3c8dbc",
@@ -34,13 +42,18 @@ class DisplaySettingController extends Controller
                 'show_note'    => '0',
                 'keyboard_mode' => '0',
                 'alert_position' => '3',
+                'location_id' => $id,
             ]);
         }
  
         return view('pages.display.setting', compact(
             'setting',
             'counters',
-            'customDisplays'
+            'customDisplays',
+            'officers',
+            'departments',
+            'counters',
+            'location',
         ));
     } 
 
@@ -94,6 +107,7 @@ class DisplaySettingController extends Controller
                 $update = DisplaySetting::where('id',$request->id)
                     ->update([
                         'id'           => $request->id,
+                        'location_id'  => $request->location_id,
                         'message'      => $request->message,
                         'color'        => $request->color,
                         'background_color' => $request->background_color,
@@ -124,6 +138,7 @@ class DisplaySettingController extends Controller
     public function getCustom(Request $request)
     {
         $data   = [];
+
         $result = DisplayCustom::find($request->id);
         if ($result)
         {
@@ -147,6 +162,7 @@ class DisplaySettingController extends Controller
     public function custom(Request $request)
     {   
         $id = $request->id;
+        echo $id;
         $validator = Validator::make($request->all(), [ 
             'name'        => 'required|min:1|max:128|unique:display_custom,name,'.$id,    
             'description' => 'max:512',  
@@ -182,6 +198,7 @@ class DisplaySettingController extends Controller
                'description' => $request->description, 
                'counters'    => implode(',', $request->counters),  
                'status'      => $request->status, 
+               'location_id' => $request->location_id, 
             ];
 
             if (!empty($id))
@@ -196,7 +213,7 @@ class DisplaySettingController extends Controller
             if ($store) 
             {    
 
-                $customDisplays = DisplayCustom::where('status', 1)->orderBy('name', 'ASC')->pluck('name', 'id');
+                $customDisplays = DisplayCustom::where('status', 1)->where('location_id', $request->location_id)->orderBy('name', 'ASC')->pluck('name', 'id');
                 if (!empty($customDisplays))
                 {
                     \Session::put('custom_displays', $customDisplays); 

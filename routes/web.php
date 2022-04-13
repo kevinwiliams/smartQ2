@@ -163,15 +163,7 @@ Route::middleware('auth')->group(function () {
 		Route::post('addnote', [TokenController::class, 'addnote']);
 	});
 
-	// Setting pages
-	Route::prefix('settings')->group(function () {
-		Route::get('/', [SettingController::class, 'showForm']);
-		Route::post('/', [SettingController::class, 'create']);
-		Route::get('display', [DisplaySettingController::class, 'showForm']);
-		Route::post('display', [DisplaySettingController::class, 'setting']);
-		Route::get('display/custom', [DisplaySettingController::class, 'getCustom']);
-		Route::post('display/custom', [DisplaySettingController::class, 'custom']);
-	});
+	
 	# setting
 
 
@@ -200,6 +192,7 @@ Route::middleware('auth')->group(function () {
 		Route::get('token/setting/{id}', [TokenController::class, 'tokenSettingView']);
 		Route::post('token/setting/{id}', [TokenController::class, 'tokenSetting']);
 		Route::get('token/setting/delete/{id}', [TokenController::class, 'tokenDeleteSetting']);
+		
 		// // Department pages
 		Route::prefix('department')->group(function () {
 			Route::get('/{id}', [DepartmentController::class, 'index']);
@@ -218,6 +211,16 @@ Route::middleware('auth')->group(function () {
 			Route::get('edit/{id}', [CounterController::class, 'showEditForm']);
 			Route::post('edit', [CounterController::class, 'update']);
 			Route::get('delete/{id}', [CounterController::class, 'delete']);
+		});
+
+		// Setting pages
+		Route::prefix('settings')->group(function () {
+			Route::get('/{id}', [SettingController::class, 'showForm']);
+			Route::post('/{id}', [SettingController::class, 'create']);
+			Route::get('display/{id}', [DisplaySettingController::class, 'showForm']);
+			Route::post('display', [DisplaySettingController::class, 'setting']);
+			Route::get('display/custom', [DisplaySettingController::class, 'getCustom']);
+			Route::post('display/custom', [DisplaySettingController::class, 'custom']);
 		});
 
 	});

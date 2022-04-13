@@ -1,6 +1,6 @@
 <div class="modal fade customDisplayModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered mw-650px"> 
-      {{ Form::open(['url' => 'settings/display/custom', 'class'=>'form',  'id'=>'customFrm']) }}
+      {{ Form::open(['url' => 'location/settings/display/custom', 'class'=>'form',  'id'=>'customFrm']) }}
       <!--begin::Modal content-->
       <div class="modal-content">
         <div class="modal-header">
@@ -20,6 +20,7 @@
           <div class="alert mb-1"></div>
   
           <input type="hidden" name="id" value="">
+          <input type="hidden" name="location_id" value="{{$location->id}}">
           <div class="fv-row mb-7">
             <div class="form-group @error('name') has-error @enderror">
                 <label class="fs-6 fw-bold form-label mb-2" for="name">{{ trans('app.name') }} <i class="text-danger">*</i></label> 
