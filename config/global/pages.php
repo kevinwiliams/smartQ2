@@ -166,7 +166,7 @@ return array(
         'title' => 'Reports',
 
         '*' => array(
-            'title' => 'Generate Reorts',
+            'title' => 'Generate Reports',
         ),
         'assets' => array(
             'custom' => array(
