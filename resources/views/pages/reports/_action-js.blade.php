@@ -12,7 +12,8 @@
         var lightDanger = MVUtil.getCssVariableValue('--bs-light-danger');
         var gray200 = MVUtil.getCssVariableValue('--bs-gray-200');
         var gray500 = MVUtil.getCssVariableValue('--bs-gray-500');
-
+        var table;
+        var datatable;
         // Private functions
         var initChart = function() {
             // init chart
@@ -208,15 +209,19 @@
         }
 
         var initTable = function() {
-            var table = document.querySelector('#mv_report_table_1');
+            table = document.querySelector('#mv_report_table_1');
 
             if (!table) {
                 return;
             }
 
             // Init datatable --- more info on datatables: https://datatables.net/manual/
-            const datatable = $(table).DataTable({
-                "columnDefs": []
+            datatable = $(table).DataTable({
+                // dom: 'Bfrtip',
+                "columnDefs": [],
+                buttons: [
+                    'copy', 'excel', 'pdf'
+                ]
             });
         }
 
@@ -224,12 +229,12 @@
             var start = moment().subtract(29, "days");
             var end = moment();
             var initialDate = $("#mv_daterangepicker").val();
-            if(initialDate != ""){
+            if (initialDate != "") {
                 var dates = initialDate.split("-");
                 start = moment(dates[0], 'MM/DD/YYYY');
                 end = moment(dates[1], 'MM/DD/YYYY');
             }
-            
+
 
             $("#mv_daterangepicker").daterangepicker({
                 startDate: start,
@@ -247,7 +252,7 @@
             cb(start, end);
         }
 
-        var initSearch = () => {
+        var initSearch = function() {
             // Shared variables
             const element = document.getElementById('mv_content_container');
             const form = element.querySelector('#mv_report_search_form');
@@ -278,7 +283,7 @@
                                 }
                             }
                         }
-                    
+
                     },
 
                     plugins: {
@@ -382,11 +387,54 @@
                     });
                 }
             });
-     
+
+        }
+        // Hook export buttons
+        var exportButtons = () => {            
+            const documentTitle = 'Report';
+            var buttons = new $.fn.dataTable.Buttons(table, {
+                buttons: [{
+                        extend: 'copyHtml5',
+                        title: documentTitle
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        title: documentTitle
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        title: documentTitle
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        title: documentTitle
+                    }
+                ]
+            }).container().appendTo($('#kt_datatable_example_1_export'));
+
+            // console.log(buttons);
+
+            // Hook dropdown menu click event to datatable export buttons
+            const exportButtons = document.querySelectorAll('#kt_datatable_example_1_export_menu [data-mv-export]');
+            // console.log(exportButtons);
+            exportButtons.forEach(exportButton => {
+                exportButton.addEventListener('click', e => {
+                    e.preventDefault();
+
+                    // Get clicked export value
+                    const exportValue = e.target.getAttribute('data-mv-export');
+                    const target = document.querySelector('.dt-buttons .buttons-' + exportValue);
+
+                    // Trigger click event on hidden datatable export buttons
+                    target.click();
+                });
+            });
         }
 
-        function cb(start, end) {           
-                $("#mv_daterangepicker").html(start.format("MMMM D, YYYY") + " - " + end.format("MMMM D, YYYY"));            
+
+
+        function cb(start, end) {
+            $("#mv_daterangepicker").html(start.format("MMMM D, YYYY") + " - " + end.format("MMMM D, YYYY"));
         }
         // Public methods
         return {
@@ -396,6 +444,7 @@
                 initTable();
                 initDatePicker();
                 initSearch();
+                exportButtons();
             }
         }
     }();

@@ -174,7 +174,8 @@ return array(
                     'plugins/custom/datatables/datatables.bundle.css',
                 ),
                 'js'  => array(
-                    'plugins/custom/datatables/datatables.bundle.js',                    
+                    'plugins/custom/datatables/datatables.bundle.js',  
+                    // 'vendor/datatables/buttons.server-side.js',                  
                 ),
 
             ),

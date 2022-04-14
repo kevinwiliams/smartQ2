@@ -63,7 +63,7 @@
                                         <label class="fs-6 form-label fw-bolder text-dark">&nbsp;</label>
                                         <button type="submit" class="btn btn-primary me-5" data-mv-search-action="submit">Search</button>
                                     </div>
-                                </div>                      
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -80,6 +80,83 @@
 
                     <!--begin::Summary-->
                     <div class="card card-flush h-lg-100">
+                        @if($data->data != null)
+                        <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+                            <div class="card-title">
+                                @php
+                                $name = "";
+                                switch ($data->report){
+                                    case '1':
+                                        $name = "Visit Report - Hourly";
+                                        break;
+                                    case '2':
+                                        $name = "Visit Report - Daily";
+                                        break;
+                                    case '3':
+                                        $name = "Visit Report - Weekly";
+                                        break;
+                                    case '4':
+                                        $name = "Visit Report - Monthly";
+                                        break;
+
+                                }
+
+
+                                @endphp
+                                <h1>{{ $name }}</h1>
+                                <!--begin::Search-->
+                                <!-- <div class="d-flex align-items-center position-relative my-1">
+                                    <span class="svg-icon svg-icon-1 position-absolute ms-4">...</span>
+                                    <input type="text" data-mv-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="Search Report" />
+                                </div> -->
+                                <!--end::Search-->
+                                <!--begin::Export buttons-->
+                                <div id="kt_datatable_example_1_export" class="d-none">
+                                </div>
+                                <!--end::Export buttons-->
+                            </div>
+                            <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
+                                <!--begin::Export dropdown-->
+                                <button type="button" class="btn btn-light-primary" data-mv-menu-trigger="click" data-mv-menu-placement="bottom-end">
+                                    {!! theme()->getSvgIcon("icons/duotune/arrows/arr078.svg", "svg-icon-3") !!}
+                                    Export Report
+                                </button>
+                                <!--begin::Menu-->
+                                <div id="kt_datatable_example_1_export_menu" class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-200px py-4" data-mv-menu="true">
+                                    <!--begin::Menu item-->
+                                    <div class="menu-item px-3">
+                                        <a href="#" class="menu-link px-3" data-mv-export="copy">
+                                            Copy to clipboard
+                                        </a>
+                                    </div>
+                                    <!--end::Menu item-->
+                                    <!--begin::Menu item-->
+                                    <div class="menu-item px-3">
+                                        <a href="#" class="menu-link px-3" data-mv-export="excel">
+                                            Export as Excel
+                                        </a>
+                                    </div>
+                                    <!--end::Menu item-->
+                                    <!--begin::Menu item-->
+                                    <div class="menu-item px-3">
+                                        <a href="#" class="menu-link px-3" data-mv-export="csv">
+                                            Export as CSV
+                                        </a>
+                                    </div>
+                                    <!--end::Menu item-->
+                                    <!--begin::Menu item-->
+                                    <div class="menu-item px-3">
+                                        <a href="#" class="menu-link px-3" data-mv-export="pdf">
+                                            Export as PDF
+                                        </a>
+                                    </div>
+                                    <!--end::Menu item-->
+                                </div>
+                                <!--end::Menu-->
+                                <!--end::Export dropdown-->                                
+                            </div>
+                        </div>
+                        @endif
                         <!--begin::Card body-->
                         <div class="card-body p-9 pt-5">
                             @if($data->data == null)
@@ -123,6 +200,7 @@
     </div>
     <!--end::Post-->
     @section('scripts')
+
     @include('pages.reports._action-js')
 
     @endsection

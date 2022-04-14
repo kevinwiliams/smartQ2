@@ -1,4 +1,3 @@
-<h3>Token Report - Monthly</h3>
 @if( count($data) == 0)
 <br />
 <h1>
