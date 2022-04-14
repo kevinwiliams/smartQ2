@@ -458,7 +458,7 @@ class TokenController extends Controller
                     $data['position']  = $cntr;
 
                     activity('activity')
-                    ->withProperties(['activity' => 'Client Generate Token','department' => $token->department , 'token' => $token->token_no , 'display'=> 'success']) 
+                    ->withProperties(['activity' => 'Client Generate Token','department' => $token->department , 'token' => $token->token_no , 'display'=> 'success', 'location_id' => auth()->user()->location_id ]) 
                     ->log('Token (:properties.token) generated for :properties.department');
 
                 } else {
@@ -976,7 +976,7 @@ class TokenController extends Controller
         Token::where('id', $id)->update(['updated_at' => null, 'status' => 2,'sms_status' => 1]);
         $token = Token::where('id', $id)->first();
         activity('activity')
-                    ->withProperties(['activity' => 'Client Stopped Token','department' => $token->department->name , 'token' => $token->token_no , 'display'=> 'danger']) 
+                    ->withProperties(['activity' => 'Client Stopped Token','department' => $token->department->name , 'token' => $token->token_no , 'display'=> 'danger', 'location_id' => auth()->user()->location_id]) 
                     ->log('Token (:properties.token) stopped for :properties.department');
 
         return redirect()->back()->with('message', trans('app.update_successfully'));
@@ -989,7 +989,7 @@ class TokenController extends Controller
         Token::where('id', $id)->update(['updated_at' => date('Y-m-d H:i:s'), 'status' => 2,'sms_status' => 1, 'no_show' => 1]);
         $token = Token::where('id', $id)->first();
         activity('activity')
-                    ->withProperties(['activity' => 'Staff Cancelled Token','department' => $token->department->name , 'token' => $token->token_no , 'display'=> 'danger']) 
+                    ->withProperties(['activity' => 'Staff Cancelled Token','department' => $token->department->name , 'token' => $token->token_no , 'display'=> 'danger', 'location_id' => auth()->user()->location_id]) 
                     ->log('Token (:properties.token) cancelled for :properties.department');
 
         return redirect()->back()->with('message', trans('app.update_successfully'));
@@ -1002,7 +1002,7 @@ class TokenController extends Controller
         Token::where('id', $id)->update(['started_at' => date('Y-m-d H:i:s'), 'status' => 0]);
         $token = Token::where('id', $id)->first();
         activity('activity')
-                    ->withProperties(['activity' => 'Now Serving Token','department' => $token->department->name , 'token' => $token->token_no , 'display'=> 'info']) 
+                    ->withProperties(['activity' => 'Now Serving Token','department' => $token->department->name , 'token' => $token->token_no , 'display'=> 'info', 'location_id' => auth()->user()->location_id]) 
                     ->log('Token (:properties.token) started for :properties.department');
 
         return redirect()->back()->with('message', trans('app.update_successfully'));
@@ -1171,7 +1171,7 @@ class TokenController extends Controller
 
         $token = Token::where('id', $id)->first();
         activity('activity')
-                    ->withProperties(['activity' => 'Client Checked In Token' , 'department' => $token->department->name , 'token' => $token->token_no , 'display' => 'primary' ]) 
+                    ->withProperties(['activity' => 'Client Checked In Token' , 'department' => $token->department->name , 'token' => $token->token_no , 'display' => 'primary', 'location_id' => auth()->user()->location_id ]) 
                     ->log('Token :properties.token checked in for :properties.department');
 
         return response()->json($data);        
@@ -1194,7 +1194,7 @@ class TokenController extends Controller
 
         $token = Token::where('id', $id)->first();
         activity('activity')
-                    ->withProperties(['activity' => 'Client Stopped Token','department' => $token->department->name , 'token' => $token->token_no , 'display'=> 'danger' ]) 
+                    ->withProperties(['activity' => 'Client Stopped Token','department' => $token->department->name , 'token' => $token->token_no , 'display'=> 'danger', 'location_id' => auth()->user()->location_id ]) 
                     ->log('Token (:properties.token) stopped for :properties.department');
 
 
