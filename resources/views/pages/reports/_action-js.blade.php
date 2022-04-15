@@ -217,11 +217,11 @@
 
             // Init datatable --- more info on datatables: https://datatables.net/manual/
             datatable = $(table).DataTable({
-                // dom: 'Bfrtip',
-                "columnDefs": [],
-                buttons: [
-                    'copy', 'excel', 'pdf'
-                ]
+                "info": false,
+                    'order': [],
+                    "pageLength": 10,
+                    "lengthChange": false,
+                    'columnDefs': []
             });
         }
 

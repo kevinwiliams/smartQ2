@@ -17,20 +17,18 @@
                                         <!--begin::Select-->
                                         <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Report" tabindex="-1" aria-hidden="true" name="report" id="report">
                                             <option value=""></option>
-                                            <optgroup label="Visit Reports">
-                                                <option value="1" {{ ($data->report == "1")?"selected":"" }}>Hourly</option>
-                                                <option value="2" {{ ($data->report == "2")?"selected":"" }}>Daily</option>
-                                                <option value="3" {{ ($data->report == "3")?"selected":"" }}>Weekly</option>
-                                                <option value="4" {{ ($data->report == "4")?"selected":"" }}>Monthly</option>
+                                           @php                                           
+                                           $groups = array_unique(array_column(\App\Core\Data::getReportList(), 'group'));
+                                           @endphp
+                                            @foreach($groups as $_group)								
+                                            <optgroup label="{{ $_group }}">                                                
+                                                @foreach(\App\Core\Data::getReportList() as $key => $value)
+                                                @if($value['group'] == $_group)
+                                                <option value="{{ $value['id'] }}" {{ ($value['status'])?"":"disabled"}} {{ ($data->report == $value['id'])?"selected":"" }} > {{ $value['name'] }}</option>
+                                                @endif
+                                                @endforeach                                                
                                             </optgroup>
-                                            <optgroup label="KPI Reports">
-                                                <option value="5" {{ ($data->report == "5")?"selected":"" }} disabled>Wait Time</option>
-                                                <option value="6" {{ ($data->report == "6")?"selected":"" }} disabled>Service Time</option>
-                                            </optgroup>
-                                            <optgroup label="Stat Reports">
-                                                <option value="7" {{ ($data->report == "7")?"selected":"" }} disabled>Customers Served</option>
-                                                <option value="8" {{ ($data->report == "8")?"selected":"" }} disabled>No Shows</option>
-                                            </optgroup>
+								            @endforeach                                            
                                         </select>
                                         <!--end::Select-->
                                         <span class="text-danger">{{ $errors->first('report') }}</span>
@@ -85,22 +83,11 @@
                             <div class="card-title">
                                 @php
                                 $name = "";
-                                switch ($data->report){
-                                    case '1':
-                                        $name = "Visit Report - Hourly";
-                                        break;
-                                    case '2':
-                                        $name = "Visit Report - Daily";
-                                        break;
-                                    case '3':
-                                        $name = "Visit Report - Weekly";
-                                        break;
-                                    case '4':
-                                        $name = "Visit Report - Monthly";
-                                        break;
-
-                                }
-
+                                $reports = \App\Core\Data::getReportList();
+                                $ids = array_column($reports, 'id');
+                                $found_key = array_search($data->report, $ids);
+                                $name = $reports[$found_key]['title'];
+                                $view = $reports[$found_key]['view'];
 
                                 @endphp
                                 <h1>{{ $name }}</h1>
@@ -175,15 +162,7 @@
                             </div>
                             <!--end::Notice-->
                             @else
-                            @if($data->report == '1')
-                            {{ theme()->getView('partials/reports/hourly-token-report', array('data' => $data->data)) }}
-                            @elseif($data->report == '2')
-                            {{ theme()->getView('partials/reports/daily-token-report', array('data' => $data->data)) }}
-                            @elseif($data->report == '3')
-                            {{ theme()->getView('partials/reports/weekly-token-report', array('data' => $data->data)) }}
-                            @elseif($data->report == '4')
-                            {{ theme()->getView('partials/reports/monthly-token-report', array('data' => $data->data)) }}
-                            @endif
+                                {{ theme()->getView($view, array('data' => $data->data)) }}
                             @endif
                         </div>
                         <!--end::Card body-->
