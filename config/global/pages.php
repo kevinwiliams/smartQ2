@@ -328,7 +328,6 @@ return array(
                     ),
                 ),
             )
-            
         ),
         'counter' => array(
             '*' => array(
@@ -376,6 +375,23 @@ return array(
                             'js'  => array(
                                 'plugins/custom/datatables/datatables.bundle.js',
                             ),
+                        ),
+                    ),
+                ),
+            )
+        ),
+        'staff' => array(
+            '*' => array(
+                'title'  => 'Staff List',
+                'assets' => array(
+                    'custom' => array(
+                        'css' => array(
+                            'plugins/custom/datatables/datatables.bundle.css',
+                        ),
+                        'js' => array(
+                            'plugins/custom/datatables/datatables.bundle.js',
+                            // 'js/custom/department/add.js',
+
                         ),
                     ),
                 ),

@@ -4,16 +4,30 @@
     <!--begin::Container-->
     <div id="mv_content_container" class="container-xxl">
         {{ theme()->getView('pages/location/_navbar', array('officers' => $officers, 'counters' => $counters, 'departments' => $departments, 'location' => $location )) }}
-            
+        
+        <div class="d-flex flex-wrap flex-stack pb-1">
+            <!--begin::Title-->
+            <div class="d-flex flex-wrap align-items-center my-1">
+                <h3 class="fw-bolder me-5 my-1">Users ({{ count($officers) }})</h3>
+                <!--begin::Search-->
+                <div class="d-flex align-items-center position-relative my-1">
+                    <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
+					{!! theme()->getSvgIcon("icons/duotune/general/gen021.svg", "svg-icon-3 position-absolute ms-3") !!}
+                    <!--end::Svg Icon-->
+                    <input type="text" id="mv_filter_search" class="form-control form-control-sm border-body bg-body w-150px ps-10" placeholder="Search">
+                </div>
+                <!--end::Search-->
+            </div>
+            <!--end::Title-->
+        </div>
         <div class="row g-6 g-xl-9">
-            <table class="table table-bordered table-striped" id="custom-display">
+            <table class="table table-bordered table-striped" id="mv_officers_list" name="mv_officers_list">
                 <thead>
                     <tr>
                         <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
-                        
                     </tr>
                 </thead>
                 <tbody>
@@ -87,6 +101,12 @@
 </div>
 <!--end::Post-->
 @section('scripts')
-    
+<script>
+//     $(document).ready(function() {
+//    $('#mv_officers_list').dataTable({
+//                     "info": false,
+//                 });
+// } );
+</script>    
 @endsection
 </x-base-layout>
