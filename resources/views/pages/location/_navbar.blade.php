@@ -132,12 +132,12 @@
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item">
-                <a class="nav-link text-active-primary py-5 me-6" href="#">Staff</a>
+                <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='staff') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/staff/' . $location->id)}}">Staff</a>
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item">
-                <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='token') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/token/setting/' . $location->id)}}">Queue Token Setup</a>
+                <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='token') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/token/setting/' . $location->id)}}">Queue Setup</a>
             </li>
             <!--end::Nav item-->
              <!--begin::Nav item-->

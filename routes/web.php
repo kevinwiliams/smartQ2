@@ -229,6 +229,9 @@ Route::middleware('auth')->group(function () {
 			Route::post('display/custom', [DisplaySettingController::class, 'custom']);
 		});
 
+		Route::get('staff/{id}', [UserManagementController::class, 'officersList']);
+
+
 	});
 
 	

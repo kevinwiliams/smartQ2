@@ -6,6 +6,8 @@ use App\DataTables\UserManagement\PermissionsDataTable;
 use App\DataTables\UserManagement\UsersDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Department;
+use App\Models\Location;
+use App\Models\Counter;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
@@ -123,11 +125,22 @@ class UserManagementController extends Controller
         return response()->json($data);
     }
 
-    // public function usersList()
-    // {
-    //     // get the default inner page
-    //     return view('pages.apps.user-management.users.list');
-    // }
+    public function officersList($id = null)
+    {
+        // get the default inner page
+        $departments = Department::where('location_id', $id)->count();
+        $counters = Counter::where('location_id', $id)->count();
+        $officers = User::where('location_id', $id)
+                    ->where('status', 1)
+                    ->get();
+                    // ->count();
+        $location = Location::where('id', $id)->first();
+     
+        $roles = Role::get();
+        $departments = Department::get();
+        $officerList = User::whereNotIn('user_type',[3])->where('location_id', $id)->get();
+        return view('pages.apps.user-management.users.staff', compact('officerList', 'officers', 'location','counters', 'departments'));
+    }
 
     public function usersList(UsersDataTable $dataTable)
     {

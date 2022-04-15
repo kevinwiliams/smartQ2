@@ -828,7 +828,7 @@
             datatable = $(table).DataTable({
                 "info": false,
                 'order': [],
-                "pageLength": 1,
+                "pageLength": 2,
                 "lengthMenu": [[1, 2, 5, 10, -1], [1, 2, 5, 10, "All"]],
                 // "lengthChange": false,
                 'columnDefs': []
