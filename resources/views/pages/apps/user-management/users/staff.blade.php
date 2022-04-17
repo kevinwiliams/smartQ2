@@ -14,7 +14,7 @@
                     <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
 					{!! theme()->getSvgIcon("icons/duotune/general/gen021.svg", "svg-icon-3 position-absolute ms-3") !!}
                     <!--end::Svg Icon-->
-                    <input type="text" id="mv_filter_search" class="form-control form-control-sm border-body bg-body w-150px ps-10" placeholder="Search">
+                    <input type="text" data-mv-officers-table-filter="search" class="form-control form-control-sm border-body bg-body w-150px ps-10" placeholder="Search">
                 </div>
                 <!--end::Search-->
             </div>
@@ -35,8 +35,10 @@
                     <?php 
                     $i = 0;
                     $sl = 0;
-                    foreach ($officerList as $key => $officer){
-                    
+                    $officerCnt  = count($officerList);
+                    $key = $officerCnt -1;
+
+                foreach ($officerList as $current_key => $officer){
                     if(fmod($i, 5) == 0 && $sl == 0 ){ ?>
                     <tr>
                     <?php } 
@@ -56,7 +58,7 @@
                                         </div>
                                         <!--end::Avatar-->
                                         <!--begin::Name-->
-                                        <a href="#" class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0">{{ $officer->lastname. ', '.$officer->firstname}}</a>
+                                        <a href="{{theme()->getPageUrl('apps/user-management/users/edit/' . $officer->id)}}" class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0">{{ $officer->lastname. ', '.$officer->firstname}}</a>
                                         <!--end::Name-->
                                         <!--begin::Position-->
                                         <div class="fw-bold text-gray-400 mb-6">Officer </div>
@@ -86,7 +88,27 @@
                                 <!--end::Card-->
                             </div>    
                         </td>
-                        <?php $i++; if(fmod($i, 5) == 4){ ?>
+                    <?php
+                    //if last item in array
+                    if($current_key == $key){
+
+                        $rowCnt = 4;
+                        $emptyCells = $rowCnt - $officerCnt;
+                        // echo 'rowCnt: '. $rowCnt;
+
+                        for ($td=0; $td < $emptyCells; $td++) { 
+                            // echo '- cells -';
+                            echo '<td>&nbsp;</td>';
+                            $i++;
+                        }
+                    }
+                    
+                    $i++;   
+                     
+                    if(fmod($i, 5) == 4){
+                        //remove sets of 4 from officer list
+                        $officerCnt = $officerCnt - 4;
+                        ?>
                     </tr>
                     
                     <?php 
@@ -102,11 +124,21 @@
 <!--end::Post-->
 @section('scripts')
 <script>
-//     $(document).ready(function() {
-//    $('#mv_officers_list').dataTable({
-//                     "info": false,
-//                 });
-// } );
+    $(document).ready(function() {
+        $('#mv_officers_list').dataTable({
+            "info": false,
+            "pageLength": 5,
+            "lengthMenu": [[1, 2, 5, 10, -1], [1, 2, 5, 10, "All"]],
+            // "lengthChange": false,
+            'columnDefs': []
+        });
+
+        const filterSearch = document.querySelector('[data-mv-officers-table-filter="search"]');
+    filterSearch.addEventListener('keyup', function(e) {
+        var datatable = $('#mv_officers_list').DataTable();
+        datatable.search(e.target.value).draw();
+    });
+} );
 </script>    
 @endsection
 </x-base-layout>
