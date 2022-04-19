@@ -142,6 +142,7 @@ class TokenController extends Controller
         $keyList = DB::table('token_setting AS s')
             ->select('d.key', 's.department_id', 's.counter_id', 's.user_id')
             ->leftJoin('department AS d', 'd.id', '=', 's.department_id')
+            ->where('s.location_id', auth()->user()->location_id)
             ->where('s.status', 1)
             ->get();
         $keyList = json_encode($keyList);
@@ -159,6 +160,7 @@ class TokenController extends Controller
                 ->join('department', 'department.id', '=', 'token_setting.department_id')
                 ->join('counter', 'counter.id', '=', 'token_setting.counter_id')
                 ->join('user', 'user.id', '=', 'token_setting.user_id')
+                ->join('locations', 'locations.id', '=', 'token_setting.location_id')
                 ->where('token_setting.status',1)
                 ->groupBy('token_setting.user_id')
                 ->orderBy('token_setting.department_id', 'ASC')
@@ -168,32 +170,33 @@ class TokenController extends Controller
         {
             $departmentList = TokenSetting::select( 
                     'department.name',
-                    'department.description',
                     'token_setting.department_id',
                     'token_setting.counter_id',
                     'token_setting.user_id',
-                    DB::raw('CONCAT(user.firstname ," " ,user.lastname) AS officer')
 
                     )
                 ->join('department', 'department.id', '=', 'token_setting.department_id')
                 ->join('counter', 'counter.id', '=', 'token_setting.counter_id')
                 ->join('user', 'user.id', '=', 'token_setting.user_id')
+                ->join('locations', 'locations.id', '=', 'token_setting.location_id')
                 ->where('token_setting.status', 1)
                 ->groupBy('token_setting.department_id')
+                ->groupBy('token_setting.location_id')
                 ->get(); 
         }
 
         @date_default_timezone_set(session('app.timezone'));
-        $waiting = Token::where('status', '0')->count();
-        $counters = Counter::where('status',1)->pluck('name','id');
-        $departments = Department::where('status',1)->pluck('name','id');
+        $waiting = Token::where('status', '0')->where('location_id', auth()->user()->location_id)->count();
+        $counters = Counter::where('status',1)->where('location_id', auth()->user()->location_id)->pluck('name','id');
+        $departments = Department::where('status',1)->where('location_id', auth()->user()->location_id)->pluck('name','id');
         $officers = User::select('id',DB::raw('CONCAT(firstname, " ", lastname) as full_name'))
             ->where('user_type',1)
             ->where('status',1)
+            ->where('location_id', auth()->user()->location_id)
             ->orderBy('full_name', 'ASC')
             ->pluck('full_name', 'id');  
         
-        return $dataTable->render('pages.token.auto', compact('display', 'departmentList', 'keyList', 'counters', 'departments', 'officers', 'waiting'));
+        return $dataTable->with('token_location_id', auth()->user()->location_id)->render('pages.token.auto', compact('display', 'departmentList', 'keyList', 'counters', 'departments', 'officers', 'waiting'));
    
 
         // return view('pages.token.auto', compact('display', 'departmentList', 'keyList'));

@@ -84,7 +84,8 @@ class TokenDataTable extends DataTable
      */
     public function query(Token $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()
+        ->where('token.location_id', $this->token_location_id);;
     }
 
     /**

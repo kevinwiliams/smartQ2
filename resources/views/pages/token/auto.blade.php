@@ -6,7 +6,7 @@
             @if($display->sms_alert || $display->show_note)
                 <!-- With Mobile No -->
                 @foreach ($departmentList as $department) 
-                <div class=" mw-200px p-1 m-1 btn btn-primary text-capitalize text-center">
+                <div class="col min-w-300px p-1 m-1 btn btn-primary text-capitalize text-center">
                     <button 
                         type="button" 
                         class="m-1 btn btn-primary text-center"
@@ -105,7 +105,7 @@
     Inputmask({
                     "mask": "1 (999) 999-9999",
             }).mask("[name='client_mobile']");
-} );
+    } );
     // On document ready
         MVUtil.onDOMContentLoaded(function() {
             // Placeholder
