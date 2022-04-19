@@ -33,15 +33,19 @@
                 <tbody>
                     @if (!empty($officerList))
                     <?php 
-                    $i = 0;
                     $sl = 0;
+                    // columns count
+                    $colCnt = 4;
                     $officerCnt  = count($officerList);
+                    //last item in object
                     $key = $officerCnt -1;
 
                 foreach ($officerList as $current_key => $officer){
-                    if(fmod($i, 5) == 0 && $sl == 0 ){ ?>
+                    if($sl == 0 ){ ?>
+                    <!--begin::TR-->
                     <tr>
                     <?php } 
+                    //increment column count
                     $sl++;
                     ?>
                         <td>
@@ -89,31 +93,27 @@
                             </div>    
                         </td>
                     <?php
-                    //if last item in array
+                    //if last item in object
                     if($current_key == $key){
-
-                        $rowCnt = 4;
-                        $emptyCells = $rowCnt - $officerCnt;
-                        // echo 'rowCnt: '. $rowCnt;
-
+                        //check remainding columns 
+                        $emptyCells = $colCnt - $officerCnt;
+                        //insert blank cells
                         for ($td=0; $td < $emptyCells; $td++) { 
-                            // echo '- cells -';
                             echo '<td>&nbsp;</td>';
-                            $i++;
                         }
                     }
-                    
-                    $i++;   
                      
-                    if(fmod($i, 5) == 4){
+                    if($sl == $colCnt || $current_key == $key){
                         //remove sets of 4 from officer list
-                        $officerCnt = $officerCnt - 4;
-                        ?>
+                        $officerCnt = $officerCnt - $colCnt; 
+                    ?>
                     </tr>
-                    
+                    <!--end::TR-->
                     <?php 
-                    $sl = 0; }  
-                } ?>
+                    //reset columns
+                    $sl = 0; 
+                    }  
+                }   ?>
                     @endif
                 </tbody>
             </table> 
@@ -127,6 +127,7 @@
     $(document).ready(function() {
         $('#mv_officers_list').dataTable({
             "info": false,
+            'order': [],
             "pageLength": 5,
             "lengthMenu": [[1, 2, 5, 10, -1], [1, 2, 5, 10, "All"]],
             // "lengthChange": false,
