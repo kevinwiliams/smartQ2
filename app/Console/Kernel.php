@@ -25,8 +25,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        // $schedule->call('App\Http\Controllers\Common\CronjobController@sms')->everyMinute();
+        $schedule->call('App\Http\Controllers\Common\CronjobController@sms')->everyMinute();
         $schedule->call('App\Http\Controllers\Common\CronjobController@generateDepartmentStats')->everyFiveMinutes();
+        $schedule->call('App\Http\Controllers\Common\CronjobController@generateLocationStats')->everyFiveMinutes();
+        $schedule->call('App\Http\Controllers\Common\CronjobController@generateUserStats')->everyFiveMinutes();
     }
 
     /**
