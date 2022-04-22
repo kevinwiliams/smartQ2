@@ -248,6 +248,9 @@ Route::prefix('common')->namespace('Common')->group(function () {
 
 	// Cron job
 	Route::get('jobs/sms', [CronjobController::class, 'sms']);
+	Route::get('jobs/generateDepartmentStats', [CronjobController::class, 'generateDepartmentStats']);
+	Route::get('jobs/generateLocationStats', [CronjobController::class, 'generateLocationStats']);
+	Route::get('jobs/generateUserStats', [CronjobController::class, 'generateUserStats']);
 
 	// Display 
 	Route::get('display', [DisplayController::class, 'display']);

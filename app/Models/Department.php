@@ -12,4 +12,9 @@ class Department extends Model
 	{
 	    return $this->belongsTo('App\Models\User');
 	}
+
+	public function stats()
+    {
+        return $this->hasOne('App\Models\DepartmentStats');
+    }
 }

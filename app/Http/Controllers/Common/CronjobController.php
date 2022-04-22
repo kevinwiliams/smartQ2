@@ -4,14 +4,17 @@ namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
 use App\Mail\TokenNotification;
+use App\Models\DepartmentStats;
 use Illuminate\Http\Request;
 use App\Models\Display;
 use App\Models\DisplaySetting;
+use App\Models\LocationStats;
 use Carbon\Carbon;
 use App\Models\SmsSetting;
 use App\Models\SmsHistory;
 use App\Models\Token;
 use App\Models\User;
+use App\Models\UserStats;
 use DB, Response, File, Validator;
 use Kutia\Larafirebase\Facades\Larafirebase;
 use Mail;
@@ -231,7 +234,7 @@ class CronjobController extends Controller
     */
     public function sendSMS($token, $alert_position = null)
     {
-        date_default_timezone_set(session('app.timezone'));
+        date_default_timezone_set('America/Bogota');
 
         //send sms immediately
         $setting  = SmsSetting::first();
@@ -271,7 +274,6 @@ class CronjobController extends Controller
         Token::where('id', $token->id)->update(['sms_status' => 1]);
     }
 
-
     /*
     *---------------------------------------------------------
     * SEND Email
@@ -289,7 +291,7 @@ class CronjobController extends Controller
 
     /*
     *---------------------------------------------------------
-    * SEND Email
+    * SEND Push Notification
     *--------------------------------------------------------- 
     */
     public function sendPushNotification($token)
@@ -324,6 +326,135 @@ class CronjobController extends Controller
 
                 //SMS SENT
                 Token::where('id', $token->id)->update(['push_notifications' => 1]);
+            }
+        }
+    }
+
+    public function generateDepartmentStats()
+    {
+        // date_default_timezone_set(session('app.timezone'));
+        $tokens = Token::has('status')
+            ->where('created_at', '>', Carbon::now()->subDays(30))
+            ->whereNotNull('started_at')
+            ->get();
+        
+        $departments = array_unique($tokens->pluck('department_id')->toArray());
+
+
+        foreach ($departments as $_dept) {
+            $depttokens = $tokens->where('department_id', $_dept);
+            $counter = 0;
+            $total = 0;
+            foreach ($depttokens as $_depttoken) {
+                if ($_depttoken->wait_time != null) {
+                    $total += $_depttoken->wait_time;
+                    $counter++;
+                }
+                // echo '<pre>';
+                // print_r($_depttoken->wait_time);
+                // echo '</pre>';
+            }
+
+            $stat = DepartmentStats::where('department_id', $_dept)->first();
+            if ($stat) {
+                $stat->wait_time =  $total / $counter;
+                $stat->updated_at = Carbon::now();
+                $stat->update();
+            } else {
+                $save = DepartmentStats::insert([
+                    'department_id'  => $_dept,
+                    'wait_time'      => $total / $counter
+                ]);
+            }
+        }
+    }
+
+    public function generateLocationStats()
+    {
+        // date_default_timezone_set(session('app.timezone'));
+        $tokens = Token::has('status')
+            ->where('created_at', '>', Carbon::now()->subDays(30))
+            ->whereNotNull('started_at')
+            ->get();
+                    
+        $locations = array_unique($tokens->pluck('location_id')->toArray());
+
+
+        foreach ($locations as $_location) {
+            $locationtokens = $tokens->where('location_id', $_location);
+            $waitcounter = 0;
+            $servicecounter = 0;
+            $waittotal = 0;
+            $servicetotal = 0;
+            foreach ($locationtokens as $_locationtoken) {
+                if ($_locationtoken->wait_time != null) {
+                    $waittotal += $_locationtoken->wait_time;
+                    $waitcounter++;
+                }
+
+                if ($_locationtoken->service_time != null) {
+                    $servicetotal += $_locationtoken->service_time;
+                    $servicecounter++;
+                }
+            }
+
+            $stat = LocationStats::where('location_id', $_location)->first();
+            if ($stat) {
+                $stat->wait_time =  ($waitcounter > 0) ? ($waittotal / $waitcounter) : 0;
+                $stat->service_time =  ($servicecounter > 0) ? ($servicetotal / $servicecounter) : 0;
+                $stat->updated_at = Carbon::now();
+                $stat->update();
+            } else {
+                $save = LocationStats::insert([
+                    'location_id'  => $_location,
+                    'wait_time'      => ($waitcounter > 0) ? ($waittotal / $waitcounter) : 0,
+                    'service_time'      => ($servicecounter > 0) ? ($servicetotal / $servicecounter) : 0
+                ]);
+            }
+        }
+    }
+
+    public function generateUserStats()
+    {
+        // date_default_timezone_set(session('app.timezone'));
+        $tokens = Token::has('status')
+            ->where('created_at', '>', Carbon::now()->subDays(30))
+            ->where('status', 1)            
+            ->get();
+        
+        $users = array_unique($tokens->pluck('user_id')->toArray());
+
+
+        foreach ($users as $_user) {
+            $locationtokens = $tokens->where('user_id', $_user);
+            $waitcounter = 0;
+            $servicecounter = 0;
+            $waittotal = 0;
+            $servicetotal = 0;
+            foreach ($locationtokens as $_locationtoken) {
+                if ($_locationtoken->wait_time != null) {
+                    $waittotal += $_locationtoken->wait_time;
+                    $waitcounter++;
+                }
+
+                if ($_locationtoken->service_time != null) {
+                    $servicetotal += $_locationtoken->service_time;
+                    $servicecounter++;
+                }
+            }
+
+            $stat = UserStats::where('user_id', $_user)->first();
+            if ($stat) {
+                $stat->wait_time =  ($waitcounter > 0) ? ($waittotal / $waitcounter) : 0;
+                $stat->service_time =  ($servicecounter > 0) ? ($servicetotal / $servicecounter) : 0;
+                $stat->updated_at = Carbon::now();
+                $stat->update();
+            } else {
+                $save = UserStats::insert([
+                    'user_id'  => $_user,
+                    'wait_time'      => ($waitcounter > 0) ? ($waittotal / $waitcounter) : 0,
+                    'service_time'      => ($servicecounter > 0) ? ($servicetotal / $servicecounter) : 0
+                ]);
             }
         }
     }

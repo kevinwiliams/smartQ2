@@ -46,4 +46,9 @@ class Location extends Model
     public function settings(){
         return $this->hasOne(DisplaySetting::class);
     }
+
+    public function stats()
+    {
+        return $this->hasOne(LocationStats::class);
+    }
 }

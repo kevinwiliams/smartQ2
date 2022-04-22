@@ -174,4 +174,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne('App\Models\UserSocialAccount', 'user_id', 'id');
     }
+
+    public function stats()
+    {
+        return $this->hasOne('App\Models\UserStats');
+    }
 }

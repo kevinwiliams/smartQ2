@@ -390,12 +390,12 @@
 
         }
         // Hook export buttons
-        var exportButtons = () => {            
-            const documentTitle = 'Report';
+        var exportButtons = () => {
+            const documentTitle = $("#report_title").val();
             var buttons = new $.fn.dataTable.Buttons(table, {
                 buttons: [{
                         extend: 'copyHtml5',
-                        title: documentTitle
+                        title: documentTitle,
                     },
                     {
                         extend: 'excelHtml5',
@@ -430,8 +430,6 @@
                 });
             });
         }
-
-
 
         function cb(start, end) {
             $("#mv_daterangepicker").html(start.format("MMMM D, YYYY") + " - " + end.format("MMMM D, YYYY"));

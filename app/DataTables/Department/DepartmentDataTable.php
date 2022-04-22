@@ -22,30 +22,37 @@ class DepartmentDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('created_at', function(Department $model){
+            ->editColumn('created_at', function (Department $model) {
                 return Carbon::parse($model->created_at)->format('d M Y, h:i a');
-            })->editColumn('updated_at', function(Department $model){
+            })->editColumn('updated_at', function (Department $model) {
                 $str = '';
-                if($model->updated_at)
-                    $str = '<div class="badge badge-light fw-bolder">' . Carbon::parse($model->updated_at)->diffForHumans() .'</div>';     
-                    // $str =  Carbon::parse($model->updated_at)->diffForHumans();     
+                if ($model->updated_at)
+                    $str = '<div class="badge badge-light fw-bolder">' . Carbon::parse($model->updated_at)->diffForHumans() . '</div>';
+                // $str =  Carbon::parse($model->updated_at)->diffForHumans();     
                 return $str;
             })
-            ->editColumn('status', function(Department $model){
-                $col = ($model->status == 1)? 'success' : 'danger';
-                $txt = ($model->status == 1)? 'Active' : 'Inactive';
-                $str = '<div class="badge badge-light-'.$col.' fw-bolder">' . $txt .'</div>';     
+            ->editColumn('status', function (Department $model) {
+                $col = ($model->status == 1) ? 'success' : 'danger';
+                $txt = ($model->status == 1) ? 'Active' : 'Inactive';
+                $str = '<div class="badge badge-light-' . $col . ' fw-bolder">' . $txt . '</div>';
                 return $str;
             })
-            ->editColumn('avg_wait_time', function(Department $model){
-                $str = '<div class="badge badge-light fw-bolder">' . $model->avg_wait_time .' mins</div>';     
+            ->editColumn('avg_wait_time', function (Department $model) {
+                $str = "";
+                if ($model->stats) {
+                    if ($model->stats->wait_time)
+                        $str = '<div class="badge badge-light fw-bolder">' . $model->stats->wait_time . ' mins</div>';
+                }else{
+                    $str = '<div class="badge badge-light fw-bolder">' . $model->avg_wait_time .' mins</div>';     
+                }
+
                 return $str;
             })
             ->addColumn('action', function (Department $model) {
                 return view('pages.location.department._action-menu', compact('model'));
             })
-            ->rawColumns(['updated_at', 'status', 'avg_wait_time']);  
-            // ->addColumn('action', 'department.action');
+            ->rawColumns(['updated_at', 'status', 'avg_wait_time']);
+        // ->addColumn('action', 'department.action');
     }
 
     /**
@@ -68,22 +75,22 @@ class DepartmentDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('department-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    // ->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->responsive()
-                    ->autoWidth(false)
-                    ->parameters(['scrollX' => true])
-                    ->addTableClass('align-middle table-row-dashed fs-6 gy-5');
-                    // ->buttons(
-                    //     Button::make('create'),
-                    //     Button::make('export'),
-                    //     Button::make('print'),
-                    //     Button::make('reset'),
-                    //     Button::make('reload')
-                    // );
+            ->setTableId('department-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            // ->dom('Bfrtip')
+            ->orderBy(1)
+            ->responsive()
+            ->autoWidth(false)
+            ->parameters(['scrollX' => true])
+            ->addTableClass('align-middle table-row-dashed fs-6 gy-5');
+        // ->buttons(
+        //     Button::make('create'),
+        //     Button::make('export'),
+        //     Button::make('print'),
+        //     Button::make('reset'),
+        //     Button::make('reload')
+        // );
     }
 
     /**

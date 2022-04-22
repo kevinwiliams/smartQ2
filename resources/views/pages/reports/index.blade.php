@@ -91,6 +91,7 @@
 
                                 @endphp
                                 <h1>{{ $name }}</h1>
+                                <input type="hidden" value="{{ $name }}" id="report_title" name="report_title" />
                                 <!--begin::Search-->
                                 <!-- <div class="d-flex align-items-center position-relative my-1">
                                     <span class="svg-icon svg-icon-1 position-absolute ms-4">...</span>
