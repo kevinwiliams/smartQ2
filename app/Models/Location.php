@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\Common\Utilities_lib;
 use App\models\DisplayCustom;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -49,6 +51,16 @@ class Location extends Model
 
     public function stats()
     {
-        return $this->hasOne(LocationStats::class);
+        return $this->hasOne(LocationStats::class)->first();
+    }
+
+    public function visitorslastweek(){
+        $now = Carbon::now();
+        $now->weekOfYear;
+        $dates = (new Utilities_lib)->getStartAndEndDate($now->weekOfYear,$now->year);
+
+        return $this->hasMany(Token::class)
+        ->whereDate('created_at','>=', $dates['week_start'])
+        ->whereDate('created_at','<=', $dates['week_end']);        
     }
 }

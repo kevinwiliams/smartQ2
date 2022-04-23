@@ -124,10 +124,17 @@ class LocationController extends Controller
         $departments = Department::where('location_id', $id)->count();
         $counters = Counter::where('location_id', $id)->count();
         $officers = User::where('location_id', $id)
-                    ->where('status', 1)
+                    ->where('status', 1)                    
                     ->get();
                     // ->count();
-        $location = Location::where('id', $id)->first();
+        $location = Location::where('id', $id)
+                    ->withCount('visitorslastweek')                 
+                    ->first();
+
+        // echo '<pre>';
+        // print_r($location->visitorslastweek()->count());
+        // echo '</pre>';
+        // die();
         
         return view('pages.location.view', compact('location','departments', 'counters', 'officers'));
         

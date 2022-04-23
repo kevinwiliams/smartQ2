@@ -138,7 +138,7 @@ class UserManagementController extends Controller
      
         $roles = Role::get();
         $departments = Department::get();
-        $officerList = User::whereNotIn('user_type',[3])->where('location_id', $id)->orderBy('lastname', 'ASC')->get();
+        $officerList = User::whereNotIn('user_type',[3])->where('location_id', $id)->orderBy('lastname', 'ASC')->withCount('pendingtokens')->get();
         return view('pages.apps.user-management.users.staff', compact('officerList', 'officers', 'location','counters', 'departments'));
     }
 

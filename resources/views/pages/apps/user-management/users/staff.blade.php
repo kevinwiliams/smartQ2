@@ -71,13 +71,13 @@
                                         <div class="d-flex flex-center flex-wrap">
                                             <!--begin::Stats-->
                                             <div class="border border-gray-300 border-dashed rounded min-w-80px py-3 px-4 mx-2 mb-3">
-                                                <div class="fs-6 fw-bolder text-gray-700">10 mins</div>
+                                                <div class="fs-6 fw-bolder text-gray-700">{{ ($officer->stats)?$officer->stats->wait_time:'-' }} mins</div>
                                                 <div class="fw-bold text-gray-400">Avg. Wait</div>
                                             </div>
                                             <!--end::Stats-->
                                             <!--begin::Stats-->
                                             <div class="border border-gray-300 border-dashed rounded min-w-80px py-3 px-4 mx-2 mb-3">
-                                                <div class="fs-6 fw-bolder text-gray-700">23</div>
+                                                <div class="fs-6 fw-bolder text-gray-700">{{ ($officer->pendingtokens_count)?$officer->pendingtokens_count:'0' }}</div>
                                                 <div class="fw-bold text-gray-400">in Queue</div>
                                             </div>
                                             <!--end::Stats-->

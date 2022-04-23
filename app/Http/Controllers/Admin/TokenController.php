@@ -636,12 +636,13 @@ class TokenController extends Controller
     public function currentOfficer()
     {
         @date_default_timezone_set(session('app.timezone'));
-        $tokens = Token::where('status', '0')
-            ->where('user_id', auth()->user()->id)
-            ->orderBy('is_vip', 'DESC')
-            ->orderBy('id', 'ASC')
-            ->get();
-
+        // $tokens = Token::where('status', '0')
+        //     ->where('user_id', auth()->user()->id)
+        //     ->orderBy('is_vip', 'DESC')
+        //     ->orderBy('id', 'ASC')
+        //     ->get();
+        $tokens = auth()->user()->pendingtokens()->get();
+            
         return view('pages.token.current-icons', compact('tokens'));
     }
 

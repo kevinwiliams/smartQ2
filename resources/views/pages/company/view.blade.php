@@ -127,9 +127,9 @@
 														<span class="badge bagde-lg badge-light-primary fw-bolder fs-7 me-1 my-3">Statistics</span>
 														<br />
 														<div class="border border-gray-300 border-dashed rounded min-w-200px w-100 py-2 px-4 me-6 mb-3 fs-7">
-															<span class="text-muted fw-bold p-1">Visitors Last Wk: </span><span> 114</span><br />
-															<span class="text-muted fw-bold p-1">Avg. Wait Time: </span><span> 3 mins</span><br />
-															<span class="text-muted fw-bold p-1">Avg. Service Time: </span><span> 7 mins</span><br />
+															<span class="text-muted fw-bold p-1">Visitors Last Wk: </span><span>{{ $_location->visitorslastweek->count() }}</span><br />															
+															<span class="text-muted fw-bold p-1">Avg. Wait Time: </span><span> {{ ($_location->stats())?$_location->stats()->wait_time:'-' }} mins</span><br />
+															<span class="text-muted fw-bold p-1">Avg. Service Time: </span><span> {{ ($_location->stats())?$_location->stats()->service_time:'-' }} mins</span><br />
 														</div>
 													</td>
 													<td valign="middle">

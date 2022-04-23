@@ -179,4 +179,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne('App\Models\UserStats');
     }
+
+    public function pendingtokens()
+    {
+        return $this->hasMany(Token::class)->where('status',0)->orderBy('is_vip', 'DESC')
+        ->orderBy('id', 'ASC');
+    }
 }

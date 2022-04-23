@@ -33,7 +33,7 @@
                                 <!--begin::Chart-->
                                 <div class="position-relative d-flex flex-center h-175px w-175px me-15 mb-7">
                                     <div class="position-absolute translate-middle start-50 top-50 d-flex flex-column flex-center">
-                                        <span class="fs-2qx fw-bolder">237</span>
+                                        <span class="fs-2qx fw-bolder">{{ $location->visitorslastweek_count }}</span>
                                         <span class="fs-6 fw-bold text-gray-400">Tokens</span>
                                     </div>
                                     <canvas id="project_overview_chart"></canvas>

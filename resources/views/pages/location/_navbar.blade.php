@@ -22,7 +22,7 @@
                         <!--end::Status-->
                         <!--begin::Description-->
                         <div class="d-flex flex-wrap fw-bold mb-4 fs-5 text-gray-400">{!! theme()->getSvgIcon("icons/duotune/general/gen018.svg", "svg-icon-3") !!}  {{ $location->address }}</div>
-                        <!--end::Description-->
+                        <!--end::Description-->                        
                     </div>
                     <!--end::Details-->
                     <!--begin::Actions-->
