@@ -33,6 +33,11 @@ class Location extends Model
         return $this->hasMany(User::class);
     }
 
+    public function staff(){
+        return $this->hasMany(User::class)
+        ->where('user_type','<>',3);
+    }
+
     public function departments(){
         return $this->hasMany(Department::class);
     }

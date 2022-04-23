@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Location;
+use App\Models\Token;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -70,25 +71,81 @@ class ReportController extends Controller
                         ->whereIn('location_id', explode(",", request('location_id')))
                         ->whereBetween('token.created_at', [$start, $end])
                         ->groupByRaw('YEAR(token.`created_at`),WEEK(token.`created_at`),`location_id`,`location_name`')
-                        ->orderByRaw('location_name', 'year','week')
+                        ->orderByRaw('location_name', 'year', 'week')
                         ->get();
                     break;
                 case '4':
-                        $data->data = DB::table("token")
-                            ->select(DB::raw("
+                    $data->data = DB::table("token")
+                        ->select(DB::raw("
                                 locations.name AS 'location_name',
                                 COUNT(token.`created_at`) AS 'total',                         
                                 MONTH(token.`created_at`) AS 'month',
                                 YEAR(token.`created_at`) AS 'year',
                                 `location_id`
                                 "))
-                            ->join('locations', 'locations.id', '=', 'token.location_id')
-                            ->whereIn('location_id', explode(",", request('location_id')))
-                            ->whereBetween('token.created_at', [$start, $end])
-                            ->groupByRaw('YEAR(token.`created_at`),MONTH(token.`created_at`),`location_id`,`location_name`')
-                            ->orderByRaw('location_name', 'year','month')
-                            ->get();
-                        break;
+                        ->join('locations', 'locations.id', '=', 'token.location_id')
+                        ->whereIn('location_id', explode(",", request('location_id')))
+                        ->whereBetween('token.created_at', [$start, $end])
+                        ->groupByRaw('YEAR(token.`created_at`),MONTH(token.`created_at`),`location_id`,`location_name`')
+                        ->orderByRaw('location_name', 'year', 'month')
+                        ->get();
+                    break;
+                case '9':
+                    $data->data = Token::whereIn('location_id', explode(",", request('location_id')))
+                        ->whereBetween('token.created_at', [$start, $end])                        
+                        ->with(['location' => function ($q){
+                            $q->orderBy('name');
+                            }])                     
+                        ->orderBy('created_at')
+                        ->get();
+                
+                       
+                    break;
+                case '10':
+                    $data->data = DB::select("
+                    SELECT 
+                       realToken.user_id AS uid,
+                     (SELECT CONCAT_WS(' ', firstname, lastname) FROM user WHERE id= realToken.user_id) as officer,
+                     (
+                       SELECT COUNT(id) 
+                       FROM token 
+                       WHERE 
+                           user_id=realToken.user_id
+                           AND (DATE(created_at) BETWEEN '" . $start . "' AND '" . $end . "')
+                     ) AS total,
+                     
+                     (
+                       SELECT COUNT(id) 
+                       FROM token 
+                       WHERE 
+                           status = 2 
+                           AND user_id=realToken.user_id
+                           AND (DATE(created_at) BETWEEN '" . $start . "' AND '" . $end . "')
+                     ) AS stoped,
+                     (
+                       SELECT COUNT(id) 
+                       FROM token 
+                       WHERE 
+                           status = 1 
+                           AND user_id=realToken.user_id
+                           AND (DATE(created_at) BETWEEN '" . $start . "' AND '" . $end . "')
+                     ) AS success,
+                     (
+                       SELECT COUNT(id)
+                       FROM token 
+                       WHERE 
+                           status = 0 
+                           AND user_id=realToken.user_id
+                           AND (DATE(created_at) BETWEEN '" . $start . "' AND '" . $end . "')
+                     ) AS pending
+                     FROM 
+                       token AS realToken                 
+                     GROUP BY user_id
+                     ORDER BY officer
+                   ");
+
+             
+                    break;
                 default:
                     # code...
                     break;

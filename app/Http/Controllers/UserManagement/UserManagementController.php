@@ -131,6 +131,7 @@ class UserManagementController extends Controller
         $departments = Department::where('location_id', $id)->count();
         $counters = Counter::where('location_id', $id)->count();
         $officers = User::where('location_id', $id)
+                    ->where('user_type','<>', 3)
                     ->where('status', 1)
                     ->get();
                     // ->count();

@@ -42,6 +42,11 @@ class Token extends Model
         return $this->hasOne('App\Models\User', 'id', 'client_id');
     }
 
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
+    }
+
     public function status()
     {
         return $this->hasMany(TokenStatus::class);

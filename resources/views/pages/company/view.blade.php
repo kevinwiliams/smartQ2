@@ -105,7 +105,7 @@
 														<span class="text-muted fw-bold d-block fs-7">{!! theme()->getSvgIcon("icons/duotune/general/gen018.svg", "svg-icon-3") !!} {{ $_location->address }}</span>
 														<br>
 														<div class="border border-gray-300 border-dashed rounded min-w-100px w-100 py-3 px-6 me-4 mb-3">
-															<span class="text-gray-600 fw-bold d-block fs-6 py-1">Team size: <span class="text-black">{{ $_location->users()->count() }}</span> </span>
+															<span class="text-gray-600 fw-bold d-block fs-6 py-1">Team size: <span class="text-black">{{ $_location->staff()->count() }}</span> </span>
 															<span class="text-gray-600 fw-bold d-block fs-6">Departments: <span class="text-black">{{ $_location->departments()->count() }}</span> </span>
 															<!-- {{ Carbon\Carbon::parse($_location->created_at)->format('d M Y, h:i a'); }} -->
 														</div>

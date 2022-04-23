@@ -217,10 +217,10 @@
 
             // Init datatable --- more info on datatables: https://datatables.net/manual/
             datatable = $(table).DataTable({
-                "info": false,
+                    "info": false,
                     'order': [],
                     "pageLength": 10,
-                    "lengthChange": false,
+                    "lengthChange": true,
                     'columnDefs': []
             });
         }
@@ -391,6 +391,10 @@
         }
         // Hook export buttons
         var exportButtons = () => {
+            if (!table) {
+                return;
+            }
+
             const documentTitle = $("#report_title").val();
             var buttons = new $.fn.dataTable.Buttons(table, {
                 buttons: [{

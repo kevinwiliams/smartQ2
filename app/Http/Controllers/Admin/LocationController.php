@@ -124,7 +124,8 @@ class LocationController extends Controller
         $departments = Department::where('location_id', $id)->count();
         $counters = Counter::where('location_id', $id)->count();
         $officers = User::where('location_id', $id)
-                    ->where('status', 1)                    
+                    ->where('user_type','<>', 3)
+                    ->where('status', 1)
                     ->get();
                     // ->count();
         $location = Location::where('id', $id)

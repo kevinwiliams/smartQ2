@@ -644,14 +644,16 @@ class Data
     public static function getReportList()
     {
         return array(
-            array('id'=> 1, 'group' => 'Visit Reports', 'name' => 'Hourly', 'title' => 'Visit Report - Hourly', 'status' => true, 'view' => 'partials/reports/hourly-token-report'),
-            array('id'=> 2, 'group' => 'Visit Reports', 'name' => 'Daily', 'title' => 'Visit Report - Daily', 'status' => true, 'file' => 'partials/reports/daily-token-report'),
-            array('id'=> 3, 'group' => 'Visit Reports', 'name' => 'Weekly', 'title' => 'Visit Report - Weekly', 'status' => true, 'file' => 'partials/reports/weekly-token-report'),
-            array('id'=> 4, 'group' => 'Visit Reports', 'name' => 'Monthly', 'title' => 'Visit Report - Monthly', 'status' => true, 'file' => 'partials/reports/monthly-token-report'),            
-            array('id'=> 5, 'group' => 'KPI Reports', 'name' => 'Wait Time', 'title' => 'KPI Report - Wait Time', 'status' => false, 'file' => ''),            
-            array('id'=> 6, 'group' => 'KPI Reports', 'name' => 'Service Time', 'title' => 'KPI Report - Service Time', 'status' => false, 'file' => ''),            
-            array('id'=> 7, 'group' => 'Stats Reports', 'name' => 'Customers Served', 'title' => 'Stats Report - Customers Served', 'status' => false, 'file' => ''),            
-            array('id'=> 8, 'group' => 'Stats Reports', 'name' => 'No Shows', 'title' => 'Stats Report - No Shows', 'status' => false, 'file' => ''),            
+            array('id' => 1, 'group' => 'Visit Reports', 'name' => 'Hourly', 'title' => 'Visit Report - Hourly', 'status' => true, 'view' => 'partials/reports/hourly-token-report'),
+            array('id' => 2, 'group' => 'Visit Reports', 'name' => 'Daily', 'title' => 'Visit Report - Daily', 'status' => true, 'view' => 'partials/reports/daily-token-report'),
+            array('id' => 3, 'group' => 'Visit Reports', 'name' => 'Weekly', 'title' => 'Visit Report - Weekly', 'status' => true, 'view' => 'partials/reports/weekly-token-report'),
+            array('id' => 4, 'group' => 'Visit Reports', 'name' => 'Monthly', 'title' => 'Visit Report - Monthly', 'status' => true, 'view' => 'partials/reports/monthly-token-report'),
+            array('id' => 5, 'group' => 'KPI Reports', 'name' => 'Wait Time', 'title' => 'KPI Report - Wait Time', 'status' => false, 'view' => ''),
+            array('id' => 6, 'group' => 'KPI Reports', 'name' => 'Service Time', 'title' => 'KPI Report - Service Time', 'status' => false, 'view' => ''),
+            array('id' => 7, 'group' => 'Stats Reports', 'name' => 'Customers Served', 'title' => 'Stats Report - Customers Served', 'status' => false, 'view' => ''),
+            array('id' => 8, 'group' => 'Stats Reports', 'name' => 'No Shows', 'title' => 'Stats Report - No Shows', 'status' => false, 'view' => ''),
+            array('id' => 9, 'group' => 'General Reports', 'name' => 'Token', 'title' => 'Token Report', 'status' => true, 'view' => 'partials/reports/token-report'),
+            array('id' => 10, 'group' => 'General Reports', 'name' => 'Performance', 'title' => 'Performance Report', 'status' => true, 'view' => 'partials/reports/performance-report'),
         );
     }
 }
