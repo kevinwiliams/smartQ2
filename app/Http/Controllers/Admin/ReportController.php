@@ -105,13 +105,15 @@ class ReportController extends Controller
                     $data->data = DB::select("
                     SELECT 
                        realToken.user_id AS uid,
-                     (SELECT CONCAT_WS(' ', firstname, lastname) FROM user WHERE id= realToken.user_id) as officer,
+                       (SELECT name FROM locations WHERE id= realToken.location_id) as location,
+                       (SELECT CONCAT_WS(' ', firstname, lastname) FROM user WHERE id= realToken.user_id) as officer,
                      (
                        SELECT COUNT(id) 
                        FROM token 
                        WHERE 
                            user_id=realToken.user_id
                            AND (DATE(created_at) BETWEEN '" . $start . "' AND '" . $end . "')
+                           AND (location_id in (" . request('location_id') . "))
                      ) AS total,
                      
                      (
@@ -121,6 +123,7 @@ class ReportController extends Controller
                            status = 2 
                            AND user_id=realToken.user_id
                            AND (DATE(created_at) BETWEEN '" . $start . "' AND '" . $end . "')
+                           AND (location_id in (" . request('location_id') . "))
                      ) AS stoped,
                      (
                        SELECT COUNT(id) 
@@ -129,6 +132,7 @@ class ReportController extends Controller
                            status = 1 
                            AND user_id=realToken.user_id
                            AND (DATE(created_at) BETWEEN '" . $start . "' AND '" . $end . "')
+                           AND (location_id in (" . request('location_id') . "))
                      ) AS success,
                      (
                        SELECT COUNT(id)
@@ -137,11 +141,13 @@ class ReportController extends Controller
                            status = 0 
                            AND user_id=realToken.user_id
                            AND (DATE(created_at) BETWEEN '" . $start . "' AND '" . $end . "')
+                           AND (location_id in (" . request('location_id') . "))
                      ) AS pending
                      FROM 
-                       token AS realToken                 
+                       token AS realToken   
+                       where realToken.location_id in (" . request('location_id') . ")        
                      GROUP BY user_id
-                     ORDER BY officer
+                     ORDER BY location, officer
                    ");
 
              

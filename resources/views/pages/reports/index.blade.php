@@ -11,7 +11,7 @@
                     <div class="card-body">
                         <div class="col-xxl-5">
                             <div class="d-flex flex-row">
-                                <div class="fv-row m-2 col-4">
+                                <div class="fv-row m-2 col-6">
                                     <div class="form-group @error('report') has-error @enderror">
                                         <label class="fs-6 form-label fw-bolder text-dark">Report Type</label>
                                         <!--begin::Select-->

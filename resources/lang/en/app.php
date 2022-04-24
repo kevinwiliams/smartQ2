@@ -84,6 +84,8 @@ return [
     'pending'      => 'Pending',
     'complete'     => 'Complete',
     'stop'         => 'Stop',
+    'stopped'         => 'Stopped',
+    'location'         => 'Location',
     'today_user_performance' => 'Today\'s User Performance',
     'reports'      => 'Reports',
     'token_report' => 'Token Report',
