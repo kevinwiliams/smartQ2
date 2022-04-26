@@ -348,21 +348,6 @@ return array(
                 'class' => 'menu-sub-accordion menu-active-bg',
                 'items' => array(
                     array(
-                        'title'  => 'Setup',
-                        'path'   => 'settings',
-                        'bullet' => '<span class="bullet bullet-dot"></span>',
-                    ),
-                    array(
-                        'title'  => 'Display',
-                        'path'   => 'settings/display',
-                        'bullet' => '<span class="bullet bullet-dot"></span>',
-                    ),
-                    array(
-                        'title'  => 'Auto Queue',
-                        'path'   => 'token/setting',
-                        'bullet' => '<span class="bullet bullet-dot"></span>',
-                    ),
-                    array(
                         'title'  => 'SMS',
                         'path'   => 'sms/setting',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
