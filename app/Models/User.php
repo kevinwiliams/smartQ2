@@ -185,4 +185,22 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Token::class)->where('status',0)->orderBy('is_vip', 'DESC')
         ->orderBy('id', 'ASC');
     }
+
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
+    }
+
+    public function company()
+    {
+        return $this->hasOneThrough(
+            Company::class,
+            Location::class,
+            'id', // Foreign key on the location table...
+            'id', // Foreign key on the company table...
+            'location_id', // Local key on the user table...
+            'company_id' // Local key on the location table...
+        );
+    }
+
 }

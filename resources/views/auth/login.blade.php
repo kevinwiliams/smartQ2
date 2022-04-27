@@ -2,9 +2,9 @@
 
     <!--begin::Signin Form-->
     <form method="POST" action="{{ theme()->getPageUrl('login') }}" class="form w-100" novalidate="novalidate" id="mv_sign_in_form">
-    @csrf
+        @csrf
 
-    <!--begin::Heading-->
+        <!--begin::Heading-->
         <div class="text-center mb-10">
             <!--begin::Title-->
             {{-- <h1 class="text-dark mb-3">
@@ -24,25 +24,25 @@
         </div>
         <!--begin::Heading-->
         <div class="text-center">
-             <!--begin::Google link-->
-             <a href="{{ url('/auth/redirect/google') }}?redirect_uri={{ url()->previous() }}" class="btn btn-flex flex-center btn-light btn-lg w-100 mb-5">
-                <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'svg/brand-logos/google-icon.svg') }}" class="h-20px me-3"/>
+            <!--begin::Google link-->
+            <a href="{{ url('/auth/redirect/google') }}?redirect_uri={{ url()->previous() }}" class="btn btn-flex flex-center btn-light btn-lg w-100 mb-5">
+                <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'svg/brand-logos/google-icon.svg') }}" class="h-20px me-3" />
                 {{ __('Continue with Google') }}
             </a>
             <!--end::Google link-->
 
-            
-             <!--begin::Apple link-->
-             <a href="{{ url('/auth/redirect/apple') }}?redirect_uri={{ url()->previous() }}" class="btn btn-flex flex-center btn-light btn-lg w-100 mb-5">
-                <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'svg/brand-logos/apple-black.svg') }}" class="h-20px me-3"/>
+
+            <!--begin::Apple link-->
+            <a href="{{ url('/auth/redirect/apple') }}?redirect_uri={{ url()->previous() }}" class="btn btn-flex flex-center btn-light btn-lg w-100 mb-5">
+                <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'svg/brand-logos/apple-black.svg') }}" class="h-20px me-3" />
                 {{ __('Continue with Apple ID') }}
             </a>
             <!--end::Google link-->
         </div>
         {{-- <div class="mb-10 bg-light-info p-8 rounded"><div class="text-info"> Use account <strong>admin@demo.com</strong> and password <strong>demo</strong> to continue. </div></div> --}}
-         <!--begin::Separator-->
-         <div class="text-center text-muted text-uppercase fw-bolder mb-5">or</div>
-         <!--end::Separator-->
+        <!--begin::Separator-->
+        <div class="text-center text-muted text-uppercase fw-bolder mb-5">or</div>
+        <!--end::Separator-->
         <!--begin::Input group-->
         <div class="fv-row mb-10">
             <!--begin::Label-->
@@ -50,13 +50,13 @@
             <!--end::Label-->
 
             <!--begin::Input-->
-            <input class="form-control form-control-lg form-control-solid" type="email" name="email" autocomplete="off"  required autofocus/>
+            <input class="form-control form-control-lg form-control-solid" type="email" name="email" autocomplete="off" required autofocus />
             <!--end::Input-->
         </div>
         <!--end::Input group-->
 
         <!--begin::Input group-->
-        <div class="fv-row mb-10">
+        <div class="fv-row mb-10" data-mv-password-meter="true">
             <!--begin::Wrapper-->
             <div class="d-flex flex-stack mb-2">
                 <!--begin::Label-->
@@ -65,16 +65,27 @@
 
                 <!--begin::Link-->
                 @if (Route::has('password.request'))
-                    <a href="{{ theme()->getPageUrl('password.request') }}" class="link-primary fs-6 fw-bolder">
-                        {{ __('Forgot Password ?') }}
-                    </a>
-            @endif
-            <!--end::Link-->
+                <a href="{{ theme()->getPageUrl('password.request') }}" class="link-primary fs-6 fw-bolder">
+                    {{ __('Forgot Password ?') }}
+                </a>
+                @endif
+                <!--end::Link-->
             </div>
             <!--end::Wrapper-->
 
             <!--begin::Input-->
-            <input class="form-control form-control-lg form-control-solid" type="password" name="password" autocomplete="off" equired/>
+            <!-- <input class="form-control form-control-lg form-control-solid" type="password" name="password" autocomplete="off" required /> -->
+
+            <!--begin::Input wrapper-->
+            <div class="position-relative mb-3">
+                <input class="form-control form-control-lg form-control-solid" type="password" placeholder="" name="password" autocomplete="off" required/>
+                <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-mv-password-meter-control="visibility">
+                    <i class="bi bi-eye-slash fs-2"></i>
+                    <i class="bi bi-eye fs-2 d-none"></i>
+                </span>
+            </div>
+            <!--end::Input wrapper-->
+
             <!--end::Input-->
         </div>
         <!--end::Input group-->
@@ -84,8 +95,8 @@
             <label class="form-check form-check-custom form-check-solid">
                 <input class="form-check-input" type="checkbox" name="remember"/>
                 <span class="form-check-label fw-bold text-gray-700 fs-6">{{ __('Remember me') }}
-            </span>
-            </label>
+        </span>
+        </label>
         </div> --}}
         <!--end::Input group-->
 
@@ -97,9 +108,9 @@
             </button>
             <!--end::Submit button-->
 
-           
 
-           
+
+
         </div>
         <!--end::Actions-->
     </form>

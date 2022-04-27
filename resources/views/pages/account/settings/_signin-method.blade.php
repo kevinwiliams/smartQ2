@@ -55,7 +55,7 @@
 
                 <!--begin::Action-->
                 <div id="mv_signin_email_button" class="ms-auto">
-                    <button class="btn btn-light btn-active-light-primary">{{ __('Change Email') }}</button>
+                    <button class="btn btn-light btn-active-light-primary" {{ (auth()->user()->usersocial)?'disabled':'' }}>{{ __('Change Email') }}</button>
                 </div>
                 <!--end::Action-->
             </div>
@@ -119,7 +119,7 @@
 
                 <!--begin::Action-->
                 <div id="mv_signin_password_button" class="ms-auto">
-                    <button class="btn btn-light btn-active-light-primary">{{ __('Reset Password') }}</button>
+                    <button class="btn btn-light btn-active-light-primary" {{ (auth()->user()->usersocial)?'disabled':'' }}>{{ __('Reset Password') }}</button>
                 </div>
                 <!--end::Action-->
             </div>

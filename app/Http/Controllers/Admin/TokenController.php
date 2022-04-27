@@ -139,7 +139,7 @@ class TokenController extends Controller
     {
 
 
-        $display = DisplaySetting::first();
+        $display = DisplaySetting::where('location_id',auth()->user()->location_id)->first();
         $keyList = DB::table('token_setting AS s')
             ->select('d.key', 's.department_id', 's.counter_id', 's.user_id')
             ->leftJoin('department AS d', 'd.id', '=', 's.department_id')
@@ -183,6 +183,10 @@ class TokenController extends Controller
                 ->get();
         }
 
+        // echo '<pre>';
+        // print_r($departmentList);
+        // echo '</pre>';
+        // die();
         @date_default_timezone_set(session('app.timezone'));
         $waiting = Token::where('status', '0')->where('location_id', auth()->user()->location_id)->count();
         $counters = Counter::where('status', 1)->where('location_id', auth()->user()->location_id)->pluck('name', 'id');

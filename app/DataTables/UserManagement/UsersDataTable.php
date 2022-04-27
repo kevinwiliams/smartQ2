@@ -63,7 +63,7 @@ class UsersDataTable extends DataTable
      */
     public function query(User $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->where('user.user_type','<>', 3);
     }
 
     /**

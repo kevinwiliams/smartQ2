@@ -158,7 +158,8 @@ class ReportController extends Controller
             }
         }
 
-        $locations = Location::get();
+        $company_id = auth()->user()->location->company_id;        
+        $locations = Location::where('company_id',$company_id)->get();
         return view('pages.reports.index', compact('locations', 'data'));
     }
 }
