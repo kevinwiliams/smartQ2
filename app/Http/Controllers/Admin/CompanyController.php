@@ -26,7 +26,7 @@ class CompanyController extends Controller
         if (!auth()->user()->can('view company')) {
             return Redirect::to("/")->withFail(trans('app.no_permissions'));
         }
-  
+
         return $dataTable->render('pages.company.list');
     }
 
@@ -137,7 +137,20 @@ class CompanyController extends Controller
         $company = Company::find($id);
         $companies = Company::where('id', $id)->pluck('name', 'id');
         // get the default inner page
-        return view('pages.company.view', compact('company', 'companies'));
+        $markers = array();
+        $infowindows = array();
+
+        foreach ($company->locations as $_location) {
+            array_push($markers, array($_location->name, $_location->lat, $_location->lon));            
+            array_push($infowindows, array($_location->name, $_location->address));
+        }
+
+        // echo '<pre>';
+        // print_r($infowindows);
+        // echo '</pre>';
+        // die();
+
+        return view('pages.company.view', compact('company', 'companies','markers','infowindows'));
     }
 
 

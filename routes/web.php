@@ -198,6 +198,7 @@ Route::middleware('auth')->group(function () {
 		Route::get('token/setting/{id}', [TokenController::class, 'tokenSettingView']);
 		Route::post('token/setting/{id}', [TokenController::class, 'tokenSetting']);
 		Route::get('token/setting/delete/{id}', [TokenController::class, 'tokenDeleteSetting']);
+		Route::get('map/{id}', [LocationController::class, 'map']);
 		
 		// // Department pages
 		Route::prefix('department')->group(function () {

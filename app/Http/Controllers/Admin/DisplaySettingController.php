@@ -53,7 +53,7 @@ class DisplaySettingController extends Controller
             'officers',
             'departments',
             'counters',
-            'location',
+            'location'
         ));
     } 
 

@@ -120,6 +120,11 @@
                 <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='view') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/view/' . $location->id)}}">Overview</a>
             </li>
             <!--end::Nav item-->
+             <!--begin::Nav item-->
+             <li class="nav-item">
+                <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='map') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/map/' . $location->id)}}">Map</a>
+            </li>
+            <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='department') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/department/' . $location->id)}}">Departments</a>

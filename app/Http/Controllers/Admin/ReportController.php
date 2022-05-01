@@ -22,6 +22,7 @@ class ReportController extends Controller
         $data->location_id = (request()->has('location_id')) ? request('location_id') : '';
         $data->daterange = (request()->has('daterange')) ? request('daterange') : '';
         $data->data = null;
+        $data->graph = false;
         if (request()->has('report') && request()->has('location_id') && request()->has('daterange')) {
             $daterange = explode("-", request('daterange'));
             $start = Carbon::createFromTimestamp(strtotime($daterange[0]));
@@ -75,7 +76,8 @@ class ReportController extends Controller
                         ->get();
                     break;
                 case '4':
-                    $data->data = DB::table("token")
+
+                    $info = DB::table("token")
                         ->select(DB::raw("
                                 locations.name AS 'location_name',
                                 COUNT(token.`created_at`) AS 'total',                         
@@ -89,17 +91,57 @@ class ReportController extends Controller
                         ->groupByRaw('YEAR(token.`created_at`),MONTH(token.`created_at`),`location_id`,`location_name`')
                         ->orderByRaw('location_name', 'year', 'month')
                         ->get();
+                    $data->data = $info;
+                    $startDateUnix = strtotime($start);
+                    $endDateUnix = strtotime($end);
+
+                    $currentDateUnix = $startDateUnix;
+
+                    $monthNumbers = array();
+                    while ($currentDateUnix < $endDateUnix) {
+                        // $weekNumbers[] = date('W', $currentDateUnix) . ' - ' . date('Y', $currentDateUnix);
+                        array_push($monthNumbers, array('month' => date('m', $currentDateUnix), 'monthname' => date('M', $currentDateUnix), 'year' => date('Y', $currentDateUnix)));
+                        $currentDateUnix = strtotime('+1 month', $currentDateUnix);
+                    }
+
+                    $seriesdata = array();
+
+                    $locations = array_unique($info->pluck('location_name')->toArray());
+
+                    foreach ($locations as $location_name) {
+                        $datarow = array();
+                        foreach ($monthNumbers as $_month) {
+
+                            $inforow =  $info->where('year', $_month['year'])->where('location_name', $location_name)->where('month', $_month['month'])->first();
+                            array_push($datarow, ($inforow) ? $inforow->total : 0);
+                        }
+                        array_push($seriesdata, array('name' => $location_name, 'data' => $datarow));
+                    }
+                    $data->graph = true;
+                    $data->seriesdata = $seriesdata;
+
+                    $categories = array();
+
+                    foreach ($monthNumbers as $_month) {
+                        array_push($categories, $_month['monthname'] . ' ' . $_month['year']);
+                    }
+                    $data->categories = $categories;
+
+                    // echo '<pre>';
+                    // print_r($data);
+                    // echo '</pre>';
+                    // die();
                     break;
                 case '9':
                     $data->data = Token::whereIn('location_id', explode(",", request('location_id')))
-                        ->whereBetween('token.created_at', [$start, $end])                        
-                        ->with(['location' => function ($q){
+                        ->whereBetween('token.created_at', [$start, $end])
+                        ->with(['location' => function ($q) {
                             $q->orderBy('name');
-                            }])                     
+                        }])
                         ->orderBy('created_at')
                         ->get();
-                
-                       
+
+
                     break;
                 case '10':
                     $data->data = DB::select("
@@ -150,7 +192,7 @@ class ReportController extends Controller
                      ORDER BY location, officer
                    ");
 
-             
+
                     break;
                 default:
                     # code...
@@ -158,8 +200,8 @@ class ReportController extends Controller
             }
         }
 
-        $company_id = auth()->user()->location->company_id;        
-        $locations = Location::where('company_id',$company_id)->get();
+        $company_id = auth()->user()->location->company_id;
+        $locations = Location::where('company_id', $company_id)->get();
         return view('pages.reports.index', compact('locations', 'data'));
     }
 }

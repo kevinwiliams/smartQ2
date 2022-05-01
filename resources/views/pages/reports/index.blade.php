@@ -17,23 +17,24 @@
                                         <!--begin::Select-->
                                         <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Report" tabindex="-1" aria-hidden="true" name="report" id="report">
                                             <option value=""></option>
-                                           @php                                           
-                                           $groups = array_unique(array_column(\App\Core\Data::getReportList(), 'group'));
-                                           @endphp
-                                            @foreach($groups as $_group)								
-                                            <optgroup label="{{ $_group }}">                                                
+                                            @php
+                                            $groups = array_unique(array_column(\App\Core\Data::getReportList(), 'group'));
+                                            @endphp
+                                            @foreach($groups as $_group)
+                                            <optgroup label="{{ $_group }}">
                                                 @foreach(\App\Core\Data::getReportList() as $key => $value)
                                                 @if($value['group'] == $_group)
-                                                <option value="{{ $value['id'] }}" {{ ($value['status'])?"":"disabled"}} {{ ($data->report == $value['id'])?"selected":"" }} > {{ $value['name'] }}</option>
+                                                <option value="{{ $value['id'] }}" {{ ($value['status'])?"":"disabled"}} {{ ($data->report == $value['id'])?"selected":"" }}> {{ $value['name'] }}</option>
                                                 @endif
-                                                @endforeach                                                
+                                                @endforeach
                                             </optgroup>
-								            @endforeach                                            
+                                            @endforeach
                                         </select>
                                         <!--end::Select-->
                                         <span class="text-danger">{{ $errors->first('report') }}</span>
                                     </div>
                                 </div>
+                                @can('choose location')
                                 <div class="fv-row m-2 col-12">
                                     <div class="form-group @error('location_id') has-error @enderror">
                                         <label class="fs-6 form-label fw-bolder text-dark">Location</label>
@@ -47,6 +48,9 @@
                                         <span class="text-danger">{{ $errors->first('location_id') }}</span>
                                     </div>
                                 </div>
+                                @else
+                                <input type="hidden" name="location_id" id="location_id" value="{{ auth()->user()->location_id }}" />
+                                @endcan
                                 <div class="fv-row m-2 col-6">
                                     <div class="form-group @error('daterange') has-error @enderror">
                                         <label class="fs-6 form-label fw-bolder text-dark">Date</label>
@@ -103,7 +107,18 @@
                                 </div>
                                 <!--end::Export buttons-->
                             </div>
+                            @if($data->data->count() > 0)
                             <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
+                                @if($data->graph)
+                                <ul class="nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-bs-toggle="tab" href="#mv_tab_pane_table">Table</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#mv_tab_pane_graph">Graph</a>
+                                    </li>                        
+                                </ul>
+                                @endif
                                 <!--begin::Export dropdown-->
                                 <button type="button" class="btn btn-light-primary" data-mv-menu-trigger="click" data-mv-menu-placement="bottom-end">
                                     {!! theme()->getSvgIcon("icons/duotune/arrows/arr078.svg", "svg-icon-3") !!}
@@ -141,8 +156,9 @@
                                     <!--end::Menu item-->
                                 </div>
                                 <!--end::Menu-->
-                                <!--end::Export dropdown-->                                
+                                <!--end::Export dropdown-->
                             </div>
+                            @endif
                         </div>
                         @endif
                         <!--begin::Card body-->
@@ -153,9 +169,187 @@
                                 <!--begin::Wrapper-->
                                 <div class="d-flex flex-stack flex-grow-1">
                                     <!--begin::Content-->
-                                    <div class="fw-bold">
+
+                                    <!-- <div class="fw-bold">
                                         <div class="fs-6 text-gray-700">
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut risus vitae mi feugiat molestie non at tellus. Integer elementum mattis lectus id tempus. Integer tristique gravida fermentum. Integer nec tortor nunc.</div>
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut risus vitae mi feugiat molestie non at tellus. Integer elementum mattis lectus id tempus. Integer tristique gravida fermentum. Integer nec tortor nunc.
+                                        </div>
+                                    </div> -->
+                                    <div class="row">
+                                        <!--begin::Col-->
+                                        <div class="col ps-md-10">
+                                            <!--begin::Title-->
+                                            <h2 class="text-gray-800 fw-bolder mb-4">Reports Generation</h2>
+                                            <!--end::Title-->
+                                            <!--begin::Accordion-->
+                                            <!--begin::Section-->
+                                            <div class="m-0">
+                                                <!--begin::Heading-->
+                                                <div class="d-flex align-items-center collapsible py-3 toggle mb-0" data-bs-toggle="collapse" data-bs-target="#kt_job_7_1">
+                                                    <!--begin::Icon-->
+                                                    <div class="btn btn-sm btn-icon mw-20px btn-active-color-primary me-5">
+                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen036.svg-->
+                                                        <span class="svg-icon toggle-on svg-icon-primary svg-icon-1">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                                <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor"></rect>
+                                                                <rect x="6.0104" y="10.9247" width="12" height="2" rx="1" fill="currentColor"></rect>
+                                                            </svg>
+                                                        </span>
+                                                        <!--end::Svg Icon-->
+                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen035.svg-->
+                                                        <span class="svg-icon toggle-off svg-icon-1">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                                <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor"></rect>
+                                                                <rect x="10.8891" y="17.8033" width="12" height="2" rx="1" transform="rotate(-90 10.8891 17.8033)" fill="currentColor"></rect>
+                                                                <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="currentColor"></rect>
+                                                            </svg>
+                                                        </span>
+                                                        <!--end::Svg Icon-->
+                                                    </div>
+                                                    <!--end::Icon-->
+                                                    <!--begin::Title-->
+                                                    <h4 class="text-gray-700 fw-bolder cursor-pointer mb-0">What platforms are compatible?</h4>
+                                                    <!--end::Title-->
+                                                </div>
+                                                <!--end::Heading-->
+                                                <!--begin::Body-->
+                                                <div id="kt_job_7_1" class="collapse show fs-6 ms-1">
+                                                    <!--begin::Text-->
+                                                    <div class="mb-4 text-gray-600 fw-bold fs-6 ps-10">First, a disclaimer – the entire process of writing a blog post often takes more than a couple of hours, even if you can type eighty words as per minute and your writing skills are sharp.</div>
+                                                    <!--end::Text-->
+                                                </div>
+                                                <!--end::Content-->
+                                                <!--begin::Separator-->
+                                                <div class="separator separator-dashed"></div>
+                                                <!--end::Separator-->
+                                            </div>
+                                            <!--end::Section-->
+                                            <!--begin::Section-->
+                                            <div class="m-0">
+                                                <!--begin::Heading-->
+                                                <div class="d-flex align-items-center collapsible py-3 toggle mb-0 collapsed" data-bs-toggle="collapse" data-bs-target="#kt_job_7_2" aria-expanded="false">
+                                                    <!--begin::Icon-->
+                                                    <div class="btn btn-sm btn-icon mw-20px btn-active-color-primary me-5">
+                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen036.svg-->
+                                                        <span class="svg-icon toggle-on svg-icon-primary svg-icon-1">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                                <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor"></rect>
+                                                                <rect x="6.0104" y="10.9247" width="12" height="2" rx="1" fill="currentColor"></rect>
+                                                            </svg>
+                                                        </span>
+                                                        <!--end::Svg Icon-->
+                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen035.svg-->
+                                                        <span class="svg-icon toggle-off svg-icon-1">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                                <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor"></rect>
+                                                                <rect x="10.8891" y="17.8033" width="12" height="2" rx="1" transform="rotate(-90 10.8891 17.8033)" fill="currentColor"></rect>
+                                                                <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="currentColor"></rect>
+                                                            </svg>
+                                                        </span>
+                                                        <!--end::Svg Icon-->
+                                                    </div>
+                                                    <!--end::Icon-->
+                                                    <!--begin::Title-->
+                                                    <h4 class="text-gray-700 fw-bolder cursor-pointer mb-0">How many people can it support?</h4>
+                                                    <!--end::Title-->
+                                                </div>
+                                                <!--end::Heading-->
+                                                <!--begin::Body-->
+                                                <div id="kt_job_7_2" class="fs-6 ms-1 collapse" style="">
+                                                    <!--begin::Text-->
+                                                    <div class="mb-4 text-gray-600 fw-bold fs-6 ps-10">First, a disclaimer – the entire process of writing a blog post often takes more than a couple of hours, even if you can type eighty words as per minute and your writing skills are sharp.</div>
+                                                    <!--end::Text-->
+                                                </div>
+                                                <!--end::Content-->
+                                                <!--begin::Separator-->
+                                                <div class="separator separator-dashed"></div>
+                                                <!--end::Separator-->
+                                            </div>
+                                            <!--end::Section-->
+                                            <!--begin::Section-->
+                                            <div class="m-0">
+                                                <!--begin::Heading-->
+                                                <div class="d-flex align-items-center collapsible py-3 toggle collapsed mb-0" data-bs-toggle="collapse" data-bs-target="#kt_job_7_3">
+                                                    <!--begin::Icon-->
+                                                    <div class="btn btn-sm btn-icon mw-20px btn-active-color-primary me-5">
+                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen036.svg-->
+                                                        <span class="svg-icon toggle-on svg-icon-primary svg-icon-1">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                                <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor"></rect>
+                                                                <rect x="6.0104" y="10.9247" width="12" height="2" rx="1" fill="currentColor"></rect>
+                                                            </svg>
+                                                        </span>
+                                                        <!--end::Svg Icon-->
+                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen035.svg-->
+                                                        <span class="svg-icon toggle-off svg-icon-1">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                                <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor"></rect>
+                                                                <rect x="10.8891" y="17.8033" width="12" height="2" rx="1" transform="rotate(-90 10.8891 17.8033)" fill="currentColor"></rect>
+                                                                <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="currentColor"></rect>
+                                                            </svg>
+                                                        </span>
+                                                        <!--end::Svg Icon-->
+                                                    </div>
+                                                    <!--end::Icon-->
+                                                    <!--begin::Title-->
+                                                    <h4 class="text-gray-700 fw-bolder cursor-pointer mb-0">How long is the warrianty?</h4>
+                                                    <!--end::Title-->
+                                                </div>
+                                                <!--end::Heading-->
+                                                <!--begin::Body-->
+                                                <div id="kt_job_7_3" class="collapse fs-6 ms-1">
+                                                    <!--begin::Text-->
+                                                    <div class="mb-4 text-gray-600 fw-bold fs-6 ps-10">First, a disclaimer – the entire process of writing a blog post often takes more than a couple of hours, even if you can type eighty words as per minute and your writing skills are sharp.</div>
+                                                    <!--end::Text-->
+                                                </div>
+                                                <!--end::Content-->
+                                                <!--begin::Separator-->
+                                                <div class="separator separator-dashed"></div>
+                                                <!--end::Separator-->
+                                            </div>
+                                            <!--end::Section-->
+                                            <!--begin::Section-->
+                                            <div class="m-0">
+                                                <!--begin::Heading-->
+                                                <div class="d-flex align-items-center collapsible py-3 toggle collapsed mb-0" data-bs-toggle="collapse" data-bs-target="#kt_job_7_4">
+                                                    <!--begin::Icon-->
+                                                    <div class="btn btn-sm btn-icon mw-20px btn-active-color-primary me-5">
+                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen036.svg-->
+                                                        <span class="svg-icon toggle-on svg-icon-primary svg-icon-1">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                                <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor"></rect>
+                                                                <rect x="6.0104" y="10.9247" width="12" height="2" rx="1" fill="currentColor"></rect>
+                                                            </svg>
+                                                        </span>
+                                                        <!--end::Svg Icon-->
+                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen035.svg-->
+                                                        <span class="svg-icon toggle-off svg-icon-1">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                                <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor"></rect>
+                                                                <rect x="10.8891" y="17.8033" width="12" height="2" rx="1" transform="rotate(-90 10.8891 17.8033)" fill="currentColor"></rect>
+                                                                <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="currentColor"></rect>
+                                                            </svg>
+                                                        </span>
+                                                        <!--end::Svg Icon-->
+                                                    </div>
+                                                    <!--end::Icon-->
+                                                    <!--begin::Title-->
+                                                    <h4 class="text-gray-700 fw-bolder cursor-pointer mb-0">How fast is the installation?</h4>
+                                                    <!--end::Title-->
+                                                </div>
+                                                <!--end::Heading-->
+                                                <!--begin::Body-->
+                                                <div id="kt_job_7_4" class="collapse fs-6 ms-1">
+                                                    <!--begin::Text-->
+                                                    <div class="mb-4 text-gray-600 fw-bold fs-6 ps-10">First, a disclaimer – the entire process of writing a blog post often takes more than a couple of hours, even if you can type eighty words as per minute and your writing skills are sharp.</div>
+                                                    <!--end::Text-->
+                                                </div>
+                                                <!--end::Content-->
+                                            </div>
+                                            <!--end::Section-->
+                                            <!--end::Accordion-->
+                                        </div>
+                                        <!--end::Col-->
                                     </div>
                                     <!--end::Content-->
                                 </div>
@@ -163,7 +357,7 @@
                             </div>
                             <!--end::Notice-->
                             @else
-                                {{ theme()->getView($view, array('data' => $data->data)) }}
+                            {{ theme()->getView($view, array('data' => $data->data, 'master' => $data)) }}
                             @endif
                         </div>
                         <!--end::Card body-->
@@ -182,6 +376,6 @@
     @section('scripts')
 
     @include('pages.reports._action-js')
-
+    
     @endsection
 </x-base-layout>

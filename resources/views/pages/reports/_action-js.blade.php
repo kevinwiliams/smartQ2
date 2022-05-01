@@ -209,12 +209,13 @@
         }
 
         var initTable = function() {
-            table = document.querySelector('#mv_report_table_1');
-
+            table = document.querySelector("#mv_report_table_1");            
+            console.log(table);
             if (!table) {
+                console.log('no table');
                 return;
             }
-
+            console.log('table');
             // Init datatable --- more info on datatables: https://datatables.net/manual/
             datatable = $(table).DataTable({
                     "info": false,
@@ -391,9 +392,13 @@
         }
         // Hook export buttons
         var exportButtons = () => {
+            if (table == null) {
+                return;
+            }
             if (!table) {
                 return;
             }
+            return;
 
             const documentTitle = $("#report_title").val();
             var buttons = new $.fn.dataTable.Buttons(table, {
@@ -439,14 +444,152 @@
             $("#mv_daterangepicker").html(start.format("MMMM D, YYYY") + " - " + end.format("MMMM D, YYYY"));
         }
         // Public methods
+
+
+        var weeklytokenChart = function() {
+            var charts = document.querySelectorAll("#weekly-token-report-chart");
+            if (charts == null) {
+                return;
+            }
+
+            var color;
+            var height;
+            var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
+            var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
+            var baseLightColor;
+            var secondaryColor = MVUtil.getCssVariableValue('--bs-gray-300');
+            var baseColor;
+            var options;
+            var chart;
+            var color3;
+            var color4;
+            var color5;
+
+            [].slice.call(charts).map(function(element) {
+                color = element.getAttribute("data-mv-color");
+                height = parseInt(MVUtil.css(element, 'height'));
+                baseColor = MVUtil.getCssVariableValue('--bs-' + color);
+                color3 = MVUtil.getCssVariableValue('--bs-success');
+                color4 = MVUtil.getCssVariableValue('--bs-info');
+                color5 = MVUtil.getCssVariableValue('--bs-warning');
+                options = {
+                    series: <?php echo json_encode(($data->graph)?$data->seriesdata:[]); ?>,
+                    chart: {
+                        fontFamily: 'inherit',
+                        type: 'bar',
+                        height: height,
+                        toolbar: {
+                            show: false
+                        }
+                    },
+                    plotOptions: {
+                        bar: {
+                            horizontal: false,
+                            // columnWidth: ['10%'],
+                            borderRadius: 4
+                        },
+                    },
+                    legend: {
+                        show: false
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    stroke: {
+                        show: true,
+                        width: 2,
+                        colors: ['transparent']
+                    },
+                    xaxis: {
+                        // categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                        categories: <?php echo json_encode(($data->graph)?$data->categories:[]); ?>,
+                        axisBorder: {
+                            show: false,
+                        },
+                        axisTicks: {
+                            show: false
+                        },
+                        labels: {
+                            style: {
+                                colors: labelColor,
+                                fontSize: '12px'
+                            }
+                        }
+                    },
+                    yaxis: {
+                        y: 0,
+                        offsetX: 0,
+                        offsetY: 0,
+                        labels: {
+                            style: {
+                                colors: labelColor,
+                                fontSize: '12px'
+                            }
+                        }
+                    },
+                    fill: {
+                        type: 'solid'
+                    },
+                    states: {
+                        normal: {
+                            filter: {
+                                type: 'none',
+                                value: 0
+                            }
+                        },
+                        hover: {
+                            filter: {
+                                type: 'none',
+                                value: 0
+                            }
+                        },
+                        active: {
+                            allowMultipleDataPointsSelection: false,
+                            filter: {
+                                type: 'none',
+                                value: 0
+                            }
+                        }
+                    },
+                    tooltip: {
+                        style: {
+                            fontSize: '12px'
+                        },
+                        y: {
+                            formatter: function(val) {
+                                return val + " persons"
+                            }
+                        }
+                    },
+                    colors: [baseColor, secondaryColor, color3, color4, color5],
+                    grid: {
+                        padding: {
+                            top: 10
+                        },
+                        borderColor: borderColor,
+                        strokeDashArray: 4,
+                        yaxis: {
+                            lines: {
+                                show: true
+                            }
+                        }
+                    }
+                };
+
+                chart = new ApexCharts(element, options);
+                chart.render();
+            });
+        }
+
         return {
-            init: function() {
-                initChart();
-                initGraph();
-                initTable();
+            init: function() {                
+                // initChart();
+                // initGraph();
+                initTable();                
                 initDatePicker();
                 initSearch();
                 exportButtons();
+                weeklytokenChart();
             }
         }
     }();
@@ -455,6 +598,10 @@
 
     // On document ready
     MVUtil.onDOMContentLoaded(function() {
-        MVLocationOverview.init();
+        setTimeout(() => {
+            MVLocationOverview.init();
+
+        }, 1);
+
     });
 </script>

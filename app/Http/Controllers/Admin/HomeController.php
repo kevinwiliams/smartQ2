@@ -27,7 +27,6 @@ class HomeController extends Controller
 
     public function index()
     {
-
         $current = Token::whereIn('status', ['0', '3'])
             ->where('client_id', auth()->user()->id)
             ->orderBy('is_vip', 'DESC')
