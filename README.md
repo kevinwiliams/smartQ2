@@ -1,6 +1,6 @@
 # SmartQ
 
-- Laravel based Queue Management System
+- Laravel 8 Queue Management System
 
 - Documentation is available within the application [Offline documentation page](//localhost:8000/documentation/getting-started/build)
 
