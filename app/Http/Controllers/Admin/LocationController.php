@@ -120,7 +120,9 @@ class LocationController extends Controller
      */
     public function show($id = null)
     {
-        
+        if (!auth()->user()->can('view location')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
         $departments = Department::where('location_id', $id)->count();
         $counters = Counter::where('location_id', $id)->count();
         $officers = User::where('location_id', $id)
@@ -143,7 +145,9 @@ class LocationController extends Controller
 
     public function map($id = null)
     {
-        
+        if (!auth()->user()->can('view location')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
         $departments = Department::where('location_id', $id)->count();
         $counters = Counter::where('location_id', $id)->count();
         $officers = User::where('location_id', $id)

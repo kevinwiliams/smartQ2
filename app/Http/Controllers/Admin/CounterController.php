@@ -9,6 +9,7 @@ use App\Models\Counter;
 use App\Models\Department;
 use App\Models\User;
 use App\Models\Location;
+use Illuminate\Support\Facades\Redirect;
 use Validator, App;
 
 class CounterController extends Controller
@@ -21,7 +22,9 @@ class CounterController extends Controller
 
     public function index(CounterDataTable $dataTable, $id = null)
     {          
-        
+        if (!auth()->user()->can('view location')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
         $departments = Department::where('location_id', $id)->count();
         $counters = Counter::where('location_id', $id)->count();
         $officers = User::where('location_id', $id)
