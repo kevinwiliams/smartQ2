@@ -21,6 +21,7 @@ use App\Models\TokenStatus;
 use Carbon\Carbon;
 
 use DB, Validator;
+use Illuminate\Support\Facades\Redirect;
 
 class TokenController extends Controller
 {
@@ -137,7 +138,9 @@ class TokenController extends Controller
 
     public function tokenAutoView(TokenDataTable $dataTable)
     {
-
+        if (!auth()->user()->can('view token')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
 
         $display = DisplaySetting::where('location_id',auth()->user()->location_id)->first();
         $keyList = DB::table('token_setting AS s')
@@ -624,6 +627,10 @@ class TokenController extends Controller
 
     public function current(TokenDataTable $dataTable)
     {
+        if (!auth()->user()->can('view token')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+
         @date_default_timezone_set(session('app.timezone'));
         $waiting = Token::where('status', '0')->count();
         $counters = Counter::where('status', 1)->pluck('name', 'id');
@@ -639,6 +646,10 @@ class TokenController extends Controller
 
     public function currentOfficer()
     {
+        if (!auth()->user()->can('view token')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+        
         @date_default_timezone_set(session('app.timezone'));
         // $tokens = Token::where('status', '0')
         //     ->where('user_id', auth()->user()->id)

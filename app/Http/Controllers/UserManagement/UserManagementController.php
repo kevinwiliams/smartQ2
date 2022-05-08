@@ -19,12 +19,17 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
 class UserManagementController extends Controller
 {
     public function permissionsList(PermissionsDataTable $dataTable)
     {
+        if (!auth()->user()->can('read permission')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+
         return $dataTable->render('pages.apps.user-management.permissions.index');
     }
 
@@ -145,6 +150,10 @@ class UserManagementController extends Controller
 
     public function usersList(UsersDataTable $dataTable)
     {
+        if (!auth()->user()->can('read user')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+        
         $roles = Role::get();
         $departments = Department::get();
         return $dataTable->render('pages.apps.user-management.users.index', compact('roles', 'departments'));
@@ -395,6 +404,10 @@ class UserManagementController extends Controller
 
     public function rolesList()
     {
+        if (!auth()->user()->can('read role')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+
         $roles = Role::orderBy('name')->get();
         $permissions = Permission::get();
 

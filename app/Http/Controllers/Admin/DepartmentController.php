@@ -10,6 +10,7 @@ use App\Models\Department;
 use App\Models\Counter;
 use App\Models\User;
 use App\Models\Location;
+use Illuminate\Support\Facades\Redirect;
 
 class DepartmentController extends Controller
 {

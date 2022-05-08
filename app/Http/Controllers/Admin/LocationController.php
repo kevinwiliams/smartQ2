@@ -29,6 +29,10 @@ class LocationController extends Controller
         $companies1 = Company::get();
         $companies = Company::where('active', 1)->pluck('name', 'id');
 
+        if (!auth()->user()->can('view location')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+
         // echo '<pre>';
         // print_r($companies);
         // echo '</pre>';

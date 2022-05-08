@@ -7,6 +7,7 @@ use App\Models\Location;
 use App\Models\Token;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class ReportController extends Controller
 {
@@ -17,6 +18,10 @@ class ReportController extends Controller
      */
     public function index()
     {
+        if (!auth()->user()->can('view report')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+
         $data = (object)array();
         $data->report = (request()->has('report')) ? request('report') : '';
         $data->location_id = (request()->has('location_id')) ? request('location_id') : '';
