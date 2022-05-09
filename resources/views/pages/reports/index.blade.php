@@ -107,7 +107,7 @@
                                 </div>
                                 <!--end::Export buttons-->
                             </div>
-                            @if($data->data->count() > 0)
+                            @if(count($data->data) > 0)
                             <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
                                 @if($data->graph)
                                 <ul class="nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0">
