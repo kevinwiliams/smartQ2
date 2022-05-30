@@ -23,10 +23,11 @@ class DisplaySettingController extends Controller
         $officers = User::where('location_id', $id)->where('status', 1)->get();
         $location = Location::where('id', $id)->first();
         
-        $setting  = DisplaySetting::first(); 
+        $setting  = DisplaySetting::firstWhere('location_id', $id); 
         $counters = Counter::where('status', 1)->where('location_id', $id)->pluck('name', 'id'); 
         $customDisplays = DisplayCustom::where('location_id', $id)->get();  
 
+        //create default display setting if results are empty
         if (empty($setting)) 
         {
             $insert = DisplaySetting::insert([
