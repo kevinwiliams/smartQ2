@@ -182,12 +182,22 @@
                             {{ \Illuminate\Support\Str::limit($tokens[0]->client_mobile, 7, $end='****') }} <br>
                            </div>
 
-                        <div class="col-8">
+                        <div class="col-6">
                             Client Note :<br>
                             <div class="fs-6 fw-bold text-gray-100 mb-5">{{$tokens[0]->note}} </div>
                             Comments :<br>
                             <div class="fs-6 fw-bold text-gray-100 mb-5">{!! $tokens[0]->officer_note !!} </div>
                         </div>
+                        <div class="col-2">
+                            @if (empty($tokens[0]->started_at))
+                    <a href="#" class="btn btn-success er w-100 fs-6 px-4 py-4 m-1" data-mv-token-cards-filter="start_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">Start</a>
+                    <a href="#" class="btn btn-danger er w-100 fs-6 px-4 py-4 m-1" data-mv-token-cards-filter="noshow_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">No Show</a>
+                    <a href="#" class="btn btn-warning er w-100 fs-6 px-4 py-4 m-1" data-mv-token-cards-filter="call_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">Call again</a>
+                    @else
+                    <a href="#" class="btn btn-primary er w-100 fs-6 px-4 py-4 m-1" data-mv-token-cards-filter="complete_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">Next Customer</a>
+                    @endif
+                        </div>
+                        
                     </div>
                 </div>
                
@@ -205,15 +215,7 @@
                        
                     </div> --}}
                     <!--end::Users-->
-
-                    @if (empty($tokens[0]->started_at))
-                    <a href="#" class="btn btn-success er w-25 fs-6 px-4 py-4 m-1" data-mv-token-cards-filter="start_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">Start</a>
-                    <a href="#" class="btn btn-danger er w-25 fs-6 px-4 py-4 m-1" data-mv-token-cards-filter="noshow_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">No Show</a>
-                    <a href="#" class="btn btn-warning er w-25 fs-6 px-4 py-4 m-1" data-mv-token-cards-filter="call_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">Call again</a>
-                    @else
-                    <a href="#" class="btn btn-primary er w-25 fs-6 px-4 py-4 m-1" data-mv-token-cards-filter="complete_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">Next Customer</a>
-                    @endif
-                   
+                    
                 </div>
                 <!--end::Footer-->
             </div>
