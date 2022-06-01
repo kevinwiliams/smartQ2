@@ -23,6 +23,7 @@
                 <!--begin::Form-->
                 {{ Form::open(['url' => 'location/department/create', 'class'=>'manualFrm form', 'id'=>'mv_modal_add_dept_form']) }}
                 @csrf <!-- {{ csrf_field() }} -->
+                <input type="hidden" name="location_id" id="location_id" value="{{$location->id}}">
                     <!--begin::Input group-->
                     <div class="fv-row mb-7">
                         <div class="form-group @error('name') has-error @enderror">

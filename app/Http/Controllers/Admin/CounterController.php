@@ -67,15 +67,20 @@ class CounterController extends Controller
                 'description' => $request->description,
                 'created_at'  => date('Y-m-d H:i:s'),
                 'updated_at'  => null,
-                'status'      => $request->status
+                'status'      => $request->status,
+                'location_id' => $request->location_id
+
             ]);
 
         	if ($save) {
-	            return back()->withInput()
-                        ->with('message', trans('app.save_successfully'));
+                $data['status'] = true;
+                $data['message'] = trans('app.save_successfully');
+                return response()->json($data);
+        
         	} else {
-	            return back()->withInput()
-                        ->with('exception', trans('app.please_try_again'));
+                $data['status'] = false;
+                $data['message'] = trans('app.please_try_again');
+                return response()->json($data);
         	}
 
         }
@@ -116,11 +121,19 @@ class CounterController extends Controller
                 ]);
 
             if ($update) {
-                return back()
-                        ->with('message', trans('app.update_successfully'));
+                // return back()
+                //         ->with('message', trans('app.update_successfully'));
+                $data['status'] = true;
+                $data['message'] = trans('app.update_successfully');
+                return response()->json($data);
+
             } else {
-                return back()
-                        ->with('exception', trans('app.please_try_again'));
+                // return back()
+                //         ->with('exception', trans('app.please_try_again'));
+                $data['status'] = false;
+                $data['message'] = trans('app.please_try_again');
+                return response()->json($data);
+                
             }
 
         }

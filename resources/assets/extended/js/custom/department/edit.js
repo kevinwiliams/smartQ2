@@ -95,7 +95,7 @@ var MVTokenEditDept = function () {
                                     }
                                 }).then(function (result) {
                                     if (result.isConfirmed) {     
-                                        document.location.href = '/department';                              
+                                        document.location.href = '/location/department';                              
                                         form.reset();
                                         modal.hide();
                                     }

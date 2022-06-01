@@ -95,7 +95,7 @@ var MVTokenAddDept = function () {
                                     }
                                 }).then(function (result) {
                                     if (result.isConfirmed) {     
-                                        document.location.href = '/department';                              
+                                        window.location.reload();                             
                                         form.reset();
                                         modal.hide();
                                     }

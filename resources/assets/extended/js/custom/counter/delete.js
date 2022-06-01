@@ -63,7 +63,7 @@ var MVTokenDelCounter = function () {
                                         }
                                     }).then(function () {
                                     // var dt = $('#counter-table').DataTable();
-                                    document.location.href = '/counter';
+                                    window.location.reload();
                                     // Remove current row
                                     // dt.row($(parent)).remove().draw();
                                     });

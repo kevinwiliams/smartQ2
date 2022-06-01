@@ -39,7 +39,7 @@
     <!--end::Post-->
    
     <!--begin::Modal - Add Dept -->
-     {{ theme()->getView('partials/modals/department/_add', array('keyList' => $keyList, 'avg_wait_time' => '4')) }}
+     {{ theme()->getView('partials/modals/department/_add', array('keyList' => $keyList, 'avg_wait_time' => '4', 'location' => $location)) }}
     <!--end::Modal - Add Dept-->   
     <!--begin::Modal - Edit Dept -->
     <{{ theme()->getView('partials/modals/department/_edit') }}
@@ -152,6 +152,7 @@
                 if (validator) {
                     validator.validate().then(function (status) {
                         console.log('validated!');
+                        var location = $("input[name=location_id]").val();
 
                         if (status == 'Valid') {
                             // Show loading indication
@@ -196,7 +197,7 @@
                                         }
                                     }).then(function (result) {
                                         if (result.isConfirmed) {     
-                                            document.location.href = '/department';                              
+                                            document.location.href = '/location/department/' + location;                              
                                             form.reset();
                                             modal.hide();
                                         }

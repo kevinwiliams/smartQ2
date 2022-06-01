@@ -62,7 +62,7 @@ var MVTokenDeleteDept = function () {
                                         }
                                     }).then(function () {
                                         // var dt = $('#department-table').DataTable();
-                                        document.location.href = '/department';
+                                        document.location.href = '/location/department/'+ deptID;
                                         // Remove current row
                                         // dt.row($(parent)).remove().draw();
                                     });

@@ -95,7 +95,7 @@ var MVTokenAddCounter = function () {
                                     }
                                 }).then(function (result) {
                                     if (result.isConfirmed) {     
-                                        document.location.href = '/counter';                              
+                                        window.location.reload();                         
                                         form.reset();
                                         modal.hide();
                                     }

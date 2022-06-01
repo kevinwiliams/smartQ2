@@ -41,7 +41,7 @@
     <!--end::Post-->
         
     <!--begin::Modal - Add Counter -->
-    {{ theme()->getView('partials/modals/counter/_add') }}
+    {{ theme()->getView('partials/modals/counter/_add', array('location' => $location)) }}
     <!--end::Modal - Add Counter-->   
     <!--begin::Modal - Edit Counter -->
     <{{ theme()->getView('partials/modals/counter/_edit') }}
@@ -157,6 +157,7 @@
                     if (validator) {
                         validator.validate().then(function (status) {
                             console.log('validated!');
+                            var location = $("input[name=location_id]").val();
 
                             if (status == 'Valid') {
                                 // Show loading indication
@@ -201,7 +202,7 @@
                                             }
                                         }).then(function (result) {
                                             if (result.isConfirmed) {     
-                                                document.location.href = '/counter';                              
+                                                document.location.href = '/location/counter/' + location;                              
                                                 form.reset();
                                                 modal.hide();
                                             }

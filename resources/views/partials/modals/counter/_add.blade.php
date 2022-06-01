@@ -21,8 +21,9 @@
             <div class="modal-body scroll-y mx-5 mx-xl-15 my-5">
             <div id="output" class="hide alert alert-danger alert-dismissible fade in shadowed mb-1"></div>
                 <!--begin::Form-->
-                {{ Form::open(['url' => 'counter/create', 'class'=>'manualFrm form', 'id'=>'mv_modal_add_counter_form']) }}
+                {{ Form::open(['url' => 'location/counter/create', 'class'=>'manualFrm form', 'id'=>'mv_modal_add_counter_form']) }}
                 @csrf <!-- {{ csrf_field() }} -->
+                <input type="hidden" name="location_id" id="location_id" value="{{$location->id}}">
                     <!--begin::Input group-->
                     <div class="fv-row mb-7">
                         <div class="form-group @error('name') has-error @enderror">

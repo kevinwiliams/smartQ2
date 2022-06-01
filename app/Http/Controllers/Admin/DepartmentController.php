@@ -79,15 +79,20 @@ class DepartmentController extends Controller
                 'created_at'  => date('Y-m-d H:i:s'),
                 'updated_at'  => null,
                 'status'      => $request->status,
-                'avg_wait_time'      => $request->avg_wait_time
+                'avg_wait_time'      => $request->avg_wait_time,
+                'location_id' => $request->location_id,
+
             ]);
 
             if ($save) {
-                return back()->withInput()
-                        ->with('message',trans('app.save_successfully'));
+                $data['status'] = true;
+                $data['message'] = trans('app.save_successfully');
+                return response()->json($data);
+            
             } else {
-                return back()->withInput()
-                        ->with('exception', trans('app.please_try_again'));
+                $data['status'] = false;
+                $data['message'] = trans('app.please_try_again');
+                return response()->json($data);
             }
 
         }
@@ -121,7 +126,7 @@ class DepartmentController extends Controller
         ));
 
         if ($validator->fails()) {
-            return redirect('department/edit/'.$request->id)
+            return redirect('location/department/edit/'.$request->id)
                         ->withErrors($validator)
                         ->withInput();
         } else {
@@ -137,11 +142,14 @@ class DepartmentController extends Controller
                 ]);
 
             if ($update) {
-                return back()
-                        ->with('message', trans('app.update_successfully'));
+                $data['status'] = true;
+                $data['message'] = trans('app.save_successfully');
+                return response()->json($data);
+            
             } else {
-                return back()
-                        ->with('exception',trans('app.please_try_again'));
+                $data['status'] = false;
+                $data['message'] = trans('app.please_try_again');
+                return response()->json($data);
             }
 
         }

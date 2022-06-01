@@ -125,13 +125,16 @@ class DisplaySettingController extends Controller
                         'alert_position'  => $request->alert_position 
                     ]);
 
-                if ($update) {
-                    return back()
-                            ->with('message', trans('app.update_successfully'));
-                } else {
-                    return back()
-                            ->with('exception', trans('app.please_try_again'));
-                } 
+                    if ($update) {
+                        $data['status'] = true;
+                        $data['message'] = trans('app.save_successfully');
+                        return response()->json($data);
+                
+                    } else {
+                        $data['status'] = false;
+                        $data['message'] = trans('app.please_try_again');
+                        return response()->json($data);
+                    } 
             }  
         }
     }
