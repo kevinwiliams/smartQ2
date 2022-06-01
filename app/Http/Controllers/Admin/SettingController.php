@@ -6,18 +6,24 @@ use Validator;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Requests\SettingRequest;
+use App\Models\Counter;
+use App\Models\Department;
+use App\Models\Location;
 use App\Models\Setting;
+use App\Models\User;
+use Illuminate\Support\Facades\Redirect;
 use Image;
 
 class SettingController extends Controller
 {
-    public function showForm()
+    public function showForm($id = null)
     {
-        $setting = Setting::first();
+        $setting = Setting::where('location_id', $id)->first();
         if (empty($setting)) 
         {
             Setting::insert([
-                'title'       => 'Demo title',
+                'title'       => 'SmartQ',
+                'location_id'=> $id,
                 'description' => null,
                 'logo'        => null,
                 'favicon'     => null,
@@ -27,15 +33,26 @@ class SettingController extends Controller
                 'copyright_text' => null,
                 'direction'   => 'LTR',
                 'language'    => 'en',
-                'timezone'    => 'Dhaka/Asia' 
+                'timezone'    => 'America/Bogota' 
             ]);
         } 
 
         $timezoneList = $this->timezoneList();
 
+        if (!auth()->user()->can('view location')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+        $departments = Department::where('location_id', $id)->count();
+        $counters = Counter::where('location_id', $id)->count();
+        $officers = User::where('location_id', $id)
+                    ->where('status', 1)
+                    ->get();
+                    // ->count();
+        $location = Location::where('id', $id)->first();
+
     	return view('pages.settings.setting', compact(
             'setting',
-            'timezoneList'
+            'timezoneList', 'location','departments', 'counters', 'officers'
         ));
     } 
  
@@ -43,6 +60,7 @@ class SettingController extends Controller
     {  
         $validator = Validator::make($request->all(), [
             'id'          => 'required',
+            'location_id' => 'required',
             'title'       => 'required|max:140',
             'description' => 'max:255',
             'logo'        => 'image|mimes:jpeg,png,jpg,gif|max:3072',
@@ -56,6 +74,7 @@ class SettingController extends Controller
         ])
         ->setAttributeNames(array(
            'title' => trans('app.title'),
+           'location_id' => trans('app.location'),
            'description' => trans('app.description'),
            'logo' => trans('app.logo'),
            'favicon' => trans('app.favicon'),
@@ -69,9 +88,15 @@ class SettingController extends Controller
 
 
         if ($validator->fails()) {
-            return redirect('setting')
-                        ->withErrors($validator)
-                        ->withInput();
+
+            $data['status'] = false;
+            $data['message'] = trans('app.please_try_again');
+            $data['error'] = $validator;
+            return response()->json($data);
+
+            // return redirect('setting')
+            //             ->withErrors($validator)
+            //             ->withInput();
         } 
         else 
         { 
@@ -98,6 +123,7 @@ class SettingController extends Controller
                 $update = Setting::where('id',$request->id)
                     ->update([
                         'id'          => $request->id,
+                        'location_id' => $request->location_id,
                         'title'       => $request->title,
                         'description' => $request->description,
                         'favicon'     => $faviconPath,
@@ -110,9 +136,8 @@ class SettingController extends Controller
                         'timezone'    => $request->timezone 
                     ]);
 
-                if ($update) 
-                {
-                    
+                if ($update) {
+
                     $app = Setting::first();
                     \Session::put('locale', $request->lang);
                     \Session::put('app', array(
@@ -123,14 +148,15 @@ class SettingController extends Controller
                         'copyright_text' => $app->copyright_text, 
                     ));
 
-                    return back()
-                            ->with('message', trans('app.update_successfully'));
-                } 
-                else 
-                {
-                    return back()
-                            ->with('exception', trans('app.please_try_again'));
-                } 
+                    $data['status'] = true;
+                    $data['message'] = trans('app.save_successfully');
+                    return response()->json($data);
+            
+                } else {
+                    $data['status'] = false;
+                    $data['message'] = trans('app.please_try_again');
+                    return response()->json($data);
+                }
             } 
         }
     }
