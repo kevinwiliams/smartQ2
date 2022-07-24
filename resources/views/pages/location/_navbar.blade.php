@@ -157,7 +157,7 @@
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item">
-                <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='settings') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/settings/' . $location->id)}}">Settings</a>
+                <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || (Request::segment(2)=='settings' && Request::segment(3) > 0 )) ? 'active' : '') }}" href="{{theme()->getPageUrl('location/settings/' . $location->id)}}">Settings</a>
             </li>
             <!--end::Nav item-->
         </ul>
