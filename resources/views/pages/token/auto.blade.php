@@ -12,7 +12,7 @@
                         class="m-1 btn btn-primary text-center"
                         style="background-color: #<?= substr(dechex(crc32($department->name)), 0, 6); ?>" 
                         data-bs-toggle="modal" 
-                        data-bs-target="#tokenModal"
+                        data-bs-target="#mv_modal_dept_token"
                         data-department-id="{{ $department->department_id }}"
                         data-counter-id="{{ $department->counter_id }}"
                         data-user-id="{{ $department->user_id }}"
@@ -61,12 +61,17 @@
    </div>
    <!--end::Row-->
 
+   {{ theme()->getView('partials/modals/token/_department', 
+        array(
+            'officers' => $officers, 
+            'counters' => $counters, 
+            'departments' => $departments
+            )) }}
 
 
 
 
-
-<div class="modal fade" tabindex="-1" id="tokenModal" aria-hidden="true">
+<div class="modal fade" tabindex="-1" id="mv_modal_dept_token" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered mw-650px" role="document">
       <div class="modal-content">
         {{ Form::open(['url' => 'token/auto', 'class' => 'AutoFrm']) }} 
@@ -102,6 +107,7 @@
 @section('scripts')
 <script>
    $(document).ready(function() {
+   
     Inputmask({
                     "mask": "1 (999) 999-9999",
             }).mask("[name='client_mobile']");
@@ -117,6 +123,10 @@
    
     $('.modal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
+        console.log("here");
+        Inputmask({
+                    "mask": "1 (999) 999-9999",
+            }).mask("[name='client_mobile']");
         $('input[name=department_id]').val(button.data('department-id'));
         $('input[name=counter_id]').val(button.data('counter-id'));
         $('input[name=user_id]').val(button.data('user-id'));
@@ -283,7 +293,7 @@
                 if (obj.key == key) {
                     // check form and ajax submit
                     @if($display->sms_alert || $display->show_note)
-                        var modal = $('#tokenModal');
+                        var modal = $('#mv_modal_dept_token');
                         modal.modal('show');
                         modal.find('input[name=department_id]').val(obj.department_id);
                         modal.find('input[name=counter_id]').val(obj.counter_id);
