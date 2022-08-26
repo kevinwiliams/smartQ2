@@ -726,7 +726,7 @@
                     }
                 });
 
-                $(this).remove();
+                // $(this).remove();
             });
 
             $('#activate-step-2-email').on('click', function(e) {
@@ -811,7 +811,7 @@
                 e.preventDefault();
                 console.log(e.target.dataset);
                 var cancelType = e.target.dataset.cancel;
-                alert(cancelType);
+                
                 if (cancelType == 'sms') {
                     // $('[name="emailFld"]').show();
                     $('[name="smsFld"]').show();

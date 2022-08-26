@@ -1,17 +1,19 @@
-"use strict";
-
+<script>
 // Class definition
 var MVTokenAddToken = function () {
     // Shared variables
-    const element = document.getElementById('mv_modal_add_token');
-    
+    const element = document.getElementById('mv_modal_add_token');    
     const form = element.querySelector('#mv_modal_add_token_form');
     const modal = new bootstrap.Modal(element);
 
-    // Placeholder
-    Inputmask({
-        "mask" : "(999) 999-9999",        
-    }).mask("[name='client_mobile']");
+    const element2 = document.getElementById('mv_modal_dept_token');
+    const form2 = element2.querySelector('#mv_modal_add_auto_token_form');
+    const modal2 = new bootstrap.Modal(element2);
+
+    // // Placeholder
+    // Inputmask({
+    //     "mask" : "(999) 999-9999",        
+    // }).mask("[name='client_mobile']");
 
     // Init add schedule modal
     var initAddUser = () => {  
@@ -115,7 +117,7 @@ var MVTokenAddToken = function () {
                                     }
                                 }).then(function (result) {
                                     if (result.isConfirmed) {     
-                                        document.location.href = '/token/current';                              
+                                        document.location.href = '/token/auto';                              
                                         form.reset();
                                         modal.hide();
                                     }
@@ -173,6 +175,40 @@ var MVTokenAddToken = function () {
             });
         });
 
+         // Cancel button handler
+         const cancelButton2 = element2.querySelector('[data-mv-autotokens-modal-action="cancel"]');
+        cancelButton2.addEventListener('click', e => {
+            e.preventDefault();
+
+            Swal.fire({
+                text: "Are you sure you would like to cancel?",
+                icon: "warning",
+                showCancelButton: true,
+                buttonsStyling: false,
+                confirmButtonText: "Yes, cancel it!",
+                cancelButtonText: "No, return",
+                customClass: {
+                    confirmButton: "btn btn-primary",
+                    cancelButton: "btn btn-active-light"
+                }
+            }).then(function (result) {
+                if (result.value) {
+                    form2.reset(); // Reset form			
+                    modal2.hide();	
+                } else if (result.dismiss === 'cancel') {
+                    Swal.fire({
+                        text: "Your form has not been cancelled!.",
+                        icon: "error",
+                        buttonsStyling: false,
+                        confirmButtonText: "Ok, got it!",
+                        customClass: {
+                            confirmButton: "btn btn-primary",
+                        }
+                    });
+                }
+            });
+        });
+
         // Close button handler
         const closeButton = element.querySelector('[data-mv-tokens-modal-action="close"]');
         closeButton.addEventListener('click', e => {
@@ -206,6 +242,40 @@ var MVTokenAddToken = function () {
                 }
             });
         });
+
+            // Close button handler
+            const closeButton2 = element2.querySelector('[data-mv-autotokens-modal-action="close"]');
+        closeButton2.addEventListener('click', e => {
+            e.preventDefault();
+
+            Swal.fire({
+                text: "Are you sure you would like to cancel?",
+                icon: "warning",
+                showCancelButton: true,
+                buttonsStyling: false,
+                confirmButtonText: "Yes, cancel it!",
+                cancelButtonText: "No, return",
+                customClass: {
+                    confirmButton: "btn btn-primary",
+                    cancelButton: "btn btn-active-light"
+                }
+            }).then(function (result) {
+                if (result.value) {
+                    form2.reset(); // Reset form			
+                    modal2.hide();	
+                } else if (result.dismiss === 'cancel') {
+                    Swal.fire({
+                        text: "Your form has not been cancelled!.",
+                        icon: "error",
+                        buttonsStyling: false,
+                        confirmButtonText: "Ok, got it!",
+                        customClass: {
+                            confirmButton: "btn btn-primary",
+                        }
+                    });
+                }
+            });
+        });
     }
 
     return {
@@ -218,5 +288,12 @@ var MVTokenAddToken = function () {
 
 // On document ready
 MVUtil.onDOMContentLoaded(function () {
-    MVTokenAddToken.init();
+    
+    setTimeout(() => {
+        MVTokenAddToken.init();
+    
+}, 1000);
 });
+
+
+</script>

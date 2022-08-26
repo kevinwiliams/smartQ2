@@ -81,7 +81,7 @@
         </div>
         <div class="modal-body">
           @if($display->sms_alert)
-          <p><input type="phone" name="client_mobile" class="form-control" placeholder="{{ trans('app.client_mobile') }}" required>
+          <p><input type="phone" name="client_mobile" class="form-control" placeholder="{{ trans('app.client_mobile') }}" data-inputmask="'mask': '1 (999) 999-9999'" required>
             <span class="text-danger">The Mobile No. field is required!</span></p>
           @endif
   
@@ -104,29 +104,14 @@
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
 
-@section('scripts')
-<script>
+  @section('scripts2')
+  <script>
    $(document).ready(function() {
-   
-    Inputmask({
-                    "mask": "1 (999) 999-9999",
-            }).mask("[name='client_mobile']");
-    } );
-    // On document ready
-        MVUtil.onDOMContentLoaded(function() {
-            // Placeholder
-            Inputmask({
-                    "mask": "1 (999) 999-9999",
-            }).mask("[name='client_mobile']");
-    });
-
-   
-    $('.modal').on('show.bs.modal', function (event) {
+     
+    $('#mv_modal_dept_token').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         console.log("here");
-        Inputmask({
-                    "mask": "1 (999) 999-9999",
-            }).mask("[name='client_mobile']");
+
         $('input[name=department_id]').val(button.data('department-id'));
         $('input[name=counter_id]').val(button.data('counter-id'));
         $('input[name=user_id]').val(button.data('user-id'));
@@ -136,7 +121,7 @@
         $('.modal button[type=submit]').addClass('hidden');
     });
 
-    $('.modal').on('hide.bs.modal', function () {
+    $('#mv_modal_dept_token').on('hide.bs.modal', function () {
         $('.modal-backdrop').remove();
     });
 
@@ -209,7 +194,7 @@
 
     });
 
-    var frm = $(".AutoFrm");
+    var frm = $("#mv_modal_add_auto_token_form");
     frm.on('submit', function(e){
         e.preventDefault(); 
         $(".modal").modal('hide');
@@ -237,7 +222,7 @@
                     content += "<div class=\"float-left\">";
                     content += "<h1>#"+data.token.token_no+"</h1>";
                     content +="<ul class=\"list-unstyled\">";
-                    content += "<li><strong>{{ trans('app.location') }}: </strong>"+data.token.location+"</li>";
+                    // content += "<li><strong>{{ trans('app.location') }}: </strong>"+data.token.location+"</li>";
                     content += "<li><strong>{{ trans('app.department') }}: </strong>"+data.token.department+"</li>";
                     content += "<li><strong>{{ trans('app.counter') }}: </strong>"+data.token.counter+"</li>";
                     content += "<li><strong>{{ trans('app.officer') }}: </strong>"+data.token.firstname+' '+data.token.lastname+"</li>";
@@ -260,7 +245,13 @@
                         customClass: {
                             confirmButton: "btn fw-bold btn-primary",
                         }
-                    })
+                    }).then(function (result) {
+                        if (result.isConfirmed) {     
+                            document.location.href = '/token/auto';                              
+                            form.reset();
+                            modal.hide();
+                        }
+                    });
 
                     $("input[name=client_mobile]").val("");
                     $("textarea[name=note]").val("");
@@ -313,8 +304,11 @@
             });
         }
     });
+});
 </script>
+@include('pages.token._add-autotoken-js')
 @include('pages.token._print-token-js')
-    
 @endsection
+
+
 </x-base-layout>

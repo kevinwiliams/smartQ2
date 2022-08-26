@@ -228,8 +228,8 @@ class HomeController extends Controller
                 //store sms information 
                 $sms = new SmsHistory();
                 $sms->from        = $setting->from;
-                $sms->to          = $request->to;
-                $sms->message     = $request->message;
+                $sms->to          = $phonenum;
+                $sms->message     = $msg;
                 $sms->response    = $data;
                 $sms->created_at  = date('Y-m-d H:i:s');
 

@@ -96,6 +96,7 @@
 @endif
 
 @yield('scripts')
+@yield('scripts2')
 </body>
 {{-- end::Body --}}
 </html>

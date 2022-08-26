@@ -569,14 +569,8 @@ class TokenController extends Controller
                 'status'        => 0
             ]);
 
+           
             if ($save) {
-                //Insert token status                    
-                $save = TokenStatus::insert([
-                    'token_id'    => $save->id,
-                    'status'      => 0
-                ]);
-
-
                 $token = Token::select(
                     'token.*',
                     'department.name as department',
@@ -590,6 +584,21 @@ class TokenController extends Controller
                     ->whereDate('token.created_at', date("Y-m-d"))
                     ->where('token.token_no', $newTokenNo)
                     ->first();
+
+                // echo '<pre>';
+                // print_r($token->id);
+                // echo '</pre>';
+                // echo '<pre>';
+                // print_r($newTokenNo);
+                // echo '</pre>';
+                // die();
+
+                    
+                //Insert token status                    
+                $save = TokenStatus::insert([
+                    'token_id'    => $token->id,
+                    'status'      => 0
+                ]);
 
                 $data['status'] = true;
                 $data['message'] = trans('app.token_generate_successfully');

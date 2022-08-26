@@ -28,7 +28,7 @@
                             {{-- @if($display->sms_alert) --}}
                             <div class="form-group @error('client_mobile') has-error @enderror">
                                 <label class="required fs-6 fw-bold form-label mb-2" for="client_mobile">{{ trans('app.client_mobile') }} </label>
-                                <input type="text" name="client_mobile" class="form-control form-control-solid" placeholder="{{ trans('app.client_mobile') }}"/>  
+                                <input type="text" name="client_mobile" class="form-control form-control-solid" placeholder="{{ trans('app.client_mobile') }}" data-inputmask="'mask': '1 (999) 999-9999'" />  
                                 <span class="text-danger">{{ $errors->first('client_mobile') }}</span>
                             </div>   
                             {{-- @endif --}}
@@ -83,10 +83,11 @@
                             </label>
                         </div>
                         <!--end::Input group-->
+                        <input type="hidden" name="location_id" value="{{ auth()->user()->location_id }}">
                         <!--begin::Actions-->
                         <div class="text-center pt-15">
                             <button type="reset" class="btn btn-light me-3" data-mv-tokens-modal-action="cancel">Discard</button>
-                            <button type="submit" class="btn btn-primary" data-mv-tokens-modal-action="submit" >
+                            <button type="button" class="btn btn-primary" data-mv-tokens-modal-action="submit" >
                                 <span class="indicator-label">Submit</span>
                                 <span class="indicator-progress">Please wait...
                                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>

@@ -14,8 +14,8 @@
         
         <div class="card-toolbar" >
         @can('run auto-token')
-            <a href="{{ theme()->getPageUrl('token/auto') }}" class="btn btn-sm btn-light-success btn-active-success me-5" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to auto assign">
-            Auto Token</a>
+            <!-- <a href="{{ theme()->getPageUrl('token/auto') }}" class="btn btn-sm btn-light-success btn-active-success me-5" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to auto assign">
+            Auto Token</a> -->
         @endcan
         @can('create token')
             <a href="#" class="btn btn-sm btn-light-primary btn-active-primary " data-bs-toggle="modal" data-bs-target="#mv_modal_add_token" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to add new token">
