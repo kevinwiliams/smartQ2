@@ -32,7 +32,7 @@
                                         <a href="#" class="menu-link px-3" name="cancel_token">Cancel</a>
                                     </div>
                                     <!--end::Menu item-->
-                                   
+
                                 </div>
                                 <!--end::Menu 3-->
                                 <!--end::Menu-->
@@ -100,7 +100,7 @@
                                         @if ($wait != "00:00")
                                         Potential Wait
                                         @else
-                                            You are next!
+                                        You are next!
                                         @endif
                                     </a>
                                 </div>
@@ -138,216 +138,313 @@
                                 <!--begin::Title-->
                                 <div class="mb-1 pe-3 flex-grow-1">
                                     <a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder">Booked </a>
-                                    {{-- <div class="text-gray-400 fw-bold fs-7">{{$token->created_at}}</div> --}}
-                                    <div class="text-gray-600  fs-6">{{ Carbon\Carbon::parse($token->created_at)->format('D M d Y h:i a');}}</div>
-                                </div>
-                                <!--end::Title-->
-                                <!--begin::Label-->
-                                <div class="d-flex align-items-center">
-                                    {{-- <div class="fw-bolder fs-5 text-gray-800 pe-1">$8,8m</div> --}}
-                           
-                                </div>
-                                <!--end::Label-->
+                                    {{-- <div class="text-gray-400 fw-bold fs-7">{{$token->created_at}}
+                                </div> --}}
+                                <div class="text-gray-600  fs-6">{{ Carbon\Carbon::parse($token->created_at)->format('D M d Y h:i a');}}</div>
                             </div>
-                            <!--end::Description-->
-                        </div>
-                        <!--end::Item-->
-                        <!--begin::Item-->
-                        <div class="d-flex align-items-center">
-                            <!--begin::Symbol-->
-                            <div class="symbol symbol-45px w-40px me-5">
-                                <span class="symbol-label bg-lighten">
-                                    <!--begin::Svg Icon | path: icons/duotune/general/gen005.svg-->
-                                    {!! theme()->getSvgIcon("icons/duotune/general/gen005.svg", "svg-icon-1") !!}
-
-                                    <!--end::Svg Icon-->
-                                </span>
-                            </div>
-                            <!--end::Symbol-->
-                            <!--begin::Description-->
-                            <div class="d-flex align-items-center flex-wrap w-100">
-                                <!--begin::Title-->
-                                <div class="mb-1 pe-3 flex-grow-1">
-                                    <a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder">Notes</a>
-                                    <div class="text-gray-400 fw-bold fs-7">{{ !empty($token->note)? $token->note : 'No notes were provided'}}</div>
-                                </div>
-                                <!--end::Title-->
-                                <!--begin::Label-->
-                                <div class="d-flex align-items-center">
-                                    {{-- <div class="fw-bolder fs-5 text-gray-800 pe-1">$270m</div> --}}
-              
-                                </div>
-                                <!--end::Label-->
+                            <!--end::Title-->
+                            <!--begin::Label-->
+                            <div class="d-flex align-items-center">
+                                {{-- <div class="fw-bolder fs-5 text-gray-800 pe-1">$8,8m</div> --}}
 
                             </div>
-                            <!--end::Description-->
+                            <!--end::Label-->
                         </div>
-                        <!--end::Item-->
-                        @if($token->status==3)
-                        <!--start::Separator-->  
-                        <div class="separator separator-dashed my-4"></div>
-                        <!--end::Separator-->  
-                        <!--start::QR Code -->  
-                        <div class="text-center">
-                            {!! QrCode::style('round')->eyeColor(0, 0,178,0, 1,162,217)->size(250)->color(1,162,217)->generate(url("token/checkin/$token->id")) !!}
-                        </div>
-                        <!--end::QR Code -->  
-                        @endif
+                        <!--end::Description-->
                     </div>
-                    <!--end::Items-->
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <div class="d-flex align-items-center">
+                        <!--begin::Symbol-->
+                        <div class="symbol symbol-45px w-40px me-5">
+                            <span class="symbol-label bg-lighten">
+                                <!--begin::Svg Icon | path: icons/duotune/general/gen005.svg-->
+                                {!! theme()->getSvgIcon("icons/duotune/general/gen005.svg", "svg-icon-1") !!}
 
-                    <div class="p-5">
-                    @if($token->status==3)  
-                        <a href="#" class="btn btn-primary w-100 py-3" data-id="{{ $token->id }}" name="check_in">Check In</a>
-                    @elseif($token->status==0)  
-                        <a href="#" class="btn btn-danger w-100 py-3" data-id="{{ $token->id }}" name="cancel_token">Cancel Token</a>
+                                <!--end::Svg Icon-->
+                            </span>
+                        </div>
+                        <!--end::Symbol-->
+                        <!--begin::Description-->
+                        <div class="d-flex align-items-center flex-wrap w-100">
+                            <!--begin::Title-->
+                            <div class="mb-1 pe-3 flex-grow-1">
+                                <a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder">Notes</a>
+                                <div class="text-gray-400 fw-bold fs-7">{{ !empty($token->note)? $token->note : 'No notes were provided'}}</div>
+                            </div>
+                            <!--end::Title-->
+                            <!--begin::Label-->
+                            <div class="d-flex align-items-center">
+                                {{-- <div class="fw-bolder fs-5 text-gray-800 pe-1">$270m</div> --}}
+
+                            </div>
+                            <!--end::Label-->
+
+                        </div>
+                        <!--end::Description-->
+                    </div>
+                    <!--end::Item-->
+                    @if($token->status==3)
+                    <!--start::Separator-->
+                    <div class="separator separator-dashed my-4"></div>
+                    <!--end::Separator-->
+                    @if($qrcheckin)
+                    <!--start::QR Code -->
+                    <div class="text-center">
+                        {!! QrCode::style('round')->eyeColor(0, 0,178,0, 1,162,217)->size(250)->color(1,162,217)->generate(url("token/checkin/$token->id")) !!}
+                    </div>
+                    <!--end::QR Code -->
+                    @else
+                    <!--start::Check In Code -->
+                    <div class="d-flex flex-wrap flex-stack">
+                        <input name="checkin_code_1" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
+                        <input name="checkin_code_2" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
+                        <input name="checkin_code_3" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
+                        <input name="checkin_code_4" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
+                    </div>
+                    <!--start::Check In Code -->
                     @endif
-                    </div>
-                    <input type="hidden" name="tokenID" id="tokenID" value="{{ $token->id }}" />
+                    @endif
                 </div>
-                <!--end::Body-->
+                <!--end::Items-->
+
+                <div class="p-5">
+                    @if($token->status==3)
+                    <a href="#" class="btn btn-primary w-100 py-3" data-id="{{ $token->id }}" name="check_in">Check In</a>
+                    @elseif($token->status==0)
+                    <a href="#" class="btn btn-danger w-100 py-3" data-id="{{ $token->id }}" name="cancel_token">Cancel Token</a>
+                    @endif
+                </div>
+                <input type="hidden" name="tokenID" id="tokenID" value="{{ $token->id }}" />
             </div>
-            <!--end::Mixed Widget 1-->
+            <!--end::Body-->
         </div>
-        <!--end::Col-->
+        <!--end::Mixed Widget 1-->
     </div>
-     <!--end::Row-->
-@section('scripts')
-<script type="text/javascript">
-    (function() {
-        if (window.addEventListener) {
-            window.addEventListener("load", loadHandler, false);
-        } else if (window.attachEvent) {
-            window.attachEvent("onload", loadHandler);
-        } else {
-            window.onload = loadHandler;
-        }
+    <!--end::Col-->
+    </div>
+    <!--end::Row-->
+    @section('scripts')
+    <script type="text/javascript">
+        (function() {
+            if (window.addEventListener) {
+                window.addEventListener("load", loadHandler, false);
+            } else if (window.attachEvent) {
+                window.attachEvent("onload", loadHandler);
+            } else {
+                window.onload = loadHandler;
+            }
 
-        function loadHandler() {
-            setTimeout(getCurrentPosition, 60000);
-        }
+            function loadHandler() {
+                setTimeout(getCurrentPosition, 60000);
+            }
 
-        function getCurrentPosition() {
-            $.ajax({
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                type: 'post',
-                url: '{{ URL::to("home/currentposition") }}',            
-                success: function(data) {
-                    // console.log(data);
-                    $("#tkn_position").text("Position: " + data.position);
-                    $("#span_wait").text(data.wait);
-                }
+            function getCurrentPosition() {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'post',
+                    url: '{{ URL::to("home/currentposition") }}',
+                    success: function(data) {
+                        // console.log(data);
+                        $("#tkn_position").text("Position: " + data.position);
+                        $("#span_wait").text(data.wait);
+                    }
+                });
+            }
+
+
+            $(document).ready(function() {
+                getCurrentPosition();
             });
-        }
+
+            $("[name^=checkin_code]").on("keypress", function(e) {
+                $(this).next().trigger("focus");
+            });
+
+        })();
 
 
-        $(document).ready(function() {
-            getCurrentPosition(); 
-        });
-
-    })();
-
-
-    $('[name=cancel_token]').on('click', function(e) {
+        $('[name=cancel_token]').on('click', function(e) {
             // console.log(e.target.dataset.id);
             var id = $('#tokenID').val();
             Swal.fire({
-                text: 'Are you sure?',
-                icon: 'warning',
-                showCancelButton: true,
-                buttonsStyling: false,
+                    text: 'Are you sure?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    buttonsStyling: false,
                     confirmButtonText: "Yes, I am",
                     cancelButtonText: "No, cancel",
                     customClass: {
                         confirmButton: "btn fw-bold btn-danger",
                         cancelButton: "btn fw-bold btn-active-light-primary"
                     }
-            })
-            .then((value) => {
-                if (value.isConfirmed) {
-                    $.ajax({
-                        url: '{{ URL::to("token/stopedclient") }}/' + id,
-                        type: 'get',
-                        dataType: 'json',
-                        success: function(data) {
-                            Swal.fire({
-                                text:  "Token cancelled!.",
-                                icon: "success",
-                                buttonsStyling: false,
-                                confirmButtonText: "Ok, got it!",
-                                customClass: {
-                                    confirmButton: "btn fw-bold btn-primary",
-                                }
-                            }).then(function () {
-                                location.reload(true);
+                })
+                .then((value) => {
+                    if (value.isConfirmed) {
+                        $.ajax({
+                            url: '{{ URL::to("token/stopedclient") }}/' + id,
+                            type: 'get',
+                            dataType: 'json',
+                            success: function(data) {
+                                Swal.fire({
+                                    text: "Token cancelled!.",
+                                    icon: "success",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn fw-bold btn-primary",
+                                    }
+                                }).then(function() {
+                                    location.reload(true);
 
-                            });
-                            
-                        }
-                    });
-                }
-            });
-    
+                                });
 
-    });
+                            }
+                        });
+                    }
+                });
 
-    $('[name=check_in]').on('click', function(e) {
-        var id = e.target.dataset.id;
+
+        });
+
+        $('[name=check_in]').on('click', function(e) {
+            var id = e.target.dataset.id;
+            var otp = collateOTPCode('checkin_code');
+            if (otp.length < 4) {
+                Swal.fire({
+                    text: "Invalid Code",
+                    icon: "error",
+                    buttonsStyling: false,
+                    confirmButtonText: "Ok, got it!",
+                    customClass: {
+                        confirmButton: "btn fw-bold btn-primary",
+                    }
+                });
+                return;
+            }
+            // alert(id);
+            // alert(otp);
+            checkInOTP(id, otp);
+
+            // Swal.fire({
+            //         text: 'Are you ready to check-in?',
+            //         icon: 'warning',
+            //         showCancelButton: true,
+            //         buttonsStyling: false,
+            //         confirmButtonText: "Yes, I am",
+            //         cancelButtonText: "No, cancel",
+            //         customClass: {
+            //             confirmButton: "btn fw-bold btn-danger",
+            //             cancelButton: "btn fw-bold btn-active-light-primary"
+            //         }
+            //     })
+            //     .then((value) => {
+            //         if (value.isConfirmed) {
+            //             $.ajax({
+            //                 url: '{{ URL::to("token/checkin") }}/' + id,
+            //                 type: 'get',
+            //                 dataType: 'json',
+            //                 success: function(data) {
+            //                     document.location.href = '/home/current';
+            //                 }
+            //             });
+            //         }
+            //     });
+        });
+
+
+        // function checkIn(id) {
+        //     // alert(id);
+        //     // var _url = '{{ URL::to("client/token/stoped") }}/' + id;
+        //     // alert(_url);
+        //     // return;
+        //     Swal.fire({
+        //             text: 'Are you sure?',
+        //             icon: 'warning',
+        //             buttons: {
+        //                 cancel: "Oops!!!",
+        //                 ok: true
+        //             }
+        //         })
+        //         .then((value) => {
+        //             if (value.isConfirmed) {
+        //                 $.ajax({
+        //                     url: '{{ URL::to("home/checkin") }}/' + id,
+        //                     type: 'get',
+        //                     dataType: 'json',
+        //                     success: function(data) {
+        //                         document.location.href = '/home';
+        //                     }
+        //                 });
+        //             }
+        //         });
+        // }
+
+
+        function checkInOTP(id, code) {
+            // alert(id);
+            // var _url = '{{ URL::to("client/token/stoped") }}/' + id;
+            // alert(_url);
+            // return;
+
             Swal.fire({
-                text: 'Are you ready to check-in?',
-                icon: 'warning',
-                showCancelButton: true,
-                buttonsStyling: false,
+                    text: 'Are you ready to check-in?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    buttonsStyling: false,
                     confirmButtonText: "Yes, I am",
                     cancelButtonText: "No, cancel",
                     customClass: {
                         confirmButton: "btn fw-bold btn-danger",
                         cancelButton: "btn fw-bold btn-active-light-primary"
                     }
-            })
-            .then((value) => {
-                if (value.isConfirmed) {
-                    $.ajax({
-                        url: '{{ URL::to("token/checkin") }}/' + id,
-                        type: 'get',
-                        dataType: 'json',
-                        success: function(data) {
-                            document.location.href = '/home/current';
-                        }
-                    });
-                }
-            });
-    });
+                })
+                .then((value) => {
+                    if (value.isConfirmed) {
+                        $.ajax({
+                            url: '{{ URL::to("token/checkinotp") }}',
+                            type: 'post',
+                            data: {
+                                'id': id,
+                                'code': code,
+                                '_token': '<?php echo csrf_token() ?>'
+                            },
+                            dataType: 'json',
+                            success: function(data) {
+                                if (data.status) {
+                                    document.location.href = '/home/current';
+                                } else {
+                                    Swal.fire({
+                                        text: data.message,
+                                        icon: "error",
+                                        buttonsStyling: false,
+                                        confirmButtonText: "Ok, got it!",
+                                        customClass: {
+                                            confirmButton: "btn fw-bold btn-primary",
+                                        }
+                                    });
 
-   
-    function checkIn(id) {
-        // alert(id);
-        // var _url = '{{ URL::to("client/token/stoped") }}/' + id;
-        // alert(_url);
-        // return;
-        Swal.fire({
-                text: 'Are you sure?',
-                icon: 'warning',
-                buttons: {
-                    cancel: "Oops!!!",
-                    ok: true
-                }
-            })
-            .then((value) => {
-                if (value.isConfirmed) {
-                    $.ajax({
-                        url: '{{ URL::to("home/checkin") }}/' + id,
-                        type: 'get',
-                        dataType: 'json',
-                        success: function(data) {
-                            document.location.href = '/home';
-                        }
-                    });
-                }
-            });
-    }
-</script>    
+                                }
 
-@include('pages.home._firebase-js')
-@endsection
+                            }
+                        });
+                    }
+                });
+        }
+
+        function collateOTPCode(prefix) {
+            var str = "";
+            $('input[name^="' + prefix + '"]').each(function() {
+                console.log($(this).val());
+                str = str + $(this).val();
+            });
+
+            return (str.length != 4) ? "" : str;
+        }
+    </script>
+
+    @include('pages.home._firebase-js')
+    @endsection
 </x-base-layout>

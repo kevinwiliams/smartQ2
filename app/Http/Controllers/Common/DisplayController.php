@@ -2,10 +2,11 @@
 namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
+use App\Models\CheckInCodes;
 use Illuminate\Http\Request;  
 use App\Models\DisplaySetting; 
-use App\Models\DisplayCustom; 
-use App\Models\Setting;  
+use App\Models\DisplayCustom;
+use Carbon\Carbon;
 use DB, Response, Validator;
 
 
@@ -13,11 +14,11 @@ class DisplayController extends Controller
 { 
     public function display()
     {  
-        $appSetting = Setting::first();  
+        // $appSetting = Setting::first();  
         $setting    = DisplaySetting::first();  
         $setting->languages = ['ar', 'bn', 'en', 'vi'];
-        $setting->title     = $appSetting->title;
-        $setting->timezone  = $appSetting->timezone;
+        // $setting->title     = $appSetting->title;
+        // $setting->timezone  = $appSetting->timezone;
         date_default_timezone_set(session('app.timezone')?session('app.timezone'):$setting->timezone);
 
         $setting->display = request()->get('type')?request()->get('type'):$setting->display;
@@ -51,6 +52,11 @@ class DisplayController extends Controller
             //counter wise display 1
             return view('pages.common.display.display2', compact('setting'));
         }
+        elseif ($setting->display==7)
+        {
+            //counter wise display 1
+            return view('pages.common.display.display7', compact('setting'));
+        }
         else
         {
             //general display - sequential 
@@ -63,8 +69,8 @@ class DisplayController extends Controller
         $nowServing = [];
         $newToken   = [];
         $setting  = DisplaySetting::first(); 
-        $appSetting = Setting::first();   
-        date_default_timezone_set(session('app.timezone')?session('app.timezone'):$appSetting->timezone);
+        // $appSetting = Setting::first();   
+        date_default_timezone_set(session('app.timezone')?session('app.timezone'):$setting->timezone);
 
         $displays = DB::select("
             SELECT 
@@ -179,8 +185,8 @@ class DisplayController extends Controller
         $cTokens    = [];
 
         $setting    = DisplaySetting::first(); 
-        $appSetting = Setting::first();   
-        date_default_timezone_set(session('app.timezone')?session('app.timezone'):$appSetting->timezone);
+        // $appSetting = Setting::first();   
+        date_default_timezone_set(session('app.timezone')?session('app.timezone'):$setting->timezone);
         $counters = DB::table('counter')
             ->where('status', 1)
             ->where(function($q) use($request) {
@@ -371,8 +377,8 @@ class DisplayController extends Controller
         $cTokens = [];
 
         $setting = DisplaySetting::first(); 
-        $appSetting = Setting::first();   
-        date_default_timezone_set(session('app.timezone')?session('app.timezone'):$appSetting->timezone);
+        // $appSetting = Setting::first();   
+        date_default_timezone_set(session('app.timezone')?session('app.timezone'):$setting->timezone);
         $departments = DB::table('department')
             ->where('status', 1)
             ->orderBy('name', 'ASC')
@@ -593,8 +599,8 @@ class DisplayController extends Controller
         $newTokens = []; //new token
 
         $setting = DisplaySetting::first();
-        $appSetting = Setting::first();   
-        date_default_timezone_set(session('app.timezone')?session('app.timezone'):$appSetting->timezone);
+        // $appSetting = Setting::first();   
+        date_default_timezone_set(session('app.timezone')?session('app.timezone'):$setting->timezone);
         $counters = DB::table('counter')
             ->where('status', 1)
             ->orderBy(DB::raw('LENGTH(name)'), 'ASC')
@@ -739,6 +745,64 @@ class DisplayController extends Controller
         return Response::json($data);
     }
 
+     // counter wise queue
+    public function display7(Request $request)
+     { 
+         $location_id = auth()->user()->location_id;
+         $setting = DisplaySetting::where('location_id', $location_id)->first();
+        //  $appSetting = Setting::first();   
+         date_default_timezone_set(session('app.timezone')?session('app.timezone'):$setting->timezone);
+         $counters = DB::table('counter')
+             ->where('status', 1)
+             ->orderBy(DB::raw('LENGTH(name)'), 'ASC')
+             ->orderBy('name', 'ASC')
+             ->get();
+ 
+         $html = "<div class=\"col-sm-12\">
+             <div id=\"clock\" class=\"well text-center\" style=\"background-color:".(!empty($setting->background_color)?$setting->background_color:'#cdcdcd') .";border-color:".(!empty($setting->border_color)?$setting->border_color:'#fff') .";padding:10px 0;font-size:28px;margin-bottom: 10px;\">".date("$setting->date_format $setting->time_format")."</div> 
+             </div>";
+ 
+        $newDateTime = Carbon::now()->subMinutes(5);
+
+        // echo '<pre>';        
+        // // print_r($code);
+        // echo Carbon::now()->toDateTimeString();
+        // echo '</pre>';
+        // echo '<pre>';        
+        // // print_r($code);
+        // echo session('app.timezone')?session('app.timezone'):$setting->timezone;
+        // echo '</pre>';
+        // die();
+
+        
+        $code = CheckInCodes::where("created_at", ">", $newDateTime->format('Y-m-d H:i'))->where('location_id', $location_id)->first();
+
+        // echo '<pre>';        
+        // print_r($code);
+        // echo '</pre>';
+        // die();
+        if($code == null){
+            $otp = (new Utilities_lib)->generateNumericOTP(4);
+            $location = CheckInCodes::create([
+                'location_id' => $location_id,
+                'code'  => $otp
+            ]);
+        }else{
+            $otp = $code->code;
+        }
+                 
+        $html .= "<div class=\"col-sm-12\">
+             <div id=\"\" class=\"well text-center\" style=\"height:60px;padding:0;text-align:center;font-size:25px;line-height:60px;margin-bottom:2px;background:#222;color:#fff\">". $otp ."</div>";
+
+                        
+         $html .= "</div>";
+ 
+  
+         $data['result']    = $html;        
+         $data['interval']  = 10000;
+ 
+         return Response::json($data);
+     }
 }
 
 

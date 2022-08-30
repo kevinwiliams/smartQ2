@@ -260,7 +260,7 @@
             error: function(xhr)
             {
                 Swal.fire({
-                    text: " wbr>" + xhr + "<br>",
+                    text: "<br>" + xhr + "<br>",
                     icon: "error",
                     buttonsStyling: false,
                     confirmButtonText: "Ok, got it!",

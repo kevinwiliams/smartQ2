@@ -64,7 +64,7 @@ class LocationController extends Controller
 
         @date_default_timezone_set(session('app.timezone'));
         $validator = Validator::make($request->all(), [
-            'name'        => 'required|unique:company,name|max:50',
+            'name'        => 'required|unique:locations,name|max:50',
             'address'      => 'required',
             'company_id'      => 'required',
             'lat'      => 'required',
@@ -139,11 +139,36 @@ class LocationController extends Controller
                     ->first();
 
         // echo '<pre>';
-        // print_r($location->visitorslastweek()->count());
+        // print_r($officers->count());
         // echo '</pre>';
         // die();
         
         return view('pages.location.view', compact('location','departments', 'counters', 'officers'));
+        
+    }
+
+    public function showEditForm($id = null)
+    {
+        if (!auth()->user()->can('edit location')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+        $departments = Department::where('location_id', $id)->count();
+        $counters = Counter::where('location_id', $id)->count();
+        $officers = User::where('location_id', $id)
+                    ->where('user_type','<>', 3)
+                    ->where('status', 1)
+                    ->get();
+                    // ->count();
+        $location = Location::where('id', $id)
+                    ->withCount('visitorslastweek')                 
+                    ->first();
+
+        // echo '<pre>';
+        // print_r($officers->count());
+        // echo '</pre>';
+        // die();
+        
+        return view('pages.location.edit', compact('location','departments', 'counters', 'officers'));
         
     }
 
@@ -220,9 +245,57 @@ class LocationController extends Controller
      * @param  \App\Models\Location  $location
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Location $location)
+    public function update(Request $request, $id)
     {
-        //
+        if (!auth()->user()->can('create location')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+
+        @date_default_timezone_set(session('app.timezone'));
+        $validator = Validator::make($request->all(), [
+            'name'        => 'required|unique:locations,name,' . $id . '|max:50',
+            'address'      => 'required',
+            'company_id'      => 'required',
+            'lat'      => 'required',
+            'lon'      => 'required'
+        ])
+            ->setAttributeNames(array(
+                'company_id' => trans('app.company'),
+                'name' => trans('app.name'),
+                'address' => trans('app.address'),
+                'lat' => trans('app.lat'),
+                'lon' => trans('app.lng'),
+            ));
+
+        if ($validator->fails()) {
+            $data['status'] = true;
+            $data['error'] = $validator;
+            $data['message'] = trans('app.validation_error');
+
+            return response()->json($data);
+        } else {
+            $update = Location::where('id',$id)
+            ->update([
+                'company_id' => $request->company_id,
+                'name'  => $request->name,
+                'address' =>  $request->address,
+                'lat' => $request->lat,
+                'lon' => $request->lon,
+                'active' => ($request->has('active')) ? 1 : 0
+            ]);
+          
+            if ($update) {               
+                $data['status'] = true;
+                $data['data'] = $update;
+                $data['message'] = trans('app.save_successfully');
+            } else {
+                $data['status'] = false;
+                $data['message'] = trans('app.please_try_again');
+            }
+
+
+            return response()->json($data);
+        }
     }
 
     /**

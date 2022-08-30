@@ -310,6 +310,11 @@ return array(
                         'path'       => 'apps/user-management/permissions',
                         'bullet'     => '<span class="bullet bullet-dot"></span>',                       
                     ),
+                    array(
+                        'title'      => 'System',
+                        'path'       => 'settings/system',
+                        'bullet'     => '<span class="bullet bullet-dot"></span>',                       
+                    ),
                 ),
             ),
         ),

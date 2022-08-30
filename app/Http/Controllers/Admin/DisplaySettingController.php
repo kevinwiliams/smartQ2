@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
+use App\Core\Data;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request; 
 use App\Models\DisplaySetting; 
@@ -27,6 +28,8 @@ class DisplaySettingController extends Controller
         $counters = Counter::where('status', 1)->where('location_id', $id)->pluck('name', 'id'); 
         $customDisplays = DisplayCustom::where('location_id', $id)->get();  
 
+        $timezoneList = Data::getTimezoneDropDownList();
+        
         //create default display setting if results are empty
         if (empty($setting)) 
         {
@@ -43,6 +46,9 @@ class DisplaySettingController extends Controller
                 'show_note'    => '0',
                 'keyboard_mode' => '0',
                 'alert_position' => '3',
+                'language' => '',
+                'title' => 'SmartQ - Queue Management System',
+                'timezone' => 'America/Bogota',
                 'location_id' => $id,
             ]);
         }
@@ -54,7 +60,8 @@ class DisplaySettingController extends Controller
             'officers',
             'departments',
             'counters',
-            'location'
+            'location',
+            'timezoneList'
         ));
     } 
 
@@ -73,8 +80,13 @@ class DisplaySettingController extends Controller
             'sms_alert'   => 'required|numeric', 
             'show_officer'    => 'required|numeric', 
             'show_department' => 'required|numeric', 
+            'enable_greeting' => 'required|numeric', 
+            'enable_qr_checkin' => 'required|numeric',             
             'show_note'       => 'max:1', 
-            'alert_position'  => 'required|numeric|min:1|max:99' 
+            'alert_position'  => 'required|numeric|min:1|max:99',
+            'lang'        => 'max:3',
+            'timezone'    => 'required|max:100',
+            'title'       => 'required|max:140'
         ])
         ->setAttributeNames(array(
            'color' => trans('app.color'),
@@ -88,8 +100,13 @@ class DisplaySettingController extends Controller
            'sms_alert' => trans('app.sms_alert'),
            'show_officer' => trans('app.show_officer'),
            'show_department' => trans('app.show_department'),
+           'enable_greeting' => trans('app.enable_greeting'),
+           'enable_qr_checkin' => trans('app.enable_qr_checkin'),
            'show_note' => trans('app.show_note'),
-           'alert_position' => trans('app.alert_position') 
+           'alert_position' => trans('app.alert_position') ,
+           'lang' => trans('app.lang') ,
+           'timezone' => trans('app.timezone') ,
+           'title' => trans('app.title') 
         ));
 
 
@@ -121,8 +138,13 @@ class DisplaySettingController extends Controller
                         'sms_alert'    => $request->sms_alert,
                         'show_officer'  => $request->show_officer,
                         'show_department' => $request->show_department,
+                        'enable_greeting' => $request->enable_greeting,
+                        'enable_qr_checkin' => $request->enable_qr_checkin,
                         'show_note'       => $request->show_note,
-                        'alert_position'  => $request->alert_position 
+                        'alert_position'  => $request->alert_position,
+                        'language'  => $request->lang,
+                        'timezone'  => $request->timezone,
+                        'title'  => $request->title,
                     ]);
 
                     if ($update) {

@@ -26,11 +26,11 @@
                     </div>
                     <!--end::Details-->
                     <!--begin::Actions-->
-                    <div class="d-flex mb-4">
+                    <!-- <div class="d-flex mb-4">
                         <a href="#" class="btn btn-sm btn-bg-light btn-active-color-primary me-3" data-bs-toggle="modal" data-bs-target="#mv_modal_users_search">Add User</a>
                         <a href="#" class="btn btn-sm btn-primary me-3" data-bs-toggle="modal" data-bs-target="#mv_modal_new_target">Add Department</a>
                        
-                    </div>
+                    </div> -->
                     <!--end::Actions-->
                 </div>
                 <!--end::Head-->
@@ -57,11 +57,11 @@
                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr065.svg-->
 								{!! theme()->getSvgIcon("icons/duotune/arrows/arr065.svg", "svg-icon-3 svg-icon-danger me-2") !!}
                                 <!--end::Svg Icon-->
-                                <div class="fs-4 fw-bolder" data-mv-countup="true" data-mv-countup-value="75">0</div>
+                                <div class="fs-4 fw-bolder" data-mv-countup="true" data-mv-countup-value="{{ $location->staff->count() }}">0</div>
                             </div>
                             <!--end::Number-->
                             <!--begin::Label-->
-                            <div class="fw-bold fs-6 text-gray-400">New Users</div>
+                            <div class="fw-bold fs-6 text-gray-400">Users</div>
                             <!--end::Label-->
                         </div>
                         <!--end::Stat-->
@@ -72,7 +72,7 @@
                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr066.svg-->
 								{!! theme()->getSvgIcon("icons/duotune/arrows/arr066.svg", "svg-icon-3 svg-icon-success me-2") !!}
                                 <!--end::Svg Icon-->
-                                <div class="fs-4 fw-bolder" data-mv-countup="true" data-mv-countup-value="15000" data-mv-countup-prefix="$">0</div>
+                                <div class="fs-4 fw-bolder" data-mv-countup="true" data-mv-countup-value="{{ $location->visitorslastweek }}">0</div>
                             </div>
                             <!--end::Number-->
                             <!--begin::Label-->
@@ -120,6 +120,11 @@
                 <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='view') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/view/' . $location->id)}}">Overview</a>
             </li>
             <!--end::Nav item-->
+              <!--begin::Nav item-->
+              <li class="nav-item">
+                <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='edit') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/edit/' . $location->id)}}">Details</a>
+            </li>
+            <!--end::Nav item-->
              <!--begin::Nav item-->
              <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='map') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/map/' . $location->id)}}">Map</a>
@@ -151,14 +156,14 @@
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6" href="#">Activity</a>
-            </li>
+            </li> -->
             <!--end::Nav item-->
             <!--begin::Nav item-->
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || (Request::segment(2)=='settings' && Request::segment(3) > 0 )) ? 'active' : '') }}" href="{{theme()->getPageUrl('location/settings/' . $location->id)}}">Settings</a>
-            </li>
+            </li> -->
             <!--end::Nav item-->
         </ul>
         <!--end::Nav-->

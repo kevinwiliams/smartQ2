@@ -8,6 +8,7 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use App\Models\Setting;
 use App\Models\DisplayCustom;
+use App\Models\DisplaySetting;
 use App\Models\Token;
 use App\Models\UserSocialAccount;
 use Auth, Session, DB, Hash;
@@ -18,7 +19,11 @@ class LoginController extends Controller
     
     public function login()
     {  
+        ///TODO: figure out default setting and location setting
+        /// figure out display settings
+        
         $app = Setting::first(); 
+        // $display = DisplaySetting::first();         
         $customDisplays = DisplayCustom::where('status', 1)->orderBy('name', 'ASC')->pluck('name', 'id');
         if (!empty($customDisplays))
         {

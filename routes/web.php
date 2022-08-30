@@ -157,6 +157,7 @@ Route::middleware('auth')->group(function () {
 		Route::get('create', [TokenController::class, 'showForm']);
 		Route::post('create', [TokenController::class, 'create']);
 		Route::get('checkin/{id}', [TokenController::class, 'checkin']);
+		Route::post('checkinotp', [TokenController::class, 'otpcheckin']);
 		Route::post('print', [TokenController::class, 'viewSingleToken']);
 		Route::get('complete/{id}', [TokenController::class, 'complete']);
 		Route::get('noshow/{id}', [TokenController::class, 'noshow']);
@@ -183,6 +184,12 @@ Route::middleware('auth')->group(function () {
 		Route::get('getLocations/{id}', [CompanyController::class, 'getLocations']);
 		Route::post('edit/{id}', [CompanyController::class, 'update']);
 		Route::get('delete/{id}', [CompanyController::class, 'destroy']);
+	});
+
+	// Setting pages
+	Route::prefix('settings')->group(function () {
+		Route::get('system', [SettingController::class, 'show']);
+		Route::post('system', [SettingController::class, 'update']);	
 	});
 
 	// // Location pages
@@ -222,9 +229,9 @@ Route::middleware('auth')->group(function () {
 
 		// Setting pages
 		Route::prefix('settings')->group(function () {
-			Route::get('/{id}', [SettingController::class, 'showForm']);
-			Route::post('/{id}', [SettingController::class, 'create']);
-			Route::get('display/{id}', [DisplaySettingController::class, 'showForm']);
+			// Route::get('system', [SettingController::class, 'show']);
+			// Route::post('/{id}', [SettingController::class, 'create']);
+			Route::get('display/{id}', [DisplaySettingController::class, 'showForm']);			
 			Route::post('display/{id}', [DisplaySettingController::class, 'setting']);
 			Route::get('display/custom', [DisplaySettingController::class, 'getCustom']);
 			Route::post('display/custom', [DisplaySettingController::class, 'custom']);
@@ -260,6 +267,7 @@ Route::prefix('common')->namespace('Common')->group(function () {
 	Route::post('display3', [DisplayController::class, 'display3']);
 	Route::post('display4', [DisplayController::class, 'display4']);
 	Route::post('display5', [DisplayController::class, 'display5']);
+	Route::post('display7', [DisplayController::class, 'display7']);
 
 	// 	// -----------------------------------------------------------
 	// 	// AUTHORIZED COMMON 

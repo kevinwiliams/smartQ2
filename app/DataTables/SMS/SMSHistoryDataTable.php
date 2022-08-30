@@ -2,7 +2,7 @@
 
 namespace App\DataTables\SMS;
 
-use App\Models\SMSHistory;
+use App\Models\SmsHistory;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -10,7 +10,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class SMSHistoryDataTable extends DataTable
+class SmsHistoryDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -23,13 +23,13 @@ class SMSHistoryDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->rawColumns(['action'])
-            ->editColumn('message', function (SMSHistory $model) {
+            ->editColumn('message', function (SmsHistory $model) {
                 return Str::limit($model->message, 50);
             })
-            ->editColumn('response', function (SMSHistory $model) {
+            ->editColumn('response', function (SmsHistory $model) {
                 return Str::limit($model->response, 50);
             })
-            ->addColumn('action', function (SMSHistory $model) {
+            ->addColumn('action', function (SmsHistory $model) {
                 return view('pages.sms._action-menu', compact('model'));
             });
     }
@@ -37,10 +37,10 @@ class SMSHistoryDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\SMSHistory $model
+     * @param \App\Models\SmsHistory $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(SMSHistory $model)
+    public function query(SmsHistory $model)
     {
         return $model->newQuery();
     }
@@ -95,6 +95,6 @@ class SMSHistoryDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'SMSHistory_' . date('YmdHis');
+        return 'SmsHistory_' . date('YmdHis');
     }
 }

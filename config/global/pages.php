@@ -399,20 +399,20 @@ return array(
         ),
     ),
 
-    'settings' => array(
-        'title' => 'App Settings',
-        'display' => array(
-            'title' => 'Display Settings',
-            'assets' => array(
-                'custom' => array(
-                    'js'  => array(
-                        'plugins/custom/datatables/datatables.bundle.js',
-                    ),
+    // 'settings' => array(
+    //     'title' => 'App Settings',
+    //     'display' => array(
+    //         'title' => 'Display Settings',
+    //         'assets' => array(
+    //             'custom' => array(
+    //                 'js'  => array(
+    //                     'plugins/custom/datatables/datatables.bundle.js',
+    //                 ),
 
-                ),
-            ),
-        )
-    ),
+    //             ),
+    //         ),
+    //     )
+    // ),
     'home' => array(
         'title' => 'Home',
 
@@ -432,7 +432,12 @@ return array(
         )
     ),
 
-
+    'settings' => array(
+        'system' => array(
+            'title'  => 'System Configuration',
+            'view'   => 'pages/settings/setting',           
+        ),        
+    ),
     'apps' => array(
         'calendar' => array(
             'title'  => 'Appointment Scheduler',

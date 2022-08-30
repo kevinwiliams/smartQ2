@@ -130,6 +130,7 @@
 																<br />
 																<div class="border border-gray-300 border-dashed rounded min-w-100px w-100 py-2 px-4 me-6 mb-3 fs-7">
 																	<span class="text-muted fw-bold p-1">Greeting: </span><span>{{ ($company->locations[0]->settings->enable_greeting)?'Yes':'No' }}</span><br />
+																	<span class="text-muted fw-bold p-1">QR Checkin: </span><span>{{ ($company->locations[0]->settings->enable_qr_checkin)?'Yes':'No' }}</span><br />
 																	<span class="text-muted fw-bold p-1">Displays: </span><span>{{ $_location->displays()->count() }}</span><br />
 																	<span class="text-muted fw-bold p-1">Counters: </span><span>{{ $_location->counters()->count() }}</span><br />
 																</div>

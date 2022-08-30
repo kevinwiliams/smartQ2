@@ -2,7 +2,8 @@
     <!--begin::Post-->
     <div class="post d-flex flex-column-fluid" id="mv_post">
         <!--begin::Container-->
-        <div id="mv_content_container" class="container-xxl">            
+        <div id="mv_content_container" class="container-xxl">
+            {{ theme()->getView('pages/location/_navbar', array('officers' => $officers, 'counters' => $counters, 'departments' => $departments, 'location' => $location )) }}
             <!--begin::Card-->
             <div class="card">
                 <!--begin::Card header-->
@@ -17,7 +18,7 @@
 
                 <!--begin::Card body-->
                 <div class="card-body p-9">
-                    {{ Form::open(['url' => 'settings/system', 'files' => true, 'class'=>'col-md-7 col-sm-8' , 'id'=>'frmSettings' ]) }}
+                    {{ Form::open(['url' => 'setting', 'files' => true, 'class'=>'col-md-7 col-sm-8' ]) }}
 
                     <input type="hidden" name="id" value="{{ $setting->id }}">
                     <div class="fv-row mb-7">
@@ -132,58 +133,5 @@
         <!--end::Container-->
     </div>
     <!--end::Post-->
-    @section('scripts')
-    <script>
-        $(document).ready(function() {
-            var frm = $("#frmSettings");
-            frm.on('submit', function(e) {
-                e.preventDefault();
-                var formData = new FormData($(this)[0]);
-                ajax_request(formData);
-            });
-        });
-        
-
-        function ajax_request(formData) {
-            var frm = $("#frmSettings");
-            $.ajax({
-                url: frm.attr('action'),
-                type: 'post',
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                contentType: false,
-                cache: false,
-                processData: false,
-                data: formData,
-                success: function(data) {
-                    if (data.status) {
-                        Swal.fire({
-                            text: "Success",
-                            icon: "success",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn btn-primary",
-                            }
-                        });
-                    }
-                },
-                error: function(xhr) {
-                    Swal.fire({
-                        text: "<br>" + xhr + "<br>",
-                        icon: "error",
-                        buttonsStyling: false,
-                        confirmButtonText: "Ok, got it!",
-                        customClass: {
-                            confirmButton: "btn fw-bold btn-primary",
-                        }
-                    });
-                }
-            });
-        }
-    </script>
-    @endsection
-    
+   
 </x-base-layout>

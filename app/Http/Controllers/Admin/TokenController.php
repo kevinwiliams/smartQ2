@@ -8,6 +8,7 @@ use App\Http\Controllers\Common\SMS_lib;
 use App\Http\Controllers\Common\Token_lib;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\Models\CheckInCodes;
 use App\Models\User;
 use App\Models\Department;
 use App\Models\Counter;
@@ -36,6 +37,7 @@ class TokenController extends Controller
         $departments = Department::where('location_id', $id)->count();
         $counters = Counter::where('location_id', $id)->count();
         $officers = User::where('location_id', $id)
+            ->where('user_type', '<>', 3)
             ->where('status', 1)
             ->get();
         // ->count();
@@ -142,7 +144,7 @@ class TokenController extends Controller
             return Redirect::to("/")->withFail(trans('app.no_permissions'));
         }
 
-        $display = DisplaySetting::where('location_id',auth()->user()->location_id)->first();
+        $display = DisplaySetting::where('location_id', auth()->user()->location_id)->first();
         $keyList = DB::table('token_setting AS s')
             ->select('d.key', 's.department_id', 's.counter_id', 's.user_id')
             ->leftJoin('department AS d', 'd.id', '=', 's.department_id')
@@ -569,7 +571,7 @@ class TokenController extends Controller
                 'status'        => 0
             ]);
 
-           
+
             if ($save) {
                 $token = Token::select(
                     'token.*',
@@ -593,7 +595,7 @@ class TokenController extends Controller
                 // echo '</pre>';
                 // die();
 
-                    
+
                 //Insert token status                    
                 $save = TokenStatus::insert([
                     'token_id'    => $token->id,
@@ -658,7 +660,7 @@ class TokenController extends Controller
         if (!auth()->user()->can('view token')) {
             return Redirect::to("/")->withFail(trans('app.no_permissions'));
         }
-        
+
         @date_default_timezone_set(session('app.timezone'));
         // $tokens = Token::where('status', '0')
         //     ->where('user_id', auth()->user()->id)
@@ -666,7 +668,7 @@ class TokenController extends Controller
         //     ->orderBy('id', 'ASC')
         //     ->get();
         $tokens = auth()->user()->pendingtokens()->get();
-            
+
         return view('pages.token.current-icons', compact('tokens'));
     }
 
@@ -1135,9 +1137,9 @@ class TokenController extends Controller
     {
         @date_default_timezone_set(session('app.timezone'));
         $token = Token::whereIn('status', ['0', '3'])
-            ->where('client_id', auth()->user()->id)            
+            ->where('client_id', auth()->user()->id)
             ->orderBy('is_vip', 'DESC')
-            ->orderBy('id', 'ASC')            
+            ->orderBy('id', 'ASC')
             ->first();
 
 
@@ -1164,15 +1166,22 @@ class TokenController extends Controller
         $position = $cntr;
         $wait = date('H:i', mktime(0, $waittime));
 
-        $tokenstatus = TokenStatus::where('token_id', $token->id)->first();
+        //  echo '<pre>';
+        // print_r($token);
+        // // echo session('app.timezone');
+        // echo '</pre>';
+        // die();
 
+        $tokenstatus = TokenStatus::where('token_id', $token->id)->first();
+        $display = DisplaySetting::where('location_id', $token->location_id)->first();
+        $qrcheckin = $display->enable_qr_checkin;
         // echo '<pre>';
         // // print_r($token->startTime);
         // echo session('app.timezone');
         // echo '</pre>';
         // die();
 
-        return view('pages.home.current', compact('token', 'position', 'wait'));
+        return view('pages.home.current', compact('token', 'position', 'wait','qrcheckin'));
     }
 
     public function currentposition()
@@ -1224,6 +1233,84 @@ class TokenController extends Controller
         $data['exception'] = trans('app.update_successfully');
 
         $token = Token::where('id', $id)->first();
+        activity('activity')
+            ->withProperties(['activity' => 'Client Checked In Token', 'department' => $token->department->name, 'token' => $token->token_no, 'display' => 'primary', 'location_id' => auth()->user()->location_id])
+            ->log('Token :properties.token checked in for :properties.department');
+
+        return response()->json($data);
+    }
+
+    public function otpcheckin(Request $request)
+    {       
+        
+        $validator = Validator::make($request->all(), [
+            'id'        => 'required|max:50',
+            'code'      => 'max:4'
+        ])
+            ->setAttributeNames(array(
+                'id' => trans('app.name'),
+                'code' => trans('app.code')
+            ));
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $data['message'] = trans('app.please_try_again');
+            return response()->json($data);
+        }
+
+        $token = Token::where('id', $request->id)->first();
+        if (!$token) {
+            $data['status'] = false;
+            $data['message'] = trans('app.please_try_again');
+            return response()->json($data);
+        }
+        // $location_id = auth()->user()->location_id;
+        $setting = DisplaySetting::where('location_id', $token->location_id)->first();
+        //  $appSetting = Setting::first();   
+        date_default_timezone_set(session('app.timezone')?session('app.timezone'):$setting->timezone);
+        // echo '<pre>';        
+        // // print_r($code);
+        // echo session('app.timezone');
+        // echo '</pre>';
+        // echo '<pre>';        
+        // // print_r($code);
+        // echo $setting->timezone;
+        // echo '</pre>';
+        // die();
+
+        $newDateTime = Carbon::now(session('app.timezone'))->subMinutes(5);
+        $location_id = $token->location_id;
+        $otpcode = $request->code;
+        //  echo '<pre>';        
+        // // print_r($request);
+        // echo $otpcode;
+        // echo '</pre>';
+        // die();
+        $code = CheckInCodes::where("created_at", ">", $newDateTime->format('Y-m-d H:i'))->where('location_id', $location_id)->where('code', $otpcode)->first();
+
+        if (!$code) {
+            $data['status'] = false;
+            $data['message'] = trans('app.please_try_again');
+            return response()->json($data);
+        }    
+
+        Token::where('id', $request->id)
+            ->update([
+                'updated_at' => date('Y-m-d H:i:s'),
+                'status'     => 0,
+                'sms_status' => 1
+            ]);
+
+        //Insert token status                    
+        $save = TokenStatus::insert([
+            'token_id'    => $request->id,
+            'status'      => 0
+        ]);
+
+        $data['status'] = true;
+        $data['exception'] = trans('app.update_successfully');
+
+        $token = Token::where('id', $request->id)->first();
         activity('activity')
             ->withProperties(['activity' => 'Client Checked In Token', 'department' => $token->department->name, 'token' => $token->token_no, 'display' => 'primary', 'location_id' => auth()->user()->location_id])
             ->log('Token :properties.token checked in for :properties.department');

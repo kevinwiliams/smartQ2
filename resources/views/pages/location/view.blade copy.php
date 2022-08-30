@@ -4,7 +4,7 @@
         <!--begin::Container-->
         <div id="mv_content_container" class="container-xxl">
             {{ theme()->getView('pages/location/_navbar', array('officers' => $officers, 'counters' => $counters, 'departments' => $departments, 'location' => $location )) }}
-
+            
             <!--begin::Row-->
             <div class="row g-6 g-xl-9">
                 <!--begin::Col-->
@@ -148,14 +148,12 @@
             </div>
             <!--end::Row-->
 
-
-
         </div>
         <!--end::Container-->
     </div>
     <!--end::Post-->
-    @section('scripts')
-    @include('pages.location._action-js')
-
-    @endsection
+@section('scripts')
+@include('pages.location._action-js')
+    
+@endsection
 </x-base-layout>
