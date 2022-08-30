@@ -636,8 +636,12 @@ class Data
             "show_note" => 0,
             "show_officer" => 0,
             "show_department" => 1,
+            "enable_greeting" => 0,
+            "enable_qr_checkin" => 0,
             "alert_position" => 2,
             "language" => "English",
+            "title" => "SmartQ",
+            "timezone" => "America/Bogota",
         );
     }
 
