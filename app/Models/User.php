@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Traits\SpatieLogsActivity;
+use App\Http\Controllers\Common\Utilities_lib;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -186,6 +187,12 @@ class User extends Authenticatable implements MustVerifyEmail
         ->orderBy('id', 'ASC');
     }
 
+    public function lasttoken()
+    {
+        return $this->hasOne(Token::class,'client_id','id')->where('status',1)->orderBy('is_vip', 'DESC')
+        ->orderBy('id', 'ASC');
+    }
+
     public function location()
     {
         return $this->belongsTo(Location::class);
@@ -201,6 +208,10 @@ class User extends Authenticatable implements MustVerifyEmail
             'location_id', // Local key on the user table...
             'company_id' // Local key on the location table...
         );
+    }
+
+    public function getMaskedEmail(){
+        return (new Utilities_lib)->maskEmail($this->email);
     }
 
 }

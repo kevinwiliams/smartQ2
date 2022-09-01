@@ -76,6 +76,7 @@ Route::prefix('apps')->group(function () {
 		Route::post('permissions/update/{id}', [UserManagementController::class, 'updatePermission'])->name('permissions.update');
 		Route::get('users/list', [UserManagementController::class, 'usersList']);
 		Route::get('users/view/{id}', [UserManagementController::class, 'usersView'])->name('users.view');
+		Route::get('customers/view/{id}', [UserManagementController::class, 'customersView'])->name('customers.view');
 		Route::get('users/edit/{id}', [UserManagementController::class, 'usersEdit'])->name('users.edit');
 		Route::post('users/update/{id}', [UserManagementController::class, 'updateUser'])->name('users.update');
 		Route::post('users/updatemail/{id}', [UserManagementController::class, 'updateUserEmail'])->name('users.updatemail');
@@ -239,6 +240,7 @@ Route::middleware('auth')->group(function () {
 
 		Route::get('staff/{id}', [UserManagementController::class, 'officersList']);
 
+		Route::get('customers/{id}', [UserManagementController::class, 'customerList']);
 
 	});
 

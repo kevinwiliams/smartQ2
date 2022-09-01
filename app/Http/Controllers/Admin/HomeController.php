@@ -62,13 +62,7 @@ class HomeController extends Controller
         // die();
         return view('pages.home.index', compact('departments', 'smsalert', 'maskedemail','shownote','companies'));
     }
-
-    function maskEmail($x)
-    {
-        $arr = explode("@", trim($x));
-
-        return $arr[0][0] . str_repeat("*", strlen($arr[0])  - 2) . $arr[0][strlen($arr[0]) - 1] . "@" . $arr[1];
-    }
+ 
 
     public function home()
     {

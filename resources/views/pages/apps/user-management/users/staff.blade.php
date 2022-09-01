@@ -8,7 +8,7 @@
         <div class="d-flex flex-wrap flex-stack pb-1">
             <!--begin::Title-->
             <div class="d-flex flex-wrap align-items-center my-1">
-                <h3 class="fw-bolder me-5 my-1">Users ({{ count($officers) }})</h3>
+                <h3 class="fw-bolder me-5 my-1">Users ({{ count($officerList) }})</h3>
                 <!--begin::Search-->
                 <div class="d-flex align-items-center position-relative my-1">
                     <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->

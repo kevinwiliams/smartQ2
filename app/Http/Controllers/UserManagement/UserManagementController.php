@@ -10,6 +10,7 @@ use App\Models\Location;
 use App\Models\Counter;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\Token;
 use App\Models\User;
 use App\Models\UserInfo;
 use App\Models\UserSocialAccount;
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Activitylog\Models\Activity;
 
 class UserManagementController extends Controller
 {
@@ -148,6 +150,25 @@ class UserManagementController extends Controller
         return view('pages.apps.user-management.users.staff', compact('officerList', 'officers', 'location','counters', 'departments'));
     }
 
+    public function customerList($id = null)
+    {
+        // get the default inner page
+        $departments = Department::where('location_id', $id)->count();
+        $counters = Counter::where('location_id', $id)->count();
+        $officers = User::where('location_id', $id)
+                    ->where('user_type','<>', 3)
+                    ->where('status', 1)
+                    ->get();
+                    // ->count();
+        $location = Location::where('id', $id)->first();
+     
+        $roles = Role::get();
+        $departments = Department::get();
+        $userids = Token::where('location_id',auth()->user()->location_id)->pluck('client_id')->toArray();
+        $officerList = User::where('user_type',3)->whereIn('id', $userids)->orderBy('lastname', 'ASC')->get();
+        return view('pages.apps.user-management.users.customer', compact('officerList', 'officers', 'location','counters', 'departments'));
+    }
+
     public function usersList(UsersDataTable $dataTable)
     {
         if (!auth()->user()->can('read user')) {
@@ -173,6 +194,17 @@ class UserManagementController extends Controller
         // get the default inner page
         return view('pages.apps.user-management.users.view', compact('user', 'roles', 'departments'));
     }
+
+    public function customersView($id)
+    {
+        $user = User::find($id);
+        $roles = Role::get();
+        $departments = Department::get();
+        $activities = Activity::where('causer_type', 'App\Models\User')->where('causer_id', $id)->where('log_name','activity')->orderBy('created_at')->get();
+        // get the default inner page
+        return view('pages.apps.user-management.users.customerView', compact('user', 'roles', 'departments','activities'));
+    }
+
 
     public function deleteUser($id)
     {

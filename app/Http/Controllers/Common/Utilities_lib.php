@@ -42,4 +42,11 @@ class Utilities_lib extends Controller
          // Return result
          return $result;
      }
+
+     public function maskEmail($x)
+     {
+         $arr = explode("@", trim($x));
+ 
+         return $arr[0][0] . str_repeat("*", strlen($arr[0])  - 2) . $arr[0][strlen($arr[0]) - 1] . "@" . $arr[1];
+     }
 }

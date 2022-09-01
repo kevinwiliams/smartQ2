@@ -147,6 +147,11 @@
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item">
+                <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='customers') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/customers/' . $location->id)}}">Customers</a>
+            </li>
+            <!--end::Nav item-->
+            <!--begin::Nav item-->
+            <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='token') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/token/setting/' . $location->id)}}">Queue Setup</a>
             </li>
             <!--end::Nav item-->
