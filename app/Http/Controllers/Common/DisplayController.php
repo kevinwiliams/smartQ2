@@ -790,9 +790,10 @@ class DisplayController extends Controller
         }else{
             $otp = $code->code;
         }
+        $html .= "<div class='row'><div class='col-12 text-center'><h1 c1ass='' style='font-size:4em; color: #fff;'>CHECK-IN CODE</h1></div></div>";
                  
-        $html .= "<div class=\"col-sm-12\">
-             <div id=\"\" class=\"well text-center\" style=\"height:60px;padding:0;text-align:center;font-size:25px;line-height:60px;margin-bottom:2px;background:#222;color:#fff\">". $otp ."</div>";
+        $html .= "<div class=\"col-sm-12 align-self-center\">
+             <div id=\"\" class=\"card p-20 text-center\" style=\"text-align:center;font-size:8em;line-height:60px;margin-bottom:2px;background:#222;color:#fff\">". $otp ."</div>";
 
                         
          $html .= "</div>";
