@@ -155,23 +155,23 @@ var MVCreateToken = function () {
 
         });
 
-        // Expiry month. For more info, plase visit the official plugin site: https://select2.org/
-        $(form.querySelector('[name="card_expiry_month"]')).on('change', function () {
-            // Revalidate the field when an option is chosen
-            validations[3].revalidateField('card_expiry_month');
-        });
+        // // Expiry month. For more info, plase visit the official plugin site: https://select2.org/
+        // $(form.querySelector('[name="card_expiry_month"]')).on('change', function () {
+        //     // Revalidate the field when an option is chosen
+        //     validations[3].revalidateField('card_expiry_month');
+        // });
 
-        // Expiry year. For more info, plase visit the official plugin site: https://select2.org/
-        $(form.querySelector('[name="card_expiry_year"]')).on('change', function () {
-            // Revalidate the field when an option is chosen
-            validations[3].revalidateField('card_expiry_year');
-        });
+        // // Expiry year. For more info, plase visit the official plugin site: https://select2.org/
+        // $(form.querySelector('[name="card_expiry_year"]')).on('change', function () {
+        //     // Revalidate the field when an option is chosen
+        //     validations[3].revalidateField('card_expiry_year');
+        // });
 
-        // Expiry year. For more info, plase visit the official plugin site: https://select2.org/
-        $(form.querySelector('[name="business_type"]')).on('change', function () {
-            // Revalidate the field when an option is chosen
-            validations[2].revalidateField('business_type');
-        });
+        // // Expiry year. For more info, plase visit the official plugin site: https://select2.org/
+        // $(form.querySelector('[name="business_type"]')).on('change', function () {
+        //     // Revalidate the field when an option is chosen
+        //     validations[2].revalidateField('business_type');
+        // });
     }
 
     var initValidation = function () {
@@ -226,14 +226,13 @@ var MVCreateToken = function () {
         validations.push(FormValidation.formValidation(
             form, {
                 fields: {
-                    'department_id': {
+                    department_id: {
                         validators: {
                             notEmpty: {
                                 message: 'Please choose a service'
                             }
                         }
                     },
-
                 },
                 plugins: {
                     trigger: new FormValidation.plugins.Trigger(),

@@ -124,6 +124,7 @@ Route::middleware('auth')->group(function () {
 		Route::post('confirmOTP', [HomeController::class, 'confirmOTP']);
 		Route::post('confirmEmailOTP', [HomeController::class, 'confirmEmailOTP']);
 		Route::post('getwaittime', [HomeController::class, 'getwaittime']);
+		Route::post('getdepartments', [HomeController::class, 'getdepartments']);
 		Route::get('current', [TokenController::class, 'currentClient']);
 		Route::post('autotoken', [TokenController::class, 'clientTokenAuto']);
 		Route::post('currentposition', [TokenController::class, 'currentposition']);

@@ -375,11 +375,7 @@
                                     <div class="col">
 
                                         <!--begin::Input group-->
-                                        <div class="mb-0 fv-row">
-                                            <!--begin::Label-->
-                                            {{-- <label class="d-flex align-items-center form-label mb-5">Select a department you wish to visit
-                                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Select a department below to automate the queue"></i></label>
-                                            <!--end::Label--> --}}
+                                        <div class="mb-0">
                                             <div class="d-flex align-items-center bg-light-info rounded p-5 mb-7">
                                                 <!--begin::Icon-->
                                                 <span class="svg-icon svg-icon-info me-5">
@@ -397,45 +393,46 @@
                                                 <!--end::Title-->
 
 
-                                            </div>
+                                            </div>                                          
                                             <!--begin::Options-->
-                                            <div class="mb-0">
-                                                @if (!empty($departments))
-                                                @foreach ($departments as $department)
-                                                <!--begin:Option-->
-                                                <label class="d-flex flex-stack mb-5 cursor-pointer">
-                                                    <!--begin:Label-->
-                                                    <span class="d-flex align-items-center me-2">
-                                                        <!--begin::Icon-->
-                                                        <span class="symbol symbol-50px me-6">
-                                                            <span class="symbol-label">
-                                                                <!--begin::Svg Icon | path: icons/duotune/finance/fin001.svg-->
-                                                                {!! theme()->getSvgIcon("icons/duotune/general/gen017.svg", "svg-icon-1 svg-icon-gray-600") !!}
-                                                                <!--end::Svg Icon-->
+                                            <div id="mv-departmentrepeater-content" class="mb-0">
+                                                <input class="form-check-input" type="radio" name="department_id" value="" id="mv-departmentrepeater-id" />
+                                            </div>
+                                            <div id="mv_repeater_department" class="row">
+                                                <div style="display:none" id="mv-departmentrepeater-item">
+                                                    <!--begin:Option-->
+                                                    <label class="d-flex flex-stack mb-5 cursor-pointer">
+                                                        <!--begin:Label-->
+                                                        <span class="d-flex align-items-center me-2">
+                                                            <!--begin::Icon-->
+                                                            <span class="symbol symbol-50px me-6">
+                                                                <span class="symbol-label">
+                                                                    <!--begin::Svg Icon | path: icons/duotune/finance/fin001.svg-->
+                                                                    {!! theme()->getSvgIcon("icons/duotune/general/gen017.svg", "svg-icon-1 svg-icon-gray-600") !!}
+                                                                    <!--end::Svg Icon-->
+                                                                </span>
                                                             </span>
+                                                            <!--end::Icon-->
+                                                            <!--begin::Description-->
+                                                            <span class="d-flex flex-column">
+                                                                <span class="fw-bolder text-gray-800 text-hover-primary fs-5" id="mv-departmentrepeater-name"></span>
+                                                                <span class="fs-6 fw-bold text-muted" id="mv-departmentrepeater-description"></span>
+                                                            </span>
+                                                            <!--end:Description-->
                                                         </span>
-                                                        <!--end::Icon-->
-                                                        <!--begin::Description-->
-                                                        <span class="d-flex flex-column">
-                                                            <span class="fw-bolder text-gray-800 text-hover-primary fs-5">{{ $department->name}}</span>
-                                                            <span class="fs-6 fw-bold text-muted">{{ $department->description}}</span>
+                                                        <!--end:Label-->
+                                                        <!--begin:Input-->
+                                                        <span class="form-check form-check-custom form-check-solid">
+                                                            <input class="form-check-input" type="radio" name="department_id" value="" id="mv-departmentrepeater-id" />
                                                         </span>
-                                                        <!--end:Description-->
-                                                    </span>
-                                                    <!--end:Label-->
-                                                    <!--begin:Input-->
-                                                    <span class="form-check form-check-custom form-check-solid">
-                                                        <input class="form-check-input" type="radio" name="department_id" value="{{$department->id}}" />
-                                                    </span>
-                                                    <!--end:Input-->
-                                                </label>
-                                                <!--end::Option-->
-                                                @endforeach
-                                                @endif
-                                                {{-- <span>Potential wait time <i class="fa fa-clock"></i>&nbsp;<span id="span_wait"></span></span> --}}
-
+                                                        <!--end:Input-->
+                                                    </label>
+                                                    <!--end::Option-->
+                                                </div>
                                             </div>
                                             <!--end::Options-->
+
+
                                             @if($shownote == 1)
                                             <!--begin::Notes-->
                                             <div class="mb-0">
@@ -551,7 +548,7 @@
     @section('scripts')
     <script>
         $(function() {
-            $("[name^=otp_code]").on("keypress", function(e){
+            $("[name^=otp_code]").on("keypress", function(e) {
                 $(this).next().trigger("focus");
             });
 
@@ -715,6 +712,7 @@
                         if (data.status == true) {
                             $('[data-mv-stepper-action="next"]').removeClass('disabled');
                             $('[data-mv-stepper-action="next"]').trigger('click');
+                            getDepartment();
                             $(this).remove();
                         } else {
                             Swal.fire({
@@ -763,6 +761,7 @@
                         if (data.status == true) {
                             $('[data-mv-stepper-action="next"]').removeClass('disabled');
                             $('[data-mv-stepper-action="next"]').trigger('click');
+                            getDepartment();
                             $(this).remove();
                         } else {
                             Swal.fire({
@@ -777,11 +776,13 @@
             });
 
 
-
-            $('input:radio[name=department_id]').on('click', function(e) {
-                console.log(e);
-                var dept = $(this).find(":checked").val();
-                var dept = e.target.value;
+            // function getDepartment(location_id) {
+            function getDepartment() {
+                // alert(obj);
+                // return;
+                // console.log(obj.data('id'));
+                // var dept = $(this).find(":checked").val();
+                // var dept = e.target.value;
                 // if (phone == "") {
                 //     Swal.fire({
                 //         title: 'Enter your contact number',
@@ -789,29 +790,113 @@
                 //     });
                 //     return;
                 // }
+                var location_id = $('input[name="location"]:checked').val();
+
+                var repItem = $('#mv-departmentrepeater-item');
+                var content = $('#mv-departmentrepeater-content');
 
                 $.ajax({
                     type: 'post',
-                    url: '{{ URL::to("home/getwaittime") }}',
+                    url: '{{ URL::to("home/getdepartments") }}',
                     type: 'POST',
                     dataType: 'json',
                     data: {
-                        'id': dept,
+                        'id': location_id,
                         '_token': '<?php echo csrf_token() ?>'
                     },
                     success: function(data) {
                         console.log(data);
-                        $("#span_wait").text(data);
+                        content.html("")
+                        var cntr = 1;
+                        data.forEach(element => {
+                            var _clone = repItem.clone();
+                            _clone.removeAttr("id");
+                            var name = _clone.find("#mv-departmentrepeater-name");
+                            name.text(element.name);
+
+                            var description = _clone.find("#mv-departmentrepeater-description");
+                            description.text(element.description);
+
+                            var radio = _clone.find("#mv-departmentrepeater-id");
+                            radio.val(element.id);
+
+                            //update ids
+                            var __id = radio.attr('id');
+                            radio.attr('id', __id + element.id);
+                            var label = _clone.find('label');
+                            label.attr('for', __id + element.id);
+
+                            // _clone.css('display', 'inline-block');
+                            // _clone.addClass("col-lg-6");                            
+
+                            // _clone.on('click', function(e) {
+                            //     $('[data-mv-stepper-action="next"]').removeClass('disabled');
+                            // });
+
+                            label.on('click', function(e) {
+                                $('[data-mv-stepper-action="next"]').removeClass('disabled');
+                            });
+
+                            content.append(label);
+                            cntr++;
+                        });
+
+
+                        $('input:radio[name=department_id]').on('click', function(e) {
+                            console.log(e);
+                            var dept = $(this).find(":checked").val();
+                            var dept = e.target.value;
+
+                            $.ajax({
+                                type: 'post',
+                                url: '{{ URL::to("home/getwaittime") }}',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: {
+                                    'id': dept,
+                                    '_token': '<?php echo csrf_token() ?>'
+                                },
+                                success: function(data) {
+                                    console.log(data);
+                                    $("#span_wait").text(data);
+                                }
+                            });
+
+                        });
+
+                        // $('[data-mv-stepper-action="next"]').trigger('click');
                     }
                 });
 
-            });
+            };
+
+            // $('input:radio[name=department_id]').on('click', function(e) {
+            //     console.log(e);
+            //     var dept = $(this).find(":checked").val();
+            //     var dept = e.target.value;
+
+            //     $.ajax({
+            //         type: 'post',
+            //         url: '{{ URL::to("home/getwaittime") }}',
+            //         type: 'POST',
+            //         dataType: 'json',
+            //         data: {
+            //             'id': dept,
+            //             '_token': '<?php echo csrf_token() ?>'
+            //         },
+            //         success: function(data) {
+            //             console.log(data);
+            //             $("#span_wait").text(data);
+            //         }
+            //     });
+
+            // });
 
             $('#cancel_otp').on('click', function(e) {
                 e.preventDefault();
                 console.log(e.target.dataset);
                 var cancelType = e.target.dataset.cancel;
-                
+
                 if (cancelType == 'sms') {
                     // $('[name="emailFld"]').show();
                     $('[name="smsFld"]').show();
@@ -858,8 +943,9 @@
                             radio.attr('id', __id + element.id);
                             var label = _clone.find('label');
                             label.attr('for', __id + element.id);
-
-
+                            var __id2 = label.attr('id');
+                            label.attr('id', "lbl_location_" + element.id);
+                            label.data('location_id', element.id)
 
                             _clone.css('display', 'inline-block');
                             _clone.addClass("col-lg-6");
@@ -875,10 +961,15 @@
                             cntr++;
                         });
 
-
+                        // $("label[for^='mv-repeater-location']").on('click', function(e) {
+                        //     var locationid = $(this).data("location_id");
+                        //     // alert(locationid);
+                        //     getDepartment(locationid);                            
+                        // });
                     }
                 });
             });
+
 
         });
 

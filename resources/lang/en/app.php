@@ -165,6 +165,7 @@ return [
     'profile_setting' => 'Profile Setting',
 
     /*SMS*/
+    'push_notification'         => 'Push Notification',
     'sms'         => 'SMS',
     'new_sms'     => 'New SMS',
     'sms_history' => 'SMS History',

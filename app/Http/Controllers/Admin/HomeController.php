@@ -53,7 +53,7 @@ class HomeController extends Controller
         $smsalert = $display->sms_alert;
         $shownote = $display->show_note;
 
-        $maskedemail = $this->maskEmail(auth()->user()->email);
+        $maskedemail = auth()->user()->getMaskedEmail();
         
         $companies = Company::orderBy('name','asc')->pluck('name','id');
 
@@ -353,6 +353,13 @@ class HomeController extends Controller
 
         $waittime = ($dept->avg_wait_time != null) ? $dept->avg_wait_time * $waiting : $waiting * 1;
         return json_encode(date('H:i', mktime(0, $waittime)));
+    }
+
+    public function getdepartments(Request $request)
+    {
+        $dept = Department::where('location_id', $request->id)->get();
+        
+        return json_encode($dept);
     }
 
     // Function to generate OTP

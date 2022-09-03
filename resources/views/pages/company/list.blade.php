@@ -27,7 +27,6 @@
         <div class="card-body pt-6">
             <!--begin::Table-->
             {{ $dataTable->table() }}
-
             <!--end::Table-->
         </div>
         <!--end::Card body-->

@@ -104,7 +104,7 @@
 						<!--end::Menu item-->
 						<!--begin::Menu item-->
 						<div class="menu-item px-5">
-							<a href="#" class="menu-link text-danger px-5" data-mv-users-table-filter="delete_row" id="btnDeleteUser" data-id="{{ $user->id }}">Send Notification</a>
+							<a href="#" class="menu-link text-danger px-5" id="btnDeleteUser" data-id="{{ $user->id }}" data-bs-toggle="modal" data-bs-target="#mv_modal_send_notification">Send Notification</a>							
 						</div>
 						<!--end::Menu item-->
 					</div>
@@ -207,9 +207,12 @@
 		<!--end::Content-->
 	</div>
 	<!--end::Layout-->
-	<!--begin::Modals-->
-
-	<!--end::Modals-->
+	<!--begin::Modal - Update email-->
+	{{ theme()->getView('partials/modals/users/_send-notification', 
+        array(
+            'user' => $user
+            )) }}
+	<!--end::Modal - Update email-->
 	@section('scripts')
 	@endsection
 </x-base-layout>
