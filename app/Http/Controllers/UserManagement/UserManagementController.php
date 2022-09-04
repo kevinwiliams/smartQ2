@@ -4,12 +4,18 @@ namespace App\Http\Controllers\UserManagement;
 
 use App\DataTables\UserManagement\PermissionsDataTable;
 use App\DataTables\UserManagement\UsersDataTable;
+use App\Http\Controllers\Common\SMS_lib;
+use App\Http\Controllers\Common\Utilities_lib;
 use App\Http\Controllers\Controller;
+use App\Mail\CustomerNotification;
+use App\Mail\OTPNotification;
 use App\Models\Department;
 use App\Models\Location;
 use App\Models\Counter;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\SmsHistory;
+use App\Models\SmsSetting;
 use App\Models\Token;
 use App\Models\User;
 use App\Models\UserInfo;
@@ -19,6 +25,7 @@ use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -138,16 +145,16 @@ class UserManagementController extends Controller
         $departments = Department::where('location_id', $id)->count();
         $counters = Counter::where('location_id', $id)->count();
         $officers = User::where('location_id', $id)
-                    ->where('user_type','<>', 3)
-                    ->where('status', 1)
-                    ->get();
-                    // ->count();
+            ->where('user_type', '<>', 3)
+            ->where('status', 1)
+            ->get();
+        // ->count();
         $location = Location::where('id', $id)->first();
-     
+
         $roles = Role::get();
         $departments = Department::get();
-        $officerList = User::whereNotIn('user_type',[3])->where('location_id', $id)->orderBy('lastname', 'ASC')->withCount('pendingtokens')->get();
-        return view('pages.apps.user-management.users.staff', compact('officerList', 'officers', 'location','counters', 'departments'));
+        $officerList = User::whereNotIn('user_type', [3])->where('location_id', $id)->orderBy('lastname', 'ASC')->withCount('pendingtokens')->get();
+        return view('pages.apps.user-management.users.staff', compact('officerList', 'officers', 'location', 'counters', 'departments'));
     }
 
     public function customerList($id = null)
@@ -156,17 +163,17 @@ class UserManagementController extends Controller
         $departments = Department::where('location_id', $id)->count();
         $counters = Counter::where('location_id', $id)->count();
         $officers = User::where('location_id', $id)
-                    ->where('user_type','<>', 3)
-                    ->where('status', 1)
-                    ->get();
-                    // ->count();
+            ->where('user_type', '<>', 3)
+            ->where('status', 1)
+            ->get();
+        // ->count();
         $location = Location::where('id', $id)->first();
-     
+
         $roles = Role::get();
         $departments = Department::get();
-        $userids = Token::where('location_id',auth()->user()->location_id)->pluck('client_id')->toArray();
-        $officerList = User::where('user_type',3)->whereIn('id', $userids)->orderBy('lastname', 'ASC')->get();
-        return view('pages.apps.user-management.users.customer', compact('officerList', 'officers', 'location','counters', 'departments'));
+        $userids = Token::where('location_id', auth()->user()->location_id)->pluck('client_id')->toArray();
+        $officerList = User::where('user_type', 3)->whereIn('id', $userids)->orderBy('lastname', 'ASC')->get();
+        return view('pages.apps.user-management.users.customer', compact('officerList', 'officers', 'location', 'counters', 'departments'));
     }
 
     public function usersList(UsersDataTable $dataTable)
@@ -174,7 +181,7 @@ class UserManagementController extends Controller
         if (!auth()->user()->can('read user')) {
             return Redirect::to("/")->withFail(trans('app.no_permissions'));
         }
-        
+
         $roles = Role::get();
         $departments = Department::get();
         return $dataTable->render('pages.apps.user-management.users.index', compact('roles', 'departments'));
@@ -200,9 +207,9 @@ class UserManagementController extends Controller
         $user = User::find($id);
         $roles = Role::get();
         $departments = Department::get();
-        $activities = Activity::where('causer_type', 'App\Models\User')->where('causer_id', $id)->where('log_name','activity')->orderBy('created_at')->get();
+        $activities = Activity::where('causer_type', 'App\Models\User')->where('causer_id', $id)->where('log_name', 'activity')->orderByDesc('created_at')->get();
         // get the default inner page
-        return view('pages.apps.user-management.users.customerView', compact('user', 'roles', 'departments','activities'));
+        return view('pages.apps.user-management.users.customerView', compact('user', 'roles', 'departments', 'activities'));
     }
 
 
@@ -401,6 +408,82 @@ class UserManagementController extends Controller
         return response()->json($data);
     }
 
+    public function sendnotification(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'message' => 'required',
+            'notification_type' => 'required'
+        ])
+            ->setAttributeNames(array(
+                'message' => trans('app.message'),
+                'notification_type' => trans('app.notification_type')
+            ));
+
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $data['exception'] = "<ul class='list-unstyled'>";
+            $messages = $validator->messages();
+            foreach ($messages->all('<li>:message</li>') as $message) {
+                $data['exception'] .= $message;
+            }
+            $data['exception'] .= "</ul>";
+        } else {
+            $user = User::find($id);
+
+            if ($user) {
+
+                switch ($request->notification_type) {
+                    case 'email':
+                        Mail::to($user->email)->send(new CustomerNotification($user->firstname, $request->message));
+                        break;
+                    case 'sms':
+                        $setting  = SmsSetting::first();
+                        $sms_lib = new SMS_lib;
+
+                        $phonenum = (new Utilities_lib)->sanitizePhoneNumber($this->mobile);
+
+                        $data = $sms_lib
+                            ->provider("$setting->provider")
+                            ->api_key("$setting->api_key")
+                            ->username("$setting->username")
+                            ->password("$setting->password")
+                            ->from("$setting->from")
+                            ->to("$phonenum")
+                            ->message("$request->message")
+                            ->response();
+
+                        //store sms information 
+                        $sms = new SmsHistory();
+                        $sms->from        = $setting->from;
+                        $sms->to          = $phonenum;
+                        $sms->message     = $request->message;
+                        $sms->response    = $data;
+                        $sms->created_at  = date('Y-m-d H:i:s');
+
+                        $sms->save();
+
+                        break;
+                    case 'push':
+                        (new Utilities_lib)->sendPushNotification($user, $request->message);                        
+                        break;                    
+                }
+
+                activity('activity')
+                        ->withProperties(['activity' => 'Client Notification', 'notification_type' => ucfirst($request->notification_type), 'message' => $request->message])
+                        ->causedBy($user)
+                        ->log(':properties.notification_type notification sent');
+
+                $data['status'] = true;
+                $data['message'] = trans('app.message_sent');
+            } else {
+                $data['status'] = false;
+                $data['exception'] = trans('app.message_not_sent');
+            }
+        }
+        return response()->json($data);
+    }
+
     public function updateUserPassword(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -478,7 +561,7 @@ class UserManagementController extends Controller
 
     public function rolesView($id)
     {
-        $role = Role::find($id);        
+        $role = Role::find($id);
         $permissions = Permission::get();
         // get the default inner page
         return view('pages.apps.user-management.roles.view', compact('role', 'permissions'));

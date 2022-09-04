@@ -65,7 +65,7 @@
 							<!--begin::Details item-->
 							<!--begin::Details item-->
 							<div class="fw-bolder mt-5">Last Visit</div>
-							<div class="text-gray-600">{{ \Carbon\Carbon::parse($user->lasttoken->updated_at)->format('d M Y, h:i a') }}</div>
+							<div class="text-gray-600">{{ ($user->lasttoken)?\Carbon\Carbon::parse($user->lasttoken->updated_at)->format('d M Y, h:i a'):'' }}</div>
 							<!--begin::Details item-->
 						</div>
 					</div>
@@ -104,7 +104,7 @@
 						<!--end::Menu item-->
 						<!--begin::Menu item-->
 						<div class="menu-item px-5">
-							<a href="#" class="menu-link text-danger px-5" id="btnDeleteUser" data-id="{{ $user->id }}" data-bs-toggle="modal" data-bs-target="#mv_modal_send_notification">Send Notification</a>							
+							<a href="#" class="menu-link text-danger px-5" id="btnDeleteUser" data-id="{{ $user->id }}" data-bs-toggle="modal" data-bs-target="#mv_modal_send_notification">Send Notification</a>
 						</div>
 						<!--end::Menu item-->
 					</div>
@@ -214,5 +214,7 @@
             )) }}
 	<!--end::Modal - Update email-->
 	@section('scripts')
+	<script src="{{ asset('demo1/plugins/global/plugins.bundle.js') }}" type="application/javascript"></script>
+	@include('pages.apps.user-management.users._send-notifications-js')
 	@endsection
 </x-base-layout>

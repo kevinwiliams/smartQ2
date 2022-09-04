@@ -80,6 +80,7 @@ Route::prefix('apps')->group(function () {
 		Route::get('users/edit/{id}', [UserManagementController::class, 'usersEdit'])->name('users.edit');
 		Route::post('users/update/{id}', [UserManagementController::class, 'updateUser'])->name('users.update');
 		Route::post('users/updatemail/{id}', [UserManagementController::class, 'updateUserEmail'])->name('users.updatemail');
+		Route::post('users/sendnotification/{id}', [UserManagementController::class, 'sendnotification'])->name('users.sendnotification');		
 		Route::post('users/resetpassword/{id}', [UserManagementController::class, 'updateUserPassword'])->name('users.resetpassword');
 		Route::post('users/assign-role', [UserManagementController::class, 'assignRole']);
 		Route::post('users/create', [UserManagementController::class, 'createUser']);

@@ -21,7 +21,7 @@
 			<div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
 				<!--begin::Form-->
 
-				{{ Form::open(['url' => 'apps/user-management/users/updatemail/', 'class'=>'transferFrm', 'id'=>'mv_modal_update_email_form']) }}
+				{{ Form::open(['url' => 'apps/user-management/users/sendnotification/', 'class'=>'transferFrm', 'id'=>'mv_modal_send_notification_form']) }}
 				
 				<!--begin::Input group-->
 				<div class="fv-row mb-7">
@@ -31,7 +31,7 @@
 					</label>
 					<!--end::Label-->
 					<div class="d-flex align-items-center mt-3">
-
+						<input type="hidden" value="{{ $user->id }}" id="user_id" name="user_id"  />
 						@if($user->email && $user->email_verified_at)
 						<div class="form-check form-check-custom form-check-solid me-5">
 							<input class="form-check-input" type="radio" value="email" id="flexRadioDefault" name="notification_type"  />
@@ -68,7 +68,7 @@
 					</label>
 					<!--end::Label-->
 					<!--begin::Input-->
-					<textarea name="message" id="message" class="form-control" placeholder="{{ trans('app.message') }}"></textarea>
+					<textarea name="message" id="message" class="form-control" placeholder="{{ trans('app.message') }}"></textarea>					
 					<!--end::Input-->
 				</div>
 				<!--end::Input group-->
