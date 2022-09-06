@@ -29,6 +29,11 @@ class SampleDataController extends Controller
             return [$months[Carbon::parse($key)->format('n')] => $data];
         });
 
+        echo '<pre>';
+        print_r($d);
+        echo '</pre>';
+        die();
+
         return $d;
     }
 

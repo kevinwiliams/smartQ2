@@ -1,92 +1,12 @@
-<?php
-    // Table rows
-    $tableRows = array(
-        array(
-            'user' => array(
-                'image' => 'avatars/150-11.jpg',
-                'name' => 'Ana Simmons',
-                'skills' => 'Sales'
-            ),
-            'company' => array(
-                'name' => '8 mins',
-                'skills' => 'Web, UI/UX Design'
-            ),
-            'progress' => array(
-                'value' => '50',
-                'color' => 'primary'
-            )
-        ),
-        array(
-            'user' => array(
-                'image' => 'avatars/150-3.jpg',
-                'name' => 'Jessie Clarcson',
-                'skills' => 'Customer Experience'
-            ),
-            'company' => array(
-                'name' => '12 mins',
-                'skills' => 'Houses & Hotels'
-            ),
-            'progress' => array(
-                'value' => '70',
-                'color' => 'danger'
-            )
-        ),
-        array(
-            'user' => array(
-                'image' => 'avatars/150-4.jpg',
-                'name' => 'Lebron Wayde',
-                'skills' => 'Business'
-            ),
-            'company' => array(
-                'name' => '4 mins',
-                'skills' => 'Transportation'
-            ),
-            'progress' => array(
-                'value' => '60',
-                'color' => 'success'
-            )
-        ),
-        array(
-            'user' => array(
-                'image' => 'avatars/150-5.jpg',
-                'name' => 'Natali Goodwin',
-                'skills' => 'Repairs'
-            ),
-            'company' => array(
-                'name' => '10 mins',
-                'skills' => 'Insurance'
-            ),
-            'progress' => array(
-                'value' => '50',
-                'color' => 'warning'
-            )
-        ),
-        array(
-            'user' => array(
-                'image' => 'avatars/150-6.jpg',
-                'name' => 'Kevin Leonard',
-                'skills' => 'Sales'
-            ),
-            'company' => array(
-                'name' => '18 mins',
-                'skills' => 'Art Director'
-            ),
-            'progress' => array(
-                'value' => '90',
-                'color' => 'info'
-            )
-        ),
-    );
-?>
-
 <!--begin::Tables Widget 9-->
 <div class="card {{ $class }}">
     <!--begin::Header-->
     <div class="card-header border-0 pt-5">
         <h3 class="card-title align-items-start flex-column">
 			<span class="card-label fw-bolder fs-3 mb-1">Officer Statistics</span>
-
-			<span class="text-muted mt-1 fw-bold fs-7">Over 500 customers served today</span>
+            @if (!empty($performance))
+			<span class="text-muted mt-1 fw-bold fs-7">Over {{ $performance->sum('total') - 1 }} customers served</span>
+            @endif
 		</h3>
 
         {{-- <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Click to add a user">
@@ -148,7 +68,7 @@
                             </td>
 
                             <td>
-                                <a href="#" class="text-dark fw-bolder text-hover-primary d-block fs-6">{{ __('5 mins') }}</a>
+                                <a href="#" class="text-dark fw-bolder text-hover-primary d-block fs-6">{{ $user->avg }}</a>
                                 <span class="text-muted fw-bold text-muted d-block fs-7">{{ __() }}</span>
                             </td>
 
@@ -165,20 +85,7 @@
                                     </div>
                                 </div>
                             </td>
-
-                            {{-- <td class="text-end">
-                                <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
-                                    {!! theme()->getSvgIcon("icons/duotune/general/gen019.svg", "svg-icon-3") !!}
-                                </a>
-
-                                <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
-                                    {!! theme()->getSvgIcon("icons/duotune/art/art005.svg", "svg-icon-3") !!}
-                                </a>
-
-                                <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
-                                    {!! theme()->getSvgIcon("icons/duotune/general/gen027.svg", "svg-icon-3") !!}
-                                </a>
-                            </td> --}}
+                      
                         </tr>
                         @endforeach
                     @endif

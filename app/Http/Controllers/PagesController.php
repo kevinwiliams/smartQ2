@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use App\Models\User;
+
 class PagesController extends Controller
 {
     /**
@@ -17,24 +18,24 @@ class PagesController extends Controller
         // Get view file location from menu config
         $view = theme()->getOption('page', 'view');
 
-       
+
         $officer = $this->officerPerformance();
         $month = $this->chart_month();
         $performance = $this->userPerformance();
+        $daily = $this->dailyPerformance();
 
         $roles = auth()->user()->getRoleNames()->toArray();
 
         $dmode = (theme()->isDarkMode()) ? '?mode=dark' : '';
         // Check if the page view file exist
-        if (view()->exists('pages.'.$view)) {            
+        if (view()->exists('pages.' . $view)) {
             // if(intval(auth()->user()->user_type ) == 3)
-            if(in_array('client', $roles))
+            if (in_array('client', $roles))
                 return redirect('home' . $dmode);
-            elseif(in_array('staff', $roles))
-                return redirect('token/current'. $dmode);
+            elseif (in_array('staff', $roles))
+                return redirect('token/current' . $dmode);
             else
-                return view('pages.'.$view,  compact('month', 'performance', 'officer'));
-
+                return view('pages.' . $view,  compact('month', 'performance', 'officer', 'daily'));
         }
         // Get the default inner page
         return view('inner');
@@ -70,16 +71,16 @@ class PagesController extends Controller
         }
     }
 
-     //chart month wise token
-     public function chart_month()
-     {  
+    //chart month wise token
+    public function chart_month()
+    {
         $roles = auth()->user()->getRoleNames()->toArray();
-        if(in_array('officer', $roles))
-            $sql = " AND t.user_id = '". auth()->user()->id  ."'";
+        if (in_array('officer', $roles))
+            $sql = " AND t.user_id = '" . auth()->user()->id  . "'";
         else
             $sql = "";
 
-        
+
         return DB::select(DB::raw("
          SELECT 
             DATE_FORMAT(created_at, '%b') AS date,
@@ -89,19 +90,20 @@ class PagesController extends Controller
         FROM 
             token AS t
         WHERE  
-            YEAR(created_at) >= YEAR(CURRENT_DATE())".$sql." 
+            YEAR(created_at) >= YEAR(CURRENT_DATE())" . $sql . " 
         GROUP BY 
             date
         ORDER BY 
          t.created_at ASC
          "));
-     }
+    }
 
-     public function userPerformance()
-    { 
+    public function userPerformance()
+    {
         $roles = auth()->user()->getRoleNames()->toArray();
+        $location = auth()->user()->location_id;
         $query = DB::table("user AS u")
-        ->select(DB::raw("
+            ->select(DB::raw("
             u.id,
             CONCAT_WS(' ', u.firstname, u.lastname) AS username,
             d.name AS department,
@@ -111,25 +113,44 @@ class PagesController extends Controller
             COUNT(CASE WHEN t.status='2' THEN t.id END) AS stop,
             COUNT(t.id) AS total 
         "))
-        ->leftJoin("department as d", function($join){
-            $join->on("u.department_id", "=", "d.id");
-        })
-        ->leftJoin("token AS t", function($join) {
-            $join->on("t.user_id", "=", "u.id");
-            // $join->whereDate("t.created_at", "=", date("Y-m-d"));
-        })
-        ->when($roles, function ($query, $role) {
-            if(in_array('officer', $role))
-                return $query->where('u.id', auth()->user()->id);
-            else
-                return $query->whereNotNull('d.name')->whereIn('u.user_type', [1]);
-            
-        })
-        ->groupBy("u.id")
-        ->get();
-       
+            ->where('u.location_id', $location)
+            ->leftJoin("department as d", function ($join) {
+                $join->on("u.department_id", "=", "d.id");
+            })
+            ->leftJoin("token AS t", function ($join) {
+                $join->on("t.user_id", "=", "u.id");
+                // $join->whereDate("t.created_at", "=", date("Y-m-d"));
+            })
+            ->when($roles, function ($query, $role) {
+                if (in_array('officer', $role))
+                    return $query->where('u.id', auth()->user()->id);
+                else
+                    return $query->whereNotNull('d.name')->whereIn('u.user_type', [1]);
+            })
+            ->groupBy("u.id")
+            ->get();
+
+        $officers = $query->pluck('id');
+
+        $users = User::whereIn('id', $officers)->get();
+        // $test = $users->firstWhere('id', 1);
+        // echo '<pre>';
+        // print_r($test);
+        // echo '</pre>';
+        // die();
+
+        foreach ($query as $value) {
+            $officer = $users->firstWhere('id', $value->id);
+            $value->avg = ($officer->stats) ? $officer->stats->wait_time : '-';
+        }
+        // echo '<pre>';
+        // print_r($query->sum('total'));
+        // echo '</pre>';
+        // die();
+
+
         return $query;
-    } 
+    }
 
     // user performance
     public function officerPerformance()
@@ -146,19 +167,72 @@ class PagesController extends Controller
                 COUNT(CASE WHEN t.status='3' THEN t.id END) AS booked,
                 COUNT(t.id) AS total 
             "))
-            ->leftJoin("token AS t", function($join) {
+            ->leftJoin("token AS t", function ($join) {
                 $join->on("t.user_id", "=", "u.id");
                 // $join->whereDate("t.created_at", "=", date("Y-m-d"));
             })
-            ->when($roles, function($query, $role){
-                if(in_array('officer', $role))
+            ->when($roles, function ($query, $role) {
+                if (in_array('officer', $role))
                     return $query->where('u.id', auth()->user()->id)->groupBy("t.user_id");
             })
-            
-            ->first(); 
 
-            return $query;
-    } 
+            ->first();
 
-    
+        return $query;
+    }
+
+
+    public function dailyPerformance()
+    {
+        $days     = [0, 1, 2, 3, 4, 5, 6];
+        $dayNames = array(
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+            'Sunday'
+        );
+
+        $data = DB::table("token")
+            ->select(DB::raw("            
+            COUNT(token.`created_at`) AS 'total',                         
+            WEEKDAY(token.`created_at`) AS 'day',
+            DAYNAME(token.`created_at`) AS 'dayname'"))
+            ->where('location_id', auth()->user()->location_id)
+            // ->whereRaw("WEEKDAY(token.`created_at`) <> 1")
+            // ->whereRaw("WEEKDAY(token.`created_at`) <> 2")
+            // ->whereBetween('token.created_at', [$start, $end])
+            ->groupByRaw('WEEKDAY(token.`created_at`)')
+            ->orderByRaw('day')
+            ->get();
+
+       
+
+        if (count($data) < 7) {
+            foreach ($days as $_day) {
+                $info = $data->firstWhere('day', $_day);
+                if (!$info) {
+                    $dataObj = ["total" => 0, "day" => $_day, "dayname" => $dayNames[$_day]];
+                    $data[count($data)] = (object)$dataObj;
+                }
+            }
+
+            $newdata = [];
+            foreach ($days as $_day) {
+                $info = $data->firstWhere('day', $_day);
+                $newdata[$_day] = $data->firstWhere('day', $_day);
+            }
+
+            $data = $newdata;
+        }
+
+        // echo '<pre>';
+        // print_r($data);
+        // echo '</pre>';
+        // die();
+
+        return $data;
+    }
 }
