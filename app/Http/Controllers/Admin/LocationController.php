@@ -138,13 +138,14 @@ class LocationController extends Controller
                     ->withCount('visitorslastweek')                 
                     ->first();
         $visitor_summary = $this->chart_visitor_summary($id);
+        $biannual = $this->chart_biannual($id);
 
         // echo '<pre>';
         // print_r($officers->count());
         // echo '</pre>';
         // die();
         
-        return view('pages.location.view', compact('location','departments', 'counters', 'officers', 'visitor_summary'));
+        return view('pages.location.view', compact('location','departments', 'counters', 'officers', 'visitor_summary', 'biannual'));
         
     }
 
@@ -240,6 +241,26 @@ class LocationController extends Controller
             count(id) as total
         from token
             where location_id = $id
+        "));
+    }
+
+    //chart year wise token
+    public function chart_biannual($id)
+    {
+        return DB::select(DB::raw("
+            SELECT 
+                DATE_FORMAT(created_at, '%M') AS month,
+                COUNT(CASE WHEN status = 1 THEN 1 END) as complete,
+                COUNT(CASE WHEN status = 2 THEN 1 END) as no_show,
+                COUNT(t.id) AS total
+            FROM 
+                token AS t
+            WHERE  
+                YEAR(created_at) >= YEAR(CURRENT_DATE()) AND location_id = $id
+            GROUP BY 
+                month
+            ORDER BY 
+                t.created_at ASC
         "));
     }
 

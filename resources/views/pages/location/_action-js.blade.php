@@ -87,13 +87,36 @@ var MVLocationOverview = function () {
         }
 
         var options = {
-            series: [{
-                name: 'Incomplete',
-                data: [70, 70, 80, 80, 75, 75, 75]
-            }, {
-                name: 'Complete',
-                data: [55, 55, 60, 60, 55, 55, 60]
-            }],
+            series: [
+                {
+                    name: 'Complete',
+                    // data: [55, 55, 60, 60, 55, 55, 60]
+                    data: [
+                        <?php 
+                        if (!empty($biannual)) {
+                            for ($i=0; $i < sizeof($biannual) ; $i++) { 
+                               echo (!empty($biannual[$i])?$biannual[$i]->complete:0).", ";
+                            }
+                        }
+                        ?>
+                    ]
+             
+                },    
+                {
+                    name: 'No Show',
+                    // data: [70, 70, 80, 80, 75, 75, 75]
+                    data: [
+                        <?php 
+                        if (!empty($biannual)) {
+                            for ($i=0; $i < sizeof($biannual) ; $i++) { 
+                               echo (!empty($biannual[$i])?$biannual[$i]->no_show:0).", ";
+                            }
+                        }
+                        ?>
+                    ]
+                }
+                
+            ],
             chart: {
                 type: 'area',
                 height: height,
@@ -121,7 +144,16 @@ var MVLocationOverview = function () {
                 colors: [success, danger]
             },
             xaxis: {
-                categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+                // categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+                categories: [
+                        <?php 
+                        if (!empty($biannual)) {
+                            for ($i=0; $i < sizeof($biannual) ; $i++) { 
+                            echo (!empty($biannual[$i])? "'" .$biannual[$i]->month."'":0).", ";
+                            }
+                        }
+                        ?>
+                    ],
                 axisBorder: {
                     show: false,
                 },
@@ -186,7 +218,7 @@ var MVLocationOverview = function () {
                 },
                 y: {
                     formatter: function (val) {
-                        return val + " tasks"
+                        return val + " customers"
                     }
                 }
             },
@@ -201,7 +233,7 @@ var MVLocationOverview = function () {
                 }
             },
             markers: {
-                //size: 5,
+                size: 5,
                 colors: [lightSuccess, lightDanger],
                 strokeColor: [success, danger],
                 strokeWidth: 3

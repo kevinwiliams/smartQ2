@@ -101,7 +101,7 @@
                         <div class="card-header mt-6">
                             <!--begin::Card title-->
                             <div class="card-title flex-column">
-                                <h3 class="fw-bolder mb-1">Visitors Over Time</h3>
+                                <h3 class="fw-bolder mb-1">Visitors Over Time (6 Months)</h3>
                                 <!--begin::Labels-->
                                 <div class="fs-6 d-flex text-gray-400 fs-6 fw-bold">
                                     <!--begin::Label-->
