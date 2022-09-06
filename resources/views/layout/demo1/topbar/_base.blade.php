@@ -42,10 +42,10 @@
     {{--begin::Quick links--}}
     <div class="d-flex align-items-center {{ $toolbarButtonMarginClass }}">
         {{--begin::Menu--}}
-        <div class="btn btn-icon btn-active-light-primary {{ $toolbarButtonHeightClass }}" data-mv-menu-trigger="click" data-mv-menu-attach="parent" data-mv-menu-placement="bottom-end">
+        {{-- <div class="btn btn-icon btn-active-light-primary {{ $toolbarButtonHeightClass }}" data-mv-menu-trigger="click" data-mv-menu-attach="parent" data-mv-menu-placement="bottom-end">
             {!! theme()->getSvgIcon("icons/duotune/general/gen025.svg", $toolbarButtonIconSizeClass) !!}
         </div>
-        {{ theme()->getView('partials/topbar/_quick-links-menu') }}
+        {{ theme()->getView('partials/topbar/_quick-links-menu') }} --}}
         {{--end::Menu--}}
     </div>
     {{--end::Quick links--}}
