@@ -15,7 +15,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
-use DataTables;
+use DataTables, DB;
 
 class LocationController extends Controller
 {
@@ -137,13 +137,14 @@ class LocationController extends Controller
         $location = Location::where('id', $id)
                     ->withCount('visitorslastweek')                 
                     ->first();
+        $visitor_summary = $this->chart_visitor_summary();
 
         // echo '<pre>';
         // print_r($officers->count());
         // echo '</pre>';
         // die();
         
-        return view('pages.location.view', compact('location','departments', 'counters', 'officers'));
+        return view('pages.location.view', compact('location','departments', 'counters', 'officers', 'visitor_summary'));
         
     }
 
@@ -225,6 +226,20 @@ class LocationController extends Controller
             $list[$char] = $char;
         }
         return $list;
+    }
+
+    //chart month wise token
+    public function chart_visitor_summary()
+    {
+        return DB::select(DB::raw("
+        select 
+            count(case when status = 0 then 1 end) as active,
+            count(case when status = 1 then 1 end) as complete,
+            count(case when status = 2 then 1 end) as no_show,
+            count(case when status = 3 then 1 end) as booked,
+            count(id) as total
+        from token
+        "));
     }
 
     /**

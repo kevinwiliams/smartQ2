@@ -26,10 +26,15 @@ var MVLocationOverview = function () {
             type: 'doughnut',
             data: {
                 datasets: [{
-                    data: [30, 45, 25],
-                    backgroundColor: ['#00A3FF', '#50CD89', '#E4E6EF']
+                    data: [
+                        <?php 
+                        foreach($visitor_summary as $x => $val) {
+                            echo  $val->active.','.$val->complete.','.$val->no_show.','.$val->booked;
+                        } ?>
+                    ],
+                    backgroundColor: ['#00A3FF', '#50CD89', '#FF0000', '#00FFFF']
                 }],
-                labels: ['Active', 'Completed', 'Yet to start']
+                labels: ['Active', 'Completed', 'No Show', 'Booked']
             },
             options: {
                 chart: {
