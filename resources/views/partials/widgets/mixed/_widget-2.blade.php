@@ -49,7 +49,10 @@ $chartHeight = $chartHeight ?? '175px';
                 <!--begin::Col-->
                 <div class="col bg-light-primary px-6 py-8 rounded-2 mb-7">
                     {!! theme()->getSvgIcon("icons/duotune/general/gen013.svg", "svg-icon-3x svg-icon-primary d-block my-2") !!}
-                    <a href="#" class="text-primary fw-bold fs-6">
+                    @php                        
+                        $url = "reports?report=5&location_id=" . $location_id . "&daterange=" . $start_date . " - " . $end_date;
+                    @endphp
+                    <a href="{{theme()->getPageUrl($url)}}" target="_blank" class="text-primary fw-bold fs-6">
                         Wait Time
                     </a>
                 </div>
@@ -62,7 +65,10 @@ $chartHeight = $chartHeight ?? '175px';
                 <!--begin::Col-->
                 <div class="col bg-light-danger px-6 py-8 rounded-2 me-7">
                     {!! theme()->getSvgIcon("icons/duotune/technology/teh002.svg", "svg-icon-3x svg-icon-danger d-block my-2") !!}
-                    <a href="#" class="text-danger fw-bold fs-6 mt-2">
+                    @php                        
+                        $url = "reports?report=7&location_id=" . $location_id . "&daterange=" . $start_date . " - " . $end_date;
+                    @endphp
+                    <a href="{{theme()->getPageUrl($url)}}" target="_blank" class="text-danger fw-bold fs-6 mt-2">
                         Customers Served
                     </a>
                 </div>

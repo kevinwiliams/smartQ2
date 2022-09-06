@@ -211,8 +211,8 @@ class ReportController extends Controller
 
                     foreach ($users as $_user) {
                         $currentOfficer = $officers->firstWhere('id', $_user);
-                        $locationtokens = $tokens->where('user_id', $_user);                        
-                        $servicecounter = 0;                        
+                        $locationtokens = $tokens->where('user_id', $_user);
+                        $servicecounter = 0;
                         $servicetotal = 0;
                         $mintime = 0;
                         $maxtime = 0;
@@ -248,6 +248,57 @@ class ReportController extends Controller
                     }
 
                     $data->data = $repdata;
+
+                    break;
+                case '7':
+                    $data->data = DB::table("token")
+                        ->select(DB::raw("
+                            locations.name AS 'location_name',
+                            CONCAT_WS(' ', user.firstname, user.lastname) AS officer,
+                            COUNT(token.`created_at`) AS 'total',                         
+                            DATE(token.`created_at`) AS 'day',
+                            token.`location_id`
+                            "))
+                        ->join('locations', 'locations.id', '=', 'token.location_id')
+                        ->join('user', 'user.id', '=', 'token.user_id')
+                        ->whereIn('token.location_id', explode(",", request('location_id')))
+                        ->whereNotNull('started_at')
+                        ->where('token.status', 2)
+                        ->whereBetween('token.created_at', [$start, $end])
+                        ->groupByRaw('DATE(token.`created_at`),token.`location_id`,`location_name`,`officer`')
+                        ->orderByRaw('location_name', 'officer', 'day')
+                        ->get();
+
+
+                    // echo '<pre>';
+                    // print_r($data);
+                    // echo '</pre>';
+                    // die();
+
+                    break;
+                case '8':
+                    $data->data = DB::table("token")
+                        ->select(DB::raw("
+                                locations.name AS 'location_name',
+                                CONCAT_WS(' ', user.firstname, user.lastname) AS officer,
+                                COUNT(token.`created_at`) AS 'total',                         
+                                DATE(token.`created_at`) AS 'day',
+                                token.`location_id`
+                                "))
+                        ->join('locations', 'locations.id', '=', 'token.location_id')
+                        ->join('user', 'user.id', '=', 'token.user_id')
+                        ->whereIn('token.location_id', explode(",", request('location_id')))                        
+                        ->where('token.no_show', 1)
+                        ->whereBetween('token.created_at', [$start, $end])
+                        ->groupByRaw('DATE(token.`created_at`),token.`location_id`,`location_name`,`officer`')
+                        ->orderByRaw('location_name', 'officer', 'day')
+                        ->get();
+
+
+                    // echo '<pre>';
+                    // print_r($data);
+                    // echo '</pre>';
+                    // die();
 
                     break;
                 case '9':
