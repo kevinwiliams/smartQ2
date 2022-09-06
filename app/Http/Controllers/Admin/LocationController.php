@@ -249,14 +249,16 @@ class LocationController extends Controller
     {
         return DB::select(DB::raw("
             SELECT 
-                DATE_FORMAT(created_at, '%M') AS month,
+                DATE_FORMAT(created_at, '%b') AS month,
                 COUNT(CASE WHEN status = 1 THEN 1 END) as complete,
                 COUNT(CASE WHEN status = 2 THEN 1 END) as no_show,
                 COUNT(t.id) AS total
             FROM 
                 token AS t
             WHERE  
-                YEAR(created_at) >= YEAR(CURRENT_DATE()) AND location_id = $id
+                #YEAR(created_at) >= YEAR(CURRENT_DATE()) 
+                created_at > DATE_SUB(now(), INTERVAL 6 MONTH)
+                AND location_id = $id
             GROUP BY 
                 month
             ORDER BY 
