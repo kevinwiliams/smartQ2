@@ -324,7 +324,8 @@ class TokenController extends Controller
                     //Insert token status                    
                     $save = TokenStatus::insert([
                         'token_id'    => $insert_id,
-                        'status'      => 0
+                        'status'      => 0,
+                        'time_stamp' => date('Y-m-d H:i:s')
                     ]);
 
                     $token = null;
@@ -434,7 +435,8 @@ class TokenController extends Controller
                     //Insert token status                    
                     $save = TokenStatus::insert([
                         'token_id'    => $insert_id,
-                        'status'      => 3
+                        'status'      => 3,
+                        'time_stamp' => date('Y-m-d H:i:s')
                     ]);
 
                     $token = null;
@@ -599,7 +601,8 @@ class TokenController extends Controller
                 //Insert token status                    
                 $save = TokenStatus::insert([
                     'token_id'    => $token->id,
-                    'status'      => 0
+                    'status'      => 0,
+                    'time_stamp' => date('Y-m-d H:i:s')
                 ]);
 
                 $data['status'] = true;
@@ -982,7 +985,8 @@ class TokenController extends Controller
         //Insert token status
         $save = TokenStatus::insert([
             'token_id'    => $id,
-            'status'      => 0
+            'status'      => 0,
+            'time_stamp' => date('Y-m-d H:i:s')
         ]);
 
         //RECALL 
@@ -997,7 +1001,8 @@ class TokenController extends Controller
         //Insert token status                    
         $save = TokenStatus::insert([
             'token_id'    => $id,
-            'status'      => 1
+            'status'      => 1,
+            'time_stamp' => date('Y-m-d H:i:s')
         ]);
 
         return redirect()->back()->with('message', trans('app.complete_successfully'));
@@ -1009,7 +1014,8 @@ class TokenController extends Controller
         //Insert token status                    
         $save = TokenStatus::insert([
             'token_id'    => $id,
-            'status'      => 2
+            'status'      => 2,
+            'time_stamp' => date('Y-m-d H:i:s')
         ]);
 
         $token = Token::where('id', $id)->first();
@@ -1028,7 +1034,8 @@ class TokenController extends Controller
         //Insert token status                    
         $save = TokenStatus::insert([
             'token_id'    => $id,
-            'status'      => 2
+            'status'      => 2,
+            'time_stamp' => date('Y-m-d H:i:s')
         ]);
 
         $token = Token::where('id', $id)->first();
@@ -1047,7 +1054,8 @@ class TokenController extends Controller
         //Insert token status                    
         $save = TokenStatus::insert([
             'token_id'    => $id,
-            'status'      => 0
+            'status'      => 0,
+            'time_stamp' => date('Y-m-d H:i:s')
         ]);
         $token = Token::where('id', $id)->first();
         activity('activity')
@@ -1226,7 +1234,8 @@ class TokenController extends Controller
         //Insert token status                    
         $save = TokenStatus::insert([
             'token_id'    => $id,
-            'status'      => 0
+            'status'      => 0,
+            'time_stamp' => date('Y-m-d H:i:s')
         ]);
 
         $data['status'] = true;
@@ -1304,7 +1313,8 @@ class TokenController extends Controller
         //Insert token status                    
         $save = TokenStatus::insert([
             'token_id'    => $request->id,
-            'status'      => 0
+            'status'      => 0,
+            'time_stamp' => date('Y-m-d H:i:s')
         ]);
 
         $data['status'] = true;
@@ -1331,7 +1341,8 @@ class TokenController extends Controller
         //Insert token status                    
         $save = TokenStatus::insert([
             'token_id'    => $id,
-            'status'      => 2
+            'status'      => 2,
+            'time_stamp' => date('Y-m-d H:i:s')
         ]);
 
         // $token = Token::where('id', $id)->get();

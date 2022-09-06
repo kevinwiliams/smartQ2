@@ -107,7 +107,11 @@ return [
     'enable_greeting'       => 'Greeting',    
     'enable_qr_checkin'     => 'QR Checkin',
     'total'                 => 'Total',
+    'min_time'                 => 'Min. Time',
+    'max_time'                 => 'Max. Time',
+    'avg_time'                 => 'Avg. Time',
     'timezone'              => 'Timezone',
+    'customers'              => 'Customers',
 
     /*Display*/
     'display'                 => 'Display',

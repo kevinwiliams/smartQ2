@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Location;
 use App\Models\Token;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -136,6 +137,118 @@ class ReportController extends Controller
                     // print_r($data);
                     // echo '</pre>';
                     // die();
+                    break;
+                case '5':
+                    // date_default_timezone_set(session('app.timezone'));
+                    $tokens = Token::has('status')
+                        ->whereIn('location_id', explode(",", request('location_id')))
+                        ->whereBetween('created_at', [$start, $end])
+                        ->whereNotNull('started_at')
+                        ->where('status', 1)
+                        ->get();
+
+                    $users = array_unique($tokens->pluck('user_id')->toArray());
+                    $officers = User::whereIn('id', $users)->get();
+
+                    $repdata = [];
+
+                    foreach ($users as $_user) {
+                        $currentOfficer = $officers->firstWhere('id', $_user);
+                        $locationtokens = $tokens->where('user_id', $_user);
+                        $waitcounter = 0;
+                        $servicecounter = 0;
+                        $waittotal = 0;
+                        $servicetotal = 0;
+                        $mintime = 0;
+                        $maxtime = 0;
+
+                        foreach ($locationtokens as $_locationtoken) {
+
+                            if ($_locationtoken->wait_time != null) {
+                                $waittotal += $_locationtoken->wait_time;
+                                if ($mintime < $_locationtoken->wait_time || $waitcounter == 0)
+                                    $mintime = $_locationtoken->wait_time;
+
+                                if ($maxtime > $_locationtoken->wait_time || $waitcounter == 0)
+                                    $maxtime = $_locationtoken->wait_time;
+
+                                $waitcounter++;
+                            }
+
+                            // if ($_locationtoken->service_time != null) {
+                            //     $servicetotal += $_locationtoken->service_time;
+                            //     $servicecounter++;
+                            // }
+                        }
+
+                        $dataObj = [
+                            "officer" => $currentOfficer->name,
+                            "location" => $currentOfficer->location->name,
+                            "avg" => ($waitcounter > 0) ? ($waittotal / $waitcounter) : 0,
+                            "min" => $mintime,
+                            "max" => $maxtime,
+                            "total" => $waitcounter
+                        ];
+                        $repdata[] = (object)$dataObj;
+                    }
+
+                    $data->data = $repdata;
+
+                    break;
+                case '6':
+                    // date_default_timezone_set(session('app.timezone'));
+                    $tokens = Token::has('status')
+                        ->whereIn('location_id', explode(",", request('location_id')))
+                        ->whereBetween('created_at', [$start, $end])
+                        ->whereNotNull('started_at')
+                        ->where('status', 1)
+                        ->get();
+
+                    $users = array_unique($tokens->pluck('user_id')->toArray());
+                    $officers = User::whereIn('id', $users)->get();
+
+                    $repdata = [];
+
+                    foreach ($users as $_user) {
+                        $currentOfficer = $officers->firstWhere('id', $_user);
+                        $locationtokens = $tokens->where('user_id', $_user);                        
+                        $servicecounter = 0;                        
+                        $servicetotal = 0;
+                        $mintime = 0;
+                        $maxtime = 0;
+
+                        foreach ($locationtokens as $_locationtoken) {
+
+                            if ($_locationtoken->service_time != null) {
+                                $servicetotal += $_locationtoken->service_time;
+                                if ($mintime < $_locationtoken->service_time || $servicecounter == 0)
+                                    $mintime = $_locationtoken->service_time;
+
+                                if ($maxtime > $_locationtoken->service_time || $servicecounter == 0)
+                                    $maxtime = $_locationtoken->service_time;
+
+                                $servicecounter++;
+                            }
+
+                            // if ($_locationtoken->service_time != null) {
+                            //     $servicetotal += $_locationtoken->service_time;
+                            //     $servicecounter++;
+                            // }
+                        }
+
+                        $dataObj = [
+                            "officer" => $currentOfficer->name,
+                            "location" => $currentOfficer->location->name,
+                            "avg" => ($servicecounter > 0) ? ($servicetotal / $servicecounter) : 0,
+                            "min" => $mintime,
+                            "max" => $maxtime,
+                            "total" => $servicecounter
+                        ];
+                        $repdata[] = (object)$dataObj;
+                    }
+
+                    $data->data = $repdata;
+
                     break;
                 case '9':
                     $data->data = Token::whereIn('location_id', explode(",", request('location_id')))
