@@ -137,7 +137,7 @@ class LocationController extends Controller
         $location = Location::where('id', $id)
                     ->withCount('visitorslastweek')                 
                     ->first();
-        $visitor_summary = $this->chart_visitor_summary();
+        $visitor_summary = $this->chart_visitor_summary($id);
 
         // echo '<pre>';
         // print_r($officers->count());
@@ -229,7 +229,7 @@ class LocationController extends Controller
     }
 
     //chart month wise token
-    public function chart_visitor_summary()
+    public function chart_visitor_summary($id)
     {
         return DB::select(DB::raw("
         select 
@@ -239,6 +239,7 @@ class LocationController extends Controller
             count(case when status = 3 then 1 end) as booked,
             count(id) as total
         from token
+            where location_id = $id
         "));
     }
 
