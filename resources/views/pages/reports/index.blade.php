@@ -90,7 +90,7 @@
 
                     <!--begin::Summary-->
                     <div class="card card-flush h-lg-100">
-                        @if($data->data != null)
+                        @if(!$data->home)
                         <div class="card-header align-items-center py-5 gap-2 gap-md-5">
                             <div class="card-title">
                                 @php
@@ -171,7 +171,7 @@
                         @endif
                         <!--begin::Card body-->
                         <div class="card-body p-9 pt-5">
-                            @if($data->data == null)
+                            @if($data->home)
                             <!--begin::Notice-->
                             <div class="notice d-flex bg-light-primary rounded border-primary border border-dashed p-6">
                                 <!--begin::Wrapper-->

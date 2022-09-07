@@ -26,8 +26,7 @@ class ReportController extends Controller
         $data = (object)array();
         $data->report = (request()->has('report')) ? request('report') : '';
         $data->location_id = (request()->has('location_id')) ? request('location_id') : '';
-        $data->daterange = (request()->has('daterange')) ? request('daterange') : '';
-        $data->home = null;
+        $data->daterange = (request()->has('daterange')) ? request('daterange') : '';        
         $data->data = null;
         $data->graph = false;
         if (request()->has('report') && request()->has('location_id') && request()->has('daterange')) {
@@ -373,6 +372,9 @@ class ReportController extends Controller
                     # code...
                     break;
             }
+            $data->home = false;
+        }else{
+            $data->home = true;
         }
 
         $company_id = auth()->user()->location->company_id;
