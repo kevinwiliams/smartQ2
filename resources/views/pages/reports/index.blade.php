@@ -49,7 +49,15 @@
                                     </div>
                                 </div>
                                 @else
-                                <input type="hidden" name="location_id" id="location_id" value="{{ auth()->user()->location_id }}" />
+                                <div class="fv-row m-2 col-6">
+                                    <div class="form-group @error('location_id') has-error @enderror">
+                                        <label class="fs-6 form-label fw-bolder text-dark">Location</label>
+                                        <input class="form-control form-control-solid" placeholder="Location" name="location" value="{{  auth()->user()->location->name }}" readonly />
+                                        <input type="hidden" name="location_id" id="location_id" value="{{ auth()->user()->location_id }}" />
+                                        <span class="text-danger">{{ $errors->first('location_id') }}</span>
+                                    </div>
+                                </div>
+
                                 @endcan
                                 <div class="fv-row m-2 col-6">
                                     <div class="form-group @error('daterange') has-error @enderror">
@@ -116,7 +124,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-bs-toggle="tab" href="#mv_tab_pane_graph">Graph</a>
-                                    </li>                        
+                                    </li>
                                 </ul>
                                 @endif
                                 <!--begin::Export dropdown-->
@@ -376,6 +384,6 @@
     @section('scripts')
 
     @include('pages.reports._action-js')
-    
+
     @endsection
 </x-base-layout>

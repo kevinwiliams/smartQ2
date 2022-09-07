@@ -316,7 +316,12 @@
                             var report = $("#report").val();
                             var daterange = $("#mv_daterangepicker").val();
                             var locations = $("#location_id").val();
-                            var locationJoin = locations.join(',');
+                            if(Array.isArray(locations)){
+                                var locationJoin = locations.join(',');
+                            }else{
+                                var locationJoin = locations;
+                            }
+                            
 
                             // Disable button to avoid multiple click 
                             // submitButton.disabled = true;

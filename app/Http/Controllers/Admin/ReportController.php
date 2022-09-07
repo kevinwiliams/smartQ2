@@ -27,6 +27,7 @@ class ReportController extends Controller
         $data->report = (request()->has('report')) ? request('report') : '';
         $data->location_id = (request()->has('location_id')) ? request('location_id') : '';
         $data->daterange = (request()->has('daterange')) ? request('daterange') : '';
+        $data->home = null;
         $data->data = null;
         $data->graph = false;
         if (request()->has('report') && request()->has('location_id') && request()->has('daterange')) {
@@ -134,7 +135,7 @@ class ReportController extends Controller
                     $data->categories = $categories;
 
                     // echo '<pre>';
-                    // print_r($data);
+                    // print_r($data->data);
                     // echo '</pre>';
                     // die();
                     break;
@@ -193,6 +194,11 @@ class ReportController extends Controller
                     }
 
                     $data->data = $repdata;
+
+                    // echo '<pre>';
+                    // print_r($data->data == null);
+                    // echo '</pre>';
+                    // die();
 
                     break;
                 case '6':
