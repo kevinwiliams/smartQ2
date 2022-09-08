@@ -5,7 +5,7 @@
     // errorElement = document.getElementById('error');
 
     var config = {
-        apiKey: "{{ config('larafirebase.authentication_key') }}",
+        apiKey: "{{ config('larafirebase.api_key') }}",
         authDomain: "{{ config('larafirebase.authDomain') }}",
         projectId: "{{ config('larafirebase.projectId') }}",
         storageBucket: "{{ config('larafirebase.storageBucket') }}",
