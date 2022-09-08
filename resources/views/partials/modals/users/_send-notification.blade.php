@@ -49,7 +49,7 @@
 							</label>
 						</div>
 						@endif
-						@if($user->user_token && $user->push_notification)
+						@if($user->user_token && $user->push_notifications)
 						<div class="form-check form-check-custom form-check-solid">
 							<input class="form-check-input" type="radio" value="push"  id="flexRadioDisabled"  name="notification_type"/>
 							<label class="form-check-label" for="flexRadioDisabled">

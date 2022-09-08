@@ -2,7 +2,7 @@
 
 return [
 
-    'authentication_key' => 'AIzaSyA5Z0VuHZovrlMu789_MUU8nvLYegltj1g',
+    'authentication_key' => 'AAAABnl-FB8:APA91bGZVynOGZRYfJWsl_GA9F9BgplEzrFuJhoUHhsyybS9fi1FCxkbT6bEM0AOkedy5PrAOgO4r6y1mvERJqymeThw9xK6kbGRlr3jDfenMBBKps9mEmbYl9Qb1iuDkRtq3GXO4Ofb',
     'messagingSenderId' => '27808109599',
     'projectId' => 'smartq-340122',
     'appId' => '1:27808109599:web:58f55608b16d0b6b33b12a',

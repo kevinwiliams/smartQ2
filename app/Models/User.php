@@ -115,7 +115,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $current = Carbon::now();
         if ($this->token_date == null)
-            return 0;
+            return 1;
 
         if ($this->token_date->addDays(30) < $current)
             return 1;

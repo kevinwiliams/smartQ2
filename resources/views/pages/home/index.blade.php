@@ -984,5 +984,7 @@
             return (str.length != 6) ? "" : str;
         }
     </script>
+
+    @include('pages.home._firebase-js')
     @endsection
 </x-base-layout>

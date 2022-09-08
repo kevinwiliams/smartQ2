@@ -68,14 +68,13 @@ class Utilities_lib extends Controller
 
     public function sendPushNotification(User $client, $message)
     {
-        
+
         if ($client) {
             if ($client->push_notifications && $client->user_token != null) {
                 $deviceTokens = [$client->user_token];
                 $body = $message;
 
-                Larafirebase::fromArray(['title' => 'SmartQ Notification', 'body' => $body])->sendNotification($deviceTokens);
-                
+                $reponse = Larafirebase::fromArray(['title' => 'SmartQ Notification', 'body' => $body])->sendNotification($deviceTokens);
             }
         }
     }

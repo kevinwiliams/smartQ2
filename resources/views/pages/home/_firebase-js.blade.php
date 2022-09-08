@@ -48,21 +48,21 @@
                     dataType: 'JSON',
                     success: function(response) {
                         // alert('Token saved successfully.');
-                        if (_requestPerm == 0) {
-                            Swal.fire({
-                                title: "Notifications",
-                                text: "Notifications successfully enabled",
-                                icon: 'success',
-                                buttonsStyling: false,
-                                customClass: {
-                                    confirmButton: "btn btn-light"
-                                }
-                            });
-                            $("#btn-nft-enable").hide();
-                        }
+                        // if (_requestPerm == 0) {
+                        //     Swal.fire({
+                        //         title: "Notifications",
+                        //         text: "Notifications successfully enabled",
+                        //         icon: 'success',
+                        //         buttonsStyling: false,
+                        //         customClass: {
+                        //             confirmButton: "btn btn-light"
+                        //         }
+                        //     });
+                        //     $("#btn-nft-enable").hide();
+                        // }
                     },
                     error: function(err) {
-                        console.log('User Chat Token Error' + err);
+                        console.log('Notification Token Error' + err);
                     },
                 });
             })
