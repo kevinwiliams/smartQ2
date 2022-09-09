@@ -200,16 +200,17 @@ class PagesController extends Controller
             COUNT(token.`created_at`) AS 'total',                         
             WEEKDAY(token.`created_at`) AS 'day',
             DAYNAME(token.`created_at`) AS 'dayname'"))
-            ->where('location_id', auth()->user()->location_id)
-            // ->whereRaw("WEEKDAY(token.`created_at`) <> 1")
-            // ->whereRaw("WEEKDAY(token.`created_at`) <> 2")
-            // ->whereBetween('token.created_at', [$start, $end])
+            ->where('location_id', auth()->user()->location_id)            
             ->groupByRaw('WEEKDAY(token.`created_at`)')
             ->orderByRaw('day')
             ->get();
 
-       
-
+        $sumtotal = DB::table("token")
+            ->select(DB::raw("            
+            COUNT(token.`created_at`) AS 'total'"))
+            ->where('location_id', auth()->user()->location_id)
+            ->pluck('total')->first();
+        
         if (count($data) < 7) {
             foreach ($days as $_day) {
                 $info = $data->firstWhere('day', $_day);
@@ -228,10 +229,9 @@ class PagesController extends Controller
             $data = $newdata;
         }
 
-        // echo '<pre>';
-        // print_r($data);
-        // echo '</pre>';
-        // die();
+        foreach ($data as $_dataitem) {
+            $_dataitem->percentage = round(($_dataitem->total / $sumtotal) * 100, 2);
+        } 
 
         return $data;
     }

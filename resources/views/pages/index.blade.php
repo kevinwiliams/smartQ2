@@ -430,12 +430,12 @@
 
             options = {
                 series: [{
-                    name: 'Visitors',
+                    name: 'Visitor %',
                     data: [
                         <?php 
                         if (!empty($daily)) {
                             for ($i=0; $i < sizeof($daily) ; $i++) { 
-                            echo (!empty($daily[$i])? "'" .$daily[$i]->total."'":0).", ";
+                            echo (!empty($daily[$i])? "'" .$daily[$i]->percentage."'":0).", ";
                             }
                         }
                         ?>
