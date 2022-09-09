@@ -430,7 +430,7 @@
 
             options = {
                 series: [{
-                    name: 'Visitor %',
+                    name: 'Visitors',
                     data: [
                         <?php 
                         if (!empty($daily)) {
@@ -555,7 +555,7 @@
                     },
                     y: {
                         formatter: function (val) {
-                            return "" + val + ""
+                            return "" + val + " %"
                         }
                     },
                     marker: {
