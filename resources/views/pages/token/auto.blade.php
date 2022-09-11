@@ -19,6 +19,7 @@
                         >
                         {{-- <div class="symbol symbol-60px mb-5 lh-1" style="display: block !important;"><img src="{{ asset(theme()->getMediaUrlPath() . "svg/misc/puzzle.svg" ?? '') }}" class="h-50 align-self-center" alt=""/> --}}
                             <div class="fs-3 fw-bolder m-0 text-capitalize">{{ $department->name }} </div>
+                            <div class="fs-7 fw-bold text-gray-100 p-0 m-0">Counter: {{ $department->countername }}</div>
                             <div class="fs-7 fw-bold text-gray-100 p-0 m-0">{{ $department->officer }}</div>
                             
                     </button>  
@@ -54,7 +55,7 @@
             'dataTable' => $dataTable,
             'officers' => $officers, 
             'counters' => $counters, 
-            'departments' => $departments
+            'departments' => $departmentList
             )) }}
        </div>
        <!--end::Col-->
@@ -62,47 +63,10 @@
    <!--end::Row-->
 
    {{ theme()->getView('partials/modals/token/_department', 
-        array(
-            'officers' => $officers, 
-            'counters' => $counters, 
-            'departments' => $departments
+        array(            
+            'departments' => $departmentList
             )) }}
 
-
-
-
-<div class="modal fade" tabindex="-1" id="mv_modal_dept_token" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered mw-650px" role="document">
-      <div class="modal-content">
-        {{ Form::open(['url' => 'token/auto', 'class' => 'AutoFrm']) }} 
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">{{ trans('app.user_information') }}</h4>
-        </div>
-        <div class="modal-body">
-          @if($display->sms_alert)
-          <p><input type="phone" name="client_mobile" class="form-control" placeholder="{{ trans('app.client_mobile') }}" data-inputmask="'mask': '1 (999) 999-9999'" required>
-            <span class="text-danger">The Mobile No. field is required!</span></p>
-          @endif
-  
-          @if($display->show_note)
-              <p>
-                  <textarea name="note" id="note" class="form-control" placeholder="{{ trans('app.note') }}">{{ old('note') }}</textarea>
-                  <span class="text-danger">The Note field is required!</span>
-              </p>
-          @endif
-  
-          <input type="hidden" name="department_id">
-          <input type="hidden" name="counter_id">
-          <input type="hidden" name="user_id">
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-success hidden">{{ trans('app.submit') }}</button>
-        </div>
-        {{ Form::close() }}
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
 
   @section('scripts2')
   <script>
@@ -139,16 +103,16 @@
                 mobileErrorMessage = "The Mobile No. field is required!";
                 valid = false;
             } 
-            else if(!$.isNumeric(mobile)) 
-            {
-                mobileErrorMessage = "The Mobile No. is incorrect!";
-                valid = false;
-            }
-            else if (mobile.length >= 15 || mobile.length < 7)
-            {
-                mobileErrorMessage = "The Mobile No. must be between 7-15 digits";
-                valid = false;
-            } 
+            // else if(!$.isNumeric(mobile)) 
+            // {
+            //     mobileErrorMessage = "The Mobile No. is incorrect!";
+            //     valid = false;
+            // }
+            // else if (mobile.length >= 15 || mobile.length < 7)
+            // {
+            //     mobileErrorMessage = "The Mobile No. must be between 7-15 digits";
+            //     valid = false;
+            // } 
             else
             { 
                 mobileErrorMessage = "";

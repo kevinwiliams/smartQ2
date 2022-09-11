@@ -37,16 +37,16 @@ class HomeController extends Controller
             return redirect('home/current');
         }
         // $departments = Department::where('status',1)->pluck('name','id');
-        $departments = Department::select(
-            'department.name',
-            'department.id',
-            'department.description'
-        )
-            ->join('token_setting', 'token_setting.department_id', '=', 'department.id')
-            ->where('department.status', 1)
-            ->orderBy('id', 'ASC')
-            ->distinct()
-            ->get();
+        // $departments = Department::select(
+        //     'department.name',
+        //     'department.id',
+        //     'department.description'
+        // )
+        //     ->join('token_setting', 'token_setting.department_id', '=', 'department.id')
+        //     ->where('department.status', 1)
+        //     ->orderBy('id', 'ASC')
+        //     ->distinct()
+        //     ->get();
 
         $display = DisplaySetting::first();
 
@@ -55,12 +55,12 @@ class HomeController extends Controller
 
         $maskedemail = auth()->user()->getMaskedEmail();
         
-        $companies = Company::orderBy('name','asc')->pluck('name','id');
+        $companies = Company::has('locations.departments')->orderBy('name','asc')->pluck('name','id');
 
         // echo \Session::get('locale');
         // echo app()->getLocale();
         // die();
-        return view('pages.home.index', compact('departments', 'smsalert', 'maskedemail','shownote','companies'));
+        return view('pages.home.index', compact('smsalert', 'maskedemail','shownote','companies'));
     }
  
 

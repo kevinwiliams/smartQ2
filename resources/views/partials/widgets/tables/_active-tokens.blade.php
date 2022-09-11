@@ -21,7 +21,7 @@
             <a href="#" class="btn btn-sm btn-light-primary btn-active-primary " data-bs-toggle="modal" data-bs-target="#mv_modal_add_token" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to add new token">
                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                 {!! theme()->getSvgIcon("icons/duotune/arrows/arr075.svg", "svg-icon-3") !!}
-                <!--end::Svg Icon-->New Token</a>
+                <!--end::Svg Icon-->Auto Token</a>
         @endcan
             </div>
         
@@ -38,17 +38,13 @@
 <!--end::Card-->   
 <!--begin::Modal - Add Token -->
 {{ theme()->getView('partials/modals/token/_add', 
-    array(
-        'officers' => $officers, 
-        'counters' => $counters, 
+    array(        
         'departments' => $departments
         )) }}
 <!--end::Modal - Add Token-->
 <!--begin::Modal - Transfer Token -->
 {{ theme()->getView('partials/modals/token/_transfer', 
-array(
-    'officers' => $officers, 
-    'counters' => $counters, 
+array(    
     'departments' => $departments
     )) }}
 <!--end::Modal - Transfer Token-->

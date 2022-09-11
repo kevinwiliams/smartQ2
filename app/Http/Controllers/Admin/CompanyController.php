@@ -156,7 +156,7 @@ class CompanyController extends Controller
 
     public function getLocations($id)
     {
-        $locations = Location::where('company_id', $id)->get();
+        $locations = Location::where('company_id', $id)->has('departments')->get();
         return response()->json($locations);
     }
 

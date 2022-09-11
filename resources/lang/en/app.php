@@ -112,6 +112,8 @@ return [
     'avg_time'                 => 'Avg. Time',
     'timezone'              => 'Timezone',
     'customers'              => 'Customers',
+    'service_time'              => 'Service Time',
+    'wait_time'                 => 'Wait Time',
 
     /*Display*/
     'display'                 => 'Display',

@@ -210,7 +210,11 @@
 
                 <div class="p-5">
                     @if($token->status==3)
+                    @if($qrcheckin)
+                    <a href="#" class="btn btn-primary w-100 py-3" data-id="{{ $token->id }}" name="check_in_qr">Check In</a>
+                    @else
                     <a href="#" class="btn btn-primary w-100 py-3" data-id="{{ $token->id }}" name="check_in">Check In</a>
+                    @endif
                     @elseif($token->status==0)
                     <a href="#" class="btn btn-danger w-100 py-3" data-id="{{ $token->id }}" name="cancel_token">Cancel Token</a>
                     @endif
@@ -309,6 +313,36 @@
 
         });
 
+        $('[name=check_in_qr]').on('click', function(e) {
+            var id = e.target.dataset.id;
+         
+            Swal.fire({
+                    text: 'Are you ready to check-in?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    buttonsStyling: false,
+                    confirmButtonText: "Yes, I am",
+                    cancelButtonText: "No, cancel",
+                    customClass: {
+                        confirmButton: "btn fw-bold btn-danger",
+                        cancelButton: "btn fw-bold btn-active-light-primary"
+                    }
+                })
+                .then((value) => {
+                    if (value.isConfirmed) {
+                        $.ajax({
+                            url: '{{ URL::to("token/checkin") }}/' + id,
+                            type: 'get',
+                            dataType: 'json',
+                            success: function(data) {
+                                document.location.href = '/home/current';
+                            }
+                        });
+                    }
+                });
+        });
+
+
         $('[name=check_in]').on('click', function(e) {
             var id = e.target.dataset.id;
             var otp = collateOTPCode('checkin_code');
@@ -323,35 +357,8 @@
                     }
                 });
                 return;
-            }
-            // alert(id);
-            // alert(otp);
-            checkInOTP(id, otp);
-
-            // Swal.fire({
-            //         text: 'Are you ready to check-in?',
-            //         icon: 'warning',
-            //         showCancelButton: true,
-            //         buttonsStyling: false,
-            //         confirmButtonText: "Yes, I am",
-            //         cancelButtonText: "No, cancel",
-            //         customClass: {
-            //             confirmButton: "btn fw-bold btn-danger",
-            //             cancelButton: "btn fw-bold btn-active-light-primary"
-            //         }
-            //     })
-            //     .then((value) => {
-            //         if (value.isConfirmed) {
-            //             $.ajax({
-            //                 url: '{{ URL::to("token/checkin") }}/' + id,
-            //                 type: 'get',
-            //                 dataType: 'json',
-            //                 success: function(data) {
-            //                     document.location.href = '/home/current';
-            //                 }
-            //             });
-            //         }
-            //     });
+            }            
+            checkInOTP(id, otp);     
         });
 
 
@@ -384,11 +391,6 @@
 
 
         function checkInOTP(id, code) {
-            // alert(id);
-            // var _url = '{{ URL::to("client/token/stoped") }}/' + id;
-            // alert(_url);
-            // return;
-
             Swal.fire({
                     text: 'Are you ready to check-in?',
                     icon: 'warning',

@@ -17,12 +17,14 @@ use App\Models\Role;
 use App\Models\SmsHistory;
 use App\Models\SmsSetting;
 use App\Models\Token;
+use App\Models\TokenSetting;
 use App\Models\User;
 use App\Models\UserInfo;
 use App\Models\UserSocialAccount;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -187,6 +189,19 @@ class UserManagementController extends Controller
         return $dataTable->render('pages.apps.user-management.users.index', compact('roles', 'departments'));
     }
 
+    public function getOfficersByCounter($id)
+    {
+        $officers = TokenSetting::select('user.id as id', DB::raw('CONCAT(user.firstname, " ", user.lastname) as full_name'))
+            ->leftJoin('department', 'token_setting.department_id', '=', 'department.id')
+            ->leftJoin('counter', 'token_setting.counter_id', '=', 'counter.id')
+            ->leftJoin('user', 'token_setting.user_id', '=', 'user.id')
+            ->where('token_setting.counter_id', $id)
+            ->where('token_setting.location_id', auth()->user()->location_id)
+            ->orderBy('full_name')
+            ->get();
+        return response()->json($officers);
+    }
+    
     public function usersView()
     {
         // get the default inner page

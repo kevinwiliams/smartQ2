@@ -155,9 +155,11 @@ class TokenController extends Controller
 
         if ($display->display == 5) {
             $departmentList = TokenSetting::select(
+                'department.id',
                 'department.name',
                 'department.description',
                 'token_setting.department_id',
+                'counter.name as countername',
                 'token_setting.counter_id',
                 'token_setting.user_id',
                 DB::raw('CONCAT(user.firstname ," " ,user.lastname) AS officer')
@@ -172,11 +174,12 @@ class TokenController extends Controller
                 ->get();
         } else {
             $departmentList = TokenSetting::select(
+                'department.id',
                 'department.name',
                 'token_setting.department_id',
                 'token_setting.counter_id',
                 'token_setting.user_id',
-
+                'counter.name as countername'
             )
                 ->join('department', 'department.id', '=', 'token_setting.department_id')
                 ->join('counter', 'counter.id', '=', 'token_setting.counter_id')
@@ -188,6 +191,7 @@ class TokenController extends Controller
                 ->get();
         }
 
+        // echo $display->display;
         // echo '<pre>';
         // print_r($departmentList);
         // echo '</pre>';
@@ -203,7 +207,7 @@ class TokenController extends Controller
             ->orderBy('full_name', 'ASC')
             ->pluck('full_name', 'id');
 
-        return $dataTable->with('token_location_id', auth()->user()->location_id)->render('pages.token.auto', compact('display', 'departmentList', 'keyList', 'counters', 'departments', 'officers', 'waiting'));
+        return $dataTable->with('token_location_id', auth()->user()->location_id)->render('pages.token.auto', compact('display', 'departmentList', 'keyList', 'counters', 'officers', 'waiting'));
 
 
         // return view('pages.token.auto', compact('display', 'departmentList', 'keyList'));
@@ -260,10 +264,19 @@ class TokenController extends Controller
             } else {
 
                 //find auto-setting
-                $settings = TokenSetting::select('counter_id', 'department_id', 'user_id', 'created_at')
-                    ->where('department_id', $request->department_id)
-                    ->groupBy('user_id')
-                    ->get();
+                // $settings = TokenSetting::select('counter_id', 'department_id', 'user_id', 'created_at')
+                //     ->where('department_id', $request->department_id)
+                //     ->groupBy('user_id')
+                //     ->get();
+
+                $settings = null;
+
+
+                // echo '<pre>';
+                // // echo $display->display;
+                // print_r($settings);
+                // echo '</pre>';
+                // die();
 
                 //if auto-setting are available
                 if (!empty($settings)) {
@@ -289,15 +302,22 @@ class TokenController extends Controller
                         ];
                     }
 
+                    // echo '<pre>';
+                    // // echo $display->display;
+                    // print_r($tokenAssignTo);
+                    // echo '</pre>';
+                    // die();
+
                     //findout min counter set to 
                     $min = min($tokenAssignTo);
                     $saveToken = [
-                        'token_no'      => (new Token_lib)->newToken($min['department_id'], $min['counter_id']),
+                        'token_no'      => (new Token_lib)->newToken($min['department_id'], $min['counter_id'], $request->is_vip),
                         'client_mobile' => $request->client_mobile,
                         'department_id' => $min['department_id'],
                         'counter_id'    => $min['counter_id'],
                         'user_id'       => $min['user_id'],
                         'note'          => $request->note,
+                        'is_vip'        => $request->is_vip,
                         'created_by'    => auth()->user()->id,
                         'created_at'    => date('Y-m-d H:i:s'),
                         'updated_at'    => null,
@@ -305,12 +325,13 @@ class TokenController extends Controller
                     ];
                 } else {
                     $saveToken = [
-                        'token_no'      => (new Token_lib)->newToken($request->department_id, $request->counter_id),
+                        'token_no'      => (new Token_lib)->newToken($request->department_id, $request->counter_id, $request->is_vip),
                         'client_mobile' => $request->client_mobile,
                         'department_id' => $request->department_id,
                         'counter_id'    => $request->counter_id,
                         'user_id'       => $request->user_id,
                         'note'          => $request->note,
+                        'is_vip'        => $request->is_vip,
                         'created_at'    => date('Y-m-d H:i:s'),
                         'created_by'    => auth()->user()->id,
                         'updated_at'    => null,
@@ -518,31 +539,31 @@ class TokenController extends Controller
             $validator = Validator::make($request->all(), [
                 'client_mobile' => 'required',
                 'department_id' => 'required|max:11',
-                'counter_id'    => 'required|max:11',
-                'user_id'       => 'required|max:11',
+                // 'counter_id'    => 'required|max:11',
+                // 'user_id'       => 'required|max:11',
                 'note'          => 'max:512',
                 'is_vip'        => 'max:1'
             ])
                 ->setAttributeNames(array(
                     'client_mobile' => trans('app.client_mobile'),
                     'department_id' => trans('app.department'),
-                    'counter_id'    => trans('app.counter'),
-                    'user_id'       => trans('app.officer'),
+                    // 'counter_id'    => trans('app.counter'),
+                    // 'user_id'       => trans('app.officer'),
                     'note'          => trans('app.note'),
                     'is_vip'        => trans('app.is_vip'),
                 ));
         } else {
             $validator = Validator::make($request->all(), [
                 'department_id' => 'required|max:11',
-                'counter_id'    => 'required|max:11',
-                'user_id'       => 'required|max:11',
+                // 'counter_id'    => 'required|max:11',
+                // 'user_id'       => 'required|max:11',
                 'note'          => 'max:512',
                 'is_vip'        => 'max:1'
             ])
                 ->setAttributeNames(array(
                     'department_id' => trans('app.department'),
-                    'counter_id'    => trans('app.counter'),
-                    'user_id'       => trans('app.officer'),
+                    // 'counter_id'    => trans('app.counter'),
+                    // 'user_id'       => trans('app.officer'),
                     'note'          => trans('app.note'),
                     'is_vip'        => trans('app.is_vip'),
                 ));
@@ -557,24 +578,77 @@ class TokenController extends Controller
             }
             $data['exception'] .= "</ul>";
         } else {
-            $newTokenNo = (new Token_lib)->newToken($request->department_id, $request->counter_id, $request->is_vip);
+            //find auto-setting
+            $settings = TokenSetting::select('counter_id', 'department_id', 'user_id', 'created_at')
+                ->where('department_id', $request->department_id)
+                ->groupBy('user_id')
+                ->get();
 
-            $save = Token::insert([
-                'token_no'      => $newTokenNo,
-                'client_mobile' => $request->client_mobile,
-                'department_id' => $request->department_id,
-                'counter_id'    => $request->counter_id,
-                'user_id'       => $request->user_id,
-                'note'          => $request->note,
-                'created_by'    => auth()->user()->id,
-                'created_at'    => date('Y-m-d H:i:s'),
-                'updated_at'    => null,
-                'is_vip'        => $request->is_vip,
-                'status'        => 0
-            ]);
+            echo '<pre>';
+            print_r($settings);
+            echo '<pre>';
+            die();
 
+            //if auto-setting are available
+            if (!empty($settings)) {
 
-            if ($save) {
+                foreach ($settings as $setting) {
+                    //compare each user in today
+                    $tokenData = Token::select('department_id', 'counter_id', 'user_id', DB::raw('COUNT(user_id) AS total_tokens'))
+                        ->where('department_id', $setting->department_id)
+                        ->where('counter_id', $setting->counter_id)
+                        ->where('user_id', $setting->user_id)
+                        ->where('status', 0)
+                        ->whereRaw('DATE(created_at) = CURDATE()')
+                        ->orderBy('total_tokens', 'asc')
+                        ->groupBy('user_id')
+                        ->first();
+
+                    //create user counter list
+                    $tokenAssignTo[] = [
+                        'total_tokens'  => (!empty($tokenData->total_tokens) ? $tokenData->total_tokens : 0),
+                        'department_id' => $setting->department_id,
+                        'counter_id'    => $setting->counter_id,
+                        'user_id'       => $setting->user_id
+                    ];
+                }
+
+                //findout min counter set to 
+                $min = min($tokenAssignTo);
+                $saveToken = [
+                    'token_no'      => (new Token_lib)->newToken($min['department_id'], $min['counter_id'], $request->is_vip),
+                    'client_mobile' => $request->client_mobile,
+                    'department_id' => $min['department_id'],
+                    'counter_id'    => $min['counter_id'],
+                    'user_id'       => $min['user_id'],
+                    'note'          => $request->note,
+                    'is_vip'        => $request->is_vip,
+                    'created_by'    => auth()->user()->id,
+                    'created_at'    => date('Y-m-d H:i:s'),
+                    'updated_at'    => null,
+                    'status'        => 0
+                ];
+            }
+
+            //-----------------------------------
+            // $newTokenNo = (new Token_lib)->newToken($request->department_id, $request->counter_id, $request->is_vip);
+
+            // $save = Token::insert([
+            //     'token_no'      => $newTokenNo,
+            //     'client_mobile' => $request->client_mobile,
+            //     'department_id' => $request->department_id,
+            //     'counter_id'    => $request->counter_id,
+            //     'user_id'       => $request->user_id,
+            //     'note'          => $request->note,
+            //     'created_by'    => auth()->user()->id,
+            //     'created_at'    => date('Y-m-d H:i:s'),
+            //     'updated_at'    => null,
+            //     'is_vip'        => $request->is_vip,
+            //     'status'        => 0
+            // ]);
+
+            if ($insert_id = Token::insertGetId($saveToken)) {
+                // if ($save) {
                 $token = Token::select(
                     'token.*',
                     'department.name as department',
@@ -586,7 +660,7 @@ class TokenController extends Controller
                     ->leftJoin('counter', 'token.counter_id', '=', 'counter.id')
                     ->leftJoin('user', 'token.user_id', '=', 'user.id')
                     ->whereDate('token.created_at', date("Y-m-d"))
-                    ->where('token.token_no', $newTokenNo)
+                    ->where('token.id', $insert_id)
                     ->first();
 
                 // echo '<pre>';
@@ -997,7 +1071,16 @@ class TokenController extends Controller
     {
         @date_default_timezone_set(session('app.timezone'));
 
-        Token::where('id', $id)->update(['updated_at' => date('Y-m-d H:i:s'), 'status' => 1, 'sms_status' => 1]);
+        $token = Token::where('id', $id)->first();
+        $token->updated_at = date('Y-m-d H:i:s');
+        $token->status = 1;
+        $token->sms_status = 1;
+        if (!$token->started_at)
+            $token->started_at = date('Y-m-d H:i:s');
+
+        $token->update();
+
+        // Token::where('id', $id)->update(['updated_at' => date('Y-m-d H:i:s'), 'status' => 1, 'sms_status' => 1]);
         //Insert token status                    
         $save = TokenStatus::insert([
             'token_id'    => $id,
@@ -1189,7 +1272,7 @@ class TokenController extends Controller
         // echo '</pre>';
         // die();
 
-        return view('pages.home.current', compact('token', 'position', 'wait','qrcheckin'));
+        return view('pages.home.current', compact('token', 'position', 'wait', 'qrcheckin'));
     }
 
     public function currentposition()
@@ -1250,8 +1333,8 @@ class TokenController extends Controller
     }
 
     public function otpcheckin(Request $request)
-    {       
-        
+    {
+
         $validator = Validator::make($request->all(), [
             'id'        => 'required|max:50',
             'code'      => 'max:4'
@@ -1276,7 +1359,7 @@ class TokenController extends Controller
         // $location_id = auth()->user()->location_id;
         $setting = DisplaySetting::where('location_id', $token->location_id)->first();
         //  $appSetting = Setting::first();   
-        date_default_timezone_set(session('app.timezone')?session('app.timezone'):$setting->timezone);
+        date_default_timezone_set(session('app.timezone') ? session('app.timezone') : $setting->timezone);
         // echo '<pre>';        
         // // print_r($code);
         // echo session('app.timezone');
@@ -1301,7 +1384,7 @@ class TokenController extends Controller
             $data['status'] = false;
             $data['message'] = trans('app.please_try_again');
             return response()->json($data);
-        }    
+        }
 
         Token::where('id', $request->id)
             ->update([

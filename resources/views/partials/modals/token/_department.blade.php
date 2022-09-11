@@ -45,6 +45,14 @@
                         {{-- @endif --}}
                         </div>
                         <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-7">
+                            <label class="form-check form-switch form-check-custom form-check-solid">
+                                <input class="form-check-input" type="checkbox" value="1" name="is_vip">
+                                <span class="form-check-label fw-bold"> {{ trans('app.is_vip') }}</span>
+                            </label>
+                        </div>
+                        <!--end::Input group-->
                         <input type="hidden" name="department_id">
                         <input type="hidden" name="counter_id">
                         <input type="hidden" name="user_id">

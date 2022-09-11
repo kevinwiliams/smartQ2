@@ -16,27 +16,20 @@
             <th>{{ trans('app.department') }}</th>
             <th>{{ trans('app.counter') }}</th>
             <th>{{ trans('app.officer') }}</th>
-            <th>{{ trans('app.client_mobile') }}</th>
+            <!-- <th>{{ trans('app.client_mobile') }}</th> -->
             <th>{{ trans('app.note') }}</th>
-            <th>{{ trans('app.status') }}</th>
+            <th>{{ trans('app.status') }}</th>                       
+            <th>{{ trans('app.wait_time') }}</th>
+            <th>{{ trans('app.service_time') }}</th>
             <th>{{ trans('app.created_by') }}</th>
-            <th>{{ trans('app.created_at') }}</th>
-            <th>{{ trans('app.updated_at') }}</th>
-            <th>{{ trans('app.complete_time') }}</th>
+            <th>{{ trans('app.created_at') }}</th> 
         </tr>
 
     </thead>
     <tbody>
         @foreach($data as $token)
         @php
-        # complete time calculation
-                $complete_time = "";
-                if (!empty($token->updated_at)) {
-                    $date1 = new \DateTime($token->created_at);
-                    $date2 = new \DateTime($token->updated_at);
-                    $diff  = $date2->diff($date1);
-                    $complete_time = (($diff->d > 0) ? " $diff->d Days " : null) . "$diff->h hrs $diff->i mins ";
-                }
+        # complete time calculation             
 
                 switch ($token->status) {
                     case 0:
@@ -72,13 +65,13 @@
             <td>{{ !empty($token->department) ? $token->department->name : null}}</td>
             <td>{{ !empty($token->counter) ? $token->counter->name : null }}</td>
             <td>{{ $token->officer->name }}</td>
-            <td>{{ $token->client_mobile }}</td>
+            <!-- <td>{{ $token->client_mobile }}</td> -->
             <td>{{ $token->note}}</td>
-            <td> <span class='badge {{$bg}} text-white'>{{$txt}}</span> </td>
+            <td> <span class='badge {{$bg}} text-white'>{{$txt}}</span> </td>                                  
+            <td>{{ $token->wait_time }}</td>              
+            <td>{{ $token->service_time }}</td>              
             <td>{{ $token->generated_by->name }}</td>
-            <td>{{ date('j M Y h:i a', strtotime($token->created_at))  }}</td>
-            <td>{{ date('j M Y h:i a', strtotime($token->updated_at))  }}</td>
-            <td>{{ $complete_time}}</td>              
+            <td>{{ date('j M Y h:i a', strtotime($token->created_at))  }}</td>  
         </tr>
 
         @endforeach

@@ -67,10 +67,16 @@ class Token extends Model
             return null;
         }
 
-        $to_time = strtotime($start->time_stamp);
-        $from_time = strtotime($end);
-        return round(abs($to_time - $from_time) / 60,2); 
+        // $to_time = strtotime($start->time_stamp);
+        // $from_time = strtotime($end);
+        // return round(abs($to_time - $from_time) / 60,2); 
 
+        $date1 = new \DateTime($start->time_stamp);
+        $date2 = new \DateTime($end);
+        $diff  = $date2->diff($date1);
+        $complete_time = (($diff->d > 0) ? " $diff->d Days " : null) . "$diff->h hrs $diff->i mins ";
+
+        return  $complete_time;
     }
 
     public function getServiceTimeAttribute()
@@ -89,8 +95,14 @@ class Token extends Model
             return null;
         }
 
-        $to_time = strtotime($start);
-        $from_time = strtotime($end->time_stamp);
-        return round(abs($to_time - $from_time) / 60,2); 
+        // $to_time = strtotime($start);
+        // $from_time = strtotime($end->time_stamp);
+        // return round(abs($to_time - $from_time) / 60,2); 
+        $date1 = new \DateTime($start);
+        $date2 = new \DateTime($end->time_stamp);
+        $diff  = $date2->diff($date1);
+        $complete_time = (($diff->d > 0) ? " $diff->d Days " : null) . "$diff->h hrs $diff->i mins ";
+
+        return  $complete_time;
     }
 }

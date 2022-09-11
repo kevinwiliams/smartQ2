@@ -228,6 +228,7 @@ Route::middleware('auth')->group(function () {
 			Route::get('edit/{id}', [CounterController::class, 'showEditForm']);
 			Route::post('edit', [CounterController::class, 'update']);
 			Route::get('delete/{id}', [CounterController::class, 'delete']);
+			Route::get('getCountersbyDept/{id}', [CounterController::class, 'getCountersbyDept']);
 		});
 
 		// Setting pages
@@ -241,6 +242,7 @@ Route::middleware('auth')->group(function () {
 		});
 
 		Route::get('staff/{id}', [UserManagementController::class, 'officersList']);
+		Route::get('getOfficersByCounter/{id}', [UserManagementController::class, 'getOfficersByCounter']);
 
 		Route::get('customers/{id}', [UserManagementController::class, 'customerList']);
 

@@ -430,7 +430,7 @@
 
             // Hook dropdown menu click event to datatable export buttons
             const exportButtons = document.querySelectorAll('#kt_datatable_example_1_export_menu [data-mv-export]');
-            // console.log(exportButtons);
+            console.log(exportButtons);
             exportButtons.forEach(exportButton => {
                 exportButton.addEventListener('click', e => {
                     e.preventDefault();
@@ -438,7 +438,7 @@
                     // Get clicked export value
                     const exportValue = e.target.getAttribute('data-mv-export');
                     const target = document.querySelector('.dt-buttons .buttons-' + exportValue);
-
+                    console.log(exportValue);
                     // Trigger click event on hidden datatable export buttons
                     target.click();
                 });
