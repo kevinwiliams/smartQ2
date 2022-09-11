@@ -2,18 +2,10 @@
     // Class definition
     var MVTokenAddToken = function() {
         // Shared variables
-        const element = document.getElementById('mv_modal_add_autotoken');
-        const form = element.querySelector('#mv_modal_add_autotoken_form');
+        const element = document.getElementById('mv_modal_add_token');
+        const form = element.querySelector('#mv_modal_add_token_form');
         const modal = new bootstrap.Modal(element);
 
-        const element2 = document.getElementById('mv_modal_dept_token');
-        const form2 = element2.querySelector('#mv_modal_add_auto_token_form');
-        const modal2 = new bootstrap.Modal(element2);
-
-        // // Placeholder
-        // Inputmask({
-        //     "mask" : "(999) 999-9999",        
-        // }).mask("[name='client_mobile']");
 
         // Init add schedule modal
         var initAddUser = () => {
@@ -36,20 +28,20 @@
                                 }
                             }
                         },
-                        // 'counter_id': {
-                        //     validators: {
-                        //         notEmpty: {
-                        //             message: 'Counter is required'
-                        //         }
-                        //     }
-                        // },
-                        // 'user_id': {
-                        //     validators: {
-                        //         notEmpty: {
-                        //             message: 'Officer is required'
-                        //         }
-                        //     }
-                        // },
+                        'counter_id': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Counter is required'
+                                }
+                            }
+                        },
+                        'user_id': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Officer is required'
+                                }
+                            }
+                        },
                     },
 
                     plugins: {
@@ -154,9 +146,9 @@
                                             }
                                         }).then(function(result) {
                                             if (result.isConfirmed) {
-                                                document.location.href = '/token/auto';
-                                                form.reset();
-                                                modal.hide();
+                                                document.location.href = '/token/current';
+                                                // form.reset();
+                                                // modal.hide();
                                             }
                                         });
 
@@ -215,40 +207,7 @@
                     }
                 });
             });
-
-            // Cancel button handler
-            const cancelButton2 = element2.querySelector('[data-mv-autotokens-modal-action="cancel"]');
-            cancelButton2.addEventListener('click', e => {
-                e.preventDefault();
-
-                Swal.fire({
-                    text: "Are you sure you would like to cancel?",
-                    icon: "warning",
-                    showCancelButton: true,
-                    buttonsStyling: false,
-                    confirmButtonText: "Yes, cancel it!",
-                    cancelButtonText: "No, return",
-                    customClass: {
-                        confirmButton: "btn btn-primary",
-                        cancelButton: "btn btn-active-light"
-                    }
-                }).then(function(result) {
-                    if (result.value) {
-                        form2.reset(); // Reset form			
-                        modal2.hide();
-                    } else if (result.dismiss === 'cancel') {
-                        Swal.fire({
-                            text: "Your form has not been cancelled!.",
-                            icon: "error",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn btn-primary",
-                            }
-                        });
-                    }
-                });
-            });
+            
 
             // Close button handler
             const closeButton = element.querySelector('[data-mv-tokens-modal-action="close"]');
@@ -284,36 +243,57 @@
                 });
             });
 
-            // Close button handler
-            const closeButton2 = element2.querySelector('[data-mv-autotokens-modal-action="close"]');
-            closeButton2.addEventListener('click', e => {
-                e.preventDefault();
-
-                Swal.fire({
-                    text: "Are you sure you would like to cancel?",
-                    icon: "warning",
-                    showCancelButton: true,
-                    buttonsStyling: false,
-                    confirmButtonText: "Yes, cancel it!",
-                    cancelButtonText: "No, return",
-                    customClass: {
-                        confirmButton: "btn btn-primary",
-                        cancelButton: "btn btn-active-light"
-                    }
-                }).then(function(result) {
-                    if (result.value) {
-                        form2.reset(); // Reset form			
-                        modal2.hide();
-                    } else if (result.dismiss === 'cancel') {
-                        Swal.fire({
-                            text: "Your form has not been cancelled!.",
-                            icon: "error",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn btn-primary",
-                            }
+              //fetch counters on department change
+              $('#mv_modal_add_token_form select[name="department_id"]').on('change', function() {
+                console.log(this.value);
+                _counterDDL = $('#mv_modal_add_token_form select[name="counter_id"]');
+                $.ajax({
+                    url: '/location/counter/getCountersbyDept/' + this.value,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        _counterDDL.children().remove();
+                        //loop through response array
+                        $.each(data, function() {
+                            //create new option and add to select
+                            var $opt = $('<option/>');
+                            $opt.val(this.id);
+                            $opt.text(this.name);
+                            _counterDDL.append($opt);
                         });
+                        _counterDDL.select2();
+                        _counterDDL.trigger('change');
+                    },
+                    error: function(err) {
+                        // alert('failed!');
+                        console.log(err);
+                    }
+                });
+            });
+
+            //fetch officers on counter change
+            $('#mv_modal_add_token_form select[name="counter_id"]').on('change', function() {
+                console.log(this.value);
+                _officerDDL = $('#mv_modal_add_token_form select[name="user_id"]');
+                $.ajax({
+                    url: '/location/getOfficersByCounter/' + this.value,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        _officerDDL.children().remove();
+                        //loop through response array
+                        $.each(data, function() {
+                            //create new option and add to select
+                            var $opt = $('<option/>');
+                            $opt.val(this.id);
+                            $opt.text(this.full_name);
+                            _officerDDL.append($opt);
+                        });
+                        _officerDDL.select2();
+                    },
+                    error: function(err) {
+                        // alert('failed!');
+                        console.log(err);
                     }
                 });
             });

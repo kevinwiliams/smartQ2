@@ -1,4 +1,4 @@
-    <div class="modal fade" id="mv_modal_add_token" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="mv_modal_add_autotoken" tabindex="-1" aria-hidden="true">
         <!--begin::Modal dialog-->
         <div class="modal-dialog modal-dialog-centered mw-650px">
             <!--begin::Modal content-->
@@ -6,7 +6,7 @@
                 <!--begin::Modal header-->
                 <div class="modal-header">
                     <!--begin::Modal title-->
-                    <h2 class="fw-bolder">Create new token</h2>
+                    <h2 class="fw-bolder">Create new auto token</h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
                     <div class="btn btn-icon btn-sm btn-active-icon-primary" data-mv-tokens-modal-action="close">
@@ -21,7 +21,7 @@
                 <div class="modal-body scroll-y mx-5 mx-xl-15 my-5">
                 <div id="output" class="hide alert alert-danger alert-dismissible fade in shadowed mb-1"></div>
                     <!--begin::Form-->
-                    {{ Form::open(['url' => 'token/create', 'class'=>'manualFrm form', 'id'=>'mv_modal_add_token_form']) }}
+                    {{ Form::open(['url' => 'token/create', 'class'=>'manualFrm form', 'id'=>'mv_modal_add_autotoken_form']) }}
                     @csrf <!-- {{ csrf_field() }} -->
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
@@ -43,27 +43,7 @@
                                 <span class="text-danger">{{ $errors->first('department_id') }}</span>
                             </div> 
                         </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="fv-row mb-7">
-                            <div class="form-group @error('counter_id') has-error @enderror">
-                                <label class="fs-6 fw-bold form-label mb-2" for="counter_id"><span class="required">{{ trans('app.counter') }}</span>
-                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-content="Assign user to a counter"></i></label>
-                                {{ Form::select('counter_id', [], null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-lg fw-bold']) }}
-                                <span class="text-danger">{{ $errors->first('counter_id') }}</span>
-                            </div> 
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="fv-row mb-7">
-                            <div class="form-group @error('user_id') has-error @enderror">
-                                <label class="fs-6 fw-bold form-label mb-2" for="user_id"><span class="required">{{ trans('app.officer') }}</span>
-                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-content="Assign user to a officer"></i></label>
-                                {{ Form::select('user_id', [], null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-lg fw-bold']) }}
-                                <span class="text-danger">{{ $errors->first('user_id') }}</span>
-                            </div> 
-                        </div>
-                        <!--end::Input group-->
+                        <!--end::Input group-->                       
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                         {{-- @if($display->show_note) --}}

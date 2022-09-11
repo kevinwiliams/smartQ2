@@ -693,11 +693,11 @@
                     const parent = e.target.closest('tr');
 
                     // Get token name
-                    const tokenNo = parent.querySelectorAll('td')[1].innerText;
+                    const tokenNo = parent.querySelectorAll('td')[0].innerText;
                     if (parent.querySelectorAll('input[name=token-id]').length)
                         var tokenID = parent.querySelectorAll('input[name=token-id]')[0].value;
                     else
-                        var tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
+                        var tokenID = parent.querySelectorAll('td')[0].getAttribute("id");
 
                     // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
                     Swal.fire({

@@ -38,28 +38,26 @@
         <!--end::Card body-->
     </div>
     <!--end::Card-->   
-    <!--begin::Modal - Add Token -->
-    {{ theme()->getView('partials/modals/token/_add', 
-        array(
-            'officers' => $officers, 
-            'counters' => $counters, 
-            'departments' => $departments
-            )) }}
-    <!--end::Modal - Add Token-->
-    <!--begin::Modal - Transfer Token -->
-	{{ theme()->getView('partials/modals/token/_transfer', 
-	array(
-		'officers' => $officers, 
-		'counters' => $counters, 
-		'departments' => $departments
-		)) }}
-	<!--end::Modal - Transfer Token-->
+   <!--begin::Modal - Add Token -->
+{{ theme()->getView('partials/modals/token/_add', 
+    array(        
+        'departments' => $departments
+        )) }}
+<!--end::Modal - Add Token-->
+<!--begin::Modal - Transfer Token -->
+{{ theme()->getView('partials/modals/token/_transfer', 
+array(    
+    'departments' => $departments
+    )) }}
+<!--end::Modal - Transfer Token-->
 
     {{-- Inject Scripts --}}
 @section('scripts')
     {{ $dataTable->scripts() }}
 
 @include('pages.token._action-active-js')
+@include('pages.token._add-token-js')
 @include('pages.token._button-actions-js')
+@include('pages.token._print-token-js')
 @endsection
 </x-base-layout>

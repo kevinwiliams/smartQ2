@@ -211,12 +211,12 @@ var MVTokenAddToken = function () {
     return {
         // Public functions
         init: function () {
-            initAddUser();
+            // initAddUser();
         }
     };
 }();
 
 // On document ready
 MVUtil.onDOMContentLoaded(function () {
-    MVTokenAddToken.init();
+    // MVTokenAddToken.init();
 });

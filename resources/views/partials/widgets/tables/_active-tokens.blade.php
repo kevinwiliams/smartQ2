@@ -37,7 +37,7 @@
 </div>
 <!--end::Card-->   
 <!--begin::Modal - Add Token -->
-{{ theme()->getView('partials/modals/token/_add', 
+{{ theme()->getView('partials/modals/token/_auto', 
     array(        
         'departments' => $departments
         )) }}

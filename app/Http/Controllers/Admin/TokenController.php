@@ -201,7 +201,6 @@ class TokenController extends Controller
         @date_default_timezone_set(session('app.timezone'));
         $waiting = Token::where('status', '0')->where('location_id', auth()->user()->location_id)->count();
         $counters = Counter::where('status', 1)->where('location_id', auth()->user()->location_id)->pluck('name', 'id');
-        $departments = Department::where('status', 1)->where('location_id', auth()->user()->location_id)->pluck('name', 'id');
         $officers = User::select('id', DB::raw('CONCAT(firstname, " ", lastname) as full_name'))
             ->where('user_type', 1)
             ->where('status', 1)
@@ -725,16 +724,37 @@ class TokenController extends Controller
         }
 
         @date_default_timezone_set(session('app.timezone'));
-        $waiting = Token::where('status', '0')->count();
-        $counters = Counter::where('status', 1)->pluck('name', 'id');
-        $departments = Department::where('status', 1)->pluck('name', 'id');
+        // $location = auth()->user()->location_id;
+        $waiting = Token::where('status', '0')->where('location_id', auth()->user()->location_id)->count();
+        $counters = Counter::where('status', 1)->where('location_id', auth()->user()->location_id)->pluck('name', 'id');        
         $officers = User::select('id', DB::raw('CONCAT(firstname, " ", lastname) as full_name'))
             ->where('user_type', 1)
             ->where('status', 1)
+            ->where('location_id', auth()->user()->location_id)
             ->orderBy('full_name', 'ASC')
             ->pluck('full_name', 'id');
 
-        return $dataTable->render('pages.token.current', compact('counters', 'departments', 'officers', 'waiting'));
+        $departments = TokenSetting::select(
+            'department.id',
+            'department.name',
+            'department.description',
+            'token_setting.department_id',
+            'counter.name as countername',
+            'token_setting.counter_id',
+            'token_setting.user_id',
+            DB::raw('CONCAT(user.firstname ," " ,user.lastname) AS officer')
+        )
+            ->join('department', 'department.id', '=', 'token_setting.department_id')
+            ->join('counter', 'counter.id', '=', 'token_setting.counter_id')
+            ->join('user', 'user.id', '=', 'token_setting.user_id')
+            ->join('locations', 'locations.id', '=', 'token_setting.location_id')
+            ->where('token_setting.status', 1)
+            ->where('token_setting.location_id', auth()->user()->location_id)
+            ->groupBy('token_setting.user_id')
+            ->orderBy('token_setting.department_id', 'ASC')
+            ->get();
+
+        return $dataTable->with('token_location_id', auth()->user()->location_id)->render('pages.token.current', compact('counters', 'departments', 'officers', 'waiting'));
     }
 
     public function currentOfficer()
@@ -995,12 +1015,6 @@ class TokenController extends Controller
 
     public function viewSingleToken(Request $request)
     {
-        // $data = session()->all();
-
-        // echo '<pre>';
-        // print_r($data);
-        // echo '</pre>';
-        // die();
         return Token::select('token.*', 'department.name as department', 'counter.name as counter', 'user.firstname', 'user.lastname', 'locations.name as location')
             ->leftJoin('locations', 'token.location_id', '=', 'locations.id')
             ->leftJoin('department', 'token.department_id', '=', 'department.id')
