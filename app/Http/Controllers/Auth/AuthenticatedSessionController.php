@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use App\Models\DisplayCustom; 
+use App\Models\DisplayCustom;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -28,6 +29,20 @@ class AuthenticatedSessionController extends Controller
             \Session::put('custom_displays', $customDisplays); 
         }
 
+        $app = Setting::first(); 
+                
+        if(!empty($app))
+        {
+            \Session::put('app', array(
+                'title'   => $app->title, 
+                'favicon' => $app->favicon, 
+                'logo'    => $app->logo, 
+                'timezone' => $app->timezone, 
+                'display'  => 0, 
+                'copyright_text' => $app->copyright_text, 
+            )); 
+        } 
+        
         return view('auth.login');
     }
 

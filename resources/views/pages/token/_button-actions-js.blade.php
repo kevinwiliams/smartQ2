@@ -684,7 +684,7 @@
             var _table = document.querySelector('#token-table');
             const printButtons = _table.querySelectorAll('[data-mv-token-table-filter="print_row"]');
 
-            recallButtons.forEach(d => {
+            printButtons.forEach(d => {
                 // Delete button on click
                 d.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -701,25 +701,26 @@
 
                     // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
                     Swal.fire({
-                        text: "Are you sure you want to recall " + tokenNo + "?",
-                        icon: "warning",
+                        text: "Are you sure you want to Print " + tokenNo + "?",
+                        icon: "info",
                         showCancelButton: true,
                         buttonsStyling: false,
-                        confirmButtonText: "Yes, call back!",
+                        confirmButtonText: "Yes, print!",
                         cancelButtonText: "No, cancel",
                         customClass: {
-                            confirmButton: "btn fw-bold btn-danger",
+                            confirmButton: "btn fw-bold btn-success",
                             cancelButton: "btn fw-bold btn-active-light-primary"
                         }
                     }).then(function(result) {
                         if (result.value) {
-
+                            // console.log($(d).attr('href'));
+                            // return;
                             $.ajax({
-                                url: $(this).attr('href'),
+                                url: $(d).attr('href'),
                                 type: 'POST',
                                 dataType: 'json',
                                 data: {
-                                    'id': $(this).attr('data-token-id'),
+                                    'id': $(d).attr('data-token-id'),
                                     '_token': '<?php echo csrf_token() ?>'
                                 },
                                 success: function(data) {
@@ -757,8 +758,8 @@
 
                         } else if (result.dismiss === 'cancel') {
                             Swal.fire({
-                                text: tokenNo + " was not recalled.",
-                                icon: "error",
+                                text: tokenNo + " was not printed.",
+                                icon: "warning",
                                 buttonsStyling: false,
                                 confirmButtonText: "Ok, got it!",
                                 customClass: {
@@ -786,6 +787,7 @@
                 handleCheckInRows();
                 handleTransferRows();
                 handleRecallRows();
+                handlePrintRows();
             }
         };
     }();

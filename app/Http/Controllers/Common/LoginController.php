@@ -24,12 +24,15 @@ class LoginController extends Controller
         
         $app = Setting::first(); 
         // $display = DisplaySetting::first();         
-        $customDisplays = DisplayCustom::where('status', 1)->orderBy('name', 'ASC')->pluck('name', 'id');
-        if (!empty($customDisplays))
-        {
-            \Session::put('custom_displays', $customDisplays); 
-        }
-
+        // $customDisplays = DisplayCustom::where('status', 1)->orderBy('name', 'ASC')->pluck('name', 'id');
+        // if (!empty($customDisplays))
+        // {
+        //     \Session::put('custom_displays', $customDisplays); 
+        // }
+        // echo '<pre>';
+        // print_r($app);
+        // echo '</pre>';
+        // die();
         if(!empty($app))
         {
             \Session::put('app', array(
@@ -37,7 +40,7 @@ class LoginController extends Controller
                 'favicon' => $app->favicon, 
                 'logo'    => $app->logo, 
                 'timezone' => $app->timezone, 
-                'display'  => !empty($display->display)?$display->display:2, 
+                'display'  => 0, 
                 'copyright_text' => $app->copyright_text, 
             )); 
         } 
@@ -67,7 +70,13 @@ class LoginController extends Controller
                 return redirect('login')->with('exception', trans('app.contact_with_authurity'));
             } 
             else if (!empty($authUser->user_type)) 
-            {
+            {                  
+                $customDisplays = DisplayCustom::where('status', 1)->where('location_id',$authUser->location_id)->orderBy('name', 'ASC')->pluck('name', 'id');
+                if (!empty($customDisplays))
+                {
+                    \Session::put('custom_displays', $customDisplays); 
+                }        
+              
                 return redirect(strtolower(auth()->user()->role()));
             } 
             else 
@@ -135,6 +144,12 @@ class LoginController extends Controller
         } 
         else if (!empty($authUser->user_type)) 
         {
+            $customDisplays = DisplayCustom::where('status', 1)->where('location_id',$authUser->location_id)->orderBy('name', 'ASC')->pluck('name', 'id');
+            if (!empty($customDisplays))
+            {
+                \Session::put('custom_displays', $customDisplays); 
+            }
+
             return redirect(strtolower(auth()->user()->role()));
         } 
         else 

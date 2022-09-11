@@ -169,6 +169,7 @@ class TokenController extends Controller
                 ->join('user', 'user.id', '=', 'token_setting.user_id')
                 ->join('locations', 'locations.id', '=', 'token_setting.location_id')
                 ->where('token_setting.status', 1)
+                ->where('token_setting.location_id', auth()->user()->location_id)
                 ->groupBy('token_setting.user_id')
                 ->orderBy('token_setting.department_id', 'ASC')
                 ->get();
@@ -186,6 +187,7 @@ class TokenController extends Controller
                 ->join('user', 'user.id', '=', 'token_setting.user_id')
                 ->join('locations', 'locations.id', '=', 'token_setting.location_id')
                 ->where('token_setting.status', 1)
+                ->where('token_setting.location_id', auth()->user()->location_id)
                 ->groupBy('token_setting.department_id')
                 ->groupBy('token_setting.location_id')
                 ->get();
@@ -319,6 +321,7 @@ class TokenController extends Controller
                         'note'          => $request->note,
                         'is_vip'        => $request->is_vip,
                         'created_by'    => auth()->user()->id,
+                        'location_id'    => auth()->user()->location_id,
                         'created_at'    => date('Y-m-d H:i:s'),
                         'updated_at'    => null,
                         'status'        => 0
@@ -334,6 +337,7 @@ class TokenController extends Controller
                         'is_vip'        => $request->is_vip,
                         'created_at'    => date('Y-m-d H:i:s'),
                         'created_by'    => auth()->user()->id,
+                        'location_id'    => auth()->user()->location_id,
                         'updated_at'    => null,
                         'status'        => 0
                     ];
@@ -584,10 +588,10 @@ class TokenController extends Controller
                 ->groupBy('user_id')
                 ->get();
 
-            echo '<pre>';
-            print_r($settings);
-            echo '<pre>';
-            die();
+            // echo '<pre>';
+            // print_r($settings);
+            // echo '<pre>';
+            // die();
 
             //if auto-setting are available
             if (!empty($settings)) {
@@ -624,6 +628,7 @@ class TokenController extends Controller
                     'note'          => $request->note,
                     'is_vip'        => $request->is_vip,
                     'created_by'    => auth()->user()->id,
+                    'location_id'    => auth()->user()->location_id,
                     'created_at'    => date('Y-m-d H:i:s'),
                     'updated_at'    => null,
                     'status'        => 0
@@ -990,7 +995,13 @@ class TokenController extends Controller
 
     public function viewSingleToken(Request $request)
     {
-        return Token::select('token.*', 'department.name as department', 'counter.name as counter', 'user.firstname', 'user.lastname', 'location.name as location')
+        // $data = session()->all();
+
+        // echo '<pre>';
+        // print_r($data);
+        // echo '</pre>';
+        // die();
+        return Token::select('token.*', 'department.name as department', 'counter.name as counter', 'user.firstname', 'user.lastname', 'locations.name as location')
             ->leftJoin('locations', 'token.location_id', '=', 'locations.id')
             ->leftJoin('department', 'token.department_id', '=', 'department.id')
             ->leftJoin('counter', 'token.counter_id', '=', 'counter.id')

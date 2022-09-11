@@ -46,7 +46,7 @@
     @endcan
     <!--begin::Menu item-->
     <div class="menu-item px-3">
-        <a href="#" class="menu-link px-3" data-mv-token-table-filter="print_row">
+        <a href="/token/print" data-token-id="{{ $model->id }}" class="menu-link px-3" data-mv-token-table-filter="print_row">
             Print
         </a>
     </div>
