@@ -403,7 +403,7 @@
             if (!table) {
                 return;
             }
-            return;
+            // return;
 
             const documentTitle = $("#report_title").val();
             var buttons = new $.fn.dataTable.Buttons(table, {
