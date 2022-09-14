@@ -548,7 +548,7 @@
     @section('scripts')
     <script>
         $(function() {
-            $("[name^=otp_code]").on("keypress", function(e) {
+            $("[name^=otp_code]").on("keyup", function(e) {
                 $(this).next().trigger("focus");
             });
 
