@@ -145,6 +145,14 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+
+    'token-print-settings' => [
+        'page-height' => '40',
+        'page-width' => '60',
+        'margin-top' => '5',
+        'margin-bottom' => '5'
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

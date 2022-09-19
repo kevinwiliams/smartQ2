@@ -713,49 +713,11 @@
                         }
                     }).then(function(result) {
                         if (result.value) {
-                            // console.log($(d).attr('href'));
-                            // return;
-                            $.ajax({
-                                url: $(d).attr('href'),
-                                type: 'POST',
-                                dataType: 'json',
-                                data: {
-                                    'id': $(d).attr('data-token-id'),
-                                    '_token': '<?php echo csrf_token() ?>'
-                                },
-                                success: function(data) {
-                                    var content = "<style type=\"text/css\">@media print {" +
-                                        "html, body {display:block;margin:0!important; padding:0 !important;overflow:hidden;display:table;}" +
-                                        ".receipt-token {width:100vw;height:100vw;text-align:center}" +
-                                        ".receipt-token h4{margin:0;padding:0;font-size:7vw;line-height:7vw;text-align:center}" +
-                                        ".receipt-token h1{margin:0;padding:0;font-size:15vw;line-height:20vw;text-align:center}" +
-                                        ".receipt-token ul{margin:0;padding:0;font-size:7vw;line-height:8vw;text-align:center;list-style:none;}" +
-                                        "}</style>";
+                            console.log($(d).attr('href') + '/' + $(d).attr('data-token-id'));
+                            url = $(d).attr('href') + '/' + $(d).attr('data-token-id');
+                            window.open(url, '_blank');
 
-                                    content += "<div class=\"receipt-token\">";
-                                    content += "<h4>{{ \Session::get('app.title') }} : " + data.location + "</h4>";
-                                    content += "<h1>" + data.token_no + "</h1>";
-                                    content += "<ul class=\"list-unstyled\">";
-                                    content += "<li><strong>{{ trans('app.department') }} </strong>" + data.department + "</li>";
-                                    content += "<li><strong>{{ trans('app.counter') }} </strong>" + data.counter + "</li>";
-                                    content += "<li><strong>{{ trans('app.officer') }} </strong>" + data.firstname + ' ' + data.lastname + "</li>";
-                                    if (data.note) {
-                                        content += "<li><strong>{{ trans('app.note') }} </strong>" + data.note + "</li>";
-                                    }
-                                    content += "<li><strong>{{ trans('app.date') }} </strong>" + data.created_at + "</li>";
-                                    content += "</ul>";
-                                    content += "</div>";
-
-                                    // print 
-                                    printThis(content);
-
-
-                                },
-                                error: function(err) {
-                                    alert('failed!');
-                                }
-                            });
-
+                            return;
                         } else if (result.dismiss === 'cancel') {
                             Swal.fire({
                                 text: tokenNo + " was not printed.",

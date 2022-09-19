@@ -161,7 +161,9 @@ Route::middleware('auth')->group(function () {
 		Route::post('create', [TokenController::class, 'create']);
 		Route::get('checkin/{id}', [TokenController::class, 'checkin']);
 		Route::post('checkinotp', [TokenController::class, 'otpcheckin']);
-		Route::post('print', [TokenController::class, 'viewSingleToken']);
+		// Route::post('print', [TokenController::class, 'viewSingleToken']);
+		// Route::post('print', [TokenController::class, 'printToken']);		
+		Route::get('print/{id}', [TokenController::class, 'printToken']);		
 		Route::get('complete/{id}', [TokenController::class, 'complete']);
 		Route::get('noshow/{id}', [TokenController::class, 'noshow']);
 		Route::get('stoped/{id}', [TokenController::class, 'stoped']);

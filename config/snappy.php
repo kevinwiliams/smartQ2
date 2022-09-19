@@ -30,20 +30,23 @@ return [
     | Env:
     |
     |    The environment variables to set while running the wkhtmltopdf process.
-    |
+    |vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64
+    vendor/wemersonjanuario/wkhtmltopdf-windows/bin/64bit
     */
     
     'pdf' => [
         'enabled' => true,
-        'binary'  => env('WKHTML_PDF_BINARY', '/usr/local/bin/wkhtmltopdf'),
+        // 'binary'  => env('WKHTML_PDF_BINARY', '/usr/local/bin/wkhtmltopdf'),
+        'binary'  => base_path(env('WKHTML_PDF_BINARY', '/vendor/wemersonjanuario/wkhtmltopdf-windows/bin/64bit/wkhtmltopdf.exe')),
         'timeout' => false,
         'options' => [],
         'env'     => [],
     ],
-    
+      
     'image' => [
         'enabled' => true,
-        'binary'  => env('WKHTML_IMG_BINARY', '/usr/local/bin/wkhtmltoimage'),
+        // 'binary'  => env('WKHTML_IMG_BINARY', '/usr/local/bin/wkhtmltoimage'),
+        'binary'  => base_path(env('WKHTML_IMG_BINARY', '/vendor/wemersonjanuario/wkhtmltopdf-windows/bin/64bit/wkhtmltoimage.exe')),
         'timeout' => false,
         'options' => [],
         'env'     => [],

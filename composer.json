@@ -21,7 +21,7 @@
         "renatomarinho/laravel-page-speed": "^2.0",
         "simplesoftwareio/simple-qrcode": "^4.2",
         "socialiteproviders/apple": "^5.0",
-        "socialiteproviders/zoho": "^4.1",
+        "socialiteproviders/zoho": "^4.1",        
         "spatie/laravel-activitylog": "^3.17.0",
         "spatie/laravel-permission": "^5.5",
         "wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3",

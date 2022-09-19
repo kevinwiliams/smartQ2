@@ -17,11 +17,12 @@ use App\Models\DisplaySetting;
 use App\Models\TokenSetting;
 use App\Models\SmsSetting;
 use App\Models\Location;
+use App\Models\Setting;
 use App\Models\SmsHistory;
 use App\Models\TokenStatus;
 use Carbon\Carbon;
 
-use DB, Validator;
+use DB, Validator, PDF;
 use Illuminate\Support\Facades\Redirect;
 
 class TokenController extends Controller
@@ -726,7 +727,7 @@ class TokenController extends Controller
         @date_default_timezone_set(session('app.timezone'));
         // $location = auth()->user()->location_id;
         $waiting = Token::where('status', '0')->where('location_id', auth()->user()->location_id)->count();
-        $counters = Counter::where('status', 1)->where('location_id', auth()->user()->location_id)->pluck('name', 'id');        
+        $counters = Counter::where('status', 1)->where('location_id', auth()->user()->location_id)->pluck('name', 'id');
         $officers = User::select('id', DB::raw('CONCAT(firstname, " ", lastname) as full_name'))
             ->where('user_type', 1)
             ->where('status', 1)
@@ -1022,6 +1023,46 @@ class TokenController extends Controller
             ->leftJoin('user', 'token.user_id', '=', 'user.id')
             ->where('token.id', $request->id)
             ->first();
+    }
+
+
+    public function printToken(Request $request)
+    {
+        $info = Token::select('token.*', 'department.name as department', 'counter.name as counter', 'user.firstname', 'user.lastname', 'locations.name as location')
+            ->leftJoin('locations', 'token.location_id', '=', 'locations.id')
+            ->leftJoin('department', 'token.department_id', '=', 'department.id')
+            ->leftJoin('counter', 'token.counter_id', '=', 'counter.id')
+            ->leftJoin('user', 'token.user_id', '=', 'user.id')
+            ->where('token.id', $request->id)
+            ->first();
+
+        $content = "<style type=\"text/css\">@media print {" .
+            "html, body {display:block;margin:0!important; padding:0 !important;overflow:hidden;display:table;}" .
+            ".receipt-token {width:100vw;height:100vw;text-align:center}" .
+            ".receipt-token h4{margin:0;padding:0;font-size:7vw;line-height:7vw;text-align:center}" .
+            ".receipt-token h1{margin:0;padding:0;font-size:15vw;line-height:20vw;text-align:center}" .
+            ".receipt-token ul{margin:0;padding:0;font-size:7vw;line-height:8vw;text-align:center;list-style:none;}" .
+            "}</style>";
+
+        $app = Setting::first();
+
+        $content .= "<div class=\"receipt-token\">";
+        $content .= "<h4 style='margin:0;padding:0;font-size:7vw;line-height:7vw;text-align:center'>" . ((!$app) ? $app->title . " : " : "") . $info->location . "</h4>";
+        $content .= "<h1 style='margin:0;padding:0;font-size:15vw;line-height:20vw;text-align:center'>" . $info->token_no . "</h1><br />";
+        $content .= "<ul style='margin:0;padding:0;font-size:7vw;line-height:8vw;text-align:center;list-style:none;'>";
+        $content .= "<li><strong>" . trans('app.department') . "</strong> " . $info->department . "</li>";
+        $content .= "<li><strong>" . trans('app.counter') . "</strong> " . $info->counter . "</li>";
+        $content .= "<li><strong>" . trans('app.officer') . "</strong> " . $info->firstname . ' ' . $info->lastname . "</li>";
+        if ($info->note) {
+            $content .= "<li><strong>" . trans('app.note') . "</strong> " . $info->note . "</li>";
+        }
+        $content .= "<li><strong>" . trans('app.date') . "</strong> " . $info->created_at . "</li>";
+        $content .= "</ul>";
+        $content .= "</div>";
+    
+        // Browsershot::html($content)->savePdf('token-'. $info->token_no .'.pdf');
+        // return PDF::loadHtml($content)->setOptions(["page-height" => config('app.token.page-height', 50), "page-width" => config('app.token.page-width', 60)])->inline('token-' . $info->token_no . '.pdf');
+        return PDF::loadHtml($content)->setOptions(config('app.token-print-settings'))->inline('token-' . $info->token_no . '.pdf');
     }
 
     public function recall($id = null)
@@ -1403,6 +1444,11 @@ class TokenController extends Controller
         // echo $otpcode;
         // echo '</pre>';
         // die();
+
+        if ($otpcode == substr(auth()->user()->otp, 0, 4)) {
+            goto bypass;
+        }
+
         $code = CheckInCodes::where("created_at", ">", $newDateTime->format('Y-m-d H:i'))->where('location_id', $location_id)->where('code', $otpcode)->first();
 
         if (!$code) {
@@ -1410,6 +1456,8 @@ class TokenController extends Controller
             $data['message'] = trans('app.please_try_again');
             return response()->json($data);
         }
+
+        bypass:
 
         Token::where('id', $request->id)
             ->update([
