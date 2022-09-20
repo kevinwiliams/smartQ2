@@ -6,6 +6,7 @@ use App\DataTables\Token\TokenDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Common\SMS_lib;
 use App\Http\Controllers\Common\Token_lib;
+use App\Http\Controllers\Common\Utilities_lib;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\CheckInCodes;
@@ -1059,7 +1060,7 @@ class TokenController extends Controller
         $content .= "<li><strong>" . trans('app.date') . "</strong> " . $info->created_at . "</li>";
         $content .= "</ul>";
         $content .= "</div>";
-    
+
         // Browsershot::html($content)->savePdf('token-'. $info->token_no .'.pdf');
         // return PDF::loadHtml($content)->setOptions(["page-height" => config('app.token.page-height', 50), "page-width" => config('app.token.page-width', 60)])->inline('token-' . $info->token_no . '.pdf');
         return PDF::loadHtml($content)->setOptions(config('app.token-print-settings'))->inline('token-' . $info->token_no . '.pdf');
@@ -1074,6 +1075,7 @@ class TokenController extends Controller
         $token = DB::table('token AS t')
             ->select(
                 "t.token_no AS token",
+                "t.client_id AS client",
                 "t.client_mobile AS mobile",
                 "d.name AS department",
                 "c.name AS counter",
@@ -1115,6 +1117,16 @@ class TokenController extends Controller
             $sms->save();
         }
 
+        activity('activity')
+                        ->withProperties(['activity' => 'Token recalled', 'department' => $token->department, 'token' => $token->token, 'display' => 'danger', 'location_id' => auth()->user()->location_id])
+                        ->log('Token (:properties.token) recalled for :properties.department');
+
+        if (!empty($token->client)) {
+            $user = User::find($token->client);
+            $msg = "Please contact urgently. Token No: $token->token\r\n Department: $token->department, Counter: $token->counter and Officer: $token->officer. \r\n $token->date.";
+            (new Utilities_lib)->sendPushNotification($user, $msg);
+        }
+
         Token::where('id', $id)
             ->update([
                 'updated_at' => date('Y-m-d H:i:s'),
@@ -1154,6 +1166,20 @@ class TokenController extends Controller
             'time_stamp' => date('Y-m-d H:i:s')
         ]);
 
+        $dept = $token->department->name;
+        $officer = $token->officer->name;
+        $counter = $token->counter->name;
+
+        activity('activity')
+                        ->withProperties(['activity' => 'Token complete', 'department' => $dept, 'token' => $token->token_no, 'display' => 'danger', 'location_id' => auth()->user()->location_id])
+                        ->log('Token (:properties.token) recalled for :properties.department');
+
+        if (!empty($token->client_id)) {
+            $user = User::find($token->client_id);
+            $msg = "Token No: $token->token_no\r\n Department: $dept, Counter: $counter and Officer: $officer. \r\nComplete";
+            (new Utilities_lib)->sendPushNotification($user, $msg);
+        }
+
         return redirect()->back()->with('message', trans('app.complete_successfully'));
     }
 
@@ -1192,6 +1218,16 @@ class TokenController extends Controller
             ->withProperties(['activity' => 'Staff Cancelled Token', 'department' => $token->department->name, 'token' => $token->token_no, 'display' => 'danger', 'location_id' => auth()->user()->location_id])
             ->log('Token (:properties.token) cancelled for :properties.department');
 
+        if (!empty($token->client_id)) {
+            $user = User::find($token->client_id);
+            $dept = $token->department->name;
+            // $officer = $token->officer->name;
+            // $counter = $token->counter->name;
+
+            $msg = "Token No: $token->token_no\r\n Department: $dept\r\ncancelled due to no show.";
+            (new Utilities_lib)->sendPushNotification($user, $msg);
+        }
+
         return redirect()->back()->with('message', trans('app.update_successfully'));
     }
 
@@ -1210,6 +1246,16 @@ class TokenController extends Controller
         activity('activity')
             ->withProperties(['activity' => 'Now Serving Token', 'department' => $token->department->name, 'token' => $token->token_no, 'display' => 'info', 'location_id' => auth()->user()->location_id])
             ->log('Token (:properties.token) started for :properties.department');
+
+
+        if (!empty($token->client_id)) {
+            $user = User::find($token->client_id);
+            $dept = $token->department->name;
+            $officer = $token->officer->name;
+            $counter = $token->counter->name;
+            $msg = "Now serving token No: $token->token_no\r\n Department: $dept, Counter: $counter and Officer: $officer.";
+            (new Utilities_lib)->sendPushNotification($user, $msg);
+        }
 
         return redirect()->back()->with('message', trans('app.update_successfully'));
     }
@@ -1247,6 +1293,17 @@ class TokenController extends Controller
                     'is_vip'        => $request->is_vip,
                     'officer_note'  => $request->officer_note,
                 ]);
+
+            $token = Token::find($request->id);
+            if (!empty($token->client_id)) {
+                $dept = $token->department->name;
+                $officer = $token->officer->name;
+                $counter = $token->counter->name;
+
+                $user = User::find($token->client_id);
+                $msg = "Token transferred\r\nToken No: $token->token_no\r\n Department: $dept, Counter: $counter and Officer: $officer.";
+                (new Utilities_lib)->sendPushNotification($user, $msg);
+            }
 
             if ($update) {
                 $data['status'] = true;
