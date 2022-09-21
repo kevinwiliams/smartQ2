@@ -296,6 +296,11 @@ return array(
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
+                        'title'  => 'Location',
+                        'path'   => 'location/list',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ),                    
+                    array(
                         'title'      => 'Users',
                         'path'       => 'apps/user-management/users/list',
                         'bullet'     => '<span class="bullet bullet-dot"></span>',                       

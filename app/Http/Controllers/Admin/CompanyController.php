@@ -134,9 +134,7 @@ class CompanyController extends Controller
             return Redirect::to("/")->withFail(trans('app.no_permissions'));
         }
 
-        $company = Company::find($id);
-        $companies = Company::where('id', $id)->pluck('name', 'id');
-        // get the default inner page
+        $company = Company::find($id);                
         $markers = array();
         $infowindows = array();
 
@@ -150,7 +148,7 @@ class CompanyController extends Controller
         // echo '</pre>';
         // die();
 
-        return view('pages.company.view', compact('company', 'companies','markers','infowindows'));
+        return view('pages.company.view', compact('company', 'markers','infowindows'));
     }
 
 

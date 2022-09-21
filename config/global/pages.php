@@ -294,6 +294,24 @@ return array(
         ),
     ),
     'location' => array(
+        'list' => array(
+            '*' => array(
+                'title'  => 'Location List',
+                'assets' => array(
+                    'custom' => array(
+                        'css' => array(
+                            'plugins/custom/datatables/datatables.bundle.css',
+                        ),
+                        'js' => array(
+                            'plugins/custom/datatables/datatables.bundle.js',
+                            // 'js/custom/user-management/roles/view/view.js',
+                            // 'js/custom/user-management/roles/view/update-role.js',
+
+                        ),
+                    ),
+                ),
+            )
+        ),
         'view' => array(
             '*' => array(
                 'title'  => 'View Location Details',

@@ -26,18 +26,31 @@ class LocationController extends Controller
      */
     public function index(LocationDataTable $dataTable)
     {
-        $companies1 = Company::get();
-        $companies = Company::where('active', 1)->pluck('name', 'id');
 
         if (!auth()->user()->can('view location')) {
             return Redirect::to("/")->withFail(trans('app.no_permissions'));
         }
 
-        // echo '<pre>';
-        // print_r($companies);
-        // echo '</pre>';
-        // die();
-        return $dataTable->render('pages.location.list', compact('companies'));
+        if (auth()->user()->can('choose location')) {
+            $company = auth()->user()->location->company;
+            $companies = Company::where('active', 1)->pluck('name', 'id');
+
+            $markers = array();
+            $infowindows = array();
+
+            foreach ($company->locations as $_location) {
+                array_push($markers, array($_location->name, $_location->lat, $_location->lon));
+                array_push($infowindows, array($_location->name, $_location->address));
+            }
+
+            // echo '<pre>';
+            // print_r($company);
+            // echo '</pre>';
+            // die();
+            return $dataTable->render('pages.location.list', compact('company', 'markers', 'infowindows'));
+        } else {
+            return Redirect::to("/location/view/" . auth()->user()->location_id);
+        }
     }
 
     /**
@@ -130,13 +143,13 @@ class LocationController extends Controller
         $departments = Department::where('location_id', $id)->count();
         $counters = Counter::where('location_id', $id)->count();
         $officers = User::where('location_id', $id)
-                    ->where('user_type','<>', 3)
-                    ->where('status', 1)
-                    ->get();
-                    // ->count();
+            ->where('user_type', '<>', 3)
+            ->where('status', 1)
+            ->get();
+        // ->count();
         $location = Location::where('id', $id)
-                    ->withCount('visitorslastweek')                 
-                    ->first();
+            ->withCount('visitorslastweek')
+            ->first();
         $visitor_summary = $this->chart_visitor_summary($id);
         $biannual = $this->chart_biannual($id);
 
@@ -144,9 +157,8 @@ class LocationController extends Controller
         // print_r($officers->count());
         // echo '</pre>';
         // die();
-        
-        return view('pages.location.view', compact('location','departments', 'counters', 'officers', 'visitor_summary', 'biannual'));
-        
+
+        return view('pages.location.view', compact('location', 'departments', 'counters', 'officers', 'visitor_summary', 'biannual'));
     }
 
     public function showEditForm($id = null)
@@ -157,21 +169,20 @@ class LocationController extends Controller
         $departments = Department::where('location_id', $id)->count();
         $counters = Counter::where('location_id', $id)->count();
         $officers = User::where('location_id', $id)
-                    ->where('user_type','<>', 3)
-                    ->where('status', 1)
-                    ->get();
-                    // ->count();
+            ->where('user_type', '<>', 3)
+            ->where('status', 1)
+            ->get();
+        // ->count();
         $location = Location::where('id', $id)
-                    ->withCount('visitorslastweek')                 
-                    ->first();
+            ->withCount('visitorslastweek')
+            ->first();
 
         // echo '<pre>';
         // print_r($officers->count());
         // echo '</pre>';
         // die();
-        
-        return view('pages.location.edit', compact('location','departments', 'counters', 'officers'));
-        
+
+        return view('pages.location.edit', compact('location', 'departments', 'counters', 'officers'));
     }
 
     public function map($id = null)
@@ -182,21 +193,20 @@ class LocationController extends Controller
         $departments = Department::where('location_id', $id)->count();
         $counters = Counter::where('location_id', $id)->count();
         $officers = User::where('location_id', $id)
-                    ->where('user_type','<>', 3)
-                    ->where('status', 1)
-                    ->get();
-                    // ->count();
+            ->where('user_type', '<>', 3)
+            ->where('status', 1)
+            ->get();
+        // ->count();
         $location = Location::where('id', $id)
-                    ->withCount('visitorslastweek')                 
-                    ->first();
+            ->withCount('visitorslastweek')
+            ->first();
 
         // echo '<pre>';
         // print_r($location->visitorslastweek()->count());
         // echo '</pre>';
         // die();
-        
-        return view('pages.location.map', compact('location','departments', 'counters', 'officers'));
-        
+
+        return view('pages.location.map', compact('location', 'departments', 'counters', 'officers'));
     }
 
     public function dept($id = null, DepartmentDataTable $dataTable)
@@ -204,27 +214,26 @@ class LocationController extends Controller
         $departments = Department::where('location_id', $id)->count();
         $counters = Counter::where('location_id', $id)->count();
         $officers = User::where('location_id', $id)
-                    ->where('status', 1)
-                    ->get();
-                    // ->count();
+            ->where('status', 1)
+            ->get();
+        // ->count();
         $location = Location::where('id', $id)->first();
 
         $keyList = $this->keyList();
 
         $model = Department::query();
-   
-        
-        return $dataTable->with('deptlocation_id', $id)->render('pages.location.departments', compact('keyList', 'location','departments', 'counters', 'officers'));
+
+
+        return $dataTable->with('deptlocation_id', $id)->render('pages.location.departments', compact('keyList', 'location', 'departments', 'counters', 'officers'));
     }
 
     public function keyList()
     {
-        $chars = array_merge(range('1','9'), range('a','z'));
+        $chars = array_merge(range('1', '9'), range('a', 'z'));
         $list = array();
-        foreach($chars as $char)
-        {
+        foreach ($chars as $char) {
             if ($char != "v")
-            $list[$char] = $char;
+                $list[$char] = $char;
         }
         return $list;
     }
@@ -313,17 +322,17 @@ class LocationController extends Controller
 
             return response()->json($data);
         } else {
-            $update = Location::where('id',$id)
-            ->update([
-                'company_id' => $request->company_id,
-                'name'  => $request->name,
-                'address' =>  $request->address,
-                'lat' => $request->lat,
-                'lon' => $request->lon,
-                'active' => ($request->has('active')) ? 1 : 0
-            ]);
-          
-            if ($update) {               
+            $update = Location::where('id', $id)
+                ->update([
+                    'company_id' => $request->company_id,
+                    'name'  => $request->name,
+                    'address' =>  $request->address,
+                    'lat' => $request->lat,
+                    'lon' => $request->lon,
+                    'active' => ($request->has('active')) ? 1 : 0
+                ]);
+
+            if ($update) {
                 $data['status'] = true;
                 $data['data'] = $update;
                 $data['message'] = trans('app.save_successfully');
