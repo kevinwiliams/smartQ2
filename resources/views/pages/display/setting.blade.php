@@ -151,7 +151,7 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-6">
-                    <div class="card">
+                    <div class="card mb-10">
                         <!--begin::Card header-->
                         <div class="card-header cursor-pointer">
                             <!--begin::Card title-->
@@ -287,6 +287,48 @@
                                         </div>
 
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <!--begin::Card header-->
+                        <div class="card-header cursor-pointer">
+                            <!--begin::Card title-->
+                            <div class="card-title m-0">
+                                <h3 class="fw-bolder m-0">{{ __('Paper settings for token printing') }}</h3>
+                            </div>
+                            <!--end::Card title-->
+
+                        </div>
+                        <!--end::Card header-->
+
+                        <!--begin::Card body-->
+                        <div class="card-body">
+                            <div class="col">
+
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="fv-row mb-7">
+                                            <div class="form-group @error('paper_size') has-error @enderror">
+                                                <label for="paper_size">{{ trans('app.paper_size') }} <i class="text-danger">*</i></label><br />
+                                                {{ Form::select('paper_size', $papersizeList, (old('paper_size')?old('paper_size'):$setting->paper_size) , [ 'class'=>'select2 form-select', "id"=>'paper_size']) }}<br />
+                                                <span class="text-danger">{{ $errors->first('paper_size') }}</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="fv-row mb-7">
+                                            <div class="form-group @error('paper_orientation') has-error @enderror">
+                                                <label for="paper_orientation">{{ trans('app.paper_orientation') }} <i class="text-danger">*</i></label><br />
+                                                {{ Form::select('paper_orientation', $orientationList, (old('paper_orientation')?old('paper_orientation'):$setting->paper_orientation) , [ 'class'=>'select2 form-select', "id"=>'paper_orientation']) }}<br />
+                                                <span class="text-danger">{{ $errors->first('paper_orientation') }}</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
 
                                     <div class="fv-row mb-7">
                                         <div class="form-group">
@@ -388,6 +430,8 @@
                 var formData = new FormData($(this)[0]);
                 ajax_request(formData);
             });
+
+            // $(".select2").select2();
         });
 
         $('.customDisplayModal').on('show.bs.modal', function(event) {

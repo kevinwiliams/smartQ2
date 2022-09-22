@@ -106,6 +106,8 @@ return [
     'keyboard_mode'         => 'Keyboard Mode',
     'enable_greeting'       => 'Greeting',    
     'enable_qr_checkin'     => 'QR Checkin',
+    'paper_size'            => 'Paper Size',
+    'paper_orientation'     => 'Paper Orientation',
     'total'                 => 'Total',
     'min_time'                 => 'Min. Time',
     'max_time'                 => 'Max. Time',

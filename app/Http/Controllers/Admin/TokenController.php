@@ -1061,9 +1061,10 @@ class TokenController extends Controller
         $content .= "</ul>";
         $content .= "</div>";
 
+        $display = DisplaySetting::where("location_id",auth()->user()->location_id)->first();
         // Browsershot::html($content)->savePdf('token-'. $info->token_no .'.pdf');
         // return PDF::loadHtml($content)->setOptions(["page-height" => config('app.token.page-height', 50), "page-width" => config('app.token.page-width', 60)])->inline('token-' . $info->token_no . '.pdf');
-        return PDF::loadHtml($content)->setOptions(config('app.token-print-settings'))->inline('token-' . $info->token_no . '.pdf');
+        return PDF::loadHtml($content)->setPaper($display->paper_size, $display->paper_orientation)->inline('token-' . $info->token_no . '.pdf');
     }
 
     public function recall($id = null)
@@ -1568,7 +1569,6 @@ class TokenController extends Controller
             ->withProperties(['activity' => 'Client Stopped Token', 'department' => $token->department->name, 'token' => $token->token_no, 'display' => 'danger', 'location_id' => auth()->user()->location_id])
             ->log('Token (:properties.token) stopped for :properties.department');
 
-
-        return response()->json($data);
+            return response()->json($data);
     }
 }
