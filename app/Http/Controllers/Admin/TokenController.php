@@ -1064,6 +1064,7 @@ class TokenController extends Controller
         $display = DisplaySetting::where("location_id",auth()->user()->location_id)->first();
         // Browsershot::html($content)->savePdf('token-'. $info->token_no .'.pdf');
         // return PDF::loadHtml($content)->setOptions(["page-height" => config('app.token.page-height', 50), "page-width" => config('app.token.page-width', 60)])->inline('token-' . $info->token_no . '.pdf');
+        //return PDF::loadHtml($content)->setOptions(config('app.token-print-settings'))->inline('token-' . $info->token_no . '.pdf');
         return PDF::loadHtml($content)->setPaper($display->paper_size, $display->paper_orientation)->inline('token-' . $info->token_no . '.pdf');
     }
 

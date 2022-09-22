@@ -331,11 +331,11 @@ return array(
 
        
          // Calendar
-         array(
-            'title' => 'Calendar',
-            'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/general/gen014.svg", "svg-icon-2"),
-            'path'  => 'apps/calendar',
-        ),
+        //  array(
+        //     'title' => 'Calendar',            
+        //     'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/general/gen014.svg", "svg-icon-2"),
+        //     'path'  => 'apps/calendar',
+        // ),
         // Messaging
         array(
             'title' => 'SMS',
