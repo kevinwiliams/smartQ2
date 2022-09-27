@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
         $app = Setting::first(); 
                 
         if(!empty($app))
-        {
+        {            
             \Session::put('app', array(
                 'title'   => $app->title, 
                 'favicon' => $app->favicon, 
@@ -42,7 +42,10 @@ class AuthenticatedSessionController extends Controller
                 'copyright_text' => $app->copyright_text, 
             )); 
         } 
-        
+        // echo '<pre>';
+        // print_r(session('app.timezone'));
+        // echo '</pre>';
+        // die();
         return view('auth.login');
     }
 

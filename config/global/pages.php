@@ -168,13 +168,28 @@ return array(
         '*' => array(
             'title' => 'Generate Reports',
         ),
+        'scheduled' => array(
+            'title' => 'Scheduled Reports',
+            'view'   => 'scheduledreports/index',
+            'assets' => array(
+                'custom' => array(
+                    'css' => array(
+                        'plugins/custom/datatables/datatables.bundle.css',
+                    ),
+                    'js'  => array(
+                        'plugins/custom/datatables/datatables.bundle.js',                        
+                    ),
+
+                ),
+            ),           
+        ),
         'assets' => array(
             'custom' => array(
                 'css' => array(
                     'plugins/custom/datatables/datatables.bundle.css',
                 ),
                 'js'  => array(
-                    'plugins/custom/datatables/datatables.bundle.js',  
+                    'plugins/custom/datatables/datatables.bundle.js',
                     // 'vendor/datatables/buttons.server-side.js',                  
                 ),
 
@@ -224,7 +239,7 @@ return array(
                 ),
             ),
         ),
-        
+
         'report' => array(
             'title' => 'Tokens Report',
             'assets' => array(
@@ -381,7 +396,7 @@ return array(
                     ),
                 ),
             ),
-                
+
         ),
         'settings' => array(
             'title' => 'App Settings',
@@ -453,8 +468,8 @@ return array(
     'settings' => array(
         'system' => array(
             'title'  => 'System Configuration',
-            'view'   => 'pages/settings/setting',           
-        ),        
+            'view'   => 'pages/settings/setting',
+        ),
     ),
     'apps' => array(
         'calendar' => array(

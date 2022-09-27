@@ -849,4 +849,56 @@ class Data
             'landscape'      => "landscape"
         );
     }
+
+    public static function getScheduledReportTypes()
+    {
+        return array(
+            'one time'    => "One Time",
+            'daily'       => "Daily",
+            'weekly'      => "Weekly",
+            'monthly'     => "Monthly"
+        );
+    }
+
+    public static function getDayNames()
+    {
+        return array(
+            'Sunday',
+            'Monday', 
+            'Tuesday', 
+            'Wednesday', 
+            'Thursday', 
+            'Friday', 
+            'Saturday', 
+         );
+    }
+
+    public static function getMonthNames()
+    {
+        return array(
+            'January',
+            'February', 
+            'March', 
+            'April', 
+            'May', 
+            'June', 
+            'July', 
+            'August', 
+            'September', 
+            'October', 
+            'November', 
+            'December', 
+         );
+    }
+
+    public static function getOrdinals()
+    {
+        return array(
+            'First',
+            'Second', 
+            'Third', 
+            'Fourth', 
+            'Last'
+         );
+    }
 }

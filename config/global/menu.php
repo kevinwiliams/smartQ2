@@ -251,31 +251,31 @@ return array(
         ),
 
 
-        // Reports
+        // Reports    
         array(
             'title' => 'Reports',
             'permission' => 'view report',
             'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/graphs/gra010.svg", "svg-icon-2"),
-            'path'  => 'reports',
-            // 'classes'    => array('item' => 'menu-accordion'),
-            // 'attributes' => array(
-            //     "data-mv-menu-trigger" => "click",
-            // ),
-            // 'sub'        => array(
-            //     'class' => 'menu-sub-accordion menu-active-bg',
-            //     'items' => array(
-            //         array(
-            //             'title'  => 'Tokens',
-            //             'path'   => 'token/report',
-            //             'bullet' => '<span class="bullet bullet-dot"></span>',
-            //         ),
-            //         array(
-            //             'title'  => 'Performance',
-            //             'path'   => 'token/performance',
-            //             'bullet' => '<span class="bullet bullet-dot"></span>',
-            //         ),
-            //     ),
-            // ),
+            'path'  => '#',
+            'classes'    => array('item' => 'menu-accordion'),
+            'attributes' => array(
+                "data-mv-menu-trigger" => "click",
+            ),
+            'sub'        => array(
+                'class' => 'menu-sub-accordion menu-active-bg',
+                'items' => array(
+                    array(
+                        'title'  => 'Reports',
+                        'path'   => 'reports',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ),
+                    array(
+                        'title'  => 'Scheduled Reports',
+                        'path'   => 'reports/scheduled',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ),                    
+                ),
+            ),
         ),
         // Configuration
         array(

@@ -22,6 +22,7 @@ use App\Http\Controllers\Common\DisplayController;
 use App\Http\Controllers\Admin\DisplaySettingController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\ScheduledReportsController;
 use App\Http\Controllers\Common\LanguageController;
 use App\Http\Controllers\Common\MessageController;
 use App\Http\Controllers\Common\NotificationController;
@@ -114,6 +115,13 @@ Route::middleware('auth')->group(function () {
 	// Report pages
 	Route::prefix('reports')->group(function () {
 		Route::get('/', [ReportController::class, 'index'])->name('reports.index');
+		Route::get('scheduled', [ScheduledReportsController::class, 'index']);
+		Route::get('scheduled/delete/{id}', [ScheduledReportsController::class, 'destroy']);
+		Route::get('scheduled/history/{id}', [ScheduledReportsController::class, 'history']);
+		Route::get('scheduled/schedule/{id}', [ScheduledReportsController::class, 'schedule']);
+		Route::post('scheduled/create', [ScheduledReportsController::class, 'store']);
+		Route::get('scheduled/show/{id}', [ScheduledReportsController::class, 'show']);
+		Route::post('scheduled/edit/{id}', [ScheduledReportsController::class, 'update']);
 	});
 
 	# home
