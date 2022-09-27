@@ -14,7 +14,13 @@ class CreateScheduledReportsTasksTable extends Migration
     public function up()
     {
         Schema::create('scheduled_reports_tasks', function (Blueprint $table) {
-            $table->id();
+            $table->integer('id', true);
+            $table->integer('schedule_id');
+            $table->dateTime('run_time');
+            $table->dateTime('executed_time')->nullable();
+            $table->boolean('success')->default(false);
+            $table->string('response', 4000)->nullable();
+            $table->string('notified', 4000)->nullable();
             $table->timestamps();
         });
     }
