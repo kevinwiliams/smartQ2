@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class ScheduledReport extends Model
@@ -46,5 +47,10 @@ class ScheduledReport extends Model
         $ids = array_column($reports, 'id');
         $found_key = array_search($this->report_id, $ids);
         return  $reports[$found_key]['title'];        
+    }
+
+    public function hasHistory()
+    {
+        return $this->hasOne(ScheduledReportsTask::class, "schedule_id", "id")->whereRaw('run_time <= \'' . Carbon::now(session('app.timezone')) . '\'')->count() > 0;
     }
 }

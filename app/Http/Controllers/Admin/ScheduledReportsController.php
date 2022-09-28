@@ -559,11 +559,12 @@ class ScheduledReportsController extends Controller
         @date_default_timezone_set(session('app.timezone'));
         // try {
         $info = ScheduledReportsTask::where('schedule_id', $id)->whereRaw('run_time >= \'' . Carbon::now(session('app.timezone')) . '\'')->get();
-
+        $schedule = ScheduledReport::find($id);
         // echo '<pre>';
         // print_r($info);
         // echo '</pre>';
         // die();
+        $data['schedule'] = $schedule;
         $data['data'] = $info;
         $data['status'] = true;
         $data['message'] = trans('app.history_retrieved_successfully');

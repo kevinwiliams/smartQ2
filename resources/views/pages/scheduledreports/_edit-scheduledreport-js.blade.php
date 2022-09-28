@@ -452,7 +452,7 @@
 						_token: $("input[name=_token]").val()
 					},
 					success: function(res) {
-						console.log(res);
+						// console.log(res);
 						// console.log(editstepper);
 
 						editstepperObj.goFirst();

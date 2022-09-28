@@ -15,11 +15,13 @@
     </div>    
     <!--end::Menu item-->
     <!--begin::Menu item-->
+    @if($model->hasHistory())
     <div class="menu-item px-3">
         <a href="#" class="menu-link px-3" data-mv-scheduledreports-table-filter="history_row" data-scheduledreport-id="{{ $model->id }}" data-bs-toggle="modal" data-bs-target="#mv_modal_scheduledreports_history">
             History
         </a>
     </div>
+    @endif
     <!--end::Menu item-->
     @endcan
     @can('edit scheduled reports')

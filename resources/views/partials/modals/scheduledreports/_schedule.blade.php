@@ -27,6 +27,8 @@
                                 <!--begin::Body-->
                                 <div class="card-body pt-0">
                                     <div class="scroll h-400px">
+                                        <div id="mv_schedulerepeaterinfo_schedule">                                           
+                                        </div>
                                         <div id="mv_schedulerepeater_schedule">
                                             <div style="display:none">
                                                 <!--begin::Item-->
@@ -35,7 +37,7 @@
                                                     <!--begin::Title-->
                                                     <div class="flex-grow-1 me-2">
                                                         <a href="#" class="fw-bold text-gray-800 text-hover-primary fs-6" id="mv-repeater-date">Product goals strategy</a>
-                                                        <!-- <span class="text-muted fw-semibold d-block" id="mv-repeater-notified">Due in 7 Days</span> -->
+                                                        <span class="text-muted fw-semibold d-block" id="mv-repeater-notified"></span>
                                                     </div>
                                                     <!--end::Title-->
                                                 </div>
