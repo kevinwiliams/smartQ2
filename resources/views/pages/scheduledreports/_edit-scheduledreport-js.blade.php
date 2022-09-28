@@ -485,7 +485,7 @@
 
 						$("#" + res.schedule_type + "_edit_schedule_type").trigger('change');
 						var scheduleinfo = JSON.parse(res.schedule_info);
-						console.log(scheduleinfo);
+						// console.log(scheduleinfo);
 						switch (res.schedule_type) {
 							case 'daily':
 								$('#mv_edit_scheduledreport_form input[name="daily_recurs"]').val(scheduleinfo.recurs);

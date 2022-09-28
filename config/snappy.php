@@ -33,7 +33,7 @@ return [
     |vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64
     vendor/wemersonjanuario/wkhtmltopdf-windows/bin/64bit
     */
-    
+
     'pdf' => [
         'enabled' => true,
         // 'binary'  => env('WKHTML_PDF_BINARY', '/usr/local/bin/wkhtmltopdf'),
@@ -42,7 +42,7 @@ return [
         'options' => [],
         'env'     => [],
     ],
-      
+
     'image' => [
         'enabled' => true,
         // 'binary'  => env('WKHTML_IMG_BINARY', '/usr/local/bin/wkhtmltoimage'),

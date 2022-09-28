@@ -29,6 +29,7 @@ class Kernel extends ConsoleKernel
         $schedule->call('App\Http\Controllers\Common\CronjobController@generateDepartmentStats')->everyFiveMinutes();
         $schedule->call('App\Http\Controllers\Common\CronjobController@generateLocationStats')->everyFiveMinutes();
         $schedule->call('App\Http\Controllers\Common\CronjobController@generateUserStats')->everyFiveMinutes();
+        $schedule->call('App\Http\Controllers\Common\CronjobController@generateScheduledReports')->everyMinute();        
     }
 
     /**

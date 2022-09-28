@@ -64,39 +64,41 @@ Route::prefix('documentation')->group(function () {
 });
 
 
-// Apps
-Route::prefix('apps')->group(function () {
-	//Calendar
-	Route::get('calendar', [CalendarController::class, 'index']);
-
-	// User Management
-	Route::prefix('user-management')->group(function () {
-		Route::get('permissions', [UserManagementController::class, 'permissionsList']);
-		Route::post('permissions/create', [UserManagementController::class, 'createPermission']);
-		Route::delete('permissions/{id}', [UserManagementController::class, 'deletePermission']);
-		Route::post('permissions/update/{id}', [UserManagementController::class, 'updatePermission'])->name('permissions.update');
-		Route::get('users/list', [UserManagementController::class, 'usersList']);
-		Route::get('users/view/{id}', [UserManagementController::class, 'usersView'])->name('users.view');
-		Route::get('customers/view/{id}', [UserManagementController::class, 'customersView'])->name('customers.view');
-		Route::get('users/edit/{id}', [UserManagementController::class, 'usersEdit'])->name('users.edit');
-		Route::post('users/update/{id}', [UserManagementController::class, 'updateUser'])->name('users.update');
-		Route::post('users/updatemail/{id}', [UserManagementController::class, 'updateUserEmail'])->name('users.updatemail');
-		Route::post('users/sendnotification/{id}', [UserManagementController::class, 'sendnotification'])->name('users.sendnotification');		
-		Route::post('users/resetpassword/{id}', [UserManagementController::class, 'updateUserPassword'])->name('users.resetpassword');
-		Route::post('users/assign-role', [UserManagementController::class, 'assignRole']);
-		Route::post('users/create', [UserManagementController::class, 'createUser']);
-		Route::delete('users/{id}', [UserManagementController::class, 'deleteUser'])->name('admin.user.destroy');
-		Route::get('roles/list', [UserManagementController::class, 'rolesList']);
-		Route::get('roles/view/{id}', [UserManagementController::class, 'rolesView'])->name('roles.view');
-		Route::post('roles', [UserManagementController::class, 'createRole']);
-		Route::delete('roles/{id}', [UserManagementController::class, 'deleteRole']);
-		Route::post('roles/update/{id}', [UserManagementController::class, 'updateRole']);
-		Route::post('/save-push-notification-token', [UserManagementController::class, 'savePushNotificationToken'])->name('save-push-notification-token');
-		Route::post('/send-push-notification', [UserManagementController::class, 'sendPushNotification'])->name('send-push-notification');
-	});
-});
+Route::get('generateScheduledReports/{id}', [CronjobController::class, 'generateScheduledReports']);
 
 Route::middleware('auth')->group(function () {
+	// Apps
+	Route::prefix('apps')->group(function () {
+		//Calendar
+		Route::get('calendar', [CalendarController::class, 'index']);
+
+		// User Management
+		Route::prefix('user-management')->group(function () {
+			Route::get('permissions', [UserManagementController::class, 'permissionsList']);
+			Route::post('permissions/create', [UserManagementController::class, 'createPermission']);
+			Route::delete('permissions/{id}', [UserManagementController::class, 'deletePermission']);
+			Route::post('permissions/update/{id}', [UserManagementController::class, 'updatePermission'])->name('permissions.update');
+			Route::get('users/list', [UserManagementController::class, 'usersList']);
+			Route::get('users/view/{id}', [UserManagementController::class, 'usersView'])->name('users.view');
+			Route::get('customers/view/{id}', [UserManagementController::class, 'customersView'])->name('customers.view');
+			Route::get('users/edit/{id}', [UserManagementController::class, 'usersEdit'])->name('users.edit');
+			Route::post('users/update/{id}', [UserManagementController::class, 'updateUser'])->name('users.update');
+			Route::post('users/updatemail/{id}', [UserManagementController::class, 'updateUserEmail'])->name('users.updatemail');
+			Route::post('users/sendnotification/{id}', [UserManagementController::class, 'sendnotification'])->name('users.sendnotification');
+			Route::post('users/resetpassword/{id}', [UserManagementController::class, 'updateUserPassword'])->name('users.resetpassword');
+			Route::post('users/assign-role', [UserManagementController::class, 'assignRole']);
+			Route::post('users/create', [UserManagementController::class, 'createUser']);
+			Route::delete('users/{id}', [UserManagementController::class, 'deleteUser'])->name('admin.user.destroy');
+			Route::get('roles/list', [UserManagementController::class, 'rolesList']);
+			Route::get('roles/view/{id}', [UserManagementController::class, 'rolesView'])->name('roles.view');
+			Route::post('roles', [UserManagementController::class, 'createRole']);
+			Route::delete('roles/{id}', [UserManagementController::class, 'deleteRole']);
+			Route::post('roles/update/{id}', [UserManagementController::class, 'updateRole']);
+			Route::post('/save-push-notification-token', [UserManagementController::class, 'savePushNotificationToken'])->name('save-push-notification-token');
+			Route::post('/send-push-notification', [UserManagementController::class, 'sendPushNotification'])->name('send-push-notification');
+		});
+	});
+
 	// Account pages
 	Route::prefix('account')->group(function () {
 		Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
@@ -139,7 +141,7 @@ Route::middleware('auth')->group(function () {
 		Route::post('currentposition', [TokenController::class, 'currentposition']);
 	});
 
-	
+
 
 	// SMS pages
 	Route::prefix('sms')->group(function () {
@@ -171,7 +173,7 @@ Route::middleware('auth')->group(function () {
 		Route::post('checkinotp', [TokenController::class, 'otpcheckin']);
 		// Route::post('print', [TokenController::class, 'viewSingleToken']);
 		// Route::post('print', [TokenController::class, 'printToken']);		
-		Route::get('print/{id}', [TokenController::class, 'printToken']);		
+		Route::get('print/{id}', [TokenController::class, 'printToken']);
 		Route::get('complete/{id}', [TokenController::class, 'complete']);
 		Route::get('noshow/{id}', [TokenController::class, 'noshow']);
 		Route::get('stoped/{id}', [TokenController::class, 'stoped']);
@@ -183,7 +185,7 @@ Route::middleware('auth')->group(function () {
 		Route::post('addnote', [TokenController::class, 'addnote']);
 	});
 
-	
+
 	# setting
 
 
@@ -202,7 +204,7 @@ Route::middleware('auth')->group(function () {
 	// Setting pages
 	Route::prefix('settings')->group(function () {
 		Route::get('system', [SettingController::class, 'show']);
-		Route::post('system', [SettingController::class, 'update']);	
+		Route::post('system', [SettingController::class, 'update']);
 	});
 
 	// // Location pages
@@ -219,7 +221,7 @@ Route::middleware('auth')->group(function () {
 		Route::post('token/setting/{id}', [TokenController::class, 'tokenSetting']);
 		Route::get('token/setting/delete/{id}', [TokenController::class, 'tokenDeleteSetting']);
 		Route::get('map/{id}', [LocationController::class, 'map']);
-		
+
 		// // Department pages
 		Route::prefix('department')->group(function () {
 			Route::get('/{id}', [DepartmentController::class, 'index']);
@@ -245,7 +247,7 @@ Route::middleware('auth')->group(function () {
 		Route::prefix('settings')->group(function () {
 			// Route::get('system', [SettingController::class, 'show']);
 			// Route::post('/{id}', [SettingController::class, 'create']);
-			Route::get('display/{id}', [DisplaySettingController::class, 'showForm']);			
+			Route::get('display/{id}', [DisplaySettingController::class, 'showForm']);
 			Route::post('display/{id}', [DisplaySettingController::class, 'setting']);
 			Route::get('display/custom', [DisplaySettingController::class, 'getCustom']);
 			Route::post('display/custom', [DisplaySettingController::class, 'custom']);
@@ -255,13 +257,8 @@ Route::middleware('auth')->group(function () {
 		Route::get('getOfficersByCounter/{id}', [UserManagementController::class, 'getOfficersByCounter']);
 
 		Route::get('customers/{id}', [UserManagementController::class, 'customerList']);
-
 	});
-
-	
 });
-
-Route::resource('users', UsersController::class);
 
 // # -----------------------------------------------------------
 // # COMMON 

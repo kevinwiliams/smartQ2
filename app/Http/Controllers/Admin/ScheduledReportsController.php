@@ -123,14 +123,20 @@ class ScheduledReportsController extends Controller
 
             $jsoninfo["date_range"] = $request->date_range;
             $jsoninfo["locations"] = $request->location_id;
-            $savedata['schedule_info'] = json_encode($jsoninfo);
+            
+            $_start = Carbon::createFromFormat('Y-m-d h:i A', $request->start_date);
+            $_startCopy = clone $_start;
 
+            $range = explode(' ', $request->date_range);
+            
+            $jsoninfo['range_start'] = Carbon::parse($range[0])->diffIndays($_start);
+            $jsoninfo['range_end'] = Carbon::parse($range[2])->diffIndays($_start);
+            $savedata['schedule_info'] = json_encode($jsoninfo);
 
 
             //Generate run time array & fail if empty
             $taskArray = array();
-            $_start = Carbon::createFromFormat('Y-m-d h:i A', $request->start_date);
-            $_startCopy = clone $_start;
+            
             // echo '<pre>';
             // print_r($_startCopy->toDateTimeString());
             // echo '</pre>';
@@ -363,12 +369,20 @@ class ScheduledReportsController extends Controller
 
             $jsoninfo["date_range"] = $request->date_range;
             $jsoninfo["locations"] = $request->location_id;
-            $savedata['schedule_info'] = json_encode($jsoninfo);
+            
 
-            //Generate run time array & fail if empty
-            $taskArray = array();
             $_start = Carbon::createFromFormat('Y-m-d h:i A', $request->start_date);
             $_startCopy = clone $_start;
+
+            $range = explode(' ', $request->date_range);
+            
+            $jsoninfo['range_start'] = Carbon::parse($range[0])->diffIndays($_start);
+            $jsoninfo['range_end'] = Carbon::parse($range[2])->diffIndays($_start);
+            $savedata['schedule_info'] = json_encode($jsoninfo);
+            
+            //Generate run time array & fail if empty
+            $taskArray = array();
+            
           
             switch ($request->schedule_type) {
                 case 'daily':
