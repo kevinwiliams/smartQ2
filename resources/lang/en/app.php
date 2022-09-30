@@ -285,4 +285,14 @@ return [
     'add_location' => 'Add Location',
     'lat' => 'Latitude',
     'lng' => 'Longitude',
+
+    /*Reasons for Visit*/
+    'add_reason_for_visit'    => "Add Reason for Visit",
+    'edit_reason_for_visit'    => "Edit Reason for Visit",
+    'delete_reason_for_visit'    => "Delete Reason for Visit",
+    'reason_for_visit'    => "Reason for Visit",
+    'reason'    => "Reason",
+    'change_reason'    => "Change Reason",
+    'to'    => "to",
+    
 ];
