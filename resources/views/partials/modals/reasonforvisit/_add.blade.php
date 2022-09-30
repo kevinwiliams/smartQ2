@@ -18,8 +18,7 @@
             </div>
             <!--end::Modal header-->
             <!--begin::Modal body-->
-            <div class="modal-body scroll-y mx-5 mx-xl-15 my-5">
-                <div id="output" class="hide alert alert-danger alert-dismissible fade in shadowed mb-1"></div>
+            <div class="modal-body scroll-y mx-5 mx-xl-15 my-5">                
                 <!--begin::Form-->
                 {{ Form::open(['url' => 'location/visitreason/create', 'class'=>'manualFrm form', 'id'=>'mv_modal_add_reasonforvisit_form']) }}
                 @csrf                

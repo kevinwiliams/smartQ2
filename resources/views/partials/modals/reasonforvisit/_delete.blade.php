@@ -18,8 +18,7 @@
             </div>
             <!--end::Modal header-->
             <!--begin::Modal body-->
-            <div class="modal-body scroll-y mx-5 mx-xl-15 my-5">
-                <div id="output" class="hide alert alert-danger alert-dismissible fade in shadowed mb-1"></div>
+            <div class="modal-body scroll-y mx-5 mx-xl-15 my-5">                
                 <!--begin::Form-->
                 {{ Form::open(['url' => 'location/visitreason/delete', 'class'=>'manualFrm form', 'id'=>'mv_modal_delete_reasonforvisit_form']) }}
                 @csrf
@@ -39,7 +38,7 @@
                 <div class="fv-row mb-7">
                     <div class="form-group @error('id') has-error @enderror">
                         <label for="id">{{ trans('app.reason') }} <i class="text-danger">*</i></label><br />
-                        <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Reason for Visit" tabindex="-1" aria-hidden="true" name="id" id="id"></select>                        
+                        <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Reason for Visit" tabindex="-1" aria-hidden="true" name="id" id="delete_id"></select>                        
                         <span class="text-danger">{{ $errors->first('id') }}</span>
                     </div>
                 </div>

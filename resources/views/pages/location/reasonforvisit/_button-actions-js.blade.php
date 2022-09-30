@@ -128,11 +128,11 @@
                         cache: false,
                         processData: false,
                         success: function(data) {
-                            console.log(data);
+                            // console.log(data);
 
                             form.querySelector('select[name=id]').append(new Option("Select a reason", ""));
                             data.data.forEach(element => {
-                                console.log(element);
+                                // console.log(element);
                                 form.querySelector('select[name=id]').append(new Option(element.reason, element.id));
                             });
                         }
@@ -229,7 +229,7 @@
                 // Validate form before submit
                 if (validator) {
                     validator.validate().then(function(status) {
-                        console.log('validated!');
+                        // console.log('validated!');
 
                         if (status == 'Valid') {
                             // Show loading indication
@@ -256,7 +256,7 @@
                                 // type: 'get',
                                 // dataType: 'json',
                                 success: function(data) {
-                                    console.log(data);
+                                    // console.log(data);
                                     // document.location.href = '/client';
                                     // setInterval( function () {
                                     //     table.ajax.reload();
@@ -382,11 +382,11 @@
                         cache: false,
                         processData: false,
                         success: function(data) {
-                            console.log(data);
+                            // console.log(data);
 
                             form.querySelector('select[name=id]').append(new Option("Select a reason", ""));
                             data.data.forEach(element => {
-                                console.log(element);
+                                // console.log(element);
                                 form.querySelector('select[name=id]').append(new Option(element.reason, element.id));
                             });
                         }
@@ -464,7 +464,7 @@
                 // Validate form before submit
                 if (validator) {
                     validator.validate().then(function(status) {
-                        console.log('validated!');
+                        // console.log('validated!');
 
                         if (status == 'Valid') {
 
@@ -607,7 +607,7 @@
                 // Validate form before submit
                 if (validator) {
                     validator.validate().then(function(status) {
-                        console.log('validated!');
+                        // console.log('validated!');
 
                         if (status == 'Valid') {
                             // Show loading indication
