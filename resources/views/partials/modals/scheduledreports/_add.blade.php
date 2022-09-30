@@ -200,7 +200,7 @@
                                         <label class="form-label mb-3">on</label>
                                         <!--end::Label-->
                                         <!--begin::Select-->
-                                        <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Weekday" tabindex="-1" aria-hidden="true" name="weekly_dayname[]" id="weekly_dayname" multiple="multiple">
+                                        <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Weekday" tabindex="-1" aria-hidden="true" name="weekly_dayname[]" id="weekly_dayname" multiple="multiple" data-close-on-select="false">
                                             <option value=""></option>
                                             @php
                                             $weekdays = \App\Core\Data::getDayNames();
@@ -232,7 +232,7 @@
                                         <label class="form-label mb-3">Months</label>
                                         <!--end::Label-->
                                         <!--begin::Select-->
-                                        <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Month" tabindex="-1" aria-hidden="true" name="monthly_months[]" id="monthly_months" multiple="multiple">
+                                        <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Month" tabindex="-1" aria-hidden="true" name="monthly_months[]" id="monthly_months" multiple="multiple" data-close-on-select="false">
                                             <option value=""></option>
                                             @php
                                             $months = \App\Core\Data::getMonthNames();
@@ -258,7 +258,7 @@
                                                 <label class="form-label mb-3">Days</label>
                                                 <!--end::Label-->
                                                 <!--begin::Select-->
-                                                <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Days" tabindex="-1" aria-hidden="true" name="monthly_days[]" id="monthly_days" multiple="multiple">
+                                                <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Days" tabindex="-1" aria-hidden="true" name="monthly_days[]" id="monthly_days" multiple="multiple" data-close-on-select="false">
                                                     <option value=""></option>
                                                     @php
                                                     $counter = 1;
@@ -286,7 +286,7 @@
                                                 <label class="form-label mb-3">Ordinal</label>
                                                 <!--end::Label-->
                                                 <!--begin::Select-->
-                                                <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Days" tabindex="-1" aria-hidden="true" name="monthly_ordinal[]" id="monthly_ordinal" multiple="multiple">
+                                                <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Days" tabindex="-1" aria-hidden="true" name="monthly_ordinal[]" id="monthly_ordinal" multiple="multiple" data-close-on-select="false">
                                                     <option value=""></option>
                                                     @php
                                                     $months = \App\Core\Data::getOrdinals();
@@ -307,7 +307,7 @@
                                                 <label class="form-label mb-3">Weekday</label>
                                                 <!--end::Label-->
                                                 <!--begin::Select-->
-                                                <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Days" tabindex="-1" aria-hidden="true" name="monthly_weekday[]" id="monthly_weekday" multiple="multiple">
+                                                <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Days" tabindex="-1" aria-hidden="true" name="monthly_weekday[]" id="monthly_weekday" multiple="multiple" data-close-on-select="false">
                                                     <option value=""></option>
                                                     @php
                                                     $weekdays = \App\Core\Data::getDayNames();
@@ -362,7 +362,7 @@
                                     <!--end::Label-->
                                     @can('choose location')
                                     <!--begin::Select-->
-                                    <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Location" tabindex="-1" aria-hidden="true" name="location_id[]" id="location_id" multiple="multiple">
+                                    <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Location" tabindex="-1" aria-hidden="true" name="location_id[]" id="location_id" multiple="multiple" data-close-on-select="false">
                                         @foreach($locations as $_location)
                                         <option value="{{ $_location->id }}">{{ $_location->name }}</option>
                                         @endforeach

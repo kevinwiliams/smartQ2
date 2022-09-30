@@ -21,6 +21,7 @@ use App\Http\Controllers\Common\CronjobController;
 use App\Http\Controllers\Common\DisplayController;
 use App\Http\Controllers\Admin\DisplaySettingController;
 use App\Http\Controllers\Admin\LocationController;
+use App\Http\Controllers\Admin\ReasonForVisitController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\ScheduledReportsController;
 use App\Http\Controllers\Common\LanguageController;
@@ -251,6 +252,20 @@ Route::middleware('auth')->group(function () {
 			Route::post('display/{id}', [DisplaySettingController::class, 'setting']);
 			Route::get('display/custom', [DisplaySettingController::class, 'getCustom']);
 			Route::post('display/custom', [DisplaySettingController::class, 'custom']);
+		});
+
+
+		// // Visit Reason
+		Route::prefix('visitreason')->group(function () {
+			Route::get('/{id}', [ReasonForVisitController::class, 'index']);
+			Route::get('reasonsforvisit/{id}', [ReasonForVisitController::class, 'reasonsforvisit']);			
+			Route::post('create', [ReasonForVisitController::class, 'store']);
+			Route::post('edit/{id}', [ReasonForVisitController::class, 'update']);
+			Route::get('delete/{id}', [ReasonForVisitController::class, 'destroy']);
+			// Route::get('edit/{id}', [CounterController::class, 'showEditForm']);
+			// Route::post('edit', [CounterController::class, 'update']);
+			
+			// Route::get('getCountersbyDept/{id}', [CounterController::class, 'getCountersbyDept']);
 		});
 
 		Route::get('staff/{id}', [UserManagementController::class, 'officersList']);

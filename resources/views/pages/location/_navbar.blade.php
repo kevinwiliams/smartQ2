@@ -142,6 +142,16 @@
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item">
+                <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='visitreason') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/visitreason/' . $location->id)}}">Visit Reason</a>
+            </li>
+            <!--end::Nav item-->
+            <!--begin::Nav item-->
+            <!-- <li class="nav-item">
+                <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='counter') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/counter/' . $location->id)}}">Counters</a>
+            </li> -->
+            <!--end::Nav item-->
+            <!--begin::Nav item-->
+            <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='staff') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/staff/' . $location->id)}}">Staff</a>
             </li>
             <!--end::Nav item-->
