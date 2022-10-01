@@ -22,6 +22,7 @@ use App\Http\Controllers\Common\DisplayController;
 use App\Http\Controllers\Admin\DisplaySettingController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\ReasonForVisitController;
+use App\Http\Controllers\Admin\ReasonForVisitCountersController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\ScheduledReportsController;
 use App\Http\Controllers\Common\LanguageController;
@@ -262,6 +263,20 @@ Route::middleware('auth')->group(function () {
 			Route::post('create', [ReasonForVisitController::class, 'store']);
 			Route::post('edit/{id}', [ReasonForVisitController::class, 'update']);
 			Route::get('delete/{id}', [ReasonForVisitController::class, 'destroy']);
+			// Route::get('edit/{id}', [CounterController::class, 'showEditForm']);
+			// Route::post('edit', [CounterController::class, 'update']);
+			
+			// Route::get('getCountersbyDept/{id}', [CounterController::class, 'getCountersbyDept']);
+		});
+
+		// // Visit Reason Counter
+		Route::prefix('visitreasoncounter')->group(function () {
+			Route::get('/{id}', [ReasonForVisitCountersController::class, 'index']);
+			Route::post('edit/{id}', [ReasonForVisitCountersController::class, 'update']);
+			// Route::get('reasonsforvisit/{id}', [ReasonForVisitController::class, 'reasonsforvisit']);			
+			// Route::post('create', [ReasonForVisitController::class, 'store']);
+			// Route::post('edit/{id}', [ReasonForVisitController::class, 'update']);
+			// Route::get('delete/{id}', [ReasonForVisitController::class, 'destroy']);
 			// Route::get('edit/{id}', [CounterController::class, 'showEditForm']);
 			// Route::post('edit', [CounterController::class, 'update']);
 			

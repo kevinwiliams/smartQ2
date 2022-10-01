@@ -21,8 +21,8 @@
                         </div>
                         <!--end::Status-->
                         <!--begin::Description-->
-                        <div class="d-flex flex-wrap fw-bold mb-4 fs-5 text-gray-400">{!! theme()->getSvgIcon("icons/duotune/general/gen018.svg", "svg-icon-3") !!}  {{ $location->address }}</div>
-                        <!--end::Description-->                        
+                        <div class="d-flex flex-wrap fw-bold mb-4 fs-5 text-gray-400">{!! theme()->getSvgIcon("icons/duotune/general/gen018.svg", "svg-icon-3") !!} {{ $location->address }}</div>
+                        <!--end::Description-->
                     </div>
                     <!--end::Details-->
                     <!--begin::Actions-->
@@ -55,7 +55,7 @@
                             <!--begin::Number-->
                             <div class="d-flex align-items-center">
                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr065.svg-->
-								{!! theme()->getSvgIcon("icons/duotune/arrows/arr065.svg", "svg-icon-3 svg-icon-danger me-2") !!}
+                                {!! theme()->getSvgIcon("icons/duotune/arrows/arr065.svg", "svg-icon-3 svg-icon-danger me-2") !!}
                                 <!--end::Svg Icon-->
                                 <div class="fs-4 fw-bolder" data-mv-countup="true" data-mv-countup-value="{{ $location->staff->count() }}">0</div>
                             </div>
@@ -70,7 +70,7 @@
                             <!--begin::Number-->
                             <div class="d-flex align-items-center">
                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr066.svg-->
-								{!! theme()->getSvgIcon("icons/duotune/arrows/arr066.svg", "svg-icon-3 svg-icon-success me-2") !!}
+                                {!! theme()->getSvgIcon("icons/duotune/arrows/arr066.svg", "svg-icon-3 svg-icon-success me-2") !!}
                                 <!--end::Svg Icon-->
                                 <div class="fs-4 fw-bolder" data-mv-countup="true" data-mv-countup-value="{{ $location->visitorslastweek }}">0</div>
                             </div>
@@ -84,21 +84,21 @@
                     <!--end::Stats-->
                     <!--begin::Officers-->
                     <div class="symbol-group symbol-hover mb-3">
-                       
-                        
+
+
                         @foreach ($officers as $officer)
-                        
-                            @if (!empty($officer->photo))
-                                <!--begin::User-->
-                                <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{$officer->firstname}} {{$officer->lastname}}">
-                                    <img alt="Pic" src="{{ $officer->photo}}" />
-                                </div>
-                                <!--end::User-->
-                            @endif
-                            
+
+                        @if (!empty($officer->photo))
+                        <!--begin::User-->
+                        <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{$officer->firstname}} {{$officer->lastname}}">
+                            <img alt="Pic" src="{{ $officer->photo}}" />
+                        </div>
+                        <!--end::User-->
+                        @endif
+
                         @endforeach
 
-                      
+
                         <!--begin::All users-->
                         <a href="#" class="symbol symbol-35px symbol-circle" data-bs-toggle="modal" data-bs-target="#mv_modal_view_users">
                             <span class="symbol-label bg-dark text-inverse-dark fs-8 fw-bolder" data-bs-toggle="tooltip" data-bs-trigger="hover" title="View more users">+{{ $officers->count() }}</span>
@@ -120,13 +120,13 @@
                 <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='view') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/view/' . $location->id)}}">Overview</a>
             </li>
             <!--end::Nav item-->
-              <!--begin::Nav item-->
-              <li class="nav-item">
+            <!--begin::Nav item-->
+            <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='edit') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/edit/' . $location->id)}}">Details</a>
             </li>
             <!--end::Nav item-->
-             <!--begin::Nav item-->
-             <li class="nav-item">
+            <!--begin::Nav item-->
+            <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='map') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/map/' . $location->id)}}">Map</a>
             </li>
             <!--end::Nav item-->
@@ -146,11 +146,6 @@
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->
-            <!-- <li class="nav-item">
-                <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='counter') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/counter/' . $location->id)}}">Counters</a>
-            </li> -->
-            <!--end::Nav item-->
-            <!--begin::Nav item-->
             <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='staff') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/staff/' . $location->id)}}">Staff</a>
             </li>
@@ -165,8 +160,13 @@
                 <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='token') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/token/setting/' . $location->id)}}">Queue Setup</a>
             </li>
             <!--end::Nav item-->
-             <!--begin::Nav item-->
-             <li class="nav-item">
+            <!--begin::Nav item-->
+            <li class="nav-item">
+                <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='visitreasoncounter') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/visitreasoncounter/' . $location->id)}}">Counter Visit Reason</a>
+            </li>
+            <!--end::Nav item-->
+            <!--begin::Nav item-->
+            <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(3)=='display') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/settings/display/' . $location->id)}}">Display Settings</a>
             </li>
             <!--end::Nav item-->
