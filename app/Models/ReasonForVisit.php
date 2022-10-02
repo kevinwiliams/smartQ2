@@ -9,7 +9,7 @@ class ReasonForVisit extends Model
 {
     use HasFactory;
 
-    protected $table = "reason_for_visit";
+    protected $table = "reason_for_visits";
 
     protected $fillable = ['department_id', 'reason'];
 
