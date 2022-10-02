@@ -773,7 +773,14 @@ class TokenController extends Controller
         //     ->get();
         $tokens = auth()->user()->pendingtokens()->get();
 
-        return view('pages.token.current-icons', compact('tokens'));
+        $reasons = null;
+        if (count($tokens) > 0) {
+            $firsttoken = $tokens[0];
+            $reasons = $firsttoken->counter->visitreasons->pluck('reason')->toArray();
+            asort($reasons);
+        } 
+
+        return view('pages.token.current-icons', compact('tokens','reasons'));
     }
 
     public function report(Request $request)
@@ -1061,7 +1068,7 @@ class TokenController extends Controller
         $content .= "</ul>";
         $content .= "</div>";
 
-        $display = DisplaySetting::where("location_id",auth()->user()->location_id)->first();
+        $display = DisplaySetting::where("location_id", auth()->user()->location_id)->first();
         // Browsershot::html($content)->savePdf('token-'. $info->token_no .'.pdf');
         // return PDF::loadHtml($content)->setOptions(["page-height" => config('app.token.page-height', 50), "page-width" => config('app.token.page-width', 60)])->inline('token-' . $info->token_no . '.pdf');
         //return PDF::loadHtml($content)->setOptions(config('app.token-print-settings'))->inline('token-' . $info->token_no . '.pdf');
@@ -1120,8 +1127,8 @@ class TokenController extends Controller
         }
 
         activity('activity')
-                        ->withProperties(['activity' => 'Token recalled', 'department' => $token->department, 'token' => $token->token, 'display' => 'danger', 'location_id' => auth()->user()->location_id])
-                        ->log('Token (:properties.token) recalled for :properties.department');
+            ->withProperties(['activity' => 'Token recalled', 'department' => $token->department, 'token' => $token->token, 'display' => 'danger', 'location_id' => auth()->user()->location_id])
+            ->log('Token (:properties.token) recalled for :properties.department');
 
         if (!empty($token->client)) {
             $user = User::find($token->client);
@@ -1173,8 +1180,8 @@ class TokenController extends Controller
         $counter = $token->counter->name;
 
         activity('activity')
-                        ->withProperties(['activity' => 'Token complete', 'department' => $dept, 'token' => $token->token_no, 'display' => 'danger', 'location_id' => auth()->user()->location_id])
-                        ->log('Token (:properties.token) recalled for :properties.department');
+            ->withProperties(['activity' => 'Token complete', 'department' => $dept, 'token' => $token->token_no, 'display' => 'danger', 'location_id' => auth()->user()->location_id])
+            ->log('Token (:properties.token) recalled for :properties.department');
 
         if (!empty($token->client_id)) {
             $user = User::find($token->client_id);
@@ -1336,6 +1343,25 @@ class TokenController extends Controller
         if ($update) {
             $data['status'] = true;
             $data['message'] = trans('app.note_added_successfully');
+        } else {
+            $data['status'] = false;
+            $data['exception'] = trans('app.please_try_again');
+        }
+
+        return response()->json($data);
+    }
+
+    public function addreasonforvisit(Request $request)
+    {
+        @date_default_timezone_set(session('app.timezone'));
+
+        $update = Token::where('id', $request->id)
+            ->update([
+                'reason_for_visit'  => $request->reason_for_visit,
+            ]);
+        if ($update) {
+            $data['status'] = true;
+            $data['message'] = trans('app.added_successfully');
         } else {
             $data['status'] = false;
             $data['exception'] = trans('app.please_try_again');
@@ -1570,6 +1596,6 @@ class TokenController extends Controller
             ->withProperties(['activity' => 'Client Stopped Token', 'department' => $token->department->name, 'token' => $token->token_no, 'display' => 'danger', 'location_id' => auth()->user()->location_id])
             ->log('Token (:properties.token) stopped for :properties.department');
 
-            return response()->json($data);
+        return response()->json($data);
     }
 }

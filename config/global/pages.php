@@ -221,6 +221,7 @@ return array(
                         'js'  => array(
                             'plugins/custom/tinymce/tinymce.bundle.js',
                             'js/custom/token/add_note.js',
+                            'js/custom/token/add_reason_for_visit.js',
                         ),
                     ),
                 ),

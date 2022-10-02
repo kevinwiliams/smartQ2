@@ -185,6 +185,7 @@ Route::middleware('auth')->group(function () {
 		Route::post('transfer', [TokenController::class, 'transfer']);
 		Route::get('start/{id}', [TokenController::class, 'start']);
 		Route::post('addnote', [TokenController::class, 'addnote']);
+		Route::post('addreasonforvisit', [TokenController::class, 'addreasonforvisit']);		
 	});
 
 

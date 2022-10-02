@@ -33,6 +33,7 @@
     "/demo1/js/custom/home/client-token.js": "/demo1/js/custom/home/client-token.js",
     "/demo1/js/custom/modals/two-factor-authentication.js": "/demo1/js/custom/modals/two-factor-authentication.js",
     "/demo1/js/custom/token/add_note.js": "/demo1/js/custom/token/add_note.js",
+    "/demo1/js/custom/token/add_reason_for_visit.js": "/demo1/js/custom/token/add_reason_for_visit.js",
     "/demo1/js/custom/token/add.js": "/demo1/js/custom/token/add.js",
     "/demo1/js/custom/token/delete.js": "/demo1/js/custom/token/delete.js",
     "/demo1/js/custom/token/list.js": "/demo1/js/custom/token/list.js",
