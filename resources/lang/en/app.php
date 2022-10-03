@@ -202,6 +202,8 @@ return [
     'show_mobile_no'  => 'Display Mobile Number',
     'show_officer'    => 'Display Officer',
     'show_department' => 'Display Department',
+    'count' => 'Count',
+    'percentage' => 'Percentage',
 
     /*NEW */
     'submit'           => 'Submit',

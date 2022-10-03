@@ -658,6 +658,7 @@ class Data
             array('id' => 8, 'group' => 'Stats Reports', 'name' => 'No Shows', 'title' => 'Stats Report - No Shows', 'status' => true, 'view' => 'partials/reports/customers-served-report', 'reportview' => 'partials/scheduledreports/customers-served-report'),
             array('id' => 9, 'group' => 'General Reports', 'name' => 'Token', 'title' => 'Token Report', 'status' => true, 'view' => 'partials/reports/token-report', 'reportview' => 'partials/scheduledreports/token-report'),
             array('id' => 10, 'group' => 'General Reports', 'name' => 'Performance', 'title' => 'Performance Report', 'status' => true, 'view' => 'partials/reports/performance-report', 'reportview' => 'partials/scheduledreports/performance-report'),
+            array('id' => 11, 'group' => 'General Reports', 'name' => 'Reason for Visit', 'title' => 'Reason for Visit', 'status' => true, 'view' => 'partials/reports/reasonforvisit-report', 'reportview' => 'partials/scheduledreports/reasonforvisit-report'),
         );
     }
 

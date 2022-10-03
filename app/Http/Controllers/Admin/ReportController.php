@@ -26,7 +26,7 @@ class ReportController extends Controller
         $data = (object)array();
         $data->report = (request()->has('report')) ? request('report') : '';
         $data->location_id = (request()->has('location_id')) ? request('location_id') : '';
-        $data->daterange = (request()->has('daterange')) ? request('daterange') : '';        
+        $data->daterange = (request()->has('daterange')) ? request('daterange') : '';
         $data->data = null;
         $data->graph = false;
         if (request()->has('report') && request()->has('location_id') && request()->has('daterange')) {
@@ -292,7 +292,7 @@ class ReportController extends Controller
                                 "))
                         ->join('locations', 'locations.id', '=', 'token.location_id')
                         ->join('user', 'user.id', '=', 'token.user_id')
-                        ->whereIn('token.location_id', explode(",", request('location_id')))                        
+                        ->whereIn('token.location_id', explode(",", request('location_id')))
                         ->where('token.no_show', 1)
                         ->whereBetween('token.created_at', [$start, $end])
                         ->groupByRaw('DATE(token.`created_at`),token.`location_id`,`location_name`,`officer`')
@@ -368,14 +368,51 @@ class ReportController extends Controller
 
 
                     break;
+                case '11':
+
+                    //     $user_info = DB::table('usermetas')
+                    //  ->select('browser', DB::raw('count(*) as total'))
+                    //  ->groupBy('browser')
+                    //  ->get();
+
+                    $infoarray = DB::select("
+                        SELECT reason_for_visit, COUNT(*) AS count
+                        FROM token
+                        WHERE (DATE(created_at) BETWEEN '" . $start . "' AND '" . $end . "')
+                        AND (location_id in (" . request('location_id') . "))
+                        GROUP BY reason_for_visit
+                        ORDER BY count DESC
+                   ");
+
+                    $total = 0;
+                    foreach ($infoarray as $value) {
+                        $total += $value->count;
+                        if (empty($value->reason_for_visit))
+                            $value->reason_for_visit = "None Stated";
+                    }
+
+                    foreach ($infoarray as $value) {
+                        if ($total > 0)
+                            $value->percentage = ($value->count / $total) * 100;
+                        else
+                            $value->percentage = 0;
+                    }
+
+                    $data->data = $infoarray;
+                    // echo '<pre>';
+                    // print_r($infoarray);
+                    // echo '</pre>';
+                    // die();
+                    break;
                 default:
                     # code...
                     break;
             }
             $data->home = false;
-        }else{
+        } else {
             $data->home = true;
         }
+
 
         $company_id = auth()->user()->location->company_id;
         $locations = Location::where('company_id', $company_id)->get();
