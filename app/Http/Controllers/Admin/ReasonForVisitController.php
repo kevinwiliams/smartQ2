@@ -70,7 +70,7 @@ class ReasonForVisitController extends Controller
         // die();
         @date_default_timezone_set(session('app.timezone'));
         $validator = Validator::make($request->all(), [
-            'reason'        =>  Rule::unique('reason_for_visit')->where(fn ($query) => $query->where('department_id', $request->department_id)), //'required|unique:locations,name|max:50',
+            'reason'        =>  Rule::unique('reason_for_visits')->where(fn ($query) => $query->where('department_id', $request->department_id)), //'required|unique:locations,name|max:50',
             // 'reason'        =>  'required|max:50',
             'department_id'      => 'required'
         ])
@@ -146,7 +146,7 @@ class ReasonForVisitController extends Controller
         // die();
         @date_default_timezone_set(session('app.timezone'));
         $validator = Validator::make($request->all(), [
-            'reason'        =>  Rule::unique('reason_for_visit')->where(fn ($query) => $query->where('department_id', $request->department_id)), //'required|unique:locations,name|max:50',
+            'reason'        =>  Rule::unique('reason_for_visits')->where(fn ($query) => $query->where('department_id', $request->department_id)), //'required|unique:locations,name|max:50',
             // 'reason'        =>  'required|max:50',
             'department_id'      => 'required'
         ])
