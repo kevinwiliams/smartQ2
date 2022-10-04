@@ -60,7 +60,7 @@ class HomeController extends Controller
         // echo \Session::get('locale');
         // echo app()->getLocale();
         // die();
-        return view('pages.home.index', compact('smsalert', 'maskedemail','shownote','companies'));
+        return view('pages.home._index', compact('smsalert', 'maskedemail','shownote','companies'));
     }
  
 
@@ -352,6 +352,18 @@ class HomeController extends Controller
         $waittime = 0;
 
         $waittime = ($dept->avg_wait_time != null) ? $dept->avg_wait_time * $waiting : $waiting * 1;
+        return json_encode(date('H:i', mktime(0, $waittime)));
+    }
+
+    public function getwaittimebyreason(Request $request)
+    {
+        // $dept = Department::find($request->id);
+        // $waiting = Token::whereIn('status', [0, 3])->where('department_id', $request->id)->count();
+        // $waiting = $waiting - 1;
+
+        // $waittime = 0;
+
+        $waittime = 15;
         return json_encode(date('H:i', mktime(0, $waittime)));
     }
 

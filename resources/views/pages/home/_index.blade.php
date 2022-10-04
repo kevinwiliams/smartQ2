@@ -393,11 +393,13 @@
                                                 <!--end::Title-->
 
 
-                                            </div>                                          
+                                            </div>
                                             <!--begin::Options-->
                                             <div id="mv-departmentrepeater-content" class="mb-0">
-                                                <input class="form-check-input" type="radio" name="department_id" value="" id="mv-departmentrepeater-id" />
+                                                <!-- <input class="form-check-input" type="radio" name="department_id" value="" id="mv-departmentrepeater-id" /> -->
+
                                             </div>
+                                            <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Reason for Visit" tabindex="-1" aria-hidden="true" name="reason_id" value="" id="reason_id"></select>
                                             <div id="mv_repeater_department" class="row">
                                                 <div style="display:none" id="mv-departmentrepeater-item">
                                                     <!--begin:Option-->
@@ -431,16 +433,16 @@
                                                 </div>
                                             </div>
                                             <!--end::Options-->
+                                            <input type="hidden" id="visitreason" name="visitreason" value="" />
 
 
-                                            @if($shownote == 1)
                                             <!--begin::Notes-->
-                                            <div class="mb-0">
+                                            <div class="mb-0" id="shownote">
                                                 <label for="userNote" class="form-label">Note</label>
                                                 <textarea class="form-control" id="userNote" aria-describedby="userNote" name="userNote">{{ old('userNote') }}</textarea>
                                             </div>
                                             <!--end::Notes-->
-                                            @endif
+
                                         </div>
                                         <!--end::Input group-->
 
@@ -712,7 +714,13 @@
                         if (data.status == true) {
                             $('[data-mv-stepper-action="next"]').removeClass('disabled');
                             $('[data-mv-stepper-action="next"]').trigger('click');
-                            getDepartment();
+                            var visitreason = $('input[name="location"]:checked').data('visitreason');
+
+                            if (visitreason == 1) {
+                                getVisitReasons();
+                            } else {
+                                getDepartment();
+                            }
                             $(this).remove();
                         } else {
                             Swal.fire({
@@ -761,7 +769,13 @@
                         if (data.status == true) {
                             $('[data-mv-stepper-action="next"]').removeClass('disabled');
                             $('[data-mv-stepper-action="next"]').trigger('click');
-                            getDepartment();
+                            var visitreason = $('input[name="location"]:checked').data('visitreason');
+
+                            if (visitreason == 1) {
+                                getVisitReasons();
+                            } else {
+                                getDepartment();
+                            }
                             $(this).remove();
                         } else {
                             Swal.fire({
@@ -776,20 +790,9 @@
             });
 
 
-            // function getDepartment(location_id) {
             function getDepartment() {
-                // alert(obj);
-                // return;
-                // console.log(obj.data('id'));
-                // var dept = $(this).find(":checked").val();
-                // var dept = e.target.value;
-                // if (phone == "") {
-                //     Swal.fire({
-                //         title: 'Enter your contact number',
-                //         icon: 'error'
-                //     });
-                //     return;
-                // }
+                $('select[name="reason_id"]').hide();
+                $("#visitreason").val(0);
                 var location_id = $('input[name="location"]:checked').val();
 
                 var repItem = $('#mv-departmentrepeater-item');
@@ -870,6 +873,62 @@
 
             };
 
+            function getVisitReasons() {
+                $("#visitreason").val(1);
+                $('select[name="reason_id"]').show();
+                $('#mv-departmentrepeater-content').html('');
+
+                var location_id = $('input[name="location"]:checked').val();
+
+                var options = $('select[name="reason_id"]').empty();
+
+                $.ajax({
+                    url: '{{ URL::to("location/visitreason/reasonsforvisitbylocation") }}/' + location_id,
+                    type: 'get',
+                    dataType: 'json',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function(data) {
+                        // console.log(data);
+
+                        $('select[name="reason_id"]').append(new Option("Select a reason", ""));
+                        data.data.forEach(element => {
+                            // console.log(element);
+                            $('select[name="reason_id"]').append(new Option(element.reason, element.id));
+                        });
+
+
+                        $('select[name="reason_id"]').on('change', function(e) {
+
+                            var dept = $(this).val();
+
+
+                            $.ajax({
+                                type: 'post',
+                                url: '{{ URL::to("home/getwaittimebyreason") }}',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: {
+                                    'id': dept,
+                                    '_token': '<?php echo csrf_token() ?>'
+                                },
+                                success: function(data) {
+                                    console.log(data);
+                                    $("#span_wait").text(data);
+                                }
+                            });
+
+                        });
+                    }
+
+                });
+
+            };
+
             // $('input:radio[name=department_id]').on('click', function(e) {
             //     console.log(e);
             //     var dept = $(this).find(":checked").val();
@@ -923,7 +982,7 @@
                     url: '{{ URL::to("company/getLocations") }}' + "/" + company,
                     dataType: 'json',
                     success: function(data) {
-                        console.log(data);
+                        // console.log(data);
                         content.html("")
                         var cntr = 1;
                         data.forEach(element => {
@@ -941,6 +1000,8 @@
                             //update ids
                             var __id = radio.attr('id');
                             radio.attr('id', __id + element.id);
+                            radio.data('visitreason', element.settings.client_reason_for_visit);
+                            radio.data('shownote', element.settings.show_note);
                             var label = _clone.find('label');
                             label.attr('for', __id + element.id);
                             var __id2 = label.attr('id');
@@ -955,17 +1016,24 @@
 
                             _clone.on('click', function(e) {
                                 $('[data-mv-stepper-action="next"]').removeClass('disabled');
+                                var obj = $('input[name="location"]:checked');
+                                // console.log(obj);
+                                var shownote = obj.data('shownote');
+
+                                console.log("shownote: " + shownote);
+                                if (shownote === undefined) {
+                                    $("#shownote").hide();
+                                } else if (shownote == 0) {
+                                    $("#shownote").hide();
+                                } else {
+                                    $("#shownote").show();
+                                }
+                                // console.log("shownote: " + shownote);
                             });
 
                             content.append(_clone);
                             cntr++;
                         });
-
-                        // $("label[for^='mv-repeater-location']").on('click', function(e) {
-                        //     var locationid = $(this).data("location_id");
-                        //     // alert(locationid);
-                        //     getDepartment(locationid);                            
-                        // });
                     }
                 });
             });
@@ -977,7 +1045,7 @@
         function collateOTPCode(prefix) {
             var str = "";
             $('input[name^="' + prefix + '"]').each(function() {
-                console.log($(this).val());
+                // console.log($(this).val());
                 str = str + $(this).val();
             });
 

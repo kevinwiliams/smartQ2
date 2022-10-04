@@ -31,7 +31,7 @@ var MVCreateToken = function () {
 
         // Stepper change event
         stepperObj.on('mv.stepper.changed', function (stepper) {
-			console.log(stepperObj.getCurrentStepIndex());
+            console.log(stepperObj.getCurrentStepIndex());
             if (stepperObj.getCurrentStepIndex() === 2) {
                 $('[data-mv-stepper-action="next"]').addClass('disabled');
             }
@@ -55,6 +55,15 @@ var MVCreateToken = function () {
         stepperObj.on('mv.stepper.next', function (stepper) {
             console.log('stepper.next', stepper.getCurrentStepIndex());
 
+            if (stepper.getCurrentStepIndex() == 3) {
+                // Enable or disable validators for the `email` field
+                var visitreason = $("#visitreason").val();                
+                // console.log("visitreason:" + visitreason);
+                (visitreason == 1) ? validations[2].disableValidator('department_id') : validations[2].enableValidator('department_id');
+                (visitreason == 0) ? validations[2].disableValidator('reason_id') : validations[2].enableValidator('reason_id');
+                // console.log("visitreason:" + visitreason);
+                // console.log(validations[2].getFields());
+            }
 
             // Validate form before change stepper step
             var validator = validations[stepper.getCurrentStepIndex() - 1]; // get validator for currnt step
@@ -79,11 +88,17 @@ var MVCreateToken = function () {
                                 if (value.isConfirmed) {
                                     var location = $('input[name=location]:checked').val();
                                     var dept = $('input[name=department_id]:checked').val();
+                                    var reason = $('select[name="reason_id"]').val();
                                     var note = $('#userNote').val();
                                     const element = document.getElementById('mv_create_token_stepper');
                                     const form = element.querySelector('#mv_create_token_form');
 
-                                    //alert(dept);
+                                    console.log("location: " + location);
+                                    console.log("dept: " + dept);
+                                    console.log("reason: " + reason);
+                                    console.log("note: " + note);
+                                    console.log("form.action: " + form.action);
+
                                     $.ajax({
                                         url: form.action,
                                         type: form.method,
@@ -94,6 +109,7 @@ var MVCreateToken = function () {
                                         data: {
                                             'location': location,
                                             'department_id': dept,
+                                            'reason_id': reason,
                                             'note': note
                                         },
                                         success: function (data) {
@@ -227,6 +243,13 @@ var MVCreateToken = function () {
             form, {
                 fields: {
                     department_id: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please choose a department'
+                            }
+                        }
+                    },
+                    reason_id: {
                         validators: {
                             notEmpty: {
                                 message: 'Please choose a service'

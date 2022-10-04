@@ -236,4 +236,22 @@ class ReasonForVisitController extends Controller
 
         return response()->json($data);
     }
+
+
+    public function reasonsforvisitbylocation($id)
+    {
+        // try {
+        $locationids = Department::where('location_id', auth()->user()->location_id)->pluck('id')->toArray();
+        $info = ReasonForVisit::whereIn('department_id', $locationids)->orderBy('reason')->get();
+        $data['data'] = $info;
+        $data['status'] = true;
+        $data['message'] = trans('app.visitreasons_retrieved_successfully');
+        // } catch (\Throwable $th) {
+        //     $data['status'] = false;
+        //     $data['exception'] = trans('app.please_try_again');
+        //     $data['errorObj'] = $th;
+        // }
+
+        return response()->json($data);
+    }
 }

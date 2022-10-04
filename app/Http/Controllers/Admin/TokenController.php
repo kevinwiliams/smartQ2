@@ -18,6 +18,8 @@ use App\Models\DisplaySetting;
 use App\Models\TokenSetting;
 use App\Models\SmsSetting;
 use App\Models\Location;
+use App\Models\ReasonForVisit;
+use App\Models\ReasonForVisitCounters;
 use App\Models\Setting;
 use App\Models\SmsHistory;
 use App\Models\TokenStatus;
@@ -389,7 +391,6 @@ class TokenController extends Controller
     {
         @date_default_timezone_set(session('app.timezone'));
 
-        $display = DisplaySetting::first();
 
         $client_id = auth()->user()->id;
         $client_mobile = auth()->user()->mobile;
@@ -398,16 +399,23 @@ class TokenController extends Controller
         try {
             DB::beginTransaction();
 
+            $reason = null;
             //find auto-setting
-            $settings = TokenSetting::select('counter_id', 'department_id', 'user_id', 'created_at')
-                ->where('department_id', $request->department_id)
-                ->groupBy('user_id')
-                ->get();
+            if ($request->has('reason_id')) {
+                $reason = ReasonForVisit::find($request->reason_id);
+                $counters = ReasonForVisitCounters::where('reason_id', $request->reason_id)->pluck('counter_id')->toArray();
+                $settings = TokenSetting::select('counter_id', 'department_id', 'user_id', 'created_at')
+                    ->whereIn('counter_id', $counters)
+                    ->groupBy('user_id')
+                    ->get();
+            } else {
+                $settings = TokenSetting::select('counter_id', 'department_id', 'user_id', 'created_at')
+                    ->where('department_id', $request->department_id)
+                    ->groupBy('user_id')
+                    ->get();
+            }
 
-            // echo '<pre>';
-            // print_r($settings->department_id);
-            // echo '<pre>';
-            // die();
+
             //if auto-setting are available
             if (!empty($settings)) {
 
@@ -448,6 +456,7 @@ class TokenController extends Controller
                     'counter_id'    => $min['counter_id'],
                     'user_id'       => $min['user_id'],
                     'note'          => ($request->note != "") ? $request->note : null,
+                    'reason_for_visit'          => ($reason != null) ? $reason->reason : null,
                     'created_by'    => auth()->user()->id,
                     'created_at'    => date('Y-m-d H:i:s'),
                     'updated_at'    => null,
@@ -778,9 +787,9 @@ class TokenController extends Controller
             $firsttoken = $tokens[0];
             $reasons = $firsttoken->counter->visitreasons->pluck('reason')->toArray();
             asort($reasons);
-        } 
+        }
 
-        return view('pages.token.current-icons', compact('tokens','reasons'));
+        return view('pages.token.current-icons', compact('tokens', 'reasons'));
     }
 
     public function report(Request $request)

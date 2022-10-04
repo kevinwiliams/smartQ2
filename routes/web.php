@@ -137,6 +137,7 @@ Route::middleware('auth')->group(function () {
 		Route::post('confirmOTP', [HomeController::class, 'confirmOTP']);
 		Route::post('confirmEmailOTP', [HomeController::class, 'confirmEmailOTP']);
 		Route::post('getwaittime', [HomeController::class, 'getwaittime']);
+		Route::post('getwaittimebyreason', [HomeController::class, 'getwaittimebyreason']);
 		Route::post('getdepartments', [HomeController::class, 'getdepartments']);
 		Route::get('current', [TokenController::class, 'currentClient']);
 		Route::post('autotoken', [TokenController::class, 'clientTokenAuto']);
@@ -261,6 +262,7 @@ Route::middleware('auth')->group(function () {
 		Route::prefix('visitreason')->group(function () {
 			Route::get('/{id}', [ReasonForVisitController::class, 'index']);
 			Route::get('reasonsforvisit/{id}', [ReasonForVisitController::class, 'reasonsforvisit']);			
+			Route::get('reasonsforvisitbylocation/{id}', [ReasonForVisitController::class, 'reasonsforvisitbylocation']);			
 			Route::post('create', [ReasonForVisitController::class, 'store']);
 			Route::post('edit/{id}', [ReasonForVisitController::class, 'update']);
 			Route::get('delete/{id}', [ReasonForVisitController::class, 'destroy']);
