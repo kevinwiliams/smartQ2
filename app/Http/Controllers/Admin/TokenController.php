@@ -401,7 +401,7 @@ class TokenController extends Controller
 
             $reason = null;
             //find auto-setting
-            if ($request->has('reason_id')) {
+            if (!empty($request->reason_id)) {
                 $reason = ReasonForVisit::find($request->reason_id);
                 $counters = ReasonForVisitCounters::where('reason_id', $request->reason_id)->pluck('counter_id')->toArray();
                 $settings = TokenSetting::select('counter_id', 'department_id', 'user_id', 'created_at')

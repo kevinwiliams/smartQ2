@@ -395,11 +395,12 @@
 
                                             </div>
                                             <!--begin::Options-->
-                                            <div id="mv-departmentrepeater-content" class="mb-0">
-                                                <!-- <input class="form-check-input" type="radio" name="department_id" value="" id="mv-departmentrepeater-id" /> -->
-
+                                            <div id="mv-departmentrepeater-content" class="mb-0" style="display: none;">
+                                                <input class="form-check-input" type="radio" name="department_id" value="" id="mv-departmentrepeater-id" />
                                             </div>
-                                            <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Reason for Visit" tabindex="-1" aria-hidden="true" name="reason_id" value="" id="reason_id"></select>
+                                            <div id="mv_reasonforvisit">
+                                                <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Reason for Visit" tabindex="-1" aria-hidden="true" name="reason_id" value="" id="reason_id"></select>
+                                            </div>
                                             <div id="mv_repeater_department" class="row">
                                                 <div style="display:none" id="mv-departmentrepeater-item">
                                                     <!--begin:Option-->
@@ -791,7 +792,7 @@
 
 
             function getDepartment() {
-                $('select[name="reason_id"]').hide();
+                $('#mv_reasonforvisit').hide();
                 $("#visitreason").val(0);
                 var location_id = $('input[name="location"]:checked').val();
 
@@ -844,7 +845,7 @@
                             cntr++;
                         });
 
-
+                        content.show();
                         $('input:radio[name=department_id]').on('click', function(e) {
                             console.log(e);
                             var dept = $(this).find(":checked").val();
@@ -875,7 +876,8 @@
 
             function getVisitReasons() {
                 $("#visitreason").val(1);
-                $('select[name="reason_id"]').show();
+                $('#mv_reasonforvisit').show();
+                $('#mv-departmentrepeater-content').hide();
                 $('#mv-departmentrepeater-content').html('');
 
                 var location_id = $('input[name="location"]:checked').val();
