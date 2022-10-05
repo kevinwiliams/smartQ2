@@ -906,8 +906,7 @@
 
                         $('select[name="reason_id"]').on('change', function(e) {
 
-                            var dept = $(this).val();
-
+                            var reason = $(this).val();
 
                             $.ajax({
                                 type: 'post',
@@ -915,7 +914,7 @@
                                 type: 'POST',
                                 dataType: 'json',
                                 data: {
-                                    'id': dept,
+                                    'id': reason,
                                     '_token': '<?php echo csrf_token() ?>'
                                 },
                                 success: function(data) {

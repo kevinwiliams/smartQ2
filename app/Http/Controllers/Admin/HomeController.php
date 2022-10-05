@@ -10,8 +10,10 @@ use App\Models\DisplaySetting;
 use App\Http\Controllers\Common\SMS_lib;
 use App\Mail\OTPNotification;
 use App\Models\Company;
+use App\Models\ReasonForVisitCounters;
 use App\Models\SmsHistory;
 use App\Models\SmsSetting;
+use App\Models\TokenSetting;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 
@@ -54,20 +56,20 @@ class HomeController extends Controller
         $shownote = $display->show_note;
 
         $maskedemail = auth()->user()->getMaskedEmail();
-        
-        $companies = Company::has('locations.departments')->orderBy('name','asc')->pluck('name','id');
+
+        $companies = Company::has('locations.departments')->orderBy('name', 'asc')->pluck('name', 'id');
 
         // echo \Session::get('locale');
         // echo app()->getLocale();
         // die();
-        return view('pages.home._index', compact('smsalert', 'maskedemail','shownote','companies'));
+        return view('pages.home._index', compact('smsalert', 'maskedemail', 'shownote', 'companies'));
     }
- 
+
 
     public function home()
     {
         @date_default_timezone_set(session('app.timezone'));
-   
+
         $infobox = $this->infobox();
         $performance = $this->userPerformance();
         $month = $this->chart_month();
@@ -345,32 +347,99 @@ class HomeController extends Controller
 
     public function getwaittime(Request $request)
     {
-        $dept = Department::find($request->id);
-        $waiting = Token::whereIn('status', [0, 3])->where('department_id', $request->id)->count();
-        $waiting = $waiting - 1;
+        //find auto-setting
+        $settings = TokenSetting::select('counter_id', 'department_id', 'user_id', 'created_at')
+            ->where('department_id', $request->id)
+            ->groupBy('user_id')
+            ->get();
 
         $waittime = 0;
+        //if auto-setting are available
+        if (!empty($settings)) {
 
-        $waittime = ($dept->avg_wait_time != null) ? $dept->avg_wait_time * $waiting : $waiting * 1;
+            foreach ($settings as $setting) {
+                //compare each user in today
+                $tokenData = Token::select('department_id', 'counter_id', 'user_id', DB::raw('COUNT(user_id) AS total_tokens'))
+                    ->where('department_id', $setting->department_id)
+                    ->where('counter_id', $setting->counter_id)
+                    ->where('user_id', $setting->user_id)
+                    ->whereIn('status', [0, 3])
+                    ->whereRaw('DATE(created_at) = CURDATE()')
+                    ->orderBy('total_tokens', 'asc')
+                    ->groupBy('user_id')
+                    ->first();
+
+                //create user counter list
+                $tokenAssignTo[] = [
+                    'total_tokens'  => (!empty($tokenData->total_tokens) ? $tokenData->total_tokens : 0),
+                    'department_id' => $setting->department_id,
+                    'counter_id'    => $setting->counter_id,
+                    'user_id'       => $setting->user_id
+                ];
+            }
+
+            //findout min counter set to 
+            $min = min($tokenAssignTo);
+
+            $officer = User::where('id', $min['user_id'])->first();
+            $dept = Department::where('id', $min['department_id'])->first();
+            $waittime = $min['total_tokens'] * (($officer->wait_time > 0) ? $officer->wait_time : $dept->avg_wait_time);
+        }
+
         return json_encode(date('H:i', mktime(0, $waittime)));
     }
 
     public function getwaittimebyreason(Request $request)
     {
-        // $dept = Department::find($request->id);
-        // $waiting = Token::whereIn('status', [0, 3])->where('department_id', $request->id)->count();
-        // $waiting = $waiting - 1;
+        //find auto-setting
 
-        // $waittime = 0;
+        $counters = ReasonForVisitCounters::where('reason_id', $request->id)->pluck('counter_id')->toArray();
+        $settings = TokenSetting::select('counter_id', 'department_id', 'user_id', 'created_at')
+            ->whereIn('counter_id', $counters)
+            ->groupBy('user_id')
+            ->get();
 
-        $waittime = 15;
+        $waittime = 0;
+        //if auto-setting are available
+        if (!empty($settings)) {
+
+            foreach ($settings as $setting) {
+                //compare each user in today
+                $tokenData = Token::select('department_id', 'counter_id', 'user_id', DB::raw('COUNT(user_id) AS total_tokens'))
+                    ->where('department_id', $setting->department_id)
+                    ->where('counter_id', $setting->counter_id)
+                    ->where('user_id', $setting->user_id)
+                    ->whereIn('status', [0, 3])
+                    ->whereRaw('DATE(created_at) = CURDATE()')
+                    ->orderBy('total_tokens', 'asc')
+                    ->groupBy('user_id')
+                    ->first();
+
+                //create user counter list
+                $tokenAssignTo[] = [
+                    'total_tokens'  => (!empty($tokenData->total_tokens) ? $tokenData->total_tokens : 0),
+                    'department_id' => $setting->department_id,
+                    'counter_id'    => $setting->counter_id,
+                    'user_id'       => $setting->user_id
+                ];
+            }
+
+            //findout min counter set to 
+            $min = min($tokenAssignTo);
+            $officer = User::where('id', $min['user_id'])->with(['wait_time', 'service_time'])->first();
+            $dept = Department::where('id', $min['department_id'])->first();
+            $waittime = $min['total_tokens'] * (($officer->wait_time > 0) ? $officer->wait_time : $dept->avg_wait_time);
+        }
+
+
         return json_encode(date('H:i', mktime(0, $waittime)));
     }
 
     public function getdepartments(Request $request)
     {
-        $dept = Department::where('location_id', $request->id)->get();
-        
+        $deptids = TokenSetting::where('location_id', $request->id)->pluck('department_id')->toArray();
+        $dept = Department::where('location_id', $request->id)->whereIn('id', $deptids)->orderBy('name')->get();
+
         return json_encode($dept);
     }
 

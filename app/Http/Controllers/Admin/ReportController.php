@@ -164,13 +164,13 @@ class ReportController extends Controller
 
                         foreach ($locationtokens as $_locationtoken) {
 
-                            if ($_locationtoken->wait_time != null) {
-                                $waittotal += $_locationtoken->wait_time;
-                                if ($mintime < $_locationtoken->wait_time || $waitcounter == 0)
-                                    $mintime = $_locationtoken->wait_time;
+                            if ($_locationtoken->getWaitTimeMinutes() != null) {
+                                $waittotal += $_locationtoken->getWaitTimeMinutes();
+                                if ($mintime < $_locationtoken->getWaitTimeMinutes() || $waitcounter == 0)
+                                    $mintime = $_locationtoken->getWaitTimeMinutes();
 
-                                if ($maxtime > $_locationtoken->wait_time || $waitcounter == 0)
-                                    $maxtime = $_locationtoken->wait_time;
+                                if ($maxtime > $_locationtoken->getWaitTimeMinutes() || $waitcounter == 0)
+                                    $maxtime = $_locationtoken->getWaitTimeMinutes();
 
                                 $waitcounter++;
                             }
@@ -224,13 +224,13 @@ class ReportController extends Controller
 
                         foreach ($locationtokens as $_locationtoken) {
 
-                            if ($_locationtoken->service_time != null) {
-                                $servicetotal += $_locationtoken->service_time;
-                                if ($mintime < $_locationtoken->service_time || $servicecounter == 0)
-                                    $mintime = $_locationtoken->service_time;
+                            if ($_locationtoken->getServiceTimeMinutes() != null) {
+                                $servicetotal += $_locationtoken->getServiceTimeMinutes();
+                                if ($mintime < $_locationtoken->getServiceTimeMinutes() || $servicecounter == 0)
+                                    $mintime = $_locationtoken->getServiceTimeMinutes();
 
-                                if ($maxtime > $_locationtoken->service_time || $servicecounter == 0)
-                                    $maxtime = $_locationtoken->service_time;
+                                if ($maxtime > $_locationtoken->getServiceTimeMinutes() || $servicecounter == 0)
+                                    $maxtime = $_locationtoken->getServiceTimeMinutes();
 
                                 $servicecounter++;
                             }

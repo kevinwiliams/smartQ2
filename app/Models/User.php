@@ -29,7 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
 
-    protected $fillable = ['firstname', 'lastname', 'email', 'api_token', 'password', 'department_id', 'mobile', 'photo', 'user_type', 'remember_token', 'status', 'otp','otp_type','otp_timestamp', 'user_token', 'token_date', 'push_notifications'];
+    protected $fillable = ['firstname', 'lastname', 'email', 'api_token', 'password', 'department_id', 'mobile', 'photo', 'user_type', 'remember_token', 'status', 'otp', 'otp_type', 'otp_timestamp', 'user_token', 'token_date', 'push_notifications'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -124,7 +124,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function getCurrentOTP()
-    {        
+    {
         $current = Carbon::now();
         if ($this->otp_timestamp == null)
             return '';
@@ -183,19 +183,57 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function pendingtokens()
     {
-        return $this->hasMany(Token::class)->where('status',0)->orderBy('is_vip', 'DESC')
-        ->orderBy('id', 'ASC');
+        return $this->hasMany(Token::class)->where('status', 0)->orderBy('is_vip', 'DESC')
+            ->orderBy('id', 'ASC');
     }
 
     public function lasttoken()
     {
-        return $this->hasOne(Token::class,'client_id','id')->where('status',1)->orderBy('is_vip', 'DESC')
-        ->orderBy('id', 'ASC');
+        return $this->hasOne(Token::class, 'client_id', 'id')->where('status', 1)->orderBy('is_vip', 'DESC')
+            ->orderBy('id', 'ASC');
     }
 
     public function location()
     {
         return $this->belongsTo(Location::class);
+    }
+
+    public function officertokens()
+    {
+        return $this->hasMany(Token::class, 'user_id', 'id')->where('status', 1);
+    }
+
+    public function getServiceTimeAttribute(){
+        $locationtokens = $this->officertokens();
+        $servicecounter = 0;
+        $servicetotal = 0;        
+
+        foreach ($locationtokens as $_locationtoken) {
+
+            if ($_locationtoken->getServiceTimeMinutes() != null) {
+                $servicetotal += $_locationtoken->getServiceTimeMinutes();
+                $servicecounter++;
+            }
+        }
+
+        return ($servicecounter > 0) ? ($servicetotal / $servicecounter) : 0;
+    }
+
+
+    public function getWaitTimeAttribute(){
+        $locationtokens = $this->officertokens();
+        $servicecounter = 0;
+        $servicetotal = 0;        
+
+        foreach ($locationtokens as $_locationtoken) {
+
+            if ($_locationtoken->getWaitTimeMinutes() != null) {
+                $servicetotal += $_locationtoken->getWaitTimeMinutes();
+                $servicecounter++;
+            }
+        }
+
+        return ($servicecounter > 0) ? ($servicetotal / $servicecounter) : 0;
     }
 
     public function company()
@@ -210,8 +248,8 @@ class User extends Authenticatable implements MustVerifyEmail
         );
     }
 
-    public function getMaskedEmail(){
+    public function getMaskedEmail()
+    {
         return (new Utilities_lib)->maskEmail($this->email);
     }
-
 }
