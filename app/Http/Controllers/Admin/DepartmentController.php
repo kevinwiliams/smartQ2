@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\DataTables\Department\DepartmentDataTable;
@@ -10,36 +11,37 @@ use App\Models\Department;
 use App\Models\Counter;
 use App\Models\User;
 use App\Models\Location;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Redirect;
 
 class DepartmentController extends Controller
 {
-    
+
     public function _index()
-    { 
+    {
         $departments = Department::get();
         return view('pages.location.department.list', compact('departments'));
     }
 
     public function index(DepartmentDataTable $dataTable, $id = null)
-    {          
+    {
         if (!auth()->user()->can('view location')) {
             return Redirect::to("/")->withFail(trans('app.no_permissions'));
         }
         $departments = Department::where('location_id', $id)->count();
         $counters = Counter::where('location_id', $id)->count();
         $officers = User::where('location_id', $id)
-                    ->where('status', 1)
-                    ->get();
-                    // ->count();
+            ->where('status', 1)
+            ->get();
+        // ->count();
         $location = Location::where('id', $id)->first();
 
         $keyList = $this->keyList();
 
         $model = Department::query();
-   
-        
-        return $dataTable->with('deptlocation_id', $id)->render('pages.location.department.list', compact('keyList', 'location','departments', 'counters', 'officers'));
+
+
+        return $dataTable->with('deptlocation_id', $id)->render('pages.location.department.list', compact('keyList', 'location', 'departments', 'counters', 'officers'));
     }
 
     public function showForm()
@@ -47,29 +49,35 @@ class DepartmentController extends Controller
         $keyList = $this->keyList();
         return view('pages.department.form', compact('keyList'));
     }
-    
+
     public function create(Request $request)
-    { 
-        @date_default_timezone_set(session('app.timezone')); 
+    {
+        @date_default_timezone_set(session('app.timezone'));
         $validator = Validator::make($request->all(), [
-            'name'        => 'required|unique:department,name|max:50',
+            'name'        => [
+                'required',
+                Rule::unique('department')->where(fn ($query) => $query->where('location_id', $request->location_id)),
+                'max:50'
+            ],
             'description' => 'max:255',
-            'key'         => 'required|unique:department,key|max:1',
+            'key'         => ['required', Rule::unique('department')->where(fn ($query) => $query->where('location_id', $request->location_id)), 'max:1'],
             'status'      => 'required',
             'avg_wait_time'      => 'required',
         ])
-        ->setAttributeNames(array(
-           'name' => trans('app.name'),
-           'description' => trans('app.description'),
-           'key' => trans('app.key_for_keyboard_mode'),
-           'status' => trans('app.status'),
-           'avg_wait_time' => trans('app.avg_wait_time')
-        ));
+            ->setAttributeNames(array(
+                'name' => trans('app.name'),
+                'description' => trans('app.description'),
+                'key' => trans('app.key_for_keyboard_mode'),
+                'status' => trans('app.status'),
+                'avg_wait_time' => trans('app.avg_wait_time')
+            ));
 
         if ($validator->fails()) {
-            return redirect('location/department/create')
-                ->withErrors($validator)
-                ->withInput();
+            $data['status'] = false;
+            $data['error'] = $validator;
+            $data['message'] = trans('app.validation_error');
+
+            return response()->json($data, 400);
         } else {
 
             $save = Department::insert([
@@ -88,16 +96,14 @@ class DepartmentController extends Controller
                 $data['status'] = true;
                 $data['message'] = trans('app.save_successfully');
                 return response()->json($data);
-            
             } else {
                 $data['status'] = false;
                 $data['message'] = trans('app.please_try_again');
-                return response()->json($data);
+                return response()->json($data, 400);
             }
-
         }
-    } 
- 
+    }
+
     public function showEditForm($id = null)
     {
         $keyList = $this->keyList();
@@ -107,31 +113,37 @@ class DepartmentController extends Controller
 
 
     public function update(Request $request)
-    { 
+    {
         @date_default_timezone_set(session('app.timezone'));
 
         $validator = Validator::make($request->all(), [
-            'name'        => 'required|max:50|unique:department,name,'.$request->id,
+            'name'        => [
+                'required',
+                Rule::unique('department')->where(fn ($query) => $query->where('location_id', $request->location_id))->ignore($request->id),
+                'max:50'
+            ],
             'description' => 'max:255',
-            'key'         => 'required|max:1|unique:department,key,'.$request->id,
+            'key'         => ['required', Rule::unique('department')->where(fn ($query) => $query->where('location_id', $request->location_id))->ignore($request->id), 'max:1'],
             'status'      => 'required',
             'avg_wait_time'      => 'required',
         ])
-        ->setAttributeNames(array(
-           'name' => trans('app.name'),
-           'description' => trans('app.description'),
-            'key' => trans('app.key_for_keyboard_mode'),
-           'status' => trans('app.status'),
-           'avg_wait_time' => trans('app.avg_wait_time')
-        ));
+            ->setAttributeNames(array(
+                'name' => trans('app.name'),
+                'description' => trans('app.description'),
+                'key' => trans('app.key_for_keyboard_mode'),
+                'status' => trans('app.status'),
+                'avg_wait_time' => trans('app.avg_wait_time')
+            ));
 
         if ($validator->fails()) {
-            return redirect('location/department/edit/'.$request->id)
-                        ->withErrors($validator)
-                        ->withInput();
+            $data['status'] = false;
+            $data['error'] = $validator;
+            $data['message'] = trans('app.validation_error');
+
+            return response()->json($data, 400);
         } else {
 
-            $update = Department::where('id',$request->id)
+            $update = Department::where('id', $request->id)
                 ->update([
                     'name'        => $request->name,
                     'description' => $request->description,
@@ -145,32 +157,28 @@ class DepartmentController extends Controller
                 $data['status'] = true;
                 $data['message'] = trans('app.save_successfully');
                 return response()->json($data);
-            
             } else {
                 $data['status'] = false;
                 $data['message'] = trans('app.please_try_again');
-                return response()->json($data);
+                return response()->json($data, 400);
             }
-
         }
     }
- 
+
     public function delete($id = null)
     {
         $delete = Department::where('id', $id)->delete();
         return redirect('department')->with('message', trans('app.delete_successfully'));
-    } 
- 
+    }
+
     public function keyList()
     {
-        $chars = array_merge(range('1','9'), range('a','z'));
+        $chars = array_merge(range('1', '9'), range('a', 'z'));
         $list = array();
-        foreach($chars as $char)
-        {
+        foreach ($chars as $char) {
             if ($char != "v")
-            $list[$char] = $char;
+                $list[$char] = $char;
         }
         return $list;
     }
- 
 }

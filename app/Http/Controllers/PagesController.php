@@ -19,10 +19,7 @@ class PagesController extends Controller
         $view = theme()->getOption('page', 'view');
 
 
-        $officer = $this->officerPerformance();
-        $month = $this->chart_month();
-        $performance = $this->userPerformance();
-        $daily = $this->dailyPerformance();
+
 
         $roles = auth()->user()->getRoleNames()->toArray();
 
@@ -34,8 +31,14 @@ class PagesController extends Controller
                 return redirect('home' . $dmode);
             elseif (in_array('staff', $roles))
                 return redirect('token/current' . $dmode);
-            else
+            else {
+                $officer = $this->officerPerformance();
+                $month = $this->chart_month();
+                $performance = $this->userPerformance();
+                $daily = $this->dailyPerformance();
+                
                 return view('pages.' . $view,  compact('month', 'performance', 'officer', 'daily'));
+            }
         }
         // Get the default inner page
         return view('inner');
@@ -200,7 +203,7 @@ class PagesController extends Controller
             COUNT(token.`created_at`) AS 'total',                         
             WEEKDAY(token.`created_at`) AS 'day',
             DAYNAME(token.`created_at`) AS 'dayname'"))
-            ->where('location_id', auth()->user()->location_id)            
+            ->where('location_id', auth()->user()->location_id)
             ->groupByRaw('WEEKDAY(token.`created_at`)')
             ->orderByRaw('day')
             ->get();
@@ -210,7 +213,7 @@ class PagesController extends Controller
             COUNT(token.`created_at`) AS 'total'"))
             ->where('location_id', auth()->user()->location_id)
             ->pluck('total')->first();
-        
+
         if (count($data) < 7) {
             foreach ($days as $_day) {
                 $info = $data->firstWhere('day', $_day);
@@ -231,7 +234,7 @@ class PagesController extends Controller
 
         foreach ($data as $_dataitem) {
             $_dataitem->percentage = round(($_dataitem->total / $sumtotal) * 100, 2);
-        } 
+        }
 
         return $data;
     }

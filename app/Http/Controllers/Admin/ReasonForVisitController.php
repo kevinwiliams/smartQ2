@@ -80,11 +80,11 @@ class ReasonForVisitController extends Controller
             ));
 
         if ($validator->fails()) {
-            $data['status'] = true;
+            $data['status'] = false;
             $data['error'] = $validator;
             $data['message'] = trans('app.validation_error');
 
-            return response()->json($data);
+            return response()->json($data, 400);
         } else {
 
             ///Generate: default location

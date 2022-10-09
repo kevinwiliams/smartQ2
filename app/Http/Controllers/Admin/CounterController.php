@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Location;
 use App\Models\TokenSetting;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\Rule;
 use Validator, App;
 
 class CounterController extends Controller
@@ -51,7 +52,11 @@ class CounterController extends Controller
         $validator = Validator::make($request->all(), [
             'description' => 'max:255',
             'status'      => 'required',
-            'name'        => 'required|unique:counter,name|max:50',
+            'name'        => [
+                'required',
+                Rule::unique('counter')->where(fn ($query) => $query->where('location_id', $request->location_id)),
+                'max:50'
+            ],
         ])
             ->setAttributeNames(array(
                 'name' => trans('app.name'),
@@ -60,9 +65,11 @@ class CounterController extends Controller
             ));
 
         if ($validator->fails()) {
-            return redirect('location/counter/create')
-                ->withErrors($validator)
-                ->withInput();
+            $data['status'] = true;
+            $data['error'] = $validator;
+            $data['message'] = trans('app.validation_error');
+
+            return response()->json($data, 400);
         } else {
 
             $save = Counter::insert([
@@ -82,7 +89,7 @@ class CounterController extends Controller
             } else {
                 $data['status'] = false;
                 $data['message'] = trans('app.please_try_again');
-                return response()->json($data);
+                return response()->json($data, 400);
             }
         }
     }
@@ -112,7 +119,11 @@ class CounterController extends Controller
         $validator = Validator::make($request->all(), [
             'description' => 'max:255',
             'status'      => 'required',
-            'name'        => 'required|max:50|unique:counter,name,' . $request->id,
+            'name'        => [
+                'required',
+                Rule::unique('counter')->where(fn ($query) => $query->where('location_id', $request->location_id))->ignore($request->id),
+                'max:50'
+            ],
         ])
             ->setAttributeNames(array(
                 'name' => trans('app.name'),
@@ -121,9 +132,11 @@ class CounterController extends Controller
             ));
 
         if ($validator->fails()) {
-            return redirect('counter/edit/' . $request->id)
-                ->withErrors($validator)
-                ->withInput();
+            $data['status'] = true;
+            $data['error'] = $validator;
+            $data['message'] = trans('app.validation_error');
+
+            return response()->json($data, 400);
         } else {
 
             $update = Counter::where('id', $request->id)->update([
@@ -144,7 +157,7 @@ class CounterController extends Controller
                 //         ->with('exception', trans('app.please_try_again'));
                 $data['status'] = false;
                 $data['message'] = trans('app.please_try_again');
-                return response()->json($data);
+                return response()->json($data, 400);
             }
         }
     }

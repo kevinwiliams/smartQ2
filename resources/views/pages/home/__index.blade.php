@@ -48,6 +48,7 @@
                                 <!--end::Title-->
                             </div>
                             <!--end::Heading-->
+
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <div class="form-group @error('company_id') has-error @enderror">
@@ -393,7 +394,7 @@
                                                 <!--end::Title-->
 
 
-                                            </div>                                          
+                                            </div>
                                             <!--begin::Options-->
                                             <div id="mv-departmentrepeater-content" class="mb-0">
                                                 <input class="form-check-input" type="radio" name="department_id" value="" id="mv-departmentrepeater-id" />

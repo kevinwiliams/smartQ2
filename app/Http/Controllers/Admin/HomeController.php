@@ -426,7 +426,7 @@ class HomeController extends Controller
 
             //findout min counter set to 
             $min = min($tokenAssignTo);
-            $officer = User::where('id', $min['user_id'])->with(['wait_time', 'service_time'])->first();
+            $officer = User::where('id', $min['user_id'])->first();
             $dept = Department::where('id', $min['department_id'])->first();
             $waittime = $min['total_tokens'] * (($officer->wait_time > 0) ? $officer->wait_time : $dept->avg_wait_time);
         }

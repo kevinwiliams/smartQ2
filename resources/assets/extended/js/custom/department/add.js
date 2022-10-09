@@ -101,6 +101,23 @@ var MVTokenAddDept = function () {
                                     }
                                 });
                             }
+                        }).fail(function(jqXHR, textStatus, error) {
+                            // Remove loading indication
+                            submitButton.removeAttribute('data-mv-indicator');
+
+                            // Enable button
+                            submitButton.disabled = false;
+
+                            // Handle error here
+                            Swal.fire({
+                                text: "Department was not added.<br>" + jqXHR.responseText + "<br>" + error,
+                                icon: "error",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok, got it!",
+                                customClass: {
+                                    confirmButton: "btn fw-bold btn-primary",
+                                }
+                            });
                         });
 
                     } else {

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
+use App\Models\UserInfo;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -38,16 +40,20 @@ class RegisteredUserController extends Controller
         $request->validate([
             'firstname' => 'required|string|max:255',
             'lastname'  => 'required|string|max:255',
-            'email'      => 'required|string|email|max:255|unique:users',
+            'email'      => 'required|string|email|max:255|unique:user',
             'password'   => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
             'firstname' => $request->firstname,
             'lastname'  => $request->lastname,
+            'user_type' => '3',
             'email'      => $request->email,
             'password'   => Hash::make($request->password),
         ]);
+
+        $role = Role::find(3);
+        $user->syncRoles($role);
 
         event(new Registered($user));
 
@@ -71,7 +77,7 @@ class RegisteredUserController extends Controller
         $request->validate([
             'firstname' => 'required|string|max:255',
             'lastname'  => 'required|string|max:255',
-            'email'      => 'required|string|email|max:255|unique:users',
+            'email'      => 'required|string|email|max:255|unique:user',
             'password'   => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -80,9 +86,17 @@ class RegisteredUserController extends Controller
             'firstname' => $request->firstname,
             'lastname'  => $request->lastname,
             'email'      => $request->email,
+            'user_type' => '3',
             'password'   => Hash::make($request->password),
             'api_token' => hash('sha256', $token),
         ]);
+
+        $user_info         = new UserInfo();        
+        $user_info->user()->associate($user);
+        $user_info->save();
+        
+        $role = Role::find(3);
+        $user->syncRoles($role);
 
         return response($user);
     }

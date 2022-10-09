@@ -11,7 +11,7 @@
 <!--begin::Input group-->
 <div class="fv-row mb-7">
     <div class="form-group @error('description') has-error @enderror">
-        <label for="description">{{ trans('app.description') }} </label> 
+        <label for="description">{{ trans('app.description') }} <i class="text-danger">*</i></label> 
         <textarea name="description" id="description" class="form-control" placeholder="{{ trans('app.description') }}">{{ old('description')?old('description'):$department->description}}</textarea>
         <span class="text-danger">{{ $errors->first('description') }}</span>
     </div>

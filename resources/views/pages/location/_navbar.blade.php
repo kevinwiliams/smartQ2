@@ -126,9 +126,9 @@
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='map') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/map/' . $location->id)}}">Map</a>
-            </li>
+            </li> -->
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item">
@@ -167,7 +167,7 @@
             <!--end::Nav item-->
             <!--begin::Nav item-->
             <li class="nav-item">
-                <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(3)=='display') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/settings/display/' . $location->id)}}">Display Settings</a>
+                <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(3)=='display') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/settings/display/' . $location->id)}}">Display</a>
             </li>
             <!--end::Nav item-->
             <!--begin::Nav item-->

@@ -64,7 +64,7 @@
                 <div class="fv-row mb-7">
                     <div class="form-group @error('phone') has-error @enderror">
                         <label for="phone">{{ trans('app.phone') }} <i class="text-danger">*</i></label>
-                        <input type="text" name="phone" id="phone" class="form-control" placeholder="{{ trans('app.phone') }}" value="{{ old('phone') }}">
+                        <input type="text" name="phone" id="phone" class="form-control" placeholder="{{ trans('app.phone') }}" value="{{ old('phone') }}" data-inputmask="'mask': '1 (999) 999-9999'">
                         <span class="text-danger">{{ $errors->first('phone') }}</span>
                     </div>
                 </div>

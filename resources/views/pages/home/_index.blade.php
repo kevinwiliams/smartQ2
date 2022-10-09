@@ -48,43 +48,37 @@
                                 <!--end::Title-->
                             </div>
                             <!--end::Heading-->
-                            <!--begin::Input group-->
+
+                            <!--begin::Default example-->
                             <div class="fv-row mb-7">
-                                <div class="form-group @error('company_id') has-error @enderror">
-                                    <!-- <label for="company_id">{{ trans('app.company') }} <i class="text-danger">*</i></label> -->
-                                    {{ Form::select('company_id', $companies, null, ['data-placeholder' => 'Select Company','placeholder' => 'Select Option' ,'data-control' => 'select2' , 'id' => 'company_id', 'class'=>'form-select form-select-solid form-select-lg fw-bold filter']) }}
-                                    <span class="text-danger">{{ $errors->first('company_id') }}</span>
-                                </div>
-                            </div>
-                            <!--end::Input group-->
-                            <!--begin::Repeater-->
-
-
-                            <div class="fv-row">
-                                <div id="mv_repeater_locations" class="row">
-                                    <div style="display:none" id="mv-repeater-item">
-                                        <!--begin::Option-->
-                                        <input type="radio" class="btn-check" name="location" value="" id="mv-repeater-location" />
-                                        <label class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center mb-10" for="location_">
-                                            <!--begin::Svg Icon | path: icons/duotune/communication/com005.svg-->
-                                            {!! theme()->getSvgIcon("icons/duotune/communication/com011.svg", "svg-icon-3x me-5") !!}
-                                            <!--end::Svg Icon-->
-                                            <!--begin::Info-->
-                                            <span class="d-block fw-bold text-start">
-                                                <span class="text-dark fw-bolder d-block fs-4 mb-2" id="mv-repeater-name">Company</span>
-                                                <span class="text-muted fw-bold fs-6" id="mv-repeater-address">Address</span>
-                                            </span>
-                                            <!--end::Info-->
-                                        </label>
-                                        <!--end::Option-->
-                                    </div>
-
-                                    <div id="mv-repeater-content" class="row">
-
+                                <div class="input-group input-group-solid flex-nowrap">
+                                    <span class="input-group-text"><i class="bi bi-building fs-4"></i></span>
+                                    <div class="overflow-hidden flex-grow-1">
+                                        <!-- <select class="form-select form-select-lg  rounded-start-0" data-control="select2" data-placeholder="Select an option">
+                                            <option></option>
+                                            <option value="1">Option 1</option>
+                                            <option value="2">Option 2</option>
+                                            <option value="3">Option 3</option>
+                                            <option value="4">Option 4</option>
+                                            <option value="5">Option 5</option>
+                                        </select> -->
+                                        {{ Form::select('company_id', $companies, null, ['data-placeholder' => 'Select Company','placeholder' => 'Select Option' ,'data-control' => 'select2' , 'id' => 'company_id', 'class'=>'form-select form-select-solid form-select-lg fw-bold filter rounded-start-0']) }}
+                                        <span class="text-danger">{{ $errors->first('company_id') }}</span>
                                     </div>
                                 </div>
                             </div>
-                            <!--end::Repeater-->
+                            <!--end::Default example-->
+                            <div class="fv-row mb-7">
+                                <div class="input-group input-group-solid flex-nowrap">
+                                    <span class="input-group-text"><i class="bi bi-geo fs-4"></i></span>
+                                    <div class="overflow-hidden flex-grow-1">
+                                        <select id="mv_location_list" class="form-select form-select-solid form-select-lg" name="location" data-placeholder="Please select location">
+                                            <option></option>
+                                        </select>
+                                        <span class="text-danger">{{ $errors->first('location') }}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <!--end::Wrapper-->
                     </div>
@@ -400,6 +394,7 @@
                                             </div>
                                             <div id="mv_reasonforvisit">
                                                 <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Reason for Visit" tabindex="-1" aria-hidden="true" name="reason_id" value="" id="reason_id"></select>
+                                                <br />
                                             </div>
                                             <div id="mv_repeater_department" class="row">
                                                 <div style="display:none" id="mv-departmentrepeater-item">
@@ -551,6 +546,64 @@
     @section('scripts')
     <script>
         $(function() {
+
+            // Format options
+            const optionFormat = (item) => {
+                if (!item.id) {
+                    return item.text;
+                }
+
+                var span = document.createElement('span');
+                var template = '';
+
+                template += '<div class="d-flex align-items-center">';
+                //template += '<img src="' + item.element.getAttribute('data-kt-rich-content-icon') + '" class="rounded-circle h-40px me-3" alt="' + item.text + '"/>';
+                template += '<div class="d-flex flex-column">'
+                template += '<span class="fs-4 fw-bold lh-1">' + item.text + '</span>';
+                template += '<span class="text-muted fs-5">' + item.element.getAttribute('data-mv-rich-content-subcontent') + '</span>';
+                template += '</div>';
+                template += '</div>';
+
+                span.innerHTML = template;
+
+                return $(span);
+            }
+
+            // Init Select2 --- more info: https://select2.org/
+            $('#mv_location_list').select2({
+                placeholder: "Select an option",
+                minimumResultsForSearch: 0,
+                templateSelection: optionFormat,
+                templateResult: optionFormat
+            });
+
+
+            $('#mv_location_list').on('change', function(e) {
+                var selectedval = $(this).val();
+                if (selectedval != "") {
+                    $('[data-mv-stepper-action="next"]').removeClass('disabled');
+                } else {
+                    $('[data-mv-stepper-action="next"]').addClass('disabled');
+                }
+
+                var obj = $(this).find(":selected");
+                // console.log(obj);
+                var shownote = obj.data('shownote');
+
+                console.log("shownote: " + shownote);
+                if (shownote === undefined) {
+                    $("#shownote").hide();
+                } else if (shownote == 0) {
+                    $("#shownote").hide();
+                } else {
+                    $("#shownote").show();
+                }
+                // console.log("shownote: " + shownote);
+            });
+
+            //------------------------------------------
+
+
             $("[name^=otp_code]").on("keyup", function(e) {
                 $(this).next().trigger("focus");
             });
@@ -715,7 +768,7 @@
                         if (data.status == true) {
                             $('[data-mv-stepper-action="next"]').removeClass('disabled');
                             $('[data-mv-stepper-action="next"]').trigger('click');
-                            var visitreason = $('input[name="location"]:checked').data('visitreason');
+                            var visitreason = $('#mv_location_list > option:selected').data('visitreason');
 
                             if (visitreason == 1) {
                                 getVisitReasons();
@@ -770,8 +823,8 @@
                         if (data.status == true) {
                             $('[data-mv-stepper-action="next"]').removeClass('disabled');
                             $('[data-mv-stepper-action="next"]').trigger('click');
-                            var visitreason = $('input[name="location"]:checked').data('visitreason');
-
+                            var visitreason = $('#mv_location_list > option:selected').data('visitreason');
+                            console.log(visitreason);
                             if (visitreason == 1) {
                                 getVisitReasons();
                             } else {
@@ -794,7 +847,7 @@
             function getDepartment() {
                 $('#mv_reasonforvisit').hide();
                 $("#visitreason").val(0);
-                var location_id = $('input[name="location"]:checked').val();
+                var location_id = $('#mv_location_list').val();
 
                 var repItem = $('#mv-departmentrepeater-item');
                 var content = $('#mv-departmentrepeater-content');
@@ -880,7 +933,7 @@
                 $('#mv-departmentrepeater-content').hide();
                 $('#mv-departmentrepeater-content').html('');
 
-                var location_id = $('input[name="location"]:checked').val();
+                var location_id = $('#mv_location_list').val();
 
                 var options = $('select[name="reason_id"]').empty();
 
@@ -984,6 +1037,15 @@
                     dataType: 'json',
                     success: function(data) {
                         // console.log(data);
+                        var options = $('select[name="location"]').empty();
+                        $('select[name="location"]').append('<option value="" data-mv-rich-content-subcontent="">Select a location</option>');
+                        data.forEach(element => {
+                            var optstr = '<option value="' + element.id + '" data-mv-rich-content-subcontent="' + element.address + '" data-visitreason="' + element.settings.client_reason_for_visit + '" data-shownote="' + element.settings.show_note + '">' + element.name + '</option>';
+                            $('select[name="location"]').append(optstr);
+                        });
+
+
+                        return;
                         content.html("")
                         var cntr = 1;
                         data.forEach(element => {

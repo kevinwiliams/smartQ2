@@ -81,7 +81,7 @@
 
 
                             <!--start::Google map-->
-                            <div id="map" style="height:400px; width: 600px;" class="my-3"></div>
+                            <div id="map" style="height:400px; width: 100%;" class="my-3"></div>
                             <!--end::Google map-->
                         </div>
                     </div>
