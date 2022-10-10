@@ -36,7 +36,7 @@ class PagesController extends Controller
                 $month = $this->chart_month();
                 $performance = $this->userPerformance();
                 $daily = $this->dailyPerformance();
-                
+
                 return view('pages.' . $view,  compact('month', 'performance', 'officer', 'daily'));
             }
         }
@@ -233,7 +233,10 @@ class PagesController extends Controller
         }
 
         foreach ($data as $_dataitem) {
-            $_dataitem->percentage = round(($_dataitem->total / $sumtotal) * 100, 2);
+            if ($sumtotal == 0)
+                $_dataitem->percentage = 0;
+            else
+                $_dataitem->percentage = round(($_dataitem->total / $sumtotal) * 100, 2);
         }
 
         return $data;
