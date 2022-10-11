@@ -130,9 +130,10 @@
                             }
                         }).then(function(result) {
                             if (result.isConfirmed) {
-                                document.location.href = '/apps/user-management/users/edit/' + id;
-                                form.reset();
-                                modal.hide();
+                                // document.location.href = '/apps/user-management/users/edit/' + id;
+                                // form.reset();
+                                // modal.hide();
+                                location.reload();
                             }
                         });
                     }

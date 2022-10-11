@@ -8,6 +8,7 @@ use App\Http\Controllers\Common\SMS_lib;
 use App\Http\Controllers\Common\Utilities_lib;
 use App\Http\Controllers\Controller;
 use App\Mail\CustomerNotification;
+use App\Mail\NewUserNotification;
 use App\Mail\OTPNotification;
 use App\Models\Department;
 use App\Models\Location;
@@ -31,7 +32,10 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 use Spatie\Activitylog\Models\Activity;
+use Storage;
 
 class UserManagementController extends Controller
 {
@@ -153,10 +157,10 @@ class UserManagementController extends Controller
         // ->count();
         $location = Location::where('id', $id)->first();
 
-        $roles = Role::get();
-        $departments = Department::get();
+        $roles = Role::whereNotIn('name', config('app.exclude_roles'))->orderBy('name')->get();
+        $departments = Department::where('location_id', $id)->get();
         $officerList = User::whereNotIn('user_type', [3])->where('location_id', $id)->orderBy('lastname', 'ASC')->withCount('pendingtokens')->get();
-        return view('pages.apps.user-management.users.staff', compact('officerList', 'officers', 'location', 'counters', 'departments'));
+        return view('pages.apps.user-management.users.staff', compact('officerList', 'officers', 'location', 'counters', 'departments', 'roles'));
     }
 
     public function customerList($id = null)
@@ -201,11 +205,33 @@ class UserManagementController extends Controller
             ->get();
         return response()->json($officers);
     }
-    
+
     public function usersView()
     {
         // get the default inner page
         return view('pages.apps.user-management.users.view');
+    }
+
+    public function staffEdit($id)
+    {
+        $user = User::find($id);
+        $roles = Role::whereNotIn('name', config('app.exclude_roles'))->orderBy('name')->get();
+        $departments = Department::where('location_id', $user->location_id)->orderBy('name')->get();
+        $locations =  $user->location->company->locations->pluck('name', 'id'); //Department::where('location_id', $user->location_id)->orderBy('name')->get();
+        $departmentlist = Department::where('location_id', $user->location_id)->orderBy('name')->pluck('name', 'id');
+        // get the default inner page
+
+        // $avatar = public_path($user->info->avatar);
+        // // $avatar = storage_path($user->info->avatar);
+        // echo '<pre>';
+        // print_r($avatar);
+        // echo '</pre>';
+
+        // if (is_file($avatar) && file_exists($avatar)) {
+        //     echo 'here';
+        // }
+        // die();
+        return view('pages.apps.user-management.users.viewstaff', compact('user', 'roles', 'departments', 'locations', 'departmentlist'));
     }
 
     public function usersEdit($id)
@@ -214,6 +240,17 @@ class UserManagementController extends Controller
         $roles = Role::get();
         $departments = Department::get();
         // get the default inner page
+
+        // $avatar = public_path($user->info->avatar);
+        // // $avatar = storage_path($user->info->avatar);
+        // echo '<pre>';
+        // print_r($avatar);
+        // echo '</pre>';
+
+        // if (is_file($avatar) && file_exists($avatar)) {
+        //     echo 'here';
+        // }
+        // die();
         return view('pages.apps.user-management.users.view', compact('user', 'roles', 'departments'));
     }
 
@@ -256,7 +293,8 @@ class UserManagementController extends Controller
             'email' => 'required',
             'language' => 'required',
             'phone' => 'required',
-            'country' => 'required'
+            'country' => 'required',
+            'photo'       => 'image|mimes:jpeg,png,jpg,gif|max:3072',
         ])
             ->setAttributeNames(array(
                 'firstname' => trans('app.firstname'),
@@ -264,7 +302,8 @@ class UserManagementController extends Controller
                 'email' => trans('app.email'),
                 'language' => trans('app.language'),
                 'phone' => trans('app.phone'),
-                'country' => trans('app.country')
+                'country' => trans('app.country'),
+                'photo' => trans('app.photo'),
             ));
 
 
@@ -277,11 +316,24 @@ class UserManagementController extends Controller
             }
             $data['exception'] .= "</ul>";
         } else {
+            $filePath = null;
+            if (!empty($request->photo)) {
+                $filePath = 'assets/img/avatars/' . date('ymdhis') . '.jpg';
+                $photo = $request->photo;
+                Image::make($photo)->resize(300, 300)->save(public_path(Storage::url($filePath)));
+            } else if (!empty($request->old_photo)) {
+                $filePath = $request->old_photo;
+                if ($request->has('remove_photo')) {
+                    $filePath = null;
+                }
+            }
+
             $user = User::find($id);
             $user->firstname = $request->firstname;
             $user->lastname = $request->lastname;
             $user->email = $request->email;
             $user->mobile = $request->phone;
+            $user->photo = $filePath;
 
             if ($request->has('department'))
                 $user->department_id = $request->department;
@@ -293,7 +345,7 @@ class UserManagementController extends Controller
                 $userInfo->phone = $request->phone;
                 $userInfo->country = $request->country;
                 $userInfo->language = $request->language;
-
+                $userInfo->avatar = $filePath;
                 if ($request->has('company'))
                     $userInfo->company = $request->company;
 
@@ -327,6 +379,8 @@ class UserManagementController extends Controller
             'language' => 'required',
             'department' => 'required',
             'country' => 'required',
+            'location' => 'required',
+            'photo'       => 'image|mimes:jpeg,png,jpg,gif|max:3072',
         ])
             ->setAttributeNames(array(
                 'firstname' => trans('app.firstname'),
@@ -336,7 +390,8 @@ class UserManagementController extends Controller
                 'phone' => trans('app.phone'),
                 'country' => trans('app.country'),
                 'department' => trans('app.department'),
-                'language' => trans('app.language'),
+                'location' => trans('app.location'),
+                'photo' => trans('app.photo'),
             ));
 
 
@@ -349,14 +404,32 @@ class UserManagementController extends Controller
             }
             $data['exception'] .= "</ul>";
         } else {
+            //1=officer, 2=staff, 3=client, 5=admin
+            $filePath = null;
+            if (!empty($request->photo)) {
+                $filePath = 'assets/img/avatars/' . date('ymdhis') . '.jpg';
+                $photo = $request->photo;
+                Image::make($photo)->resize(300, 300)->save(public_path(Storage::url($filePath)));
+            } else if (!empty($request->old_photo)) {
+                $filePath = $request->old_photo;
+                if ($request->has('remove_photo')) {
+                    $filePath = null;
+                }
+            }
+
+
+            $newpassword = Str::random(8);
+
             $user = User::create([
                 'firstname' => $request->firstname,
                 'lastname'  => $request->lastname,
                 'email'      => $request->email,
-                'password'   => Hash::make($request->email),
-                'department_id'      => $request->department,
-                'photo'     => '',
-                'user_type' => '3', // client
+                'mobile'      => $request->phone,
+                'password'   => Hash::make($newpassword),
+                'department_id'   => ($request->user_role != 3) ? $request->department : null,
+                'location_id'      => ($request->user_role != 3) ? $request->location : null,
+                'photo'     => $filePath,
+                'user_type' => $request->user_role, // client
                 'created_at' => date('Y-m-d H:i:s'),
                 'status'    => '1',
             ]);
@@ -365,14 +438,14 @@ class UserManagementController extends Controller
             $user->syncRoles($role);
 
             $user_info         = new UserInfo;
-            $user_info->avatar = '';
             $user_info->country = $request->country;
             $user_info->language = $request->language;
+            $user_info->avatar = $filePath;
+            $user_info->phone = $request->phone;
             $user_info->user()->associate($user);
             $user_info->save();
 
-
-            ///TODO: implement email to user and autopassword
+            Mail::to($user->email)->send(new NewUserNotification($user, $newpassword));
 
             if ($user) {
 
@@ -408,7 +481,49 @@ class UserManagementController extends Controller
         } else {
             $user = User::find($id);
             $user->email = $request->profile_email;
+            $user->email_verified_at = null;
             $user->save();
+
+            if ($user) {
+
+                $data['status'] = true;
+                $data['message'] = trans('app.user_updated');
+                $data['user']  = $user;
+            } else {
+                $data['status'] = false;
+                $data['exception'] = trans('app.please_try_again');
+            }
+        }
+        return response()->json($data);
+    }
+
+    public function updateUserLocation(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'location_id' => 'required',
+            'department_id' => 'required'
+        ])
+            ->setAttributeNames(array(
+                'location_id' => trans('app.location'),
+                'department_id' => trans('app.department')
+            ));
+
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $data['exception'] = "<ul class='list-unstyled'>";
+            $messages = $validator->messages();
+            foreach ($messages->all('<li>:message</li>') as $message) {
+                $data['exception'] .= $message;
+            }
+            $data['exception'] .= "</ul>";
+        } else {
+            $user = User::find($id);
+            $user->department_id = $request->department_id;
+            $user->location_id = $request->location_id;
+            $user->save();
+
+            TokenSetting::where('user_id', $id)->delete();
 
             if ($user) {
 
@@ -480,14 +595,14 @@ class UserManagementController extends Controller
 
                         break;
                     case 'push':
-                        (new Utilities_lib)->sendPushNotification($user, $request->message);                        
-                        break;                    
+                        (new Utilities_lib)->sendPushNotification($user, $request->message);
+                        break;
                 }
 
                 activity('activity')
-                        ->withProperties(['activity' => 'Client Notification', 'notification_type' => ucfirst($request->notification_type), 'message' => $request->message])
-                        ->causedBy($user)
-                        ->log(':properties.notification_type notification sent');
+                    ->withProperties(['activity' => 'Client Notification', 'notification_type' => ucfirst($request->notification_type), 'message' => $request->message])
+                    ->causedBy($user)
+                    ->log(':properties.notification_type notification sent');
 
                 $data['status'] = true;
                 $data['message'] = trans('app.message_sent');

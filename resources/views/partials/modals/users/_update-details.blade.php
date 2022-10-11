@@ -62,8 +62,9 @@
                                         <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-mv-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
                                             <i class="bi bi-pencil-fill fs-7"></i>
                                             <!--begin::Inputs-->
-                                            <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
-                                            <input type="hidden" name="avatar_remove" />
+                                            <input type="file" name="photo" accept=".png, .jpg, .jpeg" />
+                                            <input type="hidden" name="photo_remove" />
+                                            <input type="hidden" name="old_photo" value="{{ $user->photo }}" />
                                             <!--end::Inputs-->
                                         </label>
                                         <!--end::Edit-->

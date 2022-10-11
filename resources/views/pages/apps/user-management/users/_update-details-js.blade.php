@@ -81,6 +81,82 @@
             });
         }
 
+        var handleDeleteStaff = () => {
+            // Select all delete buttons
+            const deleteButton = $('#btnDeleteStaff');
+
+            console.log(deleteButton);
+            deleteButton.on('click', function(e) {
+                e.preventDefault();
+
+                var id = deleteButton.data('id');
+                var location = deleteButton.data('location');
+
+                // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
+                Swal.fire({
+                    text: "Are you sure you want to delete?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    buttonsStyling: false,
+                    confirmButtonText: "Yes, delete!",
+                    cancelButtonText: "No, cancel",
+                    customClass: {
+                        confirmButton: "btn fw-bold btn-danger",
+                        cancelButton: "btn fw-bold btn-active-light-primary"
+                    }
+                }).then(function(result) {
+                    if (result.value) {
+                        $.ajax({
+                            url: '/apps/user-management/users/' + id,
+                            type: 'delete',
+                            dataType: 'json',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            contentType: false,
+                            cache: false,
+                            processData: false,
+                            success: function(data) {
+                                Swal.fire({
+                                    text: "You have deleted !.",
+                                    icon: "success",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn fw-bold btn-primary",
+                                    }
+                                }).then(function() {
+                                    document.location.href = '/location/staff/' + location;
+                                    // Remove current row
+                                    // datatable.row($(parent)).remove().draw();
+                                }).then(function() {
+                                    // Detect checked checkboxes
+                                    // toggleToolbars();
+                                });
+
+
+                            }
+                            // ,
+                            // error: function(xhr, status, error){
+                            //     var errorMessage = xhr.status + ': ' + xhr.statusText
+                            //     alert('Error - ' + errorMessage);
+                            // }
+                        });
+                    } else if (result.dismiss === 'cancel') {
+                        Swal.fire({
+                            text: customerName + " was not deleted.",
+                            icon: "error",
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok, got it!",
+                            customClass: {
+                                confirmButton: "btn fw-bold btn-primary",
+                            }
+                        });
+                    }
+                });
+            });
+        }
+
         // Init add schedule modal
         var initUpdateDetails = () => {
 
@@ -273,9 +349,10 @@
                                         }
                                     }).then(function(result) {
                                         if (result.isConfirmed) {
-                                            document.location.href = '/apps/user-management/users/edit/' + id;
-                                            form.reset();
-                                            modal.hide();
+                                            // document.location.href = '/apps/user-management/users/edit/' + id;
+                                            // form.reset();
+                                            // modal.hide();
+                                            location.reload();
                                         }
                                     });
                                 }
@@ -303,6 +380,7 @@
             init: function() {
                 initUpdateDetails();
                 handleDelete();
+                handleDeleteStaff();
             }
         };
     }();

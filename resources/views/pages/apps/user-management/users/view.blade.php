@@ -14,6 +14,7 @@
 					<div class="symbol symbol-100px symbol-circle mb-7">
 						<img src="{{ $user->avatar_url }}" alt="image" />
 					</div>
+					
 					<!--end::Avatar-->
 					<!--begin::Name-->
 					<a href="#" class="fs-3 text-gray-800 text-hover-primary fw-bolder mb-3">{{ $user->name }}</a>

@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\CausesActivity;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -18,6 +19,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use SpatieLogsActivity;
     use HasRoles;
     use CausesActivity;
+    use SoftDeletes;
 
     protected $table = "user";
 
@@ -29,7 +31,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
 
-    protected $fillable = ['firstname', 'lastname', 'email', 'api_token', 'password', 'department_id', 'mobile', 'photo', 'user_type', 'remember_token', 'status', 'otp', 'otp_type', 'otp_timestamp', 'user_token', 'token_date', 'push_notifications'];
+    protected $fillable = ['firstname', 'lastname', 'email', 'api_token', 'password', 'department_id','location_id', 'mobile', 'photo', 'user_type', 'remember_token', 'status', 'otp', 'otp_type', 'otp_timestamp', 'user_token', 'token_date', 'push_notifications'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -46,7 +48,7 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array
      */
-    protected $appends = ['name'];
+    protected $appends = ['name','avatar_url'];
 
     /**
      * The attributes that should be cast to native types.

@@ -86,6 +86,7 @@ Route::middleware('auth')->group(function () {
 			Route::get('users/edit/{id}', [UserManagementController::class, 'usersEdit'])->name('users.edit');
 			Route::post('users/update/{id}', [UserManagementController::class, 'updateUser'])->name('users.update');
 			Route::post('users/updatemail/{id}', [UserManagementController::class, 'updateUserEmail'])->name('users.updatemail');
+			Route::post('users/updatelocation/{id}', [UserManagementController::class, 'updateUserLocation'])->name('users.updatlocation');
 			Route::post('users/sendnotification/{id}', [UserManagementController::class, 'sendnotification'])->name('users.sendnotification');
 			Route::post('users/resetpassword/{id}', [UserManagementController::class, 'updateUserPassword'])->name('users.resetpassword');
 			Route::post('users/assign-role', [UserManagementController::class, 'assignRole']);
@@ -234,6 +235,7 @@ Route::middleware('auth')->group(function () {
 			Route::get('edit/{id}', [DepartmentController::class, 'showEditForm']);
 			Route::post('edit', [DepartmentController::class, 'update']);
 			Route::get('delete/{id}', [DepartmentController::class, 'delete']);
+			Route::post('getdepartments', [DepartmentController::class, 'getdepartments']);
 		});
 
 		// // Counter pages
@@ -286,7 +288,21 @@ Route::middleware('auth')->group(function () {
 			// Route::get('getCountersbyDept/{id}', [CounterController::class, 'getCountersbyDept']);
 		});
 
-		Route::get('staff/{id}', [UserManagementController::class, 'officersList']);
+		// // Visit Reason Counter
+		Route::prefix('staff')->group(function () {
+			Route::get('/{id}', [UserManagementController::class, 'officersList']);
+			Route::get('edit/{id}', [UserManagementController::class, 'staffEdit']);
+			// Route::get('reasonsforvisit/{id}', [ReasonForVisitController::class, 'reasonsforvisit']);			
+			// Route::post('create', [ReasonForVisitController::class, 'store']);
+			// Route::post('edit/{id}', [ReasonForVisitController::class, 'update']);
+			// Route::get('delete/{id}', [ReasonForVisitController::class, 'destroy']);
+			// Route::get('edit/{id}', [CounterController::class, 'showEditForm']);
+			// Route::post('edit', [CounterController::class, 'update']);
+			
+			// Route::get('getCountersbyDept/{id}', [CounterController::class, 'getCountersbyDept']);
+		});
+
+		// Route::get('staff/{id}', [UserManagementController::class, 'officersList']);
 		Route::get('getOfficersByCounter/{id}', [UserManagementController::class, 'getOfficersByCounter']);
 
 		Route::get('customers/{id}', [UserManagementController::class, 'customerList']);

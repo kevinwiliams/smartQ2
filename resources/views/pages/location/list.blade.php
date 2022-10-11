@@ -5,7 +5,7 @@
 			<!--begin::Container-->
 			<div id="mv_content_container" class="container-xxl">
 				<!--begin::Layout-->
-				<div class="d-flex flex-column flex-lg-row">				
+				<div class="d-flex flex-column flex-lg-row">
 					<!--begin::Content-->
 					<div class="flex-lg-row-fluid ms-lg-10">
 						<ul class="nav nav-tabs nav-line-tabs mb-5 fs-6">
@@ -62,6 +62,7 @@
 															<th></th>
 															<th></th>
 															<th></th>
+															<th></th>
 														</tr>
 													<tbody>
 														@foreach($company->locations as $_location)
@@ -80,13 +81,23 @@
 															<td>
 																<br />
 																{{-- <span>Service Setup</span> --}}
+																<span class="badge bagde-lg badge-secondary fw-bolder fs-7 me-1 my-3">Display Setup</span>
+																<br />
+																<div class="border border-gray-300 border-dashed rounded min-w-100px w-100 py-2 px-4 me-6 mb-3 fs-7">
+																	<span class="text-muted fw-bold p-1">Greeting: </span><span>{{ ($_location->settings->enable_greeting)?'Yes':'No' }}</span><br />
+																	<span class="text-muted fw-bold p-1">QR Checkin: </span><span>{{ ($_location->settings->enable_qr_checkin)?'Yes':'No' }}</span><br />
+																	<span class="text-muted fw-bold p-1">Show Notes: </span><span>{{ ($_location->settings->show_notes)?'Yes':'No' }}</span><br />
+																	<span class="text-muted fw-bold p-1">Client Visit Reason: </span><span>{{ ($_location->settings->client_reason_for_visit)?'Yes':'No' }}</span><br />
+																</div>
+															</td>
+															<td>
+																<br />
+																{{-- <span>Service Setup</span> --}}
 																<span class="badge bagde-lg badge-secondary fw-bolder fs-7 me-1 my-3">Service Setup</span>
 																<br />
 																<div class="border border-gray-300 border-dashed rounded min-w-100px w-100 py-2 px-4 me-6 mb-3 fs-7">
-																	<span class="text-muted fw-bold p-1">Greeting: </span><span>{{ ($company->locations[0]->settings->enable_greeting)?'Yes':'No' }}</span><br />
-																	<span class="text-muted fw-bold p-1">QR Checkin: </span><span>{{ ($company->locations[0]->settings->enable_qr_checkin)?'Yes':'No' }}</span><br />
 																	<span class="text-muted fw-bold p-1">Displays: </span><span>{{ $_location->displays()->count() }}</span><br />
-																	<span class="text-muted fw-bold p-1">Counters: </span><span>{{ $_location->counters()->count() }}</span><br />
+																	<span class="text-muted fw-bold p-1">Counters: </span><span>{{ $_location->counters()->count() }}</span><br />																	
 																</div>
 															</td>
 															<td>
@@ -240,8 +251,8 @@
 				google.maps.event.addListener(displaymarker, 'click', (function(displaymarker, i) {
 					return function() {
 						content = '<div class="info_content">' +
-						'<h3>' + infoWindowContent[i][0] + '</h3>' +
-						'<p>' + infoWindowContent[i][1] + '</p></div>';
+							'<h3>' + infoWindowContent[i][0] + '</h3>' +
+							'<p>' + infoWindowContent[i][1] + '</p></div>';
 						infoWindow.setContent(content);
 						infoWindow.open(displaymap, displaymarker);
 					}

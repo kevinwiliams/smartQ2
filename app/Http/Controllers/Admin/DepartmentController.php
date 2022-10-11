@@ -104,6 +104,13 @@ class DepartmentController extends Controller
         }
     }
 
+    public function getdepartments(Request $request)
+    {        
+        $dept = Department::where('location_id', $request->id)->where('status', 1)->orderBy('name')->get();
+
+        return json_encode($dept);
+    }
+
     public function showEditForm($id = null)
     {
         $keyList = $this->keyList();
