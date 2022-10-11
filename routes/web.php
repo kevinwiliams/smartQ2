@@ -87,6 +87,7 @@ Route::middleware('auth')->group(function () {
 			Route::post('users/update/{id}', [UserManagementController::class, 'updateUser'])->name('users.update');
 			Route::post('users/updatemail/{id}', [UserManagementController::class, 'updateUserEmail'])->name('users.updatemail');
 			Route::post('users/updatelocation/{id}', [UserManagementController::class, 'updateUserLocation'])->name('users.updatlocation');
+			Route::post('users/updatestatus/{id}', [UserManagementController::class, 'updateUserStatus'])->name('users.updatstatus');
 			Route::post('users/sendnotification/{id}', [UserManagementController::class, 'sendnotification'])->name('users.sendnotification');
 			Route::post('users/resetpassword/{id}', [UserManagementController::class, 'updateUserPassword'])->name('users.resetpassword');
 			Route::post('users/assign-role', [UserManagementController::class, 'assignRole']);

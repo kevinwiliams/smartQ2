@@ -460,6 +460,48 @@ class UserManagementController extends Controller
         return response()->json($data);
     }
 
+    public function updateUserStatus(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            // 'profile_email' => 'required'
+        ])
+            ->setAttributeNames(array(
+                // 'profile_email' => trans('app.email')
+            ));
+
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $data['exception'] = "<ul class='list-unstyled'>";
+            $messages = $validator->messages();
+            foreach ($messages->all('<li>:message</li>') as $message) {
+                $data['exception'] .= $message;
+            }
+            $data['exception'] .= "</ul>";
+        } else {
+            $user = User::find($id);
+            $user->status = $request->has('status') ? 1 : 0;
+            $user->save();
+
+            $setting = TokenSetting::where('user_id',$id)->first();
+            if($setting){
+                $setting->status = $request->has('status') ? 1 : 0;
+                $setting->save();
+            }
+
+            if ($user) {
+
+                $data['status'] = true;
+                $data['message'] = trans('app.user_updated');
+                $data['user']  = $user;
+            } else {
+                $data['status'] = false;
+                $data['exception'] = trans('app.please_try_again');
+            }
+        }
+        return response()->json($data);
+    }
+
     public function updateUserEmail(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
