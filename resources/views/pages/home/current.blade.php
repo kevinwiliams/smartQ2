@@ -196,11 +196,12 @@
                     <!--end::QR Code -->
                     @else
                     <!--start::Check In Code -->
+                    <div class="text-gray-800 fw-bolder fs-6">Enter Check-In Code</div>
                     <div class="d-flex flex-wrap flex-stack">
-                        <input name="checkin_code_1" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
-                        <input name="checkin_code_2" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
-                        <input name="checkin_code_3" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
-                        <input name="checkin_code_4" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2" value="" inputmode="text">
+                        <input name="checkin_code_1" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
+                        <input name="checkin_code_2" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
+                        <input name="checkin_code_3" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
+                        <input name="checkin_code_4" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
                     </div>
                     <!--start::Check In Code -->
                     @endif
@@ -263,7 +264,7 @@
                 getCurrentPosition();
             });
 
-            $("[name^=checkin_code]").on("keypress", function(e) {
+            $("[name^=checkin_code]").on("keyup", function(e) {
                 $(this).next().trigger("focus");
             });
 
