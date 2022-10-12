@@ -144,7 +144,10 @@ class PagesController extends Controller
 
         foreach ($query as $value) {
             $officer = $users->firstWhere('id', $value->id);
-            $value->avg = ($officer->stats) ? $officer->stats->wait_time : '-';
+            if ($officer)
+                $value->avg = ($officer->stats) ? $officer->stats->wait_time : '-';
+            else
+                $value->avg = "-";
         }
         // echo '<pre>';
         // print_r($query->sum('total'));
