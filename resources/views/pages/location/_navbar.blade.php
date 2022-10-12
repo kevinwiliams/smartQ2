@@ -17,7 +17,11 @@
                         <!--begin::Status-->
                         <div class="d-flex align-items-center mb-1">
                             <a href="#" class="text-gray-800 text-hover-primary fs-2 fw-bolder me-3">{{ $location->name }}</a>
-                            <span class="badge badge-light-success me-auto">{{ $location->status }}</span>
+                            @if($location->active)
+                            <span class="badge badge-light-success me-auto">Active</span>
+                            @else
+                            <span class="badge badge-light-danger me-auto">Inactive</span>
+                            @endif
                         </div>
                         <!--end::Status-->
                         <!--begin::Description-->
