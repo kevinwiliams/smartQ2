@@ -200,14 +200,15 @@
                                                 <div class="fw-bolder text-start text-dark fs-6 mb-1 ms-1">Type your 6 digit security code</div>
                                                 <!--end::Label-->
                                                 <!--begin::Input group-->
-                                                <div class="d-flex flex-wrap flex-stack">
+                                                <!-- <div class="d-flex flex-wrap flex-stack">
                                                     <input name="otp_code_1" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
                                                     <input name="otp_code_2" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
                                                     <input name="otp_code_3" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
                                                     <input name="otp_code_4" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
                                                     <input name="otp_code_5" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
                                                     <input name="otp_code_6" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
-                                                </div>
+                                                </div> -->
+                                                <input name="otp_code" id="otp_code" type="text" data-inputmask="'mask': '999999', 'placeholder': '______'" maxlength="6" class="form-control form-control-solid h-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
                                                 <!--begin::Input group-->
                                             </div>
                                             <!--end::Section-->
@@ -260,14 +261,15 @@
                                                 <div class="fw-bolder text-start text-dark fs-6 mb-1 ms-1">Type your 6 digit security code</div>
                                                 <!--end::Label-->
                                                 <!--begin::Input group-->
-                                                <div class="d-flex flex-wrap flex-stack">
+                                                <!-- <div class="d-flex flex-wrap flex-stack">
                                                     <input name="otp_code_1" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
                                                     <input name="otp_code_2" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
                                                     <input name="otp_code_3" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
                                                     <input name="otp_code_4" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
                                                     <input name="otp_code_5" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
                                                     <input name="otp_code_6" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
-                                                </div>
+                                                </div> -->
+                                                <input name="otp_code" id="otp_code" type="text" data-inputmask="'mask': '999999', 'placeholder': '______'" maxlength="6" class="form-control form-control-solid h-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
                                                 <!--begin::Input group-->
                                             </div>
                                             <!--end::Section-->
@@ -322,14 +324,15 @@
                                     @php
                                     $otparray = str_split(auth()->user()->getCurrentOTP());
                                     @endphp
-                                    <div class="d-flex flex-wrap flex-stack">
+                                    <!-- <div class="d-flex flex-wrap flex-stack">
                                         <input name="otp_code_1" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="{{ $otparray[0] }}" inputmode="text">
                                         <input name="otp_code_2" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="{{ $otparray[1] }}" inputmode="text">
                                         <input name="otp_code_3" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="{{ $otparray[2] }}" inputmode="text">
                                         <input name="otp_code_4" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
                                         <input name="otp_code_5" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
                                         <input name="otp_code_6" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
-                                    </div>
+                                    </div> -->
+                                    <input name="otp_code" id="otp_code" type="text" data-inputmask="'mask': '999999', 'placeholder': '______'" maxlength="6" class="form-control form-control-solid h-60px fs-2qx text-center border-primary mx-1 my-2" value="{{ substr(auth()->user()->getCurrentOTP(),0,3) }}" inputmode="text">
                                     <!--begin::Input group-->
                                 </div>
                                 <!--end::Section-->
@@ -638,9 +641,9 @@
             //------------------------------------------
 
 
-            $("[name^=otp_code]").on("keyup", function(e) {
-                $(this).next().trigger("focus");
-            });
+            // $("[name^=otp_code]").on("keyup", function(e) {
+            //     $(this).next().trigger("focus");
+            // });
 
             //disable stepper until verified
             $('[data-mv-stepper-action="next"]').addClass('disabled');
@@ -760,7 +763,7 @@
                 var code = $("#code").val();
 
                 if (code == "" || code == undefined) {
-                    code = collateOTPCode('otp_code_');
+                    code = $('#otp_code').val();//collateOTPCode('otp_code_');
                 }
 
                 if (phone == "") {
@@ -827,7 +830,7 @@
                 var phone = $("#emailAddress").val();
                 var code = $("#emailCode").val();
                 if (code == "" || code == undefined) {
-                    code = collateOTPCode('otp_code_');
+                    code = $('#otp_code').val();//collateOTPCode('otp_code_');
                 }
 
                 if (code == "") {

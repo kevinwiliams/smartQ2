@@ -197,13 +197,14 @@
                     @else
                     <!--start::Check In Code -->
                     <div class="text-gray-800 fw-bolder fs-6">Enter Check-In Code</div>
-                    <div class="d-flex flex-wrap flex-stack">
+                    <!-- <div class="d-flex flex-wrap flex-stack">
                         <input name="checkin_code_1" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
                         <input name="checkin_code_2" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
                         <input name="checkin_code_3" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
                         <input name="checkin_code_4" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
-                    </div>
+                    </div> -->
                     <!--start::Check In Code -->
+                    <input name="checkin_code" id="checkin_code" type="text" data-inputmask="'mask': '9999', 'placeholder': '____'" maxlength="4" class="form-control form-control-solid h-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
                     @endif
                     @endif
                 </div>
@@ -264,9 +265,9 @@
                 getCurrentPosition();
             });
 
-            $("[name^=checkin_code]").on("keyup", function(e) {
-                $(this).next().trigger("focus");
-            });
+            // $("[name^=checkin_code]").on("keyup", function(e) {
+            //     $(this).next().trigger("focus");
+            // });
 
         })();
 
@@ -346,7 +347,8 @@
 
         $('[name=check_in]').on('click', function(e) {
             var id = e.target.dataset.id;
-            var otp = collateOTPCode('checkin_code');
+            var otp = $("#checkin_code").val();//collateOTPCode('checkin_code');
+            console.log(otp);
             if (otp.length < 4) {
                 Swal.fire({
                     text: "Invalid Code",
