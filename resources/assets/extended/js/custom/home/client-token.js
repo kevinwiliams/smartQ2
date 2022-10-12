@@ -86,7 +86,7 @@ var MVCreateToken = function () {
                                 }
                             }).then(function (value) {
                                 if (value.isConfirmed) {
-                                    var location = $('#mv_location_list').val();
+                                    var location = $('#mv_location_list').val();//
                                     var dept = $('input[name=department_id]:checked').val();
                                     var reason = $('select[name="reason_id"]').val();
                                     var note = $('#userNote').val();
