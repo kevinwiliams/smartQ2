@@ -5,7 +5,7 @@
         <div class="d-flex flex-wrap flex-sm-nowrap mb-6">
             <!--begin::Image-->
             <div class="d-flex flex-center flex-shrink-0 bg-light rounded w-100px h-100px w-lg-150px h-lg-150px me-7 mb-4">
-                <img class="mw-80px mw-lg-95px" src="{{ asset(theme()->getMediaUrlPath() . 'icons/duotune/abstract/abs027.svg') }}" alt="image" />
+                <img class="mw-80px mw-lg-95px" src="{{ $location->company->logo_url }}" alt="image" />
             </div>
             <!--end::Image-->
             <!--begin::Wrapper-->

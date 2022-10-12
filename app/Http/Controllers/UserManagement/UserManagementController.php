@@ -147,6 +147,10 @@ class UserManagementController extends Controller
 
     public function officersList($id = null)
     {
+        if (!auth()->user()->can('edit location')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+
         // get the default inner page
         $departments = Department::where('location_id', $id)->count();
         $counters = Counter::where('location_id', $id)->count();
@@ -165,6 +169,9 @@ class UserManagementController extends Controller
 
     public function customerList($id = null)
     {
+        if (!auth()->user()->can('edit location')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
         // get the default inner page
         $departments = Department::where('location_id', $id)->count();
         $counters = Counter::where('location_id', $id)->count();
@@ -214,6 +221,10 @@ class UserManagementController extends Controller
 
     public function staffEdit($id)
     {
+        if (!auth()->user()->can('edit user')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+
         $user = User::find($id);
         $roles = Role::whereNotIn('name', config('app.exclude_roles'))->orderBy('name')->get();
         $departments = Department::where('location_id', $user->location_id)->orderBy('name')->get();
@@ -236,6 +247,10 @@ class UserManagementController extends Controller
 
     public function usersEdit($id)
     {
+        if (!auth()->user()->can('edit user')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+
         $user = User::find($id);
         $roles = Role::get();
         $departments = Department::get();
@@ -267,6 +282,9 @@ class UserManagementController extends Controller
 
     public function deleteUser($id)
     {
+        if (!auth()->user()->can('delete user')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
 
         $user = User::find($id);
         $_info = UserInfo::where('user_id', $id)->first();
@@ -287,6 +305,10 @@ class UserManagementController extends Controller
 
     public function updateUser(Request $request, $id)
     {
+        if (!auth()->user()->can('edit user')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+
         $validator = Validator::make($request->all(), [
             'firstname' => 'required',
             'lastname' => 'required',
@@ -370,6 +392,10 @@ class UserManagementController extends Controller
 
     public function createUser(Request $request)
     {
+        if (!auth()->user()->can('create user')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+
         $validator = Validator::make($request->all(), [
             'firstname' => 'required',
             'lastname' => 'required',
@@ -462,6 +488,10 @@ class UserManagementController extends Controller
 
     public function updateUserStatus(Request $request, $id)
     {
+        if (!auth()->user()->can('edit user')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+
         $validator = Validator::make($request->all(), [
             // 'profile_email' => 'required'
         ])
@@ -483,8 +513,8 @@ class UserManagementController extends Controller
             $user->status = $request->has('status') ? 1 : 0;
             $user->save();
 
-            $setting = TokenSetting::where('user_id',$id)->first();
-            if($setting){
+            $setting = TokenSetting::where('user_id', $id)->first();
+            if ($setting) {
                 $setting->status = $request->has('status') ? 1 : 0;
                 $setting->save();
             }
@@ -504,6 +534,10 @@ class UserManagementController extends Controller
 
     public function updateUserEmail(Request $request, $id)
     {
+        if (!auth()->user()->can('edit user')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+
         $validator = Validator::make($request->all(), [
             'profile_email' => 'required'
         ])
@@ -541,6 +575,10 @@ class UserManagementController extends Controller
 
     public function updateUserLocation(Request $request, $id)
     {
+        if (!auth()->user()->can('edit user')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+
         $validator = Validator::make($request->all(), [
             'location_id' => 'required',
             'department_id' => 'required'
@@ -658,6 +696,10 @@ class UserManagementController extends Controller
 
     public function updateUserPassword(Request $request, $id)
     {
+        if (!auth()->user()->can('edit user')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+
         $validator = Validator::make($request->all(), [
             'password' => 'required'
         ])->setAttributeNames(array(
@@ -720,6 +762,9 @@ class UserManagementController extends Controller
 
     public function assignRole(Request $request)
     {
+        if (!auth()->user()->can('edit user')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
 
         $role = Role::find($request->user_role);
         $user = User::find($request->user_id);
@@ -741,6 +786,10 @@ class UserManagementController extends Controller
 
     public function createRole(Request $request)
     {
+        if (!auth()->user()->can('create role')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+
         @date_default_timezone_set(session('app.timezone'));
 
 
@@ -787,6 +836,10 @@ class UserManagementController extends Controller
 
     public function updateRole(Request $request, $id)
     {
+        if (!auth()->user()->can('edit role')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+
         @date_default_timezone_set(session('app.timezone'));
 
 
@@ -835,7 +888,9 @@ class UserManagementController extends Controller
 
     public function deleteRole($id)
     {
-
+        if (!auth()->user()->can('delete role')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
         $role = Role::find($id);
         $role->delete();
 
