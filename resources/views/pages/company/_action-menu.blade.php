@@ -24,13 +24,14 @@
     </div>
   
     <input type="hidden" value="{{$model->id}}" name="company-id" id="company-id-{{$model->id}}" />
-    <input type="hidden" value="{{$model->name}}" name="company-name" id="company-name-{{$model->name}}" />
-    <input type="hidden" value="{{$model->address}}" name="company-address" id="company-address-{{$model->address}}" />
-    <input type="hidden" value="{{$model->website}}" name="company-website" id="company-website-{{$model->website}}" />
-    <input type="hidden" value="{{$model->email}}" name="company-email" id="company-email-{{$model->email}}" />
-    <input type="hidden" value="{{$model->phone}}" name="company-phone" id="company-phone-{{$model->phone}}" />
-    <input type="hidden" value="{{$model->contact_person}}" name="company-contact_person" id="company-contact_person-{{$model->contact_person}}" />
-    <input type="hidden" value="{{$model->description}}" name="company-description" id="company-description-{{$model->description}}" />
-    <input type="hidden" value="{{$model->active}}" name="company-active" id="company-active-{{$model->active}}" />
+    <input type="hidden" value="{{$model->name}}" name="company-name" id="company-name-{{$model->id}}" />
+    <input type="hidden" value="{{$model->address}}" name="company-address" id="company-address-{{$model->id}}" />
+    <input type="hidden" value="{{$model->website}}" name="company-website" id="company-website-{{$model->id}}" />
+    <input type="hidden" value="{{$model->email}}" name="company-email" id="company-email-{{$model->id}}" />
+    <input type="hidden" value="{{$model->phone}}" name="company-phone" id="company-phone-{{$model->id}}" />
+    <input type="hidden" value="{{$model->contact_person}}" name="company-contact_person" id="company-contact_person-{{$model->id}}" />
+    <input type="hidden" value="{{$model->description}}" name="company-description" id="company-description-{{$model->id}}" />
+    <input type="hidden" value="{{$model->active}}" name="company-active" id="company-active-{{$model->id}}" />
+    <input type="hidden" value="{{$model->logo_url}}" name="company-logo" id="company-logo-{{$model->id}}" />
 </td>
 <!--end::Action=-->

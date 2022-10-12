@@ -32,9 +32,10 @@ class CompanyDataTable extends DataTable
                 $html = '<div class="d-flex align-items-sm-center mb-7">';
                 // $html .= '<div class="symbol symbol-60px symbol-2by3 flex-shrink-0 me-4">';
                 // $html .= '<img src="'. asset(theme()->getMediaUrlPath() . 'media/stock/600x400/img-3.jpg').'" class="mw-100" alt=""></div>';
-
-                $html .= '<div class="symbol symbol-50px me-2">';
-                $html .= '<span class="symbol-label bg-light-success">'. theme()->getSvgIcon("icons/duotune/general/gen025.svg", "svg-icon-2x svg-icon-success").' </span></div>';
+                $html .= '<div class="symbol symbol-40px symbol-circle me-5">';
+                $html .= '<img src="'. $model->logo_url.'" alt="image"></div>';
+                // $html .= '<div class="symbol symbol-50px me-2">';
+                // $html .= '<span class="symbol-label bg-light-success">'. theme()->getSvgIcon("icons/duotune/general/gen025.svg", "svg-icon-2x svg-icon-success").' </span></div>';
 
 				$html .= '<div class="d-flex flex-row-fluid flex-wrap align-items-center">';
                 $html .= '<div class="flex-grow-1 me-2">';

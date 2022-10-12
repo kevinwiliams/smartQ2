@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Storage;
 
 class Company extends Model
 {
@@ -31,4 +32,23 @@ class Company extends Model
     {
 	    return $this->hasMany(Location::class);
 	}
+
+    public function getLogoUrlAttribute()
+    {
+        // if file avatar exist in storage folder
+        $avatar = public_path(Storage::url($this->logo));
+        if (is_file($avatar) && file_exists($avatar)) {
+            // get avatar url from storage
+            return Storage::url($this->logo);
+        }
+
+        // check if the avatar is an external url, eg. image from google
+        if (filter_var($this->logo, FILTER_VALIDATE_URL)) {
+            return $this->logo;
+        }
+
+        // no avatar, return blank avatar
+        return asset(theme()->getMediaUrlPath().'media/icons/duotune/general/gen006.svg');
+    }
+
 }

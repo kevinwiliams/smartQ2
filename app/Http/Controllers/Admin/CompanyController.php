@@ -12,7 +12,9 @@ use App\Models\DisplaySetting;
 use App\Models\Location;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Image;
 
 class CompanyController extends Controller
 {
@@ -81,6 +83,17 @@ class CompanyController extends Controller
 
             return response()->json($data);
         } else {
+            $filePath = null;
+            if (!empty($request->logo)) {
+                $filePath = 'assets/img/logos/' . date('ymdhis') . '.jpg';
+                $photo = $request->logo;
+                Image::make($photo)->resize(300, 300)->save(public_path(Storage::url($filePath)));
+            } else if (!empty($request->old_logo)) {
+                $filePath = $request->old_logo;
+                if ($request->has('remove_logo')) {
+                    $filePath = null;
+                }
+            }
 
             $company = Company::create([
                 'name'        => $request->name,
@@ -89,6 +102,7 @@ class CompanyController extends Controller
                 'website' => $request->website,
                 'email' => $request->email,
                 'phone' => $request->phone,
+                'logo' => $filePath,
                 'contact_person' => $request->contact_person,
                 'active' => ($request->active) ? $request->active : 0
             ]);
@@ -193,6 +207,7 @@ class CompanyController extends Controller
             'email'      => 'required',
             'phone'      => 'required',
             'contact_person'      => 'required',
+            'logo'       => 'image|mimes:jpeg,png,jpg,gif|max:3072',
         ])
             ->setAttributeNames(array(
                 'name' => trans('app.name'),
@@ -202,6 +217,7 @@ class CompanyController extends Controller
                 'email' => trans('app.email'),
                 'phone' => trans('app.phone'),
                 'contact_person' => trans('app.contact_person'),
+                'logo' => trans('app.logo'),
             ));
 
 
@@ -212,6 +228,17 @@ class CompanyController extends Controller
 
             return response()->json($data);
         } else {
+            $filePath = null;
+            if (!empty($request->logo)) {
+                $filePath = 'assets/img/logos/' . date('ymdhis') . '.jpg';
+                $photo = $request->logo;
+                Image::make($photo)->resize(300, 300)->save(public_path(Storage::url($filePath)));
+            } else if (!empty($request->old_logo)) {
+                $filePath = $request->old_logo;
+                if ($request->has('remove_logo')) {
+                    $filePath = null;
+                }
+            }
 
             $update = Company::where('id', $id)
                 ->update([
@@ -221,6 +248,7 @@ class CompanyController extends Controller
                     'website' => $request->website,
                     'email' => $request->email,
                     'phone' => $request->phone,
+                    'logo' => $filePath,
                     'contact_person' => $request->contact_person,
                     'active' => ($request->active) ? $request->active : 0,
                     'updated_at' => Carbon::now()

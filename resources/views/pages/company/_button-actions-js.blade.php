@@ -227,6 +227,7 @@
                     var _contact_person = parent.querySelectorAll('input[name=company-contact_person]')[0].value;
                     var _description = parent.querySelectorAll('input[name=company-description]')[0].value;
                     var _active = parent.querySelectorAll('input[name=company-active]')[0].value;
+                    var _logo = parent.querySelectorAll('input[name=company-logo]')[0].value;
                     
                     form.querySelector('input[name=company_edit_id]').value = _id;
                     form.querySelector('input[name=name]').value = _name;
@@ -237,6 +238,8 @@
                     form.querySelector('input[name=contact_person]').value = _contact_person;
                     form.querySelector('textarea[name=description]').value = _description;
                     $('#edit_active').prop("checked", _active);
+                    $('input[name="old_logo"]').val(_logo);
+                    $("#company-logo-wrapper").css({"background-image": "url(" + _logo + ")"});  
 
                 });
             });

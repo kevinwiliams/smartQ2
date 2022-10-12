@@ -62,7 +62,13 @@
                                             <option value="4">Option 4</option>
                                             <option value="5">Option 5</option>
                                         </select> -->
-                                        {{ Form::select('company_id', $companies, null, ['data-placeholder' => 'Select Company','placeholder' => 'Select Option' ,'data-control' => 'select2' , 'id' => 'company_id', 'class'=>'form-select form-select-solid form-select-lg fw-bold filter rounded-start-0']) }}
+                                        <!-- {{ Form::select('company_id', $companies, null, ['data-placeholder' => 'Select Company','placeholder' => 'Select Option' ,'data-control' => 'select2' , 'id' => 'company_id', 'class'=>'form-select form-select-solid form-select-lg fw-bold filter rounded-start-0']) }} -->
+                                        <select id="company_id" class="form-select form-select-solid form-select-lg fw-bold filter rounded-start-0" name="company_id" data-placeholder="Please select company">
+                                            @foreach($companies as $company)
+                                            <option></option>
+                                            <option value="{{ $company->id }}" data-mv-rich-content-icon="{{ $company->logo_url }}">{{ $company->name }}</option>
+                                            @endforeach
+                                        </select>
                                         <span class="text-danger">{{ $errors->first('company_id') }}</span>
                                     </div>
                                 </div>
@@ -72,7 +78,7 @@
                                 <div class="input-group input-group-solid flex-nowrap">
                                     <span class="input-group-text"><i class="bi bi-geo fs-4"></i></span>
                                     <div class="overflow-hidden flex-grow-1">
-                                        <select id="mv_location_list" class="form-select form-select-solid form-select-lg" name="location" data-placeholder="Please select location">
+                                        <select id="mv_location_list" class="form-select form-select-solid form-select-lg fw-bold filter rounded-start-0" name="location" data-placeholder="Please select location">
                                             <option></option>
                                         </select>
                                         <span class="text-danger">{{ $errors->first('location') }}</span>
@@ -569,12 +575,40 @@
                 return $(span);
             }
 
+            const companyoptionFormat = (item) => {
+                if (!item.id) {
+                    return item.text;
+                }
+
+                var span = document.createElement('span');
+                var template = '';
+
+                template += '<div class="d-flex align-items-center">';
+                template += '<img src="' + item.element.getAttribute('data-mv-rich-content-icon') + '" class="rounded-circle h-40px me-3" alt="' + item.text + '"/>';
+                template += '<div class="d-flex flex-column">'
+                template += '<span class="fs-4 fw-bold lh-1">' + item.text + '</span>';
+                // template += '<span class="text-muted fs-5">' + item.element.getAttribute('data-mv-rich-content-subcontent') + '</span>';
+                template += '</div>';
+                template += '</div>';
+
+                span.innerHTML = template;
+
+                return $(span);
+            }
+
             // Init Select2 --- more info: https://select2.org/
             $('#mv_location_list').select2({
-                placeholder: "Select an option",
+                placeholder: "Select a location",
                 minimumResultsForSearch: 0,
                 templateSelection: optionFormat,
                 templateResult: optionFormat
+            });
+
+            $('#company_id').select2({
+                placeholder: "Select a company",
+                minimumResultsForSearch: 0,
+                templateSelection: companyoptionFormat,
+                templateResult: companyoptionFormat
             });
 
 
@@ -1042,60 +1076,6 @@
                         data.forEach(element => {
                             var optstr = '<option value="' + element.id + '" data-mv-rich-content-subcontent="' + element.address + '" data-visitreason="' + element.settings.client_reason_for_visit + '" data-shownote="' + element.settings.show_note + '">' + element.name + '</option>';
                             $('select[name="location"]').append(optstr);
-                        });
-
-
-                        return;
-                        content.html("")
-                        var cntr = 1;
-                        data.forEach(element => {
-                            var _clone = repItem.clone();
-                            _clone.removeAttr("id");
-                            var name = _clone.find("#mv-repeater-name");
-                            name.text(element.name);
-
-                            var address = _clone.find("#mv-repeater-address");
-                            address.text(element.address);
-
-                            var radio = _clone.find("#mv-repeater-location");
-                            radio.val(element.id);
-
-                            //update ids
-                            var __id = radio.attr('id');
-                            radio.attr('id', __id + element.id);
-                            radio.data('visitreason', element.settings.client_reason_for_visit);
-                            radio.data('shownote', element.settings.show_note);
-                            var label = _clone.find('label');
-                            label.attr('for', __id + element.id);
-                            var __id2 = label.attr('id');
-                            label.attr('id', "lbl_location_" + element.id);
-                            label.data('location_id', element.id)
-
-                            _clone.css('display', 'inline-block');
-                            _clone.addClass("col-lg-6");
-                            if (cntr % 2 == 1) {
-                                // _clone.addClass("mr-5");
-                            }
-
-                            _clone.on('click', function(e) {
-                                $('[data-mv-stepper-action="next"]').removeClass('disabled');
-                                var obj = $('input[name="location"]:checked');
-                                // console.log(obj);
-                                var shownote = obj.data('shownote');
-
-                                console.log("shownote: " + shownote);
-                                if (shownote === undefined) {
-                                    $("#shownote").hide();
-                                } else if (shownote == 0) {
-                                    $("#shownote").hide();
-                                } else {
-                                    $("#shownote").show();
-                                }
-                                // console.log("shownote: " + shownote);
-                            });
-
-                            content.append(_clone);
-                            cntr++;
                         });
                     }
                 });
