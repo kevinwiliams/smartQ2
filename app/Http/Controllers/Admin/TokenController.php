@@ -1578,6 +1578,57 @@ class TokenController extends Controller
         return response()->json($data);
     }
 
+    public function qrcheckin(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'location'        => 'required',
+            'tokenid'      => 'required'
+        ])
+            ->setAttributeNames(array(
+                'location' => trans('app.location'),
+                'tokenid' => trans('app.token')
+            ));
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $data['message'] = trans('app.please_try_again');
+            return response()->json($data);
+        }
+
+        $token = Token::where('id', $request->tokenid)->where('location_id', $request->location)->first();
+        if (!$token) {
+            $data['status'] = false;
+            $data['message'] = trans('app.please_try_again');
+            return response()->json($data);
+        }      
+
+        Token::where('id', $request->tokenid)
+            ->update([
+                'updated_at' => date('Y-m-d H:i:s'),
+                'status'     => 0,
+                'sms_status' => 1
+            ]);
+
+        //Insert token status                    
+        $save = TokenStatus::insert([
+            'token_id'    => $request->tokenid,
+            'status'      => 0,
+            'time_stamp' => date('Y-m-d H:i:s')
+        ]);
+
+        $data['status'] = true;
+        $data['exception'] = trans('app.update_successfully');
+
+        // $token = Token::where('id', $request->id)->first();
+        activity('activity')
+            ->withProperties(['activity' => 'Client Checked In Token', 'department' => $token->department->name, 'token' => $token->token_no, 'display' => 'primary', 'location_id' => auth()->user()->location_id])
+            ->log('Token :properties.token checked in for :properties.department');
+
+        return response()->json($data);
+    }
+
+
     public function stopedClient($id)
     {
         Token::where('id', $id)

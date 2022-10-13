@@ -30,11 +30,10 @@
                     </div>
                     <!--end::Details-->
                     <!--begin::Actions-->
-                    <!-- <div class="d-flex mb-4">
-                        <a href="#" class="btn btn-sm btn-bg-light btn-active-color-primary me-3" data-bs-toggle="modal" data-bs-target="#mv_modal_users_search">Add User</a>
-                        <a href="#" class="btn btn-sm btn-primary me-3" data-bs-toggle="modal" data-bs-target="#mv_modal_new_target">Add Department</a>
-                       
-                    </div> -->
+                    <div class="d-flex mb-4">
+                        <a href="/location/printqr/{{ $location->id }}" class="btn btn-sm btn-primary me-3" target="_blank">
+                        <i class="bi bi-qr-code"></i> Print QR Code</a>
+                    </div>
                     <!--end::Actions-->
                 </div>
                 <!--end::Head-->

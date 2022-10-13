@@ -191,19 +191,14 @@
                     @if($qrcheckin)
                     <!--start::QR Code -->
                     <div class="text-center">
-                        {!! QrCode::style('round')->eyeColor(0, 0,178,0, 1,162,217)->size(250)->color(1,162,217)->generate(url("token/checkin/$token->id")) !!}
+                        <!-- {!! QrCode::style('round')->eyeColor(0, 0,178,0, 1,162,217)->size(250)->color(1,162,217)->generate(url("token/checkin/$token->id")) !!} -->
                     </div>
                     <!--end::QR Code -->
+                    <div class="text-gray-800 fw-bolder fs-6">Enter Check-In Code</div>                    
+                    <input name="checkin_code" id="checkin_code" type="text" data-inputmask="'mask': '9999', 'placeholder': '____'" maxlength="4" class="form-control form-control-solid h-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
                     @else
                     <!--start::Check In Code -->
-                    <div class="text-gray-800 fw-bolder fs-6">Enter Check-In Code</div>
-                    <!-- <div class="d-flex flex-wrap flex-stack">
-                        <input name="checkin_code_1" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
-                        <input name="checkin_code_2" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
-                        <input name="checkin_code_3" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
-                        <input name="checkin_code_4" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
-                    </div> -->
-                    <!--start::Check In Code -->
+                    <div class="text-gray-800 fw-bolder fs-6">Enter Check-In Code</div>                    
                     <input name="checkin_code" id="checkin_code" type="text" data-inputmask="'mask': '9999', 'placeholder': '____'" maxlength="4" class="form-control form-control-solid h-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
                     @endif
                     @endif
@@ -213,7 +208,9 @@
                 <div class="p-5">
                     @if($token->status==3)
                     @if($qrcheckin)
-                    <a href="#" class="btn btn-primary w-100 py-3" data-id="{{ $token->id }}" name="check_in_qr">Check In</a>
+                    <!-- <a href="#" class="btn btn-primary w-100 py-3" data-id="{{ $token->id }}" name="check_in_qr">Check In</a> -->
+                    <a href="#" class="btn btn-primary w-100 py-3" data-id="{{ $token->id }}" name="check_in">Check In</a>
+                    <button type="button" class="btn btn-secondary w-100 py-3 mt-3" id="btnScanBarcode" data-id="{{ $token->id }}" name="check_in_qr_scan" data-bs-toggle="modal" data-bs-target="#mv_modal_check_in" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to check in">Scan Barcode</button>
                     @else
                     <a href="#" class="btn btn-primary w-100 py-3" data-id="{{ $token->id }}" name="check_in">Check In</a>
                     @endif
@@ -228,8 +225,12 @@
         <!--end::Mixed Widget 1-->
     </div>
     <!--end::Col-->
-    </div>
+    </div>   
     <!--end::Row-->
+    <!--begin::Modal - Add Company -->
+    {{ theme()->getView('partials/modals/home/_checkin') }}
+    @include('pages.home._qrscanner-js')
+    <!--end::Modal - Add Company-->
     @section('scripts')
     <script type="text/javascript">
         (function() {
@@ -317,7 +318,7 @@
 
         $('[name=check_in_qr]').on('click', function(e) {
             var id = e.target.dataset.id;
-         
+
             Swal.fire({
                     text: 'Are you ready to check-in?',
                     icon: 'warning',
@@ -347,7 +348,7 @@
 
         $('[name=check_in]').on('click', function(e) {
             var id = e.target.dataset.id;
-            var otp = $("#checkin_code").val();//collateOTPCode('checkin_code');
+            var otp = $("#checkin_code").val(); //collateOTPCode('checkin_code');
             console.log(otp);
             if (otp.length < 4) {
                 Swal.fire({
@@ -360,8 +361,8 @@
                     }
                 });
                 return;
-            }            
-            checkInOTP(id, otp);     
+            }
+            checkInOTP(id, otp);
         });
 
 
@@ -451,5 +452,6 @@
     </script>
 
     @include('pages.home._firebase-js')
+
     @endsection
 </x-base-layout>

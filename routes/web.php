@@ -176,6 +176,7 @@ Route::middleware('auth')->group(function () {
 		Route::post('create', [TokenController::class, 'create']);
 		Route::get('checkin/{id}', [TokenController::class, 'checkin']);
 		Route::post('checkinotp', [TokenController::class, 'otpcheckin']);
+		Route::post('qrcheckin', [TokenController::class, 'qrcheckin']);
 		// Route::post('print', [TokenController::class, 'viewSingleToken']);
 		// Route::post('print', [TokenController::class, 'printToken']);		
 		Route::get('print/{id}', [TokenController::class, 'printToken']);
@@ -221,6 +222,7 @@ Route::middleware('auth')->group(function () {
 		Route::get('edit/{id}', [LocationController::class, 'showEditForm']);
 		Route::get('view/{id}', [LocationController::class, 'show']);
 		Route::post('edit/{id}', [LocationController::class, 'update']);
+		Route::get('printqr/{id}', [LocationController::class, 'printqr']);
 		Route::get('delete/{id}', [LocationController::class, 'destroy']);
 		// Route::get('department/{id}', [LocationController::class, 'dept']);
 		Route::get('token/setting/{id}', [TokenController::class, 'tokenSettingView']);

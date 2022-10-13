@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use DataTables, DB;
+use PDF;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class LocationController extends Controller
 {
@@ -284,6 +286,14 @@ class LocationController extends Controller
     public function edit(Location $location)
     {
         //
+    }
+    public function printqr($id)
+    {
+        $content = "<div>";
+        $content .=  QrCode::style('round')->eyeColor(0, 0, 178, 0, 1, 162, 217)->size(500)->color(1, 162, 217)->generate($id);
+        $content .= "</div>";
+
+        return PDF::loadHtml($content)->inline('qrcode-' . $id . '.pdf');
     }
 
     /**
