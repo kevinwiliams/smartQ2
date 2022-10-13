@@ -208,7 +208,7 @@
                                                     <input name="otp_code_5" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
                                                     <input name="otp_code_6" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
                                                 </div> -->
-                                                <input name="otp_code" id="otp_code" type="text" data-inputmask="'mask': '999999', 'placeholder': '______'" maxlength="6" class="form-control form-control-solid h-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
+                                                <input name="otp_code" id="otp_code_sms" type="text" data-inputmask="'mask': '999999', 'placeholder': '______'" maxlength="6" class="form-control form-control-solid h-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
                                                 <!--begin::Input group-->
                                             </div>
                                             <!--end::Section-->
@@ -269,7 +269,7 @@
                                                     <input name="otp_code_5" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
                                                     <input name="otp_code_6" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
                                                 </div> -->
-                                                <input name="otp_code" id="otp_code" type="text" data-inputmask="'mask': '999999', 'placeholder': '______'" maxlength="6" class="form-control form-control-solid h-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
+                                                <input name="otp_code" id="otp_code_email" type="text" data-inputmask="'mask': '999999', 'placeholder': '______'" maxlength="6" class="form-control form-control-solid h-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
                                                 <!--begin::Input group-->
                                             </div>
                                             <!--end::Section-->
@@ -332,7 +332,7 @@
                                         <input name="otp_code_5" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
                                         <input name="otp_code_6" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
                                     </div> -->
-                                    <input name="otp_code" id="otp_code" type="text" data-inputmask="'mask': '999999', 'placeholder': '______'" maxlength="6" class="form-control form-control-solid h-60px fs-2qx text-center border-primary mx-1 my-2" value="{{ substr(auth()->user()->getCurrentOTP(),0,3) }}" inputmode="text">
+                                    <input name="otp_code" id="otp_code{{(auth()->user()->otp_type == 'email')?'_email':'_sms'}}" type="text" data-inputmask="'mask': '999999', 'placeholder': '______'" maxlength="6" class="form-control form-control-solid h-60px fs-2qx text-center border-primary mx-1 my-2" value="{{ substr(auth()->user()->getCurrentOTP(),0,3) }}" inputmode="text">
                                     <!--begin::Input group-->
                                 </div>
                                 <!--end::Section-->
@@ -760,11 +760,11 @@
 
             $('#activate-step-2').on('click', function(e) {
                 var phone = $("#phone").val();
-                var code = $("#code").val();
+                var code = $('#otp_code_sms').val();
 
-                if (code == "" || code == undefined) {
-                    code = $('#otp_code').val();//collateOTPCode('otp_code_');
-                }
+                // if (code == "" || code == undefined) {
+                //     code = $('#otp_code_sms').val();//collateOTPCode('otp_code_');
+                // }
 
                 if (phone == "") {
                     Swal.fire({
@@ -830,7 +830,7 @@
                 var phone = $("#emailAddress").val();
                 var code = $("#emailCode").val();
                 if (code == "" || code == undefined) {
-                    code = $('#otp_code').val();//collateOTPCode('otp_code_');
+                    code = $('#otp_code_email').val();//collateOTPCode('otp_code_');
                 }
 
                 if (code == "") {
