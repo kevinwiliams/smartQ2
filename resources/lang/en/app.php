@@ -116,6 +116,7 @@ return [
     'customers'              => 'Customers',
     'service_time'              => 'Service Time',
     'wait_time'                 => 'Wait Time',
+    'check_in'                 => 'Check In',    
 
     /*Display*/
     'display'                 => 'Display',
