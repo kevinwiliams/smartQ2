@@ -296,7 +296,7 @@
 
 
             $(document).ready(function() {
-                // getCurrentPosition();
+                getCurrentPosition();
             });
 
             // $("[name^=checkin_code]").on("keyup", function(e) {
