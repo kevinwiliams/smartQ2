@@ -53,6 +53,33 @@
                         <div class="d-flex align-items-center mb-6">
                             <!--begin::Symbol-->
                             <div class="symbol symbol-45px w-40px me-5">
+                            <img class="mw-80px mw-lg-95px" src="{{ $token->location->company->logo_url }}" alt="image" />
+                            </div>
+                            <!--end::Symbol-->
+                            <!--begin::Description-->
+                            <div class="d-flex align-items-center flex-wrap w-100">
+                                <!--begin::Title-->
+                                <div class="mb-1 pe-3 flex-grow-1">
+                                    <a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder">{{ !empty($token->location)?$token->location->name:null }}</a>
+                                    <div class="text-gray-400 fw-bold fs-7">{{ !empty($token->location)?$token->location->address: null }}</div>
+                                </div>
+                                <!--end::Title-->
+                                <!--begin::Label-->
+                                <div class="d-flex align-items-center">
+                                    {{-- <div class="fw-bolder fs-5 text-gray-800 pe-1">$2,5b</div> --}}
+                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr066.svg-->
+
+                                    <!--end::Svg Icon-->
+                                </div>
+                                <!--end::Label-->
+                            </div>
+                            <!--end::Description-->
+                        </div>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <div class="d-flex align-items-center mb-6">
+                            <!--begin::Symbol-->
+                            <div class="symbol symbol-45px w-40px me-5">
                                 <span class="symbol-label bg-lighten">
                                     <!--begin::Svg Icon | path: icons/duotune/maps/map004.svg-->
                                     {!! theme()->getSvgIcon("icons/duotune/general/gen056.svg", "svg-icon-1") !!}
@@ -103,17 +130,22 @@
                                         You are next!
                                         @endif
                                     </a>
+                                    @if ($wait != "00:00")
+                                    <div class="text-gray-400 fw-bold fs-7">
+                                        
+                                            <span id="span_wait">{{ $wait }}</span>
+                                        
+                                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr065.svg-->
+                                        {!! theme()->getSvgIcon("icons/duotune/general/gen013.svg", "svg-icon-info ms-1") !!}
+                                        <!--end::Svg Icon-->
+                                    </div>
+                                    @endif
                                 </div>
                                 <!--end::Title-->
                                 <!--begin::Label-->
                                 @if ($wait != "00:00")
                                 <div class="d-flex align-items-center">
-                                    <div class="fw-bolder fs-5 text-gray-800 pe-1">
-                                        <span id="span_wait">{{ $wait }}</span>
-                                    </div>
-                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr065.svg-->
-                                    {!! theme()->getSvgIcon("icons/duotune/general/gen013.svg", "svg-icon-info ms-1") !!}
-                                    <!--end::Svg Icon-->
+                                   
                                 </div>
                                 @endif
                                 <!--end::Label-->
@@ -169,8 +201,9 @@
                         <div class="d-flex align-items-center flex-wrap w-100">
                             <!--begin::Title-->
                             <div class="mb-1 pe-3 flex-grow-1">
-                                <a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder">Notes</a>
-                                <div class="text-gray-400 fw-bold fs-7">{{ !empty($token->note)? $token->note : 'No notes were provided'}}</div>
+                                <a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder">Reason for Visit</a>
+                                <div class="text-gray-800 fw-bold fs-7">{{ !empty($token->reason_for_visit)? $token->reason_for_visit : 'Reason not specified'}}</div>
+                                <div class="text-gray-600 fw-bold fs-7">{{ !empty($token->note)?"Note: ".  $token->note : 'No notes were provided'}}</div>
                             </div>
                             <!--end::Title-->
                             <!--begin::Label-->
@@ -194,11 +227,11 @@
                         <!-- {!! QrCode::style('round')->eyeColor(0, 0,178,0, 1,162,217)->size(250)->color(1,162,217)->generate(url("token/checkin/$token->id")) !!} -->
                     </div>
                     <!--end::QR Code -->
-                    <div class="text-gray-800 fw-bolder fs-6">Enter Check-In Code</div>                    
+                    <div class="text-gray-800 fw-bolder fs-6">Enter Check-In Code</div>
                     <input name="checkin_code" id="checkin_code" type="text" data-inputmask="'mask': '9999', 'placeholder': '____'" maxlength="4" class="form-control form-control-solid h-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
                     @else
                     <!--start::Check In Code -->
-                    <div class="text-gray-800 fw-bolder fs-6">Enter Check-In Code</div>                    
+                    <div class="text-gray-800 fw-bolder fs-6">Enter Check-In Code</div>
                     <input name="checkin_code" id="checkin_code" type="text" data-inputmask="'mask': '9999', 'placeholder': '____'" maxlength="4" class="form-control form-control-solid h-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
                     @endif
                     @endif
@@ -225,7 +258,7 @@
         <!--end::Mixed Widget 1-->
     </div>
     <!--end::Col-->
-    </div>   
+    </div>
     <!--end::Row-->
     <!--begin::Modal - Add Company -->
     {{ theme()->getView('partials/modals/home/_checkin') }}
@@ -263,7 +296,7 @@
 
 
             $(document).ready(function() {
-                getCurrentPosition();
+                // getCurrentPosition();
             });
 
             // $("[name^=checkin_code]").on("keyup", function(e) {

@@ -57,7 +57,7 @@ class SmsHistoryDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->stateSave(true)
-            ->orderBy(1)
+            ->orderBy(0)
             ->responsive()
             ->autoWidth(false)
             ->parameters(['scrollX' => true])

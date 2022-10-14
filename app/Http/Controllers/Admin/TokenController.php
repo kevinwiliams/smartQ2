@@ -1403,7 +1403,8 @@ class TokenController extends Controller
         $list = Token::whereIn('status', [0, 3])
             ->where('department_id', $token->department_id)
             ->where('counter_id', $token->counter_id)
-            ->orderBy('id')->get();
+            ->orderBy('is_vip', 'DESC')
+            ->orderBy('id', 'ASC')->get();
         $cntr = 1;
         foreach ($list as $value) {
             if ($value->token_no == $token->token_no) {
@@ -1418,7 +1419,7 @@ class TokenController extends Controller
         $wait = date('H:i', mktime(0, $waittime));
 
         //  echo '<pre>';
-        // print_r($token);
+        // print_r($wait);
         // // echo session('app.timezone');
         // echo '</pre>';
         // die();
@@ -1448,7 +1449,8 @@ class TokenController extends Controller
         $list = Token::whereIn('status', ['0', '3'])
             ->where('department_id', $token->department_id)
             ->where('counter_id', $token->counter_id)
-            ->orderBy('id')->get();
+            ->orderBy('is_vip', 'DESC')
+            ->orderBy('id', 'ASC')->get();
         $cntr = 1;
         foreach ($list as $value) {
             if ($value->token_no == $token->token_no) {
