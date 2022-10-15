@@ -400,6 +400,11 @@ class HomeController extends Controller
             ->groupBy('user_id')
             ->get();
 
+        // echo '<pre>';
+        // print_r($settings);
+        // echo '<pre/>';
+        // die();
+
         $waittime = 0;
         //if auto-setting are available
         if (!empty($settings)) {

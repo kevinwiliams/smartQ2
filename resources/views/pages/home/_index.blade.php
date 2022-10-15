@@ -85,6 +85,7 @@
                                     </div>
                                 </div>
                             </div>
+                            {{ theme()->getView('partials/widgets/charts/_visithours') }}
                         </div>
                         <!--end::Wrapper-->
                     </div>
@@ -553,9 +554,13 @@
     </div>
     <!--end::Card-->
     @section('scripts')
+    
     <script>
-        $(function() {
+        var chart;
 
+        $(function() {
+            initVisitHoursChart2();
+            handleDataLookup();
             // Format options
             const optionFormat = (item) => {
                 if (!item.id) {
@@ -622,9 +627,9 @@
                 } else {
                     $('[data-mv-stepper-action="next"]').addClass('disabled');
                 }
-
+                busyHoursLookup();
                 var obj = $(this).find(":selected");
-                // console.log(obj);
+
                 var shownote = obj.data('shownote');
 
                 console.log("shownote: " + shownote);
@@ -830,7 +835,7 @@
                 var phone = $("#emailAddress").val();
                 var code = $("#emailCode").val();
                 if (code == "" || code == undefined) {
-                    code = $('#otp_code_email').val();//collateOTPCode('otp_code_');
+                    code = $('#otp_code_email').val(); //collateOTPCode('otp_code_');
                 }
 
                 if (code == "") {
@@ -879,146 +884,6 @@
                 });
 
             });
-
-
-            function getDepartment() {
-                $('#mv_reasonforvisit').hide();
-                $("#visitreason").val(0);
-                var location_id = $('#mv_location_list').val();
-
-                var repItem = $('#mv-departmentrepeater-item');
-                var content = $('#mv-departmentrepeater-content');
-
-                $.ajax({
-                    type: 'post',
-                    url: '{{ URL::to("home/getdepartments") }}',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        'id': location_id,
-                        '_token': '<?php echo csrf_token() ?>'
-                    },
-                    success: function(data) {
-                        console.log(data);
-                        content.html("")
-                        var cntr = 1;
-                        data.forEach(element => {
-                            var _clone = repItem.clone();
-                            _clone.removeAttr("id");
-                            var name = _clone.find("#mv-departmentrepeater-name");
-                            name.text(element.name);
-
-                            var description = _clone.find("#mv-departmentrepeater-description");
-                            description.text(element.description);
-
-                            var radio = _clone.find("#mv-departmentrepeater-id");
-                            radio.val(element.id);
-
-                            //update ids
-                            var __id = radio.attr('id');
-                            radio.attr('id', __id + element.id);
-                            var label = _clone.find('label');
-                            label.attr('for', __id + element.id);
-
-                            // _clone.css('display', 'inline-block');
-                            // _clone.addClass("col-lg-6");                            
-
-                            // _clone.on('click', function(e) {
-                            //     $('[data-mv-stepper-action="next"]').removeClass('disabled');
-                            // });
-
-                            label.on('click', function(e) {
-                                $('[data-mv-stepper-action="next"]').removeClass('disabled');
-                            });
-
-                            content.append(label);
-                            cntr++;
-                        });
-
-                        content.show();
-                        $('input:radio[name=department_id]').on('click', function(e) {
-                            console.log(e);
-                            var dept = $(this).find(":checked").val();
-                            var dept = e.target.value;
-
-                            $.ajax({
-                                type: 'post',
-                                url: '{{ URL::to("home/getwaittime") }}',
-                                type: 'POST',
-                                dataType: 'json',
-                                data: {
-                                    'id': dept,
-                                    '_token': '<?php echo csrf_token() ?>'
-                                },
-                                success: function(data) {
-                                    console.log(data);
-                                    $("#span_wait").text(data);
-                                }
-                            });
-
-                        });
-
-                        // $('[data-mv-stepper-action="next"]').trigger('click');
-                    }
-                });
-
-            };
-
-            function getVisitReasons() {
-                $("#visitreason").val(1);
-                $('#mv_reasonforvisit').show();
-                $('#mv-departmentrepeater-content').hide();
-                $('#mv-departmentrepeater-content').html('');
-
-                var location_id = $('#mv_location_list').val();
-
-                var options = $('select[name="reason_id"]').empty();
-
-                $.ajax({
-                    url: '{{ URL::to("location/visitreason/reasonsforvisitbylocation") }}/' + location_id,
-                    type: 'get',
-                    dataType: 'json',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    success: function(data) {
-                        // console.log(data);
-
-                        $('select[name="reason_id"]').append(new Option("Select a reason", ""));
-                        data.data.forEach(element => {
-                            // console.log(element);
-                            $('select[name="reason_id"]').append(new Option(element.reason, element.id));
-                        });
-
-
-                        $('select[name="reason_id"]').on('change', function(e) {
-
-                            var reason = $(this).val();
-
-                            $.ajax({
-                                type: 'post',
-                                url: '{{ URL::to("home/getwaittimebyreason") }}',
-                                type: 'POST',
-                                dataType: 'json',
-                                data: {
-                                    'id': reason,
-                                    '_token': '<?php echo csrf_token() ?>'
-                                },
-                                success: function(data) {
-                                    console.log(data);
-                                    $("#span_wait").text(data);
-                                }
-                            });
-
-                        });
-                    }
-
-                });
-
-            };
 
             // $('input:radio[name=department_id]').on('click', function(e) {
             //     console.log(e);
@@ -1087,6 +952,145 @@
 
         });
 
+        function getDepartment() {
+            $('#mv_reasonforvisit').hide();
+            $("#visitreason").val(0);
+            var location_id = $('#mv_location_list').val();
+
+            var repItem = $('#mv-departmentrepeater-item');
+            var content = $('#mv-departmentrepeater-content');
+
+            $.ajax({
+                type: 'post',
+                url: '{{ URL::to("home/getdepartments") }}',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    'id': location_id,
+                    '_token': '<?php echo csrf_token() ?>'
+                },
+                success: function(data) {
+                    console.log(data);
+                    content.html("")
+                    var cntr = 1;
+                    data.forEach(element => {
+                        var _clone = repItem.clone();
+                        _clone.removeAttr("id");
+                        var name = _clone.find("#mv-departmentrepeater-name");
+                        name.text(element.name);
+
+                        var description = _clone.find("#mv-departmentrepeater-description");
+                        description.text(element.description);
+
+                        var radio = _clone.find("#mv-departmentrepeater-id");
+                        radio.val(element.id);
+
+                        //update ids
+                        var __id = radio.attr('id');
+                        radio.attr('id', __id + element.id);
+                        var label = _clone.find('label');
+                        label.attr('for', __id + element.id);
+
+                        // _clone.css('display', 'inline-block');
+                        // _clone.addClass("col-lg-6");                            
+
+                        // _clone.on('click', function(e) {
+                        //     $('[data-mv-stepper-action="next"]').removeClass('disabled');
+                        // });
+
+                        label.on('click', function(e) {
+                            $('[data-mv-stepper-action="next"]').removeClass('disabled');
+                        });
+
+                        content.append(label);
+                        cntr++;
+                    });
+
+                    content.show();
+                    $('input:radio[name=department_id]').on('click', function(e) {
+                        console.log(e);
+                        var dept = $(this).find(":checked").val();
+                        var dept = e.target.value;
+
+                        $.ajax({
+                            type: 'post',
+                            url: '{{ URL::to("home/getwaittime") }}',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {
+                                'id': dept,
+                                '_token': '<?php echo csrf_token() ?>'
+                            },
+                            success: function(data) {
+                                console.log(data);
+                                $("#span_wait").text(data);
+                            }
+                        });
+
+                    });
+
+                    // $('[data-mv-stepper-action="next"]').trigger('click');
+                }
+            });
+
+        };
+
+        function getVisitReasons() {
+            $("#visitreason").val(1);
+            $('#mv_reasonforvisit').show();
+            $('#mv-departmentrepeater-content').hide();
+            $('#mv-departmentrepeater-content').html('');
+
+            var location_id = $('#mv_location_list').val();
+
+            var options = $('select[name="reason_id"]').empty();
+
+            $.ajax({
+                url: '{{ URL::to("location/visitreason/reasonsforvisitbylocation") }}/' + location_id,
+                type: 'get',
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function(data) {
+                    // console.log(data);
+
+                    $('select[name="reason_id"]').append(new Option("Select a reason", ""));
+                    data.data.forEach(element => {
+                        // console.log(element);
+                        $('select[name="reason_id"]').append(new Option(element.reason, element.id));
+                    });
+
+
+                    $('select[name="reason_id"]').on('change', function(e) {
+
+                        var reason = $(this).val();
+
+                        $.ajax({
+                            type: 'post',
+                            url: '{{ URL::to("home/getwaittimebyreason") }}',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {
+                                'id': reason,
+                                '_token': '<?php echo csrf_token() ?>'
+                            },
+                            success: function(data) {
+                                console.log(data);
+                                $("#span_wait").text(data);
+                            }
+                        });
+
+                    });
+                }
+
+            });
+
+        };
+
 
         function collateOTPCode(prefix) {
             var str = "";
@@ -1097,8 +1101,103 @@
 
             return (str.length != 6) ? "" : str;
         }
+
+        function busyHoursLookup() {
+            var weekday = $('.active[data-mv-busyhours-table-filter="fetch_data"]').data('weekday');
+            var location = $("#mv_location_list").val();
+            if (location == "") {
+                console.debug('no location');
+                return;
+            }
+
+            $.ajax({
+                url: '/location/getBusyHours/',
+                type: "post",
+                dataType: 'json',
+                data: {
+                    location_id: location,
+                    weekday: weekday
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    console.log(response.data);
+                    chart.updateSeries([{
+                        name: 'Visitors',
+                        data: response.data
+                    }])
+                }
+            }).fail(function(jqXHR, textStatus, error) {
+                console.error(jqXHR.responseText);
+                console.error(textStatus);
+                console.error(error);
+            });
+        }
+
+        var initVisitHoursChart2 = function() {
+            var element = document.getElementById('mv_charts_widget_9_chart');
+
+            var height = parseInt(MVUtil.css(element, 'height'));
+            var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
+            var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
+            var baseColor = MVUtil.getCssVariableValue('--bs-primary');
+            var secondaryColor = MVUtil.getCssVariableValue('--bs-gray-300');
+
+            if (!element) {
+                return;
+            }
+
+            var options = {
+                series: [],
+                chart: {
+                    fontFamily: 'inherit',
+                    type: 'bar',
+                    height: height,
+                    toolbar: {
+                        show: false
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        columnWidth: ['50%'],
+                        endingShape: 'rounded'
+                    },
+                },
+                legend: {
+                    show: false
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                noData: {
+                    text: 'Loading...'
+                }
+            }
+            chart = new ApexCharts(element, options);
+            chart.render();
+        }
+
+        var handleDataLookup = () => {            
+            const weekdayButtons = document.querySelectorAll('[data-mv-busyhours-table-filter="fetch_data"]');
+
+            // console.log(weekdayButtons);
+            // return;
+            weekdayButtons.forEach(d => {
+                // Delete button on click
+
+                d.addEventListener('click', function(e) {
+
+                    e.preventDefault();
+                    // console.log($('.active[data-mv-busyhours-table-filter="fetch_data"]').data('weekday'));
+                    busyHoursLookup();
+                })
+            });
+        }
     </script>
 
     @include('pages.home._firebase-js')
+
     @endsection
 </x-base-layout>

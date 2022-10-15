@@ -222,6 +222,7 @@ Route::middleware('auth')->group(function () {
 		Route::get('edit/{id}', [LocationController::class, 'showEditForm']);
 		Route::get('view/{id}', [LocationController::class, 'show']);
 		Route::post('edit/{id}', [LocationController::class, 'update']);
+		Route::post('getBusyHours', [LocationController::class, 'getBusyHours']);
 		Route::get('printqr/{id}', [LocationController::class, 'printqr']);
 		Route::get('delete/{id}', [LocationController::class, 'destroy']);
 		// Route::get('department/{id}', [LocationController::class, 'dept']);

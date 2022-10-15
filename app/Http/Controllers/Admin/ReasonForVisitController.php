@@ -8,6 +8,7 @@ use App\Models\Counter;
 use App\Models\Department;
 use App\Models\Location;
 use App\Models\ReasonForVisit;
+use App\Models\TokenSetting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -241,8 +242,9 @@ class ReasonForVisitController extends Controller
     public function reasonsforvisitbylocation($id)
     {
         // try {
-        $locationids = Department::where('location_id', auth()->user()->location_id)->pluck('id')->toArray();
-        $info = ReasonForVisit::whereIn('department_id', $locationids)->orderBy('reason')->get();
+        // $depts = Department::where('location_id', $id)->pluck('id')->toArray();
+        $depts = TokenSetting::where('location_id', $id)->where('status', 1)->pluck('department_id')->toArray();
+        $info = ReasonForVisit::whereIn('department_id', $depts)->orderBy('reason')->get();
         $data['data'] = $info;
         $data['status'] = true;
         $data['message'] = trans('app.visitreasons_retrieved_successfully');

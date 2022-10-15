@@ -12,6 +12,7 @@ use App\Models\Counter;
 use App\Models\DisplaySetting;
 use App\Models\Location;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -365,5 +366,45 @@ class LocationController extends Controller
     public function destroy(Location $location)
     {
         //
+    }
+
+    public function getBusyHours(Request $request)
+    {
+
+        $start = Carbon::now()->subDays(60);
+        $end = Carbon::now();
+        $data = (object)array();
+        $seriesdata = array();
+        $info = DB::table("token")
+            ->select(DB::raw("    
+    COUNT(token.`created_at`) AS 'total', 
+    HOUR(token.`created_at`) AS 'hour', 
+    DAYNAME(token.`created_at`) AS 'day'
+    "))
+            ->join('locations', 'locations.id', '=', 'token.location_id')
+            ->where('location_id', $request->location_id)
+            ->whereRaw("DAYNAME(token.`created_at`) = '$request->weekday'")
+            ->whereBetween('token.created_at', [$start, $end])
+            ->groupByRaw('DAYNAME(token.`created_at`),HOUR(token.`created_at`)')
+            ->orderByRaw('hour')
+            ->get();
+
+        for ($i = 8; $i < 21; $i++) {
+            $record = $info->where('hour', $i)->first();
+            // return json_encode(date('h a', mktime(0, $waittime)));
+            $y = 0;
+            if ($record)
+                $y = $record->total;
+
+            array_push($seriesdata, array('x' => date('g a', mktime($i, 0)), 'y' => $y));
+            // array_push($seriesdata, array('x' => $i, 'y' => $y));
+        }
+        // echo '<pre>';
+        // print_r($seriesdata);
+        // echo '<pre/>';
+        // die();
+        $data->data = $seriesdata;
+        ///Insert missing series values
+        return response()->json($data);
     }
 }
