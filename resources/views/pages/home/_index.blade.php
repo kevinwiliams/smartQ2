@@ -958,6 +958,7 @@
                             var optstr = '<option value="' + element.id + '" data-mv-rich-content-subcontent="' + element.address + '" data-visitreason="' + element.settings.client_reason_for_visit + '" data-shownote="' + element.settings.show_note + '" data-lat="' + element.lat + '" data-lng="' + element.lon + '">' + element.name + '</option>';
                             $('select[name="location"]').append(optstr);
                         });
+                        getLocation();
                     }
                 });
             });
@@ -1233,12 +1234,12 @@
         }
 
         var handleLocationSuggestion = () => {
-            $("#mv_location_suggestion").on('click', function(e) {                
+            $("#mv_location_suggestion").on('click', function(e) {
                 $("#mv_location_list").val($(this).data('id'));
                 $("#mv_location_list").trigger('change');
                 // console.log(e);
             });
-        }        
+        }
 
         function getLocation() {
             if (navigator.geolocation) {
@@ -1287,7 +1288,7 @@
             if (currentid != lowid) {
                 var _option = $('#mv_location_list > option[value="' + lowid + '"]');
                 console.log(_option.text());
-                $("#mv_location_suggestion").data('id',lowid);
+                $("#mv_location_suggestion").data('id', lowid);
                 $("#mv_location_suggestion").text(_option.text());
                 // locationSuggestions
                 $("#locationSuggestions").show();
