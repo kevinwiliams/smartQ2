@@ -81,6 +81,14 @@
                                         <select id="mv_location_list" class="form-select form-select-solid form-select-lg fw-bold filter rounded-start-0" name="location" data-placeholder="Please select location">
                                             <option></option>
                                         </select>
+                                        <div class="pt-3" style="display:none;" id="locationSuggestions">
+                                            <span class="text-gray-700">Suggested:</span>
+
+                                            <span class="text-danger">
+                                                <span class="cursor-pointer" data-suggestion-id="" id="mv_location_suggestion"></span>
+                                            </span>
+                                        </div>
+
                                         <span class="text-danger">{{ $errors->first('location') }}</span>
                                     </div>
                                 </div>
@@ -554,13 +562,17 @@
     </div>
     <!--end::Card-->
     @section('scripts')
-    
+
     <script>
-        var chart;        
+        var chart;
+        var lastLat;
+        var lastLng;
 
         $(function() {
             initVisitHoursChart2();
             handleDataLookup();
+            handleLocationSuggestion();
+            // getLocation();
             // Format options
             const optionFormat = (item) => {
                 if (!item.id) {
@@ -628,7 +640,7 @@
                     $('[data-mv-stepper-action="next"]').addClass('disabled');
                 }
                 busyHoursLookup();
-                // drawChart();
+                getLocation();
                 var obj = $(this).find(":selected");
 
                 var shownote = obj.data('shownote');
@@ -943,7 +955,7 @@
                         var options = $('select[name="location"]').empty();
                         $('select[name="location"]').append('<option value="" data-mv-rich-content-subcontent="">Select a location</option>');
                         data.forEach(element => {
-                            var optstr = '<option value="' + element.id + '" data-mv-rich-content-subcontent="' + element.address + '" data-visitreason="' + element.settings.client_reason_for_visit + '" data-shownote="' + element.settings.show_note + '">' + element.name + '</option>';
+                            var optstr = '<option value="' + element.id + '" data-mv-rich-content-subcontent="' + element.address + '" data-visitreason="' + element.settings.client_reason_for_visit + '" data-shownote="' + element.settings.show_note + '" data-lat="' + element.lat + '" data-lng="' + element.lon + '">' + element.name + '</option>';
                             $('select[name="location"]').append(optstr);
                         });
                     }
@@ -1148,7 +1160,7 @@
             var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
             var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
             var baseColor = MVUtil.getCssVariableValue('--bs-primary');
-            var secondaryColor = MVUtil.getCssVariableValue('--bs-gray-300');            
+            var secondaryColor = MVUtil.getCssVariableValue('--bs-gray-300');
             if (!element) {
                 return;
             }
@@ -1182,9 +1194,9 @@
                 noData: {
                     text: 'Loading...'
                 },
-                yaxis: {                   
+                yaxis: {
                     labels: {
-                        show: false,                       
+                        show: false,
                     }
                 },
                 tooltip: {
@@ -1192,7 +1204,7 @@
                         fontSize: '12px',
                     },
                     y: {
-                        formatter: function (val) {
+                        formatter: function(val) {
                             return "" + val + ""
                         }
                     },
@@ -1207,20 +1219,91 @@
 
         var handleDataLookup = () => {
             const weekdayButtons = document.querySelectorAll('[data-mv-busyhours-table-filter="fetch_data"]');
-            
+
             // return;
             weekdayButtons.forEach(d => {
                 // Delete button on click
 
                 d.addEventListener('click', function(e) {
 
-                    e.preventDefault();                    
-                    busyHoursLookup();                    
+                    e.preventDefault();
+                    busyHoursLookup();
                 })
             });
         }
-    </script>
 
+        var handleLocationSuggestion = () => {
+            $("#mv_location_suggestion").on('click', function(e) {                
+                $("#mv_location_list").val($(this).data('id'));
+                $("#mv_location_list").trigger('change');
+                // console.log(e);
+            });
+        }        
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function geoSuccess(position) {
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
+            console.log("lat:" + lat + " lng:" + lng);
+
+            var _to_lat = $('#mv_location_list > option:selected').data('lat');
+            var _to_lng = $('#mv_location_list > option:selected').data('lng');
+
+            const from = new google.maps.LatLng(lat, lng);
+            const to = new google.maps.LatLng(_to_lat, _to_lng);
+            const distance = google.maps.geometry.spherical.computeDistanceBetween(from, to)
+            console.log(distance);
+
+            var lowid = 0;
+            var currentid = $('#mv_location_list > option:selected').val();
+            var _lastdistance = null;
+            $('#mv_location_list > option').each(function() {
+                console.log($(this).val());
+                if ($(this).val() != "") {
+                    var _lat = $(this).data('lat');
+                    var _lng = $(this).data('lng');
+                    var _to = new google.maps.LatLng(_lat, _lng);
+                    var _distance = google.maps.geometry.spherical.computeDistanceBetween(from, _to)
+
+                    if (_lastdistance == null) {
+                        _lastdistance = _distance;
+                        lowid = $(this).val();
+                    }
+
+                    if (_distance < _lastdistance) {
+                        _lastdistance = _distance;
+                        lowid = $(this).val();
+                    }
+                }
+            });
+
+            if (currentid != lowid) {
+                var _option = $('#mv_location_list > option[value="' + lowid + '"]');
+                console.log(_option.text());
+                $("#mv_location_suggestion").data('id',lowid);
+                $("#mv_location_suggestion").text(_option.text());
+                // locationSuggestions
+                $("#locationSuggestions").show();
+            } else {
+                $("#locationSuggestions").hide();
+            }
+
+
+        }
+
+        function geoError() {
+            console.log("Geocoder failed.");
+            $("#locationSuggestions").hide();
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{config('app.google_maps')}}&callback=geoSuccess&libraries=geometry" type="text/javascript"></script>
     @include('pages.home._firebase-js')
 
     @endsection
