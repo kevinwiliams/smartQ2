@@ -35,9 +35,9 @@ class HomeController extends Controller
             ->orderBy('id', 'ASC')
             ->first();
 
-        if ($current) {
-            return redirect('home/current');
-        }
+        // if ($current) {
+        //     return redirect('home/current');
+        // }
         // $departments = Department::where('status',1)->pluck('name','id');
         // $departments = Department::select(
         //     'department.name',
@@ -70,20 +70,12 @@ class HomeController extends Controller
     public function home()
     {
         @date_default_timezone_set(session('app.timezone'));
-
-        $infobox = $this->infobox();
-        $performance = $this->userPerformance();
-        $month = $this->chart_month();
-        $year = $this->chart_year();
-        $begin = $this->chart_begin();
-
-        return view('pages.home.home', compact(
-            'infobox',
-            'performance',
-            'month',
-            'year',
-            'begin'
-        ));
+      
+        // echo '<pre>';
+        // print_r(auth()->user()->clientpendingtokens);
+        // echo '</pre>';
+        // die();
+        return view('pages.home.home');
     }
 
     public function infobox()

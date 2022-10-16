@@ -16,5 +16,6 @@
     
     </div>
     @endfor
-    <div id="mv_charts_widget_9_chart" style="height: 250px" class="card-rounded-bottom"></div>
+    <div id="mv_charts_widget_9_chart" style="height: 200px" class="card-rounded-bottom"></div>
+    <!-- <div id="chart_div" style="width: 100%;"></div> -->
 </div>

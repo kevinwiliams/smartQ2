@@ -141,7 +141,8 @@ Route::middleware('auth')->group(function () {
 		Route::post('getwaittime', [HomeController::class, 'getwaittime']);
 		Route::post('getwaittimebyreason', [HomeController::class, 'getwaittimebyreason']);
 		Route::post('getdepartments', [HomeController::class, 'getdepartments']);
-		Route::get('current', [TokenController::class, 'currentClient']);
+		Route::get('current/{id}', [TokenController::class, 'currentClient']);
+		Route::get('list', [TokenController::class, 'currentClientList']);
 		Route::post('autotoken', [TokenController::class, 'clientTokenAuto']);
 		Route::post('currentposition', [TokenController::class, 'currentposition']);
 	});

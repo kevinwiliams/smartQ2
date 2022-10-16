@@ -371,10 +371,15 @@ class LocationController extends Controller
     public function getBusyHours(Request $request)
     {
 
+        if (empty($request->location_id))
+            return response()->json([], 400);
+
         $start = Carbon::now()->subDays(60);
         $end = Carbon::now();
         $data = (object)array();
         $seriesdata = array();
+        // $colordata = array();
+        // $gdata = array();
         $info = DB::table("token")
             ->select(DB::raw("    
     COUNT(token.`created_at`) AS 'total', 
@@ -385,25 +390,30 @@ class LocationController extends Controller
             ->where('location_id', $request->location_id)
             ->whereRaw("DAYNAME(token.`created_at`) = '$request->weekday'")
             ->whereBetween('token.created_at', [$start, $end])
+            ->whereRaw("HOUR(token.`created_at`) >=8 and  HOUR(token.`created_at`) <= 20")
             ->groupByRaw('DAYNAME(token.`created_at`),HOUR(token.`created_at`)')
             ->orderByRaw('hour')
             ->get();
 
+        $maxarray = $info->pluck('total')->toArray();
+
+        $maxnum = (!empty($maxarray)) ? max($maxarray) : 0;
+
         for ($i = 8; $i < 21; $i++) {
             $record = $info->where('hour', $i)->first();
-            // return json_encode(date('h a', mktime(0, $waittime)));
+
             $y = 0;
             if ($record)
                 $y = $record->total;
 
-            array_push($seriesdata, array('x' => date('g a', mktime($i, 0)), 'y' => $y));
-            // array_push($seriesdata, array('x' => $i, 'y' => $y));
+
+            $ismax = ($maxnum == $y);
+            // array_push($colordata, ($ismax) ? "#f1416c" : "#009ef7");
+            array_push($seriesdata, array('x' => date('g a', mktime($i, 0)), 'y' => $y, 'fillColor' => ($ismax) ? "#f1416c" : "#009ef7"));
         }
-        // echo '<pre>';
-        // print_r($seriesdata);
-        // echo '<pre/>';
-        // die();
+
         $data->data = $seriesdata;
+        // $data->colordata = $colordata;
         ///Insert missing series values
         return response()->json($data);
     }

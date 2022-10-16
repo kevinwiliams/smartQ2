@@ -250,6 +250,9 @@
                     @elseif($token->status==0)
                     <a href="#" class="btn btn-danger w-100 py-3" data-id="{{ $token->id }}" name="cancel_token">Cancel Token</a>
                     @endif
+                    @if(count(auth()->user()->clientpendingtokens) > 1)
+                    <a href="{{ theme()->getPageUrl("home/list") }}" class="btn bg-light-primary w-100 py-3 mt-3" data-id="{{ $token->id }}" >View List</a>
+                    @endif
                 </div>
                 <input type="hidden" name="tokenID" id="tokenID" value="{{ $token->id }}" />
             </div>
@@ -337,7 +340,8 @@
                                         confirmButton: "btn fw-bold btn-primary",
                                     }
                                 }).then(function() {
-                                    location.reload(true);
+                                    // location.reload(true);
+                                    document.location.href = '/home/list/';
 
                                 });
 
@@ -371,7 +375,7 @@
                             type: 'get',
                             dataType: 'json',
                             success: function(data) {
-                                document.location.href = '/home/current';
+                                document.location.href = '/home/current/' + id;
                             }
                         });
                     }
@@ -453,7 +457,7 @@
                             dataType: 'json',
                             success: function(data) {
                                 if (data.status) {
-                                    document.location.href = '/home/current';
+                                    document.location.href = '/home/current/' + id;
                                 } else {
                                     Swal.fire({
                                         text: data.message,

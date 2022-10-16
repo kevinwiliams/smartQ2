@@ -556,7 +556,7 @@
     @section('scripts')
     
     <script>
-        var chart;
+        var chart;        
 
         $(function() {
             initVisitHoursChart2();
@@ -628,6 +628,7 @@
                     $('[data-mv-stepper-action="next"]').addClass('disabled');
                 }
                 busyHoursLookup();
+                // drawChart();
                 var obj = $(this).find(":selected");
 
                 var shownote = obj.data('shownote');
@@ -1106,7 +1107,7 @@
             var weekday = $('.active[data-mv-busyhours-table-filter="fetch_data"]').data('weekday');
             var location = $("#mv_location_list").val();
             if (location == "") {
-                console.debug('no location');
+                // console.debug('no location');
                 return;
             }
 
@@ -1122,11 +1123,16 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-                    console.log(response.data);
-                    chart.updateSeries([{
+                    ApexCharts.exec('mychart', 'updateSeries', [{
                         name: 'Visitors',
                         data: response.data
-                    }])
+                    }], true);
+
+                    // ApexCharts.exec('mychart', 'updateOptions', {
+                    //     fill: {
+                    //         colors: response.colordata
+                    //     }
+                    // }, false, true);
                 }
             }).fail(function(jqXHR, textStatus, error) {
                 console.error(jqXHR.responseText);
@@ -1142,15 +1148,16 @@
             var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
             var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
             var baseColor = MVUtil.getCssVariableValue('--bs-primary');
-            var secondaryColor = MVUtil.getCssVariableValue('--bs-gray-300');
-
+            var secondaryColor = MVUtil.getCssVariableValue('--bs-gray-300');            
             if (!element) {
                 return;
             }
 
             var options = {
                 series: [],
+                // colors: ["#f1416c" , "#009ef7"],           
                 chart: {
+                    id: 'mychart',
                     fontFamily: 'inherit',
                     type: 'bar',
                     height: height,
@@ -1162,7 +1169,8 @@
                     bar: {
                         horizontal: false,
                         columnWidth: ['50%'],
-                        endingShape: 'rounded'
+                        endingShape: 'rounded',
+                        distributed: true,
                     },
                 },
                 legend: {
@@ -1173,25 +1181,41 @@
                 },
                 noData: {
                     text: 'Loading...'
-                }
+                },
+                yaxis: {                   
+                    labels: {
+                        show: false,                       
+                    }
+                },
+                tooltip: {
+                    style: {
+                        fontSize: '12px',
+                    },
+                    y: {
+                        formatter: function (val) {
+                            return "" + val + ""
+                        }
+                    },
+                    marker: {
+                        show: false
+                    }
+                },
             }
             chart = new ApexCharts(element, options);
             chart.render();
         }
 
-        var handleDataLookup = () => {            
+        var handleDataLookup = () => {
             const weekdayButtons = document.querySelectorAll('[data-mv-busyhours-table-filter="fetch_data"]');
-
-            // console.log(weekdayButtons);
+            
             // return;
             weekdayButtons.forEach(d => {
                 // Delete button on click
 
                 d.addEventListener('click', function(e) {
 
-                    e.preventDefault();
-                    // console.log($('.active[data-mv-busyhours-table-filter="fetch_data"]').data('weekday'));
-                    busyHoursLookup();
+                    e.preventDefault();                    
+                    busyHoursLookup();                    
                 })
             });
         }

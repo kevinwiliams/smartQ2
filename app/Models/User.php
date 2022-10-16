@@ -31,7 +31,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
 
-    protected $fillable = ['firstname', 'lastname', 'email', 'api_token', 'password', 'department_id','location_id', 'mobile', 'photo', 'user_type', 'remember_token', 'status', 'otp', 'otp_type', 'otp_timestamp', 'user_token', 'token_date', 'push_notifications'];
+    protected $fillable = ['firstname', 'lastname', 'email', 'api_token', 'password', 'department_id', 'location_id', 'mobile', 'photo', 'user_type', 'remember_token', 'status', 'otp', 'otp_type', 'otp_timestamp', 'user_token', 'token_date', 'push_notifications'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -48,7 +48,7 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array
      */
-    protected $appends = ['name','avatar_url'];
+    protected $appends = ['name', 'avatar_url'];
 
     /**
      * The attributes that should be cast to native types.
@@ -189,6 +189,13 @@ class User extends Authenticatable implements MustVerifyEmail
             ->orderBy('id', 'ASC');
     }
 
+    public function clientpendingtokens()
+    {
+
+        return $this->hasMany(Token::class, 'client_id', 'id')->whereIn('status', ['0', '3'])->orderBy('created_at', 'DESC')
+            ->orderBy('id', 'ASC');
+    }
+
     public function lasttoken()
     {
         return $this->hasOne(Token::class, 'client_id', 'id')->where('status', 1)->orderBy('is_vip', 'DESC')
@@ -205,10 +212,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Token::class, 'user_id', 'id')->where('status', 1);
     }
 
-    public function getServiceTimeAttribute(){
+    public function getServiceTimeAttribute()
+    {
         $locationtokens = $this->officertokens();
         $servicecounter = 0;
-        $servicetotal = 0;        
+        $servicetotal = 0;
 
         foreach ($locationtokens as $_locationtoken) {
 
@@ -222,10 +230,11 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
-    public function getWaitTimeAttribute(){
+    public function getWaitTimeAttribute()
+    {
         $locationtokens = $this->officertokens();
         $servicecounter = 0;
-        $servicetotal = 0;        
+        $servicetotal = 0;
 
         foreach ($locationtokens as $_locationtoken) {
 

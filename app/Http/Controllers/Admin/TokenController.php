@@ -1384,7 +1384,7 @@ class TokenController extends Controller
     | TOKEN CURRENT / REPORT / PERFORMANCE
     |-----------------------------------*/
 
-    public function currentClient()
+    public function _currentClient()
     {
         @date_default_timezone_set(session('app.timezone'));
         $token = Token::whereIn('status', ['0', '3'])
@@ -1392,7 +1392,7 @@ class TokenController extends Controller
             ->orderBy('is_vip', 'DESC')
             ->orderBy('id', 'ASC')
             ->first();
-
+           
 
         if (!$token) {
             return redirect('home');
@@ -1434,6 +1434,78 @@ class TokenController extends Controller
         // die();
 
         return view('pages.home.current', compact('token', 'position', 'wait', 'qrcheckin'));
+    }
+
+    public function currentClient($id)
+    {
+        @date_default_timezone_set(session('app.timezone'));
+        $token = Token::whereIn('status', ['0', '3'])
+            ->where('client_id', auth()->user()->id)
+            ->where('id', $id)
+            ->orderBy('is_vip', 'DESC')
+            ->orderBy('id', 'ASC')
+            ->first();
+           
+
+        if (!$token) {
+            return redirect('home');
+        }
+
+        $dept = Department::find($token->department_id);
+
+        $list = Token::whereIn('status', [0, 3])
+            ->where('department_id', $token->department_id)
+            ->where('counter_id', $token->counter_id)
+            ->orderBy('is_vip', 'DESC')
+            ->orderBy('id', 'ASC')->get();
+        $cntr = 1;
+        foreach ($list as $value) {
+            if ($value->token_no == $token->token_no) {
+                break;
+            }
+            $cntr++;
+        }
+
+        $waittime = $dept->avg_wait_time * ($cntr - 1);
+
+        $position = $cntr;
+        $wait = date('H:i', mktime(0, $waittime));
+
+        //  echo '<pre>';
+        // print_r($wait);
+        // // echo session('app.timezone');
+        // echo '</pre>';
+        // die();
+
+        // $tokenstatus = TokenStatus::where('token_id', $token->id)->first();
+        $display = DisplaySetting::where('location_id', $token->location_id)->first();
+        $qrcheckin = $display->enable_qr_checkin;
+        // echo '<pre>';
+        // // print_r($token->startTime);
+        // echo session('app.timezone');
+        // echo '</pre>';
+        // die();
+
+        return view('pages.home.current', compact('token', 'position', 'wait', 'qrcheckin'));
+    }
+    public function currentClientList()
+    {
+        @date_default_timezone_set(session('app.timezone'));
+        // $tokens = Token::whereIn('status', ['0', '3'])
+        //     ->where('client_id', auth()->user()->id)
+        //     ->orderBy('is_vip', 'DESC')
+        //     ->orderBy('id', 'ASC')
+        //     ->get();
+
+
+        if (count(auth()->user()->clientpendingtokens) == 0) {
+            return redirect('home');
+        }else if (count(auth()->user()->clientpendingtokens) == 1) {
+            $only = auth()->user()->clientpendingtokens[0];
+            return redirect('home/current/' . $only->id);
+        } 
+
+        return view('pages.home.list');
     }
 
     public function currentposition()
