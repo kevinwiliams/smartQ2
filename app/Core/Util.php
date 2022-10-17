@@ -5,19 +5,21 @@ namespace App\Core;
 use tidy;
 use App\Core\Adapters\Theme;
 
-class Util {
+class Util
+{
     /**
      * Class init state.
      *
      * @var boolean
-    */
+     */
     private static $initialized = false;
 
     /**
      * Class constructor.
      *
-    */
-    public static function init() {
+     */
+    public static function init()
+    {
         if (self::$initialized) {
             return;
         }
@@ -25,11 +27,13 @@ class Util {
         self::$initialized = true;
     }
 
-    public static function startCode() {
+    public static function startCode()
+    {
         ob_start();
     }
 
-    public static function endCode() {
+    public static function endCode()
+    {
         $str = ob_get_clean();
         $str = trim($str);
         $str = htmlspecialchars($str);
@@ -37,25 +41,29 @@ class Util {
         echo $str;
     }
 
-    public static function outputCode($str) {
+    public static function outputCode($str)
+    {
         $str = trim($str);
         $str = htmlspecialchars($str);
 
         echo $str;
     }
 
-    public static function code($str) {
+    public static function code($str)
+    {
         echo self::getCode($str);
     }
 
-    public static function getCode($str) {
+    public static function getCode($str)
+    {
         $str = trim($str);
         $str = htmlspecialchars($str);
 
         return $str;
     }
 
-    public static function parseCode($code, $lang = 'html', $height = 0) {
+    public static function parseCode($code, $lang = 'html', $height = 0)
+    {
         $height = $height > 0 ? 'style="height:' . $height . 'px"' : '';
 
         $code = '<pre class="language-' . $lang . '"   ' . $height . '><code class="language-' . $lang . '">' . htmlspecialchars(trim($code), ENT_QUOTES) . '</code></pre>';
@@ -63,7 +71,8 @@ class Util {
         return $code;
     }
 
-    public static function highlight() {
+    public static function highlight()
+    {
         $tabItemActive = 'active';
         $tabPaneActive = 'show active';
 
@@ -73,17 +82,17 @@ class Util {
         echo '<div class="highlight">';
         echo '  <button class="highlight-copy btn" data-bs-toggle="tooltip" title="Copy code">copy</button>';
 
-        if ( !empty($args) ) {
-            if ( isset($args[0]) && is_array($args[0]) === false ) {
+        if (!empty($args)) {
+            if (isset($args[0]) && is_array($args[0]) === false) {
                 echo '    <div class="highlight-code">';
                 echo            Util::parseCode($args[0], @$args[1], @$args[2]);
                 echo '    </div>';
-            } else if ( is_array($args[0]) && isset($args[1]) === false ) {
+            } else if (is_array($args[0]) && isset($args[1]) === false) {
                 $options = $args[0];
 
                 echo '<ul class="nav nav-pills" role="tablist">';
-                foreach ( $options as $key => $each ) {
-                    if ( isset($each['lang']) === true ) {
+                foreach ($options as $key => $each) {
+                    if (isset($each['lang']) === true) {
                         $uid = 'mv_highlight_' . uniqid();
                         $options[$key]['id'] = $uid;
 
@@ -97,9 +106,9 @@ class Util {
                 echo '</ul>';
 
                 echo '<div class="tab-content">';
-                foreach ( $options as $each ) {
-                    if ( isset($each['lang']) === true ) {
-                        echo '<div class="tab-pane fade ' . $tabPaneActive . '" id="' . $each['id']. '" role="tabpanel">';
+                foreach ($options as $each) {
+                    if (isset($each['lang']) === true) {
+                        echo '<div class="tab-pane fade ' . $tabPaneActive . '" id="' . $each['id'] . '" role="tabpanel">';
                         echo '    <div class="highlight-code">';
                         echo            Util::parseCode($each['code'], $each['lang'], @$each['height']);
                         echo '    </div>';
@@ -117,8 +126,9 @@ class Util {
     }
 
 
-    public static function tidyHtml($buffer) {
-        if ( ! extension_loaded('Tidy')) {
+    public static function tidyHtml($buffer)
+    {
+        if (!extension_loaded('Tidy')) {
             return $buffer;
         }
 
@@ -154,16 +164,18 @@ class Util {
         return $tidy;
     }
 
-    public static function setArrayValue(&$array, $path, $value) {
-	    $loc = &$array;
-	    foreach ( explode( '/', $path ) as $step ) {
-		    $loc = &$loc[ $step ];
-	    }
+    public static function setArrayValue(&$array, $path, $value)
+    {
+        $loc = &$array;
+        foreach (explode('/', $path) as $step) {
+            $loc = &$loc[$step];
+        }
 
-	    return $loc = $value;
+        return $loc = $value;
     }
 
-    public static function getArrayValue($array, $path) {
+    public static function getArrayValue($array, $path)
+    {
         if (is_string($path)) {
             // dot delimiter
             $path = explode('/', $path);
@@ -171,7 +183,7 @@ class Util {
 
         $ref  = &$array;
         foreach ($path as $key) {
-            if ( ! is_array($ref)) {
+            if (!is_array($ref)) {
                 $ref = [];
             }
 
@@ -183,26 +195,29 @@ class Util {
         return $prev;
     }
 
-    public static function hasArrayValue($array, $path) {
+    public static function hasArrayValue($array, $path)
+    {
         return self::getArrayValue($array, $path) !== null;
     }
 
-    public static function getArrayPath( $array, $searchKey = '' ) {
+    public static function getArrayPath($array, $searchKey = '')
+    {
         //create a recursive iterator to loop over the array recursively
         $iter = new RecursiveIteratorIterator(
-            new RecursiveArrayIterator( $array ),
-            RecursiveIteratorIterator::SELF_FIRST );
+            new RecursiveArrayIterator($array),
+            RecursiveIteratorIterator::SELF_FIRST
+        );
 
         //loop over the iterator
-        foreach ( $iter as $key => $value ) {
+        foreach ($iter as $key => $value) {
             //if the value matches our search
-            if ( $value === $searchKey ) {
+            if ($value === $searchKey) {
                 //add the current key
-                $keys = array( $key );
+                $keys = array($key);
                 //loop up the recursive chain
-                for ( $i = $iter->getDepth() - 1; $i >= 0; $i-- ) {
+                for ($i = $iter->getDepth() - 1; $i >= 0; $i--) {
                     //add each parent key
-                    array_unshift( $keys, $iter->getSubIterator( $i )->key() );
+                    array_unshift($keys, $iter->getSubIterator($i)->key());
                 }
                 //return our output array
                 return $keys;
@@ -213,16 +228,18 @@ class Util {
         return false;
     }
 
-    public static function matchArrayByKeyValue( $array, $searchKey, $searchValue ) {
+    public static function matchArrayByKeyValue($array, $searchKey, $searchValue)
+    {
         //create a recursive iterator to loop over the array recursively
         $iter = new RecursiveIteratorIterator(
-            new RecursiveArrayIterator( $array ),
-            RecursiveIteratorIterator::SELF_FIRST );
+            new RecursiveArrayIterator($array),
+            RecursiveIteratorIterator::SELF_FIRST
+        );
 
         //loop over the iterator
-        foreach ( $iter as $key => $value ) {
+        foreach ($iter as $key => $value) {
             //if the value matches our search
-            if ( $key === $searchKey &&  $value === $searchValue ) {
+            if ($key === $searchKey &&  $value === $searchValue) {
                 return true;
             }
         }
@@ -231,18 +248,20 @@ class Util {
         return false;
     }
 
-    public static function searchArrayByKeyValue( $array, $searchKey, $searchValue ) {
+    public static function searchArrayByKeyValue($array, $searchKey, $searchValue)
+    {
         $result = array();
 
         //create a recursive iterator to loop over the array recursively
         $iter = new RecursiveIteratorIterator(
-            new RecursiveArrayIterator( $array ),
-            RecursiveIteratorIterator::SELF_FIRST );
+            new RecursiveArrayIterator($array),
+            RecursiveIteratorIterator::SELF_FIRST
+        );
 
         //loop over the iterator
-        foreach ( $iter as $key => $value ) {
+        foreach ($iter as $key => $value) {
             //if the value matches our search
-            if ( $key === $searchKey &&  $value === $searchValue ) {
+            if ($key === $searchKey &&  $value === $searchValue) {
                 return true;
             }
         }
@@ -251,20 +270,22 @@ class Util {
         return false;
     }
 
-    public static function separateCamelCase( $str ) {
+    public static function separateCamelCase($str)
+    {
         $re           = '/
           (?<=[a-z])
           (?=[A-Z])
         | (?<=[A-Z])
           (?=[A-Z][a-z])
         /x';
-        $a            = preg_split( $re, $str );
-        $formattedStr = implode( ' ', $a );
+        $a            = preg_split($re, $str);
+        $formattedStr = implode(' ', $a);
 
         return $formattedStr;
     }
 
-    public static function isExternalURL($url) {
+    public static function isExternalURL($url)
+    {
         $url = trim(strtolower($url));
 
         if (substr($url, 0, 2) == '//') {
@@ -286,15 +307,18 @@ class Util {
         return false;
     }
 
-    public static function getIf($cond, $value, $alt = '') {
+    public static function getIf($cond, $value, $alt = '')
+    {
         return $cond ? $value : $alt;
     }
 
-    public static function putIf($cond, $value, $alt = '') {
+    public static function putIf($cond, $value, $alt = '')
+    {
         echo self::getIf($cond, $value, $alt);
     }
 
-    public static function notice($text, $state = 'danger', $icon = 'icons/duotune/art/art006.svg') {
+    public static function notice($text, $state = 'danger', $icon = 'icons/duotune/art/art006.svg')
+    {
         $html = '';
 
         $html .= '<!--begin::Notice-->';
@@ -317,7 +341,8 @@ class Util {
         echo $html;
     }
 
-    public static function info($text, $state = 'danger', $icon = 'icons/duotune/general/gen044.svg') {
+    public static function info($text, $state = 'danger', $icon = 'icons/duotune/general/gen044.svg')
+    {
         $html = '';
 
         $html .= '<!--begin::Information-->';
@@ -337,7 +362,8 @@ class Util {
         echo $html;
     }
 
-    public static function getHtmlAttributes($attributes = array()) {
+    public static function getHtmlAttributes($attributes = array())
+    {
         $result = array();
 
         if (empty($attributes)) {
@@ -345,7 +371,7 @@ class Util {
         }
 
         foreach ($attributes as $name => $value) {
-            if ( !empty($value) ) {
+            if (!empty($value)) {
                 $result[] = $name . '="' . $value . '"';
             }
         }
@@ -353,7 +379,8 @@ class Util {
         return ' ' . implode(' ', $result) . ' ';
     }
 
-    public static function putHtmlAttributes($attributes) {
+    public static function putHtmlAttributes($attributes)
+    {
         $result = self::getHtmlAttributes($attributes);
 
         if ($result) {
@@ -361,30 +388,32 @@ class Util {
         }
     }
 
-    public static function getHtmlClass($classes, $full = true) {
+    public static function getHtmlClass($classes, $full = true)
+    {
         $result = array();
 
         $classes = implode(' ', $classes);
 
-        if ( $full === true ) {
+        if ($full === true) {
             return ' class="' . $classes . '" ';
         } else {
             return ' ' . $classes . ' ';
         }
     }
 
-    public static function getCssVariables($variables, $full = true) {
+    public static function getCssVariables($variables, $full = true)
+    {
         $result = array();
 
         foreach ($variables as $name => $value) {
-            if ( !empty($value) ) {
+            if (!empty($value)) {
                 $result[] = $name . ':' . $value;
             }
         }
 
         $result = implode(';', $result);
 
-        if ( $full === true ) {
+        if ($full === true) {
             return ' style="' . $result . '" ';
         } else {
             return ' ' . $result . ' ';
@@ -397,14 +426,15 @@ class Util {
      * @param $key
      * @param $value
      */
-    public static function putCache($key, $value) {
+    public static function putCache($key, $value)
+    {
         global $_COMMON_PATH;
 
         // check if cache file exist
-        $cache = $_COMMON_PATH.'/dist/libs/cache/'.$key.'.cache.json';
+        $cache = $_COMMON_PATH . '/dist/libs/cache/' . $key . '.cache.json';
 
         // create cache folder if folder does not exist
-        if(!file_exists(dirname($cache))) {
+        if (!file_exists(dirname($cache))) {
             mkdir(dirname($cache), 0777, true);
         }
 
@@ -419,14 +449,15 @@ class Util {
      *
      * @return mixed|null
      */
-    public static function getCache($key) {
+    public static function getCache($key)
+    {
         global $_COMMON_PATH;
 
         // check if cache file exist
-        $cache = $_COMMON_PATH.'/dist/libs/cache/'.$key.'.cache.json';
+        $cache = $_COMMON_PATH . '/dist/libs/cache/' . $key . '.cache.json';
 
         // check if the requested cache file exists
-        if(file_exists($cache)) {
+        if (file_exists($cache)) {
             return json_decode(file_get_contents($cache), true);
         }
 
@@ -438,7 +469,8 @@ class Util {
      *
      * @return string
      */
-    public static function sampleDemoText() {
+    public static function sampleDemoText()
+    {
         $demo = '';
         if (Theme::isMultiDemo()) {
             $demo = '--demo1';
@@ -446,11 +478,13 @@ class Util {
         return $demo;
     }
 
-    public static function camelize($input, $separator = '_') {
+    public static function camelize($input, $separator = '_')
+    {
         return str_replace($separator, ' ', ucwords($input, $separator));
     }
 
-    public static function arrayMergeRecursive() {
+    public static function arrayMergeRecursive()
+    {
         $arrays = func_get_args();
         $merged = array();
 
@@ -458,7 +492,7 @@ class Util {
             $array = array_shift($arrays);
 
             if (!is_array($array)) {
-                trigger_error(__FUNCTION__ .' encountered a non array argument', E_USER_WARNING);
+                trigger_error(__FUNCTION__ . ' encountered a non array argument', E_USER_WARNING);
                 return;
             }
 
@@ -482,7 +516,36 @@ class Util {
         return $merged;
     }
 
-    public static function isHexColor($color) {
+    public static function isHexColor($color)
+    {
         return preg_match('/^#[a-f0-9]{6}$/i', $color);
+    }
+
+    public static function getWeeks($startdate, $enddate, $year = null)
+    {
+
+        // $today = \Carbon\Carbon::today();
+        $date = \Carbon\Carbon::parse($startdate)->startOfDay();
+        $eom = \Carbon\Carbon::parse($enddate)->startOfDay();
+
+        $dates = [];
+
+        for ($i = 0; $date->lte($eom); $i++) {
+            $startDate = $date->copy();
+            while ($date->dayOfWeek != \Carbon\Carbon::SUNDAY && $date->lte($eom)) {
+                $date->addDay();
+            }
+
+            if ($year == null) {
+                $dates[$i] = array("weeknumber" => $startDate->weekOfYear, "startDate" => $startDate->format('d/m/Y'), "endtDate" => $date->format('d/m/Y'));
+            } else {
+                if ($startDate->year ==  $year)
+                    $dates[$i] = array("weeknumber" => $startDate->weekOfYear, "startDate" => $startDate->format('d/m/Y'), "endtDate" => $date->format('d/m/Y'));
+            }
+
+            $date->addDay();
+        }
+
+        return $dates;
     }
 }

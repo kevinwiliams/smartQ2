@@ -14,7 +14,13 @@ return strtotime($date1) - strtotime($date2);
 $years = array_unique($data->pluck('year')->toArray());
 
 $locations = array_unique($data->pluck('location_name')->toArray());
+
+$daterange = explode("-", $master->daterange);
+$startMonth = Carbon\Carbon::parse($daterange[0])->month;
+$endMonth = Carbon\Carbon::parse($daterange[1])->month;
+
 @endphp
+
 <div class="tab-content">
     <div class="tab-pane fade show active" id="mv_tab_pane_table" role="tabpanel">
 
@@ -27,10 +33,13 @@ $locations = array_unique($data->pluck('location_name')->toArray());
                     @endforeach
                 </tr>
                 <tr class="fw-bolder fs-6 text-gray-800 px-7">
-                    @foreach($years as $_year)                
-                    @for($i = 1;$i <= 12 ;$i++) @php $dateObj=DateTime::createFromFormat('!m', $i); $monthName=$dateObj->format('F'); // March
+                    @foreach($years as $_year)
+                    @for($i = $startMonth;$i <= $endMonth ;$i++)
+                        @php 
+                            $dateObj=DateTime::createFromFormat('!m', $i);
+                            $monthName=$dateObj->format('F'); // March
                         @endphp
-                        <th>{{ $monthName }}</th>
+                        <th style="text-align: center;">{{ $monthName }}</th>
                         @endfor
                         @endforeach
                 </tr>
@@ -40,9 +49,9 @@ $locations = array_unique($data->pluck('location_name')->toArray());
                 <tr>
                     <td>{{ $_location }}</td>
                     @foreach($years as $_year)
-                    @for($i = 1;$i <= 12 ;$i++) @php $info=$data->where('year',$_year)->where('location_name', $_location)->where('month',$i)->first();
+                    @for($i = $startMonth;$i <= $endMonth ;$i++) @php $info=$data->where('year',$_year)->where('location_name', $_location)->where('month',$i)->first();
                         @endphp
-                        <td>{{ ($info)?$info->total:0 }}</td>
+                        <td style="text-align: center;">{{ ($info)?$info->total:0 }}</td>
                         @endfor
                         @endforeach
                 </tr>

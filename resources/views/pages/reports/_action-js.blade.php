@@ -209,7 +209,7 @@
         }
 
         var initTable = function() {
-            table = document.querySelector("#mv_report_table_1");            
+            table = document.querySelector("#mv_report_table_1");
             console.log(table);
             if (!table) {
                 console.log('no table');
@@ -218,11 +218,11 @@
             console.log('table');
             // Init datatable --- more info on datatables: https://datatables.net/manual/
             datatable = $(table).DataTable({
-                    "info": false,
-                    'order': [],
-                    "pageLength": 10,
-                    "lengthChange": true,
-                    'columnDefs': []
+                "info": false,
+                'order': [],
+                "pageLength": 10,
+                "lengthChange": true,
+                'columnDefs': []
             });
         }
 
@@ -316,12 +316,12 @@
                             var report = $("#report").val();
                             var daterange = $("#mv_daterangepicker").val();
                             var locations = $("#location_id").val();
-                            if(Array.isArray(locations)){
+                            if (Array.isArray(locations)) {
                                 var locationJoin = locations.join(',');
-                            }else{
+                            } else {
                                 var locationJoin = locations;
                             }
-                            
+
 
                             // Disable button to avoid multiple click 
                             // submitButton.disabled = true;
@@ -406,6 +406,9 @@
             // return;
 
             const documentTitle = $("#report_title").val();
+            const report_orientation = $("#report_orientation").val();
+            const report_pageSize = $("#report_pageSize").val();
+
             var buttons = new $.fn.dataTable.Buttons(table, {
                 buttons: [{
                         extend: 'copyHtml5',
@@ -421,7 +424,9 @@
                     },
                     {
                         extend: 'pdfHtml5',
-                        title: documentTitle
+                        title: documentTitle,
+                        orientation: report_orientation,
+                        pageSize: report_pageSize
                     }
                 ]
             }).container().appendTo($('#kt_datatable_example_1_export'));
@@ -478,7 +483,7 @@
                 color4 = MVUtil.getCssVariableValue('--bs-info');
                 color5 = MVUtil.getCssVariableValue('--bs-warning');
                 options = {
-                    series: <?php echo json_encode(($data->graph)?$data->seriesdata:[]); ?>,
+                    series: <?php echo json_encode(($data->graph) ? $data->seriesdata : []); ?>,
                     chart: {
                         fontFamily: 'inherit',
                         type: 'bar',
@@ -507,7 +512,7 @@
                     },
                     xaxis: {
                         // categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-                        categories: <?php echo json_encode(($data->graph)?$data->categories:[]); ?>,
+                        categories: <?php echo json_encode(($data->graph) ? $data->categories : []); ?>,
                         axisBorder: {
                             show: false,
                         },
@@ -587,10 +592,10 @@
         }
 
         return {
-            init: function() {                
+            init: function() {
                 // initChart();
                 // initGraph();
-                initTable();                
+                initTable();
                 initDatePicker();
                 initSearch();
                 exportButtons();

@@ -27,7 +27,7 @@ $locations = array_unique($data->pluck('location_name')->toArray());
         <tr class="fw-bolder fs-6 text-gray-800 px-7">
             @foreach($dates as $_date)
             @for($i = 0;$i <= 23 ;$i++) 
-            <th>{{ $i }}</th>
+            <th style="white-space: nowrap;">{{ date('g a', mktime($i, 0)) }}</th>
                 @endfor
                 @endforeach
                 <!-- <th class="ps-2">Position</th>
@@ -46,7 +46,7 @@ $locations = array_unique($data->pluck('location_name')->toArray());
                         @php
                             $info =  $data->where('day',$_date)->where('location_name', $_location)->where('hour',$i)->first();
                         @endphp
-                        <td>{{ ($info)?$info->total:0 }}</td>
+                        <td style="text-align:center;">{{ ($info)?$info->total:0 }}</td>
                     @endfor
                  @endforeach
              </tr>

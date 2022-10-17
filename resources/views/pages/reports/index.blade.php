@@ -39,7 +39,7 @@
                                     <div class="form-group @error('location_id') has-error @enderror">
                                         <label class="fs-6 form-label fw-bolder text-dark">Location</label>
                                         <!--begin::Select-->
-                                        <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Location" tabindex="-1" aria-hidden="true" name="location_id" id="location_id" multiple="multiple">
+                                        <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Location" tabindex="-1" aria-hidden="true" name="location_id" id="location_id" multiple="multiple" data-close-on-select="false">
                                             @foreach($locations as $_location)
                                             <option value="{{ $_location->id }}" {{ in_array($_location->id, explode(",",$data->location_id))?"selected":"" }}>{{ $_location->name }}</option>
                                             @endforeach
@@ -100,10 +100,14 @@
                                 $found_key = array_search($data->report, $ids);
                                 $name = $reports[$found_key]['title'];
                                 $view = $reports[$found_key]['view'];
+                                $orientation = $reports[$found_key]['orientation'];
+                                $pageSize = $reports[$found_key]['pageSize'];
 
                                 @endphp
                                 <h1>{{ $name }}</h1>
                                 <input type="hidden" value="{{ $name }}" id="report_title" name="report_title" />
+                                <input type="hidden" value="{{ $orientation }}" id="report_orientation" name="report_orientation" />
+                                <input type="hidden" value="{{ $pageSize }}" id="report_pageSize" name="report_pageSize" />
                                 <!--begin::Search-->
                                 <!-- <div class="d-flex align-items-center position-relative my-1">
                                     <span class="svg-icon svg-icon-1 position-absolute ms-4">...</span>

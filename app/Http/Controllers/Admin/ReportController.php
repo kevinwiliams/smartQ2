@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Department;
 use App\Models\Location;
+use App\Models\ReasonForVisit;
 use App\Models\Token;
 use App\Models\User;
 use Carbon\Carbon;
@@ -98,16 +100,18 @@ class ReportController extends Controller
                         ->orderByRaw('location_name', 'year', 'month')
                         ->get();
                     $data->data = $info;
-                    $startDateUnix = strtotime($start);
-                    $endDateUnix = strtotime($end);
+                    $startDateUnix = Carbon::parse($start)->firstOfMonth();
+                    $endDateUnix = Carbon::parse($end)->firstOfMonth();
+                    // $endYear = date('Y', $startDateUnix);
+                    // $endMonth =  date('m', $startDateUnix);
 
                     $currentDateUnix = $startDateUnix;
 
                     $monthNumbers = array();
-                    while ($currentDateUnix < $endDateUnix) {
+                    while ($startDateUnix <= $endDateUnix) {
                         // $weekNumbers[] = date('W', $currentDateUnix) . ' - ' . date('Y', $currentDateUnix);
-                        array_push($monthNumbers, array('month' => date('m', $currentDateUnix), 'monthname' => date('M', $currentDateUnix), 'year' => date('Y', $currentDateUnix)));
-                        $currentDateUnix = strtotime('+1 month', $currentDateUnix);
+                        array_push($monthNumbers, array('month' => $startDateUnix->month, 'monthname' => $startDateUnix->monthName, 'year' => $startDateUnix->year));
+                        $startDateUnix = $startDateUnix->addMonth(1);
                     }
 
                     $seriesdata = array();
@@ -135,6 +139,9 @@ class ReportController extends Controller
 
                     // echo '<pre>';
                     // print_r($data->data);
+                    // echo '</pre>';
+                    // echo '<pre>';
+                    // print_r($data);
                     // echo '</pre>';
                     // die();
                     break;
@@ -375,6 +382,12 @@ class ReportController extends Controller
                     //  ->groupBy('browser')
                     //  ->get();
 
+                    $deptids = DB::table("department")
+                        ->whereIn('location_id', explode(",", request('location_id')))
+                        ->get()->pluck('id')->toArray();
+
+                    $dbreasons = ReasonForVisit::whereIn('department_id', $deptids)->orderBy('reason')->pluck('reason')->toArray();
+
                     $infoarray = DB::select("
                         SELECT reason_for_visit, COUNT(*) AS count
                         FROM token
@@ -397,6 +410,28 @@ class ReportController extends Controller
                         else
                             $value->percentage = 0;
                     }
+
+                    $usedreasons =  array_column($infoarray, 'reason_for_visit');
+                    $unusedreasons = array_diff($dbreasons, $usedreasons);
+
+                    foreach ($unusedreasons as $value) {
+                        $objarray = (object)array();
+                        $objarray->reason_for_visit = $value;
+                        $objarray->count = 0;
+                        $objarray->percentage = 0;
+                        array_push($infoarray, $objarray);
+                    }
+                    // echo '<pre>';
+                    // print_r($infoarray);
+                    // echo '</pre>';
+                    // echo '<pre>';
+                    // print_r($dbreasons);
+                    // echo '</pre>';
+                    // echo '<pre>';
+                    // print_r(array_diff($dbreasons, $usedreasons));
+                    // echo '</pre>';
+
+                    // die();
 
                     $data->data = $infoarray;
                     // echo '<pre>';
