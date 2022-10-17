@@ -67,7 +67,7 @@
             <td>{{ $token->officer->name }}</td>
             <!-- <td>{{ $token->client_mobile }}</td> -->
             <td>{{ $token->note}}</td>
-            <td> <span class='badge {{$bg}} text-white'>{{$txt}}</span> </td>                                  
+            <td>{{$txt}} </td>                                  
             <td>{{ $token->wait_time }}</td>              
             <td>{{ $token->service_time }}</td>              
             <td>{{ $token->generated_by->name }}</td>
