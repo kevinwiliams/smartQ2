@@ -9,70 +9,68 @@
                 <div class="card mb-7">
                     <!--begin::Card body-->
                     <div class="card-body">
-                        <div class="col-xxl-5">
-                            <div class="d-flex flex-row">
-                                <div class="fv-row m-2 col-6">
-                                    <div class="form-group @error('report') has-error @enderror">
-                                        <label class="fs-6 form-label fw-bolder text-dark">Report Type</label>
-                                        <!--begin::Select-->
-                                        <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Report" tabindex="-1" aria-hidden="true" name="report" id="report">
-                                            <option value=""></option>
-                                            @php
-                                            $groups = array_unique(array_column(\App\Core\Data::getReportList(), 'group'));
-                                            @endphp
-                                            @foreach($groups as $_group)
-                                            <optgroup label="{{ $_group }}">
-                                                @foreach(\App\Core\Data::getReportList() as $key => $value)
-                                                @if($value['group'] == $_group)
-                                                <option value="{{ $value['id'] }}" {{ ($value['status'])?"":"disabled"}} {{ ($data->report == $value['id'])?"selected":"" }}> {{ $value['name'] }}</option>
-                                                @endif
-                                                @endforeach
-                                            </optgroup>
+                        <div class="row">
+                            <div class="fv-row col-3">
+                                <div class="form-group @error('report') has-error @enderror">
+                                    <label class="fs-6 form-label fw-bolder text-dark">Report Type</label>
+                                    <!--begin::Select-->
+                                    <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Report" tabindex="-1" aria-hidden="true" name="report" id="report">
+                                        <option value=""></option>
+                                        @php
+                                        $groups = array_unique(array_column(\App\Core\Data::getReportList(), 'group'));
+                                        @endphp
+                                        @foreach($groups as $_group)
+                                        <optgroup label="{{ $_group }}">
+                                            @foreach(\App\Core\Data::getReportList() as $key => $value)
+                                            @if($value['group'] == $_group)
+                                            <option value="{{ $value['id'] }}" {{ ($value['status'])?"":"disabled"}} {{ ($data->report == $value['id'])?"selected":"" }}> {{ $value['name'] }}</option>
+                                            @endif
                                             @endforeach
-                                        </select>
-                                        <!--end::Select-->
-                                        <span class="text-danger">{{ $errors->first('report') }}</span>
-                                    </div>
+                                        </optgroup>
+                                        @endforeach
+                                    </select>
+                                    <!--end::Select-->
+                                    <span class="text-danger">{{ $errors->first('report') }}</span>
                                 </div>
-                                @can('choose location')
-                                <div class="fv-row m-2 col-12">
-                                    <div class="form-group @error('location_id') has-error @enderror">
-                                        <label class="fs-6 form-label fw-bolder text-dark">Location</label>
-                                        <!--begin::Select-->
-                                        <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Location" tabindex="-1" aria-hidden="true" name="location_id" id="location_id" multiple="multiple" data-close-on-select="false">
-                                            @foreach($locations as $_location)
-                                            <option value="{{ $_location->id }}" {{ in_array($_location->id, explode(",",$data->location_id))?"selected":"" }}>{{ $_location->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <!--end::Select-->
-                                        <span class="text-danger">{{ $errors->first('location_id') }}</span>
-                                    </div>
+                            </div>
+                            @can('choose location')
+                            <div class="fv-row col-5">
+                                <div class="form-group @error('location_id') has-error @enderror">
+                                    <label class="fs-6 form-label fw-bolder text-dark">Location</label>
+                                    <!--begin::Select-->
+                                    <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select Location" tabindex="-1" aria-hidden="true" name="location_id" id="location_id" multiple="multiple" data-close-on-select="false">
+                                        @foreach($locations as $_location)
+                                        <option value="{{ $_location->id }}" {{ in_array($_location->id, explode(",",$data->location_id))?"selected":"" }}>{{ $_location->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <!--end::Select-->
+                                    <span class="text-danger">{{ $errors->first('location_id') }}</span>
                                 </div>
-                                @else
-                                <div class="fv-row m-2 col-6">
-                                    <div class="form-group @error('location_id') has-error @enderror">
-                                        <label class="fs-6 form-label fw-bolder text-dark">Location</label>
-                                        <input class="form-control form-control-solid" placeholder="Location" name="location" value="{{  auth()->user()->location->name }}" readonly />
-                                        <input type="hidden" name="location_id" id="location_id" value="{{ auth()->user()->location_id }}" />
-                                        <span class="text-danger">{{ $errors->first('location_id') }}</span>
-                                    </div>
+                            </div>
+                            @else
+                            <div class="fv-row col-5">
+                                <div class="form-group @error('location_id') has-error @enderror">
+                                    <label class="fs-6 form-label fw-bolder text-dark">Location</label>
+                                    <input class="form-control form-control-solid" placeholder="Location" name="location" value="{{  auth()->user()->location->name }}" readonly />
+                                    <input type="hidden" name="location_id" id="location_id" value="{{ auth()->user()->location_id }}" />
+                                    <span class="text-danger">{{ $errors->first('location_id') }}</span>
                                 </div>
+                            </div>
 
-                                @endcan
-                                <div class="fv-row m-2 col-6">
-                                    <div class="form-group @error('daterange') has-error @enderror">
-                                        <label class="fs-6 form-label fw-bolder text-dark">Date</label>
-                                        <!--begin::Select-->
-                                        <input class="form-control form-control-solid" placeholder="Pick date rage" id="mv_daterangepicker" name="daterange" value="{{ $data->daterange }}" />
-                                        <!--end::Select-->
-                                        <span class="text-danger">{{ $errors->first('daterange') }}</span>
-                                    </div>
+                            @endcan
+                            <div class="fv-row col-3">
+                                <div class="form-group @error('daterange') has-error @enderror">
+                                    <label class="fs-6 form-label fw-bolder text-dark">Date</label>
+                                    <!--begin::Select-->
+                                    <input class="form-control form-control-solid" placeholder="Pick date rage" id="mv_daterangepicker" name="daterange" value="{{ $data->daterange }}" />
+                                    <!--end::Select-->
+                                    <span class="text-danger">{{ $errors->first('daterange') }}</span>
                                 </div>
-                                <div class="fv-row m-2 col-1">
-                                    <div class="form-group">
-                                        <label class="fs-6 form-label fw-bolder text-dark">&nbsp;</label>
-                                        <button type="submit" class="btn btn-primary me-5" data-mv-search-action="submit">Search</button>
-                                    </div>
+                            </div>
+                            <div class="fv-row col-1">
+                                <div class="form-group">
+                                    <label class="fs-6 form-label fw-bolder text-dark">&nbsp;</label>
+                                    <button type="submit" class="btn btn-primary me-5" data-mv-search-action="submit">Search</button>
                                 </div>
                             </div>
                         </div>
