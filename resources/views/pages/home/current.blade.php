@@ -251,7 +251,7 @@
                     <a href="#" class="btn btn-danger w-100 py-3" data-id="{{ $token->id }}" name="cancel_token">Cancel Token</a>
                     @endif
                     @if(count(auth()->user()->clientpendingtokens) > 1)
-                    <a href="{{ theme()->getPageUrl("home/list") }}" class="btn bg-light-primary w-100 py-3 mt-3" data-id="{{ $token->id }}" >View List</a>
+                    <a href="{{ theme()->getPageUrl("home/list") }}" class="btn btn-primary w-100 py-3 mt-3" data-id="{{ $token->id }}" >View List</a>
                     @endif
                 </div>
                 <input type="hidden" name="tokenID" id="tokenID" value="{{ $token->id }}" />

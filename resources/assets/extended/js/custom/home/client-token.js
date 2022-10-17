@@ -167,7 +167,7 @@ var MVCreateToken = function () {
     var handleForm = function () {
         formSubmitButton.addEventListener('click', function (e) {
             // Validate form before change stepper step
-            document.location.href = '/home/current';
+            document.location.href = '/home/list';
 
         });
 
