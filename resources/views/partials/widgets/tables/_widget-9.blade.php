@@ -28,9 +28,9 @@
                 <thead>
                     <tr class="fw-bolder text-muted">
                     
-                        <th class="sticky-top min-w-150px">Officers</th>
-                        <th class="sticky-top min-w-140px">Avg Completion Time</th>
-                        <th class="sticky-top min-w-150px">Progress</th>
+                        <th class="min-w-150px">Officers</th>
+                        <th class="min-w-140px">Avg Completion Time</th>
+                        <th class="min-w-150px">Progress</th>
                         {{-- <th class="min-w-100px text-end">Actions</th> --}}
                     </tr>
                 </thead>
