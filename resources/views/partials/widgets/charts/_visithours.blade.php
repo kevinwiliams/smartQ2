@@ -1,4 +1,4 @@
-<ul class="nav nav-tabs nav-line-tabs mb-5 fs-6 justify-content-center">
+<ul class="nav nav-tabs nav-line-tabs mb-5 fs-6 justify-content-center" id="busy-hours-dayofweek" style="display: none">
     @php
     $weekdays = \App\Core\Data::getShortDayNames();
     $new_date = date('l');
@@ -10,7 +10,7 @@
     @endfor
 </ul>
 
-<div class="tab-content" id="myTabContent">
+<div class="tab-content" id="myTabContent" style="display: none">
     @for($i = 0; $i < count($weekdays);$i++)
     <div class="tab-pane fade {{ ($new_date==$weekdays[$i])?'show active':'' }}" id="mv_tab_pane_{{ $i }}" role="tabpanel">
     

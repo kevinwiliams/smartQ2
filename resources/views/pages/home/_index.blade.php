@@ -639,6 +639,10 @@
                 } else {
                     $('[data-mv-stepper-action="next"]').addClass('disabled');
                 }
+                //show busy hours chart
+                $('#busy-hours-dayofweek').show().css('display', 'flex');
+                $('#myTabContent').show();
+
                 busyHoursLookup();
                 getLocation();
                 var obj = $(this).find(":selected");
