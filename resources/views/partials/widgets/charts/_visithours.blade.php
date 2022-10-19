@@ -1,6 +1,6 @@
-<ul class="nav nav-tabs nav-line-tabs mb-5 fs-6">
+<ul class="nav nav-tabs nav-line-tabs mb-5 fs-6 justify-content-center">
     @php
-    $weekdays = \App\Core\Data::getDayNames();
+    $weekdays = \App\Core\Data::getShortDayNames();
     $new_date = date('l');
     @endphp
     @for($i = 0; $i < count($weekdays);$i++)

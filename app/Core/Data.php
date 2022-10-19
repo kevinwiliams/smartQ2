@@ -874,6 +874,19 @@ class Data
         );
     }
 
+    public static function getShortDayNames()
+    {
+        return array(
+            'Sun',
+            'Mon',
+            'Tue',
+            'Wed',
+            'Thu',
+            'Fri',
+            'Sat',
+        );
+    }
+
     public static function getMonthNames()
     {
         return array(
