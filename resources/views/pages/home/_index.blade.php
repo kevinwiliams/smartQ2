@@ -1129,7 +1129,7 @@
             }
 
             $.ajax({
-                url: '/location/getBusyHours/',
+                url: '/location/getBusyHours',
                 type: "post",
                 dataType: 'json',
                 data: {
