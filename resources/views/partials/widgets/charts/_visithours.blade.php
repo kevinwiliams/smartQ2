@@ -1,6 +1,6 @@
 <ul class="nav nav-tabs nav-line-tabs mb-5 fs-6 justify-content-center" id="busy-hours-dayofweek" style="display: none">
     @php
-    $weekdays = \App\Core\Data::getShortDayNames();
+    $weekdays = \App\Core\Data::getDayNames();
     $shrtweekdays = \App\Core\Data::getShortDayNames();
     $new_date = date('l');
     @endphp
