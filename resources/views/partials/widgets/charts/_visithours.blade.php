@@ -1,11 +1,12 @@
 <ul class="nav nav-tabs nav-line-tabs mb-5 fs-6 justify-content-center" id="busy-hours-dayofweek" style="display: none">
     @php
     $weekdays = \App\Core\Data::getShortDayNames();
+    $shrtweekdays = \App\Core\Data::getShortDayNames();
     $new_date = date('l');
     @endphp
     @for($i = 0; $i < count($weekdays);$i++)
     <li class="nav-item">
-        <a class="nav-link {{ ($new_date==$weekdays[$i])?'active':'' }}" data-bs-toggle="tab" href="#mv_tab_pane_{{ $i }}" data-mv-busyhours-table-filter="fetch_data" data-weekday="{{ $weekdays[$i] }}">{{ $weekdays[$i] }}</a>
+        <a class="nav-link {{ ($new_date==$weekdays[$i])?'active':'' }}" data-bs-toggle="tab" href="#mv_tab_pane_{{ $i }}" data-mv-busyhours-table-filter="fetch_data" data-weekday="{{ $weekdays[$i] }}">{{ $shrtweekdays[$i] }}</a>
     </li>
     @endfor
 </ul>
