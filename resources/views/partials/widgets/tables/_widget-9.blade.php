@@ -25,7 +25,7 @@
             <!--begin::Table-->
             <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4" id="perfSummary">
                 <!--begin::Table head-->
-                <thead class="sticky-top" >
+                <thead>
                     <tr class="fw-bolder text-muted">
                     
                         <th class="sticky-top min-w-150px">Officers</th>
