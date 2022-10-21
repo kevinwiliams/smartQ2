@@ -2,7 +2,7 @@
     <!--begin::Card-->
     <div class="card">
         <!--begin::Card body-->
-        <div class="card-body">
+        <div class="card-body p-3">
             <!--begin::Stepper-->
             <div class="stepper stepper-links d-flex flex-column pt-15" id="mv_create_token_stepper">
                 <!--begin::Nav-->
