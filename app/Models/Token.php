@@ -11,6 +11,21 @@ class Token extends Model
     public $timestamps = false;
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'started_at' => 'datetime',
+        'is_vip' => 'bool',
+        'no_show' => 'bool',
+        'token_date' => 'datetime',
+        'push_notifications' => 'bool'
+    ];
+
+    /**
      * The accessors to append to the model's array form.
      *
      * @var array

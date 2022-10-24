@@ -24,7 +24,12 @@
 								</div>
 								@endif
 								<!--begin::Card title-->
-								<div class="card-title">
+								<div class="card-title">									
+									<!--begin::Avatar-->
+									<div class="symbol symbol-65px symbol-circle mt-5 me-5 mb-5">
+										<img src="{{ $company->logo_url }}" alt="image">										
+									</div>
+									<!--end::Avatar-->
 									<h2>{{ ucwords($company->name) }}</h2>
 								</div>
 								<!--end::Card title-->
@@ -42,8 +47,19 @@
 							<!--begin::Card footer-->
 							<div class="card-footer pt-0">
 								<a href="{{ url('company/list') }}" class="btn btn-light btn-active-primary">Back</a>
-
+								<a href="#" class="btn btn-light-success" data-mv-company-action-filter="edit_record">Edit</a>
 							</div>
+							<input type="hidden" value="{{$company->id}}" name="company-id" id="company-id" />
+							<input type="hidden" value="{{$company->name}}" name="company-name" id="company-name" />
+							<input type="hidden" value="{{$company->address}}" name="company-address" id="company-address" />
+							<input type="hidden" value="{{$company->website}}" name="company-website" id="company-website" />
+							<input type="hidden" value="{{$company->email}}" name="company-email" id="company-email" />
+							<input type="hidden" value="{{$company->phone}}" name="company-phone" id="company-phone" />
+							<input type="hidden" value="{{$company->contact_person}}" name="company-contact_person" id="company-contact_person" />
+							<input type="hidden" value="{{$company->description}}" name="company-description" id="company-description" />
+							<input type="hidden" value="{{$company->active}}" name="company-active" id="company-active" />
+							<input type="hidden" value="{{$company->logo_url}}" name="company-logourl" id="company-logourl" />
+							<input type="hidden" value="{{$company->logo}}" name="company-logo" id="company-logo" />
 							<!--end::Card footer-->
 						</div>
 						<!--end::Card-->
@@ -184,6 +200,9 @@
 	<!--begin::Modal - Add Company -->
 	{{ theme()->getView('partials/modals/location/_add', array('company' => $company)) }}
 	<!--end::Modal - Add Company-->
+	<!--begin::Modal - Edit Company -->
+	{{ theme()->getView('partials/modals/company/_edit') }}
+	<!--end::Modal dialog-->
 	@section('scripts')
 	@include('pages.company._view-js')
 
@@ -288,8 +307,8 @@
 				google.maps.event.addListener(displaymarker, 'click', (function(displaymarker, i) {
 					return function() {
 						content = '<div class="info_content">' +
-						'<h3>' + infoWindowContent[i][0] + '</h3>' +
-						'<p>' + infoWindowContent[i][1] + '</p></div>';
+							'<h3>' + infoWindowContent[i][0] + '</h3>' +
+							'<p>' + infoWindowContent[i][1] + '</p></div>';
 						infoWindow.setContent(content);
 						infoWindow.open(displaymap, displaymarker);
 					}

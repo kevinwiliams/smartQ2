@@ -32,6 +32,7 @@
     <input type="hidden" value="{{$model->contact_person}}" name="company-contact_person" id="company-contact_person-{{$model->id}}" />
     <input type="hidden" value="{{$model->description}}" name="company-description" id="company-description-{{$model->id}}" />
     <input type="hidden" value="{{$model->active}}" name="company-active" id="company-active-{{$model->id}}" />
-    <input type="hidden" value="{{$model->logo_url}}" name="company-logo" id="company-logo-{{$model->id}}" />
+    <input type="hidden" value="{{$model->logo_url}}" name="company-logourl" id="company-logourl-{{$model->id}}" />
+    <input type="hidden" value="{{$model->logo}}" name="company-logo" id="company-logo-{{$model->id}}" />
 </td>
 <!--end::Action=-->

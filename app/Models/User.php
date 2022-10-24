@@ -196,6 +196,13 @@ class User extends Authenticatable implements MustVerifyEmail
             ->orderBy('id', 'ASC');
     }
 
+    public function clienttokenhistory()
+    {
+
+        return $this->hasMany(Token::class, 'client_id', 'id')->where('status', 1)->orderBy('created_at', 'DESC')
+            ->orderBy('id', 'ASC');
+    }
+
     public function lasttoken()
     {
         return $this->hasOne(Token::class, 'client_id', 'id')->where('status', 1)->orderBy('is_vip', 'DESC')

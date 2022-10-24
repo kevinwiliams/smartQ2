@@ -283,6 +283,9 @@ class TokenController extends Controller
                 // echo '</pre>';
                 // die();
 
+                //Get user by mobile number
+                $clientuser = User::where('mobile', $request->client_mobile)->first();
+
                 //if auto-setting are available
                 if (!empty($settings)) {
 
@@ -321,6 +324,7 @@ class TokenController extends Controller
                         'department_id' => $min['department_id'],
                         'counter_id'    => $min['counter_id'],
                         'user_id'       => $min['user_id'],
+                        'client_id'       => (!empty($clientuser) ? $clientuser->id : null),
                         'note'          => $request->note,
                         'is_vip'        => $request->is_vip,
                         'created_by'    => auth()->user()->id,
@@ -336,6 +340,7 @@ class TokenController extends Controller
                         'department_id' => $request->department_id,
                         'counter_id'    => $request->counter_id,
                         'user_id'       => $request->user_id,
+                        'client_id'       => (!empty($clientuser) ? $clientuser->id : null),
                         'note'          => $request->note,
                         'is_vip'        => $request->is_vip,
                         'created_at'    => date('Y-m-d H:i:s'),
@@ -602,6 +607,8 @@ class TokenController extends Controller
             // print_r($settings);
             // echo '<pre>';
             // die();
+            //Get user by mobile number
+            $clientuser = User::where('mobile', $request->client_mobile)->first();
 
             //if auto-setting are available
             if (!empty($settings)) {
@@ -635,6 +642,7 @@ class TokenController extends Controller
                     'department_id' => $min['department_id'],
                     'counter_id'    => $min['counter_id'],
                     'user_id'       => $min['user_id'],
+                    'client_id'       => (!empty($clientuser) ? $clientuser->id : null),
                     'note'          => $request->note,
                     'is_vip'        => $request->is_vip,
                     'created_by'    => auth()->user()->id,
@@ -1392,7 +1400,7 @@ class TokenController extends Controller
             ->orderBy('is_vip', 'DESC')
             ->orderBy('id', 'ASC')
             ->first();
-           
+
 
         if (!$token) {
             return redirect('home');
@@ -1445,7 +1453,7 @@ class TokenController extends Controller
             ->orderBy('is_vip', 'DESC')
             ->orderBy('id', 'ASC')
             ->first();
-           
+
 
         if (!$token) {
             return redirect('home');
@@ -1500,10 +1508,10 @@ class TokenController extends Controller
 
         if (count(auth()->user()->clientpendingtokens) == 0) {
             return redirect('home');
-        }else if (count(auth()->user()->clientpendingtokens) == 1) {
+        } else if (count(auth()->user()->clientpendingtokens) == 1) {
             $only = auth()->user()->clientpendingtokens[0];
             return redirect('home/current/' . $only->id);
-        } 
+        }
 
         return view('pages.home.list');
     }
@@ -1675,7 +1683,7 @@ class TokenController extends Controller
             $data['status'] = false;
             $data['message'] = trans('app.please_try_again');
             return response()->json($data);
-        }      
+        }
 
         Token::where('id', $request->tokenid)
             ->update([

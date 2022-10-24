@@ -228,6 +228,7 @@
                     var _description = parent.querySelectorAll('input[name=company-description]')[0].value;
                     var _active = parent.querySelectorAll('input[name=company-active]')[0].value;
                     var _logo = parent.querySelectorAll('input[name=company-logo]')[0].value;
+                    var _logourl = parent.querySelectorAll('input[name=company-logourl]')[0].value;
                     
                     form.querySelector('input[name=company_edit_id]').value = _id;
                     form.querySelector('input[name=name]').value = _name;
@@ -239,7 +240,7 @@
                     form.querySelector('textarea[name=description]').value = _description;
                     $('#edit_active').prop("checked", _active);
                     $('input[name="old_logo"]').val(_logo);
-                    $("#company-logo-wrapper").css({"background-image": "url(" + _logo + ")"});  
+                    $("#company-logo-wrapper").css({"background-image": "url(" + _logourl + ")"});  
 
                 });
             });
@@ -360,8 +361,9 @@
                                         }
                                     }).then(function(result) {
                                         // if (result.isConfirmed) {     
-                                        document.location.href = '/company/list';
+                                        // document.location.href = '/company/list';
                                         // datatable.draw();
+                                        location.reload();
                                         form.reset();
                                         modal.hide();
                                         // }

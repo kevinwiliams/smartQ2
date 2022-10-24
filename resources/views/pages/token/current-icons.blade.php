@@ -196,6 +196,12 @@
                                 @else
                                 <a href="#" class="btn btn-primary er w-100 fs-6 px-4 py-4 m-1" data-mv-token-cards-filter="complete_item" data-id="{{$tokens[0]->id}}" data-token-number="{{$tokens[0]->token_no}}">Next Customer</a>
                                 @endif
+                                @if(!empty($tokens[0]->client))
+                                @if(count($tokens[0]->client->clienttokenhistory) > 0)                                
+                                <a href="#" class="btn btn-secondary er w-100 fs-6 px-4 py-4 m-1" data-mv-token-cards-filter="view_history" data-bs-toggle="modal" data-bs-target="#mv_modal_view_client_history" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to view History">History</a>
+                                @endif
+                                @endif
+                                
                             </div>
 
                         </div>
@@ -237,6 +243,9 @@
                  'tokens' => $tokens, 
                                )) }}
     <!--end::Modal - Add Token-->
+      <!--begin::Modal - View History -->
+      {{ theme()->getView('partials/modals/token/_client_history', array('client' => $tokens[0]->client )) }}
+    <!--end::Modal - View History-->
     @endif
 
 
