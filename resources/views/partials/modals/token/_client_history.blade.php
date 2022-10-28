@@ -7,7 +7,7 @@
 				<!--begin::Modal header-->
 				<div class="modal-header">
 					<!--begin::Modal title-->
-					<h2 class="fw-bolder">View History </h2>
+					<h2 class="fw-bolder">{{ !empty($client)?$client->name . ' - ':'' }}Visit History </h2>
 					<!--end::Modal title-->
 					<!--begin::Close-->
 					<div class="btn btn-icon btn-sm btn-active-icon-primary" data-mv-history-modal-action="close">
@@ -25,9 +25,11 @@
 					<div class="d-flex flex-column scroll-y me-n7 pe-7" id="mv_modal_add_staff_note_scroll" data-mv-scroll="true" data-mv-scroll-activate="{default: false, lg: true}" data-mv-scroll-max-height="auto" data-mv-scroll-dependencies="#mv_modal_add_staff_note_header" data-mv-scroll-wrappers="#mv_modal_add_staff_note_scroll" data-mv-scroll-offset="300px">
 
 						@if(!empty($client))
+						<h3>{{count($historylist) }} Visit(s)</h3>
+						<br />
 						<!--begin::Timeline-->
 						<div class="timeline">
-							@foreach($client->clienttokenhistory as $history)
+							@foreach($historylist as $history)
 							<!--begin::Timeline item-->
 							<div class="timeline-item">
 								<!--begin::Timeline line-->

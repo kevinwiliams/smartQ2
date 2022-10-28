@@ -6,11 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserInfo;
+use App\Models\UserMetaData;
 use App\Models\UserSocialAccount;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Laravel\Socialite\Facades\Socialite;
+
 use Laravel\Socialite\Two\User as SocialiteUser;
 
 class SocialiteLoginController extends Controller
@@ -26,7 +30,26 @@ class SocialiteLoginController extends Controller
         }
 
         // request login from social site
-        return Socialite::driver($provider)->redirect();
+        switch ($provider) {
+            case 'google':
+                return Socialite::driver($provider)
+                    ->scopes([
+                        'openid',
+                        'profile',
+                        'email',
+                        'https://www.googleapis.com/auth/profile.agerange.read',
+                        'https://www.googleapis.com/auth/user.birthday.read',
+                        'https://www.googleapis.com/auth/user.gender.read',
+                        'https://www.googleapis.com/auth/user.phonenumbers.read',
+                        'https://www.googleapis.com/auth/user.emails.read',
+                        'https://www.googleapis.com/auth/profile.emails.read'
+                    ])
+                    ->redirect();
+                break;
+            default:
+                return Socialite::driver($provider)->redirect();
+                break;
+        }
     }
 
     public function callback($provider)
@@ -38,21 +61,27 @@ class SocialiteLoginController extends Controller
             return redirect()->to(Cookie::get('redirect_uri'));
         }
 
+
         // check for existing user
         $existing_user = User::where('email', $social_info->getEmail())->first();
 
         if ($existing_user) {
+            if ($provider == "google") {
+                $this->getGoogleMetaData($social_info, $existing_user);
+            }
             auth()->login($existing_user, true);
-            if($existing_user->photo != $social_info->getAvatar()){
+            if ($existing_user->photo != $social_info->getAvatar()) {
                 $update = User::where('id', $existing_user->id)
-                ->update([ 'photo' => $social_info->getAvatar()]);
+                    ->update(['photo' => $social_info->getAvatar()]);
             }
 
             return redirect()->to(Cookie::get('redirect_uri'));
         }
 
-        $new_user = $this->createUser($social_info,$provider);
-
+        $new_user = $this->createUser($social_info, $provider);
+        if ($provider == "google") {
+            $this->getGoogleMetaData($social_info, $new_user);
+        }
         auth()->login($new_user, true);
 
         return redirect()->to(Cookie::get('redirect_uri'));
@@ -69,7 +98,7 @@ class SocialiteLoginController extends Controller
                 'firstname' => $name[0] ?? '',
                 'lastname'  => $name[1] ?? '',
                 'email'      => $social_info->email,
-                'password'   => Hash::make($social_info->id),                
+                'password'   => Hash::make($social_info->id),
                 'photo'     => $social_info->getAvatar(),
                 'user_type' => '3', // client
                 'created_at' => date('Y-m-d H:i:s'),
@@ -86,9 +115,9 @@ class SocialiteLoginController extends Controller
             $social_account->provider_id = $social_info->getId();
             $social_account->provider_name = $provider;
             $social_account->created_at = date('Y-m-d H:i:s');
-            $social_account->save(); 
+            $social_account->save();
 
-            $role = Role::find(3);            
+            $role = Role::find(3);
             $user->syncRoles($role);
 
             if ($user->markEmailAsVerified()) {
@@ -97,5 +126,32 @@ class SocialiteLoginController extends Controller
         }
 
         return $user;
+    }
+
+    function getGoogleMetaData($googleuser, $user)
+    {
+        $url = "https://people.googleapis.com/v1/people/me?personFields=ageRanges%2Cbirthdays%2CemailAddresses%2Cgenders%2CphoneNumbers&key=" . env('GOOGLE_SERVER_KEY');
+
+        $response = Http::withToken($googleuser->token)->accept('application/json')->get($url);
+        if ($response->ok()) {
+            $existingmeta = UserMetaData::where('user_id', $user->id)->first();
+            $jsondata = $response->json();
+            $gender = $jsondata["genders"][0]["value"];
+            $dob = Carbon::create($jsondata["birthdays"][1]["date"]["year"], $jsondata["birthdays"][1]["date"]["month"], $jsondata["birthdays"][1]["date"]["day"]);
+
+            if ($existingmeta) {
+                $existingmeta->gender = $gender;
+                $existingmeta->date_of_birth = $dob;
+                $existingmeta->json = json_encode($response->json());
+                $existingmeta->save();
+            } else {
+                $metadata = new UserMetaData;
+                $metadata->user_id = $user->id;
+                $metadata->gender = $gender;
+                $metadata->date_of_birth = $dob;
+                $metadata->json = json_encode($response->json());
+                $metadata->save();
+            }
+        }
     }
 }

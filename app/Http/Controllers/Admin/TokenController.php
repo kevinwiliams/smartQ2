@@ -795,9 +795,15 @@ class TokenController extends Controller
             $firsttoken = $tokens[0];
             $reasons = $firsttoken->counter->visitreasons->pluck('reason')->toArray();
             asort($reasons);
+
+            $locationarray = $firsttoken->location->company->locations->pluck("id")->toArray();
+            if ($firsttoken->client)
+                $history = $firsttoken->client->clienttokenhistory->whereIn('location_id', $locationarray);
+            else
+                $history = [];
         }
 
-        return view('pages.token.current-icons', compact('tokens', 'reasons'));
+        return view('pages.token.current-icons', compact('tokens', 'reasons', 'history'));
     }
 
     public function report(Request $request)
