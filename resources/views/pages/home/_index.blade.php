@@ -448,6 +448,8 @@
                                             </div>
                                             <!--end::Options-->
                                             <input type="hidden" id="visitreason" name="visitreason" value="" />
+                                            <input type="hidden" id="lat" name="lat" value="" />
+                                            <input type="hidden" id="lng" name="lng" value="" />
 
 
                                             <!--begin::Notes-->
@@ -1256,6 +1258,8 @@
         function geoSuccess(position) {
             var lat = position.coords.latitude;
             var lng = position.coords.longitude;
+            $('#lat').val(lat);
+            $('#lng').val(lng);
             console.log("lat:" + lat + " lng:" + lng);
 
             var _to_lat = $('#mv_location_list > option:selected').data('lat');

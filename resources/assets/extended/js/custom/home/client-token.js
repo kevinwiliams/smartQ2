@@ -90,6 +90,8 @@ var MVCreateToken = function () {
                                     var dept = $('input[name=department_id]:checked').val();
                                     var reason = $('select[name="reason_id"]').val();
                                     var note = $('#userNote').val();
+                                    var lat = $('#lat').val();
+                                    var lng = $('#lng').val();
                                     const element = document.getElementById('mv_create_token_stepper');
                                     const form = element.querySelector('#mv_create_token_form');
 
@@ -110,7 +112,9 @@ var MVCreateToken = function () {
                                             'location': location,
                                             'department_id': dept,
                                             'reason_id': reason,
-                                            'note': note
+                                            'note': note,
+                                            'lat': lat,
+                                            'lng': lng,
                                         },
                                         success: function (data) {
                                             if (data.status == true) {
