@@ -22,7 +22,9 @@
                 <a href="{{theme()->getPageUrl("home/home")}}" class="btn btn-primary er fs-6 px-8 py-4">Join the line</a>
                 <!--end::Action-->
                  <!--begin::Action-->
-                 @if(count(auth()->user()->clientpendingtokens) > 0)
+                 @if(count(auth()->user()->clientpendingtokens) == 1)
+                 <a href="{{theme()->getPageUrl("home/list")}}" class="btn btn-success er fs-6 px-8 py-4">View my token</a>
+                 @elseif(count(auth()->user()->clientpendingtokens) > 1)
                  <a href="{{theme()->getPageUrl("home/list")}}" class="btn btn-success er fs-6 px-8 py-4">View my list</a>
                  @endif
                 <!--end::Action-->

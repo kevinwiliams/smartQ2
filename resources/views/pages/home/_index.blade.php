@@ -1196,7 +1196,7 @@
                     show: false
                 },
                 dataLabels: {
-                    enabled: false
+                    enabled: false,                    
                 },
                 noData: {
                     text: 'Loading...'
@@ -1206,18 +1206,21 @@
                         show: false,
                     }
                 },
+                // tooltip: {
+                //     style: {
+                //         fontSize: '12px',
+                //     },
+                //     y: {
+                //         formatter: function(val) {
+                //             return "" + val + ""
+                //         }
+                //     },
+                //     marker: {
+                //         show: false
+                //     }
+                // },
                 tooltip: {
-                    style: {
-                        fontSize: '12px',
-                    },
-                    y: {
-                        formatter: function(val) {
-                            return "" + val + ""
-                        }
-                    },
-                    marker: {
-                        show: false
-                    }
+                   enabled: false
                 },
             }
             chart = new ApexCharts(element, options);
