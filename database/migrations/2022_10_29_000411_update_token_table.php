@@ -14,8 +14,8 @@ class UpdateTokenTable extends Migration
     public function up()
     {
         Schema::table('token', function (Blueprint $table) {            
-            $table->string('lat', 50);
-            $table->string('lng', 50);            
+            $table->string('lat', 50)->nullable();
+            $table->string('lng', 50)->nullable();            
         });
     }
 
