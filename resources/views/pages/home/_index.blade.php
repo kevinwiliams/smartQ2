@@ -82,13 +82,15 @@
                                             <option></option>
                                         </select>
                                         <div class="pt-3" style="display:none;" id="locationSuggestions">
-                                            <span class="text-gray-700">Suggested:</span>
+                                            <span class="text-gray-700">Closest:</span>
 
                                             <span class="text-danger">
                                                 <span class="cursor-pointer" data-suggestion-id="" id="mv_location_suggestion"></span>
                                             </span>
                                         </div>
-
+                                        <div class="pt-3" style="display:none;" id="locationDirections">
+                                            <a href="" target="_blank" class="text-primary cursor-pointer"><i class="las la-directions"></i> Directions</a>
+                                        </div>
                                         <span class="text-danger">{{ $errors->first('location') }}</span>
                                     </div>
                                 </div>
@@ -637,8 +639,10 @@
             $('#mv_location_list').on('change', function(e) {
                 var selectedval = $(this).val();
                 if (selectedval != "") {
+                    $("#locationDirections").show();
                     $('[data-mv-stepper-action="next"]').removeClass('disabled');
                 } else {
+                    $("#locationDirections").hide();
                     $('[data-mv-stepper-action="next"]').addClass('disabled');
                 }
                 //show busy hours chart
@@ -660,6 +664,12 @@
                     $("#shownote").show();
                 }
                 // console.log("shownote: " + shownote);
+
+
+                //Update directions
+                var _url = "https://www.google.com/maps/dir/?api=1&destination=" + obj.data("lat") + "," + obj.data("lng");              
+
+                $("#locationDirections > a").attr("href", _url);
             });
 
             //------------------------------------------
@@ -1196,7 +1206,7 @@
                     show: false
                 },
                 dataLabels: {
-                    enabled: false,                    
+                    enabled: false,
                 },
                 noData: {
                     text: 'Loading...'
@@ -1220,7 +1230,7 @@
                 //     }
                 // },
                 tooltip: {
-                   enabled: false
+                    enabled: false
                 },
             }
             chart = new ApexCharts(element, options);
@@ -1314,6 +1324,7 @@
             console.log("Geocoder failed.");
             $("#locationSuggestions").hide();
         }
+       
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{config('app.google_maps')}}&callback=geoSuccess&libraries=geometry" type="text/javascript"></script>
     @include('pages.home._firebase-js')

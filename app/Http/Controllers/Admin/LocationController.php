@@ -409,6 +409,9 @@ class LocationController extends Controller
 
             $ismax = ($maxnum == $y);
             // array_push($colordata, ($ismax) ? "#f1416c" : "#009ef7");
+            // $tmp = (object)array();
+            // $tmp->stroke = 'blue';
+            // $tmp->fill = 'blue';
             array_push($seriesdata, array('x' => date('g a', mktime($i, 0)), 'y' => $y, 'fillColor' => ($ismax) ? "#f1416c" : "#009ef7"));
         }
 

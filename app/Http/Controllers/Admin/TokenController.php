@@ -1482,7 +1482,8 @@ class TokenController extends Controller
             $cntr++;
         }
 
-        $waittime = $dept->avg_wait_time * ($cntr - 1);
+        // $waittime = $dept->avg_wait_time * ($cntr - 1);
+        $waittime = $token->officer->service_time * ($cntr - 1);
 
         $position = $cntr;
         $wait = date('H:i', mktime(0, $waittime));
