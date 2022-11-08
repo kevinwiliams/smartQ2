@@ -12,7 +12,7 @@
                     <div class="px-9 pt-7 card-rounded h-275px w-100 {{ ($token->status==3)? "bg-gray-400" :"bg-primary" }} ">
                         <!--begin::Heading-->
                         <div class="d-flex flex-stack">
-                            <!-- <h3 class="m-0 text-white fw-bolder fs-3" id="tkn_position">Position: {{$position}}</h3> -->
+                            <h3 class="m-0 text-white fw-bolder fs-3" id="tkn_position">Position: {{$position}}</h3>
                             <div class="ms-1">
                                 <!--begin::Menu-->
                                 <button type="button" class="btn btn-sm btn-icon btn-color-white btn-active-white btn-active-color-primary border-0 me-n3" data-mv-menu-trigger="click" data-mv-menu-placement="bottom-end">
