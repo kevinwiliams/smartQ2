@@ -148,12 +148,12 @@ class CompanyController extends Controller
             return Redirect::to("/")->withFail(trans('app.no_permissions'));
         }
 
-        $company = Company::find($id);                
+        $company = Company::find($id);
         $markers = array();
         $infowindows = array();
 
         foreach ($company->locations as $_location) {
-            array_push($markers, array($_location->name, $_location->lat, $_location->lon));            
+            array_push($markers, array($_location->name, $_location->lat, $_location->lon));
             array_push($infowindows, array($_location->name, $_location->address));
         }
 
@@ -162,13 +162,13 @@ class CompanyController extends Controller
         // echo '</pre>';
         // die();
 
-        return view('pages.company.view', compact('company', 'markers','infowindows'));
+        return view('pages.company.view', compact('company', 'markers', 'infowindows'));
     }
 
 
     public function getLocations($id)
     {
-        $locations = Location::where('company_id', $id)->has('departments')->with('settings')->get();
+        $locations = Location::where('company_id', $id)->where('status', 1)->has('departments')->with('settings')->get();
         return response()->json($locations);
     }
 
