@@ -285,7 +285,19 @@
                                                 </div>
                                             </div>
                                         </div>
-
+                                        <div class="fv-row mb-7">
+                                            <div class="form-group @error('client_reason_for_visit') has-error @enderror">
+                                                <label for="client_reason_for_visit">{{ trans('app.client_reason_for_visit') }}</label>
+                                                <div id="client_reason_for_visit">
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="client_reason_for_visit" value="1" {{ (($setting->client_reason_for_visit)=='1')?"checked":"" }}> {{ trans('app.active') }}
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="client_reason_for_visit" value="0" {{ (($setting->client_reason_for_visit)=='0')?"checked":"" }}> {{ trans('app.deactive') }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

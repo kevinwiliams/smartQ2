@@ -106,6 +106,7 @@ return [
     'keyboard_mode'         => 'Keyboard Mode',
     'enable_greeting'       => 'Greeting',    
     'enable_qr_checkin'     => 'QR Checkin',
+    'client_reason_for_visit'     => 'Client Reason for Visit',
     'paper_size'            => 'Paper Size',
     'paper_orientation'     => 'Paper Orientation',
     'total'                 => 'Total',

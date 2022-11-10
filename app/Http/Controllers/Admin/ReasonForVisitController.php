@@ -36,7 +36,7 @@ class ReasonForVisitController extends Controller
         $location = Location::where('id', $id)->first();
 
         $keyList = $this->keyList();
-        $departmentlist = Department::where('location_id', auth()->user()->location_id)->orderBy('name')->pluck('name', 'id');
+        $departmentlist = Department::where('location_id', $id)->orderBy('name')->pluck('name', 'id');
         // $info = Department::where('location_id', $id)->with('visitreasons')->first(); 
         // echo '<pre>';
         // print_r($info->visitreasons()->pluck('reason')->toArray());
