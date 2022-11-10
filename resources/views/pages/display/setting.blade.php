@@ -8,7 +8,7 @@
                 'departments' => $departments, 'location' => $location )) }}
 
             <div class="row">
-                {{ Form::open(['url' => 'location/settings/display/'.$location->id, 'class'=>'row', 'id'=>'frmSettings']) }}
+                {{ Form::open(['url' => '/location/settings/display/'.$location->id, 'class'=>'row', 'id'=>'frmSettings']) }}
                 <div class="col-md-6 col-lg-6">
                     <div class="card">
                         <!--begin::Card header-->
