@@ -769,7 +769,9 @@ class UserManagementController extends Controller
         $role = Role::find($request->user_role);
         $user = User::find($request->user_id);
         $user->syncRoles($role);
-
+        $user->user_type = $request->user_role;
+        $user->save();
+        
         $data['status'] = true;
         $data['message'] = trans('app.user_role_assigned');
 
