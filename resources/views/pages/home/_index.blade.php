@@ -43,7 +43,7 @@
                             <div class="pb-10 pb-lg-15">
                                 <!--begin::Title-->
                                 <h2 class="fw-bolder d-flex align-items-center text-dark">Choose where you want Queue
-                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Billing is issued based on your selected account type"></i>
+                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Select the business and location"></i>
                                 </h2>
                                 <!--end::Title-->
                             </div>
@@ -110,7 +110,7 @@
 
                                 <!--begin::Title-->
                                 <h2 class="fw-bolder d-flex align-items-center text-dark">Choose how we should contact you
-                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Billing is issued based on your selected account type"></i>
+                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="How would you like for us to contact you?"></i>
                                 </h2>
                                 <!--end::Title-->
                                 <!--begin::Notice-->
@@ -371,7 +371,7 @@
                             <div class="pb-10 pb-lg-15">
                                 <!--begin::Title-->
                                 <h2 class="fw-bolder d-flex align-items-center text-dark">Choose below how we can be of assistance.
-                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Billing is issued based on your selected account type"></i>
+                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Select the department you wish to visit or the reason for your visit"></i>
                                 </h2>
                                 <!--end::Title-->
                                 <!--begin::Notice-->
@@ -482,7 +482,7 @@
                             <div class="pb-8 pb-lg-10">
                                 <!--begin::Title-->
                                 <h2 class="fw-bolder d-flex align-items-center text-dark">You are queued!
-                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Billing is issued based on your selected account type"></i>
+                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Awesome!!! You are queued. Check in at the location"></i>
                                 </h2>
                                 <!--end::Title-->
                                 <!--begin::Notice-->
