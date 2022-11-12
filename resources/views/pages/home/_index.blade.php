@@ -128,10 +128,10 @@
                                 <!--begin::Row-->
                                 <div class="row">
                                     <!--begin::Col-->
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <!--begin::Option-->
                                         <input type="radio" class="btn-check" name="alert_type" value="email" id="alert_type_email" />
-                                        <label class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center mb-10" for="alert_type_email">
+                                        <label class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center mb-5" for="alert_type_email">
                                             <!--begin::Svg Icon | path: icons/duotune/communication/com005.svg-->
                                             {!! theme()->getSvgIcon("icons/duotune/communication/com011.svg", "svg-icon-3x me-5") !!}
                                             <!--end::Svg Icon-->
@@ -146,7 +146,7 @@
                                     </div>
                                     <!--end::Col-->
                                     <!--begin::Col-->
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <!--begin::Option-->
                                         <input type="radio" class="btn-check" name="alert_type" value="sms" id="alert_type_sms" />
                                         <label class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center" for="alert_type_sms">
@@ -163,6 +163,24 @@
                                         <!--end::Option-->
                                     </div>
                                     <!--end::Col-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-12" id="dvWhatsApp">
+                                        <!--begin::Option-->
+                                        <input type="radio" class="btn-check" name="alert_type" value="sms" id="alert_type_whatsapp" />
+                                        <label class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center mb-5  mt-5" for="alert_type_whatsapp">
+                                            <!--begin::Svg Icon | path: icons/duotune/finance/fin006.svg-->                                       
+                                            {!! theme()->getSvgIcon("icons/duotune/communication/com004.svg", "svg-icon-3x me-5") !!}
+                                            <!--end::Svg Icon-->
+                                            <!--begin::Info-->
+                                            <span class="d-block fw-bold text-start">
+                                                <span class="text-dark fw-bolder d-block fs-4 mb-2">WhatsApp</span>
+                                                <span class="text-muted fw-bold fs-6">We will send you a code via WhatsApp to confirm.</span>
+                                            </span>
+                                            <!--end::Info-->
+                                        </label>
+                                        <!--end::Option-->
+                                    </div>
+                                    <!--end::Col-->
                                 </div>
                                 <!--end::Row-->
 
@@ -170,7 +188,7 @@
                                 <div class="row">
                                     <!--begin::Col-->
                                     <div class="col-lg-12 text-center">
-                                        {{-- @if($smsalert) --}}
+                                        
                                         <div class="col-md-12 card p-3" id="phoneCard" name="smsFld" style="display: none;">
                                             <!--begin::Heading-->
                                             <div class="text-center mb-10">
@@ -236,7 +254,7 @@
 
                                             </div>
                                         </div>
-                                        {{-- @else --}}
+                                        
                                         <div class="col-md-12 card p-3" id="emailCard" name="emailFld" style="display: none;">
                                             <!--begin::Heading-->
                                             <div class="text-center mb-10">
@@ -296,7 +314,72 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        {{-- @endif --}}
+                                        
+                                        <div class="col-md-12 card p-3" id="whatsappCard" name="whatsappFld" style="display: none;">
+                                            <!--begin::Heading-->
+                                            <div class="text-center mb-10">
+                                                <!--begin::Title-->
+                                                <h1 class="text-dark mb-3">OTP Verification</h1>
+                                                <!--end::Title-->
+                                                <!--begin::Sub-title-->
+                                                <div class="text-muted fw-bold fs-5 mb-5">What number should we text to alert you?</div>
+                                                <!--end::Sub-title-->
+
+                                                <div class="form-group">
+
+                                                    <input type="phone" class="form-control form-control-user" id="waphone" aria-describedby="phoneHelp" name="phone" placeholder="(555)555-1234 " value="{{ old('phone', auth()->user()->mobile) }}" autocomplete="off">
+
+                                                    <span class="text-danger">{{ $errors->first('phone') }}</span>
+                                                </div>
+                                            </div>
+                                            <!--end::Heading-->
+
+                                            <div class="d-flex flex-stack pt-3">
+                                                <div class="mr-2">
+                                                    {{-- <button id="btnConfirm" class="button btn btn-primary">Next</button> --}}
+                                                    <button id="btnConfirmWhatsapp" type="button" class="btn btn-lg btn-primary">Next
+                                                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
+                                                        {!! theme()->getSvgIcon("icons/duotune/arrows/arr064.svg", "svg-icon-4 ms-1 me-0") !!}
+                                                        <!--end::Svg Icon-->
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 card p-3" id="wCodeCard" name="whatsappFldCode" style="display: none;">
+                                            <!-- <span>Confirm the SMS code we sent below:</span>
+                                            <input type="text" class="form-control form-control-user" id="code" aria-describedby="codeHelp" name="code" placeholder="555555" value="{{ old('code') }}" autocomplete="off"> -->
+
+                                            <!--begin::Section-->
+                                            <div class="mb-10 px-md-6">
+                                                <!--begin::Label-->
+                                                <div class="fw-bolder text-start text-dark fs-6 mb-1 ms-1">Type your 6 digit security code</div>
+                                                <!--end::Label-->
+                                                <!--begin::Input group-->
+                                                <!-- <div class="d-flex flex-wrap flex-stack">
+                                                    <input name="otp_code_1" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
+                                                    <input name="otp_code_2" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
+                                                    <input name="otp_code_3" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
+                                                    <input name="otp_code_4" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
+                                                    <input name="otp_code_5" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
+                                                    <input name="otp_code_6" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
+                                                </div> -->
+                                                <input name="otp_code" id="otp_code_sms" type="text" data-inputmask="'mask': '999999', 'placeholder': '______'" maxlength="6" class="form-control form-control-solid h-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
+                                                <!--begin::Input group-->
+                                            </div>
+                                            <!--end::Section-->
+
+                                            <span class="pt-5">It might take a few minutes, please be patient</span>
+
+                                            <div class="form-group">
+                                                <button type="button" class="button btn btn-warning" id="cancel_otp" data-cancel="sms">Cancel</button>
+                                                <button type="button" id="activate-step-2" class=" button btn btn-primary mr-3">Next
+                                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
+                                                    {!! theme()->getSvgIcon("icons/duotune/arrows/arr064.svg", "svg-icon-4 ms-1 me-0") !!}
+                                                    <!--end::Svg Icon-->
+                                                </button>
+
+                                            </div>
+                                        </div>
                                     </div>
                                     <!--end::Col-->
                                 </div>
@@ -663,8 +746,16 @@
                 } else {
                     $("#shownote").show();
                 }
-                // console.log("shownote: " + shownote);
-
+                
+                var whatsapp = obj.data('whatsapp');
+                console.log("whatsapp: " + whatsapp);
+                if (whatsapp === undefined) {
+                    $("#dvWhatsApp").hide();
+                } else if (whatsapp == 0) {
+                    $("#dvWhatsApp").hide();
+                } else {
+                    $("#dvWhatsApp").show();
+                }
 
                 //Update directions
                 var _url = "https://www.google.com/maps/dir/?api=1&destination=" + obj.data("lat") + "," + obj.data("lng");              
@@ -788,8 +879,52 @@
 
             });
 
-            $('#btnConfirm2').on('click', function(e) {
-                // alert('ok');
+            $('#btnConfirmWhatsapp').on('click', function(e) {
+                var phone = $("#waphone").val();
+                if (phone == "") {
+
+                    Swal.fire({
+                        text: "Enter your contact number",
+                        icon: "error",
+                        buttonsStyling: false,
+                        customClass: {
+                            confirmButton: "btn btn-light"
+                        }
+                    });
+
+                    return;
+                }
+
+
+                var msg = "My number is: " + phone;
+
+
+                Swal.fire({
+                    html: msg + "<br>Are you sure?.",
+                    icon: "warning",
+                    buttonsStyling: false,
+                    confirmButtonText: "Ok, got it!",
+                    customClass: {
+                        confirmButton: "btn btn-light"
+                    }
+                }).then(function(value) {
+                    if (value.isConfirmed) {
+                        $.ajax({
+                            type: 'post',
+                            url: '{{ URL::to("home/confirmMobile") }}',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {
+                                'phone': phone,
+                                '_token': '<?php echo csrf_token() ?>'
+                            },
+                            success: function(data) {
+                                $("#phoneCard").hide();
+                                $("#codeCard").show();
+                            }
+                        });
+                    }
+                });
             });
 
             $('#activate-step-2').on('click', function(e) {
@@ -971,7 +1106,7 @@
                         var options = $('select[name="location"]').empty();
                         $('select[name="location"]').append('<option value="" data-mv-rich-content-subcontent="">Select a location</option>');
                         data.forEach(element => {
-                            var optstr = '<option value="' + element.id + '" data-mv-rich-content-subcontent="' + element.address + '" data-visitreason="' + element.settings.client_reason_for_visit + '" data-shownote="' + element.settings.show_note + '" data-lat="' + element.lat + '" data-lng="' + element.lon + '">' + element.name + '</option>';
+                            var optstr = '<option value="' + element.id + '" data-mv-rich-content-subcontent="' + element.address + '" data-visitreason="' + element.settings.client_reason_for_visit + '" data-shownote="' + element.settings.show_note + '" data-lat="' + element.lat + '" data-lng="' + element.lon + '" data-whatsapp="' + element.settings.enable_whatsapp + '">' + element.name + '</option>';
                             $('select[name="location"]').append(optstr);
                         });
                         getLocation();
