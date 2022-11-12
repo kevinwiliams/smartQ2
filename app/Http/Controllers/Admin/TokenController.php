@@ -791,7 +791,7 @@ class TokenController extends Controller
         //     ->orderBy('id', 'ASC')
         //     ->get();
         $tokens = auth()->user()->pendingtokens()->get();
-
+        $history = [];
         $reasons = null;
         if (count($tokens) > 0) {
             $firsttoken = $tokens[0];
