@@ -107,6 +107,7 @@ return [
     'enable_greeting'       => 'Greeting',    
     'enable_qr_checkin'     => 'QR Checkin',
     'client_reason_for_visit'     => 'Client Reason for Visit',
+    'enable_whatsapp'     => 'WhatsApp',
     'paper_size'            => 'Paper Size',
     'paper_orientation'     => 'Paper Orientation',
     'total'                 => 'Total',

@@ -243,6 +243,19 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="fv-row mb-7">
+                                            <div class="form-group @error('enable_whatsapp') has-error @enderror">
+                                                <label for="enable_whatsapp">{{ trans('app.enable_whatsapp') }}</label>
+                                                <div id="enable_whatsapp">
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="enable_whatsapp" value="1" {{ (($setting->enable_whatsapp)=='1')?"checked":"" }}> {{ trans('app.active') }}
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="enable_whatsapp" value="0" {{ (($setting->enable_whatsapp)=='0')?"checked":"" }}> {{ trans('app.deactive') }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="fv-row mb-7">

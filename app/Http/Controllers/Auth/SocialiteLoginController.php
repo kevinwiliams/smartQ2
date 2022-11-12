@@ -30,26 +30,27 @@ class SocialiteLoginController extends Controller
         }
 
         // request login from social site
-        switch ($provider) {
-            case 'google':
-                return Socialite::driver($provider)
-                    ->scopes([
-                        'openid',
-                        'profile',
-                        'email',
-                        'https://www.googleapis.com/auth/profile.agerange.read',
-                        'https://www.googleapis.com/auth/user.birthday.read',
-                        'https://www.googleapis.com/auth/user.gender.read',
-                        'https://www.googleapis.com/auth/user.phonenumbers.read',
-                        'https://www.googleapis.com/auth/user.emails.read',
-                        'https://www.googleapis.com/auth/profile.emails.read'
-                    ])
-                    ->redirect();
-                break;
-            default:
-                return Socialite::driver($provider)->redirect();
-                break;
-        }
+        return Socialite::driver($provider)->redirect();
+        // switch ($provider) {
+        //     case 'google':
+        //         return Socialite::driver($provider)
+        //             ->scopes([
+        //                 'openid',
+        //                 'profile',
+        //                 'email',
+        //                 'https://www.googleapis.com/auth/profile.agerange.read',
+        //                 'https://www.googleapis.com/auth/user.birthday.read',
+        //                 'https://www.googleapis.com/auth/user.gender.read',
+        //                 'https://www.googleapis.com/auth/user.phonenumbers.read',
+        //                 'https://www.googleapis.com/auth/user.emails.read',
+        //                 'https://www.googleapis.com/auth/profile.emails.read'
+        //             ])
+        //             ->redirect();
+        //         break;
+        //     default:
+        //         return Socialite::driver($provider)->redirect();
+        //         break;
+        // }
     }
 
     public function callback($provider)
@@ -67,7 +68,7 @@ class SocialiteLoginController extends Controller
 
         if ($existing_user) {
             if ($provider == "google") {
-                $this->getGoogleMetaData($social_info, $existing_user);
+                // $this->getGoogleMetaData($social_info, $existing_user);
             }
             auth()->login($existing_user, true);
             if ($existing_user->photo != $social_info->getAvatar()) {
@@ -80,7 +81,7 @@ class SocialiteLoginController extends Controller
 
         $new_user = $this->createUser($social_info, $provider);
         if ($provider == "google") {
-            $this->getGoogleMetaData($social_info, $new_user);
+            // $this->getGoogleMetaData($social_info, $new_user);
         }
         auth()->login($new_user, true);
 
