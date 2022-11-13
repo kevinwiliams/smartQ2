@@ -103,8 +103,7 @@ class UsersDataTable extends DataTable
             // Column::make('firstname'),
             // Column::make('lastname'),            
             Column::make('role')->searchable(false),
-            Column::make('department')
-            ->searchable(false),
+            Column::make('department')->searchable(false),
             Column::make('last_login_at')->title(__('Last Login')),
             Column::make('created_at'),
             Column::computed('action')

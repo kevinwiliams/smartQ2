@@ -166,9 +166,9 @@
                                     <!--begin::Col-->
                                     <div class="col-lg-12" id="dvWhatsApp">
                                         <!--begin::Option-->
-                                        <input type="radio" class="btn-check" name="alert_type" value="sms" id="alert_type_whatsapp" />
+                                        <input type="radio" class="btn-check" name="alert_type" value="whatsapp" id="alert_type_whatsapp" />
                                         <label class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center mb-5  mt-5" for="alert_type_whatsapp">
-                                            <!--begin::Svg Icon | path: icons/duotune/finance/fin006.svg-->                                       
+                                            <!--begin::Svg Icon | path: icons/duotune/finance/fin006.svg-->
                                             {!! theme()->getSvgIcon("icons/duotune/communication/com004.svg", "svg-icon-3x me-5") !!}
                                             <!--end::Svg Icon-->
                                             <!--begin::Info-->
@@ -188,7 +188,7 @@
                                 <div class="row">
                                     <!--begin::Col-->
                                     <div class="col-lg-12 text-center">
-                                        
+
                                         <div class="col-md-12 card p-3" id="phoneCard" name="smsFld" style="display: none;">
                                             <!--begin::Heading-->
                                             <div class="text-center mb-10">
@@ -254,7 +254,7 @@
 
                                             </div>
                                         </div>
-                                        
+
                                         <div class="col-md-12 card p-3" id="emailCard" name="emailFld" style="display: none;">
                                             <!--begin::Heading-->
                                             <div class="text-center mb-10">
@@ -314,7 +314,7 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="col-md-12 card p-3" id="whatsappCard" name="whatsappFld" style="display: none;">
                                             <!--begin::Heading-->
                                             <div class="text-center mb-10">
@@ -363,7 +363,7 @@
                                                     <input name="otp_code_5" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
                                                     <input name="otp_code_6" type="text" data-inputmask="'mask': '9', 'placeholder': ''" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-4 my-2" value="" inputmode="text">
                                                 </div> -->
-                                                <input name="otp_code" id="otp_code_sms" type="text" data-inputmask="'mask': '999999', 'placeholder': '______'" maxlength="6" class="form-control form-control-solid h-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
+                                                <input name="otp_code" id="otp_code_whatsapp" type="text" data-inputmask="'mask': '999999', 'placeholder': '______'" maxlength="6" class="form-control form-control-solid h-60px fs-2qx text-center border-primary mx-1 my-2" value="" inputmode="text">
                                                 <!--begin::Input group-->
                                             </div>
                                             <!--end::Section-->
@@ -372,7 +372,7 @@
 
                                             <div class="form-group">
                                                 <button type="button" class="button btn btn-warning" id="cancel_otp" data-cancel="sms">Cancel</button>
-                                                <button type="button" id="activate-step-2" class=" button btn btn-primary mr-3">Next
+                                                <button type="button" id="activate-step-2-whatsapp" class=" button btn btn-primary mr-3">Next
                                                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
                                                     {!! theme()->getSvgIcon("icons/duotune/arrows/arr064.svg", "svg-icon-4 ms-1 me-0") !!}
                                                     <!--end::Svg Icon-->
@@ -432,7 +432,17 @@
                                 <!--end::Section-->
                                 <!--begin::Submit-->
                                 <div class="d-flex flex-center">
-                                    <button type="button" id="{{(auth()->user()->otp_type == 'email')?'activate-step-2-email':'activate-step-2'}}" class="btn btn-lg btn-primary fw-bolder">
+                                    @php
+                                    $step = "";
+                                    if(auth()->user()->otp_type == "email"){
+                                        $step = "activate-step-2-email"; 
+                                    } else if(auth()->user()->otp_type == "sms"){
+                                        $step = "activate-step-2"; 
+                                    }else if(auth()->user()->otp_type == "whatsapp"){
+                                        $step = "activate-step-2-whatsapp"; 
+                                    }
+                                    @endphp
+                                    <button type="button" id="{{ $step }}" class="btn btn-lg btn-primary fw-bolder">
                                         <span class="indicator-label">Submit</span>
                                         <span class="indicator-progress">Please wait...
                                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
@@ -746,7 +756,7 @@
                 } else {
                     $("#shownote").show();
                 }
-                
+
                 var whatsapp = obj.data('whatsapp');
                 console.log("whatsapp: " + whatsapp);
                 if (whatsapp === undefined) {
@@ -758,7 +768,7 @@
                 }
 
                 //Update directions
-                var _url = "https://www.google.com/maps/dir/?api=1&destination=" + obj.data("lat") + "," + obj.data("lng");              
+                var _url = "https://www.google.com/maps/dir/?api=1&destination=" + obj.data("lat") + "," + obj.data("lng");
 
                 $("#locationDirections > a").attr("href", _url);
             });
@@ -781,9 +791,19 @@
                     $('[name="emailFld"]').show();
                     $('[name="smsFld"]').hide();
                     $('[name="smsFldCode"]').hide();
+                    $('[name="whatsappFld"]').hide();
+                    $('[name="whatsappFldCode"]').hide();
 
-                } else {
+                } else if (alrtType == 'sms') {
                     $('[name="smsFld"]').show();
+                    $('[name="emailFld"]').hide();
+                    $('[name="emailFldCode"]').hide();
+                    $('[name="whatsappFld"]').hide();
+                    $('[name="whatsappFldCode"]').hide();
+                } else {
+                    $('[name="whatsappFld"]').show();
+                    $('[name="smsFld"]').hide();
+                    $('[name="smsFldCode"]').hide();
                     $('[name="emailFld"]').hide();
                     $('[name="emailFldCode"]').hide();
                 }
@@ -815,6 +835,7 @@
                                 '_token': '<?php echo csrf_token() ?>'
                             },
                             success: function(data) {
+                                $("#whatsappCard").hide();
                                 $("#emailCard").hide();
                                 $("#eCodeCard").show();
                             }
@@ -868,6 +889,7 @@
                                 '_token': '<?php echo csrf_token() ?>'
                             },
                             success: function(data) {
+                                $("#whatsappCard").hide();
                                 $("#phoneCard").hide();
                                 $("#codeCard").show();
                             }
@@ -911,7 +933,7 @@
                     if (value.isConfirmed) {
                         $.ajax({
                             type: 'post',
-                            url: '{{ URL::to("home/confirmMobile") }}',
+                            url: '{{ URL::to("home/confirmWhatsApp") }}',
                             type: 'POST',
                             dataType: 'json',
                             data: {
@@ -920,7 +942,9 @@
                             },
                             success: function(data) {
                                 $("#phoneCard").hide();
-                                $("#codeCard").show();
+                                $("#codeCard").hide();
+                                $("#whatsappCard").hide();
+                                $("#wCodeCard").show();
                             }
                         });
                     }
@@ -930,6 +954,74 @@
             $('#activate-step-2').on('click', function(e) {
                 var phone = $("#phone").val();
                 var code = $('#otp_code_sms').val();
+
+                // if (code == "" || code == undefined) {
+                //     code = $('#otp_code_sms').val();//collateOTPCode('otp_code_');
+                // }
+
+                if (phone == "") {
+                    Swal.fire({
+                        text: 'Enter your contact number',
+                        icon: 'error',
+                        buttonsStyling: false,
+                        customClass: {
+                            confirmButton: "btn btn-light"
+                        }
+                    });
+                    return;
+                }
+
+                if (code == "") {
+                    Swal.fire({
+                        text: 'Enter your OTP code',
+                        icon: 'error',
+                        buttonsStyling: false,
+                        customClass: {
+                            confirmButton: "btn btn-light"
+                        }
+                    });
+
+                    return;
+                }
+                $.ajax({
+                    type: 'post',
+                    url: '{{ URL::to("home/confirmOTP") }}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'phone': phone,
+                        'code': code,
+                        '_token': '<?php echo csrf_token() ?>'
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        if (data.status == true) {
+                            $('[data-mv-stepper-action="next"]').removeClass('disabled');
+                            $('[data-mv-stepper-action="next"]').trigger('click');
+                            var visitreason = $('#mv_location_list > option:selected').data('visitreason');
+
+                            if (visitreason == 1) {
+                                getVisitReasons();
+                            } else {
+                                getDepartment();
+                            }
+                            $(this).remove();
+                        } else {
+                            Swal.fire({
+                                text: 'Invalid Code',
+                                icon: 'error'
+                            });
+                        }
+
+                    }
+                });
+
+                // $(this).remove();
+            });
+
+            $('#activate-step-2-whatsapp').on('click', function(e) {
+                var phone = $("#phone").val();
+                var code = $('#otp_code_whatsapp').val();
 
                 // if (code == "" || code == undefined) {
                 //     code = $('#otp_code_sms').val();//collateOTPCode('otp_code_');
@@ -1459,7 +1551,6 @@
             console.log("Geocoder failed.");
             $("#locationSuggestions").hide();
         }
-       
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{config('app.google_maps')}}&callback=geoSuccess&libraries=geometry" type="text/javascript"></script>
     @include('pages.home._firebase-js')

@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Token;
 use App\Models\DisplaySetting;
 use App\Http\Controllers\Common\SMS_lib;
+use App\Http\Controllers\Common\Utilities_lib;
 use App\Mail\OTPNotification;
 use App\Models\Company;
 use App\Models\ReasonForVisitCounters;
@@ -70,7 +71,7 @@ class HomeController extends Controller
     public function home()
     {
         @date_default_timezone_set(session('app.timezone'));
-      
+
         // echo '<pre>';
         // print_r(auth()->user()->clientpendingtokens);
         // echo '</pre>';
@@ -250,62 +251,29 @@ class HomeController extends Controller
     {
 
         $OTP = $this->generateNumericOTP(6);
-
-        $phonenum = $this->sanitizePhoneNumber($request->phone);
-
+ 
         $update = User::where('id', auth()->user()->id)
             ->update([
                 // 'mobile' => $request->phone,
                 'otp'   => $OTP,
-                'otp_type'   => 'sms',
+                'otp_type'   => 'whatsapp',
                 'otp_timestamp'   => Carbon::now(),
                 'updated_at'  => Carbon::now(),
             ]);
 
         if ($update) {
-            $display = DisplaySetting::first();
-
             $user = User::where('id', auth()->user()->id)->first();
-
-            if ($display->sms_alert) {
-                $setting  = SmsSetting::first();
-                $sms_lib = new SMS_lib;
-
-                $msg = "Hi " . auth()->user()->firstname . ", you're OTP is: $OTP";
-
-
-                $data = $sms_lib
-                    ->provider("$setting->provider")
-                    ->api_key("$setting->api_key")
-                    ->username("$setting->username")
-                    ->password("$setting->password")
-                    ->from("$setting->from")
-                    ->to("$phonenum")
-                    ->message("$msg")
-                    ->response();
-
-                //store sms information 
-                $sms = new SmsHistory();
-                $sms->from        = $setting->from;
-                $sms->to          = $phonenum;
-                $sms->message     = $msg;
-                $sms->response    = $data;
-                $sms->created_at  = date('Y-m-d H:i:s');
-
-                $sms->save();
-
-                // $data = $sms_lib
-                //     ->to($request->phone)
-                //     ->message($msg)
-                //     ->response();
-                return json_encode(array(
-                    'status'      => true,
-                    'request_url' => "",
-                    'error'       => "",
-                    'message'     => $OTP,
-                    'data'        => $data
-                ));
-            }
+ 
+            $msg = "Hi *" . auth()->user()->firstname . "*, you're OTP is: *$OTP*";
+            (new Utilities_lib)->sendWhatsAppText($user, $msg);
+            
+            return json_encode(array(
+                'status'      => true,
+                'request_url' => "",
+                'error'       => "",
+                'message'     => $OTP,
+                'data'        => $msg
+            ));
         } else {
             return json_encode(array(
                 'status'      => false,

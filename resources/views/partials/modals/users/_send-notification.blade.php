@@ -48,6 +48,12 @@
 							{{ trans('app.sms') }}
 							</label>
 						</div>
+						<div class="form-check form-check-custom form-check-solid me-5">
+							<input class="form-check-input" type="radio" value="whatsapp" id="flexRadioWhatsapp"  name="notification_type" />
+							<label class="form-check-label" for="flexRadioWhatsapp">
+							{{ trans('app.whatsapp') }}
+							</label>
+						</div>
 						@endif
 						@if($user->user_token && $user->push_notifications)
 						<div class="form-check form-check-custom form-check-solid">

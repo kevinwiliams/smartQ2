@@ -138,6 +138,7 @@ Route::middleware('auth')->group(function () {
 		Route::post('confirmEmail', [HomeController::class, 'confirmEmail']);
 		Route::post('confirmOTP', [HomeController::class, 'confirmOTP']);
 		Route::post('confirmEmailOTP', [HomeController::class, 'confirmEmailOTP']);
+		Route::post('confirmWhatsApp', [HomeController::class, 'confirmWhatsApp']);
 		Route::post('getwaittime', [HomeController::class, 'getwaittime']);
 		Route::post('getwaittimebyreason', [HomeController::class, 'getwaittimebyreason']);
 		Route::post('getdepartments', [HomeController::class, 'getdepartments']);

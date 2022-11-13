@@ -800,9 +800,7 @@ class TokenController extends Controller
 
             $locationarray = $firsttoken->location->company->locations->pluck("id")->toArray();
             if ($firsttoken->client)
-                $history = $firsttoken->client->clienttokenhistory->whereIn('location_id', $locationarray);
-            else
-                $history = [];
+                $history = $firsttoken->client->clienttokenhistory->whereIn('location_id', $locationarray);          
         }
 
         return view('pages.token.current-icons', compact('tokens', 'reasons', 'history'));

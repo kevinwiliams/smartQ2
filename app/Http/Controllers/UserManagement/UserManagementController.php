@@ -214,7 +214,7 @@ class UserManagementController extends Controller
     }
 
     public function usersView()
-    {
+    {        
         // get the default inner page
         return view('pages.apps.user-management.users.view');
     }
@@ -677,6 +677,9 @@ class UserManagementController extends Controller
                     case 'push':
                         (new Utilities_lib)->sendPushNotification($user, $request->message);
                         break;
+                    case 'whatsapp':
+                        (new Utilities_lib)->sendWhatsAppText($user, $request->message);
+                        break;
                 }
 
                 activity('activity')
@@ -771,7 +774,7 @@ class UserManagementController extends Controller
         $user->syncRoles($role);
         $user->user_type = $request->user_role;
         $user->save();
-        
+
         $data['status'] = true;
         $data['message'] = trans('app.user_role_assigned');
 
@@ -909,6 +912,7 @@ class UserManagementController extends Controller
         return response()->json(['token saved successfully.']);
     }
 
+    /*
     public function sendPushNotification(Request $request)
     {
         $firebaseToken = User::whereNotNull('user_token')->pluck('user_token')->all();
@@ -942,4 +946,5 @@ class UserManagementController extends Controller
 
         dd($response);
     }
+    */
 }
