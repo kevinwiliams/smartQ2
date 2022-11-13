@@ -84,10 +84,7 @@ class Utilities_lib extends Controller
     public function sendWhatsAppText(User $client, $message)
     {
         // // Instantiate the WhatsAppCloudApi super class.
-        // $whatsapp_cloud_api = new WhatsAppCloudApi([
-        //     'from_phone_number_id' => '100105399597511',
-        //     'access_token' => 'EAAHlTVMO9m4BACi3qyZBuuSZAM3b34IUUiSHvO7NspUIH1OaA0jtRNisiYPYKLmuBPvPodBkGw2Wjr1EZBYk95P6cY0gHO74FqhPnc4ZAsqjumf4rmi4e2ayypu4ZBeajWZABnwjZAyJ3cFD1U9SWSG30ss3eRXIL5NmbXeEOuf5vg99D0L7rPvneFPUnwot8WO6cr8nwllWAZDZD',
-        // ]);
+        
         $whatsapp_cloud_api = new WhatsAppCloudApi([]);
         if ($client) {            
 
@@ -95,38 +92,5 @@ class Utilities_lib extends Controller
 
                 $whatsapp_cloud_api->sendTextMessage($phone, $message);
         }
-
-        // $phone = $this->sanitizePhoneNumber($client->mobile);
-        // $msgobj = [
-        //     "messaging_product" => "whatsapp",            
-        //     "recipient_type" => "individual",
-        //     "to" => $phone,
-        //     "type" => "text",
-        //     "text" => [
-        //         "preview_url" => false,
-        //         "body" => $message
-        //     ]
-        // ];
-
-
-
-        // $dataString = json_encode($msgobj);
-
-        // $headers = [
-        //     'Authorization: Bearer EAAHlTVMO9m4BACi3qyZBuuSZAM3b34IUUiSHvO7NspUIH1OaA0jtRNisiYPYKLmuBPvPodBkGw2Wjr1EZBYk95P6cY0gHO74FqhPnc4ZAsqjumf4rmi4e2ayypu4ZBeajWZABnwjZAyJ3cFD1U9SWSG30ss3eRXIL5NmbXeEOuf5vg99D0L7rPvneFPUnwot8WO6cr8nwllWAZDZD',
-        //     'Content-Type: application/json',
-        // ];
-
-        // $ch = curl_init();
-
-        // curl_setopt($ch, CURLOPT_URL, 'https://graph.facebook.com/v15.0/100105399597511/messages');
-        // curl_setopt($ch, CURLOPT_POST, true);
-        // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        // curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
-
-        // $response = curl_exec($ch);
     }
 }
