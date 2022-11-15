@@ -33,10 +33,12 @@
 
 
             <!--begin::Apple link-->
+           <!--
             <a href="{{ url('/auth/redirect/apple') }}?redirect_uri={{ url()->previous() }}" class="btn btn-flex flex-center btn-light btn-lg w-100 mb-5">
                 <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'svg/brand-logos/apple-black.svg') }}" class="h-20px me-3" />
                 {{ __('Continue with Apple ID') }}
             </a>
+        -->
             <!--end::Google link-->
         </div>
         {{-- <div class="mb-10 bg-light-info p-8 rounded"><div class="text-info"> Use account <strong>admin@demo.com</strong> and password <strong>demo</strong> to continue. </div></div> --}}
