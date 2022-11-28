@@ -775,6 +775,7 @@ class TokenController extends Controller
             ->orderBy('token_setting.department_id', 'ASC')
             ->get();
 
+            
         return $dataTable->with('token_location_id', auth()->user()->location_id)->render('pages.token.current', compact('counters', 'departments', 'officers', 'waiting'));
     }
 

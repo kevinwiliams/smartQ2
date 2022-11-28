@@ -42,7 +42,35 @@ class RegisteredUserController extends Controller
             'lastname'  => 'required|string|max:255',
             'email'      => 'required|string|email|max:255|unique:user',
             'password'   => ['required', 'confirmed', Rules\Password::defaults()],
+            'g-recaptcha-response' => 'required'
         ]);
+
+        if ($validator->fails()) {
+            return redirect()
+    			->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        //VALIDATE RECAPTCHA
+        $secret = env('GOOGLE_RECAPTCHA_SECRET');
+        $recaptcha = new \ReCaptcha\ReCaptcha($secret);
+        
+        
+        $resp = $recaptcha->verify($request['g-recaptcha-response']);
+        if (!$resp->isSuccess()) {           
+            $errors = $resp->getErrorCodes();
+            // flash(trans('messages.parameters-fail-validation'), 'error', 'error');
+            return back()->withErrors($errors)->withInput();
+        }
+
+        // if ($validator->fails()) {
+        //     $data['status'] = false;
+        //     $data['error'] = $validator;
+        //     $data['message'] = trans('app.validation_error');
+
+        //     return response()->json($data, 400);
+        // }
 
         $user = User::create([
             'firstname' => $request->firstname,

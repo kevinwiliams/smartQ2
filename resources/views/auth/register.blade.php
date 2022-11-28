@@ -2,9 +2,9 @@
 
     <!--begin::Signup Form-->
     <form method="POST" action="{{ theme()->getPageUrl('register') }}" class="form w-100" novalidate="novalidate" id="mv_sign_up_form">
-    @csrf
+        @csrf
 
-    <!--begin::Heading-->
+        <!--begin::Heading-->
         <div class="text-center mb-10">
             <!--begin::Title-->
             <h1 class="text-dark mb-3">
@@ -25,10 +25,14 @@
         <!--end::Heading-->
 
         <!--begin::Action-->
-        <button type="button" class="btn btn-light-primary fw-bolder w-100 mb-10">
+        <!-- <button type="button" class="btn btn-light-primary fw-bolder w-100 mb-10">
             <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'svg/brand-logos/google-icon.svg') }}" class="h-20px me-3"/>
             {{ __('Sign in with Google') }}
-        </button>
+        </button> -->
+        <a href="{{ url('/auth/redirect/google') }}?redirect_uri={{ url()->previous() }}" class="btn btn-flex flex-center btn-light btn-lg w-100 mb-5">
+            <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'svg/brand-logos/google-icon.svg') }}" class="h-20px me-3" />
+            {{ __('Continue with Google') }}
+        </a>
         <!--end::Action-->
 
         <!--begin::Separator-->
@@ -44,14 +48,14 @@
             <!--begin::Col-->
             <div class="col-xl-6">
                 <label class="form-label fw-bolder text-dark fs-6">{{ __('First Name') }}</label>
-                <input class="form-control form-control-lg form-control-solid" type="text" name="firstname" autocomplete="off" value="{{ old('firstname') }}"/>
+                <input class="form-control form-control-lg form-control-solid" type="text" name="firstname" autocomplete="off" value="{{ old('firstname') }}" />
             </div>
             <!--end::Col-->
 
             <!--begin::Col-->
             <div class="col-xl-6">
                 <label class="form-label fw-bolder text-dark fs-6">{{ __('Last Name') }}</label>
-                <input class="form-control form-control-lg form-control-solid" type="text" name="lastname" autocomplete="off" value="{{ old('lastname') }}"/>
+                <input class="form-control form-control-lg form-control-solid" type="text" name="lastname" autocomplete="off" value="{{ old('lastname') }}" />
             </div>
             <!--end::Col-->
         </div>
@@ -60,7 +64,7 @@
         <!--begin::Input group-->
         <div class="fv-row mb-7">
             <label class="form-label fw-bolder text-dark fs-6">{{ __('Email') }}</label>
-            <input class="form-control form-control-lg form-control-solid" type="email" name="email" autocomplete="off" value="{{ old('email') }}"/>
+            <input class="form-control form-control-lg form-control-solid" type="email" name="email" autocomplete="off" value="{{ old('email') }}" />
         </div>
         <!--end::Input group-->
 
@@ -76,7 +80,7 @@
 
                 <!--begin::Input wrapper-->
                 <div class="position-relative mb-3">
-                    <input class="form-control form-control-lg form-control-solid" type="password" name="password" autocomplete="new-password"/>
+                    <input class="form-control form-control-lg form-control-solid" type="password" name="password" autocomplete="new-password" />
 
                     <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-mv-password-meter-control="visibility">
                         <i class="bi bi-eye-slash fs-2"></i>
@@ -107,18 +111,23 @@
         <!--begin::Input group-->
         <div class="fv-row mb-5">
             <label class="form-label fw-bolder text-dark fs-6">{{ __('Confirm Password') }}</label>
-            <input class="form-control form-control-lg form-control-solid" type="password" name="password_confirmation" autocomplete="off"/>
+            <input class="form-control form-control-lg form-control-solid" type="password" name="password_confirmation" autocomplete="off" />
         </div>
         <!--end::Input group-->
 
         <!--begin::Input group-->
         <div class="fv-row mb-10">
             <label class="form-check form-check-custom form-check-solid form-check-inline">
-                <input class="form-check-input" type="checkbox" name="toc" value="1"/>
+                <input class="form-check-input" type="checkbox" name="toc" value="1" />
                 <span class="form-check-label fw-bold text-gray-700 fs-6">
-                {{ __('I Agree &') }} <a href="#" class="ms-1 link-primary">{{ __('Terms and conditions') }}</a>.
-            </span>
+                    {{ __('I Agree &') }} <a href="#" class="ms-1 link-primary">{{ __('Terms and conditions') }}</a>.
+                </span>
             </label>
+        </div>
+        <!--end::Input group-->
+        <!--begin::Input group-->
+        <div class="fv-row mb-10">
+            <div class="g-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY') }}"></div>
         </div>
         <!--end::Input group-->
 
@@ -131,5 +140,8 @@
         <!--end::Actions-->
     </form>
     <!--end::Signup Form-->
+    @section('scripts')
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
+    @endsection
 </x-auth-layout>

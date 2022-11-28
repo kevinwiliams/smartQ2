@@ -42,7 +42,7 @@
                             <!--begin::Heading-->
                             <div class="pb-10 pb-lg-15">
                                 <!--begin::Title-->
-                                <h2 class="fw-bolder d-flex align-items-center text-dark">Choose where you want Queue
+                                <h2 class="fw-bolder d-flex align-items-center text-dark">Where you want Queue?
                                     <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Select the business and location"></i>
                                 </h2>
                                 <!--end::Title-->
@@ -109,7 +109,7 @@
                             <div class="pb-10 pb-lg-15">
 
                                 <!--begin::Title-->
-                                <h2 class="fw-bolder d-flex align-items-center text-dark">Choose how we should contact you
+                                <h2 class="fw-bolder d-flex align-items-center text-dark">How we should contact you?
                                     <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="How would you like for us to contact you?"></i>
                                 </h2>
                                 <!--end::Title-->
@@ -463,7 +463,7 @@
                             <!--begin::Heading-->
                             <div class="pb-10 pb-lg-15">
                                 <!--begin::Title-->
-                                <h2 class="fw-bolder d-flex align-items-center text-dark">Choose below how we can be of assistance.
+                                <h2 class="fw-bolder d-flex align-items-center text-dark">How we can be of assistance?
                                     <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Select the department you wish to visit or the reason for your visit"></i>
                                 </h2>
                                 <!--end::Title-->
