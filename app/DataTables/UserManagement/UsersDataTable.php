@@ -102,7 +102,7 @@ class UsersDataTable extends DataTable
             ->responsivePriority(-1),
             Column::make('firstname')->searchable(true)->visible(false)->name('firstname'),
             Column::make('lastname')->searchable(true)->visible(false)->name('lastname'),          
-            Column::make('role')->searchable(false)->name('role_id'),
+            Column::make('role')->searchable(false),
             Column::make('department')->searchable(false)->name('department_id'),
             Column::make('last_login_at')->title(__('Last Login')),
             Column::make('created_at'),

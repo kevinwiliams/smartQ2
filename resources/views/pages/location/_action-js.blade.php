@@ -32,7 +32,7 @@ var MVLocationOverview = function () {
                             echo  $val->active.','.$val->complete.','.$val->no_show.','.$val->booked;
                         } ?>
                     ],
-                    backgroundColor: ['#00A3FF', '#50CD89', '#FF0000', '#00FFFF']
+                    backgroundColor: ['#00A3FF', '#50CD89', '#FF0000', '#CCC']
                 }],
                 labels: ['Active', 'Completed', 'No Show', 'Booked']
             },
