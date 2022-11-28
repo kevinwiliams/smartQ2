@@ -96,14 +96,14 @@ class UsersDataTable extends DataTable
     {
         return [           
             Column::make('id')->title('<div class="form-check form-check-sm form-check-custom form-check-solid me-3"><input class="form-check-input" type="checkbox" data-mv-check="true" data-mv-check-target="#mv_table_users .form-check-input" value="1" id="mv_users_select_all"></div>')
-            ->orderable(false),
+            ->orderable(true),
             Column::computed('user')
             ->addClass('d-flex align-items-center')           
             ->responsivePriority(-1),
-            // Column::make('firstname'),
-            // Column::make('lastname'),            
-            Column::make('role')->searchable(false),
-            Column::make('department')->searchable(false),
+            Column::make('firstname')->searchable(true)->visible(false)->name('firstname'),
+            Column::make('lastname')->searchable(true)->visible(false)->name('lastname'),          
+            Column::make('role')->searchable(false)->name('role_id'),
+            Column::make('department')->searchable(false)->name('department_id'),
             Column::make('last_login_at')->title(__('Last Login')),
             Column::make('created_at'),
             Column::computed('action')
