@@ -42,7 +42,7 @@
                             <!--begin::Heading-->
                             <div class="pb-10 pb-lg-15">
                                 <!--begin::Title-->
-                                <h2 class="fw-bolder d-flex align-items-center text-dark">Where you want Queue?
+                                <h2 class="fw-bolder d-flex align-items-center text-dark">Where would you like to Queue?
                                     <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Select the business and location"></i>
                                 </h2>
                                 <!--end::Title-->

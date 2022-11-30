@@ -24,12 +24,18 @@ class TokenDataTable extends DataTable
     public function dataTable($query)
     {
 
+        ///TODO: Move to query function and manual enable filtering
         $roles = auth()->user()->getRoleNames()->toArray();
+        $locid = $this->token_location_id;
         $query = Token::wherein('status', ['0', '3'])
             ->when($roles, function ($query, $role) {
                 if (in_array('officer', $role))
                     return $query->where('user_id', auth()->user()->id);
             })
+            ->when($locid, function ($query, $locid) {                
+                    return $query->where('location_id', $locid);
+            })
+            // ->where('token.location_id', $this->token_location_id)
             ->orderBy('is_vip', 'DESC')
             ->orderBy('id', 'DESC');
 
@@ -127,7 +133,7 @@ class TokenDataTable extends DataTable
     {
         return [
             // Column::make('id'),
-            Column::make('token_no'),
+            Column::make('token_no'),            
             Column::make('client_id')->title(__('Client Name')),
             Column::make('department_id')->title(__('Department')),
             Column::make('counter_id')->title(__('Counter')),
