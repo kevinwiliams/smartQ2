@@ -14,19 +14,31 @@
                 <h2 class="fs-2x fw-bolder mb-0">Welcome to </h2><br><img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/logo-1.svg') }}" class="img-fluid h-85px" />
                 <!--end::Title-->
                 <!--begin::Description-->
-                <p class="text-gray-400 fs-4 fw-bold py-7">Click on the below button to
-                    <br />join our queue .
+                <p class="text-gray-400 fs-4 fw-bold py-7">
+
+                    
+                    @if(count(auth()->user()->clientpendingtokens) == 0)
+                    Click on the below button to
+                    <br />join a queue.
+                    @elseif(count(auth()->user()->clientpendingtokens) == 1)
+                    Click on one of the below buttons to
+                    <br />join a queue or view existing token.
+                    @elseif(count(auth()->user()->clientpendingtokens) > 1)
+                    Click on one of the below buttons to
+                    <br />join a queue or view existing tokens.
+                    @endif
+
                 </p>
                 <!--end::Description-->
                 <!--begin::Action-->
-                <a href="{{theme()->getPageUrl("home/home")}}" class="btn btn-primary er fs-6 px-8 py-4">Join the line</a>
+                <a href="{{theme()->getPageUrl("home/home")}}" class="btn btn-primary er fs-6 px-8 py-4">Join the queue</a>
                 <!--end::Action-->
-                 <!--begin::Action-->
-                 @if(count(auth()->user()->clientpendingtokens) == 1)
-                 <a href="{{theme()->getPageUrl("home/list")}}" class="btn btn-success er fs-6 px-8 py-4">View my token</a>
-                 @elseif(count(auth()->user()->clientpendingtokens) > 1)
-                 <a href="{{theme()->getPageUrl("home/list")}}" class="btn btn-success er fs-6 px-8 py-4">View my list</a>
-                 @endif
+                <!--begin::Action-->
+                @if(count(auth()->user()->clientpendingtokens) == 1)
+                <a href="{{theme()->getPageUrl("home/list")}}" class="btn btn-success er fs-6 px-8 py-4">View my token</a>
+                @elseif(count(auth()->user()->clientpendingtokens) > 1)
+                <a href="{{theme()->getPageUrl("home/list")}}" class="btn btn-success er fs-6 px-8 py-4">View my tokens</a>
+                @endif
                 <!--end::Action-->
             </div>
             <!--end::Heading-->
@@ -41,6 +53,6 @@
     </div>
     <!--end::Card-->
     @section('scripts')
-@include('pages.home._firebase-js')
-@endsection
+    @include('pages.home._firebase-js')
+    @endsection
 </x-base-layout>

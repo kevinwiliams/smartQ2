@@ -588,7 +588,9 @@
                             <!--begin::Body-->
                             <div class="mb-0">
                                 <!--begin::Text-->
-                                <div class="fs-6 text-gray-600 mb-5">Writing headlines for blog posts is as much an art as it is a science and probably warrants its own post, but for all advise is with what works for your great &amp; amazing audience.</div>
+                                <div class="fs-6 text-gray-600 mb-5">
+                                Thank you for using {{ config('app.name') }}. We are pleased to inform you that your place in the queue has been successfully reserved. In order to complete your check-in, please visit the location indicated on your reservation confirmation. When you arrive, please make sure to have your confirmation number or scan the available QR code. Thank you for choosing our system, and we look forward to serving you soon.
+                                </div>
                                 <!--end::Text-->
                                 <!--begin::Alert-->
                                 <!--begin::Notice-->

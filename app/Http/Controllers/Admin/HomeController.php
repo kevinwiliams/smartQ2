@@ -59,7 +59,7 @@ class HomeController extends Controller
         $maskedemail = auth()->user()->getMaskedEmail();
 
         // $companies = Company::has('locations.departments')->orderBy('name', 'asc')->pluck('name', 'id');
-        $companies = Company::has('locations.departments')->orderBy('name', 'asc')->get();
+        $companies = Company::where('active',true)->whereRelation('locations','active',true)->has('locations.departments')->orderBy('name', 'asc')->get();
 
         // echo \Session::get('locale');
         // echo app()->getLocale();

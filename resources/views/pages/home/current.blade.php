@@ -12,7 +12,7 @@
                     <div class="px-9 pt-7 card-rounded h-275px w-100 {{ ($token->status==3)? "bg-gray-400" :"bg-primary" }} ">
                         <!--begin::Heading-->
                         <div class="d-flex flex-stack">
-                            <h3 class="m-0 text-white fw-bolder fs-3" id="tkn_position">Position: {{$position}}</h3>
+                            <!-- <h3 class="m-0 text-white fw-bolder fs-3" id="tkn_position">Position: {{$position}}</h3> -->
                             <div class="ms-1">
                                 <!--begin::Menu-->
                                 <button type="button" class="btn btn-sm btn-icon btn-color-white btn-active-white btn-active-color-primary border-0 me-n3" data-mv-menu-trigger="click" data-mv-menu-placement="bottom-end">
@@ -53,7 +53,7 @@
                         <div class="d-flex align-items-center mb-6">
                             <!--begin::Symbol-->
                             <div class="symbol symbol-45px w-40px me-5">
-                            <img class="mw-80px mw-lg-95px" src="{{ $token->location->company->logo_url }}" alt="image" />
+                                <img class="mw-80px mw-lg-95px" src="{{ $token->location->company->logo_url }}" alt="image" />
                             </div>
                             <!--end::Symbol-->
                             <!--begin::Description-->
@@ -113,7 +113,7 @@
                             <div class="symbol symbol-45px w-40px me-5">
                                 <span class="symbol-label bg-lighten">
                                     <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
-                                    {!! theme()->getSvgIcon("icons/duotune/general/gen025.svg", "svg-icon-1") !!}
+                                    {!! theme()->getSvgIcon("icons/duotune/text/txt010.svg", "svg-icon-1") !!}
 
                                     <!--end::Svg Icon-->
                                 </span>
@@ -124,30 +124,59 @@
                                 <!--begin::Title-->
                                 <div class="mb-1 pe-3 flex-grow-1">
                                     <a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder">
-                                        @if ($wait != "00:00")
-                                        Potential Wait
-                                        @else
-                                        You are next!
-                                        @endif
+                                        Position
                                     </a>
-                                    @if ($wait != "00:00")
+
+                                    <div class="text-gray-600 fw-bold fs-6" id="tkn_position"># {{$position}}</div>
+
+                                </div>
+                                <!--end::Title-->
+                                <!--begin::Label-->
+                                <div class="d-flex align-items-center">
+
+                                </div>
+                                <!--end::Label-->
+                            </div>
+                            <!--end::Description-->
+                        </div>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <div class="d-flex align-items-center mb-6">
+                            <!--begin::Symbol-->
+                            <div class="symbol symbol-45px w-40px me-5">
+                                <span class="symbol-label bg-lighten">
+                                    <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
+                                    {!! theme()->getSvgIcon("icons/duotune/general/gen013.svg", "svg-icon-1") !!}
+
+                                    <!--end::Svg Icon-->
+                                </span>
+                            </div>
+                            <!--end::Symbol-->
+                            <!--begin::Description-->
+                            <div class="d-flex align-items-center flex-wrap w-100">
+                                <!--begin::Title-->
+                                <div class="mb-1 pe-3 flex-grow-1">
+                                    <a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder">
+                                        <span id="span_wait_title">{{ ($wait != "00:00")?"Potential Wait":"You are next!" }}</span>
+                                    </a>
+
                                     <div class="text-gray-400 fw-bold fs-7">
-                                        
-                                            <span id="span_wait">{{ $wait }}</span>
-                                        
+
+                                        <span id="span_wait">{{ $wait }}</span>
+
                                         <!--begin::Svg Icon | path: icons/duotune/arrows/arr065.svg-->
                                         {!! theme()->getSvgIcon("icons/duotune/general/gen013.svg", "svg-icon-info ms-1") !!}
                                         <!--end::Svg Icon-->
                                     </div>
-                                    @endif
+
                                 </div>
                                 <!--end::Title-->
                                 <!--begin::Label-->
-                                @if ($wait != "00:00")
+
                                 <div class="d-flex align-items-center">
-                                   
+
                                 </div>
-                                @endif
+
                                 <!--end::Label-->
                             </div>
                             <!--end::Description-->
@@ -218,8 +247,8 @@
                     </div>
                     <!--end::Item-->
                     @if($token->status==3)
-                     <!--begin::Item-->
-                     <div class="d-flex align-items-center">
+                    <!--begin::Item-->
+                    <div class="d-flex align-items-center">
                         <!--begin::Symbol-->
                         <div class="symbol symbol-45px w-40px me-5">
                             <span class="symbol-label bg-lighten">
@@ -235,7 +264,7 @@
                             <!--begin::Title-->
                             <div class="mb-1 pe-3 flex-grow-1">
                                 <a href="https://www.google.com/maps/dir/?api=1&destination={{ $token->location->lat }},{{ $token->location->lon }}" target="_blank" class="fs-5 text-success text-hover-primary fw-bolder">Directions</a>
-                                
+
                             </div>
                             <!--end::Title-->
                             <!--begin::Label-->
@@ -283,7 +312,7 @@
                     <a href="#" class="btn btn-danger w-100 py-3" data-id="{{ $token->id }}" name="cancel_token">Cancel Token</a>
                     @endif
                     @if(count(auth()->user()->clientpendingtokens) > 1)
-                    <a href="{{ theme()->getPageUrl("home/list") }}" class="btn btn-primary w-100 py-3 mt-3" data-id="{{ $token->id }}" >View List</a>
+                    <a href="{{ theme()->getPageUrl("home/list") }}" class="btn btn-primary w-100 py-3 mt-3" data-id="{{ $token->id }}">View List</a>
                     @endif
                 </div>
                 <input type="hidden" name="tokenID" id="tokenID" value="{{ $token->id }}" />
@@ -323,8 +352,9 @@
                     url: '{{ URL::to("home/currentposition") }}',
                     success: function(data) {
                         // console.log(data);
-                        // $("#tkn_position").text("Position: " + data.position);
+                        $("#tkn_position").text("# " + data.position);
                         $("#span_wait").text(data.wait);
+                        $("#span_wait_title").text((data.wait == "0:00") ? "You're Next!" : "Potential Wait");
                     }
                 });
             }
