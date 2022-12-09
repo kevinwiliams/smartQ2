@@ -89,7 +89,7 @@
                                             </span>
                                         </div>
                                         <div class="pt-3" style="display:none;" id="locationDirections">
-                                            <a href="" class="text-primary cursor-pointer" data-fslightbox="lightbox" data-class="fslightbox-source"><i class="las la-directions"></i> Directions</a>
+                                            <a href="" class="text-primary cursor-pointer" data-fslightbox="lightbox"><i class="las la-directions"></i> Directions</a>
                                         </div>
                                         <span class="text-danger">{{ $errors->first('location') }}</span>
                                     </div>
