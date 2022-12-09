@@ -1,3 +1,10 @@
+<div class="pb-2" id="timesText" style="display: none">
+                                
+    <h4 class="fw-bolder d-flex align-items-center text-dark">Popular Times
+        <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="Based on visits to this location" aria-label="Based on visits to this location"></i>
+    </h4>
+    
+</div>
 <ul class="nav nav-tabs nav-line-tabs mb-5 fs-6 justify-content-center" id="busy-hours-dayofweek" style="display: none">
     @php
     $weekdays = \App\Core\Data::getDayNames();

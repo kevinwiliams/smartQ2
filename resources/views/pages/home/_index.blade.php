@@ -89,7 +89,7 @@
                                             </span>
                                         </div>
                                         <div class="pt-3" style="display:none;" id="locationDirections">
-                                            <a href="" target="_blank" class="text-primary cursor-pointer"><i class="las la-directions"></i> Directions</a>
+                                            <a href="" class="text-primary cursor-pointer" data-fslightbox="lightbox" data-class="fslightbox-source"><i class="las la-directions"></i> Directions</a>
                                         </div>
                                         <span class="text-danger">{{ $errors->first('location') }}</span>
                                     </div>
@@ -660,6 +660,14 @@
         <!--end::Card body-->
     </div>
     <!--end::Card-->
+    <iframe
+    src=""
+    id="googlemaps"
+    class="fslightbox-source"
+    frameBorder="0"
+    allow="autoplay; fullscreen"
+    allowFullScreen
+></iframe>
     @section('scripts')
 
     <script>
@@ -735,9 +743,11 @@
                 var selectedval = $(this).val();
                 if (selectedval != "") {
                     $("#locationDirections").show();
+                    $("#timesText").show();
                     $('[data-mv-stepper-action="next"]').removeClass('disabled');
                 } else {
                     $("#locationDirections").hide();
+                    $("#timesText").hide();
                     $('[data-mv-stepper-action="next"]').addClass('disabled');
                 }
                 //show busy hours chart
@@ -773,6 +783,8 @@
                 var _url = "https://www.google.com/maps/dir/?api=1&destination=" + obj.data("lat") + "," + obj.data("lng");
 
                 $("#locationDirections > a").attr("href", _url);
+                $("#googlemaps").attr("src", _url);
+                refreshFsLightbox();
             });
 
             //------------------------------------------

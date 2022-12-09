@@ -20,6 +20,7 @@ return array(
             'js/scripts.bundle.js',
             'js/custom/authentication/sign-out/general.js',
             'js/custom/widgets.js',
+            'plugins/custom/fslightbox/fslightbox.bundle.js',
         ),
     ),
 
