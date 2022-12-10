@@ -22,7 +22,7 @@
         @endphp
         @foreach($tokens as $token)
         <!--begin::Col-->
-        <div class="col-xl-4 m-auto">
+        <div class="col-xl-4 m-auto mb-6">
 
             <!--begin::Mixed Widget 1-->
             <div class="card card-xl-stretch mb-xl-8 mb-sm-3">
@@ -42,7 +42,7 @@
                     </div>
                     <!--end::Header-->
                     <!--begin::Items-->
-                    <div class="bg-body shadow-sm card-rounded mx-9 mb-9 px-6 py-9 position-relative z-index-1" style="margin-top: -120px">
+                    <div class="bg-body shadow-sm card-rounded mx-9 mb-3 px-6 py-6 position-relative z-index-1" style="margin-top: -120px">
                         <!--begin::Item-->
                         <div class="d-flex align-items-center mb-6">
                             <!--begin::Symbol-->
