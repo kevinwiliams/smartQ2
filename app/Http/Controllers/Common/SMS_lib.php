@@ -143,6 +143,10 @@ class SMS_lib extends Controller
                 $this->_floppysend();
                 return $this->_postRequest($this->_url);
                 break;
+            case 'smschef':
+                $this->_smschef();
+                return $this->_postRequest($this->_url);
+                break;
             default:
                 return json_encode(array(
                     'status'  => false,
@@ -259,6 +263,27 @@ class SMS_lib extends Controller
         $this->_url = "https://api.floppy.ai/sms";
     }
 
+    private function _smschef()
+    {
+        $this->_data = array(
+            'to'   => $this->_to,
+            'from' => $this->_from,
+            'dcs' => 0,
+            'text'  => $this->_message
+        );
+
+        $this->_data = array(
+            "secret" => $this->_api_key, 
+            "mode" => "devices",
+            "device" => env('SMS_DEVICE_ID'),
+            "sim" => 1,
+            "priority" => 1,
+            "phone" => "+" . $this->_to,
+            "message" => $this->_message
+        );
+        $this->_url = "https://www.cloud.smschef.com/api/send/sms";
+    }
+
     /*
     *---------------------------------------------------------------
     * CURL RESPONSE
@@ -298,7 +323,7 @@ class SMS_lib extends Controller
             case 'floppysend':
                 $ch = curl_init();
                 curl_setopt_array($ch, array(
-                    CURLOPT_URL => 'https://api.floppy.ai/sms',
+                    CURLOPT_URL => $this->_url,
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_ENCODING => '',
                     CURLOPT_MAXREDIRS => 10,
@@ -308,7 +333,7 @@ class SMS_lib extends Controller
                     CURLOPT_CUSTOMREQUEST => 'POST',
                     CURLOPT_POSTFIELDS => http_build_query($this->_data),
                     CURLOPT_HTTPHEADER => array(
-                        'x-api-key: '. $this->_api_key. '',
+                        'x-api-key: ' . $this->_api_key . '',
                         'Content-Type: application/x-www-form-urlencoded'
                     ),
                 ));
@@ -325,9 +350,13 @@ class SMS_lib extends Controller
         }
 
 
-
+        // echo '<pre>';
+        // print_r($response);
+        // echo '</pre>';
+        // die();
 
         if (curl_errno($ch)) {
+            curl_close($ch);
             return json_encode(array(
                 'status'      => false,
                 'request_url' => $this->_url,
@@ -335,6 +364,7 @@ class SMS_lib extends Controller
                 'message'     => $this->_message
             ));
         } else {
+            curl_close($ch);
             return json_encode(array(
                 'status'      => true,
                 'request_url' => $this->_url,
@@ -343,7 +373,7 @@ class SMS_lib extends Controller
             ));
         }
 
-        curl_close($ch);
+        
     }
 }
 
