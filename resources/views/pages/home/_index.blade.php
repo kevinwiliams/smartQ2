@@ -89,7 +89,7 @@
                                             </span>
                                         </div>
                                         <div class="pt-3" style="display:none;" id="locationDirections">
-                                            <a href="" class="text-primary cursor-pointer" target="_blank"><i class="las la-directions"></i> Directions</a>
+                                            <a href="#googlemaps" class="text-primary cursor-pointer" data-fslightbox="lightbox" data-class="fslightbox-source"><i class="las la-directions"></i> Directions</a>
                                         </div>
                                         <span class="text-danger">{{ $errors->first('location') }}</span>
                                     </div>
@@ -660,17 +660,20 @@
         <!--end::Card body-->
     </div>
     <!--end::Card-->
-    <!--
+    <div class="mapWrapper">
     <iframe
-    src=""
-    id="googlemaps"
-    class="fslightbox-source"
-    frameBorder="0" style="border:0"
-    referrerpolicy="no-referrer-when-downgrade"
-    allow="autoplay; fullscreen"
-    allowFullScreen
-></iframe> 
--->
+        width="800"
+        height="500" 
+        id="googlemaps" 
+        class="fslightbox-source" 
+        frameBorder="0" style="border:0" 
+        referrerpolicy="no-referrer-when-downgrade" 
+        allow="autoplay; fullscreen" 
+        allowFullScreen
+        >
+    </iframe> 
+    </div>
+    
     @section('scripts')
 
     <script>
@@ -678,7 +681,29 @@
         var lastLat;
         var lastLng;
 
+   
+            fsLightbox.props.onInit = function (instance) {
+                console.log('onInit',instance);
+                //$("#googlemaps").attr("width", "800");
+                $("#googlemaps").show();
+            }
+
+            fsLightbox.props.onClose = function (instance) {
+                console.log('onClose',instance);
+                $("#googlemaps").hide();
+
+            }
+
+            //$("#googlemaps").hide();
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                // some code..
+                $("#googlemaps").attr("width", "300");
+            }
+
         $(function() {
+            
+            
+
             initVisitHoursChart2();
             handleDataLookup();
             handleLocationSuggestion();
@@ -782,14 +807,20 @@
                     $("#dvWhatsApp").show();
                 }
 
-                //Update directions
-                var _url = "https://www.google.com/maps/dir/?api=1&destination=" + obj.data("lat") + "," + obj.data("lng");
-                //var _url = "https://www.google.com/maps/embed/v1/directions?key=AIzaSyAWjrBnw1tpirRaea8ZfRMqLcyajLkrb8k&destination=" + obj.data("lat") + "," + obj.data("lng");
+                var lat =  $('#lat').val();
+                var lng = $('#lng').val();
 
-                $("#locationDirections > a").attr("href", _url);
+                //Update directions
+                //var _url = "https://www.google.com/maps/dir/?api=1&destination=" + obj.data("lat") + "," + obj.data("lng");
+                var _url = "https://www.google.com/maps/embed/v1/directions?key=AIzaSyAWjrBnw1tpirRaea8ZfRMqLcyajLkrb8k&origin="+ lat + "," + lng +"&destination=" + obj.data("lat") + "," + obj.data("lng");
+                
                 $("#googlemaps").attr("src", _url);
-                refreshFsLightbox();
+                //$("#locationDirections > a").attr("href", _url);
+                setTimeout(() => {
+                    refreshFsLightbox();
+                }, 1000);
             });
+
 
             //------------------------------------------
 
