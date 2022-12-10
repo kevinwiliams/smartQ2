@@ -435,11 +435,11 @@
                                     @php
                                     $step = "";
                                     if(auth()->user()->otp_type == "email"){
-                                        $step = "activate-step-2-email"; 
+                                    $step = "activate-step-2-email";
                                     } else if(auth()->user()->otp_type == "sms"){
-                                        $step = "activate-step-2"; 
+                                    $step = "activate-step-2";
                                     }else if(auth()->user()->otp_type == "whatsapp"){
-                                        $step = "activate-step-2-whatsapp"; 
+                                    $step = "activate-step-2-whatsapp";
                                     }
                                     @endphp
                                     <button type="button" id="{{ $step }}" class="btn btn-lg btn-primary fw-bolder">
@@ -589,7 +589,7 @@
                             <div class="mb-0">
                                 <!--begin::Text-->
                                 <div class="fs-6 text-gray-600 mb-5">
-                                Thank you for using {{ config('app.name') }}. We are pleased to inform you that your place in the queue has been successfully reserved. In order to complete your check-in, please visit the location indicated on your reservation confirmation. When you arrive, please make sure to have your confirmation number or scan the available QR code. Thank you for choosing our system, and we look forward to serving you soon.
+                                    Thank you for using {{ config('app.name') }}. We are pleased to inform you that your place in the queue has been successfully reserved. In order to complete your check-in, please visit the location indicated on your reservation confirmation. When you arrive, please make sure to have your confirmation number or scan the available QR code. Thank you for choosing our system, and we look forward to serving you soon.
                                 </div>
                                 <!--end::Text-->
                                 <!--begin::Alert-->
@@ -661,19 +661,10 @@
     </div>
     <!--end::Card-->
     <div class="mapWrapper">
-    <iframe
-        width="800"
-        height="500" 
-        id="googlemaps" 
-        class="fslightbox-source" 
-        frameBorder="0" style="border:0" 
-        referrerpolicy="no-referrer-when-downgrade" 
-        allow="autoplay; fullscreen" 
-        allowFullScreen
-        >
-    </iframe> 
+        <iframe width="800" height="500" id="googlemaps" class="fslightbox-source" frameBorder="0" style="border:0" referrerpolicy="no-referrer-when-downgrade" allow="autoplay; fullscreen" allowFullScreen>
+        </iframe>
     </div>
-    
+
     @section('scripts')
 
     <script>
@@ -681,28 +672,28 @@
         var lastLat;
         var lastLng;
 
-   
-            fsLightbox.props.onInit = function (instance) {
-                console.log('onInit',instance);
-                //$("#googlemaps").attr("width", "800");
-                $("#googlemaps").show();
-            }
 
-            fsLightbox.props.onClose = function (instance) {
-                console.log('onClose',instance);
-                $("#googlemaps").hide();
+        fsLightbox.props.onInit = function(instance) {
+            console.log('onInit', instance);
+            //$("#googlemaps").attr("width", "800");
+            $("#googlemaps").show();
+        }
 
-            }
+        fsLightbox.props.onClose = function(instance) {
+            console.log('onClose', instance);
+            $("#googlemaps").hide();
 
-            //$("#googlemaps").hide();
-            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-                // some code..
-                $("#googlemaps").attr("width", "300");
-            }
+        }
+
+        //$("#googlemaps").hide();
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            // some code..
+            $("#googlemaps").attr("width", "300");
+        }
 
         $(function() {
-            
-            
+
+
 
             initVisitHoursChart2();
             handleDataLookup();
@@ -807,13 +798,13 @@
                     $("#dvWhatsApp").show();
                 }
 
-                var lat =  $('#lat').val();
+                var lat = $('#lat').val();
                 var lng = $('#lng').val();
 
                 //Update directions
                 //var _url = "https://www.google.com/maps/dir/?api=1&destination=" + obj.data("lat") + "," + obj.data("lng");
-                var _url = "https://www.google.com/maps/embed/v1/directions?key=AIzaSyAWjrBnw1tpirRaea8ZfRMqLcyajLkrb8k&origin="+ lat + "," + lng +"&destination=" + obj.data("lat") + "," + obj.data("lng");
-                
+                var _url = "https://www.google.com/maps/embed/v1/directions?key=AIzaSyAWjrBnw1tpirRaea8ZfRMqLcyajLkrb8k&origin=" + lat + "," + lng + "&destination=" + obj.data("lat") + "," + obj.data("lng");
+
                 $("#googlemaps").attr("src", _url);
                 //$("#locationDirections > a").attr("href", _url);
                 setTimeout(() => {
@@ -1549,56 +1540,92 @@
             var lng = position.coords.longitude;
             $('#lat').val(lat);
             $('#lng').val(lng);
-            console.log("lat:" + lat + " lng:" + lng);
-
-            var _to_lat = $('#mv_location_list > option:selected').data('lat');
-            var _to_lng = $('#mv_location_list > option:selected').data('lng');
-
-            const from = new google.maps.LatLng(lat, lng);
-            const to = new google.maps.LatLng(_to_lat, _to_lng);
-            const distance = google.maps.geometry.spherical.computeDistanceBetween(from, to)
-            console.log(distance);
-
-            var lowid = 0;
-            var currentid = $('#mv_location_list > option:selected').val();
-            var _lastdistance = null;
-            $('#mv_location_list > option').each(function() {
-                console.log($(this).val());
-                if ($(this).val() != "") {
-                    var _lat = $(this).data('lat');
-                    var _lng = $(this).data('lng');
-                    var _to = new google.maps.LatLng(_lat, _lng);
-                    var _distance = google.maps.geometry.spherical.computeDistanceBetween(from, _to)
-
-                    if (_lastdistance == null) {
-                        _lastdistance = _distance;
-                        lowid = $(this).val();
-                    }
-
-                    if (_distance < _lastdistance) {
-                        _lastdistance = _distance;
-                        lowid = $(this).val();
-                    }
-                }
-            });
-
-            if (currentid != lowid) {
-                var _option = $('#mv_location_list > option[value="' + lowid + '"]');
-                console.log(_option.text());
-                $("#mv_location_suggestion").data('id', lowid);
-                $("#mv_location_suggestion").text(_option.text());
-                // locationSuggestions
-                $("#locationSuggestions").show();
-            } else {
-                $("#locationSuggestions").hide();
-            }
-
-
+            
+            closestLocation(position); 
         }
 
         function geoError() {
             console.log("Geocoder failed.");
             $("#locationSuggestions").hide();
+        }
+
+        function closestLocation(position) {
+            var originArray = [];
+            var destinationArray = [];
+            var idArray = [];
+            // build request
+            const origin1 = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            }; 
+
+            $('#mv_location_list > option').each(function() {
+                if ($(this).val() != "") {
+                    idArray.push($(this).val());
+                    originArray.push({
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    });
+
+                    destinationArray.push({
+                        lat: $(this).data('lat'),
+                        lng: $(this).data('lng')
+                    });
+                }
+            });
+
+            const request = {
+                origins: originArray,
+                destinations: destinationArray,
+                travelMode: google.maps.TravelMode.DRIVING,
+                unitSystem: google.maps.UnitSystem.METRIC,
+                avoidHighways: false,
+                avoidTolls: false,
+            };       
+
+            const service = new google.maps.DistanceMatrixService();
+            // get distance matrix response
+            service.getDistanceMatrix(request).then((response) => {
+                // show on map
+                const origins = response.originAddresses;
+                const destinations = response.destinationAddresses;
+
+                var results = response.rows[0].elements;
+                var _lowresult;
+                var _lastdistance;
+                var key = 0;
+                for (var j = 0; j < results.length; j++) {
+                    var element = results[j];
+                    var distance = element.distance.value;
+
+                    if (_lastdistance == null) {
+                        _lastdistance = distance;
+                        _lowresult = element;
+                        key = j;
+                    }
+
+                    if (distance < _lastdistance) {
+                        _lastdistance = distance;
+                        _lowresult = element;
+                        key = j;
+                    } 
+                }
+
+                var currentid = $('#mv_location_list > option:selected').val();
+
+                if (currentid != idArray[key]) {
+                    var _option = $('#mv_location_list > option[value="' + idArray[key] + '"]');
+                    console.log(_option.text());
+                    $("#mv_location_suggestion").data('id', idArray[key]);
+                    var _text = _option.text() + " - " + _lowresult.distance.text + " (ETA: " + _lowresult.duration.text + ")";
+                    $("#mv_location_suggestion").text(_text);
+                    // locationSuggestions
+                    $("#locationSuggestions").show();
+                } else {
+                    $("#locationSuggestions").hide();
+                }
+            
+            });
         }
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{config('app.google_maps')}}&callback=geoSuccess&libraries=geometry" type="text/javascript"></script>

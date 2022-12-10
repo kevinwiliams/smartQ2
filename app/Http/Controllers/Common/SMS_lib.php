@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
@@ -46,7 +47,7 @@ use Illuminate\Support\Facades\Config;
 */
 
 class SMS_lib extends Controller
-{ 
+{
     private $_provider = "nexmo";
     private $_url;
     private $_data;
@@ -55,7 +56,7 @@ class SMS_lib extends Controller
     private $_password;
     private $_from;
     private $_to;
-    private $_message; 
+    private $_message;
 
 
     public function provider($provider = null)
@@ -103,8 +104,7 @@ class SMS_lib extends Controller
     public function message($template = null, $data = array())
     {
         $message = $template;
-        if (is_array($data) && sizeof($data) > 0)
-        {
+        if (is_array($data) && sizeof($data) > 0) {
             $message = $this->_template($template, $data);
         }
         $this->_message = trim($message);
@@ -114,50 +114,52 @@ class SMS_lib extends Controller
 
     public function response()
     {
-        switch ($this->_provider) 
-        {
+        switch ($this->_provider) {
             case 'budgetsms':
-                    $this->_budgetsms();
-                    return $this->_postRequest($this->_url);
-                break; 
+                $this->_budgetsms();
+                return $this->_postRequest($this->_url);
+                break;
             case 'nexmo':
-                    $this->_nexmo();
-                    return $this->_postRequest($this->_url);
-                break; 
-             case 'clickatell':
-                    $this->_clickatell();
-                    return $this->_getRequest($this->_url);
-                break; 
-             case 'robi':
-                    $this->_robi();
-                    return $this->_postRequest($this->_url);
-                break; 
-             case 'robi':
-                    $this->_campaigntag();
-                    return $this->_postRequest($this->_url);
-                break; 
+                $this->_nexmo();
+                return $this->_postRequest($this->_url);
+                break;
+            case 'clickatell':
+                $this->_clickatell();
+                return $this->_getRequest($this->_url);
+                break;
+            case 'robi':
+                $this->_robi();
+                return $this->_postRequest($this->_url);
+                break;
+            case 'robi':
+                $this->_campaigntag();
+                return $this->_postRequest($this->_url);
+                break;
             case 'd7':
-                    $this->_d7();
-                    return $this->_postRequest($this->_url);
-                break; 
+                $this->_d7();
+                return $this->_postRequest($this->_url);
+                break;
+            case 'floppysend':
+                $this->_floppysend();
+                return $this->_postRequest($this->_url);
+                break;
             default:
-                    return json_encode(array(
-                        'status'  => false,
-                        'request_url' => $this->_url,
-                        'message' => 'Unknown api provider'
-                    ));
-                break; 
-        }   
+                return json_encode(array(
+                    'status'  => false,
+                    'request_url' => $this->_url,
+                    'message' => 'Unknown api provider'
+                ));
+                break;
+        }
     }
 
 
     private function _template($template = null, $data = array())
-    {  
-        foreach ($data as $key => $value) 
-        {
+    {
+        foreach ($data as $key => $value) {
             $template = str_replace("[$key]", $value, $template);
-        }   
-        return $template; 
+        }
+        return $template;
     }
 
 
@@ -168,7 +170,7 @@ class SMS_lib extends Controller
     * NOTE: Those function return api url
     */
     private function _budgetsms()
-    { 
+    {
         $this->_data = array(
             'username' => $this->_username,
             'handle'   => $this->_api_key,
@@ -177,12 +179,12 @@ class SMS_lib extends Controller
             'from'     => $this->_from,
             'to'       => $this->_to,
         );
-        $this->_url = "https://api.budgetsms.net/sendsms/?"; 
+        $this->_url = "https://api.budgetsms.net/sendsms/?";
     }
 
 
     private function _nexmo()
-    {      
+    {
         $this->_data = array(
             'api_key'   => $this->_api_key,
             'api_secret'   => $this->_password,
@@ -190,8 +192,8 @@ class SMS_lib extends Controller
             'from'      => strstr($this->_from, ' ', true),
             'to'        => $this->_to,
             'type'      => "unicode",
-        );   
-        $this->_url = "https://rest.nexmo.com/sms/json?";   
+        );
+        $this->_url = "https://rest.nexmo.com/sms/json?";
     }
 
 
@@ -202,8 +204,8 @@ class SMS_lib extends Controller
             'content'  => $this->_message,
             'from'     => $this->_from,
             'to'       => $this->_to,
-        );   
-        $this->_url = "https://platform.clickatell.com/messages/http/send?"; 
+        );
+        $this->_url = "https://platform.clickatell.com/messages/http/send?";
     }
 
 
@@ -216,7 +218,7 @@ class SMS_lib extends Controller
             'Message'  => $this->_message,
             'From'     => $this->_from,
             'To'       => $this->_to,
-        );   
+        );
         $this->_url = "http://bmpws.robi.com.bd/ApacheGearWS/SendTextMessage?";
     }
 
@@ -225,27 +227,37 @@ class SMS_lib extends Controller
         $this->_data = array(
             'key'        => $this->_api_key,
             'campaign'   => 0,
-            'routeid'    => (!empty($this->_username))?($this->_username):7,
+            'routeid'    => (!empty($this->_username)) ? ($this->_username) : 7,
             'type'       => 'text',
             'contacts'   => $this->_to,
             'senderid'   => $this->_from,
             'msg'        => $this->_message,
-        );   
-        $this->_url = "http://sms.campaigntag.com/app/smsapi/index.php?";        
+        );
+        $this->_url = "http://sms.campaigntag.com/app/smsapi/index.php?";
     }
 
 
     private function _d7()
-    { 
+    {
         $this->_data = array();
 
-        $this->_username = Config::get('services.sms.username');
-        $this->_password = Config::get('services.sms.password');
+        // $this->_username = Config::get('services.sms.username');
+        // $this->_password = Config::get('services.sms.password');
 
         $encodedmsg = urlencode($this->_message);
-        $this->_url = "https://http-api.d7networks.com/send?username=$this->_username&password=$this->_password&dlr-method=POST&dlr-url=https://4ba60af1.ngrok.io/receive&dlr=yes&dlr-level=3&to=$this->_to&from=smsinfo&content=$encodedmsg"; 
+        $this->_url = "https://http-api.d7networks.com/send?username=$this->_username&password=$this->_password&dlr-method=POST&dlr-url=https://4ba60af1.ngrok.io/receive&dlr=yes&dlr-level=3&to=$this->_to&from=smsinfo&content=$encodedmsg";
     }
 
+    private function _floppysend()
+    {
+        $this->_data = array(
+            'to'   => $this->_to,
+            'from' => $this->_from,
+            'dcs' => 0,
+            'text'  => $this->_message
+        );
+        $this->_url = "https://api.floppy.ai/sms";
+    }
 
     /*
     *---------------------------------------------------------------
@@ -254,73 +266,84 @@ class SMS_lib extends Controller
     * NOTE: Return response data 
     */
     private function _getRequest()
-    {     
-        // $ch = curl_init($this->_url."".http_build_query($this->_data));
-        // curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));   
-        // curl_setopt($ch, CURLOPT_HEADER, false);
-        // curl_setopt($ch, CURLOPT_ENCODING, "gzip");
-        // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);  
-        // curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        // curl_setopt($ch, CURLOPT_SSLVERSION,3);
-        // curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; MSIE 5.01; Windows NT 5.0)');
-        // $response = curl_exec($ch);   
-
+    {
         // Send the GET request with cURL
-        $ch = curl_init($this->_url."".http_build_query($this->_data));
+        $ch = curl_init($this->_url . "" . http_build_query($this->_data));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
         // curl_close($ch);
 
-        if(curl_errno($ch)) 
-        {      
+        if (curl_errno($ch)) {
             return json_encode(array(
                 'status'      => false,
                 'request_url' => $this->_url,
                 'error'       => curl_error($ch),
                 'message'     => $this->_message
             ));
-        } else {    
+        } else {
             return json_encode(array(
                 'status'      => true,
                 'request_url' => $this->_url,
                 'success'     => $response,
                 'message'     => $this->_message
-            ));  
-        }   
-        curl_close($ch);    
+            ));
+        }
+        curl_close($ch);
     }
 
 
     private function _postRequest()
-    { 
-        $ch = curl_init($this->_url);
-        curl_setopt($ch, CURLOPT_POST, true); 
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($this->_data));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $response = curl_exec($ch); 
+    {
+        switch ($this->_provider) {
+            case 'floppysend':
+                $ch = curl_init();
+                curl_setopt_array($ch, array(
+                    CURLOPT_URL => 'https://api.floppy.ai/sms',
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'POST',
+                    CURLOPT_POSTFIELDS => http_build_query($this->_data),
+                    CURLOPT_HTTPHEADER => array(
+                        'x-api-key: '. $this->_api_key. '',
+                        'Content-Type: application/x-www-form-urlencoded'
+                    ),
+                ));
+                $response = curl_exec($ch);
+                break;
+            default:
+                $ch = curl_init($this->_url);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($this->_data));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                $response = curl_exec($ch);
+                break;
+        }
 
-        if(curl_errno($ch)) 
-        {      
+
+
+
+        if (curl_errno($ch)) {
             return json_encode(array(
                 'status'      => false,
                 'request_url' => $this->_url,
                 'error'       => curl_error($ch),
                 'message'     => $this->_message
             ));
-        } else {    
+        } else {
             return json_encode(array(
                 'status'      => true,
                 'request_url' => $this->_url,
                 'success'     => $response,
                 'message'     => $this->_message
-            ));  
-        }   
+            ));
+        }
 
-        curl_close($ch);    
+        curl_close($ch);
     }
 }
 

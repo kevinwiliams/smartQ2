@@ -651,9 +651,9 @@ class UserManagementController extends Controller
                         $setting  = SmsSetting::first();
                         $sms_lib = new SMS_lib;
 
-                        $phonenum = (new Utilities_lib)->sanitizePhoneNumber($this->mobile);
+                        $phonenum = (new Utilities_lib)->sanitizePhoneNumber($user->mobile);
 
-                        $data = $sms_lib
+                        $_data = $sms_lib
                             ->provider("$setting->provider")
                             ->api_key("$setting->api_key")
                             ->username("$setting->username")
@@ -668,7 +668,7 @@ class UserManagementController extends Controller
                         $sms->from        = $setting->from;
                         $sms->to          = $phonenum;
                         $sms->message     = $request->message;
-                        $sms->response    = $data;
+                        $sms->response    = $_data;
                         $sms->created_at  = date('Y-m-d H:i:s');
 
                         $sms->save();

@@ -265,6 +265,8 @@
                             <div class="mb-1 pe-3 flex-grow-1">
                                 <a href="https://www.google.com/maps/dir/?api=1&destination={{ $token->location->lat }},{{ $token->location->lon }}" target="_blank" class="fs-5 text-success text-hover-primary fw-bolder">Directions</a>
 
+                                <div class="text-danger fw-bold fs-7" id="divDistance"></div>
+
                             </div>
                             <!--end::Title-->
                             <!--begin::Label-->
@@ -341,6 +343,7 @@
 
             function loadHandler() {
                 setTimeout(getCurrentPosition, 60000);
+                getLocation();
             }
 
             function getCurrentPosition() {
@@ -548,7 +551,98 @@
 
             return (str.length != 4) ? "" : str;
         }
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function geoSuccess(position) {
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
+            $('#lat').val(lat);
+            $('#lng').val(lng);
+
+            closestLocation(position);
+        }
+
+        function geoError() {
+            console.log("Geocoder failed.");
+            $("#locationSuggestions").hide();
+        }
+
+        function closestLocation(position) {
+            var originArray = [];
+            var destinationArray = [];
+            var idArray = [];
+            // build request
+            const origin1 = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+
+
+            originArray.push({
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            });
+
+            destinationArray.push({
+                lat: parseFloat('{{ $token->location->lat }}'),
+                lng: parseFloat('{{ $token->location->lon }}')
+            });
+
+            // console.log(destinationArray);
+            // return;
+            const request = {
+                origins: originArray,
+                destinations: destinationArray,
+                travelMode: google.maps.TravelMode.DRIVING,
+                unitSystem: google.maps.UnitSystem.METRIC,
+                avoidHighways: false,
+                avoidTolls: false,
+            };
+
+            const service = new google.maps.DistanceMatrixService();
+            // get distance matrix response
+            service.getDistanceMatrix(request).then((response) => {
+                // show on map
+                const origins = response.originAddresses;
+                const destinations = response.destinationAddresses;
+
+                var results = response.rows[0].elements[0];
+                // var _lowresult;
+                // var _lastdistance;
+                // var key = 0;
+                // for (var j = 0; j < results.length; j++) {
+                //     var element = results[j];
+                // }
+                var text = results.distance.text + " (ETA: " + results.duration.text + ")";
+                console.log(text);
+                $("#divDistance").html(text);
+                // console.log(results[0]);
+                // console.log(response);
+                // var currentid = $('#mv_location_list > option:selected').val();
+
+                // if (currentid != idArray[key]) {
+                //     var _option = $('#mv_location_list > option[value="' + idArray[key] + '"]');
+                //     console.log(_option.text());
+                //     $("#mv_location_suggestion").data('id', idArray[key]);
+                //     var _text = _option.text() + " - " + _lowresult.distance.text + " (ETA: " + _lowresult.duration.text + ")";
+                //     $("#mv_location_suggestion").text(_text);
+                //     // locationSuggestions
+                //     $("#locationSuggestions").show();
+                // } else {
+                //     $("#locationSuggestions").hide();
+                // }
+
+            });
+        }
     </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{config('app.google_maps')}}&callback=geoSuccess&libraries=geometry" type="text/javascript"></script>
 
     @include('pages.home._firebase-js')
 
