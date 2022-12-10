@@ -133,21 +133,7 @@
                         <!--end::Description-->
                     </div>
                     <!--end::Item-->
-                    <!--begin::Item-->
-                    <div class="d-flex align-items-center">
-                        <!--begin::Symbol-->
-                        <div class="symbol symbol-45px w-40px me-5">
-                            <span class="symbol-label bg-lighten">
-                                <!--begin::Svg Icon | path: icons/duotune/general/gen005.svg-->
-                                {!! theme()->getSvgIcon("icons/duotune/general/gen005.svg", "svg-icon-1") !!}
-
-                                <!--end::Svg Icon-->
-                            </span>
-                        </div>
-                        <!--end::Symbol-->
-                        
-                    </div>
-                    <!--end::Item-->
+                  
                 </div>
                 <!--end::Items-->
 
