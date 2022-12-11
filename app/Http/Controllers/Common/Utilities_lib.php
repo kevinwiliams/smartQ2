@@ -75,7 +75,8 @@ class Utilities_lib extends Controller
                 $deviceTokens = [$client->user_token];
                 $body = $message;
 
-                $reponse = Larafirebase::fromArray(['title' => 'SmartQ Notification', 'body' => $body])->sendNotification($deviceTokens);
+                $response = Larafirebase::fromArray(['title' => 'SmartQ Notification', 'body' => $body])->sendNotification($deviceTokens);
+                return $response;
             }
         }
     }
@@ -84,13 +85,22 @@ class Utilities_lib extends Controller
     public function sendWhatsAppText(User $client, $message)
     {
         // // Instantiate the WhatsAppCloudApi super class.
-        
-        $whatsapp_cloud_api = new WhatsAppCloudApi([]);
-        if ($client) {            
 
-                $phone = $this->sanitizePhoneNumber($client->mobile);
+        $whatsapp_cloud_api = new WhatsAppCloudApi([
+            'from_phone_number_id' => env("WHATSAPP_CLOUD_API_FROM_PHONE_NUMBER"),
+            'access_token' => env("WHATSAPP_CLOUD_API_TOKEN"),
+        ]);
+        if ($client) {
 
-                $whatsapp_cloud_api->sendTextMessage($phone, $message);
+            $phone = $this->sanitizePhoneNumber($client->mobile);
+
+            $response = $whatsapp_cloud_api->sendTextMessage($phone, $message);
+            
+            // echo '<pre>';
+            // print_r($response);
+            // echo '</pre>';
+            // die();
+            return $response;
         }
     }
 }

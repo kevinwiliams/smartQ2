@@ -254,7 +254,7 @@ class HomeController extends Controller
  
         $update = User::where('id', auth()->user()->id)
             ->update([
-                // 'mobile' => $request->phone,
+                'mobile' => $request->phone,
                 'otp'   => $OTP,
                 'otp_type'   => 'whatsapp',
                 'otp_timestamp'   => Carbon::now(),

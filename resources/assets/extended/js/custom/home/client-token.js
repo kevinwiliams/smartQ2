@@ -121,6 +121,7 @@ var MVCreateToken = function () {
                                                 var msg = "You are #" + data.position + " in the line";
                                                 $("#tkn_position").text(msg);
                                                 $("#tkn_number").text(data.token.token_no);
+                                                $("#tkn_id").val(data.token.id);
                                                 stepper.goNext();
                                                 MVUtil.scrollTop();
                                                 $('[data-mv-stepper-action="previous"]').addClass('disabled');
@@ -171,7 +172,8 @@ var MVCreateToken = function () {
     var handleForm = function () {
         formSubmitButton.addEventListener('click', function (e) {
             // Validate form before change stepper step
-            document.location.href = '/home/list';
+            // document.location.href = '/home/list';
+            document.location.href = '/home/current/' + $("#tkn_id").val();
 
         });
 

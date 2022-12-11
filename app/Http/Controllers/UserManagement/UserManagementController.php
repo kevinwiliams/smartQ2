@@ -214,7 +214,7 @@ class UserManagementController extends Controller
     }
 
     public function usersView()
-    {        
+    {
         // get the default inner page
         return view('pages.apps.user-management.users.view');
     }
@@ -675,10 +675,10 @@ class UserManagementController extends Controller
 
                         break;
                     case 'push':
-                        (new Utilities_lib)->sendPushNotification($user, $request->message);
+                        $response = (new Utilities_lib)->sendPushNotification($user, $request->message);
                         break;
                     case 'whatsapp':
-                        (new Utilities_lib)->sendWhatsAppText($user, $request->message);
+                        $response = (new Utilities_lib)->sendWhatsAppText($user, $request->message);
                         break;
                 }
 
@@ -687,6 +687,7 @@ class UserManagementController extends Controller
                     ->causedBy($user)
                     ->log(':properties.notification_type notification sent');
 
+                $data['data'] = $response;
                 $data['status'] = true;
                 $data['message'] = trans('app.message_sent');
             } else {

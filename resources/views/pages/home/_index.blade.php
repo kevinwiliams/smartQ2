@@ -605,6 +605,7 @@
                                         <!--begin::Content-->
                                         <div class="fw-bold">
                                             <h4 class="text-gray-900 fw-bolder">You're token number is <span id="tkn_number"></span> </h4>
+                                            <input type="hidden" value="" id="tkn_id" />
                                             <div class="fs-6 text-gray-700" id="tkn_position">
                                                 {{-- <a href="#" class="fw-bolder">Create Team Platform</a> --}}
                                             </div>
