@@ -31,13 +31,13 @@
                 </p>
                 <!--end::Description-->
                 <!--begin::Action-->
-                <a href="{{theme()->getPageUrl("home/home")}}" class="btn btn-primary er fs-6 px-8 py-4 px-2">Join the queue</a>
+                <a href="{{theme()->getPageUrl("home/home")}}" class="btn btn-primary er fs-6 px-8 py-4 px-2 my-2">Join the queue</a>
                 <!--end::Action-->
                 <!--begin::Action-->
                 @if(count(auth()->user()->clientpendingtokens) == 1)
-                <a href="{{theme()->getPageUrl("home/list")}}" class="btn btn-success er fs-6 px-8 py-4 px-2">View my token</a>
+                <a href="{{theme()->getPageUrl("home/list")}}" class="btn btn-success er fs-6 px-8 py-4 px-2 my-2">View my token</a>
                 @elseif(count(auth()->user()->clientpendingtokens) > 1)
-                <a href="{{theme()->getPageUrl("home/list")}}" class="btn btn-success er fs-6 px-8 py-4 px-2">View my tokens</a>
+                <a href="{{theme()->getPageUrl("home/list")}}" class="btn btn-success er fs-6 px-8 py-4 px-2 my-2">View my tokens</a>
                 @endif
                 <!--end::Action-->
             </div>
