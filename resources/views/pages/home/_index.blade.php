@@ -1568,8 +1568,8 @@
                     });
 
                     destinationArray.push({
-                        lat: $(this).data('lat'),
-                        lng: $(this).data('lng')
+                        lat: parseFloat($(this).data('lat')),
+                        lng: parseFloat($(this).data('lng'))
                     });
                 }
             });
