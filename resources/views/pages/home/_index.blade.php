@@ -803,7 +803,7 @@
 
                 //Update directions
                 //var _url = "https://www.google.com/maps/dir/?api=1&destination=" + obj.data("lat") + "," + obj.data("lng");
-                var _url = "https://www.google.com/maps/embed/v1/directions?key=AIzaSyAWjrBnw1tpirRaea8ZfRMqLcyajLkrb8k&origin=" + lat + "," + lng + "&destination=" + obj.data("lat") + "," + obj.data("lng");
+                var _url = "https://www.google.com/maps/embed/v1/directions?key={{config('app.google_maps')}}&origin=" + lat + "," + lng + "&destination=" + obj.data("lat") + "," + obj.data("lng");
 
                 $("#googlemaps").attr("src", _url);
                 //$("#locationDirections > a").attr("href", _url);
