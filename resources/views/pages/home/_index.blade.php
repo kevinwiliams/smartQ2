@@ -810,6 +810,7 @@
                 //$("#locationDirections > a").attr("href", _url);
                 setTimeout(() => {
                     refreshFsLightbox();
+                    $("#googlemaps").hide();
                 }, 1000);
             });
 
