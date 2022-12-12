@@ -86,10 +86,7 @@ class Utilities_lib extends Controller
     {
         // // Instantiate the WhatsAppCloudApi super class.
 
-        $whatsapp_cloud_api = new WhatsAppCloudApi([
-            'from_phone_number_id' => env("WHATSAPP_CLOUD_API_FROM_PHONE_NUMBER"),
-            'access_token' => env("WHATSAPP_CLOUD_API_TOKEN"),
-        ]);
+        $whatsapp_cloud_api = new WhatsAppCloudApi([]);
         if ($client) {
 
             $phone = $this->sanitizePhoneNumber($client->mobile);
