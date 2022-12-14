@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use DateTime;
 use Kutia\Larafirebase\Facades\Larafirebase;
+use Netflie\WhatsAppCloudApi\Message\Template\Component;
 use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
 
 class Utilities_lib extends Controller
@@ -92,7 +93,40 @@ class Utilities_lib extends Controller
             $phone = $this->sanitizePhoneNumber($client->mobile);
 
             $response = $whatsapp_cloud_api->sendTextMessage($phone, $message);
-            
+
+            // echo '<pre>';
+            // print_r($response);
+            // echo '</pre>';
+            // die();
+            return $response;
+        }
+    }
+
+    public function sendWhatsAppOTP(User $client, $otp)
+    {
+        // // Instantiate the WhatsAppCloudApi super class.
+
+        $whatsapp_cloud_api = new WhatsAppCloudApi([]);
+        if ($client) {
+
+            $phone = $this->sanitizePhoneNumber($client->mobile);
+
+            $component_header = [];
+
+            $component_body = [
+                [
+                    'type' => 'text',
+                    'text' => $otp,
+                ],
+            ];
+
+            $component_buttons = [];
+
+            $components = new Component($component_header, $component_body, $component_buttons);
+
+            // $response = $whatsapp_cloud_api->sendTemplate($phone, $message);
+            $response = $whatsapp_cloud_api->sendTemplate($phone, 'smartq_otp', 'en', $components);
+
             // echo '<pre>';
             // print_r($response);
             // echo '</pre>';

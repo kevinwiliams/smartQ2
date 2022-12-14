@@ -264,15 +264,16 @@ class HomeController extends Controller
         if ($update) {
             $user = User::where('id', auth()->user()->id)->first();
  
-            $msg = "Hi *" . auth()->user()->firstname . "*, you're OTP is: *$OTP*";
-            (new Utilities_lib)->sendWhatsAppText($user, $msg);
+            // $msg = "Hi *" . auth()->user()->firstname . "*, you're OTP is: *$OTP*";
+
+            $response = (new Utilities_lib)->sendWhatsAppOTP($user, $OTP);
             
             return json_encode(array(
                 'status'      => true,
                 'request_url' => "",
                 'error'       => "",
                 'message'     => $OTP,
-                'data'        => $msg
+                'data'        => $response
             ));
         } else {
             return json_encode(array(
