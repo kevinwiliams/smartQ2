@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 
 class RegisteredUserController extends Controller
 {
@@ -37,17 +38,23 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'firstname' => 'required|string|max:255',
             'lastname'  => 'required|string|max:255',
             'email'      => 'required|string|email|max:255|unique:user',
             'password'   => ['required', 'confirmed', Rules\Password::defaults()],
             'g-recaptcha-response' => 'required'
-        ]);
+        ])->setAttributeNames(array(
+            'firstname' => trans('app.firstname'),
+            'lastname' => trans('app.lastname'),
+            'email' => trans('app.email'),
+            'password' => trans('app.password'),
+            'g-recaptcha-response' => trans('app.g-recaptcha-response'),
+        ));
 
         if ($validator->fails()) {
             return redirect()
-    			->back()
+                ->back()
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -55,10 +62,10 @@ class RegisteredUserController extends Controller
         //VALIDATE RECAPTCHA
         $secret = env('GOOGLE_RECAPTCHA_SECRET');
         $recaptcha = new \ReCaptcha\ReCaptcha($secret);
-        
-        
+
+
         $resp = $recaptcha->verify($request['g-recaptcha-response']);
-        if (!$resp->isSuccess()) {           
+        if (!$resp->isSuccess()) {
             $errors = $resp->getErrorCodes();
             // flash(trans('messages.parameters-fail-validation'), 'error', 'error');
             return back()->withErrors($errors)->withInput();
@@ -119,10 +126,10 @@ class RegisteredUserController extends Controller
             'api_token' => hash('sha256', $token),
         ]);
 
-        $user_info         = new UserInfo();        
+        $user_info         = new UserInfo();
         $user_info->user()->associate($user);
         $user_info->save();
-        
+
         $role = Role::find(3);
         $user->syncRoles($role);
 
