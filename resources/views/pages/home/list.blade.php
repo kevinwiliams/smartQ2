@@ -7,19 +7,23 @@
             <!--end::Search-->
         </div>
         <!--end::Title-->
-        <div class="">
-            <a href="{{ theme()->getPageUrl("home/home") }}" class="btn btn-sm btn-success">
-                <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
-                {!! theme()->getSvgIcon("icons/duotune/arrows/arr075.svg", "svg-icon-3") !!}
-                <!--end::Svg Icon-->New Token
-            </a>
-        </div>
-    </div>
-    <!--begin::Row-->
-    <div class="row g-5 g-xl-8 m-auto">
         @php
         $tokens = auth()->user()->clientpendingtokens;
         @endphp
+        <div class="">
+            <button type="button" class="btn btn-sm btn-success" id="btnScanBarcode" name="check_in_qr_scan" data-bs-toggle="modal" data-bs-target="#mv_modal_calculate_route" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to Calculate Route"> {!! theme()->getSvgIcon("icons/duotune/technology/teh003.svg", "svg-icon-3") !!}
+                Calculate Best Route</button>
+            &nbsp;
+            <a href="{{ theme()->getPageUrl("home/home") }}" class="btn btn-sm btn-success">
+                {!! theme()->getSvgIcon("icons/duotune/arrows/arr075.svg", "svg-icon-3") !!}
+                New Token
+            </a>
+        </div>
+    </div>
+    <input type="hidden" id="mv_data_locations" value="" />    
+    <!--begin::Row-->
+    <div class="row g-5 g-xl-8 m-auto">
+
         @foreach($tokens as $token)
         <!--begin::Col-->
         <div class="col-xl-4 m-auto mb-6">
@@ -30,15 +34,7 @@
                 <div class="card-body p-0">
                     <!--begin::Header-->
                     <div class="px-9 pt-7 card-rounded h-150px w-100 {{ ($token->status==3)? "bg-gray-400" :"bg-primary" }} ">
-                        <!-- <div class="symbol symbol-65px symbol-circle mb-5">
-                            <img src="{{ $token->location->company->logo_url }}" alt="image">
-                        </div> -->
-                        <!--begin::Balance-->
-                        <!-- <div class="d-flex text-center flex-column text-white pt-3">
-                            <span class="fw-bold fs-7">TOKEN NUMBER</span>
-                            <span class="fw-bolder fs-4tx pt-1">{{$token->token_no}}</span>
-                        </div> -->
-                        <!--end::Balance-->
+
                     </div>
                     <!--end::Header-->
                     <!--begin::Items-->
@@ -60,10 +56,7 @@
                                 <!--end::Title-->
                                 <!--begin::Label-->
                                 <div class="d-flex align-items-center">
-                                    {{-- <div class="fw-bolder fs-5 text-gray-800 pe-1">$2,5b</div> --}}
-                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr066.svg-->
 
-                                    <!--end::Svg Icon-->
                                 </div>
                                 <!--end::Label-->
                             </div>
@@ -91,10 +84,7 @@
                                 <!--end::Title-->
                                 <!--begin::Label-->
                                 <div class="d-flex align-items-center">
-                                    {{-- <div class="fw-bolder fs-5 text-gray-800 pe-1">$2,5b</div> --}}
-                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr066.svg-->
 
-                                    <!--end::Svg Icon-->
                                 </div>
                                 <!--end::Label-->
                             </div>
@@ -125,7 +115,6 @@
                             <!--end::Title-->
                             <!--begin::Label-->
                             <div class="d-flex align-items-center">
-                                {{-- <div class="fw-bolder fs-5 text-gray-800 pe-1">$8,8m</div> --}}
 
                             </div>
                             <!--end::Label-->
@@ -133,7 +122,7 @@
                         <!--end::Description-->
                     </div>
                     <!--end::Item-->
-                  
+
                 </div>
                 <!--end::Items-->
 
@@ -153,12 +142,14 @@
     </div>
     <!--end::Row-->
     <!--begin::Modal - Add Company -->
+    {{ theme()->getView('partials/modals/home/_calcroute') }}
 
     <!--end::Modal - Add Company-->
     @section('scripts')
-
+    <script src="{{ asset('demo1/plugins/custom/flatpickr/flatpickr.bundle.js') }}" type="application/javascript"></script>
 
     @include('pages.home._firebase-js')
-
+    @include('pages.home._calculate-route-js')
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{config('app.google_maps')}}&callback=geoSuccess&libraries=geometry" type="text/javascript"></script>
     @endsection
 </x-base-layout>

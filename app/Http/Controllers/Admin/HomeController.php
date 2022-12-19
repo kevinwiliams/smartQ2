@@ -12,6 +12,7 @@ use App\Http\Controllers\Common\Utilities_lib;
 use App\Mail\OTPNotification;
 use App\Models\Company;
 use App\Models\ReasonForVisitCounters;
+use App\Models\Setting;
 use App\Models\SmsHistory;
 use App\Models\SmsSetting;
 use App\Models\TokenSetting;
@@ -59,7 +60,7 @@ class HomeController extends Controller
         $maskedemail = auth()->user()->getMaskedEmail();
 
         // $companies = Company::has('locations.departments')->orderBy('name', 'asc')->pluck('name', 'id');
-        $companies = Company::where('active',true)->whereRelation('locations','active',true)->has('locations.departments')->orderBy('name', 'asc')->get();
+        $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
 
         // echo \Session::get('locale');
         // echo app()->getLocale();
@@ -69,13 +70,15 @@ class HomeController extends Controller
 
 
     public function home()
-    {
+    {      
+        if (empty(session('app.timezone'))) {
+            $setting = Setting::first();            
+            session(['app.timezone' => $setting->timezone]);
+            $value = session('app.timezone');
+        }
+
         @date_default_timezone_set(session('app.timezone'));
 
-        // echo '<pre>';
-        // print_r(auth()->user()->clientpendingtokens);
-        // echo '</pre>';
-        // die();
         return view('pages.home.home');
     }
 
@@ -251,7 +254,7 @@ class HomeController extends Controller
     {
 
         $OTP = $this->generateNumericOTP(6);
- 
+
         $update = User::where('id', auth()->user()->id)
             ->update([
                 'mobile' => $request->phone,
@@ -263,11 +266,11 @@ class HomeController extends Controller
 
         if ($update) {
             $user = User::where('id', auth()->user()->id)->first();
- 
+
             // $msg = "Hi *" . auth()->user()->firstname . "*, you're OTP is: *$OTP*";
 
             $response = (new Utilities_lib)->sendWhatsAppOTP($user, $OTP);
-            
+
             return json_encode(array(
                 'status'      => true,
                 'request_url' => "",

@@ -26,6 +26,7 @@ use App\Models\TokenStatus;
 use Carbon\Carbon;
 
 use DB, Validator, PDF;
+use Http;
 use Illuminate\Support\Facades\Redirect;
 
 class TokenController extends Controller
@@ -394,11 +395,17 @@ class TokenController extends Controller
 
     public function clientTokenAuto(Request $request)
     {
-        @date_default_timezone_set(session('app.timezone'));
+        if (empty(session('app.timezone'))) {
+            $setting = DisplaySetting::where('location_id', $request->location)->first();
+            session(['app.timezone' => $setting->timezone]);
+            $value = session('app.timezone');
+        }
 
+        @date_default_timezone_set(session('app.timezone'));
 
         $client_id = auth()->user()->id;
         $client_mobile = auth()->user()->mobile;
+        $otp_type = auth()->user()->otp_type;
 
         //generate a token
         try {
@@ -467,7 +474,8 @@ class TokenController extends Controller
                     'created_by'    => auth()->user()->id,
                     'created_at'    => date('Y-m-d H:i:s'),
                     'updated_at'    => null,
-                    'status'        => 3 //booked
+                    'status'        => 3, //booked
+                    'notification_type' => $otp_type
                 ];
 
 
@@ -775,7 +783,7 @@ class TokenController extends Controller
             ->orderBy('token_setting.department_id', 'ASC')
             ->get();
 
-            
+
         return $dataTable->with('token_location_id', auth()->user()->location_id)->render('pages.token.current', compact('counters', 'departments', 'officers', 'waiting'));
     }
 
@@ -801,7 +809,7 @@ class TokenController extends Controller
 
             $locationarray = $firsttoken->location->company->locations->pluck("id")->toArray();
             if ($firsttoken->client)
-                $history = $firsttoken->client->clienttokenhistory->whereIn('location_id', $locationarray);          
+                $history = $firsttoken->client->clienttokenhistory->whereIn('location_id', $locationarray);
         }
 
         return view('pages.token.current-icons', compact('tokens', 'reasons', 'history'));
@@ -1555,6 +1563,132 @@ class TokenController extends Controller
         return response()->json($data);
     }
 
+    public function getCurrentClientTokens()
+    {
+        $tokens = auth()->user()->clientpendingtokens;
+        $data['tokens'] = $tokens;
+        $locationIds = array_column($tokens->toArray(), 'location_id');
+
+        $locations = Location::whereIn('id', $locationIds)->get();
+        $data['locations'] = $locations;
+
+        return response()->json($data);
+    }
+
+    public function computeRoute(Request $request)
+    {
+        $tokens = auth()->user()->clientpendingtokens;
+        $locationIds = array_column($tokens->toArray(), 'location_id');
+        $locations = Location::whereIn('id', $locationIds)->get();
+        $removeids = [];
+
+        if ($request->start_point == "-1") {
+            $origin = array(
+                "location" => array(
+                    "latLng" => array(
+                        "latitude" => $request->lat,
+                        "longitude" => $request->lng
+                    )
+                )
+            );
+        } else {
+            $loc = $locations->where('id', $request->start_point)->first();
+            $origin = array(
+                "location" => array(
+                    "latLng" => array(
+                        "latitude" => $loc->lat,
+                        "longitude" => $loc->lon
+                    )
+                )
+            );
+
+            array_push($removeids, $request->start_point);
+        }
+        if ($request->end_point == "-1") {
+            $destination = array(
+                "location" => array(
+                    "latLng" => array(
+                        "latitude" => $request->lat,
+                        "longitude" => $request->lng
+                    )
+                )
+            );
+        } else {
+            $loc = $locations->where('id', $request->end_point)->first();
+            $destination = array(
+                "location" => array(
+                    "latLng" => array(
+                        "latitude" => $loc->lat,
+                        "longitude" => $loc->lon
+                    )
+                )
+            );
+            array_push($removeids, $request->end_point);
+        }
+
+        $filteredlocations = $locations->whereNotIn('id', $removeids);
+
+        $intermediates = [];
+        foreach ($filteredlocations as $value) {
+            $tmp = array(
+                "location" => array(
+                    "latLng" => array(
+                        "latitude" => $value->lat,
+                        "longitude" => $value->lon
+                    )
+                )
+            );
+
+            array_push($intermediates, $tmp);
+        }
+
+        // $intermediates = array(
+        //     "location" => array(
+        //         "latLng" => array(
+        //             "latitude" => 37.419734,
+        //             "longitude" => -122.0807784
+        //         )
+        //     )
+        // );
+
+        $jsonObject = array(
+            "origin" => $origin,
+            "destination" => $destination,
+            "intermediates" => array(
+                $intermediates
+            ),
+            "travelMode" => "DRIVE",
+            "routingPreference" => "TRAFFIC_AWARE",
+            // "polylineQuality" => "enum (PolylineQuality)",
+            // "polylineEncoding" => "enum (PolylineEncoding)",
+            // "departureTime" => "string",
+            "computeAlternativeRoutes" => false,
+            "routeModifiers" => array(
+                "avoidTolls" => false,
+                "avoidHighways" => false,
+                "avoidFerries" => false,
+            ),
+            "languageCode" => "en-US",
+            "units" => "IMPERIAL",
+            // "requestedReferenceRoutes" => array(
+            //     "enum (ReferenceRoute)"
+            // )
+        );
+
+        // echo '<pre>';
+        // print_r($jsonObject);
+        // echo '</pre>';
+        // die();
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'X-Goog-Api-Key' => env('GOOGLE_MAP_API'),
+            'X-Goog-FieldMask' => 'routes.duration,routes.distanceMeters,routes.legs'
+        ])->post('https://routes.googleapis.com/directions/v2:computeRoutes', $jsonObject);
+
+
+        return response()->json($response->object());
+    }
+
     public function checkin($id = null)
     {
         Token::where('id', $id)
@@ -1609,7 +1743,7 @@ class TokenController extends Controller
         // $location_id = auth()->user()->location_id;
         $setting = DisplaySetting::where('location_id', $token->location_id)->first();
         //  $appSetting = Setting::first();   
-        date_default_timezone_set(session('app.timezone') ? session('app.timezone') : $setting->timezone);
+        @date_default_timezone_set(session('app.timezone') ? session('app.timezone') : $setting->timezone);
         // echo '<pre>';        
         // // print_r($code);
         // echo session('app.timezone');

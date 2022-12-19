@@ -148,6 +148,7 @@ return [
     'right'                   => 'Right',
     'time_format'             => 'Time Format',
     'date_format'             => 'Date Format',
+    'add'                     => 'Add',
 
     /*Message*/
     'message'     => 'Message',
@@ -301,4 +302,9 @@ return [
     'change_reason'    => "Change Reason",
     'to'    => "to",
     
+
+    /*Misc*/
+    'starting_point'    => "Starting Point",
+    'end_point'    => "End Point",
+    'start_time'    => "Start Time",
 ];

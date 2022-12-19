@@ -73,6 +73,7 @@
                                     </div>
                                 </div>
                             </div>
+                            
                             <!--end::Default example-->
                             <div class="fv-row mb-7">
                                 <div class="input-group input-group-solid flex-nowrap">
@@ -1542,8 +1543,8 @@
             var lng = position.coords.longitude;
             $('#lat').val(lat);
             $('#lng').val(lng);
-            
-            closestLocation(position); 
+
+            closestLocation(position);
         }
 
         function geoError() {
@@ -1559,7 +1560,7 @@
             const origin1 = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
-            }; 
+            };
 
             $('#mv_location_list > option').each(function() {
                 if ($(this).val() != "") {
@@ -1583,11 +1584,12 @@
                 unitSystem: google.maps.UnitSystem.METRIC,
                 avoidHighways: false,
                 avoidTolls: false,
-            };       
+            };
 
             const service = new google.maps.DistanceMatrixService();
             // get distance matrix response
             service.getDistanceMatrix(request).then((response) => {
+                //console.log(response);
                 // show on map
                 const origins = response.originAddresses;
                 const destinations = response.destinationAddresses;
@@ -1598,19 +1600,21 @@
                 var key = 0;
                 for (var j = 0; j < results.length; j++) {
                     var element = results[j];
-                    var distance = element.distance.value;
+                    if (element.status == "OK") { 
+                        var distance = element.distance.value;
 
-                    if (_lastdistance == null) {
-                        _lastdistance = distance;
-                        _lowresult = element;
-                        key = j;
+                        if (_lastdistance == null) {
+                            _lastdistance = distance;
+                            _lowresult = element;
+                            key = j;
+                        }
+
+                        if (distance < _lastdistance) {
+                            _lastdistance = distance;
+                            _lowresult = element;
+                            key = j;
+                        }
                     }
-
-                    if (distance < _lastdistance) {
-                        _lastdistance = distance;
-                        _lowresult = element;
-                        key = j;
-                    } 
                 }
 
                 var currentid = $('#mv_location_list > option:selected').val();
@@ -1626,7 +1630,7 @@
                 } else {
                     $("#locationSuggestions").hide();
                 }
-            
+
             });
         }
     </script>

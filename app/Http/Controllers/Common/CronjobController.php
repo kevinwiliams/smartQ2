@@ -9,6 +9,7 @@ use App\Models\DepartmentStats;
 use Illuminate\Http\Request;
 use App\Models\Display;
 use App\Models\DisplaySetting;
+use App\Models\Location;
 use App\Models\LocationStats;
 use App\Models\ScheduledReportsTask;
 use Carbon\Carbon;
@@ -20,6 +21,8 @@ use App\Models\UserStats;
 use DB, Response, File, Validator;
 use Kutia\Larafirebase\Facades\Larafirebase;
 use Mail;
+use Netflie\WhatsAppCloudApi\Message\Template\Component;
+use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
 use PDF;
 
 class CronjobController extends Controller
@@ -49,44 +52,64 @@ class CronjobController extends Controller
     //single line q
     public function display1()
     {
-        $setting   = DisplaySetting::first();
-        $tokenInfo = DB::table('token AS t')
-            ->select(
-                "t.id",
-                "t.client_id AS client",
-                "t.token_no AS token",
-                "t.client_mobile AS mobile",
-                "d.name AS department",
-                "c.name AS counter",
-                DB::raw("CONCAT_WS(' ', o.firstname, o.lastname) as officer"),
-                "t.status",
-                "t.sms_status",
-                "t.created_at AS date"
-            )
-            ->leftJoin("department AS d", "d.id", "=", "t.department_id")
-            ->leftJoin("counter AS c", "c.id", "=", "t.counter_id")
-            ->leftJoin("user AS o", "o.id", "=", "t.user_id")
-            ->where("t.status", "0")
-            ->orderBy('t.is_vip', 'DESC')
-            ->orderBy('t.id', 'ASC')
-            ->offset($setting->alert_position)
-            ->limit(1)
-            ->get();
+        $activelocations = Location::where('active', 1)->has('departments')->with('settings')->whereRelation("company", "active", true)->get();
 
-        if (!empty($tokenInfo->mobile) && $tokenInfo->status == 0 && ($tokenInfo->sms_status == 0 || $tokenInfo->sms_status == 2)) {
-            // send sms
-            $data['status'] = true;
-            $data['result'] = $tokenInfo;
-            $this->sendSMS($tokenInfo, $setting->alert_position);
-        } else {
-            //Send email
-            $data['status'] = false;
-            $data['result'] = $tokenInfo;
-            // send Email 
-            $this->sendEmail($tokenInfo);
+        foreach ($activelocations as $location) {
+            $setting   = DisplaySetting::where('location_id', $location->id)->first();
+            $tokenInfo = DB::table('token AS t')
+                ->select(
+                    "t.id",
+                    "t.client_id AS client",
+                    "t.token_no AS token",
+                    "t.client_mobile AS mobile",
+                    "d.name AS department",
+                    "c.name AS counter",
+                    DB::raw("CONCAT_WS(' ', o.firstname, o.lastname) as officer"),
+                    "t.status",
+                    "t.sms_status",
+                    "t.created_at AS date",
+                    "t.notification_type AS notification_type"
+                )
+                ->leftJoin("department AS d", "d.id", "=", "t.department_id")
+                ->leftJoin("counter AS c", "c.id", "=", "t.counter_id")
+                ->leftJoin("user AS o", "o.id", "=", "t.user_id")
+                ->where("t.status", "0")
+                ->where("t.location_id",  $location->id)
+                ->orderBy('t.is_vip', 'DESC')
+                ->orderBy('t.id', 'ASC')
+                ->offset($setting->alert_position)
+                ->limit(1)
+                ->get();
+
+            if (!empty($tokenInfo->mobile) && $tokenInfo->status == 0 && ($tokenInfo->sms_status == 0 || $tokenInfo->sms_status == 2)) {
+                if ($tokenInfo->notification_type == "sms") {
+                    // send sms
+                    $data['status'] = true;
+                    $data['result'] = $tokenInfo;
+                    $this->sendSMS($tokenInfo, $setting->alert_position);
+                    $this->sendPushNotification($tokenInfo);
+                } elseif ($tokenInfo->notification_type == "email") {
+                    //Send email
+                    $data['status'] = true;
+                    $data['result'] = $tokenInfo;
+                    // send Email 
+                    $this->sendEmail($tokenInfo);
+                    $this->sendPushNotification($tokenInfo);
+                } elseif ($tokenInfo->notification_type == "whatsapp") {
+                    $data['status'] = true;
+                    $data['result'] = $tokenInfo;
+                    $this->sendWhatsAppNotification($tokenInfo, $setting->alert_position);
+                }
+            }
+            // if (!empty($tokenInfo->mobile) && $tokenInfo->status == 0 && ($tokenInfo->sms_status == 0 || $tokenInfo->sms_status == 2)) {
+            //     // send sms
+            //     $data['status'] = true;
+            //     $data['result'] = $tokenInfo;
+            //     $this->sendSMS($tokenInfo, $setting->alert_position);
+            //     $this->sendPushNotification($tokenInfo);
+            // } else {
+            // }
         }
-
-        $this->sendPushNotification($tokenInfo);
 
         return Response::json($data);
     }
@@ -94,137 +117,168 @@ class CronjobController extends Controller
     //counter wise 
     public function display3()
     {
-        $setting = DisplaySetting::first();
-        $counters = DB::table('counter')
-            ->where('status', 1)
-            ->orderBy('name', 'ASC')
-            ->get();
+        $activelocations = Location::where('active', 1)->has('departments')->with('settings')->whereRelation("company", "active", true)->get();
 
-        $allToken = array();
-        $data     = array();
-        foreach ($counters as $counter) {
-            $tokens = DB::table('token AS t')
-                ->select(
-                    "t.id",
-                    "t.token_no AS token",
-                    "t.client_id AS client",
-                    "t.client_mobile AS mobile",
-                    "d.name AS department",
-                    "c.name AS counter",
-                    DB::raw("CONCAT_WS(' ', o.firstname, o.lastname) as officer"),
-                    "t.status",
-                    "t.sms_status",
-                    "t.created_at"
-                )
-                ->leftJoin("department AS d", "d.id", "=", "t.department_id")
-                ->leftJoin("counter AS c", "c.id", "=", "t.counter_id")
-                ->leftJoin("user AS o", "o.id", "=", "t.user_id")
-                ->where("t.counter_id", $counter->id)
-                ->where("t.status", "0")
-                ->offset($setting->alert_position)
-                ->orderBy('t.is_vip', 'DESC')
-                ->orderBy('t.id', 'ASC')
-                ->limit(1)
+        foreach ($activelocations as $location) {
+            $setting   = DisplaySetting::where('location_id', $location->id)->first();
+
+            $counters = DB::table('counter')
+                ->where('status', 1)
+                ->where('location_id', $location->id)
+                ->orderBy('name', 'ASC')
                 ->get();
 
-            foreach ($tokens as $token) {
-                $allToken[$counter->name] = (object)array(
-                    'id'         => $token->id,
-                    'token'      => $token->token,
-                    'department' => $token->department,
-                    'counter'    => $token->counter,
-                    'officer'    => $token->officer,
-                    'mobile'     => $token->mobile,
-                    'date'       => $token->created_at,
-                    'status'     => $token->status,
-                    'sms_status' => $token->sms_status,
-                );
+            $allToken = array();
+            $data     = array();
+            foreach ($counters as $counter) {
+                $tokens = DB::table('token AS t')
+                    ->select(
+                        "t.id",
+                        "t.token_no AS token",
+                        "t.client_id AS client",
+                        "t.client_mobile AS mobile",
+                        "d.name AS department",
+                        "c.name AS counter",
+                        DB::raw("CONCAT_WS(' ', o.firstname, o.lastname) as officer"),
+                        "t.status",
+                        "t.sms_status",
+                        "t.created_at",
+                        "t.notification_type AS notification_type"
+                    )
+                    ->leftJoin("department AS d", "d.id", "=", "t.department_id")
+                    ->leftJoin("counter AS c", "c.id", "=", "t.counter_id")
+                    ->leftJoin("user AS o", "o.id", "=", "t.user_id")
+                    ->where("t.counter_id", $counter->id)
+                    ->where("t.location_id",  $location->id)
+                    ->where("t.status", "0")
+                    ->offset($setting->alert_position)
+                    ->orderBy('t.is_vip', 'DESC')
+                    ->orderBy('t.id', 'ASC')
+                    ->limit(1)
+                    ->get();
+
+                foreach ($tokens as $token) {
+                    $allToken[$counter->name] = (object)array(
+                        'id'         => $token->id,
+                        'token'      => $token->token,
+                        'department' => $token->department,
+                        'counter'    => $token->counter,
+                        'officer'    => $token->officer,
+                        'mobile'     => $token->mobile,
+                        'date'       => $token->created_at,
+                        'status'     => $token->status,
+                        'sms_status' => $token->sms_status,
+                        'notification_type' => $token->notification_type,
+                    );
+                }
+            }
+
+            foreach ($allToken as $counter => $tokenInfo) {
+                if (!empty($tokenInfo->mobile) && $tokenInfo->status == 0 && ($tokenInfo->sms_status == 0 || $tokenInfo->sms_status == 2)) {
+                    if ($tokenInfo->notification_type == "sms") {
+                        // send sms
+                        $data['status'] = true;
+                        $data['result'][] = $tokenInfo;
+                        $this->sendSMS($tokenInfo, $setting->alert_position);
+                        $this->sendPushNotification($tokenInfo);
+                    } elseif ($tokenInfo->notification_type == "email") {
+                        //Send email
+                        $data['status'] = true;
+                        $data['result'][] = $tokenInfo;
+                        // send Email 
+                        $this->sendEmail($tokenInfo);
+                        $this->sendPushNotification($tokenInfo);
+                    } elseif ($tokenInfo->notification_type == "whatsapp") {
+                        $data['status'] = true;
+                        $data['result'][] = $tokenInfo;
+                        $this->sendWhatsAppNotification($tokenInfo, $setting->alert_position);
+                    }
+                }
             }
         }
-
-        foreach ($allToken as $counter => $tokenInfo) {
-            if (!empty($tokenInfo->mobile) && $tokenInfo->status == 0 && ($tokenInfo->sms_status == 0 || $tokenInfo->sms_status == 2)) {
-                $data['status'] = true;
-                $data['result'][] = $tokenInfo;
-                // send sms 
-                $this->sendSMS($tokenInfo, $setting->alert_position);
-            } else {
-                $data['status'] = false;
-                $data['result'][] = $tokenInfo;
-                // send Email 
-                $this->sendEmail($tokenInfo);
-            }
-
-            $this->sendPushNotification($tokenInfo);
-        }
-
         return Response::json($data);
     }
 
     //department wise 
     public function display4()
     {
-        $setting = DisplaySetting::first();
-        $departments = DB::table('department')
-            ->where('status', 1)
-            ->orderBy('name', 'ASC')
-            ->get();
+        $activelocations = Location::where('active', 1)->has('departments')->with('settings')->whereRelation("company", "active", true)->get();
 
-        $allToken = array();
-        $data     = array();
-        foreach ($departments as $department) {
-            $tokens = DB::table('token AS t')
-                ->select(
-                    "t.id",
-                    "t.token_no AS token",
-                    "t.client_id AS client",
-                    "t.client_mobile AS mobile",
-                    "d.name AS department",
-                    "c.name AS counter",
-                    DB::raw("CONCAT_WS(' ', o.firstname, o.lastname) as officer"),
-                    "t.status",
-                    "t.sms_status",
-                    "t.created_at"
-                )
-                ->leftJoin("department AS d", "d.id", "=", "t.department_id")
-                ->leftJoin("counter AS c", "c.id", "=", "t.counter_id")
-                ->leftJoin("user AS o", "o.id", "=", "t.user_id")
-                ->where("t.department_id", $department->id)
-                ->where("t.status", "0")
-                ->orderBy('t.is_vip', 'DESC')
-                ->orderBy('t.id', 'ASC')
-                ->offset($setting->alert_position)
-                ->limit(1)
+        foreach ($activelocations as $location) {
+            $setting   = DisplaySetting::where('location_id', $location->id)->first();
+            $departments = DB::table('department')
+                ->where('status', 1)
+                ->where('location_id', $location->id)
+                ->orderBy('name', 'ASC')
                 ->get();
 
-            foreach ($tokens as $token) {
-                $allToken[$department->name] = (object)array(
-                    'id'         => $token->id,
-                    'token'      => $token->token,
-                    'department' => $token->department,
-                    'counter'    => $token->counter,
-                    'officer'    => $token->officer,
-                    'mobile'     => $token->mobile,
-                    'date'       => $token->created_at,
-                    'status'     => $token->status,
-                    'sms_status' => $token->sms_status,
-                );
-            }
-        }
+            $allToken = array();
+            $data     = array();
+            foreach ($departments as $department) {
+                $tokens = DB::table('token AS t')
+                    ->select(
+                        "t.id",
+                        "t.token_no AS token",
+                        "t.client_id AS client",
+                        "t.client_mobile AS mobile",
+                        "d.name AS department",
+                        "c.name AS counter",
+                        DB::raw("CONCAT_WS(' ', o.firstname, o.lastname) as officer"),
+                        "t.status",
+                        "t.sms_status",
+                        "t.created_at",
+                        "t.notification_type AS notification_type"
+                    )
+                    ->leftJoin("department AS d", "d.id", "=", "t.department_id")
+                    ->leftJoin("counter AS c", "c.id", "=", "t.counter_id")
+                    ->leftJoin("user AS o", "o.id", "=", "t.user_id")
+                    ->where("t.department_id", $department->id)
+                    ->where('t.location_id', $location->id)
+                    ->where("t.status", "0")
+                    ->orderBy('t.is_vip', 'DESC')
+                    ->orderBy('t.id', 'ASC')
+                    ->offset($setting->alert_position)
+                    ->limit(1)
+                    ->get();
 
-        foreach ($allToken as $counter => $tokenInfo) {
-            if (!empty($tokenInfo->mobile) && $tokenInfo->status == 0 && ($tokenInfo->sms_status == 0 || $tokenInfo->sms_status == 2)) {
-                $data['status'] = true;
-                $data['result'][] = $tokenInfo;
-                // send sms 
-                $this->sendSMS($tokenInfo, $setting->alert_position);
-            } else {
-                $data['status'] = true;
-                $data['result'][] = $tokenInfo;
-                // send Email 
-                $this->sendEmail($tokenInfo);
+                foreach ($tokens as $token) {
+                    $allToken[$department->name] = (object)array(
+                        'id'         => $token->id,
+                        'token'      => $token->token,
+                        'department' => $token->department,
+                        'counter'    => $token->counter,
+                        'officer'    => $token->officer,
+                        'mobile'     => $token->mobile,
+                        'date'       => $token->created_at,
+                        'status'     => $token->status,
+                        'sms_status' => $token->sms_status,
+                        'notification_type' => $token->notification_type,
+                    );
+                }
             }
-            $this->sendPushNotification($tokenInfo);
+
+            foreach ($allToken as $counter => $tokenInfo) {
+                if (!empty($tokenInfo->mobile) && $tokenInfo->status == 0 && ($tokenInfo->sms_status == 0 || $tokenInfo->sms_status == 2)) {
+                    if ($tokenInfo->notification_type == "sms") {
+                        // send sms
+                        $data['status'] = true;
+                        $data['result'][] = $tokenInfo;
+                        $this->sendSMS($tokenInfo, $setting->alert_position);
+                        $this->sendPushNotification($tokenInfo);
+                    } elseif ($tokenInfo->notification_type == "email") {
+                        //Send email
+                        $data['status'] = true;
+                        $data['result'][] = $tokenInfo;
+                        // send Email 
+                        $this->sendEmail($tokenInfo);
+                        $this->sendPushNotification($tokenInfo);
+                    } elseif ($tokenInfo->notification_type == "whatsapp") {
+                        $data['status'] = true;
+                        $data['result'][] = $tokenInfo;
+                        $this->sendWhatsAppNotification($tokenInfo, $setting->alert_position);
+                    }
+                }
+            }
         }
 
         return Response::json($data);
@@ -289,6 +343,8 @@ class CronjobController extends Controller
         $client = User::find($token->client);
         if ($client) {
             Mail::to()->send(new TokenNotification($client, $token));
+
+            Token::where('id', $token->id)->update(['sms_status' => 1]);
         }
     }
 
@@ -467,7 +523,7 @@ class CronjobController extends Controller
         $now = Carbon::now('America/Bogota');
         $info = ScheduledReportsTask::whereRaw('run_time = \'' . $now . '\'')->get();
         // $info = ScheduledReportsTask::where('schedule_id', $id)->orderBy('run_time')->get();
-        
+
         foreach ($info as $value) {
             $jsondata = json_decode($value->report->schedule_info);
 
@@ -478,9 +534,9 @@ class CronjobController extends Controller
             $data->data = null;
             $data->graph = false;
 
-            $start = Carbon::parse($value->run_time)->subDays($jsondata->range_start); 
+            $start = Carbon::parse($value->run_time)->subDays($jsondata->range_start);
             $end = Carbon::parse($value->run_time)->subDays($jsondata->range_end);
-            
+
             switch ($data->report) {
                 case '1':
                     $data->data = DB::table("token")
@@ -580,7 +636,7 @@ class CronjobController extends Controller
                         array_push($categories, $_month['monthname'] . ' ' . $_month['year']);
                     }
                     $data->categories = $categories;
-                    
+
                     break;
                 case '5':
                     // date_default_timezone_set(session('app.timezone'));
@@ -797,7 +853,7 @@ class CronjobController extends Controller
         $name = $reports[$found_key]['title'];
         $view = $reports[$found_key]['reportview'];
 
-        $mail_to = explode(',',$value->report->email_to);
+        $mail_to = explode(',', $value->report->email_to);
         // echo '<pre>';
         // print_r($mail_to);
         // echo '</pre>';
@@ -805,7 +861,58 @@ class CronjobController extends Controller
         foreach ($mail_to as $_mail_to) {
             $message = "You're scheduled report: $name has been generated";
             $message .= "<br />Please see attachement";
-            Mail::to($_mail_to)->send(new ScheduledReportNotification($message, $name,$pdf->output()));
+            Mail::to($_mail_to)->send(new ScheduledReportNotification($message, $name, $pdf->output()));
         }
+    }
+
+    public function sendWhatsAppNotification($token, $position)
+    {
+        // // Instantiate the WhatsAppCloudApi super class.
+
+        $whatsapp_cloud_api = new WhatsAppCloudApi([]);
+
+
+        $phone = $this->sanitizePhoneNumber($token->mobile);
+
+        $component_header = [ [
+            'type' => 'text',
+            'text' => $token->location->name,
+        ],];
+
+        $component_body = [
+            [
+                'type' => 'text',
+                'text' => $token->token_no,
+            ],
+            [
+                'type' => 'text',
+                'text' => $token->department->name,
+            ],
+            [
+                'type' => 'text',
+                'text' => $token->counter->name,
+            ],
+            [
+                'type' => 'text',
+                'text' => $token->officer->name,
+            ],
+            [
+                'type' => 'text',
+                'text' => $position,
+            ],
+        ];
+
+        $component_buttons = [];
+
+        $components = new Component($component_header, $component_body, $component_buttons);
+
+        // $response = $whatsapp_cloud_api->sendTemplate($phone, $message);
+        $response = $whatsapp_cloud_api->sendTemplate($phone, 'smartq_position_notification', 'en', $components);
+        Token::where('id', $token->id)->update(['sms_status' => 1]);
+        // echo '<pre>';
+        // print_r($response);
+        // echo '</pre>';
+        // die();
+        return $response;
     }
 }
