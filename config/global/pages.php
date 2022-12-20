@@ -469,14 +469,14 @@ return array(
 
         'home' => array(
             'title' => 'Client Token',
-            'assets' => array(
-                'custom' => array(
-                    'js'  => array(
-                        'js/custom/home/client-token.js',
-                    ),
+            // 'assets' => array(
+            //     'custom' => array(
+            //         'js'  => array(
+            //             'js/custom/home/client-token.js',
+            //         ),
 
-                ),
-            ),
+            //     ),
+            // ),
         ),
         'current' => array(
             'title' => 'Your Token'

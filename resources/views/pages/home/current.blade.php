@@ -583,8 +583,7 @@
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
-
-
+            
             originArray.push({
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
