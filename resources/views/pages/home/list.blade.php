@@ -11,8 +11,10 @@
         $tokens = auth()->user()->clientpendingtokens;
         @endphp
         <div class="">
-            <button type="button" class="btn btn-sm btn-success" id="btnScanBarcode" name="check_in_qr_scan" data-bs-toggle="modal" data-bs-target="#mv_modal_calculate_route" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to Calculate Route"> {!! theme()->getSvgIcon("icons/duotune/technology/teh003.svg", "svg-icon-3") !!}
-                Calculate Best Route</button>
+            <button type="button" class="btn btn-sm btn-success" id="btnCalculateRoute" name="btnCalculateRoute" data-bs-toggle="modal" data-bs-target="#mv_modal_calculate_route" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to Calculate Route">
+                {!! theme()->getSvgIcon("icons/duotune/technology/teh003.svg", "svg-icon-3") !!}
+                Calculate Best Route
+            </button>
             &nbsp;
             <a href="{{ theme()->getPageUrl("home/home") }}" class="btn btn-sm btn-success">
                 {!! theme()->getSvgIcon("icons/duotune/arrows/arr075.svg", "svg-icon-3") !!}
@@ -150,6 +152,6 @@
 
     @include('pages.home._firebase-js')
     @include('pages.home._calculate-route-js')
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{config('app.google_maps')}}&callback=geoSuccess&libraries=geometry" type="text/javascript"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{config('app.google_maps')}}" type="text/javascript"></script>
     @endsection
 </x-base-layout>

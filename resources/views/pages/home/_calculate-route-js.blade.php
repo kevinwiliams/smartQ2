@@ -42,17 +42,17 @@
 
 		function loadTokenLocations() {
 			var dataobj = $("#mv_data_locations").val();
-			console.log(dataobj);
+			// console.log(dataobj);
 
 			var options = $('#start_point').empty();
 			var options = $('#end_point').empty();
 			$('#start_point').append('<option value="" data-mv-rich-content-subcontent="">Select a location</option>');
 			$('#end_point').append('<option value="" data-mv-rich-content-subcontent="">Select a location</option>');
 
-			if ($("#lng").val() != "") {				
+			if ($("#lng").val() != "") {
 				var optstr = '<option value="-1" data-mv-rich-content-subcontent="" data-lat="' + $("#lat").val() + '" data-lng="' + $("#lng").val() + '">Current Location</option>';
 				$('#start_point').append(optstr);
-				$('#end_point').append(optstr); 
+				$('#end_point').append(optstr);
 			}
 
 
@@ -72,108 +72,108 @@
 			// $("#mv_data_my_location").val(lat + "," + lng);
 			$('#lat').val(lat);
 			$('#lng').val(lng);
-			console.log(lat, lng);			
+			// console.log(lat, lng);			
 			loadTokenLocations();
 			furthestLocation(position);
 		}
 
 		function geoError() {
-			console.log("Geocoder failed.");
+			// console.log("Geocoder failed.");
 			loadTokenLocations();
 			// $("#locationSuggestions").hide();
 		}
 
 		function furthestLocation(position) {
-            var originArray = [];
-            var destinationArray = [];
-            var idArray = [];
-            // build request
-            const origin1 = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
+			var originArray = [];
+			var destinationArray = [];
+			var idArray = [];
+			// build request
+			const origin1 = {
+				lat: position.coords.latitude,
+				lng: position.coords.longitude
+			};
 
-            $('#end_point > option').each(function() {
-                if ($(this).val() != "" && $(this).val() != "-1") {
-                    idArray.push($(this).val());
-                    originArray.push({
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    });
+			$('#end_point > option').each(function() {
+				if ($(this).val() != "" && $(this).val() != "-1") {
+					idArray.push($(this).val());
+					originArray.push({
+						lat: position.coords.latitude,
+						lng: position.coords.longitude
+					});
 
-                    destinationArray.push({
-                        lat: parseFloat($(this).data('lat')),
-                        lng: parseFloat($(this).data('lng'))
-                    });
-                }
-            });
+					destinationArray.push({
+						lat: parseFloat($(this).data('lat')),
+						lng: parseFloat($(this).data('lng'))
+					});
+				}
+			});
 
-            const request = {
-                origins: originArray,
-                destinations: destinationArray,
-                travelMode: google.maps.TravelMode.DRIVING,
-                unitSystem: google.maps.UnitSystem.METRIC,
-                avoidHighways: false,
-                avoidTolls: false,
-            };
+			const request = {
+				origins: originArray,
+				destinations: destinationArray,
+				travelMode: google.maps.TravelMode.DRIVING,
+				unitSystem: google.maps.UnitSystem.METRIC,
+				avoidHighways: false,
+				avoidTolls: false,
+			};
 
 			// console.log(request);
 			// return;
-            const service = new google.maps.DistanceMatrixService();
-            // get distance matrix response
-            service.getDistanceMatrix(request).then((response) => {
-                //console.log(response);
-                // show on map
-                const origins = response.originAddresses;
-                const destinations = response.destinationAddresses;
+			const service = new google.maps.DistanceMatrixService();
+			// get distance matrix response
+			service.getDistanceMatrix(request).then((response) => {
+				//console.log(response);
+				// show on map
+				const origins = response.originAddresses;
+				const destinations = response.destinationAddresses;
 
-                var results = response.rows[0].elements;
-                var _highresult;
-                var _lastdistance;
-                var key = 0;
-                for (var j = 0; j < results.length; j++) {
-                    var element = results[j];
-                    if (element.status == "OK") { 
-                        var distance = element.distance.value;
+				var results = response.rows[0].elements;
+				var _highresult;
+				var _lastdistance;
+				var key = 0;
+				for (var j = 0; j < results.length; j++) {
+					var element = results[j];
+					if (element.status == "OK") {
+						var distance = element.distance.value;
 
-                        if (_lastdistance == null) {
-                            _lastdistance = distance;
-                            _highresult = element;
-                            key = j;
-                        }
+						if (_lastdistance == null) {
+							_lastdistance = distance;
+							_highresult = element;
+							key = j;
+						}
 
-                        if (distance > _lastdistance) {
-                            _lastdistance = distance;
-                            _highresult = element;
-                            key = j;
-                        }
-                    }
-                }
+						if (distance > _lastdistance) {
+							_lastdistance = distance;
+							_highresult = element;
+							key = j;
+						}
+					}
+				}
 
-                var currentid = $('#end_point > option:selected').val();
+				var currentid = $('#end_point > option:selected').val();
 
-                if (currentid != idArray[key]) {
-                    var _option = $('#end_point > option[value="' + idArray[key] + '"]');
-                    console.log(_option.text());
-                    $("#mv_location_suggestion").data('id', idArray[key]);
-                    var _text = _option.text() + " - " + _highresult.distance.text + " (ETA: " + _highresult.duration.text + ")";
-                    $("#mv_location_suggestion").text(_text);
-                    // locationSuggestions
-                    $("#locationSuggestions").show();
-                } else {
-                    $("#locationSuggestions").hide();
-                }
+				if (currentid != idArray[key]) {
+					var _option = $('#end_point > option[value="' + idArray[key] + '"]');
+					// console.log(_option.text());
+					$("#mv_location_suggestion").data('id', idArray[key]);
+					var _text = _option.text() + " - " + _highresult.distance.text + " (ETA: " + _highresult.duration.text + ")";
+					$("#mv_location_suggestion").text(_text);
+					// locationSuggestions
+					$("#locationSuggestions").show();
+				} else {
+					$("#locationSuggestions").hide();
+				}
 
-            });
-        }
+			});
+		}
 
 		var handleLocationSuggestion = () => {
-            $("#mv_location_suggestion").on('click', function(e) {
-                $("#end_point").val($(this).data('id'));
-                $("#end_point").trigger('change');
-                // console.log(e);
-            });
-        }
+			$("#mv_location_suggestion").on('click', function(e) {
+				$("#end_point").val($(this).data('id'));
+				$("#end_point").trigger('change');
+				// console.log(e);
+			});
+		}
 
 		var initSetup = () => {
 			$("#start_time").flatpickr({
@@ -231,8 +231,9 @@
 				url: '{{ URL::to("home/getclienttokens") }}',
 				dataType: 'json',
 				success: function(data) {
-					//console.log(data);
 					if (data.locations.length > 2) {
+						console.log(data);
+						console.log(data.locations.length);
 						$("#mv_data_locations").val(JSON.stringify(data.locations));
 						$("#btnCalculateRoute").show();
 						getCurrentLocation();
