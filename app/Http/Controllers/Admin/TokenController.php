@@ -27,6 +27,7 @@ use Carbon\Carbon;
 
 use DB, Validator, PDF;
 use Http;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 
 class TokenController extends Controller
@@ -1565,13 +1566,42 @@ class TokenController extends Controller
 
     public function getCurrentClientTokens()
     {
-        $tokens = auth()->user()->clientpendingtokens;
+        $rawtokens = auth()->user()->clientpendingtokens;
+        $tokens = array();
+        foreach ($rawtokens as $value) {
+            $obj = [
+                "status" => $value->status,
+                "logo" => $value->location->company->logo_url,
+                "locationname" => $value->location->name,
+                "address" => $value->location->address,
+                "date" => Carbon::parse($value->created_at)->format('D M d Y h:i a'),
+                "id" => $value->id,
+                "lat" => $value->location->lat,
+                "lng" => $value->location->lon,
+            ];
+            array_push($tokens, $obj);
+        }
+
         $data['tokens'] = $tokens;
-        $locationIds = array_column($tokens->toArray(), 'location_id');
+        $locationIds = array_column($rawtokens->toArray(), 'location_id');
 
         $locations = Location::whereIn('id', $locationIds)->get();
         $data['locations'] = $locations;
 
+        $tokenids = array_column($rawtokens->toArray(), 'id');
+        $key = implode("-", $tokenids);
+        $data['key'] = $key;
+        if (Cache::has($key)) {
+            $data['routes'] = Cache::get($key);
+        } else {
+            $data['routes'] = "";
+        }
+        // $data['haskey'] = Cache::has($key);
+
+        // echo "<pre>";
+        // print_r(Cache::get($key));
+        // echo "</pre>";
+        // die();
         return response()->json($data);
     }
 
@@ -1579,114 +1609,122 @@ class TokenController extends Controller
     {
         $tokens = auth()->user()->clientpendingtokens;
         $locationIds = array_column($tokens->toArray(), 'location_id');
-        $locations = Location::whereIn('id', $locationIds)->get();
-        $removeids = [];
-
-        if ($request->start_point == "-1") {
-            $origin = array(
-                "location" => array(
-                    "latLng" => array(
-                        "latitude" => $request->lat,
-                        "longitude" => $request->lng
+        $tokenids = array_column($tokens->toArray(), 'id');
+        $key = implode("-", $tokenids);
+        // Cache::forget($key);
+        $data['key'] = $key;
+        if (!Cache::has($key)) {
+            $locations = Location::whereIn('id', $locationIds)->get();
+            $removeids = [];
+            $data['start'] = $request->start_point;
+            $data['end'] = $request->end_point;
+            //Set start location
+            if ($request->start_point == "-1") {
+                $origin = array(
+                    "location" => array(
+                        "latLng" => array(
+                            "latitude" => $request->lat,
+                            "longitude" => $request->lng
+                        )
                     )
-                )
+                );
+            } else {
+                $loc = $locations->where('id', $request->start_point)->first();
+                $origin = array(
+                    "location" => array(
+                        "latLng" => array(
+                            "latitude" => $loc->lat,
+                            "longitude" => $loc->lon
+                        )
+                    )
+                );
+
+                array_push($removeids, $request->start_point);
+            }
+
+            //Set end location
+            if ($request->end_point == "-1") {
+                $destination = array(
+                    "location" => array(
+                        "latLng" => array(
+                            "latitude" => $request->lat,
+                            "longitude" => $request->lng
+                        )
+                    )
+                );
+            } else {
+                $loc = $locations->where('id', $request->end_point)->first();
+                $destination = array(
+                    "location" => array(
+                        "latLng" => array(
+                            "latitude" => $loc->lat,
+                            "longitude" => $loc->lon
+                        )
+                    )
+                );
+                array_push($removeids, $request->end_point);
+            }
+
+            //Set waypoints
+            $filteredlocations = $locations->whereNotIn('id', $removeids);
+            $intermediates = [];
+            foreach ($filteredlocations as $value) {
+                $tmp = array(
+                    "location" => array(
+                        "latLng" => array(
+                            "latitude" => $value->lat,
+                            "longitude" => $value->lon
+                        )
+                    )
+                );
+
+                array_push($intermediates, $tmp);
+            }
+
+            //format object
+            $jsonObject = array(
+                "origin" => $origin,
+                "destination" => $destination,
+                "intermediates" => array(
+                    $intermediates
+                ),
+                "travelMode" => "DRIVE",
+                "routingPreference" => "TRAFFIC_AWARE",
+                // "polylineQuality" => "enum (PolylineQuality)",
+                // "polylineEncoding" => "enum (PolylineEncoding)",
+                // "departureTime" => "string",
+                "computeAlternativeRoutes" => false,
+                "routeModifiers" => array(
+                    "avoidTolls" => false,
+                    "avoidHighways" => false,
+                    "avoidFerries" => false,
+                ),
+                "languageCode" => "en-US",
+                "units" => "IMPERIAL",
+                // "requestedReferenceRoutes" => array(
+                //     "enum (ReferenceRoute)"
+                // )
             );
+
+            // echo '<pre>';
+            // print_r($jsonObject);
+            // echo '</pre>';
+            // die();
+
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json',
+                'X-Goog-Api-Key' => env('GOOGLE_MAP_API'),
+                'X-Goog-FieldMask' => 'routes.duration,routes.distanceMeters,routes.legs'
+            ])->post('https://routes.googleapis.com/directions/v2:computeRoutes', $jsonObject);
+
+            $data['routes'] = $response->object();
+            Cache::put($key, json_encode($data), now()->addHours(2));
+            return response()->json($data);
         } else {
-            $loc = $locations->where('id', $request->start_point)->first();
-            $origin = array(
-                "location" => array(
-                    "latLng" => array(
-                        "latitude" => $loc->lat,
-                        "longitude" => $loc->lon
-                    )
-                )
-            );
 
-            array_push($removeids, $request->start_point);
+            $cacheval = Cache::get($key);
+            return response()->json($cacheval);
         }
-        if ($request->end_point == "-1") {
-            $destination = array(
-                "location" => array(
-                    "latLng" => array(
-                        "latitude" => $request->lat,
-                        "longitude" => $request->lng
-                    )
-                )
-            );
-        } else {
-            $loc = $locations->where('id', $request->end_point)->first();
-            $destination = array(
-                "location" => array(
-                    "latLng" => array(
-                        "latitude" => $loc->lat,
-                        "longitude" => $loc->lon
-                    )
-                )
-            );
-            array_push($removeids, $request->end_point);
-        }
-
-        $filteredlocations = $locations->whereNotIn('id', $removeids);
-
-        $intermediates = [];
-        foreach ($filteredlocations as $value) {
-            $tmp = array(
-                "location" => array(
-                    "latLng" => array(
-                        "latitude" => $value->lat,
-                        "longitude" => $value->lon
-                    )
-                )
-            );
-
-            array_push($intermediates, $tmp);
-        }
-
-        // $intermediates = array(
-        //     "location" => array(
-        //         "latLng" => array(
-        //             "latitude" => 37.419734,
-        //             "longitude" => -122.0807784
-        //         )
-        //     )
-        // );
-
-        $jsonObject = array(
-            "origin" => $origin,
-            "destination" => $destination,
-            "intermediates" => array(
-                $intermediates
-            ),
-            "travelMode" => "DRIVE",
-            "routingPreference" => "TRAFFIC_AWARE",
-            // "polylineQuality" => "enum (PolylineQuality)",
-            // "polylineEncoding" => "enum (PolylineEncoding)",
-            // "departureTime" => "string",
-            "computeAlternativeRoutes" => false,
-            "routeModifiers" => array(
-                "avoidTolls" => false,
-                "avoidHighways" => false,
-                "avoidFerries" => false,
-            ),
-            "languageCode" => "en-US",
-            "units" => "IMPERIAL",
-            // "requestedReferenceRoutes" => array(
-            //     "enum (ReferenceRoute)"
-            // )
-        );
-
-        // echo '<pre>';
-        // print_r($jsonObject);
-        // echo '</pre>';
-        // die();
-        $response = Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'X-Goog-Api-Key' => env('GOOGLE_MAP_API'),
-            'X-Goog-FieldMask' => 'routes.duration,routes.distanceMeters,routes.legs'
-        ])->post('https://routes.googleapis.com/directions/v2:computeRoutes', $jsonObject);
-
-
-        return response()->json($response->object());
     }
 
     public function checkin($id = null)

@@ -3,34 +3,36 @@
 	var MVCalcRouteActions = function() {
 
 
-		function calculateRoute() {
-			Swal.fire({
-				html: "Are you sure?.",
-				icon: "warning",
-				buttonsStyling: false,
-				confirmButtonText: "Ok, got it!",
-				customClass: {
-					confirmButton: "btn btn-light"
-				}
-			}).then(function(value) {
-				if (value.isConfirmed) {
-					$.ajax({
-						type: 'post',
-						url: '{{ URL::to("home/computeRoute") }}',
-						type: 'POST',
-						dataType: 'json',
-						data: {
-							'_token': '<?php echo csrf_token() ?>'
-						},
-						success: function(data) {
-							console.log(data);
-						}
-					});
-				}
+		// function calculateRoute() {
+		// 	Swal.fire({
+		// 		html: "Are you sure?.",
+		// 		icon: "warning",
+		// 		buttonsStyling: false,
+		// 		confirmButtonText: "Ok, got it!",
+		// 		customClass: {
+		// 			confirmButton: "btn btn-light"
+		// 		}
+		// 	}).then(function(value) {
+		// 		if (value.isConfirmed) {
+		// 			$.ajax({
+		// 				type: 'post',
+		// 				url: '{{ URL::to("home/computeRoute") }}',
+		// 				type: 'POST',
+		// 				dataType: 'json',
+		// 				data: {
+		// 					'_token': '<?php echo csrf_token() ?>'
+		// 				},
+		// 				success: function(data) {
+		// 					// console.log(data);
+		// 					$("#mv_data_routes").val(JSON.stringify(data));
+		// 					sortRoute();
+		// 				}
+		// 			});
+		// 		}
 
 
-			});
-		}
+		// 	});
+		// }
 
 		function getCurrentLocation() {
 			if (navigator.geolocation) {
@@ -40,7 +42,50 @@
 			}
 		}
 
-		function loadTokenLocations() {
+		function sortRoute() {
+			// return;
+			var routeinfo = $("#mv_data_routes").val();
+			// console.log("routeinfo");
+			// console.log(routeinfo);
+			var locationarray = [];
+			if (routeinfo != "" && routeinfo != undefined) {
+				var data = $.parseJSON(routeinfo);
+				data.routes.routes.forEach(element => {
+					// console.log(element);
+					element.legs.forEach(leg => {
+						// console.log(leg);
+						locationarray.push(leg.startLocation.latLng);
+						locationarray.push(leg.endLocation.latLng);
+					});
+				});
+
+				var cntr = 1;				
+				locationarray.forEach(location => {
+					// console.log(location);
+					$('div[name="token_card"]').each(function(index) {
+						var lat = $(this).data('lat');
+						var lng = $(this).data('lng');
+						// console.log("lat:" + lat);
+						// console.log("lon:" + lng);
+						const from = new google.maps.LatLng(parseFloat(location.latitude), parseFloat(location.longitude));
+						const to = new google.maps.LatLng(lat, lng);
+						const distance = google.maps.geometry.spherical.computeDistanceBetween(from, to)
+						// console.log(distance);
+						if (distance <= 10) {
+							$(this).data("order", cntr);
+							// console.log("match:" + cntr);
+						}
+					});
+					cntr++;
+				});
+
+				$('div[name="token_card"]')
+					.sort((a, b) => $(a).data("order") - $(b).data("order"))
+					.appendTo("#mv_repeater_content");
+			}
+		}
+
+		function loadRouteLocations() {
 			var dataobj = $("#mv_data_locations").val();
 			// console.log(dataobj);
 
@@ -73,13 +118,13 @@
 			$('#lat').val(lat);
 			$('#lng').val(lng);
 			// console.log(lat, lng);			
-			loadTokenLocations();
+			loadRouteLocations();
 			furthestLocation(position);
 		}
 
 		function geoError() {
 			// console.log("Geocoder failed.");
-			loadTokenLocations();
+			loadRouteLocations();
 			// $("#locationSuggestions").hide();
 		}
 
@@ -185,10 +230,7 @@
 				defaultDate: new Date(),
 			});
 
-
-
 			$("#btnCalculateRoute").hide();
-
 
 			const locationoptionFormat = (item) => {
 				if (!item.id) {
@@ -231,23 +273,103 @@
 				url: '{{ URL::to("home/getclienttokens") }}',
 				dataType: 'json',
 				success: function(data) {
+					console.log(data);
+					if (data.tokens) {
+						// console.log(JSON.stringify(data.tokens));
+						$("#mv_data_tokens").val(JSON.stringify(data.tokens));
+						loadTokens();
+					}
+
+					if (data.routes) {
+						// console.log(JSON.stringify(data.tokens));
+						$("#mv_data_routes").val(JSON.stringify(data.routes));
+						sortRoute();
+					}
+
 					if (data.locations.length > 2) {
-						console.log(data);
-						console.log(data.locations.length);
 						$("#mv_data_locations").val(JSON.stringify(data.locations));
 						$("#btnCalculateRoute").show();
 						getCurrentLocation();
 					} else {
 						$("#btnCalculateRoute").hide();
 					}
-
-					//Write token info to screen
-					//data.tokens
-
 				}
 			});
+		}
+
+		function loadTokens() {
+			var repItem = $('#mv_repeater_item');
+			var content = $('#mv_repeater_content');
+			var dataobj = $("#mv_data_tokens").val();
+			content.html("")
+			var cntr = 1;
+
+			if (dataobj != "") {
+				var data = $.parseJSON(dataobj);
+				data.forEach(element => {
+					var _clone = repItem.clone();
+					_clone.removeAttr("id");
+					_clone.removeClass("d-none");
+					_clone.attr("name", "token_card");
+					_clone.data("order", 0);
+					// console.log(element);
+
+					var header = _clone.find("#rptTokenHeader");
+					var status = _clone.find("#rptTokenStatus");
+					if (element.status == 3) {
+						header.addClass("bg-gray-400");
+						status.text("Booked");
+					} else {
+						header.addClass("bg-primary");
+						status.text("Checked In");
+					}
+
+					var name = _clone.find("#rptTokenLocation");
+					name.text(element.locationname);
 
 
+					var address = _clone.find("#rptTokenLocationAddress");
+					address.text(element.address);
+
+					var logo = _clone.find("#rptTokenLogo");
+					logo.attr("src", element.logo);
+
+					var tdate = _clone.find("#rptTokenDate");
+					tdate.text(element.date);
+
+					var button = _clone.find("#rptTokenButton");
+					var url = "/home/current/" + element.id;
+					button.attr("href", url);
+					button.data("id", element.id);
+					_clone.data("lat", element.lat);
+					_clone.data("lng", element.lng);
+
+					// var radio = _clone.find("#mv-departmentrepeater-id");
+					// radio.val(element.id);
+
+					// //update ids
+					// var __id = radio.attr('id');
+					// radio.attr('id', __id + element.id);
+					// var label = _clone.find('label');
+					// label.attr('for', __id + element.id);			
+
+					content.append(_clone);
+					cntr++;
+				});
+			}
+
+
+			content.show();
+
+
+			if (dataobj != "") {
+				var data = $.parseJSON(dataobj);
+				data.forEach(element => {
+					var optstr = '<option value="' + element.id + '" data-mv-rich-content-subcontent="' + element.address + '" data-lat="' + element.lat + '" data-lng="' + element.lon + '">' + element.name + '</option>';
+					$('#start_point').append(optstr);
+					$('#end_point').append(optstr);
+				});
+			}
 		}
 
 		var handleForm = () => {
@@ -386,8 +508,9 @@
 								data: new FormData(form),
 
 								success: function(data) {
-									console.log(data);
-
+									// console.log(data);
+									$("#mv_data_routes").val(JSON.stringify(data));
+									sortRoute();
 									// Remove loading indication
 									submitButton.removeAttribute('data-mv-indicator');
 

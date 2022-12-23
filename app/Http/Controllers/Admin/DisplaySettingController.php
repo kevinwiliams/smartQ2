@@ -139,9 +139,13 @@ class DisplaySettingController extends Controller
 
 
         if ($validator->fails()) {
-            return redirect('display/setting')
-                ->withErrors($validator)
-                ->withInput();
+            $data['status'] = true;
+            $data['message'] = trans('app.please_try_again');
+            $data['data'] = $data;
+            return response()->json($data);
+            // return redirect('display/setting')
+            //     ->withErrors($validator)
+            //     ->withInput();
         } else {
 
             if (!empty($request->id)) {
