@@ -337,13 +337,13 @@ return array(
         //     'path'  => 'apps/calendar',
         // ),
         // Messaging
-        array(
-            'title' => 'SMS',
-            'permission'=> 'view configuration',
-            'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/communication/com007.svg", "svg-icon-2"),
-            'path'  => 'sms',
+        // array(
+        //     'title' => 'SMS',
+        //     'permission'=> 'view configuration',
+        //     'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/communication/com007.svg", "svg-icon-2"),
+        //     'path'  => 'sms',
           
-        ),
+        // ),
         // Settings
         array(
             'title' => 'Settings',

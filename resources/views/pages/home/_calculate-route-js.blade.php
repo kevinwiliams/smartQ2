@@ -76,11 +76,11 @@
 						var minute = secondsToMinutes(leg.staticDuration);
 						description = minute + " min - " + Math.round((leg.distanceMeters / 1000), 2) + " km";
 						_desc.text(description)
-						
+
 						var _directions = _clone.find("#rptDirections");
 						var _url = "https://www.google.com/maps/dir/?api=1&origin=" + leg.startLocation.latLng.latitude + "," + leg.startLocation.latLng.longitude + "&destination=" + leg.endLocation.latLng.latitude + "," + leg.endLocation.latLng.longitude;
 						_directions.attr("href", _url);
-						
+
 						cntr++;
 						content.append(_clone);
 					});
@@ -98,7 +98,8 @@
 						const to = new google.maps.LatLng(lat, lng);
 						const distance = google.maps.geometry.spherical.computeDistanceBetween(from, to)
 						// console.log(distance);
-						if (distance <= 25) {
+						var range = '{{ config("app.google_maps_distance_correction") }}';
+						if (distance <= parseInt(range)) {
 							$(this).data("order", cntr);
 							// console.log("match:" + cntr);
 						}
@@ -129,8 +130,8 @@
 
 					const to = new google.maps.LatLng(element.lat, element.lon);
 					const distance = google.maps.geometry.spherical.computeDistanceBetween(from, to)
-					// console.log(distance);
-					if (distance <= 25) {
+					var range = '{{ config("app.google_maps_distance_correction") }}';
+					if (distance <= parseInt(range)) {
 						// $(this).data("order", cntr);
 						// console.log("match:" + cntr);
 						_name = element.name;

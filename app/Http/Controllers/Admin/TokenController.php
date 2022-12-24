@@ -1240,6 +1240,15 @@ class TokenController extends Controller
             ->withProperties(['activity' => 'Client Stopped Token', 'department' => $token->department->name, 'token' => $token->token_no, 'display' => 'danger', 'location_id' => auth()->user()->location_id])
             ->log('Token (:properties.token) stopped for :properties.department');
 
+        if (!empty($token->client_id)) {
+            $dept = $token->department->name;
+            $officer = $token->officer->name;
+            $counter = $token->counter->name;
+            $user = User::find($token->client_id);
+            $msg = "Token No: $token->token_no\r\n Department: $dept, Counter: $counter and Officer: $officer. \r\Stopped";
+            (new Utilities_lib)->sendPushNotification($user, $msg);
+        }
+
         return redirect()->back()->with('message', trans('app.update_successfully'));
     }
 

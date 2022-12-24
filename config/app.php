@@ -128,6 +128,17 @@ return [
     |
     */
 
+    'google_maps_distance_correction' => 35,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Localization
+    |--------------------------------------------------------------------------
+    |
+    | This is the API Key for google maps
+    |
+    */
+
     'default_menu_resource' => env('MENU_RESOURCE', ''),
 
     /*
