@@ -46,19 +46,19 @@
 						var _directions = _clone.find("#rptDirections");
 						var _url = "https://www.google.com/maps/dir/?api=1&origin=" + leg.startLocation.latLng.latitude + "," + leg.startLocation.latLng.longitude + "&destination=" + leg.endLocation.latLng.latitude + "," + leg.endLocation.latLng.longitude;
 						_directions.attr("href", _url);
- 
+
 						cntr++;
 
 						console.log(titleText);
 						$('div[name="token_card"]').each(function(index) {
 							var lat = $(this).data('lat');
 							var lng = $(this).data('lng');
-							
+
 							var _steps = $(this).find("#rptTokenStep");
 							// console.log(_steps.text());
 							// console.log(lng);
 							// return;
-							if(_steps.text() != ""){
+							if (_steps.text() != "") {
 								return;
 							}
 							console.log("calc");
@@ -66,12 +66,12 @@
 							const to = new google.maps.LatLng(lat, lng);
 							const distance = google.maps.geometry.spherical.computeDistanceBetween(from, to)
 							console.log(distance);
-														
+
 							var range = '{{ config("app.google_maps_distance_correction") }}';
 							if (distance <= parseInt(range)) {
 								_steps.append(_clone.clone());
 							}
-						}); 
+						});
 
 						// content.append(_clone);
 					});
@@ -83,6 +83,9 @@
 					$('div[name="token_card"]').each(function(index) {
 						var lat = $(this).data('lat');
 						var lng = $(this).data('lng');
+						var order = $(this).data('order');
+						if (order > 0)
+							return;
 						// console.log("lat:" + lat);
 						// console.log("lon:" + lng);
 						const from = new google.maps.LatLng(parseFloat(location.latitude), parseFloat(location.longitude));
