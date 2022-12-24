@@ -24,21 +24,27 @@
     <input type="hidden" id="mv_data_tokens" value="" />
     <input type="hidden" id="mv_data_routes" value="" />
 
-    <div class="row g-5 g-xl-8 m-auto" id="mv_repeater_content">
+    <div class="row row-cols-1 row-cols-md-3 g-4" id="mv_repeater_content">
 
     </div>
-    <!-- <div class="row row-cols-1 row-cols-md-2 g-4" id="mv_route_details">
-        <div class="card">            
-            <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+    <div class="row row-cols-1 row-cols-md-3 g-4 mt-5" id="mv_route_details">
+
+    </div>
+    <div style="display:none;">
+        <div class="col" id="mv_step_repeater_item">
+            <div class="card border border-secondary m-auto mb-6">
+                <div class="card-body">
+                    <h6 class="card-title text-danger" id="rptStep">First step</h6>
+                    <h5 class="card-title" id="rptTitle">From xxxx to yyyy</h5>
+                    <p class="card-text" id="rptDescription">13 mins - 15km</p>
+                    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                    <!-- card-xl-stretch mb-xl-8 mb-sm-3 -->
+                    <!-- m-auto mb-6 -->
+                </div>
             </div>
         </div>
-    </div> -->
-    <div style="display:none;">
-        <div class="col-xl-4 m-auto mb-6" id="mv_repeater_item">
-            <div class="card card-xl-stretch mb-xl-8 mb-sm-3">
+        <div class="col" id="mv_repeater_item">
+            <div class="card h-100">
                 <div class="card-body p-0">
                     <div class="px-9 pt-7 card-rounded h-150px w-100" id="rptTokenHeader">
                     </div>
@@ -106,6 +112,6 @@
     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{config('app.google_maps')}}&libraries=geometry" type="text/javascript"></script>
     @include('pages.home._firebase-js')
     @include('pages.home._calculate-route-js')
-    
+
     @endsection
 </x-base-layout>

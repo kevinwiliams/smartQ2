@@ -1597,7 +1597,7 @@ class TokenController extends Controller
             $data['routes'] = "";
         }
         // $data['haskey'] = Cache::has($key);
-
+        // Cache::forget($key);
         // echo "<pre>";
         // print_r(Cache::get($key));
         // echo "</pre>";
@@ -1718,7 +1718,7 @@ class TokenController extends Controller
             ])->post('https://routes.googleapis.com/directions/v2:computeRoutes', $jsonObject);
 
             $data['routes'] = $response->object();
-            Cache::put($key, json_encode($data), now()->addHours(2));
+            Cache::put($key, $data, now()->addHours(2));
             return response()->json($data);
         } else {
 

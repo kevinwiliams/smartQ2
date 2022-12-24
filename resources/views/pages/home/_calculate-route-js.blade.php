@@ -45,21 +45,44 @@
 		function sortRoute() {
 			// return;
 			var routeinfo = $("#mv_data_routes").val();
-			// console.log("routeinfo");
-			// console.log(routeinfo);
+			var repItem = $('#mv_step_repeater_item');
+			var content = $('#mv_route_details');
 			var locationarray = [];
 			if (routeinfo != "" && routeinfo != undefined) {
+				$("#btnCalculateRoute").removeClass("btn-success");
+				$("#btnCalculateRoute").addClass("btn-secondary");
 				var data = $.parseJSON(routeinfo);
+				// console.log(data);
+				// return;
 				data.routes.routes.forEach(element => {
-					// console.log(element);
+					var cntr = 1;
 					element.legs.forEach(leg => {
-						// console.log(leg);
+						console.log(leg);
 						locationarray.push(leg.startLocation.latLng);
 						locationarray.push(leg.endLocation.latLng);
+
+						var _clone = repItem.clone();
+						_clone.removeAttr("id");
+
+						var _step = _clone.find("#rptStep");
+						_step.text("Trip " + cntr);
+
+						var _title = _clone.find("#rptTitle");
+						var titleText = getLocationName(leg.startLocation.latLng) + " to " + getLocationName(leg.endLocation.latLng);
+						_title.text(titleText);
+
+						var _desc = _clone.find("#rptDescription");
+						var description = "";
+						var minute = secondsToMinutes(leg.staticDuration);
+						description = minute + " min - " + Math.round((leg.distanceMeters / 1000), 2) + " km";
+						_desc.text(description)
+						// distanceMeters
+						cntr++;
+						content.append(_clone);
 					});
 				});
 
-				var cntr = 1;				
+				var cntr = 1;
 				locationarray.forEach(location => {
 					// console.log(location);
 					$('div[name="token_card"]').each(function(index) {
@@ -71,7 +94,7 @@
 						const to = new google.maps.LatLng(lat, lng);
 						const distance = google.maps.geometry.spherical.computeDistanceBetween(from, to)
 						// console.log(distance);
-						if (distance <= 10) {
+						if (distance <= 25) {
 							$(this).data("order", cntr);
 							// console.log("match:" + cntr);
 						}
@@ -82,6 +105,56 @@
 				$('div[name="token_card"]')
 					.sort((a, b) => $(a).data("order") - $(b).data("order"))
 					.appendTo("#mv_repeater_content");
+			}
+		}
+
+		function secondsToMinutes(duration) {
+			var minutes = Math.round((parseInt(duration.slice(0, -1)) / 60), 2);
+			return minutes;
+		}
+
+		function getLocationName(location) {
+			var locobj = $("#mv_data_locations").val();
+			// console.log(locobj);
+			var _name = "";
+			const from = new google.maps.LatLng(parseFloat(location.latitude), parseFloat(location.longitude));
+
+			if (locobj != "") {
+				var data = $.parseJSON(locobj);
+				data.forEach(element => {
+
+					const to = new google.maps.LatLng(element.lat, element.lon);
+					const distance = google.maps.geometry.spherical.computeDistanceBetween(from, to)
+					// console.log(distance);
+					if (distance <= 25) {
+						// $(this).data("order", cntr);
+						// console.log("match:" + cntr);
+						_name = element.name;
+						return;
+					}
+				});
+			}
+
+			if (_name != "") {
+				return _name;
+			} else {
+				// const geocoder = new google.maps.Geocoder();
+				// geocoder
+				// 	.geocode({
+				// 		location: from
+				// 	})
+				// 	.then((response) => {
+				// 		if (response.results[0]) {
+				// 			_name = response.results[0].formatted_address;
+				// 			console.log(_name);
+				// 			return _name;
+				// 		} else {
+				// 			console.log("No results found");
+				// 		}
+				// 	})
+				// 	.catch((e) => console.log("Geocoder failed due to: " + e));
+
+				return "Starting Point";
 			}
 		}
 
@@ -273,7 +346,14 @@
 				url: '{{ URL::to("home/getclienttokens") }}',
 				dataType: 'json',
 				success: function(data) {
-					console.log(data);
+					if (data.locations.length > 2) {
+						$("#mv_data_locations").val(JSON.stringify(data.locations));
+						$("#btnCalculateRoute").show();
+						getCurrentLocation();
+					} else {
+						$("#btnCalculateRoute").hide();
+					}
+
 					if (data.tokens) {
 						// console.log(JSON.stringify(data.tokens));
 						$("#mv_data_tokens").val(JSON.stringify(data.tokens));
@@ -286,13 +366,7 @@
 						sortRoute();
 					}
 
-					if (data.locations.length > 2) {
-						$("#mv_data_locations").val(JSON.stringify(data.locations));
-						$("#btnCalculateRoute").show();
-						getCurrentLocation();
-					} else {
-						$("#btnCalculateRoute").hide();
-					}
+
 				}
 			});
 		}
@@ -527,7 +601,8 @@
 											confirmButton: "btn btn-primary"
 										}
 									}).then(function(result) {
-
+										form.reset(); // Reset form	
+										modal.hide(); // Hide modal
 									});
 								}
 							});
