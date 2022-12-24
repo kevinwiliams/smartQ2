@@ -76,7 +76,11 @@
 						var minute = secondsToMinutes(leg.staticDuration);
 						description = minute + " min - " + Math.round((leg.distanceMeters / 1000), 2) + " km";
 						_desc.text(description)
-						// distanceMeters
+						
+						var _directions = _clone.find("#rptDirections");
+						var _url = "https://www.google.com/maps/dir/?api=1&origin=" + leg.startLocation.latLng.latitude + "," + leg.startLocation.latLng.longitude + "&destination=" + leg.endLocation.latLng.latitude + "," + leg.endLocation.latLng.longitude;
+						_directions.attr("href", _url);
+						
 						cntr++;
 						content.append(_clone);
 					});

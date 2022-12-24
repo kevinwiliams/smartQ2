@@ -37,6 +37,9 @@
                     <h6 class="card-title text-danger" id="rptStep">First step</h6>
                     <h5 class="card-title" id="rptTitle">From xxxx to yyyy</h5>
                     <p class="card-text" id="rptDescription">13 mins - 15km</p>
+                    <a href="#" class="text-primary cursor-pointer" id="rptDirections" target="_blank"><i class="las la-directions"></i> Directions</a>
+
+
                     <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                     <!-- card-xl-stretch mb-xl-8 mb-sm-3 -->
                     <!-- m-auto mb-6 -->
