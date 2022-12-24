@@ -10,7 +10,7 @@
         $tokens = auth()->user()->clientpendingtokens;
         @endphp
         <div class="">
-            <button type="button" class="btn btn-sm btn-success" id="btnCalculateRoute" name="btnCalculateRoute" data-bs-toggle="modal" data-bs-target="#mv_modal_calculate_route" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to Calculate Route">
+            <button type="button" class="btn btn-sm btn-success invisible" id="btnCalculateRoute" name="btnCalculateRoute" data-bs-toggle="modal" data-bs-target="#mv_modal_calculate_route" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to Calculate Route">
                 {!! theme()->getSvgIcon("icons/duotune/technology/teh003.svg", "svg-icon-3") !!}
                 Calculate Best Route
             </button>

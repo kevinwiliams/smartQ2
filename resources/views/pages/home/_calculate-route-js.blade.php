@@ -49,8 +49,7 @@
 			var content = $('#mv_route_details');
 			var locationarray = [];
 			if (routeinfo != "" && routeinfo != undefined) {
-				$("#btnCalculateRoute").removeClass("btn-success");
-				$("#btnCalculateRoute").addClass("btn-secondary");
+				$("#btnCalculateRoute").removeClass("btn-success").addClass("btn-secondary");				
 				var data = $.parseJSON(routeinfo);
 				// console.log(data);
 				// return;
@@ -308,8 +307,6 @@
 				defaultDate: new Date(),
 			});
 
-			$("#btnCalculateRoute").hide();
-
 			const locationoptionFormat = (item) => {
 				if (!item.id) {
 					return item.text;
@@ -353,7 +350,7 @@
 				success: function(data) {
 					if (data.locations.length > 2) {
 						$("#mv_data_locations").val(JSON.stringify(data.locations));
-						$("#btnCalculateRoute").show();
+						$("#btnCalculateRoute").removeClass('invisible').show();
 						getCurrentLocation();
 					} else {
 						$("#btnCalculateRoute").hide();
