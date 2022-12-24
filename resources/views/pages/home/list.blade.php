@@ -27,22 +27,14 @@
     <div class="row row-cols-1 row-cols-md-3 g-4" id="mv_repeater_content">
 
     </div>
-    <div class="row row-cols-1 row-cols-md-3 g-4 mt-5" id="mv_route_details">
-
-    </div>
     <div style="display:none;">
         <div class="col" id="mv_step_repeater_item">
-            <div class="card border border-secondary m-auto mb-6">
+            <div class="card border border-secondary bg-light w-100">
                 <div class="card-body">
                     <h6 class="card-title text-danger" id="rptStep">First step</h6>
                     <h5 class="card-title" id="rptTitle">From xxxx to yyyy</h5>
                     <p class="card-text" id="rptDescription">13 mins - 15km</p>
                     <a href="#" class="text-primary cursor-pointer" id="rptDirections" target="_blank"><i class="las la-directions"></i> Directions</a>
-
-
-                    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                    <!-- card-xl-stretch mb-xl-8 mb-sm-3 -->
-                    <!-- m-auto mb-6 -->
                 </div>
             </div>
         </div>
@@ -100,7 +92,19 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="d-flex align-items-center mb-6">
+                            <div id="rptTokenStep"></div>
+                            <!-- <div class="card border border-secondary bg-light w-100">
+                                <div class="card-body">
+                                    <h6 class="card-title text-danger" id="rptStep">First step</h6>
+                                    <h5 class="card-title" id="rptTitle">From xxxx to yyyy</h5>
+                                    <p class="card-text" id="rptDescription">13 mins - 15km</p>
+                                    <a href="#" class="text-primary cursor-pointer" id="rptDirections" target="_blank"><i class="las la-directions"></i> Directions</a>
+                                </div>
+                            </div> -->
+                        </div>
                     </div>
+
                     <div class="p-5">
                         <a href="" class="btn btn-primary w-100 py-3" data-id="" name="check_in" id="rptTokenButton">View</a>
                     </div>

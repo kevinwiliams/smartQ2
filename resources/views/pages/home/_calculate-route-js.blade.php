@@ -1,39 +1,6 @@
 <script>
 	// Class definition
 	var MVCalcRouteActions = function() {
-
-
-		// function calculateRoute() {
-		// 	Swal.fire({
-		// 		html: "Are you sure?.",
-		// 		icon: "warning",
-		// 		buttonsStyling: false,
-		// 		confirmButtonText: "Ok, got it!",
-		// 		customClass: {
-		// 			confirmButton: "btn btn-light"
-		// 		}
-		// 	}).then(function(value) {
-		// 		if (value.isConfirmed) {
-		// 			$.ajax({
-		// 				type: 'post',
-		// 				url: '{{ URL::to("home/computeRoute") }}',
-		// 				type: 'POST',
-		// 				dataType: 'json',
-		// 				data: {
-		// 					'_token': '<?php echo csrf_token() ?>'
-		// 				},
-		// 				success: function(data) {
-		// 					// console.log(data);
-		// 					$("#mv_data_routes").val(JSON.stringify(data));
-		// 					sortRoute();
-		// 				}
-		// 			});
-		// 		}
-
-
-		// 	});
-		// }
-
 		function getCurrentLocation() {
 			if (navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
@@ -46,10 +13,10 @@
 			// return;
 			var routeinfo = $("#mv_data_routes").val();
 			var repItem = $('#mv_step_repeater_item');
-			var content = $('#mv_route_details');
+			// var content = $('#mv_route_details');
 			var locationarray = [];
 			if (routeinfo != "" && routeinfo != undefined) {
-				$("#btnCalculateRoute").removeClass("btn-success").addClass("btn-secondary");				
+				$("#btnCalculateRoute").removeClass("btn-success").addClass("btn-secondary");
 				var data = $.parseJSON(routeinfo);
 				// console.log(data);
 				// return;
@@ -79,9 +46,34 @@
 						var _directions = _clone.find("#rptDirections");
 						var _url = "https://www.google.com/maps/dir/?api=1&origin=" + leg.startLocation.latLng.latitude + "," + leg.startLocation.latLng.longitude + "&destination=" + leg.endLocation.latLng.latitude + "," + leg.endLocation.latLng.longitude;
 						_directions.attr("href", _url);
-
+ 
 						cntr++;
-						content.append(_clone);
+
+						console.log(titleText);
+						$('div[name="token_card"]').each(function(index) {
+							var lat = $(this).data('lat');
+							var lng = $(this).data('lng');
+							
+							var _steps = $(this).find("#rptTokenStep");
+							// console.log(_steps.text());
+							// console.log(lng);
+							// return;
+							if(_steps.text() != ""){
+								return;
+							}
+							console.log("calc");
+							const from = new google.maps.LatLng(parseFloat(leg.endLocation.latLng.latitude), parseFloat(leg.endLocation.latLng.longitude));
+							const to = new google.maps.LatLng(lat, lng);
+							const distance = google.maps.geometry.spherical.computeDistanceBetween(from, to)
+							console.log(distance);
+														
+							var range = '{{ config("app.google_maps_distance_correction") }}';
+							if (distance <= parseInt(range)) {
+								_steps.append(_clone.clone());
+							}
+						}); 
+
+						// content.append(_clone);
 					});
 				});
 
@@ -384,8 +376,9 @@
 				var data = $.parseJSON(dataobj);
 				data.forEach(element => {
 					var _clone = repItem.clone();
-					_clone.removeAttr("id");
+					// _clone.removeAttr("id");
 					_clone.removeClass("d-none");
+					_clone.attr("id", "token_card_" + element.id);
 					_clone.attr("name", "token_card");
 					_clone.data("order", 0);
 					// console.log(element);
