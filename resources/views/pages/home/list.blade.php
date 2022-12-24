@@ -29,7 +29,7 @@
     </div>
     <div style="display:none;">
         <div class="col" id="mv_step_repeater_item">
-            <div class="card border border-secondary bg-light w-100">
+            <div class="card border border-success bg-light w-100">
                 <div class="card-body">
                     <h6 class="card-title text-danger" id="rptStep">First step</h6>
                     <h5 class="card-title" id="rptTitle">From xxxx to yyyy</h5>
