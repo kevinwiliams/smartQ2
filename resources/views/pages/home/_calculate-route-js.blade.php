@@ -354,19 +354,9 @@
 				preserveViewport: true
 			});
 
-			var lat = "";
-			var lng = "";
-
-			// var card = $('div[name="token_card"]').each(function(index) {
-			// 	lat = $(this).data('lat');
-			// 	lng = $(this).data('lng');
-			// 	return;
-			// });
-
-
 			var card = $('div[name="token_card"]').first();
-			lat = card.data('lat');
-			lng = card.data('lng');
+			var lat = card.data('lat');
+			var lng = card.data('lng');
  
 			const map = new google.maps.Map(document.getElementById("token_map"), {
 				zoom: 12,
