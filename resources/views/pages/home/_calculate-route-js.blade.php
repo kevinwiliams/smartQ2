@@ -21,7 +21,6 @@
 				data.routes.routes.forEach(element => {
 					var cntr = 1;
 					element.legs.forEach(leg => {
-						// console.log(leg);
 						locationarray.push(leg.startLocation.latLng);
 						locationarray.push(leg.endLocation.latLng);
 
@@ -190,16 +189,12 @@
 
 		function getLocationName(location) {
 			var locobj = $("#mv_data_locations").val();
-			// console.log(location.lat);
-			// console.log(location.lng);
 			var _name = "";
 			const from = new google.maps.LatLng(parseFloat(location.lat), parseFloat(location.lng));
 
 			if (locobj != "") {
 				var data = $.parseJSON(locobj);
 				data.forEach(element => {
-					// console.log(element.lat);
-					// console.log(element.lon);
 					const to = new google.maps.LatLng(element.lat, element.lon);
 					const distance = google.maps.geometry.spherical.computeDistanceBetween(from, to)
 					var range = '{{ config("app.google_maps_distance_correction") }}';
@@ -357,7 +352,7 @@
 			var card = $('div[name="token_card"]').first();
 			var lat = card.data('lat');
 			var lng = card.data('lng');
- 
+
 			const map = new google.maps.Map(document.getElementById("token_map"), {
 				zoom: 12,
 				center: {
@@ -611,7 +606,6 @@
 				.catch((e) => {
 					(status != undefined) ? console.error(status): console.log(e);
 				});
-			// .catch((e) => window.alert("Directions request failed due to " + status));
 		}
 
 
