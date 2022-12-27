@@ -10,16 +10,14 @@
 		}
 
 		function sortRoute2() {
-			// return;
 			var routeinfo = $("#mv_data_routes").val();
 			var repItem = $('#mv_step_repeater_item');
-			// var content = $('#mv_route_details');
+			
 			var locationarray = [];
 			if (routeinfo != "" && routeinfo != undefined) {
 				$("#btnCalculateRoute").removeClass("btn-success").addClass("btn-secondary");
 				var data = $.parseJSON(routeinfo);
-				// console.log(data);
-				// return;
+				
 				data.routes.routes.forEach(element => {
 					var cntr = 1;
 					element.legs.forEach(leg => {
@@ -49,23 +47,19 @@
 
 						cntr++;
 
-						// console.log(titleText);
 						$('div[name="token_card"]').each(function(index) {
 							var lat = $(this).data('lat');
 							var lng = $(this).data('lng');
 
 							var _steps = $(this).find("#rptTokenStep");
-							// console.log(_steps.text());
-							// console.log(lng);
-							// return;
+
 							if (_steps.text() != "") {
 								return;
 							}
-							// console.log("calc");
+
 							const from = new google.maps.LatLng(parseFloat(leg.endLocation.latLng.latitude), parseFloat(leg.endLocation.latLng.longitude));
 							const to = new google.maps.LatLng(lat, lng);
-							const distance = google.maps.geometry.spherical.computeDistanceBetween(from, to)
-							// console.log(distance);
+							const distance = google.maps.geometry.spherical.computeDistanceBetween(from, to)							
 
 							var range = '{{ config("app.google_maps_distance_correction") }}';
 							if (distance <= parseInt(range)) {
@@ -73,29 +67,25 @@
 							}
 						});
 
-						// content.append(_clone);
 					});
 				});
 
 				var cntr = 1;
 				locationarray.forEach(location => {
-					// console.log(location);
 					$('div[name="token_card"]').each(function(index) {
 						var lat = $(this).data('lat');
 						var lng = $(this).data('lng');
 						var order = $(this).data('order');
 						if (order > 0)
 							return;
-						// console.log("lat:" + lat);
-						// console.log("lon:" + lng);
+
 						const from = new google.maps.LatLng(parseFloat(location.latitude), parseFloat(location.longitude));
 						const to = new google.maps.LatLng(lat, lng);
 						const distance = google.maps.geometry.spherical.computeDistanceBetween(from, to)
-						// console.log(distance);
+
 						var range = '{{ config("app.google_maps_distance_correction") }}';
 						if (distance <= parseInt(range)) {
 							$(this).data("order", cntr);
-							// console.log("match:" + cntr);
 						}
 					});
 					cntr++;
@@ -108,26 +98,24 @@
 		}
 
 		function sortRoute(routeinfo) {
-			// return;
-			// var routeinfo = $("#mv_data_routes").val();
 			var repItem = $('#mv_step_repeater_item');
-			// var content = $('#mv_route_details');
+
 			var locationarray = [];
 			if (routeinfo != "" && routeinfo != undefined) {
 				$("#btnCalculateRoute").removeClass("btn-success").addClass("btn-secondary");
 				$("#mv_list_tab").removeClass('d-none').show();
 				var data = routeinfo;
-				
+
 				data.routes.forEach(element => {
 					var cntr = 1;
 					element.legs.forEach(leg => {
-						
+
 						var start_location = leg.start_location;
 						var end_location = leg.end_location;
 						locationarray.push(start_location);
 						locationarray.push(end_location);
 
-						
+
 						var _clone = repItem.clone();
 						_clone.removeAttr("id");
 
@@ -148,53 +136,42 @@
 
 						cntr++;
 
-						// console.log(titleText);
 						$('div[name="token_card"]').each(function(index) {
 							var lat = $(this).data('lat');
 							var lng = $(this).data('lng');
 
 							var _steps = $(this).find("#rptTokenStep");
-							// console.log(_steps.text());
-							// console.log(lng);
-							// return;
+
 							if (_steps.text() != "") {
 								return;
 							}
-							// console.log("calc");
-							// const from = new google.maps.LatLng(parseFloat(end_location.lat), parseFloat(end_location.lat));
+
 							const to = new google.maps.LatLng(lat, lng);
 							const distance = google.maps.geometry.spherical.computeDistanceBetween(end_location, to)
-							// console.log(distance);
 
 							var range = '{{ config("app.google_maps_distance_correction") }}';
 							if (distance <= parseInt(range)) {
 								_steps.append(_clone.clone());
 							}
 						});
-
-						// content.append(_clone);
 					});
 				});
 
 				var cntr = 1;
 				locationarray.forEach(location => {
-					// console.log(location);
 					$('div[name="token_card"]').each(function(index) {
 						var lat = $(this).data('lat');
 						var lng = $(this).data('lng');
 						var order = $(this).data('order');
 						if (order > 0)
 							return;
-						// console.log("lat:" + lat);
-						// console.log("lon:" + lng);
-						// const from = new google.maps.LatLng(parseFloat(location.latitude), parseFloat(location.longitude));
+
 						const to = new google.maps.LatLng(lat, lng);
 						const distance = google.maps.geometry.spherical.computeDistanceBetween(location, to)
-						// console.log(distance);
+
 						var range = '{{ config("app.google_maps_distance_correction") }}';
 						if (distance <= parseInt(range)) {
 							$(this).data("order", cntr);
-							// console.log("match:" + cntr);
 						}
 					});
 					cntr++;
@@ -227,8 +204,6 @@
 					const distance = google.maps.geometry.spherical.computeDistanceBetween(from, to)
 					var range = '{{ config("app.google_maps_distance_correction") }}';
 					if (distance <= parseInt(range)) {
-						// $(this).data("order", cntr);
-						// console.log("match:" + cntr);
 						_name = element.name;
 						return;
 					}
@@ -244,12 +219,9 @@
 
 		function loadRouteLocations() {
 			var dataobj = $("#mv_data_locations").val();
-			// console.log(dataobj);
 
 			var options = $('#start_point').empty();
 			var options = $('#end_point').empty();
-			// $('#start_point').append('<option value="" data-mv-rich-content-subcontent="">Select a location</option>');
-			// $('#end_point').append('<option value="" data-mv-rich-content-subcontent="">Select a location</option>');
 
 			if ($("#lng").val() != "") {
 				var optstr = '<option value="-1" data-mv-rich-content-subcontent="" data-lat="' + $("#lat").val() + '" data-lng="' + $("#lng").val() + '">Current Location</option>';
@@ -271,18 +243,16 @@
 		function geoSuccess(position) {
 			var lat = position.coords.latitude;
 			var lng = position.coords.longitude;
-			// $("#mv_data_my_location").val(lat + "," + lng);
+
 			$('#lat').val(lat);
 			$('#lng').val(lng);
-			// console.log(lat, lng);			
+
 			loadRouteLocations();
 			furthestLocation(position);
 		}
 
 		function geoError() {
-			// console.log("Geocoder failed.");
 			loadRouteLocations();
-			// $("#locationSuggestions").hide();
 		}
 
 		function furthestLocation(position) {
@@ -319,12 +289,10 @@
 				avoidTolls: false,
 			};
 
-			// console.log(request);
-			// return;
 			const service = new google.maps.DistanceMatrixService();
 			// get distance matrix response
 			service.getDistanceMatrix(request).then((response) => {
-				//console.log(response);
+
 				// show on map
 				const origins = response.originAddresses;
 				const destinations = response.destinationAddresses;
@@ -356,18 +324,17 @@
 
 				if (currentid != idArray[key]) {
 					var _option = $('#end_point > option[value="' + idArray[key] + '"]');
-					// console.log(_option.text());
+					
 					$("#mv_location_suggestion").data('id', idArray[key]);
 					var _text = _option.text() + " - " + _highresult.distance.text + " (ETA: " + _highresult.duration.text + ")";
 					$("#mv_location_suggestion").text(_text);
-
 
 					// locationSuggestions
 					$("#locationSuggestions").show();
 				} else {
 					$("#locationSuggestions").hide();
 				}
-				
+
 				$("#end_point").val(idArray[key]);
 				$("#end_point").trigger('change');
 			});
@@ -377,7 +344,7 @@
 			$("#mv_location_suggestion").on('click', function(e) {
 				$("#end_point").val($(this).data('id'));
 				$("#end_point").trigger('change');
-				
+
 			});
 		}
 
@@ -391,7 +358,7 @@
 
 			const _origin = new google.maps.LatLng(parseFloat(start_point.data("lat")), parseFloat(start_point.data("lng")));
 
-			
+
 			const map = new google.maps.Map(document.getElementById("token_map"), {
 				zoom: 12,
 				center: {
@@ -401,10 +368,10 @@
 			});
 
 			directionsRenderer.setMap(map);
-			directionsRenderer.setDirections(response);			
+			directionsRenderer.setDirections(response);
 		}
 
-		var initSetup = () => {			
+		var initSetup = () => {
 
 			const locationoptionFormat = (item) => {
 				if (!item.id) {
@@ -414,7 +381,7 @@
 				var span = document.createElement('span');
 				var template = '';
 
-				template += '<div class="d-flex align-items-center">';				
+				template += '<div class="d-flex align-items-center">';
 				template += '<div class="d-flex flex-column">'
 				template += '<span class="fs-4 fw-bold lh-1">' + item.text + '</span>';
 				template += '<span class="text-muted fs-5">' + item.element.getAttribute('data-mv-rich-content-subcontent') + '</span>';
@@ -455,15 +422,12 @@
 					}
 
 					if (data.tokens) {
-						// console.log(JSON.stringify(data.tokens));
 						$("#mv_data_tokens").val(JSON.stringify(data.tokens));
 						loadTokens();
 					}
-					// console.log(data);
-					// console.log(data.routes);
+
 					if (data.routes) {
-						// console.log($.parseJSON(data.routes));
-						// $("#mv_data_routes").val(JSON.stringify(data.routes));
+
 						initMap($.parseJSON(data.routes));
 						sortRoute($.parseJSON(data.routes));
 					}
@@ -484,13 +448,12 @@
 				var data = $.parseJSON(dataobj);
 				data.forEach(element => {
 					var _clone = repItem.clone();
-					// _clone.removeAttr("id");
+					
 					_clone.removeClass("d-none");
 					_clone.attr("id", "token_card_" + element.id);
 					_clone.attr("name", "token_card");
 					_clone.data("order", 0);
-					// console.log(element);
-
+					
 					var header = _clone.find("#rptTokenHeader");
 					var status = _clone.find("#rptTokenStatus");
 					if (element.status == 3) {
@@ -503,7 +466,6 @@
 
 					var name = _clone.find("#rptTokenLocation");
 					name.text(element.locationname);
-
 
 					var address = _clone.find("#rptTokenLocationAddress");
 					address.text(element.address);
@@ -532,8 +494,7 @@
 
 			if (dataobj != "") {
 				var data = $.parseJSON(dataobj);
-				data.forEach(element => {
-					// console.log(element);
+				data.forEach(element => {					
 					var optstr = '<option value="' + element.id + '" data-mv-rich-content-subcontent="' + element.address + '" data-lat="' + element.lat + '" data-lng="' + element.lng + '">' + element.name + '</option>';
 					$('#start_point').append(optstr);
 					$('#end_point').append(optstr);
@@ -542,11 +503,6 @@
 		}
 
 		function saveDirections(form, modal, submitButton, response) {
-			// var _data = {
-			// 	'route': JSON.stringify(response)
-			// };
-			// console.log(_data);
-			// console.log(JSON.stringify(_data));
 
 			$.ajax({
 				url: form.action,
@@ -559,17 +515,6 @@
 					'route': JSON.stringify(response)
 				},
 				success: function(data) {
-					// // console.log(data);
-					// // $("#mv_data_routes").val(JSON.stringify(data));
-					// // sortRoute();
-
-					// if (data == "") {
-					// 	//Calculate directions
-					// 	getDirections();
-					// } else {
-					// 	$("#mv_data_routes").val(JSON.stringify(data));
-					// 	loadDirections();
-					// }
 
 					// Remove loading indication
 					submitButton.removeAttribute('data-mv-indicator');
@@ -798,52 +743,6 @@
 							submitButton.disabled = true;
 							getDirections(form, modal, submitButton);
 
-							// $.ajax({
-							// 	url: form.action,
-							// 	type: form.method,
-							// 	dataType: 'json',
-							// 	headers: {
-							// 		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-							// 	},
-							// 	contentType: false,
-							// 	cache: false,
-							// 	processData: false,
-							// 	data: new FormData(form),
-
-							// 	success: function(data) {
-							// 		// console.log(data);
-							// 		// $("#mv_data_routes").val(JSON.stringify(data));
-							// 		// sortRoute();
-
-							// 		if (data == "") {
-							// 			//Calculate directions
-							// 			getDirections();
-							// 		} else {
-							// 			$("#mv_data_routes").val(JSON.stringify(data));
-							// 			loadDirections();
-							// 		}
-
-							// 		// Remove loading indication
-							// 		submitButton.removeAttribute('data-mv-indicator');
-
-							// 		// Enable button
-							// 		submitButton.disabled = false;
-
-							// 		// Show popup confirmation 
-							// 		Swal.fire({
-							// 			text: "We have calculated the best route!",
-							// 			icon: "success",
-							// 			buttonsStyling: false,
-							// 			confirmButtonText: "Ok, got it!",
-							// 			customClass: {
-							// 				confirmButton: "btn btn-primary"
-							// 			}
-							// 		}).then(function(result) {
-							// 			form.reset(); // Reset form	
-							// 			modal.hide(); // Hide modal
-							// 		});
-							// 	}
-							// });
 						} else {
 							// Show popup warning. For more info check the plugin's official documentation: https://sweetalert2.github.io/
 							Swal.fire({
