@@ -1599,9 +1599,11 @@ class TokenController extends Controller
 
         $tokenids = array_column($rawtokens->toArray(), 'id');
         $key = implode("-", $tokenids);
+        
         $data['key'] = $key;
+        // Cache::forget($key);
         if (Cache::has($key)) {
-            $data['routes'] = Cache::get($key);
+            $data['routes'] = Cache::get($key);            
         } else {
             $data['routes'] = "";
         }
@@ -1614,7 +1616,7 @@ class TokenController extends Controller
         return response()->json($data);
     }
 
-    public function computeRoute(Request $request)
+    public function computeRoute2(Request $request)
     {
         $tokens = auth()->user()->clientpendingtokens;
         $locationIds = array_column($tokens->toArray(), 'location_id');
@@ -1727,7 +1729,7 @@ class TokenController extends Controller
             ])->post('https://routes.googleapis.com/directions/v2:computeRoutes', $jsonObject);
 
             $data['routes'] = $response->object();
-            Cache::put($key, $data, now()->addHours(2));
+            Cache::put($key, $data, now()->addHours(12));
             return response()->json($data);
         } else {
 
@@ -1735,6 +1737,17 @@ class TokenController extends Controller
             return response()->json($cacheval);
         }
     }
+
+    public function computeRoute(Request $request)
+    {
+        $tokens = auth()->user()->clientpendingtokens;
+        $tokenids = array_column($tokens->toArray(), 'id');
+        $key = implode("-", $tokenids);
+         
+        Cache::put($key, $request->route, now()->addHours(12));
+        return response()->json($request->route);
+        
+    } 
 
     public function checkin($id = null)
     {

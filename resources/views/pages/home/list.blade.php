@@ -23,6 +23,26 @@
     <input type="hidden" id="mv_data_locations" value="" />
     <input type="hidden" id="mv_data_tokens" value="" />
     <input type="hidden" id="mv_data_routes" value="" />
+    <ul class="nav nav-tabs nav-line-tabs mb-5 fs-6 d-none" id="mv_list_tab">
+        <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" href="#mv_tab_pane_1">List View</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#mv_tab_pane_2">Map View</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="mv_tab_pane_1" role="tabpanel">
+            <div class="row row-cols-1 row-cols-md-3 g-4" id="mv_repeater_content">
+
+            </div>
+        </div>
+        <div class="tab-pane fade" id="mv_tab_pane_2" role="tabpanel">
+            <div class="row">
+                <div id="token_map" style="height:500px"></div>
+            </div>
+        </div>
+    </div>
 
     <div class="row row-cols-1 row-cols-md-3 g-4" id="mv_repeater_content">
 

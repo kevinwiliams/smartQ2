@@ -32,7 +32,7 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <div class="form-group @error('start_point') has-error @enderror">
-                                <label for="start_point">{{ trans('app.starting_point') }} <i class="text-danger">*</i></label>
+                                <label for="start_point">I plan to start at: <i class="text-danger">*</i></label>
                                 <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select starting point" tabindex="-1" aria-hidden="true" name="start_point" id="start_point"></select>
                                 <span class="text-danger">{{ $errors->first('start_point') }}</span>
                             </div>
@@ -42,7 +42,7 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <div class="form-group @error('end_point') has-error @enderror">
-                                <label for="end_point">{{ trans('app.end_point') }} <i class="text-danger">*</i></label>
+                                <label for="end_point">And end at: <i class="text-danger">*</i></label>
                                 <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select end point" tabindex="-1" aria-hidden="true" name="end_point" id="end_point"></select>
                                 <div class="pt-3" style="display:none;" id="locationSuggestions">
                                     <span class="text-gray-700">Furthest:</span>
@@ -56,10 +56,17 @@
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
-                        <div class="fv-row mb-7">
+                        <div class="fv-row mb-2">
                             <div class="form-group @error('start_time') has-error @enderror">
-                                <label for="start_time">{{ trans('app.start_time') }}</label>
-                                <input type="text" class="form-control  form-control-solid" name="start_time" id="start_time" tabindex="-1" placeholder="Pick a start time" value="">
+                                <label for="start_time">I'm leaving:</label>
+                                <!-- <input type="text" class="form-control  form-control-solid" name="start_time" id="start_time" tabindex="-1" placeholder="Pick a start time" value=""> -->
+                                <select class="form-select form-select-solid " data-control="select2" data-placeholder="Select start time" tabindex="-1" aria-hidden="true" name="start_time" id="start_time">
+                                    <option value=0>Now</option>
+                                    <option value=15>in 15 minutes</option>
+                                    <option value=30>in 30 minutes</option>
+                                    <option value=60>in 1 hour</option>
+                                    <option value=120>in 2 hours</option>
+                                </select>
                                 <span class="text-danger">{{ $errors->first('start_time') }}</span>
                             </div>
                         </div>
@@ -67,7 +74,7 @@
                     <!--end::Col-->
                 </div>
                 <!--begin::Actions-->
-                <div class="text-center pt-15">
+                <div class="text-center pt-5">
                     <button type="reset" class="btn btn-light me-3" data-mv-calcroute-modal-action="cancel">Discard</button>
                     <button type="submit" class="btn btn-primary" data-mv-calcroute-modal-action="submit">
                         <span class="indicator-label">Calculate</span>

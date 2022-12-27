@@ -9,7 +9,7 @@
 			}
 		}
 
-		function sortRoute() {
+		function sortRoute2() {
 			// return;
 			var routeinfo = $("#mv_data_routes").val();
 			var repItem = $('#mv_step_repeater_item');
@@ -49,7 +49,7 @@
 
 						cntr++;
 
-						console.log(titleText);
+						// console.log(titleText);
 						$('div[name="token_card"]').each(function(index) {
 							var lat = $(this).data('lat');
 							var lng = $(this).data('lng');
@@ -61,11 +61,11 @@
 							if (_steps.text() != "") {
 								return;
 							}
-							console.log("calc");
+							// console.log("calc");
 							const from = new google.maps.LatLng(parseFloat(leg.endLocation.latLng.latitude), parseFloat(leg.endLocation.latLng.longitude));
 							const to = new google.maps.LatLng(lat, lng);
 							const distance = google.maps.geometry.spherical.computeDistanceBetween(from, to)
-							console.log(distance);
+							// console.log(distance);
 
 							var range = '{{ config("app.google_maps_distance_correction") }}';
 							if (distance <= parseInt(range)) {
@@ -107,6 +107,112 @@
 			}
 		}
 
+		function sortRoute(routeinfo) {
+			// return;
+			// var routeinfo = $("#mv_data_routes").val();
+			var repItem = $('#mv_step_repeater_item');
+			// var content = $('#mv_route_details');
+			var locationarray = [];
+			if (routeinfo != "" && routeinfo != undefined) {
+				$("#btnCalculateRoute").removeClass("btn-success").addClass("btn-secondary");
+				$("#mv_list_tab").removeClass('d-none').show();
+				var data = routeinfo;
+				// console.log(data);
+				// return;
+				data.routes.forEach(element => {
+					var cntr = 1;
+					element.legs.forEach(leg => {
+						// console.log(leg);
+						var start_location = leg.start_location;
+						var end_location = leg.end_location;
+						locationarray.push(start_location);
+						locationarray.push(end_location);
+
+						// console.log(JSON.stringify(leg.start_location.toJSON(), null, 2));
+						// console.log(JSON.stringify(leg.end_location.toJSON(), null, 2));
+						// console.log(leg.start_location.toJSON());
+						// var _latlng = leg.start_location.toJSON();
+						// console.log(start_location.lat);
+						// console.log(start_location.lng);
+						// return;
+						var _clone = repItem.clone();
+						_clone.removeAttr("id");
+
+						var _step = _clone.find("#rptStep");
+						_step.text("Trip " + cntr);
+
+						var _title = _clone.find("#rptTitle");
+						var titleText = getLocationName(start_location) + " to " + getLocationName(end_location);
+						_title.text(titleText);
+
+						var _desc = _clone.find("#rptDescription");
+						var description = leg.duration.text + " - " + leg.distance.text;
+						_desc.text(description)
+
+						var _directions = _clone.find("#rptDirections");
+						var _url = "https://www.google.com/maps/dir/?api=1&origin=" + start_location.lat + "," + start_location.lng + "&destination=" + end_location.lat + "," + end_location.lng;
+						_directions.attr("href", _url);
+
+						cntr++;
+
+						// console.log(titleText);
+						$('div[name="token_card"]').each(function(index) {
+							var lat = $(this).data('lat');
+							var lng = $(this).data('lng');
+
+							var _steps = $(this).find("#rptTokenStep");
+							// console.log(_steps.text());
+							// console.log(lng);
+							// return;
+							if (_steps.text() != "") {
+								return;
+							}
+							// console.log("calc");
+							// const from = new google.maps.LatLng(parseFloat(end_location.lat), parseFloat(end_location.lat));
+							const to = new google.maps.LatLng(lat, lng);
+							const distance = google.maps.geometry.spherical.computeDistanceBetween(end_location, to)
+							// console.log(distance);
+
+							var range = '{{ config("app.google_maps_distance_correction") }}';
+							if (distance <= parseInt(range)) {
+								_steps.append(_clone.clone());
+							}
+						});
+
+						// content.append(_clone);
+					});
+				});
+
+				var cntr = 1;
+				locationarray.forEach(location => {
+					// console.log(location);
+					$('div[name="token_card"]').each(function(index) {
+						var lat = $(this).data('lat');
+						var lng = $(this).data('lng');
+						var order = $(this).data('order');
+						if (order > 0)
+							return;
+						// console.log("lat:" + lat);
+						// console.log("lon:" + lng);
+						// const from = new google.maps.LatLng(parseFloat(location.latitude), parseFloat(location.longitude));
+						const to = new google.maps.LatLng(lat, lng);
+						const distance = google.maps.geometry.spherical.computeDistanceBetween(location, to)
+						// console.log(distance);
+						var range = '{{ config("app.google_maps_distance_correction") }}';
+						if (distance <= parseInt(range)) {
+							$(this).data("order", cntr);
+							// console.log("match:" + cntr);
+						}
+					});
+					cntr++;
+				});
+
+				$('div[name="token_card"]')
+					.sort((a, b) => $(a).data("order") - $(b).data("order"))
+					.appendTo("#mv_repeater_content");
+			}
+		}
+
 		function secondsToMinutes(duration) {
 			var minutes = Math.round((parseInt(duration.slice(0, -1)) / 60), 2);
 			return minutes;
@@ -114,14 +220,16 @@
 
 		function getLocationName(location) {
 			var locobj = $("#mv_data_locations").val();
-			// console.log(locobj);
+			console.log(location.lat);
+			console.log(location.lng);
 			var _name = "";
-			const from = new google.maps.LatLng(parseFloat(location.latitude), parseFloat(location.longitude));
+			const from = new google.maps.LatLng(parseFloat(location.lat), parseFloat(location.lng));
 
 			if (locobj != "") {
 				var data = $.parseJSON(locobj);
 				data.forEach(element => {
-
+					console.log(element.lat);
+					console.log(element.lon);
 					const to = new google.maps.LatLng(element.lat, element.lon);
 					const distance = google.maps.geometry.spherical.computeDistanceBetween(from, to)
 					var range = '{{ config("app.google_maps_distance_correction") }}';
@@ -137,22 +245,6 @@
 			if (_name != "") {
 				return _name;
 			} else {
-				// const geocoder = new google.maps.Geocoder();
-				// geocoder
-				// 	.geocode({
-				// 		location: from
-				// 	})
-				// 	.then((response) => {
-				// 		if (response.results[0]) {
-				// 			_name = response.results[0].formatted_address;
-				// 			console.log(_name);
-				// 			return _name;
-				// 		} else {
-				// 			console.log("No results found");
-				// 		}
-				// 	})
-				// 	.catch((e) => console.log("Geocoder failed due to: " + e));
-
 				return "Starting Point";
 			}
 		}
@@ -163,8 +255,8 @@
 
 			var options = $('#start_point').empty();
 			var options = $('#end_point').empty();
-			$('#start_point').append('<option value="" data-mv-rich-content-subcontent="">Select a location</option>');
-			$('#end_point').append('<option value="" data-mv-rich-content-subcontent="">Select a location</option>');
+			// $('#start_point').append('<option value="" data-mv-rich-content-subcontent="">Select a location</option>');
+			// $('#end_point').append('<option value="" data-mv-rich-content-subcontent="">Select a location</option>');
 
 			if ($("#lng").val() != "") {
 				var optstr = '<option value="-1" data-mv-rich-content-subcontent="" data-lat="' + $("#lat").val() + '" data-lng="' + $("#lng").val() + '">Current Location</option>';
@@ -275,12 +367,17 @@
 					$("#mv_location_suggestion").data('id', idArray[key]);
 					var _text = _option.text() + " - " + _highresult.distance.text + " (ETA: " + _highresult.duration.text + ")";
 					$("#mv_location_suggestion").text(_text);
+
+
 					// locationSuggestions
 					$("#locationSuggestions").show();
 				} else {
 					$("#locationSuggestions").hide();
 				}
-
+				// console.log(currentid);
+				// console.log(idArray[key]);
+				$("#end_point").val(idArray[key]);
+				$("#end_point").trigger('change');
 			});
 		}
 
@@ -292,15 +389,48 @@
 			});
 		}
 
-		var initSetup = () => {
-			$("#start_time").flatpickr({
-				altInput: true,
-				altFormat: "F j, Y h:i K",
-				enableTime: true,
-				dateFormat: "Y-m-d h:i K",
-				minDate: "today",
-				defaultDate: new Date(),
+		function initMap(response) {
+			const directionsService = new google.maps.DirectionsService();
+			const directionsRenderer = new google.maps.DirectionsRenderer({
+				preserveViewport: true
 			});
+
+			var start_point = $("#start_point").find(":selected");
+
+			const _origin = new google.maps.LatLng(parseFloat(start_point.data("lat")), parseFloat(start_point.data("lng")));
+
+			// console.log(start_point);
+			// console.log(start_point.data("lat"));
+			// console.log(start_point.data("lng"));
+			// return ;
+			const map = new google.maps.Map(document.getElementById("token_map"), {
+				zoom: 12,
+				center: {
+					lat: start_point.data("lat"),
+					lng: start_point.data("lng")
+				},
+			});
+
+			directionsRenderer.setMap(map);
+			directionsRenderer.setDirections(response);
+			// map.setZoom(12);
+			// const onChangeHandler = function() {
+			// 	calculateAndDisplayRoute(directionsService, directionsRenderer);
+			// };
+
+			// document.getElementById("start").addEventListener("change", onChangeHandler);
+			// document.getElementById("end").addEventListener("change", onChangeHandler);
+		}
+
+		var initSetup = () => {
+			// $("#start_time").flatpickr({
+			// 	altInput: true,
+			// 	altFormat: "F j, Y h:i K",
+			// 	enableTime: true,
+			// 	dateFormat: "Y-m-d h:i K",
+			// 	minDate: "today",
+			// 	defaultDate: new Date(),
+			// });
 
 			const locationoptionFormat = (item) => {
 				if (!item.id) {
@@ -356,11 +486,13 @@
 						$("#mv_data_tokens").val(JSON.stringify(data.tokens));
 						loadTokens();
 					}
-
+					// console.log(data);
+					// console.log(data.routes);
 					if (data.routes) {
-						// console.log(JSON.stringify(data.tokens));
-						$("#mv_data_routes").val(JSON.stringify(data.routes));
-						sortRoute();
+						// console.log($.parseJSON(data.routes));
+						// $("#mv_data_routes").val(JSON.stringify(data.routes));
+						initMap($.parseJSON(data.routes));
+						sortRoute($.parseJSON(data.routes));
 					}
 
 
@@ -416,15 +548,6 @@
 					_clone.data("lat", element.lat);
 					_clone.data("lng", element.lng);
 
-					// var radio = _clone.find("#mv-departmentrepeater-id");
-					// radio.val(element.id);
-
-					// //update ids
-					// var __id = radio.attr('id');
-					// radio.attr('id', __id + element.id);
-					// var label = _clone.find('label');
-					// label.attr('for', __id + element.id);			
-
 					content.append(_clone);
 					cntr++;
 				});
@@ -437,12 +560,145 @@
 			if (dataobj != "") {
 				var data = $.parseJSON(dataobj);
 				data.forEach(element => {
-					var optstr = '<option value="' + element.id + '" data-mv-rich-content-subcontent="' + element.address + '" data-lat="' + element.lat + '" data-lng="' + element.lon + '">' + element.name + '</option>';
+					// console.log(element);
+					var optstr = '<option value="' + element.id + '" data-mv-rich-content-subcontent="' + element.address + '" data-lat="' + element.lat + '" data-lng="' + element.lng + '">' + element.name + '</option>';
 					$('#start_point').append(optstr);
 					$('#end_point').append(optstr);
 				});
 			}
 		}
+
+		function saveDirections(form, modal, submitButton, response) {
+			// var _data = {
+			// 	'route': JSON.stringify(response)
+			// };
+			// console.log(_data);
+			// console.log(JSON.stringify(_data));
+
+			$.ajax({
+				url: form.action,
+				type: form.method,
+				dataType: 'json',
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				},
+				data: {
+					'route': JSON.stringify(response)
+				},
+				success: function(data) {
+					// // console.log(data);
+					// // $("#mv_data_routes").val(JSON.stringify(data));
+					// // sortRoute();
+
+					// if (data == "") {
+					// 	//Calculate directions
+					// 	getDirections();
+					// } else {
+					// 	$("#mv_data_routes").val(JSON.stringify(data));
+					// 	loadDirections();
+					// }
+
+					// Remove loading indication
+					submitButton.removeAttribute('data-mv-indicator');
+
+					// Enable button
+					submitButton.disabled = false;
+
+					// Show popup confirmation 
+					Swal.fire({
+						text: "We have calculated the best route!",
+						icon: "success",
+						buttonsStyling: false,
+						confirmButtonText: "Ok, got it!",
+						customClass: {
+							confirmButton: "btn btn-primary"
+						}
+					}).then(function(result) {
+						form.reset(); // Reset form	
+						modal.hide(); // Hide modal
+					});
+				}
+			});
+		}
+
+		function getDirections(form, modal, submitButton) {
+			const directionsService = new google.maps.DirectionsService();
+			const directionsRenderer = new google.maps.DirectionsRenderer({
+				preserveViewport: true
+			});
+
+
+			var excludes = ["-1"];
+			var _waypoints = [];
+			var start_point = $("#start_point").find(":selected");
+
+			const _origin = new google.maps.LatLng(parseFloat(start_point.data("lat")), parseFloat(start_point.data("lng")));
+			if (start_point.val() != "-1") {
+				excludes.push(start_point.val());
+			}
+
+
+			var end_point = $("#end_point").find(":selected");
+
+			const _destination = new google.maps.LatLng(parseFloat(end_point.data("lat")), parseFloat(end_point.data("lng")));
+			if (end_point.val() != "-1") {
+				excludes.push(end_point.val());
+			}
+
+			var locobj = $("#mv_data_locations").val();
+
+			if (locobj != "") {
+				var data = $.parseJSON(locobj);
+				data.forEach(element => {
+					if (!excludes.includes(element.id + "")) {
+						_waypoints.push({
+							location: new google.maps.LatLng(element.lat, element.lon),
+							stopover: true
+						});
+					}
+				});
+			}
+
+			var start_time = $("#start_time");
+			var _departureTime = new Date();
+			if (!isNaN(start_time.val())) {
+				_departureTime.setMinutes(_departureTime.getMinutes() + start_time.val());
+			}
+
+			const map = new google.maps.Map(document.getElementById("token_map"), {
+				zoom: 7,
+				center: _origin,
+			});
+			directionsRenderer.setMap(map);
+			// return;
+			var _request = {
+				origin: _origin,
+				destination: _destination,
+				waypoints: _waypoints,
+				optimizeWaypoints: true,
+				provideRouteAlternatives: false,
+				travelMode: 'DRIVING',
+				drivingOptions: {
+					departureTime: _departureTime,
+					trafficModel: 'pessimistic'
+				},
+				unitSystem: google.maps.UnitSystem.IMPERIAL
+			};
+
+			directionsService
+				.route(_request)
+				.then((response) => {
+					directionsRenderer.setDirections(response);
+					// console.log(response);
+					sortRoute(response);
+					saveDirections(form, modal, submitButton, response);
+				})
+				.catch((e) => {
+					(status != undefined) ? console.error(status): console.log(e);
+				});
+			// .catch((e) => window.alert("Directions request failed due to " + status));
+		}
+
 
 		var handleForm = () => {
 			// Shared variables
@@ -567,43 +823,54 @@
 
 							// Disable button to avoid multiple click 
 							submitButton.disabled = true;
-							$.ajax({
-								url: form.action,
-								type: form.method,
-								dataType: 'json',
-								headers: {
-									'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-								},
-								contentType: false,
-								cache: false,
-								processData: false,
-								data: new FormData(form),
+							getDirections(form, modal, submitButton);
 
-								success: function(data) {
-									// console.log(data);
-									$("#mv_data_routes").val(JSON.stringify(data));
-									sortRoute();
-									// Remove loading indication
-									submitButton.removeAttribute('data-mv-indicator');
+							// $.ajax({
+							// 	url: form.action,
+							// 	type: form.method,
+							// 	dataType: 'json',
+							// 	headers: {
+							// 		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+							// 	},
+							// 	contentType: false,
+							// 	cache: false,
+							// 	processData: false,
+							// 	data: new FormData(form),
 
-									// Enable button
-									submitButton.disabled = false;
+							// 	success: function(data) {
+							// 		// console.log(data);
+							// 		// $("#mv_data_routes").val(JSON.stringify(data));
+							// 		// sortRoute();
 
-									// Show popup confirmation 
-									Swal.fire({
-										text: "We have calculated the best route!",
-										icon: "success",
-										buttonsStyling: false,
-										confirmButtonText: "Ok, got it!",
-										customClass: {
-											confirmButton: "btn btn-primary"
-										}
-									}).then(function(result) {
-										form.reset(); // Reset form	
-										modal.hide(); // Hide modal
-									});
-								}
-							});
+							// 		if (data == "") {
+							// 			//Calculate directions
+							// 			getDirections();
+							// 		} else {
+							// 			$("#mv_data_routes").val(JSON.stringify(data));
+							// 			loadDirections();
+							// 		}
+
+							// 		// Remove loading indication
+							// 		submitButton.removeAttribute('data-mv-indicator');
+
+							// 		// Enable button
+							// 		submitButton.disabled = false;
+
+							// 		// Show popup confirmation 
+							// 		Swal.fire({
+							// 			text: "We have calculated the best route!",
+							// 			icon: "success",
+							// 			buttonsStyling: false,
+							// 			confirmButtonText: "Ok, got it!",
+							// 			customClass: {
+							// 				confirmButton: "btn btn-primary"
+							// 			}
+							// 		}).then(function(result) {
+							// 			form.reset(); // Reset form	
+							// 			modal.hide(); // Hide modal
+							// 		});
+							// 	}
+							// });
 						} else {
 							// Show popup warning. For more info check the plugin's official documentation: https://sweetalert2.github.io/
 							Swal.fire({
