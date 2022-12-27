@@ -12,16 +12,16 @@
 		function sortRoute2() {
 			var routeinfo = $("#mv_data_routes").val();
 			var repItem = $('#mv_step_repeater_item');
-			
+
 			var locationarray = [];
 			if (routeinfo != "" && routeinfo != undefined) {
 				$("#btnCalculateRoute").removeClass("btn-success").addClass("btn-secondary");
 				var data = $.parseJSON(routeinfo);
-				
+
 				data.routes.routes.forEach(element => {
 					var cntr = 1;
 					element.legs.forEach(leg => {
-						console.log(leg);
+						// console.log(leg);
 						locationarray.push(leg.startLocation.latLng);
 						locationarray.push(leg.endLocation.latLng);
 
@@ -59,7 +59,7 @@
 
 							const from = new google.maps.LatLng(parseFloat(leg.endLocation.latLng.latitude), parseFloat(leg.endLocation.latLng.longitude));
 							const to = new google.maps.LatLng(lat, lng);
-							const distance = google.maps.geometry.spherical.computeDistanceBetween(from, to)							
+							const distance = google.maps.geometry.spherical.computeDistanceBetween(from, to)
 
 							var range = '{{ config("app.google_maps_distance_correction") }}';
 							if (distance <= parseInt(range)) {
@@ -190,16 +190,16 @@
 
 		function getLocationName(location) {
 			var locobj = $("#mv_data_locations").val();
-			console.log(location.lat);
-			console.log(location.lng);
+			// console.log(location.lat);
+			// console.log(location.lng);
 			var _name = "";
 			const from = new google.maps.LatLng(parseFloat(location.lat), parseFloat(location.lng));
 
 			if (locobj != "") {
 				var data = $.parseJSON(locobj);
 				data.forEach(element => {
-					console.log(element.lat);
-					console.log(element.lon);
+					// console.log(element.lat);
+					// console.log(element.lon);
 					const to = new google.maps.LatLng(element.lat, element.lon);
 					const distance = google.maps.geometry.spherical.computeDistanceBetween(from, to)
 					var range = '{{ config("app.google_maps_distance_correction") }}';
@@ -324,7 +324,7 @@
 
 				if (currentid != idArray[key]) {
 					var _option = $('#end_point > option[value="' + idArray[key] + '"]');
-					
+
 					$("#mv_location_suggestion").data('id', idArray[key]);
 					var _text = _option.text() + " - " + _highresult.distance.text + " (ETA: " + _highresult.duration.text + ")";
 					$("#mv_location_suggestion").text(_text);
@@ -354,16 +354,25 @@
 				preserveViewport: true
 			});
 
-			var start_point = $("#start_point").find(":selected");
+			var lat = "";
+			var lng = "";
 
-			const _origin = new google.maps.LatLng(parseFloat(start_point.data("lat")), parseFloat(start_point.data("lng")));
+			// var card = $('div[name="token_card"]').each(function(index) {
+			// 	lat = $(this).data('lat');
+			// 	lng = $(this).data('lng');
+			// 	return;
+			// });
 
 
+			var card = $('div[name="token_card"]').first();
+			lat = card.data('lat');
+			lng = card.data('lng');
+ 
 			const map = new google.maps.Map(document.getElementById("token_map"), {
 				zoom: 12,
 				center: {
-					lat: start_point.data("lat"),
-					lng: start_point.data("lng")
+					lat: parseFloat(lat),
+					lng: parseFloat(lng)
 				},
 			});
 
@@ -427,9 +436,8 @@
 					}
 
 					if (data.routes) {
-
-						initMap($.parseJSON(data.routes));
 						sortRoute($.parseJSON(data.routes));
+						initMap($.parseJSON(data.routes));
 					}
 
 
@@ -448,12 +456,12 @@
 				var data = $.parseJSON(dataobj);
 				data.forEach(element => {
 					var _clone = repItem.clone();
-					
+
 					_clone.removeClass("d-none");
 					_clone.attr("id", "token_card_" + element.id);
 					_clone.attr("name", "token_card");
 					_clone.data("order", 0);
-					
+
 					var header = _clone.find("#rptTokenHeader");
 					var status = _clone.find("#rptTokenStatus");
 					if (element.status == 3) {
@@ -494,7 +502,7 @@
 
 			if (dataobj != "") {
 				var data = $.parseJSON(dataobj);
-				data.forEach(element => {					
+				data.forEach(element => {
 					var optstr = '<option value="' + element.id + '" data-mv-rich-content-subcontent="' + element.address + '" data-lat="' + element.lat + '" data-lng="' + element.lng + '">' + element.name + '</option>';
 					$('#start_point').append(optstr);
 					$('#end_point').append(optstr);
@@ -607,7 +615,6 @@
 				.route(_request)
 				.then((response) => {
 					directionsRenderer.setDirections(response);
-					// console.log(response);
 					sortRoute(response);
 					saveDirections(form, modal, submitButton, response);
 				})
@@ -733,7 +740,6 @@
 				// Validate form before submit
 				if (validator) {
 					validator.validate().then(function(status) {
-						console.log('validated!');
 
 						if (status == 'Valid') {
 							// Show loading indication
