@@ -117,24 +117,17 @@
 				$("#btnCalculateRoute").removeClass("btn-success").addClass("btn-secondary");
 				$("#mv_list_tab").removeClass('d-none').show();
 				var data = routeinfo;
-				// console.log(data);
-				// return;
+				
 				data.routes.forEach(element => {
 					var cntr = 1;
 					element.legs.forEach(leg => {
-						// console.log(leg);
+						
 						var start_location = leg.start_location;
 						var end_location = leg.end_location;
 						locationarray.push(start_location);
 						locationarray.push(end_location);
 
-						// console.log(JSON.stringify(leg.start_location.toJSON(), null, 2));
-						// console.log(JSON.stringify(leg.end_location.toJSON(), null, 2));
-						// console.log(leg.start_location.toJSON());
-						// var _latlng = leg.start_location.toJSON();
-						// console.log(start_location.lat);
-						// console.log(start_location.lng);
-						// return;
+						
 						var _clone = repItem.clone();
 						_clone.removeAttr("id");
 
@@ -374,8 +367,7 @@
 				} else {
 					$("#locationSuggestions").hide();
 				}
-				// console.log(currentid);
-				// console.log(idArray[key]);
+				
 				$("#end_point").val(idArray[key]);
 				$("#end_point").trigger('change');
 			});
@@ -385,7 +377,7 @@
 			$("#mv_location_suggestion").on('click', function(e) {
 				$("#end_point").val($(this).data('id'));
 				$("#end_point").trigger('change');
-				// console.log(e);
+				
 			});
 		}
 
@@ -399,10 +391,7 @@
 
 			const _origin = new google.maps.LatLng(parseFloat(start_point.data("lat")), parseFloat(start_point.data("lng")));
 
-			// console.log(start_point);
-			// console.log(start_point.data("lat"));
-			// console.log(start_point.data("lng"));
-			// return ;
+			
 			const map = new google.maps.Map(document.getElementById("token_map"), {
 				zoom: 12,
 				center: {
@@ -412,25 +401,10 @@
 			});
 
 			directionsRenderer.setMap(map);
-			directionsRenderer.setDirections(response);
-			// map.setZoom(12);
-			// const onChangeHandler = function() {
-			// 	calculateAndDisplayRoute(directionsService, directionsRenderer);
-			// };
-
-			// document.getElementById("start").addEventListener("change", onChangeHandler);
-			// document.getElementById("end").addEventListener("change", onChangeHandler);
+			directionsRenderer.setDirections(response);			
 		}
 
-		var initSetup = () => {
-			// $("#start_time").flatpickr({
-			// 	altInput: true,
-			// 	altFormat: "F j, Y h:i K",
-			// 	enableTime: true,
-			// 	dateFormat: "Y-m-d h:i K",
-			// 	minDate: "today",
-			// 	defaultDate: new Date(),
-			// });
+		var initSetup = () => {			
 
 			const locationoptionFormat = (item) => {
 				if (!item.id) {
@@ -440,8 +414,7 @@
 				var span = document.createElement('span');
 				var template = '';
 
-				template += '<div class="d-flex align-items-center">';
-				//template += '<img src="' + item.element.getAttribute('data-kt-rich-content-icon') + '" class="rounded-circle h-40px me-3" alt="' + item.text + '"/>';
+				template += '<div class="d-flex align-items-center">';				
 				template += '<div class="d-flex flex-column">'
 				template += '<span class="fs-4 fw-bold lh-1">' + item.text + '</span>';
 				template += '<span class="text-muted fs-5">' + item.element.getAttribute('data-mv-rich-content-subcontent') + '</span>';

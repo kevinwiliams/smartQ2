@@ -134,4 +134,92 @@ class Utilities_lib extends Controller
             return $response;
         }
     }
+
+    public function generateZoomMeeting()
+    {
+        // Replace these values with your own API key and secret
+        $api_key = 'your_api_key';
+        $api_secret = 'your_api_secret';
+
+        // Set the meeting details
+        $meeting_topic = 'My Zoom Meeting';
+        $meeting_duration = 60;  // in minutes
+
+        // Create the meeting
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://api.zoom.us/v2/meetings');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Basic ' . base64_encode("$api_key:$api_secret"),
+            'Content-Type: application/json',
+        ]);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+            'topic' => $meeting_topic,
+            'duration' => $meeting_duration,
+        ]));
+        $response = curl_exec($ch);
+        $response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($response_code !== 201) {
+            // handle error
+        }
+        $meeting = json_decode($response);
+
+        // Start the meeting
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://api.zoom.us/v2/meetings/{$meeting->id}/start");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Basic ' . base64_encode("$api_key:$api_secret"),
+        ]);
+        $response = curl_exec($ch);
+        $response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($response_code !== 204) {
+            // handle error
+        }
+    }
+
+    public function WhatsAppWebhook()
+    { 
+        // Make sure the request is a POST request
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            die('Invalid request method');
+        }
+
+        // Read the request body
+        $requestBody = file_get_contents('php://input');
+
+        // Parse the request body as JSON
+        $requestData = json_decode($requestBody, true);
+
+        // Validate the request data
+        if (!isset($requestData['event']) || !isset($requestData['timestamp']) || !isset($requestData['data'])) {
+            http_response_code(400);
+            die('Invalid request data');
+        }
+
+        // Process the request based on the event type
+        switch ($requestData['event']) {
+            case 'message_received':
+                // Do something with the received message
+                $message = $requestData['data']['message'];
+                break;
+            case 'message_sent':
+                // Do something with the sent message
+                $message = $requestData['data']['message'];
+                break;
+            case 'message_delivered':
+                // Do something with the delivered message
+                $message = $requestData['data']['message'];
+                break;
+                // Add additional event types here as needed
+            default:
+                http_response_code(400);
+                die('Invalid event type');
+        }
+
+        http_response_code(200);
+    }
 }
