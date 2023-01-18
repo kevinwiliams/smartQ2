@@ -147,7 +147,7 @@ Route::middleware('auth')->group(function () {
 		Route::get('getclienttokens', [TokenController::class, 'getCurrentClientTokens']);
 		Route::post('computeRoute', [TokenController::class, 'computeRoute']);		
 		Route::post('autotoken', [TokenController::class, 'clientTokenAuto']);
-		Route::post('currentposition', [TokenController::class, 'currentposition']);
+		Route::post('currentposition/{id}', [TokenController::class, 'currentposition']);
 	});
 
 

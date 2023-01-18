@@ -577,7 +577,7 @@
 			}
 
 			const map = new google.maps.Map(document.getElementById("token_map"), {
-				zoom: 7,
+				zoom: 12,
 				center: _origin,
 			});
 			directionsRenderer.setMap(map);

@@ -1221,7 +1221,7 @@ class TokenController extends Controller
             $msg = "Token No: $token->token_no\r\n Department: $dept, Counter: $counter and Officer: $officer. \r\nComplete";
             (new Utilities_lib)->sendPushNotification($user, $msg);
         }
-
+        (new Utilities_lib)->TokenNotification();
         return redirect()->back()->with('message', trans('app.complete_successfully'));
     }
 
@@ -1248,7 +1248,7 @@ class TokenController extends Controller
             $msg = "Token No: $token->token_no\r\n Department: $dept, Counter: $counter and Officer: $officer. \r\Stopped";
             (new Utilities_lib)->sendPushNotification($user, $msg);
         }
-
+        (new Utilities_lib)->TokenNotification();
         return redirect()->back()->with('message', trans('app.update_successfully'));
     }
 
@@ -1278,7 +1278,7 @@ class TokenController extends Controller
             $msg = "Token No: $token->token_no\r\n Department: $dept\r\ncancelled due to no show.";
             (new Utilities_lib)->sendPushNotification($user, $msg);
         }
-
+        (new Utilities_lib)->TokenNotification();
         return redirect()->back()->with('message', trans('app.update_successfully'));
     }
 
@@ -1364,7 +1364,7 @@ class TokenController extends Controller
                 $data['exception'] = trans('app.please_try_again');
             }
         }
-
+        (new Utilities_lib)->TokenNotification();
         return response()->json($data);
     }
 
@@ -1542,13 +1542,40 @@ class TokenController extends Controller
         return view('pages.home.list');
     }
 
-    public function currentposition()
+    public function _currentposition()
     {
         $token = Token::whereIn('status', ['0', '3'])
             ->where('client_id', auth()->user()->id)
             ->orderBy('is_vip', 'DESC')
             ->orderBy('id', 'ASC')
             ->first();
+
+        $dept = Department::find($token->department_id);
+
+        $list = Token::whereIn('status', ['0', '3'])
+            ->where('department_id', $token->department_id)
+            ->where('counter_id', $token->counter_id)
+            ->orderBy('is_vip', 'DESC')
+            ->orderBy('id', 'ASC')->get();
+        $cntr = 1;
+        foreach ($list as $value) {
+            if ($value->token_no == $token->token_no) {
+                break;
+            }
+            $cntr++;
+        }
+
+        $waittime = $dept->avg_wait_time * ($cntr);
+        $data['status'] = true;
+        $data['position'] = $cntr;
+        $data['wait'] = date('H:i', mktime(0, $waittime));
+
+        return response()->json($data);
+    }
+
+    public function currentposition($id)
+    {
+        $token = Token::where('id', $id)->first();
 
         $dept = Department::find($token->department_id);
 

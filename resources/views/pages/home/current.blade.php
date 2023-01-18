@@ -352,7 +352,7 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     type: 'post',
-                    url: '{{ URL::to("home/currentposition") }}',
+                    url: '{{ URL::to("home/currentposition") }}/{{ $token->id }}',
                     success: function(data) {
                         // console.log(data);
                         $("#tkn_position").text("# " + data.position);
