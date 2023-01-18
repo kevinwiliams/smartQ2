@@ -1312,7 +1312,7 @@ class TokenController extends Controller
             (new Utilities_lib)->sendPushNotification($user, $msg);
             (new Utilities_lib)->sendSMSNotification($user, $msg);
         }
-
+        (new Utilities_lib)->TokenNotification();
         return redirect()->back()->with('message', trans('app.update_successfully'));
     }
 
