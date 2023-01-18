@@ -11,13 +11,14 @@ return strtotime($date1) - strtotime($date2);
 }
 
 
-$years = array_unique($data->pluck('year')->toArray());
+
 
 $locations = array_unique($data->pluck('location_name')->toArray());
 
 $daterange = explode("-", $master->daterange);
 $startMonth = Carbon\Carbon::parse($daterange[0])->month;
 $endMonth = Carbon\Carbon::parse($daterange[1])->month;
+$months = App\Core\Util::getMonths($daterange[0],$daterange[1]);
 
 @endphp
 
@@ -27,33 +28,28 @@ $endMonth = Carbon\Carbon::parse($daterange[1])->month;
         <table class="table table-striped table-row-bordered gy-5 gs-7 border rounded w-100" id="mv_report_table_1">
             <thead>
                 <tr class="fw-bolder fs-6 text-gray-800 px-7">
-                    <th rowspan="2" class="align-middle border-bottom border-end w-200px">Name</th>
-                    @foreach($years as $_year)
-                    <th colspan="{{ idate('W', mktime(0, 0, 0, 12, 28, $_year)) }}" class="border-bottom">{{ $_year }}</th>
+                    <th class="align-middle border-bottom border-end w-200px">Name</th>
+                    @foreach($months as $_month)
+
+
+                    <th style="text-align: center;">{{ $_month["name"] . ' ' . $_month["year"] }}</th>
+
                     @endforeach
                 </tr>
-                <tr class="fw-bolder fs-6 text-gray-800 px-7">
-                    @foreach($years as $_year)
-                    @for($i = $startMonth;$i <= $endMonth ;$i++)
-                        @php 
-                            $dateObj=DateTime::createFromFormat('!m', $i);
-                            $monthName=$dateObj->format('F'); // March
-                        @endphp
-                        <th style="text-align: center;">{{ $monthName }}</th>
-                        @endfor
-                        @endforeach
-                </tr>
+
             </thead>
             <tbody>
                 @foreach($locations as $_location)
                 <tr>
                     <td>{{ $_location }}</td>
-                    @foreach($years as $_year)
-                    @for($i = $startMonth;$i <= $endMonth ;$i++) @php $info=$data->where('year',$_year)->where('location_name', $_location)->where('month',$i)->first();
+
+                        @foreach($months as $_month)
+                         @php 
+                         $info=$data->where('year',$_month["year"])->where('location_name', $_location)->where('month',$_month["month"])->first();
                         @endphp
                         <td style="text-align: center;">{{ ($info)?$info->total:0 }}</td>
-                        @endfor
                         @endforeach
+
                 </tr>
 
                 @endforeach

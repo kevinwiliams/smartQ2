@@ -546,6 +546,54 @@ class Util
             $date->addDay();
         }
 
+        // echo '<pre>';
+        // print_r($dates);
+        // echo '</pre>';
+        // die();
+        return $dates;
+    }
+
+    public static function getYears($startdate, $enddate)
+    {
+
+        // $today = \Carbon\Carbon::today();
+        $startyear = \Carbon\Carbon::parse($startdate)->format('Y');
+        $endyear = \Carbon\Carbon::parse($enddate)->format('Y'); 
+        
+        $dates = [];
+
+        for ($i = $startyear; $i <= $endyear; $i++) { 
+            $dates[$i] = $i; 
+        }
+        
+        return $dates;
+    }
+
+    public static function getMonths($startdate, $enddate, $year = null)
+    {
+
+        // $today = \Carbon\Carbon::today();
+        $date = \Carbon\Carbon::parse($startdate)->endOfMonth();
+        $eom = \Carbon\Carbon::parse($enddate)->endOfMonth();
+
+        $dates = [];
+
+        for ($i = 0; $date->lte($eom); $i++) {
+            $startDate = $date->copy();
+            if ($year == null) {
+                $dates[$i] = array("month" => $startDate->month, "name" => $startDate->monthName, "year" => $startDate->year);
+            } else {
+                if ($startDate->year ==  $year)
+                    $dates[$i] = array("month" => $startDate->month, "name" => $startDate->monthName, "year" => $startDate->year);
+            }
+
+            $date->addMonth();
+        }
+
+        // echo '<pre>';
+        // print_r($dates);
+        // echo '</pre>';
+        // die();
         return $dates;
     }
 }

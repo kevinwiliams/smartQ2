@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Core\Util;
 use App\Http\Controllers\Controller;
 use App\Models\Department;
 use App\Models\Location;
@@ -33,8 +34,8 @@ class ReportController extends Controller
         $data->graph = false;
         if (request()->has('report') && request()->has('location_id') && request()->has('daterange')) {
             $daterange = explode("-", request('daterange'));
-            $start = Carbon::createFromTimestamp(strtotime($daterange[0]));
-            $end = Carbon::createFromTimestamp(strtotime($daterange[1]));
+            $start = Carbon::createFromTimestamp(strtotime($daterange[0]))->startOfDay();
+            $end = Carbon::createFromTimestamp(strtotime($daterange[1]))->endOfDay();
             switch (request('report')) {
                 case '1':
                     $data->data = DB::table("token")
@@ -82,6 +83,7 @@ class ReportController extends Controller
                         ->groupByRaw('YEAR(token.`created_at`),WEEK(token.`created_at`),`location_id`,`location_name`')
                         ->orderByRaw('location_name', 'year', 'week')
                         ->get();
+                       
                     break;
                 case '4':
 
