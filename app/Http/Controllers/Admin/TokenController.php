@@ -1598,7 +1598,7 @@ class TokenController extends Controller
             $cntr++;
         }
 
-        $waittime = $dept->avg_wait_time * ($cntr);
+        $waittime = $dept->avg_wait_time * ($cntr - 1);
         $data['status'] = true;
         $data['position'] = $cntr;
         $data['wait'] = date('H:i', mktime(0, $waittime));
