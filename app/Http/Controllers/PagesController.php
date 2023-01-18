@@ -162,6 +162,7 @@ class PagesController extends Controller
     public function officerPerformance()
     {
         $roles = auth()->user()->getRoleNames()->toArray();
+        $location = auth()->user()->location_id;
         $query = DB::table("user AS u")
             ->select(DB::raw("
                 u.id,
@@ -173,6 +174,7 @@ class PagesController extends Controller
                 COUNT(CASE WHEN t.status='3' THEN t.id END) AS booked,
                 COUNT(t.id) AS total 
             "))
+            ->where('u.location_id', $location)
             ->leftJoin("token AS t", function ($join) {
                 $join->on("t.user_id", "=", "u.id");
                 // $join->whereDate("t.created_at", "=", date("Y-m-d"));
