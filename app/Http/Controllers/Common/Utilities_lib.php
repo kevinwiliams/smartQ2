@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
 use App\Models\DisplaySetting;
+use App\Models\SmsHistory;
+use App\Models\SmsSetting;
 use App\Models\User;
 use DateTime;
 use Illuminate\Support\Facades\DB;
@@ -84,6 +86,36 @@ class Utilities_lib extends Controller
         }
     }
 
+    public function sendSMSNotification(User $client, $message)
+    {
+
+        if ($client) {
+            $setting  = SmsSetting::first();
+            $sms_lib = new SMS_lib;
+            
+            $phone = $this->sanitizePhoneNumber($client->mobile);
+
+            $data = $sms_lib
+                ->provider("$setting->provider")
+                ->api_key("$setting->api_key")
+                ->username("$setting->username")
+                ->password("$setting->password")
+                ->from("$setting->from")
+                ->to("$phone")
+                ->message("$message")
+                ->response();
+
+            //store sms information 
+            $sms = new SmsHistory();
+            $sms->from        = $setting->from;
+            $sms->to          = $phone;
+            $sms->message     = $message;
+            $sms->response    = $data;
+            $sms->created_at  = date('Y-m-d H:i:s');
+
+            $sms->save();
+        }
+    }
 
     public function sendWhatsAppText(User $client, $message)
     {
