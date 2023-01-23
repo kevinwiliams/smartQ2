@@ -1167,7 +1167,7 @@ class TokenController extends Controller
             $user = User::find($token->client);
             $msg = "Please contact urgently. Token No: $token->token\r\n Department: $token->department, Counter: $token->counter and Officer: $token->officer. \r\n $token->date.";
             (new Utilities_lib)->sendPushNotification($user, $msg);
-            (new Utilities_lib)->sendSMSNotification($user, $msg);
+            (new Utilities_lib)->sendTokenNotification($user, $token->notification_type, $msg);
         }
 
         Token::where('id', $id)
@@ -1221,9 +1221,9 @@ class TokenController extends Controller
             $user = User::find($token->client_id);
             $msg = "Token No: $token->token_no\r\n Department: $dept, Counter: $counter and Officer: $officer. \r\nComplete";
             (new Utilities_lib)->sendPushNotification($user, $msg);
-            (new Utilities_lib)->sendSMSNotification($user, $msg);
+            (new Utilities_lib)->sendTokenNotification($user, $token->notification_type, $msg);
         }
-        (new Utilities_lib)->TokenNotification();
+        // (new Utilities_lib)->TokenNotification();
         return redirect()->back()->with('message', trans('app.complete_successfully'));
     }
 
@@ -1249,9 +1249,9 @@ class TokenController extends Controller
             $user = User::find($token->client_id);
             $msg = "Token No: $token->token_no\r\n Department: $dept, Counter: $counter and Officer: $officer. \r\Stopped";
             (new Utilities_lib)->sendPushNotification($user, $msg);
-            (new Utilities_lib)->sendSMSNotification($user, $msg);
+            (new Utilities_lib)->sendTokenNotification($user, $token->notification_type, $msg);
         }
-        (new Utilities_lib)->TokenNotification();
+        // (new Utilities_lib)->TokenNotification();
         return redirect()->back()->with('message', trans('app.update_successfully'));
     }
 
@@ -1280,9 +1280,9 @@ class TokenController extends Controller
 
             $msg = "Token No: $token->token_no\r\n Department: $dept\r\ncancelled due to no show.";
             (new Utilities_lib)->sendPushNotification($user, $msg);
-            (new Utilities_lib)->sendSMSNotification($user, $msg);
+            (new Utilities_lib)->sendTokenNotification($user, $token->notification_type, $msg);
         }
-        (new Utilities_lib)->TokenNotification();
+        // (new Utilities_lib)->TokenNotification();
         return redirect()->back()->with('message', trans('app.update_successfully'));
     }
 
@@ -1310,9 +1310,9 @@ class TokenController extends Controller
             $counter = $token->counter->name;
             $msg = "Now serving token No: $token->token_no\r\n Department: $dept, Counter: $counter and Officer: $officer.";
             (new Utilities_lib)->sendPushNotification($user, $msg);
-            (new Utilities_lib)->sendSMSNotification($user, $msg);
+            (new Utilities_lib)->sendTokenNotification($user, $token->notification_type, $msg);
         }
-        (new Utilities_lib)->TokenNotification();
+        // (new Utilities_lib)->TokenNotification();
         return redirect()->back()->with('message', trans('app.update_successfully'));
     }
 
@@ -1359,7 +1359,7 @@ class TokenController extends Controller
                 $user = User::find($token->client_id);
                 $msg = "Token transferred\r\nToken No: $token->token_no\r\n Department: $dept, Counter: $counter and Officer: $officer.";
                 (new Utilities_lib)->sendPushNotification($user, $msg);
-                (new Utilities_lib)->sendSMSNotification($user, $msg);
+                (new Utilities_lib)->sendTokenNotification($user, $token->notification_type, $msg);
             }
 
             if ($update) {
@@ -1370,7 +1370,7 @@ class TokenController extends Controller
                 $data['exception'] = trans('app.please_try_again');
             }
         }
-        (new Utilities_lib)->TokenNotification();
+        // (new Utilities_lib)->TokenNotification();
         return response()->json($data);
     }
 
@@ -1632,11 +1632,11 @@ class TokenController extends Controller
 
         $tokenids = array_column($rawtokens->toArray(), 'id');
         $key = implode("-", $tokenids);
-        
+
         $data['key'] = $key;
         // Cache::forget($key);
         if (Cache::has($key)) {
-            $data['routes'] = Cache::get($key);            
+            $data['routes'] = Cache::get($key);
         } else {
             $data['routes'] = "";
         }
@@ -1776,11 +1776,10 @@ class TokenController extends Controller
         $tokens = auth()->user()->clientpendingtokens;
         $tokenids = array_column($tokens->toArray(), 'id');
         $key = implode("-", $tokenids);
-         
+
         Cache::put($key, $request->route, now()->addHours(12));
         return response()->json($request->route);
-        
-    } 
+    }
 
     public function checkin($id = null)
     {

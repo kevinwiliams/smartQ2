@@ -135,9 +135,10 @@
     {{ theme()->getView('partials/modals/home/_calcroute') }}
 
     @section('scripts')
+    @include('pages.home._firebase-js')
     <script src="{{ asset('demo1/plugins/custom/flatpickr/flatpickr.bundle.js') }}" type="application/javascript"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{config('app.google_maps')}}&libraries=geometry" type="text/javascript"></script>
-    @include('pages.home._firebase-js')
+    
     @include('pages.home._calculate-route-js')
 
     @endsection

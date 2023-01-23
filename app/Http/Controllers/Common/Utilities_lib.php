@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
+use App\Mail\CustomerNotification;
 use App\Models\DisplaySetting;
 use App\Models\SmsHistory;
 use App\Models\SmsSetting;
@@ -10,6 +11,7 @@ use App\Models\User;
 use DateTime;
 use Illuminate\Support\Facades\DB;
 use Kutia\Larafirebase\Facades\Larafirebase;
+use Mail;
 use Netflie\WhatsAppCloudApi\Message\Template\Component;
 use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
 
@@ -84,36 +86,43 @@ class Utilities_lib extends Controller
                 return $response;
             }
         }
-    }
+    }  
 
-    public function sendSMSNotification(User $client, $message)
+    public function sendTokenNotification(User $client, $notify_type, $message)
     {
-
         if ($client) {
             $setting  = SmsSetting::first();
-            $sms_lib = new SMS_lib;
-            
-            $phone = $this->sanitizePhoneNumber($client->mobile);
 
-            $data = $sms_lib
-                ->provider("$setting->provider")
-                ->api_key("$setting->api_key")
-                ->username("$setting->username")
-                ->password("$setting->password")
-                ->from("$setting->from")
-                ->to("$phone")
-                ->message("$message")
-                ->response();
+            // $notify_type = $client->otp_type;
+            if ($notify_type == "sms") {
+                $sms_lib = new SMS_lib;
 
-            //store sms information 
-            $sms = new SmsHistory();
-            $sms->from        = $setting->from;
-            $sms->to          = $phone;
-            $sms->message     = $message;
-            $sms->response    = $data;
-            $sms->created_at  = date('Y-m-d H:i:s');
+                $phone = $this->sanitizePhoneNumber($client->mobile);
 
-            $sms->save();
+                $data = $sms_lib
+                    ->provider("$setting->provider")
+                    ->api_key("$setting->api_key")
+                    ->username("$setting->username")
+                    ->password("$setting->password")
+                    ->from("$setting->from")
+                    ->to("$phone")
+                    ->message("$message")
+                    ->response();
+
+                //store sms information 
+                $sms = new SmsHistory();
+                $sms->from        = $setting->from;
+                $sms->to          = $phone;
+                $sms->message     = $message;
+                $sms->response    = $data;
+                $sms->created_at  = date('Y-m-d H:i:s');
+
+                $sms->save();
+            } else if ($notify_type == "email") {
+                Mail::to($client->email)->send(new CustomerNotification($client->firstname, $message));
+            } elseif ($notify_type == "whatsapp") {                                
+                $response = $this->sendWhatsAppText($client, $message);
+            }
         }
     }
 
@@ -215,7 +224,7 @@ class Utilities_lib extends Controller
     }
 
     public function WhatsAppWebhook()
-    { 
+    {
         // Make sure the request is a POST request
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             http_response_code(405);
@@ -257,82 +266,88 @@ class Utilities_lib extends Controller
         http_response_code(200);
     }
 
-    public function TokenNotification(){
+    public function TokenNotification()
+    {
         $locationId = auth()->user()->location_id;
         $setting   = DisplaySetting::where('location_id', $locationId)->first();
 
-            $counters = DB::table('counter')
-                ->where('status', 1)
-                ->where('location_id', $locationId)
-                ->orderBy('name', 'ASC')
+        $counters = DB::table('counter')
+            ->where('status', 1)
+            ->where('location_id', $locationId)
+            ->orderBy('name', 'ASC')
+            ->get();
+
+        $allToken = array();
+        $data     = array();
+        foreach ($counters as $counter) {
+            $tokens = DB::table('token AS t')
+                ->select(
+                    "t.id",
+                    "t.token_no AS token",
+                    "t.client_id AS client",
+                    "t.client_mobile AS mobile",
+                    "d.name AS department",
+                    "c.name AS counter",
+                    DB::raw("CONCAT_WS(' ', o.firstname, o.lastname) as officer"),
+                    "t.status",
+                    "t.sms_status",
+                    "t.created_at",
+                    "t.notification_type AS notification_type"
+                )
+                ->leftJoin("department AS d", "d.id", "=", "t.department_id")
+                ->leftJoin("counter AS c", "c.id", "=", "t.counter_id")
+                ->leftJoin("user AS o", "o.id", "=", "t.user_id")
+                ->where("t.counter_id", $counter->id)
+                ->where("t.location_id",  $locationId)
+                ->where("t.status", "0")
+                ->offset($setting->alert_position)
+                ->orderBy('t.is_vip', 'DESC')
+                ->orderBy('t.id', 'ASC')
+                ->limit(1)
                 ->get();
 
-            $allToken = array();
-            $data     = array();
-            foreach ($counters as $counter) {
-                $tokens = DB::table('token AS t')
-                    ->select(
-                        "t.id",
-                        "t.token_no AS token",
-                        "t.client_id AS client",
-                        "t.client_mobile AS mobile",
-                        "d.name AS department",
-                        "c.name AS counter",
-                        DB::raw("CONCAT_WS(' ', o.firstname, o.lastname) as officer"),
-                        "t.status",
-                        "t.sms_status",
-                        "t.created_at",
-                        "t.notification_type AS notification_type"
-                    )
-                    ->leftJoin("department AS d", "d.id", "=", "t.department_id")
-                    ->leftJoin("counter AS c", "c.id", "=", "t.counter_id")
-                    ->leftJoin("user AS o", "o.id", "=", "t.user_id")
-                    ->where("t.counter_id", $counter->id)
-                    ->where("t.location_id",  $locationId)
-                    ->where("t.status", "0")
-                    ->offset($setting->alert_position)
-                    ->orderBy('t.is_vip', 'DESC')
-                    ->orderBy('t.id', 'ASC')
-                    ->limit(1)
-                    ->get();
+            foreach ($tokens as $token) {
+                $allToken[$counter->name] = (object)array(
+                    'id'         => $token->id,
+                    'token'      => $token->token,
+                    'department' => $token->department,
+                    'counter'    => $token->counter,
+                    'officer'    => $token->officer,
+                    'mobile'     => $token->mobile,
+                    'date'       => $token->created_at,
+                    'status'     => $token->status,
+                    'sms_status' => $token->sms_status,
+                    'notification_type' => $token->notification_type,
+                );
+            }
+        }
 
-                foreach ($tokens as $token) {
-                    $allToken[$counter->name] = (object)array(
-                        'id'         => $token->id,
-                        'token'      => $token->token,
-                        'department' => $token->department,
-                        'counter'    => $token->counter,
-                        'officer'    => $token->officer,
-                        'mobile'     => $token->mobile,
-                        'date'       => $token->created_at,
-                        'status'     => $token->status,
-                        'sms_status' => $token->sms_status,
-                        'notification_type' => $token->notification_type,
-                    );
+        foreach ($allToken as $counter => $tokenInfo) {
+            if ($tokenInfo->status == 0 && ($tokenInfo->sms_status == 0 || $tokenInfo->sms_status == 2)) {
+                if ($tokenInfo->notification_type == "sms" && !empty($tokenInfo->mobile)) {
+                    // send sms
+                    $data['status'] = true;
+                    $data['result'][] = $tokenInfo;
+                    $this->sendSMS($tokenInfo, $setting->alert_position);
+                    (new CronjobController)->sendPushNotification($tokenInfo);
+                } elseif ($tokenInfo->notification_type == "email") {
+                    //Send email
+                    $data['status'] = true;
+                    $data['result'][] = $tokenInfo;
+                    $this->sendEmail($tokenInfo);
+                    (new CronjobController)->sendPushNotification($tokenInfo);
+                } elseif ($tokenInfo->notification_type == "whatsapp") {
+                    $data['status'] = true;
+                    $data['result'][] = $tokenInfo;
+                    $this->sendWhatsAppNotification($tokenInfo, $setting->alert_position);
+                } else {
+                    //Send email
+                    $data['status'] = true;
+                    $data['result'][] = $tokenInfo;
+                    $this->sendEmail($tokenInfo);
+                    (new CronjobController)->sendPushNotification($tokenInfo);
                 }
             }
-
-            foreach ($allToken as $counter => $tokenInfo) {
-                if (!empty($tokenInfo->mobile) && $tokenInfo->status == 0 && ($tokenInfo->sms_status == 0 || $tokenInfo->sms_status == 2)) {
-                    if ($tokenInfo->notification_type == "sms") {
-                        // send sms
-                        $data['status'] = true;
-                        $data['result'][] = $tokenInfo;
-                        $this->sendSMS($tokenInfo, $setting->alert_position);
-                        (new CronjobController)->sendPushNotification($tokenInfo);
-                    } elseif ($tokenInfo->notification_type == "email") {
-                        //Send email
-                        $data['status'] = true;
-                        $data['result'][] = $tokenInfo;
-                        // send Email 
-                        $this->sendEmail($tokenInfo);
-                        (new CronjobController)->sendPushNotification($tokenInfo);
-                    } elseif ($tokenInfo->notification_type == "whatsapp") {
-                        $data['status'] = true;
-                        $data['result'][] = $tokenInfo;
-                        $this->sendWhatsAppNotification($tokenInfo, $setting->alert_position);
-                    }
-                }
-            }
+        }
     }
 }

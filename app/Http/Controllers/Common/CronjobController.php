@@ -174,8 +174,8 @@ class CronjobController extends Controller
             }
 
             foreach ($allToken as $counter => $tokenInfo) {
-                if (!empty($tokenInfo->mobile) && $tokenInfo->status == 0 && ($tokenInfo->sms_status == 0 || $tokenInfo->sms_status == 2)) {
-                    if ($tokenInfo->notification_type == "sms") {
+                if ($tokenInfo->status == 0 && ($tokenInfo->sms_status == 0 || $tokenInfo->sms_status == 2)) {
+                    if ($tokenInfo->notification_type == "sms" && !empty($tokenInfo->mobile)) {
                         // send sms
                         $data['status'] = true;
                         $data['result'][] = $tokenInfo;
@@ -192,6 +192,13 @@ class CronjobController extends Controller
                         $data['status'] = true;
                         $data['result'][] = $tokenInfo;
                         $this->sendWhatsAppNotification($tokenInfo, $setting->alert_position);
+                    }else{
+                       //Send email
+                       $data['status'] = true;
+                       $data['result'][] = $tokenInfo;
+                       // send Email 
+                       $this->sendEmail($tokenInfo);
+                       $this->sendPushNotification($tokenInfo); 
                     }
                 }
             }

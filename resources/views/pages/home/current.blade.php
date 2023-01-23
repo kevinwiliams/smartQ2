@@ -331,6 +331,7 @@
     @include('pages.home._qrscanner-js')
     <!--end::Modal - Add Company-->
     @section('scripts')
+    @include('pages.home._firebase-js')
     <script type="text/javascript">
         (function() {
             if (window.addEventListener) {
@@ -641,9 +642,10 @@
             });
         }
     </script>
+    
     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{config('app.google_maps')}}&callback=geoSuccess&libraries=geometry" type="text/javascript"></script>
 
-    @include('pages.home._firebase-js')
+    
 
     @endsection
 </x-base-layout>
