@@ -89,7 +89,7 @@
               if (callCounter != null || callCounter != '') {
                 this.callCounter = callCounter;
               }
-              this.url       = this.url+`/demo1/media/sounds/`;
+              this.url       = this.url+`/qsmart/media/sounds/`;
               this.start     = this.url+`/start.mp3`;
               this.counter   = this.url+`/`+this.lang+`/counter.mp3`;
               this.token     = this.url+`/`+this.lang+`/token.mp3`; 

@@ -56,7 +56,7 @@
                                             <div class="card-body d-flex flex-center flex-column pt-12 p-3">
                                                 <!--begin::Avatar-->
                                                 <div class="symbol symbol-65px symbol-circle mb-5">
-                                                    {{-- <img src="/metronic8/demo1/assets/media//avatars/300-2.jpg" alt="image"> --}}
+                                                    {{-- <img src="/metronic8/qsmart/assets/media//avatars/300-2.jpg" alt="image"> --}}
                                                     <span class="symbol-label fs-2x fw-bold text-primary bg-light-primary">{{substr($officer->firstname, 0, 1)}}</span>
                                                     <div class=" {{($officer->status == 0) ? 'bg-danger' : 'bg-success'}} position-absolute border border-4 border-white h-15px w-15px rounded-circle translate-middle start-100 top-100 ms-n3 mt-n3"></div>
                                                 </div>

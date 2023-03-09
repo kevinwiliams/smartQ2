@@ -33,6 +33,7 @@ class HomeController extends Controller
     {
         $current = Token::whereIn('status', ['0', '3'])
             ->where('client_id', auth()->user()->id)
+            //->where('location_id', auth()->user()->location_id)
             ->orderBy('is_vip', 'DESC')
             ->orderBy('id', 'ASC')
             ->first();

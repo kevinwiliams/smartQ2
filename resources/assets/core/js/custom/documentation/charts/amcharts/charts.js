@@ -8,7 +8,7 @@ var MVGeneralAmCharts = function () {
     const bgColor = getComputedStyle(document.documentElement).getPropertyValue('--bs-body-bg');
 
     // Private functions
-    var demo1 = function () {
+    var qsmart = function () {
         // Init AmChart -- for more info, please visit the official documentiation: https://www.amcharts.com/docs/v5/getting-started/
         am5.ready(function () {
             // Create root element
@@ -945,7 +945,7 @@ var MVGeneralAmCharts = function () {
     return {
         // Public Functions
         init: function () {
-            demo1();
+            qsmart();
             demo2();
             demo3();
             demo4();

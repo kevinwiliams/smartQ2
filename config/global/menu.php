@@ -182,12 +182,12 @@ return array(
 
         array(
             'title' => 'Components',
-            'path'  => '//preview.keenthemes.com/metronic8/demo1/documentation/base/utilities.html',
+            'path'  => '//preview.keenthemes.com/metronic8/qsmart/documentation/base/utilities.html',
         ),
 
         array(
             'title' => 'Documentation',
-            'path'  => '//preview.keenthemes.com/metronic8/demo1/documentation/getting-started.html',
+            'path'  => '//preview.keenthemes.com/metronic8/qsmart/documentation/getting-started.html',
         ),
     ),
 
@@ -198,7 +198,7 @@ return array(
             'title' => 'Dashboard',
             'permission' => 'view dashboard',
             'path'  => '',
-            'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/art/art002.svg", "svg-icon-2"),
+            'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/art/art002.svg", "svg-icon-2"),
         ),
 
         //// Dashboard
@@ -206,7 +206,7 @@ return array(
             'title' => 'Home',
             'permission' => 'view client-wizard',
             'path'  => 'home',
-            'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/art/art002.svg", "svg-icon-2"),
+            'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/art/art002.svg", "svg-icon-2"),
         ),
 
         //// Modules
@@ -219,7 +219,7 @@ return array(
         array(
             'title' => 'Token',
             'permission' => 'view token', 
-            'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/abstract/abs027.svg", "svg-icon-2"),
+            'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/abstract/abs027.svg", "svg-icon-2"),
             'path'  => '#',
             'classes'    => array('item' => 'menu-accordion'),
             'attributes' => array(
@@ -255,7 +255,7 @@ return array(
         array(
             'title' => 'Reports',
             'permission' => 'view report',
-            'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/graphs/gra010.svg", "svg-icon-2"),
+            'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/graphs/gra010.svg", "svg-icon-2"),
             'path'  => '#',
             'classes'    => array('item' => 'menu-accordion'),
             'attributes' => array(
@@ -281,7 +281,7 @@ return array(
         array(
             'title' => 'Configuration',
             'permission' => 'view configuration',
-            'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/abstract/abs015.svg", "svg-icon-2"),
+            'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/abstract/abs015.svg", "svg-icon-2"),
             'path'  => '#',
             'classes'    => array('item' => 'menu-accordion'),
             'attributes' => array(
@@ -333,14 +333,14 @@ return array(
          // Calendar
         //  array(
         //     'title' => 'Calendar',            
-        //     'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/general/gen014.svg", "svg-icon-2"),
+        //     'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/general/gen014.svg", "svg-icon-2"),
         //     'path'  => 'apps/calendar',
         // ),
         // Messaging
         // array(
         //     'title' => 'SMS',
         //     'permission'=> 'view configuration',
-        //     'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/communication/com007.svg", "svg-icon-2"),
+        //     'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/communication/com007.svg", "svg-icon-2"),
         //     'path'  => 'sms',
           
         // ),
@@ -348,7 +348,7 @@ return array(
         array(
             'title' => 'Settings',
             'permission' => 'view configuration',
-            'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/general/gen019.svg", "svg-icon-2"),
+            'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/general/gen019.svg", "svg-icon-2"),
             'path'  => '#',
             'classes'    => array('item' => 'menu-accordion'),
             'attributes' => array(
@@ -370,7 +370,7 @@ return array(
         array(
             'title'      => 'Account',
             'icon'       => array(
-                'svg'  => theme()->getSvgIcon("demo1/media/icons/duotune/communication/com006.svg", "svg-icon-2"),
+                'svg'  => theme()->getSvgIcon("qsmart/media/icons/duotune/communication/com006.svg", "svg-icon-2"),
                 'font' => '<i class="bi bi-person fs-2"></i>',
             ),
             'classes'    => array('item' => 'menu-accordion'),
@@ -419,14 +419,14 @@ return array(
                     // Documentation
                     array(
                         'title' => 'Documentation',
-                        'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/abstract/abs027.svg", "svg-icon-2"),
+                        'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/abstract/abs027.svg", "svg-icon-2"),
                         'path'  => 'documentation/getting-started/overview',
                     ),
 
                     // Changelog
                     array(
                         'title' => 'Changelog v'.theme()->getVersion(),
-                        'icon'  => theme()->getSvgIcon("demo1/media/icons/duotune/general/gen005.svg", "svg-icon-2"),
+                        'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/general/gen005.svg", "svg-icon-2"),
                         'path'  => 'documentation/getting-started/changelog',
                     ),
                 ),

@@ -18,7 +18,7 @@
             </p>
 
             <p class="mb-3">
-                The demo config can be found in the config folder <code>config/demo1/page.php</code>. The page in this config will be specifically available for current selected demo.
+                The demo config can be found in the config folder <code>config/qsmart/page.php</code>. The page in this config will be specifically available for current selected demo.
             </p>
         </div>
         <!--end::Block-->
@@ -52,7 +52,7 @@ return array(
         <!--begin::Block-->
         <div class="py-5">
             <p class="mb-3">
-                Each page may contains this config to override the global value. For example JS and CSS assets from general config in <code>config/demo1/general.php</code>
+                Each page may contains this config to override the global value. For example JS and CSS assets from general config in <code>config/qsmart/general.php</code>
             </p>
 
             <div class="py-5">

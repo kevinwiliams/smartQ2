@@ -12,7 +12,7 @@ enable-cache:
 
 build-assets:
 	npm update
-	npm run prod --demo1 --rtl --dark-mode
+	npm run prod --qsmart --rtl --dark-mode
 	npm run prod --demo2 --rtl --dark-mode
 	npm run prod --demo3 --rtl --dark-mode
 	npm run prod --demo4 --rtl

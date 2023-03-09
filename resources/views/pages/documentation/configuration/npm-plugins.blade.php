@@ -24,9 +24,9 @@
 
             <li class="py-3">Add the JS plugin path file to <code>resources/assets/core/plugins/plugins.js</code> and the CSS or SCSS file to <code>resources/assets/core/plugins/plugins.scss</code>. Check the example in this file.</li>
 
-            <li class="py-3">Run the command <code>npm run dev --demo1</code></li>
+            <li class="py-3">Run the command <code>npm run dev --qsmart</code></li>
 
-            <li class="py-3">The output build files will be here, <code>public/demo1/plugins/global/plugins.bundle.js</code> and <code>public/demo1/plugins/global/plugins.bundle.css</code></li>
+            <li class="py-3">The output build files will be here, <code>public/qsmart/plugins/global/plugins.bundle.js</code> and <code>public/qsmart/plugins/global/plugins.bundle.css</code></li>
         </ol>
         <!--end::List-->
     </div>

@@ -204,7 +204,7 @@ function getDemos(pathDemos) {
         }
     });
     if (demos.length === 0) {
-        demos = ['demo1'];
+        demos = ['qsmart'];
     }
     return demos;
 }

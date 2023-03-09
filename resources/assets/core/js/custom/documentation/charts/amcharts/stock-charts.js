@@ -8,7 +8,7 @@ var MVGeneralAmChartsStock = function () {
     const bgColor = getComputedStyle(document.documentElement).getPropertyValue('--bs-body-bg');
 
     // Private functions
-    var _demo1 = function () {
+    var _qsmart = function () {
         // Init AmChart -- for more info, please visit the official documentiation: https://www.amcharts.com/docs/v5/getting-started/
         am5.ready(function () {
 
@@ -782,7 +782,7 @@ var MVGeneralAmChartsStock = function () {
     return {
         // Public Functions
         init: function () {
-            _demo1();
+            _qsmart();
             _demo2();
             _demo3();
         }

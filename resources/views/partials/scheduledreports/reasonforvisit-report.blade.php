@@ -4,7 +4,7 @@
     No Results found
 </h1>
 @else
-<link href="{{ public_path('demo1/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ public_path('qsmart/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
 <table class="table table-striped table-row-bordered gy-5 gs-7 border rounded w-100" id="mv_report_table_1">
     <thead>
         <tr class="fw-bolder fs-6 text-gray-800 px-7">

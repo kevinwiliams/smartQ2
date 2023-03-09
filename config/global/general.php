@@ -25,11 +25,11 @@ return array(
             ),
         ),
         'demos'       => array(
-            'demo1' => array(
+            'qsmart' => array(
                 'title'       => 'Demo 1',
                 'description' => 'Default Dashboard',
                 'published'   => true,
-                'thumbnail'   => 'demos/demo1.png',
+                'thumbnail'   => 'demos/qsmart.png',
             ),
 
         ),

@@ -148,7 +148,7 @@
 
     <!--end::Modal - Add Company-->
     @section('scripts')
-    <script src="{{ asset('demo1/plugins/custom/flatpickr/flatpickr.bundle.js') }}" type="application/javascript"></script>
+    <script src="{{ asset('qsmart/plugins/custom/flatpickr/flatpickr.bundle.js') }}" type="application/javascript"></script>
 
     @include('pages.home._firebase-js')
     @include('pages.home._calculate-route-js')

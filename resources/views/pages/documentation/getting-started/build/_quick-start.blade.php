@@ -69,7 +69,7 @@
                     ', 'bash') ?>
             </div>
 
-            Above command will compile the default <code>demo1</code> layout. To build more demos, go to <a href="{{ theme()->getPageUrl('documentation/getting-started/multi-demo/build') }}">Multi-demo</a> page.
+            Above command will compile the default <code>qsmart</code> layout. To build more demos, go to <a href="{{ theme()->getPageUrl('documentation/getting-started/multi-demo/build') }}">Multi-demo</a> page.
         </li>
 
         <li class="py-3">

@@ -6,7 +6,7 @@ use App\Core\Adapters\BootstrapBase;
 use App\Core\Adapters\Menu;
 use App\Core\Adapters\Theme;
 
-class BootstrapDemo1 extends BootstrapBase {
+class BootstrapQsmart extends BootstrapBase {
     // Private Properties
     private static $asideMenu;
 
