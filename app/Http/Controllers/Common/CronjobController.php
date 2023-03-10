@@ -851,25 +851,27 @@ class CronjobController extends Controller
                     break;
             }
             $data->home = false;
+
+            $reports = \App\Core\Data::getReportList();
+            $ids = array_column($reports, 'id');
+            $found_key = array_search($data->report, $ids);
+    
+            $name = $reports[$found_key]['title'];
+            $view = $reports[$found_key]['reportview'];
+    
+            $mail_to = explode(',', $value->report->email_to);
+            // echo '<pre>';
+            // print_r($mail_to);
+            // echo '</pre>';
+            $pdf = PDF::loadView($view, array('data' => $data->data, 'master' => $data));
+            foreach ($mail_to as $_mail_to) {
+                $message = "You're scheduled report: $name has been generated. ";
+                $message .= "Please see attachement";
+                Mail::to($_mail_to)->send(new ScheduledReportNotification($message, $name, $pdf->output()));
+            }
         }
 
-        $reports = \App\Core\Data::getReportList();
-        $ids = array_column($reports, 'id');
-        $found_key = array_search($data->report, $ids);
-
-        $name = $reports[$found_key]['title'];
-        $view = $reports[$found_key]['reportview'];
-
-        $mail_to = explode(',', $value->report->email_to);
-        // echo '<pre>';
-        // print_r($mail_to);
-        // echo '</pre>';
-        $pdf = PDF::loadView($view, array('data' => $data->data, 'master' => $data));
-        foreach ($mail_to as $_mail_to) {
-            $message = "You're scheduled report: $name has been generated";
-            $message .= "<br />Please see attachement";
-            Mail::to($_mail_to)->send(new ScheduledReportNotification($message, $name, $pdf->output()));
-        }
+        
     }
 
     public function sendWhatsAppNotification($token, $position)
