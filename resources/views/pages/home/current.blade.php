@@ -635,7 +635,7 @@
                 //     $("#mv_location_suggestion").text(_text);
                 //     // locationSuggestions
                 //     $("#locationSuggestions").show();
-                // } else {
+                // // } else {
                 //     $("#locationSuggestions").hide();
                 // }
 
