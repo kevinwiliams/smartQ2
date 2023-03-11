@@ -57,7 +57,7 @@
                         //         customClass: {
                         //             confirmButton: "btn btn-light"
                         //         }
-                        //     });
+                        // //     });
                         //     $("#btn-nft-enable").hide();
                         // }
                     },

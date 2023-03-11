@@ -481,7 +481,7 @@
         //                 cancel: "Oops!!!",
         //                 ok: true
         //             }
-        //         })
+                // // })
         //         .then((value) => {
         //             if (value.isConfirmed) {
         //                 $.ajax({
