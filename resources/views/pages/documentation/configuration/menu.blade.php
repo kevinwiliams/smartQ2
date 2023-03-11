@@ -17,7 +17,7 @@
             </p>
 
             <p class="mb-3">
-                The demo config can be found in the config folder <code>config/demo1/menu.php</code>. The menu in this config will be specifically available for current selected demo.
+                The demo config can be found in the config folder <code>config/qsmart/menu.php</code>. The menu in this config will be specifically available for current selected demo.
             </p>
         </div>
         <!--end::Block-->
@@ -78,7 +78,7 @@ array(
             </div>
 
             <p class="mb-0">
-                Each menu item added to the <code>config/demo1/menu.php</code>, must a page config registered with it. The pages config can be found in <code>config/demo1/pages.php</code>.
+                Each menu item added to the <code>config/qsmart/menu.php</code>, must a page config registered with it. The pages config can be found in <code>config/qsmart/pages.php</code>.
                 Below is an example for the page <code>documentation/getting-started/build</code>.
             </p>
 

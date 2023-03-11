@@ -20,7 +20,7 @@ $startMonth = Carbon\Carbon::parse($daterange[0])->month;
 $endMonth = Carbon\Carbon::parse($daterange[1])->month;
 
 @endphp
-<link href="{{ public_path('demo1/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ public_path('qsmart/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
 <div class="tab-content">
     <div class="tab-pane fade show active" id="mv_tab_pane_table" role="tabpanel">
 

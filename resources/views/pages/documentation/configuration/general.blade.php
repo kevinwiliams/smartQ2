@@ -13,7 +13,7 @@
         <div class="py-5">
             <p class="mb-3">
                 General configuration is a global configuration for all pages. Each page config can be overridden in the <code>Page Configuration</code>.
-                The global and demo configuration can be found in <code>config/global/general.php</code> and <code>config/demo1/general.php</code>
+                The global and demo configuration can be found in <code>config/global/general.php</code> and <code>config/qsmart/general.php</code>
             </p>
         </div>
         <!--end::Block-->

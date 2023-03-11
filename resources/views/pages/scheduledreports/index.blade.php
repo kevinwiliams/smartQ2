@@ -47,12 +47,12 @@
     <!--begin::Modal - Add Schedule -->
     {{ theme()->getView('partials/modals/scheduledreports/_edit', array('locations' => $locations)) }}
     <!--end::Modal - Add Schedule-->
-    <link rel="stylesheet" href="{{ asset('demo1/plugins/custom/flatpickr/flatpickr.bundle.css') }}">
+    <link rel="stylesheet" href="{{ asset('qsmart/plugins/custom/flatpickr/flatpickr.bundle.css') }}">
 
     {{-- Inject Scripts --}}
     @section('scripts')
     {{ $dataTable->scripts() }}
-    <script src="{{ asset('demo1/plugins/custom/flatpickr/flatpickr.bundle.js') }}" type="application/javascript"></script>
+    <script src="{{ asset('qsmart/plugins/custom/flatpickr/flatpickr.bundle.js') }}" type="application/javascript"></script>
     @include('pages.scheduledreports._action-active-js')
     @include('pages.scheduledreports._button-actions-js')
     @include('pages.scheduledreports._add-scheduledreport-js')    

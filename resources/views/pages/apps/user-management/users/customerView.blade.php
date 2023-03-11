@@ -214,7 +214,7 @@
             )) }}
 	<!--end::Modal - Update email-->
 	@section('scripts')
-	<script src="{{ asset('demo1/plugins/global/plugins.bundle.js') }}" type="application/javascript"></script>
+	<script src="{{ asset('qsmart/plugins/global/plugins.bundle.js') }}" type="application/javascript"></script>
 	@include('pages.apps.user-management.users._send-notifications-js')
 	@endsection
 </x-base-layout>

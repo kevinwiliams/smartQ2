@@ -26,7 +26,7 @@ class Theme extends \App\Core\Theme
      *
      * @param  string  $demo
      */
-    public static function setDemo($demo = 'demo1')
+    public static function setDemo($demo = 'qsmart')
     {
         Theme::$demo = $demo;
     }
@@ -213,7 +213,7 @@ class Theme extends \App\Core\Theme
      */
     public static function getOption($scope, $path = false, $default = null)
     {
-        $demo = self::getDemo() ?? 'demo1';
+        $demo = self::getDemo() ?? 'qsmart';
 
         // Map the config path
         if (array_key_exists($scope, config($demo.'.general', []))) {

@@ -5,7 +5,7 @@ var componentJs = glob.sync(`resources/assets/core/js/components/*.js`) || [];
 var coreLayoutJs = glob.sync(`resources/assets/core/js/layout/*.js`) || [];
 
 // Layout base js
-var layoutJs = glob.sync(`resources/assets/demo1/js/layout/*.js`) || [];
+var layoutJs = glob.sync(`resources/assets/qsmart/js/layout/*.js`) || [];
 
 module.exports = [
     ...componentJs,

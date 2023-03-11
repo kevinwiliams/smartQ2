@@ -30,7 +30,7 @@
         <div class="py-5">
             <ol class="my-0 py-0">
                 <li class="py-2">
-                    Open this file <code>app/Providers/AppServiceProvider.php</code>. Remove <code>$theme->setDemo(request()->input('demo', 'demo1'));</code>.
+                    Open this file <code>app/Providers/AppServiceProvider.php</code>. Remove <code>$theme->setDemo(request()->input('demo', 'qsmart'));</code>.
                     Uncomment below code and set the param with your selected demo id.
 
                     <div class="py-5">

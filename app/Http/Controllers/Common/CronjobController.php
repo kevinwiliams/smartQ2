@@ -19,6 +19,7 @@ use App\Models\Token;
 use App\Models\User;
 use App\Models\UserStats;
 use DB, Response, File, Validator;
+use Illuminate\Support\Facades\Log;
 use Kutia\Larafirebase\Facades\Larafirebase;
 use Mail;
 use Netflie\WhatsAppCloudApi\Message\Template\Component;
@@ -192,13 +193,13 @@ class CronjobController extends Controller
                         $data['status'] = true;
                         $data['result'][] = $tokenInfo;
                         $this->sendWhatsAppNotification($tokenInfo, $setting->alert_position);
-                    }else{
-                       //Send email
-                       $data['status'] = true;
-                       $data['result'][] = $tokenInfo;
-                       // send Email 
-                       $this->sendEmail($tokenInfo);
-                       $this->sendPushNotification($tokenInfo); 
+                    } else {
+                        //Send email
+                        $data['status'] = true;
+                        $data['result'][] = $tokenInfo;
+                        // send Email 
+                        $this->sendEmail($tokenInfo);
+                        $this->sendPushNotification($tokenInfo);
                     }
                 }
             }
@@ -527,277 +528,277 @@ class CronjobController extends Controller
 
     public function generateScheduledReports()
     {
-        $now = Carbon::now('America/Bogota');
+        $now = Carbon::now('America/Bogota')->second(0)->format('Y-m-d H:i:s');        
         $info = ScheduledReportsTask::whereRaw('run_time = \'' . $now . '\'')->get();
-        // $info = ScheduledReportsTask::where('schedule_id', $id)->orderBy('run_time')->get();
-
+        
         foreach ($info as $value) {
-            $jsondata = json_decode($value->report->schedule_info);
+            try {
+                $jsondata = json_decode($value->report->schedule_info);
 
-            $data = (object)array();
-            $data->report = $value->report->report_id;
-            $data->locations = $jsondata->locations;
-            $data->daterange = $jsondata->date_range;
-            $data->data = null;
-            $data->graph = false;
+                $data = (object)array();
+                $data->report = $value->report->report_id;
+                $data->locations = $jsondata->locations;
+                $data->daterange = $jsondata->date_range;
+                $data->data = null;
+                $data->graph = false;
 
-            $start = Carbon::parse($value->run_time)->subDays($jsondata->range_start);
-            $end = Carbon::parse($value->run_time)->subDays($jsondata->range_end);
+                $start = Carbon::parse($value->run_time)->subDays($jsondata->range_start);
+                $end = Carbon::parse($value->run_time)->subDays($jsondata->range_end);
 
-            switch ($data->report) {
-                case '1':
-                    $data->data = DB::table("token")
-                        ->select(DB::raw("
+                switch ($data->report) {
+                    case '1':
+                        $data->data = DB::table("token")
+                            ->select(DB::raw("
                         locations.name AS 'location_name',
                         COUNT(token.`created_at`) AS 'total', 
                         HOUR(token.`created_at`) AS 'hour', 
                         DATE(token.`created_at`) AS 'day',
                         `location_id`
                         "))
-                        ->join('locations', 'locations.id', '=', 'token.location_id')
-                        ->whereIn('location_id', $data->locations)
-                        ->whereBetween('token.created_at', [$start, $end])
-                        ->groupByRaw('DATE(token.`created_at`),HOUR(token.`created_at`),`location_id`,`location_name`')
-                        ->orderByRaw('location_name', 'day', 'hour')
-                        ->get();
-                    break;
-                case '2':
-                    $data->data = DB::table("token")
-                        ->select(DB::raw("
+                            ->join('locations', 'locations.id', '=', 'token.location_id')
+                            ->whereIn('location_id', $data->locations)
+                            ->whereBetween('token.created_at', [$start, $end])
+                            ->groupByRaw('DATE(token.`created_at`),HOUR(token.`created_at`),`location_id`,`location_name`')
+                            ->orderByRaw('location_name', 'day', 'hour')
+                            ->get();
+                        break;
+                    case '2':
+                        $data->data = DB::table("token")
+                            ->select(DB::raw("
                             locations.name AS 'location_name',
                             COUNT(token.`created_at`) AS 'total',                         
                             DATE(token.`created_at`) AS 'day',
                             `location_id`
                             "))
-                        ->join('locations', 'locations.id', '=', 'token.location_id')
-                        ->whereIn('location_id', $data->locations)
-                        ->whereBetween('token.created_at', [$start, $end])
-                        ->groupByRaw('DATE(token.`created_at`),`location_id`,`location_name`')
-                        ->orderByRaw('location_name', 'day')
-                        ->get();
-                    break;
-                case '3':
-                    $data->data = DB::table("token")
-                        ->select(DB::raw("
+                            ->join('locations', 'locations.id', '=', 'token.location_id')
+                            ->whereIn('location_id', $data->locations)
+                            ->whereBetween('token.created_at', [$start, $end])
+                            ->groupByRaw('DATE(token.`created_at`),`location_id`,`location_name`')
+                            ->orderByRaw('location_name', 'day')
+                            ->get();
+                        break;
+                    case '3':
+                        $data->data = DB::table("token")
+                            ->select(DB::raw("
                                 locations.name AS 'location_name',
                                 COUNT(token.`created_at`) AS 'total',                         
                                 WEEK(token.`created_at`) AS 'week',
                                 YEAR(token.`created_at`) AS 'year',
                                 `location_id`
                                 "))
-                        ->join('locations', 'locations.id', '=', 'token.location_id')
-                        ->whereIn('location_id', $data->locations)
-                        ->whereBetween('token.created_at', [$start, $end])
-                        ->groupByRaw('YEAR(token.`created_at`),WEEK(token.`created_at`),`location_id`,`location_name`')
-                        ->orderByRaw('location_name', 'year', 'week')
-                        ->get();
-                    break;
-                case '4':
+                            ->join('locations', 'locations.id', '=', 'token.location_id')
+                            ->whereIn('location_id', $data->locations)
+                            ->whereBetween('token.created_at', [$start, $end])
+                            ->groupByRaw('YEAR(token.`created_at`),WEEK(token.`created_at`),`location_id`,`location_name`')
+                            ->orderByRaw('location_name', 'year', 'week')
+                            ->get();
+                        break;
+                    case '4':
 
-                    $info = DB::table("token")
-                        ->select(DB::raw("
+                        $info = DB::table("token")
+                            ->select(DB::raw("
                                     locations.name AS 'location_name',
                                     COUNT(token.`created_at`) AS 'total',                         
                                     MONTH(token.`created_at`) AS 'month',
                                     YEAR(token.`created_at`) AS 'year',
                                     `location_id`
                                     "))
-                        ->join('locations', 'locations.id', '=', 'token.location_id')
-                        ->whereIn('location_id', $data->locations)
-                        ->whereBetween('token.created_at', [$start, $end])
-                        ->groupByRaw('YEAR(token.`created_at`),MONTH(token.`created_at`),`location_id`,`location_name`')
-                        ->orderByRaw('location_name', 'year', 'month')
-                        ->get();
-                    $data->data = $info;
-                    $startDateUnix = strtotime($start);
-                    $endDateUnix = strtotime($end);
+                            ->join('locations', 'locations.id', '=', 'token.location_id')
+                            ->whereIn('location_id', $data->locations)
+                            ->whereBetween('token.created_at', [$start, $end])
+                            ->groupByRaw('YEAR(token.`created_at`),MONTH(token.`created_at`),`location_id`,`location_name`')
+                            ->orderByRaw('location_name', 'year', 'month')
+                            ->get();
+                        $data->data = $info;
+                        $startDateUnix = strtotime($start);
+                        $endDateUnix = strtotime($end);
 
-                    $currentDateUnix = $startDateUnix;
+                        $currentDateUnix = $startDateUnix;
 
-                    $monthNumbers = array();
-                    while ($currentDateUnix < $endDateUnix) {
-                        // $weekNumbers[] = date('W', $currentDateUnix) . ' - ' . date('Y', $currentDateUnix);
-                        array_push($monthNumbers, array('month' => date('m', $currentDateUnix), 'monthname' => date('M', $currentDateUnix), 'year' => date('Y', $currentDateUnix)));
-                        $currentDateUnix = strtotime('+1 month', $currentDateUnix);
-                    }
+                        $monthNumbers = array();
+                        while ($currentDateUnix < $endDateUnix) {
+                            // $weekNumbers[] = date('W', $currentDateUnix) . ' - ' . date('Y', $currentDateUnix);
+                            array_push($monthNumbers, array('month' => date('m', $currentDateUnix), 'monthname' => date('M', $currentDateUnix), 'year' => date('Y', $currentDateUnix)));
+                            $currentDateUnix = strtotime('+1 month', $currentDateUnix);
+                        }
 
-                    $seriesdata = array();
+                        $seriesdata = array();
 
-                    $locations = array_unique($info->pluck('location_name')->toArray());
+                        $locations = array_unique($info->pluck('location_name')->toArray());
 
-                    foreach ($locations as $location_name) {
-                        $datarow = array();
+                        foreach ($locations as $location_name) {
+                            $datarow = array();
+                            foreach ($monthNumbers as $_month) {
+
+                                $inforow =  $info->where('year', $_month['year'])->where('location_name', $location_name)->where('month', $_month['month'])->first();
+                                array_push($datarow, ($inforow) ? $inforow->total : 0);
+                            }
+                            array_push($seriesdata, array('name' => $location_name, 'data' => $datarow));
+                        }
+                        $data->graph = true;
+                        $data->seriesdata = $seriesdata;
+
+                        $categories = array();
+
                         foreach ($monthNumbers as $_month) {
-
-                            $inforow =  $info->where('year', $_month['year'])->where('location_name', $location_name)->where('month', $_month['month'])->first();
-                            array_push($datarow, ($inforow) ? $inforow->total : 0);
+                            array_push($categories, $_month['monthname'] . ' ' . $_month['year']);
                         }
-                        array_push($seriesdata, array('name' => $location_name, 'data' => $datarow));
-                    }
-                    $data->graph = true;
-                    $data->seriesdata = $seriesdata;
+                        $data->categories = $categories;
 
-                    $categories = array();
+                        break;
+                    case '5':
+                        // date_default_timezone_set(session('app.timezone'));
+                        $tokens = Token::has('status')
+                            ->whereIn('location_id', $data->locations)
+                            ->whereBetween('created_at', [$start, $end])
+                            ->whereNotNull('started_at')
+                            ->where('status', 1)
+                            ->get();
 
-                    foreach ($monthNumbers as $_month) {
-                        array_push($categories, $_month['monthname'] . ' ' . $_month['year']);
-                    }
-                    $data->categories = $categories;
+                        $users = array_unique($tokens->pluck('user_id')->toArray());
+                        $officers = User::whereIn('id', $users)->get();
 
-                    break;
-                case '5':
-                    // date_default_timezone_set(session('app.timezone'));
-                    $tokens = Token::has('status')
-                        ->whereIn('location_id', $data->locations)
-                        ->whereBetween('created_at', [$start, $end])
-                        ->whereNotNull('started_at')
-                        ->where('status', 1)
-                        ->get();
+                        $repdata = [];
 
-                    $users = array_unique($tokens->pluck('user_id')->toArray());
-                    $officers = User::whereIn('id', $users)->get();
+                        foreach ($users as $_user) {
+                            $currentOfficer = $officers->firstWhere('id', $_user);
+                            $locationtokens = $tokens->where('user_id', $_user);
+                            $waitcounter = 0;
+                            $servicecounter = 0;
+                            $waittotal = 0;
+                            $servicetotal = 0;
+                            $mintime = 0;
+                            $maxtime = 0;
 
-                    $repdata = [];
+                            foreach ($locationtokens as $_locationtoken) {
 
-                    foreach ($users as $_user) {
-                        $currentOfficer = $officers->firstWhere('id', $_user);
-                        $locationtokens = $tokens->where('user_id', $_user);
-                        $waitcounter = 0;
-                        $servicecounter = 0;
-                        $waittotal = 0;
-                        $servicetotal = 0;
-                        $mintime = 0;
-                        $maxtime = 0;
+                                if ($_locationtoken->wait_time != null) {
+                                    $waittotal += $_locationtoken->wait_time;
+                                    if ($mintime < $_locationtoken->wait_time || $waitcounter == 0)
+                                        $mintime = $_locationtoken->wait_time;
 
-                        foreach ($locationtokens as $_locationtoken) {
+                                    if ($maxtime > $_locationtoken->wait_time || $waitcounter == 0)
+                                        $maxtime = $_locationtoken->wait_time;
 
-                            if ($_locationtoken->wait_time != null) {
-                                $waittotal += $_locationtoken->wait_time;
-                                if ($mintime < $_locationtoken->wait_time || $waitcounter == 0)
-                                    $mintime = $_locationtoken->wait_time;
-
-                                if ($maxtime > $_locationtoken->wait_time || $waitcounter == 0)
-                                    $maxtime = $_locationtoken->wait_time;
-
-                                $waitcounter++;
+                                    $waitcounter++;
+                                }
                             }
+
+                            $dataObj = [
+                                "officer" => $currentOfficer->name,
+                                "location" => $currentOfficer->location->name,
+                                "avg" => ($waitcounter > 0) ? ($waittotal / $waitcounter) : 0,
+                                "min" => $mintime,
+                                "max" => $maxtime,
+                                "total" => $waitcounter
+                            ];
+                            $repdata[] = (object)$dataObj;
                         }
 
-                        $dataObj = [
-                            "officer" => $currentOfficer->name,
-                            "location" => $currentOfficer->location->name,
-                            "avg" => ($waitcounter > 0) ? ($waittotal / $waitcounter) : 0,
-                            "min" => $mintime,
-                            "max" => $maxtime,
-                            "total" => $waitcounter
-                        ];
-                        $repdata[] = (object)$dataObj;
-                    }
+                        $data->data = $repdata;
 
-                    $data->data = $repdata;
+                        break;
+                    case '6':
+                        // date_default_timezone_set(session('app.timezone'));
+                        $tokens = Token::has('status')
+                            ->whereIn('location_id', $data->locations)
+                            ->whereBetween('created_at', [$start, $end])
+                            ->whereNotNull('started_at')
+                            ->where('status', 1)
+                            ->get();
 
-                    break;
-                case '6':
-                    // date_default_timezone_set(session('app.timezone'));
-                    $tokens = Token::has('status')
-                        ->whereIn('location_id', $data->locations)
-                        ->whereBetween('created_at', [$start, $end])
-                        ->whereNotNull('started_at')
-                        ->where('status', 1)
-                        ->get();
+                        $users = array_unique($tokens->pluck('user_id')->toArray());
+                        $officers = User::whereIn('id', $users)->get();
 
-                    $users = array_unique($tokens->pluck('user_id')->toArray());
-                    $officers = User::whereIn('id', $users)->get();
+                        $repdata = [];
 
-                    $repdata = [];
+                        foreach ($users as $_user) {
+                            $currentOfficer = $officers->firstWhere('id', $_user);
+                            $locationtokens = $tokens->where('user_id', $_user);
+                            $servicecounter = 0;
+                            $servicetotal = 0;
+                            $mintime = 0;
+                            $maxtime = 0;
 
-                    foreach ($users as $_user) {
-                        $currentOfficer = $officers->firstWhere('id', $_user);
-                        $locationtokens = $tokens->where('user_id', $_user);
-                        $servicecounter = 0;
-                        $servicetotal = 0;
-                        $mintime = 0;
-                        $maxtime = 0;
+                            foreach ($locationtokens as $_locationtoken) {
 
-                        foreach ($locationtokens as $_locationtoken) {
+                                if ($_locationtoken->service_time != null) {
+                                    $servicetotal += $_locationtoken->service_time;
+                                    if ($mintime < $_locationtoken->service_time || $servicecounter == 0)
+                                        $mintime = $_locationtoken->service_time;
 
-                            if ($_locationtoken->service_time != null) {
-                                $servicetotal += $_locationtoken->service_time;
-                                if ($mintime < $_locationtoken->service_time || $servicecounter == 0)
-                                    $mintime = $_locationtoken->service_time;
+                                    if ($maxtime > $_locationtoken->service_time || $servicecounter == 0)
+                                        $maxtime = $_locationtoken->service_time;
 
-                                if ($maxtime > $_locationtoken->service_time || $servicecounter == 0)
-                                    $maxtime = $_locationtoken->service_time;
-
-                                $servicecounter++;
+                                    $servicecounter++;
+                                }
                             }
+
+                            $dataObj = [
+                                "officer" => $currentOfficer->name,
+                                "location" => $currentOfficer->location->name,
+                                "avg" => ($servicecounter > 0) ? ($servicetotal / $servicecounter) : 0,
+                                "min" => $mintime,
+                                "max" => $maxtime,
+                                "total" => $servicecounter
+                            ];
+                            $repdata[] = (object)$dataObj;
                         }
 
-                        $dataObj = [
-                            "officer" => $currentOfficer->name,
-                            "location" => $currentOfficer->location->name,
-                            "avg" => ($servicecounter > 0) ? ($servicetotal / $servicecounter) : 0,
-                            "min" => $mintime,
-                            "max" => $maxtime,
-                            "total" => $servicecounter
-                        ];
-                        $repdata[] = (object)$dataObj;
-                    }
+                        $data->data = $repdata;
 
-                    $data->data = $repdata;
-
-                    break;
-                case '7':
-                    $data->data = DB::table("token")
-                        ->select(DB::raw("
+                        break;
+                    case '7':
+                        $data->data = DB::table("token")
+                            ->select(DB::raw("
                                 locations.name AS 'location_name',
                                 CONCAT_WS(' ', user.firstname, user.lastname) AS officer,
                                 COUNT(token.`created_at`) AS 'total',                         
                                 DATE(token.`created_at`) AS 'day',
                                 token.`location_id`
                                 "))
-                        ->join('locations', 'locations.id', '=', 'token.location_id')
-                        ->join('user', 'user.id', '=', 'token.user_id')
-                        ->whereIn('token.location_id', $data->locations)
-                        ->whereNotNull('started_at')
-                        ->where('token.status', 2)
-                        ->whereBetween('token.created_at', [$start, $end])
-                        ->groupByRaw('DATE(token.`created_at`),token.`location_id`,`location_name`,`officer`')
-                        ->orderByRaw('location_name', 'officer', 'day')
-                        ->get();
+                            ->join('locations', 'locations.id', '=', 'token.location_id')
+                            ->join('user', 'user.id', '=', 'token.user_id')
+                            ->whereIn('token.location_id', $data->locations)
+                            ->whereNotNull('started_at')
+                            ->where('token.status', 2)
+                            ->whereBetween('token.created_at', [$start, $end])
+                            ->groupByRaw('DATE(token.`created_at`),token.`location_id`,`location_name`,`officer`')
+                            ->orderByRaw('location_name', 'officer', 'day')
+                            ->get();
 
-                    break;
-                case '8':
-                    $data->data = DB::table("token")
-                        ->select(DB::raw("
+                        break;
+                    case '8':
+                        $data->data = DB::table("token")
+                            ->select(DB::raw("
                                     locations.name AS 'location_name',
                                     CONCAT_WS(' ', user.firstname, user.lastname) AS officer,
                                     COUNT(token.`created_at`) AS 'total',                         
                                     DATE(token.`created_at`) AS 'day',
                                     token.`location_id`
                                     "))
-                        ->join('locations', 'locations.id', '=', 'token.location_id')
-                        ->join('user', 'user.id', '=', 'token.user_id')
-                        ->whereIn('token.location_id', $data->locations)
-                        ->where('token.no_show', 1)
-                        ->whereBetween('token.created_at', [$start, $end])
-                        ->groupByRaw('DATE(token.`created_at`),token.`location_id`,`location_name`,`officer`')
-                        ->orderByRaw('location_name', 'officer', 'day')
-                        ->get();
+                            ->join('locations', 'locations.id', '=', 'token.location_id')
+                            ->join('user', 'user.id', '=', 'token.user_id')
+                            ->whereIn('token.location_id', $data->locations)
+                            ->where('token.no_show', 1)
+                            ->whereBetween('token.created_at', [$start, $end])
+                            ->groupByRaw('DATE(token.`created_at`),token.`location_id`,`location_name`,`officer`')
+                            ->orderByRaw('location_name', 'officer', 'day')
+                            ->get();
 
-                    break;
-                case '9':
-                    $data->data = Token::whereIn('location_id', $data->locations)
-                        ->whereBetween('token.created_at', [$start, $end])
-                        ->with(['location' => function ($q) {
-                            $q->orderBy('name');
-                        }])
-                        ->orderBy('created_at')
-                        ->get();
+                        break;
+                    case '9':
+                        $data->data = Token::whereIn('location_id', $data->locations)
+                            ->whereBetween('token.created_at', [$start, $end])
+                            ->with(['location' => function ($q) {
+                                $q->orderBy('name');
+                            }])
+                            ->orderBy('created_at')
+                            ->get();
 
-                    break;
-                case '10':
-                    $data->data = DB::select("
+                        break;
+                    case '10':
+                        $data->data = DB::select("
                         SELECT 
                            realToken.user_id AS uid,
                            (SELECT name FROM locations WHERE id= realToken.location_id) as location,
@@ -845,29 +846,33 @@ class CronjobController extends Controller
                          ORDER BY location, officer
                        ");
 
-                    break;
-                default:
-                    # code...
-                    break;
-            }
-            $data->home = false;
+                        break;
+                    default:
+                        # code...
+                        break;
+                }
 
-            $reports = \App\Core\Data::getReportList();
-            $ids = array_column($reports, 'id');
-            $found_key = array_search($data->report, $ids);
-    
-            $name = $reports[$found_key]['title'];
-            $view = $reports[$found_key]['reportview'];
-    
-            $mail_to = explode(',', $value->report->email_to);
-            // echo '<pre>';
-            // print_r($mail_to);
-            // echo '</pre>';
-            $pdf = PDF::loadView($view, array('data' => $data->data, 'master' => $data));
-            foreach ($mail_to as $_mail_to) {
-                $message = "You're scheduled report: $name has been generated. ";
-                $message .= "Please see attachement";
-                Mail::to($_mail_to)->send(new ScheduledReportNotification($message, $name, $pdf->output()));
+                $data->home = false;
+
+                $reports = \App\Core\Data::getReportList();
+                $ids = array_column($reports, 'id');
+                $found_key = array_search($data->report, $ids);
+
+                $name = $reports[$found_key]['title'];
+                $view = $reports[$found_key]['reportview'];
+
+                $mail_to = explode(',', $value->report->email_to);
+                
+                $pdf = PDF::loadView($view, array('data' => $data->data, 'master' => $data));
+                foreach ($mail_to as $_mail_to) {                    
+                    $message = "You're scheduled report: $name has been generated. ";
+                    $message .= "Please see attachement";
+                    Mail::to($_mail_to)->send(new ScheduledReportNotification($message, $name, $pdf->output()));                    
+                }
+                ScheduledReportsTask::where('id', $value->id)->update(['executed_time' => Carbon::now(), 'success' => true, 'notified' => $value->report->email_to]);
+            } catch (\Throwable $th) {
+                ScheduledReportsTask::where('id', $value->id)->update(['executed_time' => Carbon::now(), 'success' => false, 'notified' => '', 'response'=> $th->getMessage()]);
+                throw $th;
             }
         }
 
@@ -883,7 +888,7 @@ class CronjobController extends Controller
 
         $phone = $this->sanitizePhoneNumber($token->mobile);
 
-        $component_header = [ [
+        $component_header = [[
             'type' => 'text',
             'text' => $token->location->name,
         ],];

@@ -40,7 +40,7 @@
                 Run the build command for Laravel.
                 <div class="py-5">
                     <?php util()->highlight('
-                    npm run dev --rtl --demo1
+                    npm run dev --rtl --qsmart
 ', 'bash')
                     ?>
                 </div>
@@ -56,7 +56,7 @@
             </li>
 
             <li class="py-3">
-                Change the CSS files reference in <code>config/demo1/general.php</code>
+                Change the CSS files reference in <code>config/qsmart/general.php</code>
 
                 <div class="py-5">
                     <?php util()->highlight("

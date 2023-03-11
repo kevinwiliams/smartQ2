@@ -101,17 +101,17 @@ class Theme {
         $theme_config['menu'] = include $_THEME_PATH . '/dist/config/menu.php';
         $theme_config['pages'] = include $_THEME_PATH . '/dist/config/pages.php';
 
-        // For multi demo, merge demo1 menu config with current demo
-        if (self::$demo != '' && self::$demo != 'demo1') {
-            $demo1_actual_path = str_replace(self::$demo, 'demo1/', $_THEME_PATH);
-            $demo1_general_config = include $demo1_actual_path . '/dist/config/general.php';
-            $demo1_menu_config = include $demo1_actual_path . '/dist/config/menu.php';
-            $demo1_pages_config = include $demo1_actual_path . '/dist/config/pages.php';
+        // For multi demo, merge qsmart menu config with current demo
+        if (self::$demo != '' && self::$demo != 'qsmart') {
+            $qsmart_actual_path = str_replace(self::$demo, 'qsmart/', $_THEME_PATH);
+            $qsmart_general_config = include $qsmart_actual_path . '/dist/config/general.php';
+            $qsmart_menu_config = include $qsmart_actual_path . '/dist/config/menu.php';
+            $qsmart_pages_config = include $qsmart_actual_path . '/dist/config/pages.php';
 
-            $common_config['product'] = array_replace_recursive($common_config['product'], $demo1_general_config['product']);
-            $common_config['meta'] = array_replace_recursive($common_config['meta'], $demo1_general_config['meta']);
-            $theme_config['menu'] = array_replace_recursive($demo1_menu_config, $theme_config['menu']);
-            $theme_config['pages'] = array_replace_recursive($demo1_pages_config, $theme_config['pages']);
+            $common_config['product'] = array_replace_recursive($common_config['product'], $qsmart_general_config['product']);
+            $common_config['meta'] = array_replace_recursive($common_config['meta'], $qsmart_general_config['meta']);
+            $theme_config['menu'] = array_replace_recursive($qsmart_menu_config, $theme_config['menu']);
+            $theme_config['pages'] = array_replace_recursive($qsmart_pages_config, $theme_config['pages']);
         }
 
         // Merge the config arrays
@@ -527,10 +527,10 @@ class Theme {
         $actual_path = $_THEME_PATH . '/dist/view/' . $path . '.php';
         $common_path = $_COMMON_PATH . '/dist/view/' . $path . '.php';
 
-        // For multi demo, include from demo1 for other demos
+        // For multi demo, include from qsmart for other demos
         if ( file_exists($actual_path) === false ) {
-            if (self::$demo != '' && self::$demo != 'demo1') {
-                $actual_path = str_replace(self::$demo . '/', 'demo1/', $actual_path);
+            if (self::$demo != '' && self::$demo != 'qsmart') {
+                $actual_path = str_replace(self::$demo . '/', 'qsmart/', $actual_path);
             }
         }
 
@@ -558,10 +558,10 @@ class Theme {
         $actual_path = $_THEME_PATH . '/dist/view/pages/' . self::$config['page']['view'] . '.php';
         $common_path = $_COMMON_PATH . '/dist/view/pages/' . self::$config['page']['view'] . '.php';
 
-        // For multi demo, include from demo1 for other demos
+        // For multi demo, include from qsmart for other demos
         if ( file_exists($actual_path) === false ) {
-            if (self::$demo != '' && self::$demo != 'demo1') {
-                $actual_path = str_replace(self::$demo . '/', 'demo1/', $actual_path);
+            if (self::$demo != '' && self::$demo != 'qsmart') {
+                $actual_path = str_replace(self::$demo . '/', 'qsmart/', $actual_path);
             }
         }
 
@@ -1156,10 +1156,10 @@ class Theme {
         $common_path = $_COMMON_PATH . '/dist/changelog';
         $current_path = $_THEME_PATH . '/dist/changelog';
 
-        // For multi demo, include from demo1 for other demos
+        // For multi demo, include from qsmart for other demos
         if ( file_exists($current_path) === false ) {
-            if (self::$demo != '' && self::$demo != 'demo1') {
-                $current_path = str_replace(self::$demo . '/', 'demo1/', $current_path);
+            if (self::$demo != '' && self::$demo != 'qsmart') {
+                $current_path = str_replace(self::$demo . '/', 'qsmart/', $current_path);
             }
         }
 

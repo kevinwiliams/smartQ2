@@ -184,7 +184,7 @@ return array(
 
             'fix' => array(
                 'Fixed dropdown close when click on the input inside dropdown.',
-                'Fixed webpack mix build for RTL with command. Use this command to build RTL <code>npm run dev --demo1 --rtl</code>.',
+                'Fixed webpack mix build for RTL with command. Use this command to build RTL <code>npm run dev --qsmart --rtl</code>.',
                 'Fixed missing bootstrap icon files in webpack mix build.',
                 '<code>.container</code> class changed to <code>.container-xxl</code> in demos layouts for better responsiveness in small to medium desktops.',
             ),
@@ -204,7 +204,7 @@ return array(
             ),
 
             'fix' => array(
-                'Fixed menu icon path in demo1 was imported from different demo assets.',
+                'Fixed menu icon path in qsmart was imported from different demo assets.',
                 'Use Laravel helper function <code>asset()</code> for images.',
                 'Use Laravel helper function <code>@php ... @endphp</code> for additional PHP code in the blade file.',
                 'Show 404 page for non-exist demo.',

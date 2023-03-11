@@ -15,7 +15,7 @@
             <p>For the preview purpose, we use URL query <code>?demo=demo2</code> to enable the other demos preview without modifying the Laravel routes.
                 See the example preview URL <a href="{{ url()->current() . '?demo=demo2' }}">{{ url()->current() . '?demo=demo2' }}</a>.</p>
 
-            <p>The default build command will build the assets for <code>demo1</code>.</p>
+            <p>The default build command will build the assets for <code>qsmart</code>.</p>
 
             <div class="py-5">
                 <?php util()->highlight('

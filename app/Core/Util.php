@@ -473,7 +473,7 @@ class Util
     {
         $demo = '';
         if (Theme::isMultiDemo()) {
-            $demo = '--demo1';
+            $demo = '--qsmart';
         }
         return $demo;
     }
