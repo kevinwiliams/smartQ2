@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command('job:sms')->everyMinute();
         // $schedule->call('App\Http\Controllers\Common\CronjobController@sms')->everyMinute();
-        $schedule->command('job:generateDepartmentStats')->everyFiveMinutes();
+        $schedule->command('job:generateDeptStats')->everyFiveMinutes();
         //$schedule->call('App\Http\Controllers\Common\CronjobController@generateDepartmentStats')->everyFiveMinutes();
         $schedule->command('job:generateLocationStats')->everyFiveMinutes();
         //$schedule->call('App\Http\Controllers\Common\CronjobController@generateLocationStats')->everyFiveMinutes();
