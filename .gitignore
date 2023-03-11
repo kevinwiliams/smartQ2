@@ -8,18 +8,6 @@
 /public/plugins
 
 /public/qsmart
-/public/demo2
-/public/demo3
-/public/demo4
-/public/demo5
-/public/demo6
-/public/demo7
-/public/demo8
-/public/demo9
-/public/demo10
-/public/demo11
-/public/demo12
-/public/demo13
 
 /storage/*.key
 /vendor
