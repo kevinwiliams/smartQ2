@@ -528,9 +528,9 @@ class CronjobController extends Controller
 
     public function generateScheduledReports()
     {
-        $now = Carbon::now('America/Bogota')->second(0)->format('Y-m-d H:i:s');        
+        $now = Carbon::now('America/Bogota')->second(0)->format('Y-m-d H:i:s');
         $info = ScheduledReportsTask::whereRaw('run_time = \'' . $now . '\'')->get();
-        
+
         foreach ($info as $value) {
             try {
                 $jsondata = json_decode($value->report->schedule_info);
@@ -557,7 +557,7 @@ class CronjobController extends Controller
                         "))
                             ->join('locations', 'locations.id', '=', 'token.location_id')
                             ->whereIn('location_id', $data->locations)
-                            ->whereBetween('token.created_at', [$start, $end])
+                            ->whereBetween('token.created_at', [DB::raw("'{$start}'"), DB::raw("'{$end}'")])
                             ->groupByRaw('DATE(token.`created_at`),HOUR(token.`created_at`),`location_id`,`location_name`')
                             ->orderByRaw('location_name', 'day', 'hour')
                             ->get();
@@ -572,7 +572,7 @@ class CronjobController extends Controller
                             "))
                             ->join('locations', 'locations.id', '=', 'token.location_id')
                             ->whereIn('location_id', $data->locations)
-                            ->whereBetween('token.created_at', [$start, $end])
+                            ->whereBetween('token.created_at', [DB::raw("'{$start}'"), DB::raw("'{$end}'")])
                             ->groupByRaw('DATE(token.`created_at`),`location_id`,`location_name`')
                             ->orderByRaw('location_name', 'day')
                             ->get();
@@ -588,7 +588,7 @@ class CronjobController extends Controller
                                 "))
                             ->join('locations', 'locations.id', '=', 'token.location_id')
                             ->whereIn('location_id', $data->locations)
-                            ->whereBetween('token.created_at', [$start, $end])
+                            ->whereBetween('token.created_at', [DB::raw("'{$start}'"), DB::raw("'{$end}'")])
                             ->groupByRaw('YEAR(token.`created_at`),WEEK(token.`created_at`),`location_id`,`location_name`')
                             ->orderByRaw('location_name', 'year', 'week')
                             ->get();
@@ -605,7 +605,7 @@ class CronjobController extends Controller
                                     "))
                             ->join('locations', 'locations.id', '=', 'token.location_id')
                             ->whereIn('location_id', $data->locations)
-                            ->whereBetween('token.created_at', [$start, $end])
+                            ->whereBetween('token.created_at', [DB::raw("'{$start}'"), DB::raw("'{$end}'")])
                             ->groupByRaw('YEAR(token.`created_at`),MONTH(token.`created_at`),`location_id`,`location_name`')
                             ->orderByRaw('location_name', 'year', 'month')
                             ->get();
@@ -650,7 +650,7 @@ class CronjobController extends Controller
                         // date_default_timezone_set(session('app.timezone'));
                         $tokens = Token::has('status')
                             ->whereIn('location_id', $data->locations)
-                            ->whereBetween('created_at', [$start, $end])
+                            ->whereBetween('created_at', [DB::raw("'{$start}'"), DB::raw("'{$end}'")])
                             ->whereNotNull('started_at')
                             ->where('status', 1)
                             ->get();
@@ -702,7 +702,7 @@ class CronjobController extends Controller
                         // date_default_timezone_set(session('app.timezone'));
                         $tokens = Token::has('status')
                             ->whereIn('location_id', $data->locations)
-                            ->whereBetween('created_at', [$start, $end])
+                            ->whereBetween('created_at', [DB::raw("'{$start}'"), DB::raw("'{$end}'")])
                             ->whereNotNull('started_at')
                             ->where('status', 1)
                             ->get();
@@ -762,7 +762,7 @@ class CronjobController extends Controller
                             ->whereIn('token.location_id', $data->locations)
                             ->whereNotNull('started_at')
                             ->where('token.status', 2)
-                            ->whereBetween('token.created_at', [$start, $end])
+                            ->whereBetween('token.created_at', [DB::raw("'{$start}'"), DB::raw("'{$end}'")])
                             ->groupByRaw('DATE(token.`created_at`),token.`location_id`,`location_name`,`officer`')
                             ->orderByRaw('location_name', 'officer', 'day')
                             ->get();
@@ -781,7 +781,7 @@ class CronjobController extends Controller
                             ->join('user', 'user.id', '=', 'token.user_id')
                             ->whereIn('token.location_id', $data->locations)
                             ->where('token.no_show', 1)
-                            ->whereBetween('token.created_at', [$start, $end])
+                            ->whereBetween('token.created_at', [DB::raw("'{$start}'"), DB::raw("'{$end}'")])
                             ->groupByRaw('DATE(token.`created_at`),token.`location_id`,`location_name`,`officer`')
                             ->orderByRaw('location_name', 'officer', 'day')
                             ->get();
@@ -789,7 +789,7 @@ class CronjobController extends Controller
                         break;
                     case '9':
                         $data->data = Token::whereIn('location_id', $data->locations)
-                            ->whereBetween('token.created_at', [$start, $end])
+                            ->whereBetween('token.created_at', [DB::raw("'{$start}'"), DB::raw("'{$end}'")])
                             ->with(['location' => function ($q) {
                                 $q->orderBy('name');
                             }])
@@ -862,21 +862,19 @@ class CronjobController extends Controller
                 $view = $reports[$found_key]['reportview'];
 
                 $mail_to = explode(',', $value->report->email_to);
-                
+
                 $pdf = PDF::loadView($view, array('data' => $data->data, 'master' => $data));
-                foreach ($mail_to as $_mail_to) {                    
+                foreach ($mail_to as $_mail_to) {
                     $message = "You're scheduled report: $name has been generated. ";
                     $message .= "Please see attachement";
-                    Mail::to($_mail_to)->send(new ScheduledReportNotification($message, $name, $pdf->output()));                    
+                    Mail::to($_mail_to)->send(new ScheduledReportNotification($message, $name, $pdf->output()));
                 }
                 ScheduledReportsTask::where('id', $value->id)->update(['executed_time' => Carbon::now(), 'success' => true, 'notified' => $value->report->email_to]);
             } catch (\Throwable $th) {
-                ScheduledReportsTask::where('id', $value->id)->update(['executed_time' => Carbon::now(), 'success' => false, 'notified' => '', 'response'=> $th->getMessage()]);
+                ScheduledReportsTask::where('id', $value->id)->update(['executed_time' => Carbon::now(), 'success' => false, 'notified' => '', 'response' => $th->getMessage()]);
                 throw $th;
             }
         }
-
-        
     }
 
     public function sendWhatsAppNotification($token, $position)
