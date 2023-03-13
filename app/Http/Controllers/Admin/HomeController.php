@@ -419,7 +419,8 @@ class HomeController extends Controller
 
             $officer = User::where('id', $min['user_id'])->first();
             $dept = Department::where('id', $min['department_id'])->first();
-            $waittime = ($min['total_tokens'] + 1) * (($officer->wait_time > 0) ? $officer->wait_time : $dept->avg_wait_time);
+            //$waittime = ($min['total_tokens'] + 1) * (($officer->wait_time > 0) ? $officer->wait_time : $dept->avg_wait_time);
+            $waittime =  $dept->avg_wait_time * ($min['total_tokens'] - 1);
         }
 
         return json_encode(date('H:i', mktime(0, $waittime)));
@@ -469,7 +470,8 @@ class HomeController extends Controller
             $min = min($tokenAssignTo);
             $officer = User::where('id', $min['user_id'])->first();
             $dept = Department::where('id', $min['department_id'])->first();
-            $waittime = ($min['total_tokens']  + 1) * (($officer->wait_time > 0) ? $officer->wait_time : $dept->avg_wait_time);
+            $waittime =  $dept->avg_wait_time * ($min['total_tokens'] - 1);
+            //$waittime = ($min['total_tokens']  + 1) * (($officer->wait_time > 0) ? $officer->wait_time : $dept->avg_wait_time);
         }
 
 
