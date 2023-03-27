@@ -47,6 +47,10 @@ class CompanyDataTable extends DataTable
                 $html  .= '</div></div></div>';
 				return $html;
             })
+            ->editColumn('business_category_id', function (Company $model) {
+                $categoryName = !empty($model->category) ? $model->category->name : 'N/A';
+                return $categoryName;
+            })
             ->editColumn('active', function (Company $model) {      
                 if($model->active){
                     return '<div class="badge badge-success fw-bolder">Active</div>';
@@ -82,7 +86,7 @@ class CompanyDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     // ->dom('Bfrtip')
-                    ->orderBy(4, 'desc')
+                    ->orderBy(6, 'desc')
                     ->responsive()
                     ->autoWidth(false)
                     ->parameters(['scrollX' => true])
@@ -98,10 +102,10 @@ class CompanyDataTable extends DataTable
     protected function getColumns()
     {
         return [                       
-            Column::make('name'),                        
-            // Column::make('address'),        
+            Column::make('name'),                                           
             Column::make('description'),
             Column::make('active'),
+            Column::make('business_category_id')->title('Category'),
             Column::make('location_count')->title('Locations'),        
             Column::make('created_at'),    
             Column::computed('action')

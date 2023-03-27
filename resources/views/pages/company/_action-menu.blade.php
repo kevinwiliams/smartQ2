@@ -24,6 +24,7 @@
     </div>
   
     <input type="hidden" value="{{$model->id}}" name="company-id" id="company-id-{{$model->id}}" />
+    <input type="hidden" value="{{$model->business_category_id}}" name="company-business-category-id" id="company-business-category-id-{{$model->id}}" />
     <input type="hidden" value="{{$model->name}}" name="company-name" id="company-name-{{$model->id}}" />
     <input type="hidden" value="{{$model->address}}" name="company-address" id="company-address-{{$model->id}}" />
     <input type="hidden" value="{{$model->website}}" name="company-website" id="company-website-{{$model->id}}" />

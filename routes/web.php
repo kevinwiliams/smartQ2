@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Account\SettingsController;
+use App\Http\Controllers\Admin\BusinessCategoriesController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\CounterController;
 use App\Http\Controllers\Admin\DepartmentController;
@@ -210,6 +211,18 @@ Route::middleware('auth')->group(function () {
 		Route::get('getLocations/{id}', [CompanyController::class, 'getLocations']);
 		Route::post('edit/{id}', [CompanyController::class, 'update']);
 		Route::get('delete/{id}', [CompanyController::class, 'destroy']);
+	});
+
+	// // Category pages
+	Route::prefix('category')->group(function () {
+		Route::get('list', [BusinessCategoriesController::class, 'index']);
+		Route::get('create', [BusinessCategoriesController::class, 'showForm']);
+		Route::post('create', [BusinessCategoriesController::class, 'store']);
+		Route::get('edit/{id}', [BusinessCategoriesController::class, 'showEditForm']);
+		Route::get('view/{id}', [BusinessCategoriesController::class, 'show']);
+		Route::get('getCategories/{id}', [BusinessCategoriesController::class, 'getCategories']);
+		Route::post('edit/{id}', [BusinessCategoriesController::class, 'update']);
+		Route::get('delete/{id}', [BusinessCategoriesController::class, 'destroy']);
 	});
 
 	// Setting pages

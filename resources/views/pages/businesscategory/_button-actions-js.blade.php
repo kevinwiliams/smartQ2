@@ -1,11 +1,11 @@
 <script>
     // Class definition
-    var MVCountryActions = function() {
+    var MVCategoryActions = function() {
         var datatable;
         var table;
 
 
-        var initCompanyTable = () => {
+        var initCategoryTable = () => {
 
             if ($.fn.dataTable.isDataTable(table)) {
                 datatable = $(table).DataTable();
@@ -17,7 +17,7 @@
                     "lengthChange": false,
                     'columnDefs': [{
                             orderable: false,
-                            targets: 6
+                            targets: 3
                         }, // Disable ordering on column 6 (actions)
                     ]
                 });
@@ -42,8 +42,8 @@
 
         var handleDeleteRows = () => {
 
-            var _table = document.querySelector('#mv_company_table');
-            const deleteButtons = _table.querySelectorAll('[data-mv-company-table-filter="delete_row"]');
+            var _table = document.querySelector('#mv_category_table');
+            const deleteButtons = _table.querySelectorAll('[data-mv-category-table-filter="delete_row"]');
 
             deleteButtons.forEach(d => {
                 // Delete button on click
@@ -56,12 +56,12 @@
 
                     // Get token name
                     const tokenNo = parent.querySelectorAll('td')[0].innerText;
-                    if (parent.querySelectorAll('input[name=company-id]').length)
-                        var tokenID = parent.querySelectorAll('input[name=company-id]')[0].value;
+                    if (parent.querySelectorAll('input[name=category-id]').length)
+                        var tokenID = parent.querySelectorAll('input[name=category-id]')[0].value;
                     else
                         var tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
 
-                    console.log(tokenID);
+                    // console.log(tokenID);
                     // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
                     Swal.fire({
                         text: "Are you sure you want to delete " + tokenNo + "?",
@@ -78,7 +78,7 @@
                         if (result.value) {
 
                             $.ajax({
-                                url: '/company/delete/' + tokenID,
+                                url: '/category/delete/' + tokenID,
                                 data: {
                                     _token: $("input[name=_token]").val()
                                 },
@@ -93,7 +93,7 @@
                                         }
                                     }).then(function() {
                                         // Remove current row
-                                        document.location.href = '/company/list';
+                                        document.location.href = '/category/list';
                                     });
                                 }
                             }).fail(function(jqXHR, textStatus, error) {
@@ -127,69 +127,24 @@
 
         }
 
-
-
-
         // Init add schedule modal
         var handleEditRows = () => {
             // Shared variables
-            const element = document.getElementById('mv_modal_edit_company');
-            const form = element.querySelector('#mv_modal_edit_company_form');
+            const element = document.getElementById('mv_modal_edit_category');
+            const form = element.querySelector('#mv_modal_edit_category_form');
             const modal = new bootstrap.Modal(element);
 
             // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
             var validator = FormValidation.formValidation(
                 form, {
                     fields: {
-                        'business_category_id': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Category is required'
-                                }
-                            }
-                        },
                         'name': {
                             validators: {
                                 notEmpty: {
                                     message: 'Name is required'
                                 }
                             }
-                        },
-                        'address': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Address is required'
-                                }
-                            }
-                        },
-                        'website': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Website is required'
-                                }
-                            }
-                        },
-                        'email': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Email is required'
-                                }
-                            }
-                        },
-                        'phone': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Phone is required'
-                                }
-                            }
-                        },
-                        'contact_person': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Contact Person is required'
-                                }
-                            }
-                        },
+                        },                    
                         'description': {
                             validators: {
                                 notEmpty: {
@@ -210,10 +165,10 @@
                 }
             );
 
-            var _table = document.querySelector('#mv_company_table');
-            const editButtons = _table.querySelectorAll('[data-mv-company-table-filter="edit_row"]');
+            var _table = document.querySelector('#mv_category_table');
+            const editButtons = _table.querySelectorAll('[data-mv-category-table-filter="edit_row"]');
 
-            console.log(editButtons);
+            // console.log(editButtons);
             editButtons.forEach(d => {
 
                 d.addEventListener('click', function(e) {
@@ -225,48 +180,20 @@
                     // alert('click');
                     modal.show();
 
-                    var _id = parent.querySelectorAll('input[name=company-id]')[0].value;
-                    var _name = parent.querySelectorAll('input[name=company-name]')[0].value;
-                    var _categoryId = parent.querySelectorAll('input[name=company-business-category-id]')[0].value;
-                    var _address = parent.querySelectorAll('input[name=company-address]')[0].value;
-                    var _website = parent.querySelectorAll('input[name=company-website]')[0].value;
-                    var _email = parent.querySelectorAll('input[name=company-email]')[0].value;
-                    var _phone = parent.querySelectorAll('input[name=company-phone]')[0].value;
-                    var _contact_person = parent.querySelectorAll('input[name=company-contact_person]')[0].value;
-                    var _description = parent.querySelectorAll('input[name=company-description]')[0].value;
-                    var _active = parent.querySelectorAll('input[name=company-active]')[0].value;
-                    var _logo = parent.querySelectorAll('input[name=company-logo]')[0].value;
-                    var _logourl = parent.querySelectorAll('input[name=company-logourl]')[0].value;
-
-                    form.querySelector('input[name=company_edit_id]').value = _id;
+                    var _id = parent.querySelectorAll('input[name=category-id]')[0].value;
+                    var _name = parent.querySelectorAll('input[name=category-name]')[0].value;                    
+                    var _description = parent.querySelectorAll('input[name=category-description]')[0].value;                   
+                    
+                    form.querySelector('input[name=category_edit_id]').value = _id;         
                     form.querySelector('input[name=name]').value = _name;
-                    // form.querySelector('select[name=business_category_id]').value = _categoryId;
-                    form.querySelector('input[name=address]').value = _address;
-                    form.querySelector('input[name=website]').value = _website;
-                    form.querySelector('input[name=email]').value = _email;
-                    form.querySelector('input[name=phone]').value = _phone;
-                    form.querySelector('input[name=contact_person]').value = _contact_person;
-                    form.querySelector('textarea[name=description]').value = _description;
-                    $('#edit_active').prop("checked", _active);
-                    $('input[name="old_logo"]').val(_logo);
-                    $("#company-logo-wrapper").css({
-                        "background-image": "url(" + _logourl + ")"
-                    });
-
-                    var business_category = $("select[name=business_category_id]").select2({
-                        dropdownParent: $('#mv_modal_edit_company')
-                    });
-                    // console.log(_categoryId);
-                    business_category.val(_categoryId);
-                    business_category.trigger('change');
-                    business_category.select2();
+                    form.querySelector('textarea[name=description]').value = _description;                    
 
                 });
             });
 
 
             // Close button handler
-            const closeButton = element.querySelector('[data-mv-company-edit-modal-action="close"]');
+            const closeButton = element.querySelector('[data-mv-category-edit-modal-action="close"]');
             closeButton.addEventListener('click', e => {
                 e.preventDefault();
 
@@ -289,7 +216,7 @@
             });
 
             // Cancel button handler
-            const cancelButton = element.querySelector('[data-mv-company-edit-modal-action="cancel"]');
+            const cancelButton = element.querySelector('[data-mv-category-edit-modal-action="cancel"]');
             cancelButton.addEventListener('click', e => {
                 e.preventDefault();
 
@@ -323,8 +250,8 @@
             });
 
             // Submit button handler
-            const submitButton = element.querySelector('[data-mv-company-edit-modal-action="submit"]');
-
+            const submitButton = element.querySelector('[data-mv-category-edit-modal-action="submit"]');
+            
             submitButton.addEventListener('click', function(e) {
                 // Prevent default button action
                 e.preventDefault();
@@ -340,7 +267,7 @@
 
                             // Disable button to avoid multiple click 
                             submitButton.disabled = true;
-                            var id = $("#company_edit_id").val();
+                            var id = $("#category_edit_id").val();
                             $.ajax({
                                 url: form.action + "/" + id,
                                 type: form.method,
@@ -380,7 +307,7 @@
                                         }
                                     }).then(function(result) {
                                         // if (result.isConfirmed) {     
-                                        // document.location.href = '/company/list';
+                                        // document.location.href = '/category/list';
                                         // datatable.draw();
                                         location.reload();
                                         form.reset();
@@ -411,11 +338,11 @@
             });
         }
 
-        var initAddCompany = () => {
+        var initAddCategory = () => {
 
             // Shared variables
-            const element = document.getElementById('mv_modal_add_company');
-            const form = element.querySelector('#mv_modal_add_company_form');
+            const element = document.getElementById('mv_modal_add_category');
+            const form = element.querySelector('#mv_modal_add_category_form');
             const modal = new bootstrap.Modal(element);
 
             // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
@@ -428,42 +355,7 @@
                                     message: 'Name is required'
                                 }
                             }
-                        },
-                        'address': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Address is required'
-                                }
-                            }
-                        },
-                        'website': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Website is required'
-                                }
-                            }
-                        },
-                        'email': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Email is required'
-                                }
-                            }
-                        },
-                        'phone': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Phone is required'
-                                }
-                            }
-                        },
-                        'contact_person': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Contact Person is required'
-                                }
-                            }
-                        },
+                        },                       
                         'description': {
                             validators: {
                                 notEmpty: {
@@ -485,8 +377,8 @@
             );
 
             // Submit button handler
-            const submitButton = element.querySelector('[data-mv-company-modal-action="submit"]');
-
+            const submitButton = element.querySelector('[data-mv-category-modal-action="submit"]');
+            
             submitButton.addEventListener('click', e => {
                 e.preventDefault();
 
@@ -540,7 +432,7 @@
                                         }
                                     }).then(function(result) {
                                         if (result.isConfirmed) {
-                                            document.location.href = '/company/list';
+                                            document.location.href = '/category/list';
                                             // datatable.draw();
                                             form.reset();
                                             modal.hide();
@@ -566,7 +458,7 @@
             });
 
             // Cancel button handler
-            const cancelButton = element.querySelector('[data-mv-company-modal-action="cancel"]');
+            const cancelButton = element.querySelector('[data-mv-category-modal-action="cancel"]');
             cancelButton.addEventListener('click', e => {
                 e.preventDefault();
 
@@ -600,7 +492,7 @@
             });
 
             // Close button handler
-            const closeButton = element.querySelector('[data-mv-company-modal-action="close"]');
+            const closeButton = element.querySelector('[data-mv-category-modal-action="close"]');
             closeButton.addEventListener('click', e => {
                 e.preventDefault();
 
@@ -637,21 +529,13 @@
         return {
             // Public functions
             init: function() {
-                table = document.querySelector('#mv_company_table');
+                table = document.querySelector('#mv_category_table');
                 // console.log(table);
                 if (!table) {
                     return;
                 }
-                initCompanyTable();
-                // handleDeleteRows();
-                // handleEditRows();
-                initAddCompany();
-                // handleEditRows();
-                // handleCompleteRows();
-                // handleCancelRows();
-                // handleCheckInRows();
-                // handleTransferRows();
-                // handleRecallRows();
+                initAddCategory();
+                initCategoryTable();
             }
         };
     }();
@@ -660,7 +544,7 @@
     MVUtil.onDOMContentLoaded(function() {
 
         setTimeout(() => {
-            MVCountryActions.init();
+            MVCategoryActions.init();
 
         }, 1000);
     });

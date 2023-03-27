@@ -7,6 +7,7 @@ use App\DataTables\Company\CompanyDataTable;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\BusinessCategory;
 use App\models\DisplayCustom;
 use App\Models\DisplaySetting;
 use App\Models\Location;
@@ -28,8 +29,8 @@ class CompanyController extends Controller
         if (!auth()->user()->can('view company')) {
             return Redirect::to("/")->withFail(trans('app.no_permissions'));
         }
-
-        return $dataTable->render('pages.company.list');
+        $categories = BusinessCategory::get();
+        return $dataTable->render('pages.company.list', compact('categories'));
     }
 
     /**
@@ -64,6 +65,7 @@ class CompanyController extends Controller
             'email'      => 'required',
             'phone'      => 'required',
             'contact_person'      => 'required',
+            'category_id'      => 'required',
         ])
             ->setAttributeNames(array(
                 'name' => trans('app.name'),
@@ -74,6 +76,7 @@ class CompanyController extends Controller
                 'phone' => trans('app.phone'),
                 'contact_person' => trans('app.contact_person'),
                 'active' => trans('app.active'),
+                'category_id' => trans('app.category_id'),
             ));
 
         if ($validator->fails()) {
@@ -104,7 +107,8 @@ class CompanyController extends Controller
                 'phone' => $request->phone,
                 'logo' => $filePath,
                 'contact_person' => $request->contact_person,
-                'active' => ($request->active) ? $request->active : 0
+                'active' => ($request->active) ? $request->active : 0,
+                'category_id' => $request->category_id,
             ]);
 
             if ($company) {
@@ -158,11 +162,11 @@ class CompanyController extends Controller
         }
 
         // echo '<pre>';
-        // print_r($infowindows);
+        // print_r($company->category_name);
         // echo '</pre>';
         // die();
-
-        return view('pages.company.view', compact('company', 'markers', 'infowindows'));
+        $categories = BusinessCategory::get();
+        return view('pages.company.view', compact('company', 'markers', 'infowindows','categories'));
     }
 
 
@@ -207,6 +211,7 @@ class CompanyController extends Controller
             'email'      => 'required',
             'phone'      => 'required',
             'contact_person'      => 'required',
+            'business_category_id'      => 'required',
             'logo'       => 'image|mimes:jpeg,png,jpg,gif|max:3072',
         ])
             ->setAttributeNames(array(
@@ -218,6 +223,7 @@ class CompanyController extends Controller
                 'phone' => trans('app.phone'),
                 'contact_person' => trans('app.contact_person'),
                 'logo' => trans('app.logo'),
+                'business_category_id' => trans('app.category_id'),
             ));
 
 
@@ -251,6 +257,7 @@ class CompanyController extends Controller
                     'logo' => $filePath,
                     'contact_person' => $request->contact_person,
                     'active' => ($request->active) ? $request->active : 0,
+                    'business_category_id' => $request->business_category_id,
                     'updated_at' => Carbon::now()
                 ]);
 

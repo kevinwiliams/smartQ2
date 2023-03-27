@@ -24,10 +24,10 @@
 								</div>
 								@endif
 								<!--begin::Card title-->
-								<div class="card-title">
+								<div class="card-title">									
 									<!--begin::Avatar-->
 									<div class="symbol symbol-65px symbol-circle mt-5 me-5 mb-5">
-										<img src="{{ $company->logo_url }}" alt="image">
+										<img src="{{ $company->logo_url }}" alt="image">										
 									</div>
 									<!--end::Avatar-->
 									<h2>{{ ucwords($company->name) }}</h2>
@@ -36,7 +36,6 @@
 							</div>
 							<!--begin::Card body-->
 							<div class="card-body pt-0">
-								<div class="text-primary mb-5">{{ $company->category->name }}</div>
 								<div class="text-gray-600 mb-5">{{ $company->address }}</div>
 								<div class="text-gray-600 mb-5">{{ $company->website }}</div>
 								<div class="text-gray-600 mb-5">{{ $company->email }}</div>
@@ -60,8 +59,7 @@
 							<input type="hidden" value="{{$company->description}}" name="company-description" id="company-description" />
 							<input type="hidden" value="{{$company->active}}" name="company-active" id="company-active" />
 							<input type="hidden" value="{{$company->logo_url}}" name="company-logourl" id="company-logourl" />
-							<input type="hidden" value="{{$company->logo}}" name="company-logo" id="company-logo" />							
-							<input type="hidden" value="{{$company->business_category_id}}" name="company-business-category-id" id="company-business-category-id-{{$company->id}}" />
+							<input type="hidden" value="{{$company->logo}}" name="company-logo" id="company-logo" />
 							<!--end::Card footer-->
 						</div>
 						<!--end::Card-->
@@ -203,7 +201,7 @@
 	{{ theme()->getView('partials/modals/location/_add', array('company' => $company)) }}
 	<!--end::Modal - Add Company-->
 	<!--begin::Modal - Edit Company -->
-	{{ theme()->getView('partials/modals/company/_edit', array('categories' => $categories)) }}
+	{{ theme()->getView('partials/modals/company/_edit') }}
 	<!--end::Modal dialog-->
 	@section('scripts')
 	@include('pages.company._view-js')

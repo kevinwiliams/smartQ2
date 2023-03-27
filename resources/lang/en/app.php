@@ -307,4 +307,12 @@ return [
     'starting_point'    => "Starting Point",
     'end_point'    => "End Point",
     'start_time'    => "Start Time",
+
+
+    
+    /*Business Category*/
+    'add_business_category'    => "Add Business Category",
+    'business_category'    => "Business Category",
+    'category_id'    => "Category",
+    'business_category_id'    => "Category",
 ];

@@ -12,7 +12,7 @@ class Company extends Model
     protected $table = "company";
 
     protected $appends = ['location_count'];
-    protected $fillable = ['name', 'address', 'website', 'email', 'phone', 'contact_person', 'description', 'active'];
+    protected $fillable = ['name', 'address', 'website', 'email', 'phone', 'contact_person', 'description', 'active', 'business_category_id'];
 
     /**
      * The attributes that should be cast to native types.
@@ -30,9 +30,23 @@ class Company extends Model
 
     public function locations()
     {
-	    return $this->hasMany(Location::class);
-	}
+        return $this->hasMany(Location::class);
+    }
 
+    public function category()
+    {
+        return $this->hasOne(BusinessCategory::class, 'id', 'business_category_id');
+    }
+
+    // public function getCategoryNameAttribute()
+    // {        
+    //     if ($this->category != null) {
+    //         return $this->category->name;
+    //     } else {
+    //         return "";
+    //     }
+    // }
+    
     public function getLogoUrlAttribute()
     {
         // if file avatar exist in storage folder
@@ -48,7 +62,6 @@ class Company extends Model
         }
 
         // no avatar, return blank avatar
-        return asset(theme()->getMediaUrlPath().'media/icons/duotune/general/gen006.svg');
+        return asset(theme()->getMediaUrlPath() . 'media/icons/duotune/general/gen006.svg');
     }
-
 }

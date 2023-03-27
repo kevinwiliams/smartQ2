@@ -316,6 +316,11 @@ return array(
                         'bullet'     => '<span class="bullet bullet-dot"></span>',                       
                     ),
                     array(
+                        'title'      => 'Business Categories',
+                        'path'       => 'category/list',
+                        'bullet'     => '<span class="bullet bullet-dot"></span>',                       
+                    ),
+                    array(
                         'title'      => 'System',
                         'path'       => 'settings/system',
                         'bullet'     => '<span class="bullet bullet-dot"></span>',                       

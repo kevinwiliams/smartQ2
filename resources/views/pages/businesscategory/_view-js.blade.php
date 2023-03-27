@@ -1,28 +1,21 @@
 <script>
     // Class definition
-    var MVCountryActions = function() {
+    var MVCategoryActions = function() {
         var datatable;
         var table;
 
 
 
-        var initAddLocation = () => {
+        var initAddCategory = () => {
             // Shared variables
-            const element = document.getElementById('mv_modal_add_location');
-            const form = element.querySelector('#mv_modal_add_location_form');
+            const element = document.getElementById('mv_modal_add_category');
+            const form = element.querySelector('#mv_modal_add_category_form');
             const modal = new bootstrap.Modal(element);
             console.log(element);
             // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
             var validator = FormValidation.formValidation(
                 form, {
-                    fields: {
-                        'company_id': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Name is required'
-                                }
-                            }
-                        },
+                    fields: {                       
                         'name': {
                             validators: {
                                 notEmpty: {
@@ -30,27 +23,13 @@
                                 }
                             }
                         },
-                        'address': {
+                        'description': {
                             validators: {
                                 notEmpty: {
-                                    message: 'Address is required'
+                                    message: 'Description is required'
                                 }
                             }
-                        },
-                        'lat': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Website is required'
-                                }
-                            }
-                        },
-                        'lng': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Email is required'
-                                }
-                            }
-                        },
+                        },                       
 
                     },
 
@@ -66,7 +45,7 @@
             );
 
             // Submit button handler
-            const submitButton = element.querySelector('[data-mv-location-modal-action="submit"]');
+            const submitButton = element.querySelector('[data-mv-category-modal-action="submit"]');
 
             submitButton.addEventListener('click', e => {
                 e.preventDefault();
@@ -146,7 +125,7 @@
             });
 
             // Cancel button handler
-            const cancelButton = element.querySelector('[data-mv-location-modal-action="cancel"]');
+            const cancelButton = element.querySelector('[data-mv-category-modal-action="cancel"]');
             cancelButton.addEventListener('click', e => {
                 e.preventDefault();
 
@@ -180,7 +159,7 @@
             });
 
             // Close button handler
-            const closeButton = element.querySelector('[data-mv-location-modal-action="close"]');
+            const closeButton = element.querySelector('[data-mv-category-modal-action="close"]');
             closeButton.addEventListener('click', e => {
                 e.preventDefault();
 
@@ -235,8 +214,8 @@
         // Init edit company modal
         var handleEdit = () => {
             // Shared variables
-            const element = document.getElementById('mv_modal_edit_company');
-            const form = element.querySelector('#mv_modal_edit_company_form');
+            const element = document.getElementById('mv_modal_edit_category');
+            const form = element.querySelector('#mv_modal_edit_category_form');
             const modal = new bootstrap.Modal(element);
 
             // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
@@ -250,48 +229,13 @@
                                 }
                             }
                         },
-                        'address': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Address is required'
-                                }
-                            }
-                        },
-                        'website': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Website is required'
-                                }
-                            }
-                        },
-                        'email': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Email is required'
-                                }
-                            }
-                        },
-                        'phone': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Phone is required'
-                                }
-                            }
-                        },
-                        'contact_person': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Contact Person is required'
-                                }
-                            }
-                        },
                         'description': {
                             validators: {
                                 notEmpty: {
                                     message: 'Description is required'
                                 }
                             }
-                        }
+                        },                        
                     },
 
                     plugins: {
@@ -306,7 +250,7 @@
             );
 
             
-            const editButton = document.querySelector('[data-mv-company-action-filter="edit_record"]');
+            const editButton = document.querySelector('[data-mv-category-action-filter="edit_record"]');
 
             // console.log(editButtons);
 
@@ -319,45 +263,20 @@
                 // alert('click');
                 modal.show();
 
-                var _id = $('#company-id').val();
-                var _name = $('#company-name').val();
-                var _categoryId = $('input[name=company-business-category-id]')[0].value;
-                var _address = $('#company-address').val();
-                var _website = $('#company-website').val();
-                var _email = $('#company-email').val();
-                var _phone = $('#company-phone').val();
-                var _contact_person = $('#company-contact_person').val();
-                var _description = $('#company-description').val();
-                var _active = $('#company-active').val();
-                var _logo = $('#company-logo').val();
-                var _logourl = $('#company-logourl').val();
+                var _id = $('#category-id').val();
+                var _name = $('#category-name').val();
+                var _description = $('#category-description').val();
+                
+                form.querySelector('input[name=category_edit_id]').value = _id;
+                form.querySelector('input[name=name]').value = _name;                
+                form.querySelector('textarea[name=description]').value = _description;               
 
-                form.querySelector('input[name=company_edit_id]').value = _id;
-                form.querySelector('input[name=name]').value = _name;
-                form.querySelector('input[name=address]').value = _address;
-                form.querySelector('input[name=website]').value = _website;
-                form.querySelector('input[name=email]').value = _email;
-                form.querySelector('input[name=phone]').value = _phone;
-                form.querySelector('input[name=contact_person]').value = _contact_person;
-                form.querySelector('textarea[name=description]').value = _description;
-                $('#edit_active').prop("checked", _active);
-                $('input[name="old_logo"]').val(_logo);
-                $("#company-logo-wrapper").css({
-                    "background-image": "url(" + _logourl + ")"
-                });
-                var business_category = $("select[name=business_category_id]").select2({
-                        dropdownParent: $('#mv_modal_edit_company')
-                    });
-                    // console.log(_categoryId);
-                    business_category.val(_categoryId);
-                    business_category.trigger('change');
-                    business_category.select2();
             });
 
 
 
             // Close button handler
-            const closeButton = element.querySelector('[data-mv-company-edit-modal-action="close"]');
+            const closeButton = element.querySelector('[data-mv-category-edit-modal-action="close"]');
             closeButton.addEventListener('click', e => {
                 e.preventDefault();
 
@@ -380,7 +299,7 @@
             });
 
             // Cancel button handler
-            const cancelButton = element.querySelector('[data-mv-company-edit-modal-action="cancel"]');
+            const cancelButton = element.querySelector('[data-mv-category-edit-modal-action="cancel"]');
             cancelButton.addEventListener('click', e => {
                 e.preventDefault();
 
@@ -414,7 +333,7 @@
             });
 
             // Submit button handler
-            const submitButton = element.querySelector('[data-mv-company-edit-modal-action="submit"]');
+            const submitButton = element.querySelector('[data-mv-category-edit-modal-action="submit"]');
 
             submitButton.addEventListener('click', function(e) {
                 // Prevent default button action
@@ -431,7 +350,7 @@
 
                             // Disable button to avoid multiple click 
                             submitButton.disabled = true;
-                            var id = $("#company_edit_id").val();
+                            var id = $("#category_edit_id").val();
                             $.ajax({
                                 url: form.action + "/" + id,
                                 type: form.method,
@@ -505,14 +424,14 @@
         return {
             // Public functions
             init: function() {
-                table = document.querySelector('#mv_locations_view_table');
-                // console.log(table);
+                table = document.querySelector('#mv_category_table');
+                console.log(table);
                 if (!table) {
                     return;
                 }
 
-                initViewCompany();
-                initAddLocation();
+                initViewCategory();
+                initAddCategory();
                 handleEdit();
             }
         };
@@ -520,6 +439,6 @@
 
     // On document ready
     MVUtil.onDOMContentLoaded(function() {
-        MVCountryActions.init();
+        MVCategoryActions.init();
     });
 </script>
