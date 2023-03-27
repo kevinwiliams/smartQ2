@@ -35,7 +35,7 @@ class Company extends Model
 
     public function category()
     {
-        return $this->belongsTo(BusinessCategory::class, 'business_category_id', 'id');
+        return $this->hasOne(BusinessCategory::class, 'id', 'business_category_id');
     }
 
     // public function getCategoryNameAttribute()
