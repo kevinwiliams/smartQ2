@@ -7,9 +7,12 @@ use App\Models\BusinessCategories;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\BusinessCategory;
+use App\Models\Location;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Facades\Image;
 
 class BusinessCategoriesController extends Controller
 {
@@ -65,10 +68,23 @@ class BusinessCategoriesController extends Controller
             $data['message'] = trans('app.validation_error');
 
             return response()->json($data);
-        } else {           
+        } else {      
+            $filePath = null;    
+            if (!empty($request->logo)) {
+                $filePath = 'assets/img/category/' . date('ymdhis') . '.jpg';
+                $photo = $request->logo;
+                Image::make($photo)->resize(300, 300)->save(public_path(Storage::url($filePath)));
+            } else if (!empty($request->old_logo)) {
+                $filePath = $request->old_logo;
+                if ($request->has('remove_logo')) {
+                    $filePath = null;
+                }
+            }
+             
             $category = BusinessCategory::create([
                 'name'        => $request->name,
                 'description' => $request->description,
+                'logo' => $filePath,
             ]);
 
             if ($category) {
@@ -140,11 +156,22 @@ class BusinessCategoriesController extends Controller
 
             return response()->json($data);
         } else {
-           
+            $filePath = null;
+            if (!empty($request->logo)) {
+                $filePath = 'assets/img/category/' . date('ymdhis') . '.jpg';
+                $photo = $request->logo;
+                Image::make($photo)->resize(300, 300)->save(public_path(Storage::url($filePath)));
+            } else if (!empty($request->old_logo)) {
+                $filePath = $request->old_logo;
+                if ($request->has('remove_logo')) {
+                    $filePath = null;
+                }
+            }
             $update = BusinessCategory::where('id', $id)
                 ->update([
                     'name'        => $request->name,
                     'description' => $request->description,                    
+                    'logo' => $filePath,  
                     'updated_at' => Carbon::now()
                 ]);
 
@@ -182,5 +209,11 @@ class BusinessCategoriesController extends Controller
         $data['message'] = trans('app.company_deleted');
 
         return response()->json($data);
+    }
+
+    public function getLocations($id)
+    {
+        $locations = Location::whereRelation('company', 'business_category_id', $id)->whereRelation("company", "active", true)->has('departments')->with('settings')->get();
+        return response()->json($locations);
     }
 }

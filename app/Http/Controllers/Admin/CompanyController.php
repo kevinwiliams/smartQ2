@@ -66,6 +66,7 @@ class CompanyController extends Controller
             'phone'      => 'required',
             'contact_person'      => 'required',
             'category_id'      => 'required',
+            'logo'       => 'image|mimes:jpeg,png,jpg,gif|max:3072',
         ])
             ->setAttributeNames(array(
                 'name' => trans('app.name'),

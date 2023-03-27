@@ -221,7 +221,7 @@ Route::middleware('auth')->group(function () {
 		Route::post('create', [BusinessCategoriesController::class, 'store']);
 		Route::get('edit/{id}', [BusinessCategoriesController::class, 'showEditForm']);
 		Route::get('view/{id}', [BusinessCategoriesController::class, 'show']);
-		Route::get('getCategories/{id}', [BusinessCategoriesController::class, 'getCategories']);
+		Route::get('getLocations/{id}', [BusinessCategoriesController::class, 'getLocations']);
 		Route::post('edit/{id}', [BusinessCategoriesController::class, 'update']);
 		Route::get('delete/{id}', [BusinessCategoriesController::class, 'destroy']);
 	});

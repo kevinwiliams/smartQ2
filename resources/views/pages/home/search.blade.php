@@ -52,7 +52,7 @@
                             <!--begin::Default example-->
                             <div class="fv-row mb-7">
                                 <div class="input-group input-group-solid flex-nowrap">
-                                    <span class="input-group-text"><i class="bi bi-building fs-4"></i></span>
+                                    <span class="input-group-text"><i class="bi bi-bookmark-check fs-4"></i></span>
                                     <div class="overflow-hidden flex-grow-1">
                                         <!-- <select class="form-select form-select-lg  rounded-start-0" data-control="select2" data-placeholder="Select an option">
                                             <option></option>
@@ -63,13 +63,13 @@
                                             <option value="5">Option 5</option>
                                         </select> -->
                                         <!-- {{ Form::select('company_id', $companies, null, ['data-placeholder' => 'Select Company','placeholder' => 'Select Option' ,'data-control' => 'select2' , 'id' => 'company_id', 'class'=>'form-select form-select-solid form-select-lg fw-bold filter rounded-start-0']) }} -->
-                                        <select id="company_id" class="form-select form-select-solid form-select-lg fw-bold filter rounded-start-0" name="company_id" data-placeholder="Please select company">
-                                            @foreach($companies as $company)
+                                        <select id="category_id" class="form-select form-select-solid form-select-lg fw-bold filter rounded-start-0" name="category_id" data-placeholder="Please select Category">
+                                            @foreach($categories as $category)
                                             <option></option>
-                                            <option value="{{ $company->id }}" data-mv-rich-content-icon="{{ $company->logo_url }}">{{ $company->name }}</option>
+                                            <option value="{{ $category->id }}" data-mv-rich-content-icon="{{ $category->logo_url }}">{{ $category->name }}</option>
                                             @endforeach
                                         </select>
-                                        <span class="text-danger">{{ $errors->first('company_id') }}</span>
+                                        <span class="text-danger">{{ $errors->first('category_id') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -759,6 +759,13 @@
                 templateResult: companyoptionFormat
             });
 
+            $('#category_id').select2({
+                placeholder: "Select a Category",
+                minimumResultsForSearch: 0,
+                templateSelection: companyoptionFormat,
+                templateResult: companyoptionFormat
+            });
+
 
             $('#mv_location_list').on('change', function(e) {
                 var selectedval = $(this).val();
@@ -1235,6 +1242,33 @@
                 $.ajax({
                     type: 'get',
                     url: '{{ URL::to("company/getLocations") }}' + "/" + company,
+                    dataType: 'json',
+                    success: function(data) {
+                        // console.log(data);
+                        var options = $('select[name="location"]').empty();
+                        $('select[name="location"]').append('<option value="" data-mv-rich-content-subcontent="">Select a location</option>');
+                        data.forEach(element => {
+                            var optstr = '<option value="' + element.id + '" data-mv-rich-content-subcontent="' + element.address + '" data-visitreason="' + element.settings.client_reason_for_visit + '" data-shownote="' + element.settings.show_note + '" data-lat="' + element.lat + '" data-lng="' + element.lon + '" data-whatsapp="' + element.settings.enable_whatsapp + '">' + element.name + '</option>';
+                            $('select[name="location"]').append(optstr);
+                        });
+                        getLocation();
+                    }
+                });
+            });
+
+
+            $('#category_id').on('change', function(e) {
+                var category = $("#category_id").find(":selected").val();
+
+                var repItem = $('#mv-repeater-item');
+                var content = $('#mv-repeater-content');
+
+                // console.log(repItem);
+                // repItem.find("#mv-repeater-name")
+                $('[data-mv-stepper-action="next"]').addClass('disabled');
+                $.ajax({
+                    type: 'get',
+                    url: '{{ URL::to("category/getLocations") }}' + "/" + category,
                     dataType: 'json',
                     success: function(data) {
                         // console.log(data);

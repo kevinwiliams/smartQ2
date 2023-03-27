@@ -24,7 +24,37 @@
                 {{ Form::open(['url' => 'category/edit', 'class'=>'manualFrm form', 'id'=>'mv_modal_edit_category_form']) }}
                 @csrf <!-- {{ csrf_field() }} -->
                 <input type="hidden" name="category_edit_id" id="category_edit_id" value="">
-
+                <!--begin::Image input wrapper-->
+                <div class="mt-1">
+                    <!--begin::Image input-->
+                    <div class="image-input image-input-outline" data-mv-image-input="true" style="background-image: url('{{ asset(theme()->getMediaUrlPath() . 'icons/duotune/general/gen006.svg') }}')">
+                        <!--begin::Preview existing avatar-->
+                        <div class="image-input-wrapper w-125px h-125px" style="background-image: url('{{ asset(theme()->getMediaUrlPath() . 'icons/duotune/general/gen006.svg') }}')" id="company-logo-wrapper"></div>
+                        <!--end::Preview existing avatar-->
+                        <!--begin::Edit-->
+                        <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-mv-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
+                            <i class="bi bi-pencil-fill fs-7"></i>
+                            <!--begin::Inputs-->
+                            <input type="file" name="logo" accept=".png, .jpg, .jpeg" />
+                            <input type="hidden" name="logo_remove" />
+                            <input type="hidden" name="old_logo" value="" />
+                            <!--end::Inputs-->
+                        </label>
+                        <!--end::Edit-->
+                        <!--begin::Cancel-->
+                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-mv-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel avatar">
+                            <i class="bi bi-x fs-2"></i>
+                        </span>
+                        <!--end::Cancel-->
+                        <!--begin::Remove-->
+                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-mv-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
+                            <i class="bi bi-x fs-2"></i>
+                        </span>
+                        <!--end::Remove-->
+                    </div>
+                    <!--end::Image input-->
+                </div>
+                <!--end::Image input wrapper-->
                 <!--begin::Input group-->
                 <div class="fv-row mb-7">
                     <div class="form-group @error('name') has-error @enderror">

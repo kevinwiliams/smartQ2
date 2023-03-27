@@ -12,7 +12,7 @@ class Company extends Model
     protected $table = "company";
 
     protected $appends = ['location_count'];
-    protected $fillable = ['name', 'address', 'website', 'email', 'phone', 'contact_person', 'description', 'active', 'business_category_id'];
+    protected $fillable = ['name', 'address', 'website', 'email', 'phone', 'contact_person', 'description', 'active', 'business_category_id', 'logo'];
 
     /**
      * The attributes that should be cast to native types.
@@ -46,7 +46,7 @@ class Company extends Model
     //         return "";
     //     }
     // }
-    
+
     public function getLogoUrlAttribute()
     {
         // if file avatar exist in storage folder
