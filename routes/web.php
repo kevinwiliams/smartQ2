@@ -134,6 +134,7 @@ Route::middleware('auth')->group(function () {
 	# home
 	Route::prefix('home')->group(function () {
 		Route::get('home', [HomeController::class, 'index']);
+		Route::get('search', [HomeController::class, 'search']);
 		Route::get('/', [HomeController::class, 'home']);
 		Route::post('confirmMobile', [HomeController::class, 'confirmMobile']);
 		Route::post('confirmEmail', [HomeController::class, 'confirmEmail']);

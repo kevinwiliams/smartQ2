@@ -58,7 +58,7 @@ class BusinessCategoryDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             // ->dom('Bfrtip')
-            ->orderBy(2, 'desc')
+            ->orderBy(3, 'desc')
             ->responsive()
             ->autoWidth(false)
             ->parameters(['scrollX' => true])
@@ -75,6 +75,7 @@ class BusinessCategoryDataTable extends DataTable
         return [
             Column::make('name'),
             Column::make('description'),
+            Column::make('company_count')->title("Companies"),
             Column::make('created_at'),
             Column::computed('action')
                 ->addClass('align-items-right')

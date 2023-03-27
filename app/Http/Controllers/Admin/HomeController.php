@@ -10,6 +10,7 @@ use App\Models\DisplaySetting;
 use App\Http\Controllers\Common\SMS_lib;
 use App\Http\Controllers\Common\Utilities_lib;
 use App\Mail\OTPNotification;
+use App\Models\BusinessCategory;
 use App\Models\Company;
 use App\Models\ReasonForVisitCounters;
 use App\Models\Setting;
@@ -69,6 +70,46 @@ class HomeController extends Controller
         return view('pages.home._index', compact('smsalert', 'maskedemail', 'shownote', 'companies'));
     }
 
+    public function search()
+    {
+        $current = Token::whereIn('status', ['0', '3'])
+            ->where('client_id', auth()->user()->id)
+            //->where('location_id', auth()->user()->location_id)
+            ->orderBy('is_vip', 'DESC')
+            ->orderBy('id', 'ASC')
+            ->first();
+
+        // if ($current) {
+        //     return redirect('home/current');
+        // }
+        // $departments = Department::where('status',1)->pluck('name','id');
+        // $departments = Department::select(
+        //     'department.name',
+        //     'department.id',
+        //     'department.description'
+        // )
+        //     ->join('token_setting', 'token_setting.department_id', '=', 'department.id')
+        //     ->where('department.status', 1)
+        //     ->orderBy('id', 'ASC')
+        //     ->distinct()
+        //     ->get();
+
+        $display = DisplaySetting::first();
+
+        $smsalert = $display->sms_alert;
+        $shownote = $display->show_note;
+
+        $maskedemail = auth()->user()->getMaskedEmail();
+
+        // $companies = Company::has('locations.departments')->orderBy('name', 'asc')->pluck('name', 'id');
+        $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
+        $categories = BusinessCategory::whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
+
+        // echo \Session::get('locale');
+        // echo app()->getLocale();
+        // die();
+        return view('pages.home.search', compact('smsalert', 'maskedemail', 'shownote', 'companies','categories'));
+    }
 
     public function home()
     {      
