@@ -291,6 +291,11 @@ return array(
                 'class' => 'menu-sub-accordion menu-active-bg',
                 'items' => array(
                     array(
+                        'title'      => 'Business Categories',
+                        'path'       => 'category/list',
+                        'bullet'     => '<span class="bullet bullet-dot"></span>',                       
+                    ),
+                    array(
                         'title'  => 'Companies',
                         'path'   => 'company/list',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
@@ -314,12 +319,7 @@ return array(
                         'title'      => 'Permissions',
                         'path'       => 'apps/user-management/permissions',
                         'bullet'     => '<span class="bullet bullet-dot"></span>',                       
-                    ),
-                    array(
-                        'title'      => 'Business Categories',
-                        'path'       => 'category/list',
-                        'bullet'     => '<span class="bullet bullet-dot"></span>',                       
-                    ),
+                    ),                   
                     array(
                         'title'      => 'System',
                         'path'       => 'settings/system',

@@ -18,6 +18,11 @@ class BusinessCategory extends Model
 		return $this->hasMany(Company::class);
 	}
 
+    public function locations()
+    {
+        return $this->hasManyThrough(Location::class, Company::class);
+    }
+
     public function getCompanyCountAttribute()
     {
         return count($this->companies);
