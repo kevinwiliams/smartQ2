@@ -36,7 +36,7 @@
 							</div>
 							<!--begin::Card body-->
 							<div class="card-body pt-0">
-								<div class="text-primary mb-5">{{ $company->category->name }}</div>								
+								<div class="text-primary mb-5">{{ ($company->category)?$company->category->name:'N/A' }}</div>								
 								<div class="text-gray-600 mb-5">{{ $company->address }}</div>
 								<div class="text-gray-600 mb-5">{{ $company->website }}</div>
 								<div class="text-gray-600 mb-5">{{ $company->email }}</div>
