@@ -11,8 +11,8 @@ class Company extends Model
     use HasFactory;
     protected $table = "company";
 
-    protected $appends = ['location_count'];
-    protected $fillable = ['name', 'address', 'website', 'email', 'phone', 'contact_person', 'description', 'active', 'business_category_id', 'logo'];
+    protected $appends = ['location_count', 'logo_url'];
+    protected $fillable = ['name', 'address', 'website', 'email', 'phone', 'contact_person', 'description', 'active', 'business_category_id', 'logo', 'shortname'];
 
     /**
      * The attributes that should be cast to native types.

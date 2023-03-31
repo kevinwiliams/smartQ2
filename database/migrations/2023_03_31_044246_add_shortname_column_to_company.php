@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddLogoToCategories extends Migration
+class AddShortnameColumnToCompany extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddLogoToCategories extends Migration
      */
     public function up()
     {
-        Schema::table('business_categories', function (Blueprint $table) {
-            $table->string('logo', 500)->nullable();    
+        Schema::table('company', function (Blueprint $table) {
+            $table->string('shortname', 50)->nullable();    
         });
     }
 
@@ -25,8 +25,8 @@ class AddLogoToCategories extends Migration
      */
     public function down()
     {
-        Schema::table('business_categories', function (Blueprint $table) {
-            $table->dropColumn('logo');
+        Schema::table('company', function (Blueprint $table) {
+            $table->dropColumn('shortname');
         });
     }
 }

@@ -259,7 +259,8 @@ class CompanyController extends Controller
                     'contact_person' => $request->contact_person,
                     'active' => ($request->active) ? $request->active : 0,
                     'business_category_id' => $request->business_category_id,
-                    'updated_at' => Carbon::now()
+                    'updated_at' => Carbon::now(),
+                    'shortname' => $request->shortname
                 ]);
 
             if ($update) {

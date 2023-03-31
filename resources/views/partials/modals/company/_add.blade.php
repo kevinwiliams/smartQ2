@@ -69,6 +69,15 @@
                     </div>
                 </div>
                 <!--end::Input group-->
+                 <!--begin::Input group-->
+                 <div class="fv-row mb-7">
+                    <div class="form-group @error('shortname') has-error @enderror">
+                        <label for="shortname">{{ trans('app.shortname') }}</label>
+                        <input type="text" name="shortname" id="shortname" class="form-control" placeholder="{{ trans('app.shortname') }}" value="{{ old('shortname') }}">
+                        <span class="text-danger">{{ $errors->first('shortname') }}</span>
+                    </div>
+                </div>
+                <!--end::Input group-->
                 <!--begin::Input group-->
                 <div class="fv-row mb-7">
                     <div class="form-group @error('address') has-error @enderror">

@@ -517,7 +517,19 @@ return array(
         ),
         'current' => array(
             'title' => 'Your Token'
+        ),
+        'search' => array(
+            'title' => 'Join the Queue'
         )
+    ),
+
+    'in' => array(
+        'title' => 'Search',
+
+        '*' => array(
+            'title' => 'Search',            
+        ),
+       
     ),
 
     'settings' => array(

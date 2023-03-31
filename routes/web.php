@@ -222,6 +222,7 @@ Route::middleware('auth')->group(function () {
 		Route::get('edit/{id}', [BusinessCategoriesController::class, 'showEditForm']);
 		Route::get('view/{id}', [BusinessCategoriesController::class, 'show']);
 		Route::get('getLocations/{id}', [BusinessCategoriesController::class, 'getLocations']);
+		Route::get('getCompanies/{id}', [BusinessCategoriesController::class, 'getCompanies']);
 		Route::post('edit/{id}', [BusinessCategoriesController::class, 'update']);
 		Route::get('delete/{id}', [BusinessCategoriesController::class, 'destroy']);
 	});
@@ -230,6 +231,12 @@ Route::middleware('auth')->group(function () {
 	Route::prefix('settings')->group(function () {
 		Route::get('system', [SettingController::class, 'show']);
 		Route::post('system', [SettingController::class, 'update']);
+	});
+
+	// Setting pages
+	Route::prefix('in')->group(function () {
+		Route::get('/{id}', [HomeController::class, 'business']);		
+		Route::get('/', [HomeController::class, 'business']);		
 	});
 
 	// // Location pages

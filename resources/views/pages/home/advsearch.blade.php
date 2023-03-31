@@ -55,8 +55,8 @@
                                     <span class="input-group-text"><i class="bi bi-bookmark-check fs-4"></i></span>
                                     <div class="overflow-hidden flex-grow-1">                                        
                                         <select id="category_id" class="form-select form-select-solid form-select-lg fw-bold filter rounded-start-0" name="category_id" data-placeholder="Please select Category">
-                                            @foreach($categories as $category)
                                             <option></option>
+                                            @foreach($categories as $category)                                            
                                             <option value="{{ $category->id }}" data-mv-rich-content-icon="{{ $category->logo_url }}">{{ $category->name }}</option>
                                             @endforeach
                                         </select>
@@ -64,6 +64,21 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="fv-row mb-7">
+                                <div class="input-group input-group-solid flex-nowrap">
+                                    <span class="input-group-text"><i class="bi bi-building fs-4"></i></span>
+                                    <div class="overflow-hidden flex-grow-1">                                        
+                                        <select id="company_id" class="form-select form-select-solid form-select-lg fw-bold filter rounded-start-0" name="company_id" data-placeholder="Please select company">
+                                        <option></option>    
+                                            @foreach($companies as $company)                                            
+                                            <option value="{{ $company->id }}" data-mv-rich-content-icon="{{ $company->logo_url }}">{{ $company->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="text-danger">{{ $errors->first('company_id') }}</span>
+                                    </div>
+                                </div>
+                            </div>                            
                             
                             <!--end::Default example-->
                             <div class="fv-row mb-7">
@@ -1268,6 +1283,22 @@
                         data.forEach(element => {
                             var optstr = '<option value="' + element.id + '" data-mv-rich-content-subcontent="' + element.address + '" data-visitreason="' + element.settings.client_reason_for_visit + '" data-shownote="' + element.settings.show_note + '" data-lat="' + element.lat + '" data-lng="' + element.lon + '" data-whatsapp="' + element.settings.enable_whatsapp + '">' + element.name + '</option>';
                             $('select[name="location"]').append(optstr);
+                        });
+                        getLocation();
+                    }
+                });
+
+                $.ajax({
+                    type: 'get',
+                    url: '{{ URL::to("category/getCompanies") }}' + "/" + category,
+                    dataType: 'json',
+                    success: function(data) {
+                        // console.log(data);
+                        var options = $('select[name="company_id"]').empty();
+                        $('select[name="company_id"]').append('<option value="" data-mv-rich-content-subcontent="">Select a Company</option>');
+                        data.forEach(element => {
+                            var optstr = '<option value="' + element.id + '" data-mv-rich-content-icon="'+ element.logo_url + '">' + element.name + '</option>';
+                            $('select[name="company_id"]').append(optstr);
                         });
                         getLocation();
                     }

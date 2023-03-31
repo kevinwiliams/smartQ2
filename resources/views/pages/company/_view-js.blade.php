@@ -321,6 +321,7 @@
 
                 var _id = $('#company-id').val();
                 var _name = $('#company-name').val();
+                var _shortname = $('#company-shortname').val();
                 var _categoryId = $('input[name=company-business-category-id]')[0].value;
                 var _address = $('#company-address').val();
                 var _website = $('#company-website').val();
@@ -334,6 +335,16 @@
 
                 form.querySelector('input[name=company_edit_id]').value = _id;
                 form.querySelector('input[name=name]').value = _name;
+                form.querySelector('input[name=shortname]').value = _shortname;
+                const _sname = form.querySelector('input[name=shortname]');
+                console.log(_shortname);
+                
+                if(_shortname == ""){
+                    _sname.readOnly = false;
+                }else{
+                    _sname.readOnly = true;
+                }
+
                 form.querySelector('input[name=address]').value = _address;
                 form.querySelector('input[name=website]').value = _website;
                 form.querySelector('input[name=email]').value = _email;

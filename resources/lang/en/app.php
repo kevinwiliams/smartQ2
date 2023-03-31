@@ -307,6 +307,7 @@ return [
     'starting_point'    => "Starting Point",
     'end_point'    => "End Point",
     'start_time'    => "Start Time",
+    'shortname'    => "Short Name",
 
 
     

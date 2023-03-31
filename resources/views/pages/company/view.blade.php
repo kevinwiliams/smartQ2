@@ -36,7 +36,7 @@
 							</div>
 							<!--begin::Card body-->
 							<div class="card-body pt-0">
-								<div class="text-primary mb-5">{{ $company->category->name }}</div>
+								<div class="text-primary mb-5">{{ $company->category->name }}</div>								
 								<div class="text-gray-600 mb-5">{{ $company->address }}</div>
 								<div class="text-gray-600 mb-5">{{ $company->website }}</div>
 								<div class="text-gray-600 mb-5">{{ $company->email }}</div>
@@ -51,6 +51,7 @@
 								<a href="#" class="btn btn-light-success" data-mv-company-action-filter="edit_record">Edit</a>
 							</div>
 							<input type="hidden" value="{{$company->id}}" name="company-id" id="company-id" />
+							<input type="hidden" value="{{$company->shortname}}" name="company-shortname" id="company-shortname" />
 							<input type="hidden" value="{{$company->name}}" name="company-name" id="company-name" />
 							<input type="hidden" value="{{$company->address}}" name="company-address" id="company-address" />
 							<input type="hidden" value="{{$company->website}}" name="company-website" id="company-website" />

@@ -1,6 +1,28 @@
 <x-base-layout>
     <!--begin::Card-->
     <div class="card">
+        <!--begin::Card header-->
+        <div class="card-header ribbon ribbon-top">
+            @if($company->active)
+            <div class="ribbon-label bg-success">
+                Active
+            </div>
+            @else
+            <div class="ribbon-label bg-danger">
+                Inactive
+            </div>
+            @endif
+            <!--begin::Card title-->
+            <div class="card-title">
+                <!--begin::Avatar-->
+                <div class="symbol symbol-65px symbol-circle mt-5 me-5 mb-5">
+                    <img src="{{ $company->logo_url }}" alt="image">
+                </div>
+                <!--end::Avatar-->
+                <h2>{{ ucwords($company->name) }}</h2>
+            </div>
+            <!--end::Card title-->          
+        </div>
         <!--begin::Card body-->
         <div class="card-body p-3">
             <!--begin::Stepper-->
@@ -42,36 +64,22 @@
                             <!--begin::Heading-->
                             <div class="pb-10 pb-lg-15">
                                 <!--begin::Title-->
-                                <h2 class="fw-bolder d-flex align-items-center text-dark">Where would you like to Queue?
+                                <h2 class="fw-bolder d-flex align-items-center text-dark">Which location you like to Queue?
                                     <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Select the business and location"></i>
                                 </h2>
                                 <!--end::Title-->
                             </div>
                             <!--end::Heading-->
 
-                            <!--begin::Default example-->
-                            <div class="fv-row mb-7">
-                                <div class="input-group input-group-solid flex-nowrap">
-                                    <span class="input-group-text"><i class="bi bi-bookmark-check fs-4"></i></span>
-                                    <div class="overflow-hidden flex-grow-1">                                        
-                                        <select id="category_id" class="form-select form-select-solid form-select-lg fw-bold filter rounded-start-0" name="category_id" data-placeholder="Please select Category">
-                                            @foreach($categories as $category)
-                                            <option></option>
-                                            <option value="{{ $category->id }}" data-mv-rich-content-icon="{{ $category->logo_url }}">{{ $category->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <span class="text-danger">{{ $errors->first('category_id') }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!--end::Default example-->
                             <div class="fv-row mb-7">
                                 <div class="input-group input-group-solid flex-nowrap">
                                     <span class="input-group-text"><i class="bi bi-geo fs-4"></i></span>
                                     <div class="overflow-hidden flex-grow-1">
                                         <select id="mv_location_list" class="form-select form-select-solid form-select-lg fw-bold filter rounded-start-0" name="location" data-placeholder="Please select location">
+                                            @foreach($locations as $location)
                                             <option></option>
+                                            <option value="{{ $location->id }}" data-mv-rich-content-subcontent="{{ $location->address }}" data-visitreason="{{ $location->settings->client_reason_for_visit }}" data-shownote="{{ $location->settings->show_note }}" data-lat="{{ $location->lat }}" data-lng="{{ $location->lon }}" data-whatsapp="{{ $location->settings->enable_whatsapp }}">{{ $location->name }}</option>
+                                            @endforeach
                                         </select>
                                         <div class="pt-3" style="display:none;" id="locationSuggestions">
                                             <span class="text-gray-700">Closest:</span>
@@ -691,7 +699,7 @@
             initVisitHoursChart2();
             handleDataLookup();
             handleLocationSuggestion();
-            // getLocation();
+            getLocation();
             // Format options
             const optionFormat = (item) => {
                 if (!item.id) {
@@ -1625,7 +1633,7 @@
                 var key = 0;
                 for (var j = 0; j < results.length; j++) {
                     var element = results[j];
-                    if (element.status == "OK") { 
+                    if (element.status == "OK") {
                         var distance = element.distance.value;
 
                         if (_lastdistance == null) {

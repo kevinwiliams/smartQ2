@@ -7,6 +7,7 @@ use App\Models\BusinessCategories;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\BusinessCategory;
+use App\Models\Company;
 use App\Models\Location;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
@@ -215,5 +216,11 @@ class BusinessCategoriesController extends Controller
     {
         $locations = Location::whereRelation('company', 'business_category_id', $id)->whereRelation("company", "active", true)->has('departments')->with('settings')->get();
         return response()->json($locations);
+    }
+
+    public function getCompanies($id)
+    {
+        $companies = Company::where('business_category_id', $id)->where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();        
+        return response()->json($companies);
     }
 }

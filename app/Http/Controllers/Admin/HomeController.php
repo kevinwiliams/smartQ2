@@ -12,6 +12,7 @@ use App\Http\Controllers\Common\Utilities_lib;
 use App\Mail\OTPNotification;
 use App\Models\BusinessCategory;
 use App\Models\Company;
+use App\Models\Location;
 use App\Models\ReasonForVisitCounters;
 use App\Models\Setting;
 use App\Models\SmsHistory;
@@ -32,28 +33,6 @@ class HomeController extends Controller
 
     public function index()
     {
-        $current = Token::whereIn('status', ['0', '3'])
-            ->where('client_id', auth()->user()->id)
-            //->where('location_id', auth()->user()->location_id)
-            ->orderBy('is_vip', 'DESC')
-            ->orderBy('id', 'ASC')
-            ->first();
-
-        // if ($current) {
-        //     return redirect('home/current');
-        // }
-        // $departments = Department::where('status',1)->pluck('name','id');
-        // $departments = Department::select(
-        //     'department.name',
-        //     'department.id',
-        //     'department.description'
-        // )
-        //     ->join('token_setting', 'token_setting.department_id', '=', 'department.id')
-        //     ->where('department.status', 1)
-        //     ->orderBy('id', 'ASC')
-        //     ->distinct()
-        //     ->get();
-
         $display = DisplaySetting::first();
 
         $smsalert = $display->sms_alert;
@@ -72,28 +51,24 @@ class HomeController extends Controller
 
     public function search()
     {
-        $current = Token::whereIn('status', ['0', '3'])
-            ->where('client_id', auth()->user()->id)
-            //->where('location_id', auth()->user()->location_id)
-            ->orderBy('is_vip', 'DESC')
-            ->orderBy('id', 'ASC')
-            ->first();
+        $display = DisplaySetting::first();
 
-        // if ($current) {
-        //     return redirect('home/current');
-        // }
-        // $departments = Department::where('status',1)->pluck('name','id');
-        // $departments = Department::select(
-        //     'department.name',
-        //     'department.id',
-        //     'department.description'
-        // )
-        //     ->join('token_setting', 'token_setting.department_id', '=', 'department.id')
-        //     ->where('department.status', 1)
-        //     ->orderBy('id', 'ASC')
-        //     ->distinct()
-        //     ->get();
+        $smsalert = $display->sms_alert;
+        $shownote = $display->show_note;
 
+        $maskedemail = auth()->user()->getMaskedEmail();
+        
+        
+        $categories = BusinessCategory::whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
+
+        // echo \Session::get('locale');
+        // echo app()->getLocale();
+        // die();
+        return view('pages.home.search', compact('smsalert', 'maskedemail', 'shownote', 'categories'));
+    }
+
+    public function business($id = null)
+    {
         $display = DisplaySetting::first();
 
         $smsalert = $display->sms_alert;
@@ -101,20 +76,22 @@ class HomeController extends Controller
 
         $maskedemail = auth()->user()->getMaskedEmail();
 
-        // $companies = Company::has('locations.departments')->orderBy('name', 'asc')->pluck('name', 'id');
-        $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
-        $categories = BusinessCategory::whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
-
-        // echo \Session::get('locale');
-        // echo app()->getLocale();
-        // die();
-        return view('pages.home.search', compact('smsalert', 'maskedemail', 'shownote', 'companies','categories'));
+        if ($id == null){
+            $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
+            $categories = BusinessCategory::whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
+            return view('pages.home.advsearch', compact('smsalert', 'maskedemail', 'shownote', 'companies', 'categories'));
+        }else{
+            $company = Company::where('shortname', $id)->first();        
+            $locations = Location::where('company_id', $company->id)->where('active', 1)->has('departments')->with('settings')->whereRelation("company", "active", true)->get();
+            return view('pages.home.business', compact('smsalert', 'maskedemail', 'shownote', 'company', 'locations'));
+        }            
+        
     }
 
     public function home()
-    {      
+    {
         if (empty(session('app.timezone'))) {
-            $setting = Setting::first();            
+            $setting = Setting::first();
             session(['app.timezone' => $setting->timezone]);
             $value = session('app.timezone');
         }
