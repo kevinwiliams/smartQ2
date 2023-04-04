@@ -81,7 +81,12 @@ class HomeController extends Controller
             $categories = BusinessCategory::whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
             return view('pages.home.advsearch', compact('smsalert', 'maskedemail', 'shownote', 'companies', 'categories'));
         }else{
-            $company = Company::where('shortname', $id)->first();        
+            $company = Company::where('shortname', $id)->first();    
+            if($company == null){
+                $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
+                $categories = BusinessCategory::whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
+                return view('pages.home.advsearch', compact('smsalert', 'maskedemail', 'shownote', 'companies', 'categories'));
+            }
             $locations = Location::where('company_id', $company->id)->where('active', 1)->has('departments')->with('settings')->whereRelation("company", "active", true)->get();
             return view('pages.home.business', compact('smsalert', 'maskedemail', 'shownote', 'company', 'locations'));
         }            
