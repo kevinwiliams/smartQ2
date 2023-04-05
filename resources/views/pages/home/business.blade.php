@@ -19,7 +19,11 @@
                     <img src="{{ $company->logo_url }}" alt="image">
                 </div>
                 <!--end::Avatar-->
-                <h2>{{ ucwords($company->name) }}</h2>
+                
+                <div class="title-address">
+                    <h2>{{ ucwords($company->name) }}</h2>
+                    <p class="text-muted">{{ $company->address }}</p>                    
+                </div>
             </div>
             <!--end::Card title-->          
         </div>

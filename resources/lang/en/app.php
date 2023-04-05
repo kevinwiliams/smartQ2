@@ -316,4 +316,5 @@ return [
     'business_category'    => "Business Category",
     'category_id'    => "Category",
     'business_category_id'    => "Category",
+    'company_not_found'    => "Company Not Found",
 ];
