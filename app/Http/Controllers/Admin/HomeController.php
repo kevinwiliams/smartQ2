@@ -59,14 +59,16 @@ class HomeController extends Controller
         $shownote = $display->show_note;
 
         $maskedemail = auth()->user()->getMaskedEmail();
-        
-        
-        $categories = BusinessCategory::whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
 
+
+        $categories = BusinessCategory::whereRelation('companies', 'company.active', true)->whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
+        $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
+        
+        return view('pages.home.advsearch', compact('smsalert', 'maskedemail', 'shownote', 'companies', 'categories'));
         // echo \Session::get('locale');
         // echo app()->getLocale();
         // die();
-        return view('pages.home.search', compact('smsalert', 'maskedemail', 'shownote', 'categories'));
+        // return view('pages.home.search', compact('smsalert', 'maskedemail', 'shownote', 'categories'));
     }
 
     public function business($id = null)
@@ -77,25 +79,24 @@ class HomeController extends Controller
         $shownote = $display->show_note;
 
         $maskedemail = auth()->user()->getMaskedEmail();
-        
-        if ($id == null){        
-            
+
+        if ($id == null) {
+
             $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
             $categories = BusinessCategory::whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
             return view('pages.home.advsearch', compact('smsalert', 'maskedemail', 'shownote', 'companies', 'categories'));
-        }else{
-            $company = Company::where('shortname', $id)->first();    
-            if($company == null){
-                
+        } else {
+            $company = Company::where('shortname', $id)->first();
+            if ($company == null) {
+
                 $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
                 $categories = BusinessCategory::whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
-                Session::flash("fail",trans('app.company_not_found'));
+                Session::flash("fail", trans('app.company_not_found'));
                 return view('pages.home.advsearch', compact('smsalert', 'maskedemail', 'shownote', 'companies', 'categories'));
             }
             $locations = Location::where('company_id', $company->id)->where('active', 1)->has('departments')->with('settings')->whereRelation("company", "active", true)->get();
             return view('pages.home.business', compact('smsalert', 'maskedemail', 'shownote', 'company', 'locations'));
-        }            
-        
+        }
     }
 
     public function home()
