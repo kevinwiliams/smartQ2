@@ -34,7 +34,7 @@
                 </div>
                 <!--end::Nav-->
                 <!--begin::Form-->
-                <form class="mx-auto mw-600px w-100 pt-15 pb-10" novalidate="novalidate" id="mv_create_token_form" action="autotoken" method="post">
+                <form class="mx-auto mw-600px w-100 pt-15 pb-10" novalidate="novalidate" id="mv_create_token_form" action='{{ URL::to("home/autotoken") }}' method="post">
                     <!--begin::Step 1-->
                     <div class="current" data-mv-stepper-element="content">
                         <!--begin::Wrapper-->
