@@ -537,22 +537,29 @@ class HomeController extends Controller
                 return view('pages.home.qrcheckin-location', compact('locationKey', 'display', 'location'));
                 break;
             case 'D':
-
                 $isBusiness = false;
-                $counter = Counter::find($locationKey);
+                $dept = Department::where('id', $locationKey)->where("status", true)->first();
 
-                if (!$counter)
+                if (!$dept)
+                    return Redirect::to("/home")->withFail(trans('app.invalid_code'));
+
+                $settings = TokenSetting::select('counter_id', 'department_id', 'user_id', 'created_at')
+                    ->where('department_id', $locationKey)
+                    ->groupBy('user_id')
+                    ->first();
+
+                if (!$settings)
                     return Redirect::to("/home")->withFail(trans('app.invalid_code'));
 
 
                 // echo '<pre>';
-                // print_r($counter);
+                // print_r($dept);
 
                 // echo '</pre>';
                 // die();
-                $response = $this->generateTokenCall($counter->location_id, $counter->id);
+                $response = $this->generateTokenCall($dept->location_id, $dept->id);
                 $data = $response->getData();
-                
+
                 // echo '<pre>';
                 // print_r($data);
                 // echo '</pre>';
@@ -607,11 +614,7 @@ class HomeController extends Controller
 
         $request = Request::create(url('/home/autotoken'), 'POST', [
             'location' =>  $location,
-            'department_id' =>  $dept,
-            'reason_id' =>  '',
-            'note' =>  '',
-            'lat' =>  '',
-            'lng' =>  '',
+            'department_id' =>  $dept
         ]);
 
         $reponse = (new TokenController)->clientTokenAuto($request);

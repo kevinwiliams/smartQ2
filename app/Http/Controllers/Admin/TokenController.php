@@ -415,6 +415,7 @@ class TokenController extends Controller
             $reason = null;
             //find auto-setting
             if (!empty($request->reason_id)) {
+                echo 'reason';
                 $reason = ReasonForVisit::find($request->reason_id);
                 $counters = ReasonForVisitCounters::where('reason_id', $request->reason_id)->pluck('counter_id')->toArray();
                 $settings = TokenSetting::select('counter_id', 'department_id', 'user_id', 'created_at')
@@ -422,12 +423,13 @@ class TokenController extends Controller
                     ->groupBy('user_id')
                     ->get();
             } else {
+                echo  $request->department_id;
                 $settings = TokenSetting::select('counter_id', 'department_id', 'user_id', 'created_at')
                     ->where('department_id', $request->department_id)
                     ->groupBy('user_id')
                     ->get();
             }
-
+ 
             //if auto-setting are available
             if (!empty($settings)) {
 
