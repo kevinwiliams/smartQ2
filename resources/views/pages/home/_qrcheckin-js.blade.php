@@ -24,8 +24,7 @@
         console.log(result.data);
         scanner.stop();
         modal.hide();
-        document.location.href = '{{ URL::to("home/joinqueue") }}/' + result.data;
-        // qrCheckIn(result.data);
+        qrCheckIn(result.data);
 
     }
 
@@ -34,22 +33,23 @@
         bcodebtn.prop('disabled', !hasCamera);
     }
 
-    function qrCheckIn(key) {                
+    function qrCheckIn(location) {
+        var tokenid = $("#tokenID").val();
         $.ajax({
             type: 'post',
-            url: '{{ URL::to("home/joinqueue") }}',
+            url: '{{ URL::to("token/qrcheckin") }}',
             type: 'POST',
             dataType: 'json',
             data: {
-                'key': key,                
+                'location': location,
+                'tokenid': tokenid,
                 '_token': '<?php echo csrf_token() ?>'
             },
             success: function(data) {
                 console.log(data);
                 if (data.status) {
-                    console.log('here');
                     //document.location.href = '/home/current';
-                    //location.reload(true);
+                    location.reload(true);
                 } else {
                     Swal.fire({
                         text: data.message,
@@ -60,7 +60,7 @@
                             confirmButton: "btn fw-bold btn-primary",
                         }
                     }).then(function() {
-                        //location.reload(true);
+                        location.reload(true);
                     });
                 }
 

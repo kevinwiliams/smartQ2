@@ -12,6 +12,7 @@ use App\Http\Controllers\Common\Utilities_lib;
 use App\Mail\OTPNotification;
 use App\Models\BusinessCategory;
 use App\Models\Company;
+use App\Models\Counter;
 use App\Models\Location;
 use App\Models\ReasonForVisitCounters;
 use App\Models\Setting;
@@ -63,7 +64,7 @@ class HomeController extends Controller
 
         $categories = BusinessCategory::whereRelation('companies', 'company.active', true)->whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
         $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
-        
+
         return view('pages.home.advsearch', compact('smsalert', 'maskedemail', 'shownote', 'companies', 'categories'));
         // echo \Session::get('locale');
         // echo app()->getLocale();
@@ -513,6 +514,109 @@ class HomeController extends Controller
         $dept = Department::where('location_id', $request->id)->whereIn('id', $deptids)->orderBy('name')->get();
 
         return json_encode($dept);
+    }
+
+    public function joinqueue($id)
+    {
+        $keyarray = explode('-', $id);
+        $keycode = $keyarray[0];
+
+        $locationKey = $keyarray[1];
+        $display = DisplaySetting::first();
+        // echo '<pre>';
+        // print_r($keycode);
+        // echo '</pre>';
+
+        switch ($keycode) {
+            case 'B':
+
+                $location = Location::find($locationKey);
+                if (!$location)
+                    return Redirect::to("/home")->withFail(trans('app.invalid_code'));
+
+                return view('pages.home.qrcheckin-location', compact('locationKey', 'display', 'location'));
+                break;
+            case 'D':
+
+                $isBusiness = false;
+                $counter = Counter::find($locationKey);
+
+                if (!$counter)
+                    return Redirect::to("/home")->withFail(trans('app.invalid_code'));
+
+
+                // echo '<pre>';
+                // print_r($counter);
+
+                // echo '</pre>';
+                // die();
+                $response = $this->generateTokenCall($counter->location_id, $counter->id);
+                $data = $response->getData();
+                
+                // echo '<pre>';
+                // print_r($data);
+                // echo '</pre>';
+                // die();
+                return view('pages.home.qrcheckin-department', compact('locationKey', 'display', 'data'));
+
+                break;
+
+            default:
+                return Redirect::to("/home")->withFail(trans('app.invalid_code'));
+                break;
+        }
+
+
+
+
+
+        // $token = Token::where('id', $request->tokenid)->where('location_id', $request->location)->first();
+        // if (!$token) {
+        //     $data['status'] = false;
+        //     $data['message'] = trans('app.please_try_again');
+        //     return response()->json($data);
+        // }
+
+        // Token::where('id', $request->tokenid)
+        //     ->update([
+        //         'updated_at' => date('Y-m-d H:i:s'),
+        //         'status'     => 0,
+        //         'sms_status' => 1
+        //     ]);
+
+        // //Insert token status                    
+        // $save = TokenStatus::insert([
+        //     'token_id'    => $request->tokenid,
+        //     'status'      => 0,
+        //     'time_stamp' => date('Y-m-d H:i:s')
+        // ]);
+
+        // $data['status'] = true;
+        // $data['exception'] = trans('app.update_successfully');
+
+        // $token = Token::where('id', $request->id)->first();
+        // activity('activity')
+        //     ->withProperties(['activity' => 'Client Checked In Token', 'department' => $token->department->name, 'token' => $token->token_no, 'display' => 'primary', 'location_id' => auth()->user()->location_id])
+        //     ->log('Token :properties.token checked in for :properties.department');
+
+        // return response()->json($data);
+    }
+
+    public function generateTokenCall($location, $dept)
+    {
+
+        $request = Request::create(url('/home/autotoken'), 'POST', [
+            'location' =>  $location,
+            'department_id' =>  $dept,
+            'reason_id' =>  '',
+            'note' =>  '',
+            'lat' =>  '',
+            'lng' =>  '',
+        ]);
+
+        $reponse = (new TokenController)->clientTokenAuto($request);
+
+        return $reponse;
     }
 
     // Function to generate OTP

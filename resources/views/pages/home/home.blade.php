@@ -38,7 +38,8 @@
                 <a href="{{theme()->getPageUrl("home/list")}}" class="btn btn-success er fs-6 px-8 py-4 px-2 my-2">View my token</a>
                 @elseif(count(auth()->user()->clientpendingtokens) > 1)
                 <a href="{{theme()->getPageUrl("home/list")}}" class="btn btn-success er fs-6 px-8 py-4 px-2 my-2">View my tokens</a>
-                @endif
+                @endif                
+                <button type="button" class="btn btn-primary er fs-6 px-8 py-4 px-2 my-2" id="btnScanBarcode" name="check_in_qr_scan" data-bs-toggle="modal" data-bs-target="#mv_modal_check_in" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to check in">Scan Barcode</button>
                 <!--end::Action-->
             </div>
             <!--end::Heading-->
@@ -52,6 +53,8 @@
         <!--end::Card body-->
     </div>
     <!--end::Card-->
+    {{ theme()->getView('partials/modals/home/_checkin') }}
+    @include('pages.home._qrscanner-js')
     @section('scripts')
     @include('pages.home._firebase-js')
     @endsection

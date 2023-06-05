@@ -150,6 +150,7 @@ Route::middleware('auth')->group(function () {
 		Route::post('computeRoute', [TokenController::class, 'computeRoute']);		
 		Route::post('autotoken', [TokenController::class, 'clientTokenAuto']);
 		Route::post('currentposition/{id}', [TokenController::class, 'currentposition']);
+		Route::get('joinqueue/{id}', [HomeController::class, 'joinqueue']);
 	});
 
 

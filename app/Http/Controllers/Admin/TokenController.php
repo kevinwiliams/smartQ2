@@ -428,7 +428,6 @@ class TokenController extends Controller
                     ->get();
             }
 
-
             //if auto-setting are available
             if (!empty($settings)) {
 
@@ -452,11 +451,6 @@ class TokenController extends Controller
                         'user_id'       => $setting->user_id
                     ];
                 }
-
-                //  echo '<pre>';
-                // print_r($tokenAssignTo);
-                // echo '<pre>';
-                // die();
 
                 //findout min counter set to 
                 $min = min($tokenAssignTo);

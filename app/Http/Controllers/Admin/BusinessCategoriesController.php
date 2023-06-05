@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\DataTables\BusinessCategory\BusinessCategoryDataTable;
-use App\Models\BusinessCategories;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\BusinessCategory;

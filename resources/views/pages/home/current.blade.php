@@ -328,7 +328,7 @@
     <!--end::Row-->
     <!--begin::Modal - Add Company -->
     {{ theme()->getView('partials/modals/home/_checkin') }}
-    @include('pages.home._qrscanner-js')
+    @include('pages.home._qrcheckin-js')
     <!--end::Modal - Add Company-->
     @section('scripts')
     @include('pages.home._firebase-js')
