@@ -35,5 +35,6 @@
     <input type="hidden" value="{{$model->active}}" name="company-active" id="company-active-{{$model->id}}" />
     <input type="hidden" value="{{$model->logo_url}}" name="company-logourl" id="company-logourl-{{$model->id}}" />
     <input type="hidden" value="{{$model->logo}}" name="company-logo" id="company-logo-{{$model->id}}" />
+    <input type="hidden" value="{{$company->shortname}}" name="company-shortname" id="company-shortname" />
 </td>
 <!--end::Action=-->

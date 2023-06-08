@@ -31,6 +31,11 @@
                                     <div class="menu-item px-3">
                                         <a href="#" class="menu-link px-3" name="cancel_token">Cancel</a>
                                     </div>
+                                    @if($token->status==3)
+                                    <div class="menu-item px-3">
+                                        <a href="{{ theme()->getPageUrl("home/transfer") }}/{{ $token->id }}" class="menu-link px-3" name="transfer_token">Transfer</a>
+                                    </div>
+                                    @endif
                                     <!--end::Menu item-->
 
                                 </div>
@@ -310,12 +315,14 @@
                     @else
                     <a href="#" class="btn btn-primary w-100 py-3" data-id="{{ $token->id }}" name="check_in">Check In</a>
                     @endif
+                    <a href="{{ theme()->getPageUrl("home/transfer") }}/{{ $token->id }}" class="btn btn-info w-100 py-3 mt-3" data-id="{{ $token->id }}" name="transfer">Transfer</a>
                     @elseif($token->status==0)
                     <a href="#" class="btn btn-danger w-100 py-3" data-id="{{ $token->id }}" name="cancel_token">Cancel Token</a>
                     @endif
                     @if(count(auth()->user()->clientpendingtokens) > 1)
                     <a href="{{ theme()->getPageUrl("home/list") }}" class="btn btn-primary w-100 py-3 mt-3" data-id="{{ $token->id }}">View List</a>
                     @endif
+                  
                 </div>
                 <input type="hidden" name="tokenID" id="tokenID" value="{{ $token->id }}" />
             </div>

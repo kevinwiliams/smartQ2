@@ -528,7 +528,7 @@ class HomeController extends Controller
         // echo '</pre>';
 
         switch ($keycode) {
-            case 'B':
+            case 'L':
 
                 $location = Location::find($locationKey);
                 if (!$location)

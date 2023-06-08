@@ -237,9 +237,11 @@
                     var _active = parent.querySelectorAll('input[name=company-active]')[0].value;
                     var _logo = parent.querySelectorAll('input[name=company-logo]')[0].value;
                     var _logourl = parent.querySelectorAll('input[name=company-logourl]')[0].value;
+                    var _shortname = parent.querySelectorAll('input[name=company-shortname]')[0].value;
 
                     form.querySelector('input[name=company_edit_id]').value = _id;
                     form.querySelector('input[name=name]').value = _name;
+                    form.querySelector('input[name=shortname]').value = _shortname;
                     // form.querySelector('select[name=business_category_id]').value = _categoryId;
                     form.querySelector('input[name=address]').value = _address;
                     form.querySelector('input[name=website]').value = _website;
