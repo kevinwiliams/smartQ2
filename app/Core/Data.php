@@ -874,6 +874,19 @@ class Data
         );
     }
 
+    public static function getWeekDays()
+    {
+        return array(
+            0 => 'Sunday',
+            1 => 'Monday',
+            2 => 'Tuesday',
+            3 => 'Wednesday',
+            4 => 'Thursday',
+            5 => 'Friday',
+            6 => 'Saturday',
+        );
+    }
+
     public static function getShortDayNames()
     {
         return array(
@@ -913,6 +926,15 @@ class Data
             'Third',
             'Fourth',
             'Last'
+        );
+    }
+
+    public static function getIsOpenStatuses()
+    {
+        return array(
+            'true' => 'Open',
+            'false' => 'Closed',
+            'all' => 'All Day'
         );
     }
 }

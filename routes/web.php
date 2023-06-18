@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BusinessHoursController;
 use App\Http\Controllers\Account\SettingsController;
 use App\Http\Controllers\Admin\BusinessCategoriesController;
 use App\Http\Controllers\Admin\CompanyController;
@@ -31,6 +32,7 @@ use App\Http\Controllers\Common\MessageController;
 use App\Http\Controllers\Common\NotificationController;
 use App\Http\Controllers\Common\ProfileController;
 use App\Http\Controllers\UserManagement\UserManagementController;
+use App\Models\BusinessHours;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -338,6 +340,18 @@ Route::middleware('auth')->group(function () {
 		Route::get('getOfficersByCounter/{id}', [UserManagementController::class, 'getOfficersByCounter']);
 
 		Route::get('customers/{id}', [UserManagementController::class, 'customerList']);
+
+		// // Counter pages
+		Route::prefix('openhours')->group(function () {
+			Route::get('/{id}', [BusinessHoursController::class, 'show']);
+			Route::post('edit/{id}', [BusinessHoursController::class, 'update']);
+			// Route::get('create', [CounterController::class, 'showForm']);
+			// Route::post('create', [CounterController::class, 'create']);
+			// Route::get('edit/{id}', [CounterController::class, 'showEditForm']);
+			
+			// Route::get('delete/{id}', [CounterController::class, 'delete']);
+			// Route::get('getCountersbyDept/{id}', [CounterController::class, 'getCountersbyDept']);
+		});
 	});
 });
 

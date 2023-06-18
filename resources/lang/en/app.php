@@ -317,4 +317,7 @@ return [
     'category_id'    => "Category",
     'business_category_id'    => "Category",
     'company_not_found'    => "Company Not Found",
+
+    /*Open Hours*/
+    'openhours'    => "Opening Hours",
 ];

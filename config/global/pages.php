@@ -485,6 +485,23 @@ return array(
                 ),
             )
         ),
+        'openhours' => array(
+            '*' => array(
+                'title'  => 'Opening Hours',
+                'assets' => array(
+                    'custom' => array(
+                        'css' => array(
+                            'plugins/custom/flatpickr/flatpickr.bundle.css',
+                        ),
+                        'js' => array(
+                            'plugins/custom/flatpickr/flatpickr.bundle.js',
+                            // 'js/custom/department/add.js',
+
+                        ),
+                    ),
+                ),
+            )
+        ),
     ),
 
     // 'settings' => array(
