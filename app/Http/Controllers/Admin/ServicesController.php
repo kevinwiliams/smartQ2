@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\Services\ServicesDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Counter;
+use App\Models\Department;
+use App\Models\Location;
 use App\Models\Services;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class ServicesController extends Controller
 {
@@ -13,9 +19,24 @@ class ServicesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ServicesDataTable $dataTable, $id = null)
     {
-        //
+        if (!auth()->user()->can('view location')) {
+            return Redirect::to("/")->withFail(trans('app.no_permissions'));
+        }
+
+        $departments = Department::where('location_id', $id)->count();
+        $counters = Counter::where('location_id', $id)->count();
+        $officers = User::where('location_id', $id)
+            ->where('status', 1)
+            ->get();
+        // ->count();
+        $location = Location::where('id', $id)->first();
+        
+        $departmentlist = Department::where('location_id', $id)->orderBy('name')->pluck('name', 'id');
+        
+        return $dataTable->with('servlocation_id', $id)->render('pages.location.services.list', compact('location', 'departments', 'counters', 'officers', 'departmentlist'));
+        
     }
 
     /**

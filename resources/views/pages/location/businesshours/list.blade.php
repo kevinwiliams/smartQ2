@@ -25,7 +25,7 @@
                     <table class="table table-striped">
                         @foreach($hours as $hour)
                         <tr>
-                            <td class="w-25"><span class="fs-5">{{ \App\Core\Data::getWeekDays()[$hour->day] }}</span></td>
+                            <td class="w-25"><span class="fs-5">{{ $hour->day_name }}</span></td>
                             <td><span class="fw-bold fs-5">{{ $hour->open_hours }}</span></td>
                         </tr>
                         @endforeach

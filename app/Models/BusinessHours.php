@@ -19,7 +19,7 @@ class BusinessHours extends Model
 
     protected $appends = ['open_hours', 'is_open'];
 
-    protected $fillable = ['location_id', 'start_time', 'end_time', 'day'];
+    protected $fillable = ['location_id', 'start_time', 'end_time', 'day', 'day_name'];
 
     public function location()
     {
@@ -41,7 +41,7 @@ class BusinessHours extends Model
             default:
                 return Carbon::parse($this->start_time)->format('h:i A') . " to "  . Carbon::parse($this->end_time)->format('h:i A');
                 break;
-        }        
+        }
     }
 
     public function getIsOpenAttribute()
@@ -62,5 +62,10 @@ class BusinessHours extends Model
         }
         // return $diff;
         //return Carbon::parse($this->start_time)->format('h:i A') . " to "  . Carbon::parse($this->end_time)->format('h:i A');
+    }
+
+    public function getDayNameAttribute()
+    {
+        return \App\Core\Data::getWeekDays()[$this->day];
     }
 }

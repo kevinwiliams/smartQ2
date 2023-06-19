@@ -67,4 +67,14 @@ class Location extends Model
         ->whereDate('created_at','>=', $dates['week_start'])
         ->whereDate('created_at','<=', $dates['week_end']);        
     }
+
+    public function openinghours()
+    {
+        return $this->hasMany(BusinessHours::class)->orderBy('day', 'ASC');
+    }
+
+    public function services()
+    {
+        return $this->hasMany(Services::class);
+    }
 }

@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\ReasonForVisitController;
 use App\Http\Controllers\Admin\ReasonForVisitCountersController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\ScheduledReportsController;
+use App\Http\Controllers\Admin\ServicesController;
 use App\Http\Controllers\Common\LanguageController;
 use App\Http\Controllers\Common\MessageController;
 use App\Http\Controllers\Common\NotificationController;
@@ -322,7 +323,7 @@ Route::middleware('auth')->group(function () {
 			// Route::get('getCountersbyDept/{id}', [CounterController::class, 'getCountersbyDept']);
 		});
 
-		// // Visit Reason Counter
+		// // Staff
 		Route::prefix('staff')->group(function () {
 			Route::get('/{id}', [UserManagementController::class, 'officersList']);
 			Route::get('edit/{id}', [UserManagementController::class, 'staffEdit']);
@@ -341,10 +342,22 @@ Route::middleware('auth')->group(function () {
 
 		Route::get('customers/{id}', [UserManagementController::class, 'customerList']);
 
-		// // Counter pages
+		// // Open Hours
 		Route::prefix('openhours')->group(function () {
 			Route::get('/{id}', [BusinessHoursController::class, 'show']);
 			Route::post('edit/{id}', [BusinessHoursController::class, 'update']);
+			// Route::get('create', [CounterController::class, 'showForm']);
+			// Route::post('create', [CounterController::class, 'create']);
+			// Route::get('edit/{id}', [CounterController::class, 'showEditForm']);
+			
+			// Route::get('delete/{id}', [CounterController::class, 'delete']);
+			// Route::get('getCountersbyDept/{id}', [CounterController::class, 'getCountersbyDept']);
+		});
+
+		// // Open Hours
+		Route::prefix('services')->group(function () {
+			Route::get('/{id}', [ServicesController::class, 'index']);
+			Route::post('edit/{id}', [ServicesController::class, 'update']);
 			// Route::get('create', [CounterController::class, 'showForm']);
 			// Route::post('create', [CounterController::class, 'create']);
 			// Route::get('edit/{id}', [CounterController::class, 'showEditForm']);

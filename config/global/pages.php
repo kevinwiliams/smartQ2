@@ -502,6 +502,23 @@ return array(
                 ),
             )
         ),
+        'services' => array(
+            '*' => array(
+                'title'  => 'Services',
+                'assets' => array(
+                    'custom' => array(
+                        'css' => array(
+                            'plugins/custom/datatables/datatables.bundle.css',
+                        ),
+                        'js' => array(
+                            'plugins/custom/datatables/datatables.bundle.js',
+                            // 'js/custom/department/add.js',
+
+                        ),
+                    ),
+                ),
+            )
+        ),
     ),
 
     // 'settings' => array(
