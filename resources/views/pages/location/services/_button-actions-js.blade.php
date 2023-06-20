@@ -52,24 +52,31 @@
             var validator = FormValidation.formValidation(
                 form, {
                     fields: {
-                        'department_id': {
+                        'description': {
                             validators: {
                                 notEmpty: {
-                                    message: 'Department is required'
+                                    message: 'Description is required'
                                 }
                             }
                         },
-                        'id': {
+                        'name': {
                             validators: {
                                 notEmpty: {
-                                    message: 'Reason being changed is required'
+                                    message: 'Name is required'
                                 }
                             }
                         },
-                        'reason': {
+                        'price_range_start': {
                             validators: {
                                 notEmpty: {
-                                    message: 'Reason is required'
+                                    message: 'Price Range is required'
+                                }
+                            }
+                        },
+                        'price_range_end': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Price Range is required'
                                 }
                             }
                         }
@@ -90,74 +97,22 @@
             const editButtons = _table.querySelectorAll('[data-mv-service-table-filter="edit_row"]');
 
             // console.log(editButtons);
-
-            $('#mv_modal_edit_service_form select[name=id]').on('change', function(e) {
-                $('#mv_modal_edit_service_form input[name=reason]').val($(this).find(':selected').text());
-            });
-
-
+             
             editButtons.forEach(d => {
 
                 d.addEventListener('click', function(e) {
 
                     e.preventDefault();
-                    var id = $(this).data('id');
-                    // Select parent row
-                    // const parent = e.target.closest('tr');
-                    // alert('click');
+                    var obj = $(this);
+                    
+                    form.querySelector('input[name=id]').value = obj.data('id');
+                    form.querySelector('input[name=name]').value = obj.data('serviceName');
+                    form.querySelector('textarea[name=description]').value = obj.data('serviceDescription');
+                    form.querySelector('input[name=price_range_start]').value = obj.data('servicePrice_range_start');
+                    form.querySelector('input[name=price_range_end]').value = obj.data('servicePrice_range_end');
+                    form.querySelector('input[name=status]').checked = obj.data('serviceStatus') == 1;
+
                     modal.show();
-                    // console.log(form.querySelector('input[name=id]'));
-
-                    var options = form.querySelectorAll('select[name=id] option');
-                    options.forEach(o => o.remove());
-                    // form.querySelector('select[name=department_id]').value = id;
-                    $('#mv_modal_edit_service_form select[name=department_id_display]').val(id);
-                    $('#mv_modal_edit_service_form select[name=department_id_display]').trigger('change');
-                    $('#mv_modal_edit_service_form select[name=department_id_display]').prop("disabled", true);
-                    $('#mv_modal_edit_service_form input[name=department_id]').val(id);
-
-
-                    $.ajax({
-                        url: '{{ URL::to("location/service/reasonsforvisit") }}/' + id,
-                        type: 'get',
-                        dataType: 'json',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-                        success: function(data) {
-                            // console.log(data);
-
-                            form.querySelector('select[name=id]').append(new Option("Select a reason", ""));
-                            data.data.forEach(element => {
-                                // console.log(element);
-                                form.querySelector('select[name=id]').append(new Option(element.reason, element.id));
-                            });
-                        }
-
-                    });
-                    // var _id = parent.querySelectorAll('input[name=company-id]')[0].value;
-                    // var _name = parent.querySelectorAll('input[name=company-name]')[0].value;
-                    // var _address = parent.querySelectorAll('input[name=company-address]')[0].value;
-                    // var _website = parent.querySelectorAll('input[name=company-website]')[0].value;
-                    // var _email = parent.querySelectorAll('input[name=company-email]')[0].value;
-                    // var _phone = parent.querySelectorAll('input[name=company-phone]')[0].value;
-                    // var _contact_person = parent.querySelectorAll('input[name=company-contact_person]')[0].value;
-                    // var _description = parent.querySelectorAll('input[name=company-description]')[0].value;
-                    // var _active = parent.querySelectorAll('input[name=company-active]')[0].value;
-
-                    // form.querySelector('input[name=company_edit_id]').value = _id;
-                    // form.querySelector('input[name=name]').value = _name;
-                    // form.querySelector('input[name=address]').value = _address;
-                    // form.querySelector('input[name=website]').value = _website;
-                    // form.querySelector('input[name=email]').value = _email;
-                    // form.querySelector('input[name=phone]').value = _phone;
-                    // form.querySelector('input[name=contact_person]').value = _contact_person;
-                    // form.querySelector('textarea[name=description]').value = _description;
-                    // $('#edit_active').prop("checked", _active);
-
                 });
             });
 
@@ -238,7 +193,7 @@
                             // Disable button to avoid multiple click 
                             submitButton.disabled = true;
 
-                            var id = $('#mv_modal_edit_service_form select[name=id]').val();
+                            var id = $('#mv_modal_edit_service_form input[name=id]').val();
                             $.ajax({
                                 url: form.action + "/" + id,
                                 type: form.method,
@@ -301,263 +256,114 @@
                     });
                 }
             });
+
+
+            //Price Range handler
+            const endRange = $("#mv_modal_edit_service_form #price_range_end");
+            endRange.on('change', function() {
+                var _max = Inputmask.unmask($(this).val(), {
+                    alias: "currency"
+                });
+                var _min = Inputmask.unmask($("#mv_modal_edit_service_form #price_range_start").val(), {
+                    alias: "currency"
+                });
+
+                if (parseFloat(_max) < parseFloat(_min)) {
+
+                    Inputmask.setValue("#mv_modal_edit_service_form #price_range_end", _min);
+
+                }
+            });
         }
 
         var handleDeleteRows = () => {
-            // Shared variables
-            const element = document.getElementById('mv_modal_delete_service');
-            const form = element.querySelector('#mv_modal_delete_service_form');
-            const modal = new bootstrap.Modal(element);
-
-            // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
-            var validator = FormValidation.formValidation(
-                form, {
-                    fields: {
-                        'department_id': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Department is required'
-                                }
-                            }
-                        },
-                        'id': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Reason being deleted is required'
-                                }
-                            }
-                        }
-                    },
-
-                    plugins: {
-                        trigger: new FormValidation.plugins.Trigger(),
-                        bootstrap: new FormValidation.plugins.Bootstrap5({
-                            rowSelector: '.fv-row',
-                            eleInvalidClass: '',
-                            eleValidClass: ''
-                        })
-                    }
-                }
-            );
-
+            // Select all delete buttons
+            // vartable = 
+            // console.log(table);
+            // var dt = table;
             var _table = document.querySelector('#service-table');
             const deleteButtons = _table.querySelectorAll('[data-mv-service-table-filter="delete_row"]');
 
-            // console.log(editButtons);
-
-            // $('#mv_modal_delete_service_form select[name=id]').on('change', function(e) {
-            // 	$('#mv_modal_delete_service_form input[name=reason]').val($(this).find(':selected').text());
-            // });
-
-
             deleteButtons.forEach(d => {
+                // console.log(d);
 
+                // Delete button on click
                 d.addEventListener('click', function(e) {
-
                     e.preventDefault();
-                    var id = $(this).data('id');
+
                     // Select parent row
-                    // const parent = e.target.closest('tr');
-                    // alert('click');
-                    modal.show();
-                    // console.log(form.querySelector('input[name=id]'));
+                    const parent = e.target.closest('tr');
 
-                    var options = form.querySelectorAll('select[name=id] option');
-                    options.forEach(o => o.remove());
-                    // form.querySelector('select[name=department_id]').value = id;
-                    $('#mv_modal_delete_service_form select[name=department_id_display]').val(id);
-                    $('#mv_modal_delete_service_form select[name=department_id_display]').trigger('change');
-                    $('#mv_modal_delete_service_form select[name=department_id_display]').prop("disabled", true);
-                    $('#mv_modal_delete_service_form input[name=department_id]').val(id);
+                    // Get token name
+                    const serviceId = $(this).data('id');
+                    const serviceName = parent.querySelectorAll('td')[0].innerText;
 
 
-                    $.ajax({
-                        url: '{{ URL::to("location/service/reasonsforvisit") }}/' + id,
-                        type: 'get',
-                        dataType: 'json',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-                        success: function(data) {
-                            // console.log(data);
-
-                            form.querySelector('select[name=id]').append(new Option("Select a reason", ""));
-                            data.data.forEach(element => {
-                                // console.log(element);
-                                form.querySelector('select[name=id]').append(new Option(element.reason, element.id));
-                            });
+                    // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
+                    Swal.fire({
+                        text: "Are you sure you want to delete " + serviceName + "?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        buttonsStyling: false,
+                        confirmButtonText: "Yes, delete!",
+                        cancelButtonText: "No, cancel",
+                        customClass: {
+                            confirmButton: "btn fw-bold btn-danger",
+                            cancelButton: "btn fw-bold btn-active-light-primary"
                         }
+                    }).then(function(result) {
+                        if (result.value) {
 
-                    });
-
-                });
-            });
-
-
-            // Close button handler
-            const closeButton = element.querySelector('[data-mv-service-delete-modal-action="close"]');
-            closeButton.addEventListener('click', e => {
-                e.preventDefault();
-
-                Swal.fire({
-                    text: "Are you sure you would like to close?",
-                    icon: "warning",
-                    showCancelButton: true,
-                    buttonsStyling: false,
-                    confirmButtonText: "Yes, close it!",
-                    cancelButtonText: "No, return",
-                    customClass: {
-                        confirmButton: "btn btn-primary",
-                        cancelButton: "btn btn-active-light"
-                    }
-                }).then(function(result) {
-                    if (result.value) {
-                        modal.hide(); // Hide modal				
-                    }
-                });
-            });
-
-            // Cancel button handler
-            const cancelButton = element.querySelector('[data-mv-service-delete-modal-action="cancel"]');
-            cancelButton.addEventListener('click', e => {
-                e.preventDefault();
-
-                Swal.fire({
-                    text: "Are you sure you would like to cancel?",
-                    icon: "warning",
-                    showCancelButton: true,
-                    buttonsStyling: false,
-                    confirmButtonText: "Yes, cancel it!",
-                    cancelButtonText: "No, return",
-                    customClass: {
-                        confirmButton: "btn btn-primary",
-                        cancelButton: "btn btn-active-light"
-                    }
-                }).then(function(result) {
-                    if (result.value) {
-                        form.reset(); // Reset form	
-                        modal.hide(); // Hide modal				
-                    } else if (result.dismiss === 'cancel') {
-                        Swal.fire({
-                            text: "Your form has not been cancelled!.",
-                            icon: "error",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn btn-primary",
-                            }
-                        });
-                    }
-                });
-            });
-
-            // Submit button handler
-            const submitButton = element.querySelector('[data-mv-service-delete-modal-action="submit"]');
-
-            submitButton.addEventListener('click', function(e) {
-                // Prevent default button action
-                e.preventDefault();
-
-                // Validate form before submit
-                if (validator) {
-                    validator.validate().then(function(status) {
-                        // console.log('validated!');
-
-                        if (status == 'Valid') {
-
-                            var id = $('#mv_modal_delete_service_form select[name=id]').val();
-                            var reason = $('#mv_modal_delete_service_form select[name=id]').find(":selected").text();
-                            Swal.fire({
-                                text: "Are you sure you want to delete " + reason + "?",
-                                icon: "warning",
-                                showCancelButton: true,
-                                buttonsStyling: false,
-                                confirmButtonText: "Yes, delete!",
-                                cancelButtonText: "No, cancel",
-                                customClass: {
-                                    confirmButton: "btn fw-bold btn-danger",
-                                    cancelButton: "btn fw-bold btn-active-light-primary"
-                                }
-                            }).then(function(result) {
-                                if (result.value) {
-                                    // Show loading indication
-                                    submitButton.setAttribute('data-mv-indicator', 'on');
-
-                                    // Disable button to avoid multiple click 
-                                    submitButton.disabled = true;
-
-                                    $.ajax({
-                                        url: form.action + "/" + id,
-                                        type: "get",
-                                        success: function(res) {
-                                            // Remove loading indication
-                                            submitButton.removeAttribute('data-mv-indicator');
-
-                                            // Enable button
-                                            submitButton.disabled = false;
-
-                                            Swal.fire({
-                                                text: "You have deleted " + reason + "!.",
-                                                icon: "success",
-                                                buttonsStyling: false,
-                                                confirmButtonText: "Ok, got it!",
-                                                customClass: {
-                                                    confirmButton: "btn fw-bold btn-primary",
-                                                }
-                                            }).then(function() {
-                                                // Remove current row
-                                                location.reload();
-                                            });
-                                        }
-                                    }).fail(function(jqXHR, textStatus, error) {
-                                        // Remove loading indication
-                                        submitButton.removeAttribute('data-mv-indicator');
-
-                                        // Enable button
-                                        submitButton.disabled = false;
-
-                                        // Handle error here
-                                        Swal.fire({
-                                            text: reason + " was not deleted.<br>" + jqXHR.responseText + "<br>" + error,
-                                            icon: "error",
-                                            buttonsStyling: false,
-                                            confirmButtonText: "Ok, got it!",
-                                            customClass: {
-                                                confirmButton: "btn fw-bold btn-primary",
-                                            }
-                                        });
-                                    });
-
-                                } else if (result.dismiss === 'cancel') {
+                            $.ajax({
+                                url: '/location/services/delete/' + serviceId,
+                                data: {
+                                    _token: $("input[name=_token]").val()
+                                },
+                                success: function(res) {
                                     Swal.fire({
-                                        text: reason + " was not deleted.",
-                                        icon: "error",
+                                        text: "You have deleted " + serviceName + "!.",
+                                        icon: "success",
                                         buttonsStyling: false,
                                         confirmButtonText: "Ok, got it!",
                                         customClass: {
                                             confirmButton: "btn fw-bold btn-primary",
                                         }
+                                    }).then(function() {
+                                        // var dt = $('#counter-table').DataTable();
+                                        window.location.reload();
+                                        // Remove current row
+                                        // dt.row($(parent)).remove().draw();
                                     });
                                 }
+                            }).fail(function(jqXHR, textStatus, error) {
+                                // Handle error here
+                                Swal.fire({
+                                    text: serviceName + " was not deleted.<br>" + jqXHR.responseText + "<br>" + error,
+                                    icon: "error",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn fw-bold btn-primary",
+                                    }
+                                });
                             });
-                        } else {
-                            // Show popup warning. For more info check the plugin's official documentation: https://sweetalert2.github.io/
+
+                        } else if (result.dismiss === 'cancel') {
                             Swal.fire({
-                                text: "Sorry, looks like there are some errors detected, please try again.",
+                                text: serviceName + " was not deleted.",
                                 icon: "error",
                                 buttonsStyling: false,
                                 confirmButtonText: "Ok, got it!",
                                 customClass: {
-                                    confirmButton: "btn btn-primary"
+                                    confirmButton: "btn fw-bold btn-primary",
                                 }
                             });
                         }
                     });
-                }
+                })
             });
+
+
         }
 
         var initAddService = () => {
@@ -571,10 +377,10 @@
             var validator = FormValidation.formValidation(
                 form, {
                     fields: {
-                        'department_id': {
+                        'description': {
                             validators: {
                                 notEmpty: {
-                                    message: 'Department is required'
+                                    message: 'Description is required'
                                 }
                             }
                         },
@@ -582,6 +388,20 @@
                             validators: {
                                 notEmpty: {
                                     message: 'Name is required'
+                                }
+                            }
+                        },
+                        'price_range_start': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Price Range is required'
+                                }
+                            }
+                        },
+                        'price_range_end': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Price Range is required'
                                 }
                             }
                         }
@@ -762,6 +582,23 @@
                         });
                     }
                 });
+            });
+
+            //Price Range handler
+            const endRange = $("#mv_modal_add_service_form #price_range_end");
+            endRange.on('change', function() {
+                var _max = Inputmask.unmask($(this).val(), {
+                    alias: "currency"
+                });
+                var _min = Inputmask.unmask($("#mv_modal_add_service_form #price_range_start").val(), {
+                    alias: "currency"
+                });
+
+                if (parseFloat(_max) < parseFloat(_min)) {
+
+                    Inputmask.setValue("#mv_modal_add_service_form #price_range_end", _min);
+
+                }
             });
         }
 

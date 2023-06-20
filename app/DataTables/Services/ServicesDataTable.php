@@ -78,7 +78,7 @@ class ServicesDataTable extends DataTable
         return [
             Column::make('name'),
             Column::make('description'),
-            Column::make('price'),
+            Column::make('price')->orderable(false),
             Column::make('status'),
             Column::computed('action')
                 ->addClass('align-items-right')

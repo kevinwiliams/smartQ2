@@ -358,12 +358,8 @@ Route::middleware('auth')->group(function () {
 		Route::prefix('services')->group(function () {
 			Route::get('/{id}', [ServicesController::class, 'index']);
 			Route::post('edit/{id}', [ServicesController::class, 'update']);
-			// Route::get('create', [CounterController::class, 'showForm']);
-			// Route::post('create', [CounterController::class, 'create']);
-			// Route::get('edit/{id}', [CounterController::class, 'showEditForm']);
-			
-			// Route::get('delete/{id}', [CounterController::class, 'delete']);
-			// Route::get('getCountersbyDept/{id}', [CounterController::class, 'getCountersbyDept']);
+			Route::get('delete/{id}', [ServicesController::class, 'destroy']);
+			Route::post('create', [ServicesController::class, 'store']);			
 		});
 	});
 });

@@ -300,7 +300,7 @@ return [
     'reason_for_visit'    => "Reason for Visit",
     'reason'    => "Reason",
     'change_reason'    => "Change Reason",
-    'to'    => "to",
+    'to'    => "To",
     
 
     /*Misc*/
@@ -320,4 +320,10 @@ return [
 
     /*Open Hours*/
     'openhours'    => "Opening Hours",
+
+
+    /*Services*/
+    'add_service'    => "Add Service",
+    'edit_service'    => "Edit Service",
+    'price_range'    => "Price Range",
 ];

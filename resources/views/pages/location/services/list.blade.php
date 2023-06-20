@@ -49,7 +49,9 @@
         @section('scripts')
         {{ $dataTable->scripts() }}
         
-        <script>
+        @include('pages.location.services._button-actions-js')
+    
+        <!-- <script>
             $(document).ready(function() { //required to fire menu on dt
                 var table = $('#service-table').DataTable();
 
@@ -320,6 +322,6 @@
                     }
                 };
             }();
-        </script>
+        </script> -->
         @endsection
 </x-base-layout>
