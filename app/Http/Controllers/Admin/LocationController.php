@@ -420,4 +420,34 @@ class LocationController extends Controller
         ///Insert missing series values
         return response()->json($data);
     }
+
+    public function getData($id)
+    {
+
+        @date_default_timezone_set(session('app.timezone'));
+
+        if ($id == null) {
+            $data['status'] = false;
+            $data['error'] = trans('app.validation_error');
+            $data['message'] = trans('app.validation_error');
+
+            return response()->json($data);
+        } else {
+
+            ///Generate: default location
+            $location = Location::where('id', $id)->with(['openinghours', 'services', 'alerts'])->first();
+
+            if ($location) {
+                $data['status'] = true;
+                $data['data'] = $location;
+                $data['message'] = trans('app.save_successfully');
+            } else {
+                $data['status'] = false;
+                $data['message'] = trans('app.please_try_again');
+            }
+
+
+            return response()->json($data);
+        }
+    }
 }

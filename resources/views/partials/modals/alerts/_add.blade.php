@@ -49,17 +49,7 @@
                     </span>
                     <!--end::Remove-->
                 </div>
-                <!--end::Image input-->
-                <!--begin::Input group-->
-                <div class="fv-row mb-7">
-                    <div class="form-group @error('business_category_id') has-error @enderror">
-                        <label class="fs-6 fw-bold form-label mb-2" for="business_category_id"><span class="required">{{ trans('app.business_category_id') }}</span>
-                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-content="Select a category"></i></label>
-                        {{ Form::select('business_category_id', $categories->pluck('name', 'id'), null, ['data-placeholder' => 'Select Option','placeholder' => 'Select Option', 'data-control' => 'select2' , 'class'=>'form-select form-select-solid form-select-lg fw-bold']) }}
-                        <span class="text-danger">{{ $errors->first('business_category_id') }}</span>
-                    </div>
-                </div>
-                <!--end::Input group-->
+                <!--end::Image input-->              
                 <!--begin::Input group-->
                 <div class="fv-row mb-7">
                     <div class="form-group @error('name') has-error @enderror">

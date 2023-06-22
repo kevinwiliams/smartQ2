@@ -177,11 +177,11 @@ return array(
                         'plugins/custom/datatables/datatables.bundle.css',
                     ),
                     'js'  => array(
-                        'plugins/custom/datatables/datatables.bundle.js',                        
+                        'plugins/custom/datatables/datatables.bundle.js',
                     ),
 
                 ),
-            ),           
+            ),
         ),
         'assets' => array(
             'custom' => array(
@@ -561,9 +561,9 @@ return array(
         'title' => 'Search',
 
         '*' => array(
-            'title' => 'Search',            
+            'title' => 'Search',
         ),
-       
+
     ),
 
     'settings' => array(
@@ -717,6 +717,25 @@ return array(
             )
 
         ),
+    ),
+    'alerts' => array(
+        'list' => array(
+            'title' => 'Alerts',
+            'view' => 'list',
+            'assets' => array(
+                'custom' => array(
+                    'css' => array(
+                        'plugins/custom/datatables/datatables.bundle.css',
+                    ),
+                    'js'  => array(
+                        'plugins/custom/datatables/datatables.bundle.js',
+                        // 'vendor/datatables/buttons.server-side.js',
+                    ),
+
+                ),
+            ),
+        ),
+
     ),
     // Documentation pages
     'documentation' => array(

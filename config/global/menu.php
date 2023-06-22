@@ -89,7 +89,7 @@ return array(
 
         // Changelog
         array(
-            'title'            => 'Changelog <span class="badge badge-changelog badge-light-danger bg-hover-danger text-hover-white fw-bold fs-9 px-2 ms-2">v'.theme()->getVersion().'</span>',
+            'title'            => 'Changelog <span class="badge badge-changelog badge-light-danger bg-hover-danger text-hover-white fw-bold fs-9 px-2 ms-2">v' . theme()->getVersion() . '</span>',
             'breadcrumb-title' => 'Changelog',
             'path'             => 'documentation/getting-started/changelog',
         ),
@@ -218,7 +218,7 @@ return array(
         // Ticketing
         array(
             'title' => 'Token',
-            'permission' => 'view token', 
+            'permission' => 'view token',
             'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/abstract/abs027.svg", "svg-icon-2"),
             'path'  => '#',
             'classes'    => array('item' => 'menu-accordion'),
@@ -244,7 +244,7 @@ return array(
                         'permission' => 'run auto-token',
                         'path'       => 'token/auto',
                         'bullet'     => '<span class="bullet bullet-dot"></span>',
-                       
+
                     ),
                 ),
             ),
@@ -273,7 +273,7 @@ return array(
                         'title'  => 'Scheduled Reports',
                         'path'   => 'reports/scheduled',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
-                    ),                    
+                    ),
                 ),
             ),
         ),
@@ -293,7 +293,7 @@ return array(
                     array(
                         'title'      => 'Business Categories',
                         'path'       => 'category/list',
-                        'bullet'     => '<span class="bullet bullet-dot"></span>',                       
+                        'bullet'     => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
                         'title'  => 'Companies',
@@ -304,38 +304,43 @@ return array(
                         'title'  => 'Location',
                         'path'   => 'location/list',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
-                    ),                    
+                    ),
+                    array(
+                        'title'  => 'Alerts',
+                        'path'   => 'alerts/list',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ),
                     array(
                         'title'      => 'Users',
                         'path'       => 'apps/user-management/users/list',
-                        'bullet'     => '<span class="bullet bullet-dot"></span>',                       
+                        'bullet'     => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
                         'title'      => 'Roles',
                         'path'       => 'apps/user-management/roles/list',
-                        'bullet'     => '<span class="bullet bullet-dot"></span>',                       
+                        'bullet'     => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
                         'title'      => 'Permissions',
                         'path'       => 'apps/user-management/permissions',
-                        'bullet'     => '<span class="bullet bullet-dot"></span>',                       
-                    ),                   
+                        'bullet'     => '<span class="bullet bullet-dot"></span>',
+                    ),
                     array(
                         'title'      => 'System',
                         'path'       => 'settings/system',
-                        'bullet'     => '<span class="bullet bullet-dot"></span>',                       
+                        'bullet'     => '<span class="bullet bullet-dot"></span>',
                     ),
                 ),
             ),
         ),
-      
+
         // Separator
         array(
             'content' => '<div class="separator mx-1 my-4"></div>',
         ),
 
-       
-         // Calendar
+
+        // Calendar
         //  array(
         //     'title' => 'Calendar',            
         //     'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/general/gen014.svg", "svg-icon-2"),
@@ -347,7 +352,7 @@ return array(
         //     'permission'=> 'view configuration',
         //     'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/communication/com007.svg", "svg-icon-2"),
         //     'path'  => 'sms',
-          
+
         // ),
         // Settings
         array(
@@ -367,7 +372,7 @@ return array(
                         'path'   => 'sms/setting',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
-                    
+
                 ),
             ),
         ),
@@ -395,7 +400,7 @@ return array(
                         'path'   => 'account/settings',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
-                   
+
                 ),
             ),
         ),
@@ -430,7 +435,7 @@ return array(
 
                     // Changelog
                     array(
-                        'title' => 'Changelog v'.theme()->getVersion(),
+                        'title' => 'Changelog v' . theme()->getVersion(),
                         'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/general/gen005.svg", "svg-icon-2"),
                         'path'  => 'documentation/getting-started/changelog',
                     ),

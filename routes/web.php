@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BusinessHoursController;
 use App\Http\Controllers\Account\SettingsController;
+use App\Http\Controllers\Admin\AlertsController;
 use App\Http\Controllers\Admin\BusinessCategoriesController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\CounterController;
@@ -134,6 +135,18 @@ Route::middleware('auth')->group(function () {
 		Route::post('scheduled/edit/{id}', [ScheduledReportsController::class, 'update']);
 	});
 
+	// // Alert
+	Route::prefix('alerts')->group(function () {
+		Route::get('list', [AlertsController::class, 'index']);
+		// Route::get('create', [AlertsController::class, 'showForm']);
+		// Route::post('create', [AlertsController::class, 'store']);
+		// Route::get('edit/{id}', [AlertsController::class, 'showEditForm']);
+		// Route::get('view/{id}', [AlertsController::class, 'show']);
+		// Route::get('getLocations/{id}', [AlertsController::class, 'getLocations']);
+		// Route::post('edit/{id}', [AlertsController::class, 'update']);
+		// Route::get('delete/{id}', [AlertsController::class, 'destroy']);
+	});
+
 	# home
 	Route::prefix('home')->group(function () {
 		Route::get('home', [HomeController::class, 'index']);
@@ -255,6 +268,7 @@ Route::middleware('auth')->group(function () {
 		Route::post('edit/{id}', [LocationController::class, 'update']);
 		Route::post('getBusyHours', [LocationController::class, 'getBusyHours']);
 		Route::get('printqr/{id}', [LocationController::class, 'printqr']);
+		Route::get('getData/{id}', [LocationController::class, 'getData']);
 		Route::get('delete/{id}', [LocationController::class, 'destroy']);
 		// Route::get('department/{id}', [LocationController::class, 'dept']);
 		Route::get('token/setting/{id}', [TokenController::class, 'tokenSettingView']);

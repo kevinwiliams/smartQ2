@@ -11,10 +11,10 @@ class Location extends Model
 {
     use HasFactory;
     protected $table = "locations";
-    protected $fillable = ['company_id', 'address', 'name', 'lat', 'lon','active'];
+    protected $fillable = ['company_id', 'address', 'name', 'lat', 'lon', 'active'];
 
 
-     /**
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -25,31 +25,37 @@ class Location extends Model
 
     public function company()
     {
-	    return $this->belongsTo(Company::class);
-	}
+        return $this->belongsTo(Company::class);
+    }
 
-    public function users(){
+    public function users()
+    {
         return $this->hasMany(User::class);
     }
 
-    public function staff(){
+    public function staff()
+    {
         return $this->hasMany(User::class)
-        ->where('user_type','<>',3);
+            ->where('user_type', '<>', 3);
     }
 
-    public function departments(){
+    public function departments()
+    {
         return $this->hasMany(Department::class);
     }
 
-    public function counters(){
+    public function counters()
+    {
         return $this->hasMany(Counter::class);
     }
 
-    public function displays(){
+    public function displays()
+    {
         return $this->hasMany(DisplayCustom::class);
     }
 
-    public function settings(){
+    public function settings()
+    {
         return $this->hasOne(DisplaySetting::class);
     }
 
@@ -58,14 +64,15 @@ class Location extends Model
         return $this->hasOne(LocationStats::class)->first();
     }
 
-    public function visitorslastweek(){
+    public function visitorslastweek()
+    {
         $now = Carbon::now();
         $now->weekOfYear;
-        $dates = (new Utilities_lib)->getStartAndEndDate($now->weekOfYear,$now->year);
+        $dates = (new Utilities_lib)->getStartAndEndDate($now->weekOfYear, $now->year);
 
         return $this->hasMany(Token::class)
-        ->whereDate('created_at','>=', $dates['week_start'])
-        ->whereDate('created_at','<=', $dates['week_end']);        
+            ->whereDate('created_at', '>=', $dates['week_start'])
+            ->whereDate('created_at', '<=', $dates['week_end']);
     }
 
     public function openinghours()
@@ -76,5 +83,15 @@ class Location extends Model
     public function services()
     {
         return $this->hasMany(Services::class);
+    }
+
+    public function alerts()
+    {
+        $currentTime = Carbon::now();
+        
+        return $this->belongsToMany(Alert::class, AlertLocations::class, 'location_id', 'alert_id')
+            ->where('active', 1)
+            ->where('start_date', '<=', $currentTime)
+            ->where('end_date', '>=', $currentTime);
     }
 }

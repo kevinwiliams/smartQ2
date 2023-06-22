@@ -19,13 +19,13 @@
                     <img src="{{ $company->logo_url }}" alt="image">
                 </div>
                 <!--end::Avatar-->
-                
+
                 <div class="title-address">
                     <h2>{{ ucwords($company->name) }}</h2>
-                    <p class="text-muted">{{ $company->address }}</p>                    
+                    <p class="text-muted">{{ $company->address }}</p>
                 </div>
             </div>
-            <!--end::Card title-->          
+            <!--end::Card title-->
         </div>
         <!--begin::Card body-->
         <div class="card-body p-3">
@@ -786,6 +786,7 @@
                 $('#myTabContent').show();
 
                 busyHoursLookup();
+                locationDataLookup();
                 getLocation();
                 var obj = $(this).find(":selected");
 
@@ -1194,28 +1195,6 @@
 
             });
 
-            // $('input:radio[name=department_id]').on('click', function(e) {
-            //     console.log(e);
-            //     var dept = $(this).find(":checked").val();
-            //     var dept = e.target.value;
-
-            //     $.ajax({
-            //         type: 'post',
-            //         url: '{{ URL::to("home/getwaittime") }}',
-            //         type: 'POST',
-            //         dataType: 'json',
-            //         data: {
-            //             'id': dept,
-            //             '_token': '<?php echo csrf_token() ?>'
-            //         },
-            //         success: function(data) {
-            //             console.log(data);
-            //             $("#span_wait").text(data);
-            //         }
-            //     });
-
-            // });
-
             $('#cancel_otp').on('click', function(e) {
                 e.preventDefault();
                 console.log(e.target.dataset);
@@ -1475,6 +1454,55 @@
                 console.error(textStatus);
                 console.error(error);
             });
+        }
+
+        function locationDataLookup() {
+
+            var location = $("#mv_location_list").val();
+            if (location == "") {
+                // console.debug('no location');
+                return;
+            }
+
+            $.ajax({
+                url: '/location/getData/' + location,
+                type: "get",
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    // console.log(response);
+
+                    if (response.data.alerts.length > 0) {
+                        displayAlerts(response.data.alerts);
+                    }
+                }
+            }).fail(function(jqXHR, textStatus, error) {
+                console.error(jqXHR.responseText);
+                console.error(textStatus);
+                console.error(error);
+            });
+        }
+
+        function displayAlerts(alerts) {
+            if (alerts.length === 0) {
+                return; // No alerts to display
+            }
+
+            const showAlert = (index) => {
+                const alert = alerts[index];
+                Swal.fire({
+                    title: alert.title,
+                    text: alert.message,
+                }).then(() => {
+                    if (index < alerts.length - 1) {
+                        showAlert(index + 1); // Display the next alert
+                    }
+                });
+            };
+
+            showAlert(0); // Start displaying the alerts
         }
 
         var initVisitHoursChart2 = function() {
