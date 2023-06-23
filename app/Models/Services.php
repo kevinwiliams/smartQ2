@@ -20,6 +20,9 @@ class Services extends Model
 
     public function getPriceAttribute()
     {
+        if ($this->price_range_start == $this->price_range_end && $this->price_range_end == 0)
+            return '';
+
         if ($this->price_range_start == $this->price_range_end)
             return '$' . number_format($this->price_range_start, 2);
         else

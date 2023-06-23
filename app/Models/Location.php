@@ -12,6 +12,7 @@ class Location extends Model
     use HasFactory;
     protected $table = "locations";
     protected $fillable = ['company_id', 'address', 'name', 'lat', 'lon', 'active'];
+    protected $appends = ['is_open_status'];
 
 
     /**
@@ -77,8 +78,62 @@ class Location extends Model
 
     public function openinghours()
     {
-        return $this->hasMany(BusinessHours::class)->orderBy('day', 'ASC');
+        return $this->hasMany(BusinessHours::class);
     }
+
+    public function getIsOpenStatusAttribute()
+    {        
+        @date_default_timezone_set(session('app.timezone'));
+        $currentTime = Carbon::now();
+        $currentDayOfWeek = $currentTime->dayOfWeek;
+        
+        $currentBusinessHour = $this->openinghours()
+            ->where('day', $currentDayOfWeek)
+            ->first();
+
+        if (!$currentBusinessHour) {
+            return '';
+        }
+
+        $startTime = Carbon::parse($currentBusinessHour->start_time);
+        $endTime = Carbon::parse($currentBusinessHour->end_time);
+
+        if ($currentTime->isBetween($startTime, $endTime)) {
+            $diff =  $currentTime->diffInMinutes($endTime);
+
+            if($diff <= 30){
+                $closingTime = $endTime->format('h:i A');
+            
+                return 'Closing Soon (Closes at ' . $closingTime . ')';
+            }            
+
+            return 'Open';
+        }
+
+        if ($startTime->isFuture()) {
+            return 'Opening Soon';
+        }
+
+        if ($endTime->isPast()) {
+            $nextBusinessHour = $this->openinghours()
+                ->where('day', ($currentDayOfWeek + 1) % 7)
+                ->orderBy('start_time')
+                ->first();
+
+            if (!$nextBusinessHour) {
+                return 'Closed';
+            }
+
+            if ($nextBusinessHour->isClosed()) {
+                return 'Closed';
+            }
+
+            $nextStartTime = Carbon::parse( $nextBusinessHour->start_time);
+            return 'Opening Tomorrow at ' . $nextStartTime->format('h:i A');
+        }
+
+       
+    }   
 
     public function services()
     {
@@ -88,7 +143,7 @@ class Location extends Model
     public function alerts()
     {
         $currentTime = Carbon::now();
-        
+
         return $this->belongsToMany(Alert::class, AlertLocations::class, 'location_id', 'alert_id')
             ->where('active', 1)
             ->where('start_date', '<=', $currentTime)

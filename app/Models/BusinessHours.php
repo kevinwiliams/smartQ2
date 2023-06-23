@@ -17,7 +17,7 @@ class BusinessHours extends Model
         'end_time' => 'datetime'
     ];
 
-    protected $appends = ['open_hours', 'is_open'];
+    protected $appends = ['open_hours', 'is_open', 'day_name'];
 
     protected $fillable = ['location_id', 'start_time', 'end_time', 'day', 'day_name'];
 
@@ -67,5 +67,12 @@ class BusinessHours extends Model
     public function getDayNameAttribute()
     {
         return \App\Core\Data::getWeekDays()[$this->day];
+    }
+
+    public function isClosed(){
+        $start = Carbon::parse($this->start_time);
+        $end = Carbon::parse($this->end_time);
+        $diff =  $start->diffInMinutes($end);
+        return $diff == 0;
     }
 }

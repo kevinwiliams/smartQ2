@@ -95,10 +95,44 @@
                                         <div class="pt-3" style="display:none;" id="locationDirections">
                                             <a href="#googlemaps" class="text-primary cursor-pointer" data-fslightbox="lightbox" data-class="fslightbox-source"><i class="las la-directions"></i> Directions</a>
                                         </div>
+                                        <div class="pt-3" style="display:none;" id="locationHours">
+                                            <span class="text-gray-700">Hours:</span>
+                                            <span class="text-primary">
+                                                <span class="" id="mv_location_hours"></span>
+                                            </span>&#x2022;
+                                            <a href="#" class="text-info" id="mv_location_more_hours" data-bs-toggle="modal" data-bs-target="#mv_modal_view_openhours" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to add view opening hours"> More hours</a>
+                                        </div>
                                         <span class="text-danger">{{ $errors->first('location') }}</span>
                                     </div>
                                 </div>
                             </div>
+
+
+                            <div id="div_services" style="display: none;">
+                                <h4 class="fw-bolder d-flex align-items-center text-dark pb-5">Services</h4>
+                                <div class="card-body pt-5">
+                                    <div id="mv-servicesrepeater-content">
+                                    </div>
+                                    <div style="display:none">
+                                        <div id="mv-servicesrepeater-item">
+                                            <div class="d-flex align-items-sm-center mb-7">
+                                                <!--begin::Section-->
+                                                <div class="d-flex align-items-center flex-row-fluid flex-wrap">
+                                                    <div class="flex-grow-1 me-2">
+                                                        <span class="text-gray-800 text-hover-primary fs-6 fw-bold" id="mv-servicesrepeater-name">Top Authors</span>
+
+                                                        <span class="text-muted fw-semibold d-block fs-7" id="mv-servicesrepeater-description">Mark, Rowling, Esther</span>
+                                                    </div>
+
+                                                    <span class="badge badge-light fw-bold my-2" id="mv-servicesrepeater-price">+82$</span>
+                                                </div>
+                                                <!--end::Section-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             {{ theme()->getView('partials/widgets/charts/_visithours') }}
                         </div>
                         <!--end::Wrapper-->
@@ -669,7 +703,9 @@
         <iframe width="800" height="500" id="googlemaps" class="fslightbox-source" frameBorder="0" style="border:0" referrerpolicy="no-referrer-when-downgrade" allow="autoplay; fullscreen" allowFullScreen>
         </iframe>
     </div>
-
+    <!--begin::Modal - Edit Open hours -->
+    {{ theme()->getView('partials/modals/openhours/_view') }}
+    <!--end::Modal - Edit Open hours-->
     @section('scripts')
     @include('pages.home._client-token-js')
     <script>
@@ -1266,6 +1302,32 @@
             });
 
 
+            const oh_element = document.getElementById('mv_modal_view_openhours');            
+            const oh_modal = new bootstrap.Modal(oh_element);
+
+            // Close button handler
+            const businessHoursCloseButton = oh_element.querySelector('[data-mv-openhours-view-modal-action="close"]');
+            businessHoursCloseButton.addEventListener('click', e => {
+                e.preventDefault();
+
+                Swal.fire({
+                    text: "Are you sure you would like to close?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    buttonsStyling: false,
+                    confirmButtonText: "Yes, close it!",
+                    cancelButtonText: "No, return",
+                    customClass: {
+                        confirmButton: "btn btn-primary",
+                        cancelButton: "btn btn-active-light"
+                    }
+                }).then(function(result) {
+                    if (result.value) {
+                        oh_modal.hide(); // Hide modal				
+                    }
+                });
+            });
+
         });
 
         function getDepartment() {
@@ -1472,10 +1534,28 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-                    // console.log(response);
+                    console.log(response);
 
                     if (response.data.alerts.length > 0) {
-                        displayAlerts(response.data.alerts);
+                        //    displayAlerts(response.data.alerts);
+                    }
+
+                    if (response.data.services.length > 0) {
+                        //  displayServices(response.data.services);
+                    } else {
+                        $("#div_services").hide();
+                        $("#mv-servicesrepeater-content").html();
+                    }
+
+                    if (response.data.openinghours.length > 0) {
+                           displayOpeningHours(response.data.openinghours);
+                    }
+
+                    if (response.data.is_open_status != "") {
+                        $("#mv_location_hours").text(response.data.is_open_status);
+                        $("#locationHours").show();
+                    } else {
+                        $("#locationHours").hide();
                     }
                 }
             }).fail(function(jqXHR, textStatus, error) {
@@ -1503,6 +1583,58 @@
             };
 
             showAlert(0); // Start displaying the alerts
+        }
+
+
+        function displayServices(services) {
+            if (services.length === 0) {
+                $("#div_services").hide();
+                return; // No services to display
+            }
+
+            var repItem = $('#mv-servicesrepeater-item');
+            var content = $('#mv-servicesrepeater-content');
+
+            services.forEach(element => {
+                var _clone = repItem.clone();
+                _clone.removeAttr("id");
+                var name = _clone.find("#mv-servicesrepeater-name");
+                name.text(element.name);
+                name.removeAttr("id");
+
+                var description = _clone.find("#mv-servicesrepeater-description");
+                description.text(element.description);
+                description.removeAttr("id");
+
+                var price = _clone.find("#mv-servicesrepeater-price");
+                price.text(element.price);
+                price.removeAttr("id");
+
+                content.append(_clone);
+            });
+
+            content.show();
+            $("#div_services").show();
+
+        }
+
+
+        function displayOpeningHours(hours) {
+            if (hours.length === 0) {
+                $("#locationHours").hide();
+                return;
+            }
+
+            var content = $('#tbl-view-business-hours');
+
+            content.html("");
+            hours.forEach(element => {
+                console.log(element);
+                htmlStr = "<tr><td class='w-25'><span class='fs-5'>" + element.day_name + "</span></td>";
+                htmlStr += "<td><span class='fw-bold fs-5'>" + element.open_hours + "</span></td></tr>";
+                content.append(htmlStr);
+            });
+
         }
 
         var initVisitHoursChart2 = function() {
