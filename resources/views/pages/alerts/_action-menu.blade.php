@@ -2,39 +2,35 @@
 <td class="text-end">
     <div class="d-flex justify-content-end flex-shrink-0">
         <!--begin::Menu item-->
-        <a href="{{theme()->getPageUrl('company/view/' . $model->id)}}" data-id="{{$model->id}}" data-action="view" data-mv-company-table-filter="view_row" name="view" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1">
+        <a href="{{theme()->getPageUrl('alert/view/' . $model->alert_id)}}" data-id="{{$model->alert_id}}" data-action="view" data-mv-alert-table-filter="view_row" name="view" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1">
             {!! theme()->getSvgIcon("icons/duotune/general/gen019.svg", "svg-icon-1") !!}
         </a>
         <!--end::Menu item-->
-        @can('edit company')
+        @can('edit alert')
         <!--begin::Menu item-->
-        <a href="#" data-id="{{$model->id}}" data-action="edit" data-mv-company-table-filter="edit_row" name="edit" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+        <a href="#" data-id="{{$model->alert_id}}" data-action="edit" data-mv-alert-table-filter="edit_row" name="edit" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
             {!! theme()->getSvgIcon("icons/duotune/art/art005.svg", "svg-icon-3") !!}
         </a>
         <!--end::Menu item-->
         @endcan
-        @can('delete company')
+        @can('delete alert')
         <!--begin::Menu item-->
-        <a href="#" data-id="{{$model->id}}" data-mv-company-table-filter="delete_row" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm me-1">
+        <a href="#" data-id="{{$model->alert_id}}" data-mv-alert-table-filter="delete_row" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm me-1">
             {!! theme()->getSvgIcon("icons/duotune/general/gen027.svg", "svg-icon-1") !!}
         </a>
         <!--end::Menu item-->
         @endcan
-    
+
     </div>
-  
-    <input type="hidden" value="{{$model->id}}" name="company-id" id="company-id-{{$model->id}}" />
-    <input type="hidden" value="{{$model->business_category_id}}" name="company-business-category-id" id="company-business-category-id-{{$model->id}}" />
-    <input type="hidden" value="{{$model->name}}" name="company-name" id="company-name-{{$model->id}}" />
-    <input type="hidden" value="{{$model->address}}" name="company-address" id="company-address-{{$model->id}}" />
-    <input type="hidden" value="{{$model->website}}" name="company-website" id="company-website-{{$model->id}}" />
-    <input type="hidden" value="{{$model->email}}" name="company-email" id="company-email-{{$model->id}}" />
-    <input type="hidden" value="{{$model->phone}}" name="company-phone" id="company-phone-{{$model->id}}" />
-    <input type="hidden" value="{{$model->contact_person}}" name="company-contact_person" id="company-contact_person-{{$model->id}}" />
-    <input type="hidden" value="{{$model->description}}" name="company-description" id="company-description-{{$model->id}}" />
-    <input type="hidden" value="{{$model->active}}" name="company-active" id="company-active-{{$model->id}}" />
-    <input type="hidden" value="{{$model->logo_url}}" name="company-logourl" id="company-logourl-{{$model->id}}" />
-    <input type="hidden" value="{{$model->logo}}" name="company-logo" id="company-logo-{{$model->id}}" />
-    <input type="hidden" value="{{$model->shortname}}" name="company-shortname" id="company-shortname" />
+
+    <input type="hidden" value="{{$model->alert_id }}" name="alert-id" id="alert-id-{{$model->alert_id}}" />
+    <input type="hidden" value="{{$model->title}}" name="alert-title" id="alert-title-{{$model->id}}" />
+    <input type="hidden" value="{{$model->message}}" name="alert-message" id="alert-message-{{$model->id}}" />
+    <input type="hidden" value="{{ $model->image_url }}" name="alert-image_url" id="alert-image_url-{{$model->id}}" />
+    <input type="hidden" value="{{ $model->image_path }}" name="alert-image_path" id="alert-image_path-{{$model->id}}" />
+    <input type="hidden" value="{{$model->start_date}}" name="alert-start_date" id="alert-start_date-{{$model->id}}" />
+    <input type="hidden" value="{{$model->end_date}}" name="alert-end_date" id="alert-end_date-{{$model->id}}" />
+    <input type="hidden" value="{{$model->active}}" name="alert-active" id="alert-active-{{$model->id}}" />
+    <input type="hidden" value="{{ implode(',',$locations->pluck('locations.id')->toArray())}}" name="alert-locations" id="alert-locations-{{$model->id}}" />
 </td>
 <!--end::Action=-->

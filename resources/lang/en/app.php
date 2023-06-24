@@ -326,4 +326,12 @@ return [
     'add_service'    => "Add Service",
     'edit_service'    => "Edit Service",
     'price_range'    => "Price Range",
+
+
+    
+    /*alert*/
+    'add_alert'    => "Add Alert",
+    'edit_alert'    => "Edit Alert",
+    'image'    => "Image",
+    
 ];

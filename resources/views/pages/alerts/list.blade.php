@@ -3,7 +3,7 @@
     <!--begin::Card-->
     <div class="card">
         <div class="card-header border-0 pt-5">
-            <h3 class="card-title align-items-start flex-column">                
+            <h3 class="card-title align-items-start flex-column">
                 <div class="d-flex align-items-center position-relative my-1 me-5">
                     <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
                     {!! theme()->getSvgIcon("icons/duotune/general/gen021.svg", "svg-icon-1 position-absolute ms-6") !!}
@@ -31,14 +31,39 @@
     </div>
     <!--end::Card-->
     <!--begin::Modal - Add Alert -->
-    {{ theme()->getView('partials/modals/alerts/_add') }}
+    {{ theme()->getView('partials/modals/alerts/_add', array('locations' => $locations)) }}
     <!--end::Modal - Add Alert-->
     <!--begin::Modal - Edit Alert -->
-    {{ theme()->getView('partials/modals/alerts/_edit') }}
+    {{ theme()->getView('partials/modals/alerts/_edit', array('locations' => $locations)) }}
     <!--end::Modal dialog-->
     {{-- Inject Scripts --}}
     @section('scripts')
     {{ $dataTable->scripts() }}
     @include('pages.alerts._button-actions-js')
+
+    <script>
+        $(document).ready(function() {
+            var config = {
+                enableTime: true,
+                dateFormat: "d-m-Y h:i K"
+            };
+
+            let _start = flatpickr($("#start_date"), config);
+            let _end = flatpickr($("#end_date"), config);
+            
+            _start.config.onChange.push(function(selectedDates, dateStr, instance) {                
+                _end.set('minDate', dateStr);
+            });
+
+            let _editstart = flatpickr($("#edit_start_date"), config);
+            let _editend = flatpickr($("#edit_end_date"), config);
+            
+            _editstart.config.onChange.push(function(selectedDates, dateStr, instance) {                
+                _editend.set('minDate', dateStr);
+            });
+
+            
+        });
+    </script>
     @endsection
 </x-base-layout>

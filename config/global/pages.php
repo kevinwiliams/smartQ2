@@ -725,13 +725,13 @@ return array(
             'assets' => array(
                 'custom' => array(
                     'css' => array(
+                        'plugins/custom/flatpickr/flatpickr.bundle.css',
                         'plugins/custom/datatables/datatables.bundle.css',
                     ),
-                    'js'  => array(
+                    'js' => array(
+                        'plugins/custom/flatpickr/flatpickr.bundle.js',
                         'plugins/custom/datatables/datatables.bundle.js',
-                        // 'vendor/datatables/buttons.server-side.js',
                     ),
-
                 ),
             ),
         ),

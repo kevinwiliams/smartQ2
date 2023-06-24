@@ -1,11 +1,11 @@
 <script>
     // Class definition
-    var MVCountryActions = function() {
+    var MVAlertsActions = function() {
         var datatable;
         var table;
 
 
-        var initCompanyTable = () => {
+        var initAlertTable = () => {
 
             if ($.fn.dataTable.isDataTable(table)) {
                 datatable = $(table).DataTable();
@@ -28,6 +28,7 @@
                 // console.log("raw")
                 MVMenu.createInstances();
                 handleDeleteRows();
+                handleViewRows();
                 handleEditRows();
             });
 
@@ -42,8 +43,8 @@
 
         var handleDeleteRows = () => {
 
-            var _table = document.querySelector('#mv_company_table');
-            const deleteButtons = _table.querySelectorAll('[data-mv-company-table-filter="delete_row"]');
+            var _table = document.querySelector('#alerts-table');
+            const deleteButtons = _table.querySelectorAll('[data-mv-alert-table-filter="delete_row"]');
 
             deleteButtons.forEach(d => {
                 // Delete button on click
@@ -56,8 +57,8 @@
 
                     // Get token name
                     const tokenNo = parent.querySelectorAll('td')[0].innerText;
-                    if (parent.querySelectorAll('input[name=company-id]').length)
-                        var tokenID = parent.querySelectorAll('input[name=company-id]')[0].value;
+                    if (parent.querySelectorAll('input[name=alert-id]').length)
+                        var tokenID = parent.querySelectorAll('input[name=alert-id]')[0].value;
                     else
                         var tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
 
@@ -78,7 +79,7 @@
                         if (result.value) {
 
                             $.ajax({
-                                url: '/company/delete/' + tokenID,
+                                url: '/alerts/delete/' + tokenID,
                                 data: {
                                     _token: $("input[name=_token]").val()
                                 },
@@ -93,7 +94,7 @@
                                         }
                                     }).then(function() {
                                         // Remove current row
-                                        document.location.href = '/company/list';
+                                        location.reload();
                                     });
                                 }
                             }).fail(function(jqXHR, textStatus, error) {
@@ -127,76 +128,101 @@
 
         }
 
+        var handleViewRows = () => {
 
+            var _table = document.querySelector('#alerts-table');
+            const viewButtons = _table.querySelectorAll('[data-mv-alert-table-filter="view_row"]');
+
+            viewButtons.forEach(d => {
+                // Delete button on click
+
+                d.addEventListener('click', function(e) {
+
+                    e.preventDefault();
+                    // Select parent row
+                    const parent = e.target.closest('tr');
+
+                    // Get token name
+                    const tokenNo = parent.querySelectorAll('td')[0].innerText;
+                    const title = parent.querySelectorAll('input[name=alert-title]')[0].value;
+                    const message = parent.querySelectorAll('input[name=alert-message]')[0].value;
+                    const imageurl = parent.querySelectorAll('input[name=alert-image_url]')[0].value;
+                    const imagepath = parent.querySelectorAll('input[name=alert-image_path]')[0].value;
+
+                    // console.log(tokenID);
+
+                    if (imageurl == '') {
+                        Swal.fire({
+                            title: title,
+                            text: message,
+
+                        });
+                    } else {
+                        Swal.fire({
+                            title: title,
+                            text: message,
+                            imageUrl: imagepath,
+                            imageAlt: title
+                        });
+                    }
+
+
+                    return;
+
+
+                })
+            });
+
+
+        }
 
 
         // Init add schedule modal
         var handleEditRows = () => {
             // Shared variables
-            const element = document.getElementById('mv_modal_edit_company');
-            const form = element.querySelector('#mv_modal_edit_company_form');
+            const element = document.getElementById('mv_modal_edit_alert');
+            const form = element.querySelector('#mv_modal_edit_alert_form');
             const modal = new bootstrap.Modal(element);
 
             // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
             var validator = FormValidation.formValidation(
                 form, {
                     fields: {
-                        'business_category_id': {
+                        'title': {
                             validators: {
                                 notEmpty: {
-                                    message: 'Category is required'
+                                    message: 'Title is required'
                                 }
                             }
                         },
-                        'name': {
+                        'message': {
                             validators: {
                                 notEmpty: {
-                                    message: 'Name is required'
+                                    message: 'Message is required'
                                 }
                             }
                         },
-                        'address': {
+                        'start_date': {
                             validators: {
                                 notEmpty: {
-                                    message: 'Address is required'
+                                    message: 'Start Date is required'
                                 }
                             }
                         },
-                        'website': {
+                        'end_date': {
                             validators: {
                                 notEmpty: {
-                                    message: 'Website is required'
+                                    message: 'End Date is required'
                                 }
                             }
                         },
-                        'email': {
+                        'location_id': {
                             validators: {
                                 notEmpty: {
-                                    message: 'Email is required'
+                                    message: 'Location is required'
                                 }
                             }
                         },
-                        'phone': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Phone is required'
-                                }
-                            }
-                        },
-                        'contact_person': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Contact Person is required'
-                                }
-                            }
-                        },
-                        'description': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Description is required'
-                                }
-                            }
-                        }
                     },
 
                     plugins: {
@@ -210,10 +236,9 @@
                 }
             );
 
-            var _table = document.querySelector('#mv_company_table');
-            const editButtons = _table.querySelectorAll('[data-mv-company-table-filter="edit_row"]');
+            var _table = document.querySelector('#alerts-table');
+            const editButtons = _table.querySelectorAll('[data-mv-alert-table-filter="edit_row"]');
 
-            console.log(editButtons);
             editButtons.forEach(d => {
 
                 d.addEventListener('click', function(e) {
@@ -222,53 +247,67 @@
 
                     // Select parent row
                     const parent = e.target.closest('tr');
-                    // alert('click');
+
+                    const _id = parent.querySelectorAll('input[name=alert-id]')[0].value;
+                    const title = parent.querySelectorAll('input[name=alert-title]')[0].value;
+                    const message = parent.querySelectorAll('input[name=alert-message]')[0].value;
+                    const imageurl = parent.querySelectorAll('input[name=alert-image_url]')[0].value;
+                    const imagepath = parent.querySelectorAll('input[name=alert-image_path]')[0].value;
+                    const startdate = parent.querySelectorAll('input[name=alert-end_date]')[0].value;
+                    const enddate = parent.querySelectorAll('input[name=alert-start_date]')[0].value;
+                    const isActive = parent.querySelectorAll('input[name=alert-active]')[0].value;
+                    const locations = parent.querySelectorAll('input[name=alert-locations]')[0].value;
+
+
+                    form.querySelector('input[name=alert_edit_id]').value = _id;
+                    form.querySelector('input[name=title]').value = title;
+                    form.querySelector('textarea[name=message]').value = message;
+                    form.querySelector('input[name=start_date]').value = startdate;
+                    form.querySelector('input[name=end_date]').value = enddate;
+                    $('#edit_active').prop("checked", isActive);
+                    $('input[name="old_logo"]').val(imageurl);
+                    $("#alert-logo-wrapper").css({
+                        "background-image": "url(" + imagepath + ")"
+                    });
+
+                    var selLocation = $("#edit_location_id");
+                    selLocation.val(locations.split(','));
+                    if (selLocation.prop("tagName") == "SELECT") {
+                        selLocation.trigger('change');
+                        selLocation.select2();
+                    }
+
+
+                    // form.querySelector('input[name=shortname]').value = _shortname;
+                    // // form.querySelector('select[name=business_category_id]').value = _categoryId;
+                    // form.querySelector('input[name=address]').value = _address;
+                    // form.querySelector('input[name=website]').value = _website;
+                    // form.querySelector('input[name=email]').value = _email;
+                    // form.querySelector('input[name=phone]').value = _phone;
+                    // form.querySelector('input[name=contact_person]').value = _contact_person;
+                    // form.querySelector('textarea[name=description]').value = _description;
+                    // $('#edit_active').prop("checked", _active);
+                    // $('input[name="old_logo"]').val(_logo);
+                    // $("#alert-logo-wrapper").css({
+                    //     "background-image": "url(" + _logourl + ")"
+                    // });
+
+                    // var business_category = $("select[name=business_category_id]").select2({
+                    //     dropdownParent: $('#mv_modal_edit_alert')
+                    // });
+                    // // console.log(_categoryId);
+                    // business_category.val(_categoryId);
+                    // business_category.trigger('change');
+                    // business_category.select2();
+
                     modal.show();
-
-                    var _id = parent.querySelectorAll('input[name=company-id]')[0].value;
-                    var _name = parent.querySelectorAll('input[name=company-name]')[0].value;
-                    var _categoryId = parent.querySelectorAll('input[name=company-business-category-id]')[0].value;
-                    var _address = parent.querySelectorAll('input[name=company-address]')[0].value;
-                    var _website = parent.querySelectorAll('input[name=company-website]')[0].value;
-                    var _email = parent.querySelectorAll('input[name=company-email]')[0].value;
-                    var _phone = parent.querySelectorAll('input[name=company-phone]')[0].value;
-                    var _contact_person = parent.querySelectorAll('input[name=company-contact_person]')[0].value;
-                    var _description = parent.querySelectorAll('input[name=company-description]')[0].value;
-                    var _active = parent.querySelectorAll('input[name=company-active]')[0].value;
-                    var _logo = parent.querySelectorAll('input[name=company-logo]')[0].value;
-                    var _logourl = parent.querySelectorAll('input[name=company-logourl]')[0].value;
-                    var _shortname = parent.querySelectorAll('input[name=company-shortname]')[0].value;
-
-                    form.querySelector('input[name=company_edit_id]').value = _id;
-                    form.querySelector('input[name=name]').value = _name;
-                    form.querySelector('input[name=shortname]').value = _shortname;
-                    // form.querySelector('select[name=business_category_id]').value = _categoryId;
-                    form.querySelector('input[name=address]').value = _address;
-                    form.querySelector('input[name=website]').value = _website;
-                    form.querySelector('input[name=email]').value = _email;
-                    form.querySelector('input[name=phone]').value = _phone;
-                    form.querySelector('input[name=contact_person]').value = _contact_person;
-                    form.querySelector('textarea[name=description]').value = _description;
-                    $('#edit_active').prop("checked", _active);
-                    $('input[name="old_logo"]').val(_logo);
-                    $("#company-logo-wrapper").css({
-                        "background-image": "url(" + _logourl + ")"
-                    });
-
-                    var business_category = $("select[name=business_category_id]").select2({
-                        dropdownParent: $('#mv_modal_edit_company')
-                    });
-                    // console.log(_categoryId);
-                    business_category.val(_categoryId);
-                    business_category.trigger('change');
-                    business_category.select2();
 
                 });
             });
 
 
             // Close button handler
-            const closeButton = element.querySelector('[data-mv-company-edit-modal-action="close"]');
+            const closeButton = element.querySelector('[data-mv-alert-edit-modal-action="close"]');
             closeButton.addEventListener('click', e => {
                 e.preventDefault();
 
@@ -291,7 +330,7 @@
             });
 
             // Cancel button handler
-            const cancelButton = element.querySelector('[data-mv-company-edit-modal-action="cancel"]');
+            const cancelButton = element.querySelector('[data-mv-alert-edit-modal-action="cancel"]');
             cancelButton.addEventListener('click', e => {
                 e.preventDefault();
 
@@ -325,7 +364,7 @@
             });
 
             // Submit button handler
-            const submitButton = element.querySelector('[data-mv-company-edit-modal-action="submit"]');
+            const submitButton = element.querySelector('[data-mv-alert-edit-modal-action="submit"]');
 
             submitButton.addEventListener('click', function(e) {
                 // Prevent default button action
@@ -342,7 +381,15 @@
 
                             // Disable button to avoid multiple click 
                             submitButton.disabled = true;
-                            var id = $("#company_edit_id").val();
+                            var id = $("#alert_edit_id").val();
+                            var locations = $("#edit_location_id").val();
+                            if (Array.isArray(locations)) {
+                                var locationJoin = locations.join(',');
+                            } else {
+                                var locationJoin = locations;
+                            }
+
+                            $("#edit_locations").val(locationJoin);
                             $.ajax({
                                 url: form.action + "/" + id,
                                 type: form.method,
@@ -382,7 +429,7 @@
                                         }
                                     }).then(function(result) {
                                         // if (result.isConfirmed) {     
-                                        // document.location.href = '/company/list';
+                                        // document.location.href = '/alert/list';
                                         // datatable.draw();
                                         location.reload();
                                         form.reset();
@@ -413,66 +460,52 @@
             });
         }
 
-        var initAddCompany = () => {
+        var initAddAlert = () => {
 
             // Shared variables
-            const element = document.getElementById('mv_modal_add_company');
-            const form = element.querySelector('#mv_modal_add_company_form');
+            const element = document.getElementById('mv_modal_add_alert');
+            const form = element.querySelector('#mv_modal_add_alert_form');
             const modal = new bootstrap.Modal(element);
 
             // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
             var validator = FormValidation.formValidation(
                 form, {
                     fields: {
-                        'name': {
+                        'title': {
                             validators: {
                                 notEmpty: {
-                                    message: 'Name is required'
+                                    message: 'Title is required'
                                 }
                             }
                         },
-                        'address': {
+                        'message': {
                             validators: {
                                 notEmpty: {
-                                    message: 'Address is required'
+                                    message: 'Message is required'
                                 }
                             }
                         },
-                        'website': {
+                        'start_date': {
                             validators: {
                                 notEmpty: {
-                                    message: 'Website is required'
+                                    message: 'Start Date is required'
                                 }
                             }
                         },
-                        'email': {
+                        'end_date': {
                             validators: {
                                 notEmpty: {
-                                    message: 'Email is required'
+                                    message: 'End Date is required'
                                 }
                             }
                         },
-                        'phone': {
+                        'location_id': {
                             validators: {
                                 notEmpty: {
-                                    message: 'Phone is required'
+                                    message: 'Location is required'
                                 }
                             }
                         },
-                        'contact_person': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Contact Person is required'
-                                }
-                            }
-                        },
-                        'description': {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Description is required'
-                                }
-                            }
-                        }
                     },
 
                     plugins: {
@@ -487,7 +520,7 @@
             );
 
             // Submit button handler
-            const submitButton = element.querySelector('[data-mv-company-modal-action="submit"]');
+            const submitButton = element.querySelector('[data-mv-alert-modal-action="submit"]');
 
             submitButton.addEventListener('click', e => {
                 e.preventDefault();
@@ -503,6 +536,15 @@
 
                             // Disable button to avoid multiple click 
                             submitButton.disabled = true;
+
+                            var locations = $("#location_id").val();
+                            if (Array.isArray(locations)) {
+                                var locationJoin = locations.join(',');
+                            } else {
+                                var locationJoin = locations;
+                            }
+
+                            $("#locations").val(locationJoin);
 
                             $.ajax({
                                 url: form.action,
@@ -542,10 +584,7 @@
                                         }
                                     }).then(function(result) {
                                         if (result.isConfirmed) {
-                                            document.location.href = '/company/list';
-                                            // datatable.draw();
-                                            form.reset();
-                                            modal.hide();
+                                            location.reload();
                                         }
                                     });
                                 }
@@ -568,7 +607,7 @@
             });
 
             // Cancel button handler
-            const cancelButton = element.querySelector('[data-mv-company-modal-action="cancel"]');
+            const cancelButton = element.querySelector('[data-mv-alert-modal-action="cancel"]');
             cancelButton.addEventListener('click', e => {
                 e.preventDefault();
 
@@ -602,7 +641,7 @@
             });
 
             // Close button handler
-            const closeButton = element.querySelector('[data-mv-company-modal-action="close"]');
+            const closeButton = element.querySelector('[data-mv-alert-modal-action="close"]');
             closeButton.addEventListener('click', e => {
                 e.preventDefault();
 
@@ -639,15 +678,16 @@
         return {
             // Public functions
             init: function() {
-                table = document.querySelector('#mv_company_table');
+                table = document.querySelector('#alerts-table');
                 // console.log(table);
                 if (!table) {
                     return;
                 }
-                initCompanyTable();
+                initAlertTable();
+                initAddAlert();
                 // handleDeleteRows();
                 // handleEditRows();
-                initAddCompany();
+
                 // handleEditRows();
                 // handleCompleteRows();
                 // handleCancelRows();
@@ -662,7 +702,7 @@
     MVUtil.onDOMContentLoaded(function() {
 
         setTimeout(() => {
-            MVCountryActions.init();
+            MVAlertsActions.init();
 
         }, 1000);
     });

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Alert extends Model
 {
@@ -22,6 +23,8 @@ class Alert extends Model
     ];
 
     protected $dates = [
+        'start_date',
+        'end_date',
         'created_at',
         'updated_at',
     ];
@@ -31,7 +34,7 @@ class Alert extends Model
     ];
 
     protected $appends = [
-        'location_names'        
+        'location_names','image_path'        
     ];
 
     public function locations()
@@ -49,4 +52,22 @@ class Alert extends Model
         return $this->locations->pluck('name')->implode(', ');
     }
 
+    public function getImagePathAttribute()
+    {
+        // if file avatar exist in storage folder
+        $avatar = public_path(Storage::url($this->image_url));
+        if (is_file($avatar) && file_exists($avatar)) {
+            // get avatar url from storage
+            return Storage::url($this->image_url);
+        }
+
+        // check if the avatar is an external url, eg. image from google
+        if (filter_var($this->image_url, FILTER_VALIDATE_URL)) {
+            return $this->image_url;
+        }
+
+        // no avatar, return blank avatar
+        return asset(theme()->getMediaUrlPath() . 'media/icons/duotune/general/gen006.svg');
+    }
+    
 }

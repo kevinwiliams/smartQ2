@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class AlertLocations extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'alert_id',
+        'location_id'
+    ];
 }

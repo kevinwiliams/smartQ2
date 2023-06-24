@@ -27,10 +27,10 @@ class AlertsDataTable extends DataTable
                 return Str::limit($model->description, 50);
             })
             ->editColumn('start_date', function(Alert $model){
-                return Carbon::parse($model->created_at)->format('d M Y, h:i a');
+                return Carbon::parse($model->start_date)->format('d M Y, h:i a');
             })
             ->editColumn('end_date', function(Alert $model){
-                return Carbon::parse($model->created_at)->format('d M Y, h:i a');
+                return Carbon::parse($model->end_date)->format('d M Y, h:i a');
             })
             ->editColumn('active', function(Alert $model){
                 $col = ($model->active == 1)? 'success' : 'danger';
@@ -39,7 +39,8 @@ class AlertsDataTable extends DataTable
                 return $str;
             })
             ->addColumn('action', function (Alert $model) {
-                return view('pages.alerts._action-menu', compact('model'));
+                $locations = $model->locations();
+                return view('pages.alerts._action-menu', compact('model','locations'));
             })
             ->rawColumns(['active']);;
     }
@@ -79,7 +80,7 @@ class AlertsDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     // ->dom('Bfrtip')
-                    ->orderBy(0,'asc')
+                    ->orderBy(1,'asc')
                     ->responsive()
                     ->autoWidth(false)
                     ->parameters(['scrollX' => true])

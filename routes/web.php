@@ -139,12 +139,12 @@ Route::middleware('auth')->group(function () {
 	Route::prefix('alerts')->group(function () {
 		Route::get('list', [AlertsController::class, 'index']);
 		// Route::get('create', [AlertsController::class, 'showForm']);
-		// Route::post('create', [AlertsController::class, 'store']);
+		Route::post('create', [AlertsController::class, 'store']);
 		// Route::get('edit/{id}', [AlertsController::class, 'showEditForm']);
 		// Route::get('view/{id}', [AlertsController::class, 'show']);
 		// Route::get('getLocations/{id}', [AlertsController::class, 'getLocations']);
-		// Route::post('edit/{id}', [AlertsController::class, 'update']);
-		// Route::get('delete/{id}', [AlertsController::class, 'destroy']);
+		Route::post('edit/{id}', [AlertsController::class, 'update']);
+		Route::get('delete/{id}', [AlertsController::class, 'destroy']);
 	});
 
 	# home

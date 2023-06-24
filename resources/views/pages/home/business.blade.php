@@ -94,19 +94,31 @@
                                         </div>
                                         <div class="pt-3" style="display:none;" id="locationDirections">
                                             <a href="#googlemaps" class="text-primary cursor-pointer" data-fslightbox="lightbox" data-class="fslightbox-source"><i class="las la-directions"></i> Directions</a>
-                                        </div>
-                                        <div class="pt-3" style="display:none;" id="locationHours">
-                                            <span class="text-gray-700">Hours:</span>
-                                            <span class="text-primary">
-                                                <span class="" id="mv_location_hours"></span>
-                                            </span>&#x2022;
-                                            <a href="#" class="text-info" id="mv_location_more_hours" data-bs-toggle="modal" data-bs-target="#mv_modal_view_openhours" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to add view opening hours"> More hours</a>
-                                        </div>
+                                        </div>                                       
                                         <span class="text-danger">{{ $errors->first('location') }}</span>
                                     </div>
                                 </div>
                             </div>
-
+                            <div id="locationHours" style="display:none;">
+                                <h4 class="fw-bolder d-flex align-items-center text-dark pb-2">Opening Hours</h4>
+                                <div class="card-body pt-0">
+                                    <div>
+                                        <div class="d-flex align-items-sm-center mb-7">
+                                            <!--begin::Section-->
+                                            <div class="d-flex align-items-center flex-row-fluid flex-wrap">
+                                                <div class="flex-grow-1 me-2">
+                                                    <span class="text-gray-800 text-hover-primary fs-6 fw-bold">{{ \App\Core\Data::getWeekDays()[\Carbon\Carbon::now()->dayOfWeek] }}</span>
+                                                    &#x2022;
+                                                    <span class="text-muted fw-semibold fs-6" id="mv_location_hours">Closed</span>
+                                                </div>
+                                                <a href="#" class="badge badge-light fw-bold my-2" id="mv_location_more_hours" data-bs-toggle="modal" data-bs-target="#mv_modal_view_openhours" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to add view opening hours"> More hours</a>
+                                                <!-- <span class="badge badge-light fw-bold my-2" id="mv-servicesrepeater-price">+82$</span> -->
+                                            </div>
+                                            <!--end::Section-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div id="div_services" style="display: none;">
                                 <h4 class="fw-bolder d-flex align-items-center text-dark pb-5">Services</h4>
@@ -1302,7 +1314,7 @@
             });
 
 
-            const oh_element = document.getElementById('mv_modal_view_openhours');            
+            const oh_element = document.getElementById('mv_modal_view_openhours');
             const oh_modal = new bootstrap.Modal(oh_element);
 
             // Close button handler
@@ -1534,25 +1546,33 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-                    console.log(response);
+                    // console.log(response);
 
                     if (response.data.alerts.length > 0) {
-                        //    displayAlerts(response.data.alerts);
+                        displayAlerts(response.data.alerts);
                     }
 
                     if (response.data.services.length > 0) {
-                        //  displayServices(response.data.services);
+                        displayServices(response.data.services);
                     } else {
                         $("#div_services").hide();
                         $("#mv-servicesrepeater-content").html();
                     }
 
                     if (response.data.openinghours.length > 0) {
-                           displayOpeningHours(response.data.openinghours);
+                        displayOpeningHours(response.data.openinghours);
                     }
 
                     if (response.data.is_open_status != "") {
-                        $("#mv_location_hours").text(response.data.is_open_status);
+                        $("#mv_location_hours").text(response.data.is_open_status);   
+                        if(response.data.is_open_status.includes("Closed")){
+                            $("#mv_location_hours").addClass("text-danger");
+                            $("#mv_location_hours").removeClass("text-muted");
+                        }else{
+                            $("#mv_location_hours").addClass("text-muted");
+                            $("#mv_location_hours").removeClass("text-danger");
+                        }
+
                         $("#locationHours").show();
                     } else {
                         $("#locationHours").hide();
@@ -1572,14 +1592,28 @@
 
             const showAlert = (index) => {
                 const alert = alerts[index];
-                Swal.fire({
-                    title: alert.title,
-                    text: alert.message,
-                }).then(() => {
-                    if (index < alerts.length - 1) {
-                        showAlert(index + 1); // Display the next alert
-                    }
-                });
+                if (alert.image_url == '') {
+                    Swal.fire({
+                        title: alert.title,
+                        text: alert.message,
+                    }).then(() => {
+                        if (index < alerts.length - 1) {
+                            showAlert(index + 1); // Display the next alert
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        title: alert.title,
+                        text: alert.message,
+                        imageUrl: alert.image_path,
+                        imageAlt: alert.title
+                    }).then(() => {
+                        if (index < alerts.length - 1) {
+                            showAlert(index + 1); // Display the next alert
+                        }
+                    });
+                }
+
             };
 
             showAlert(0); // Start displaying the alerts
@@ -1594,7 +1628,7 @@
 
             var repItem = $('#mv-servicesrepeater-item');
             var content = $('#mv-servicesrepeater-content');
-
+            content.html('');
             services.forEach(element => {
                 var _clone = repItem.clone();
                 _clone.removeAttr("id");
@@ -1629,7 +1663,7 @@
 
             content.html("");
             hours.forEach(element => {
-                console.log(element);
+                // console.log(element);
                 htmlStr = "<tr><td class='w-25'><span class='fs-5'>" + element.day_name + "</span></td>";
                 htmlStr += "<td><span class='fw-bold fs-5'>" + element.open_hours + "</span></td></tr>";
                 content.append(htmlStr);
