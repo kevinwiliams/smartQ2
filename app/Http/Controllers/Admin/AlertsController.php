@@ -89,8 +89,8 @@ class AlertsController extends Controller
       $alert = Alert::create([
         'title'        => $request->title,
         'message' => $request->message,
-        'start_date' => $request->start_date,
-        'end_date' => $request->end_date,
+        'start_date' =>Carbon::parse($request->start_date),
+        'end_date' => Carbon::parse($request->end_date),
         'active' => ($request->active) ? $request->active : 0,
         'image_url' => $filePath,
         'user_id' => auth()->user()->id,
@@ -165,8 +165,8 @@ class AlertsController extends Controller
         ->update([
           'title'        => $request->title,
           'message' => $request->message,
-          'start_date' => $request->start_date,
-          'end_date' => $request->end_date,
+          'start_date' => Carbon::parse($request->start_date),
+          'end_date' => Carbon::parse($request->end_date),
           'active' => ($request->active) ? $request->active : 0,
           'image_url' => $filePath,
           'updated_at' => Carbon::now()

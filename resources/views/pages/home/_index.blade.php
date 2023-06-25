@@ -73,7 +73,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!--end::Default example-->
                             <div class="fv-row mb-7">
                                 <div class="input-group input-group-solid flex-nowrap">
@@ -93,6 +93,51 @@
                                             <a href="#googlemaps" class="text-primary cursor-pointer" data-fslightbox="lightbox" data-class="fslightbox-source"><i class="las la-directions"></i> Directions</a>
                                         </div>
                                         <span class="text-danger">{{ $errors->first('location') }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="locationHours" style="display:none;">
+                                <h4 class="fw-bolder d-flex align-items-center text-dark pb-2">Opening Hours</h4>
+                                <div class="card-body pt-0">
+                                    <div>
+                                        <div class="d-flex align-items-sm-center mb-7">
+                                            <!--begin::Section-->
+                                            <div class="d-flex align-items-center flex-row-fluid flex-wrap">
+                                                <div class="flex-grow-1 me-2">
+                                                    <span class="text-gray-800 text-hover-primary fs-6 fw-bold">{{ \App\Core\Data::getWeekDays()[\Carbon\Carbon::now()->dayOfWeek] }}</span>
+                                                    &#x2022;
+                                                    <span class="text-muted fw-semibold fs-6" id="mv_location_hours">Closed</span>
+                                                </div>
+                                                <a href="#" class="badge badge-light fw-bold my-2" id="mv_location_more_hours" data-bs-toggle="modal" data-bs-target="#mv_modal_view_openhours" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to add view opening hours"> More hours</a>
+                                                <!-- <span class="badge badge-light fw-bold my-2" id="mv-servicesrepeater-price">+82$</span> -->
+                                            </div>
+                                            <!--end::Section-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="div_services" style="display: none;">
+                                <h4 class="fw-bolder d-flex align-items-center text-dark pb-5">Services</h4>
+                                <div class="card-body pt-5">
+                                    <div id="mv-servicesrepeater-content">
+                                    </div>
+                                    <div style="display:none">
+                                        <div id="mv-servicesrepeater-item">
+                                            <div class="d-flex align-items-sm-center mb-7">
+                                                <!--begin::Section-->
+                                                <div class="d-flex align-items-center flex-row-fluid flex-wrap">
+                                                    <div class="flex-grow-1 me-2">
+                                                        <span class="text-gray-800 text-hover-primary fs-6 fw-bold" id="mv-servicesrepeater-name">Top Authors</span>
+
+                                                        <span class="text-muted fw-semibold d-block fs-7" id="mv-servicesrepeater-description">Mark, Rowling, Esther</span>
+                                                    </div>
+
+                                                    <span class="badge badge-light fw-bold my-2" id="mv-servicesrepeater-price">+82$</span>
+                                                </div>
+                                                <!--end::Section-->
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -776,6 +821,7 @@
                 $('#myTabContent').show();
 
                 busyHoursLookup();
+                locationDataLookup();
                 getLocation();
                 var obj = $(this).find(":selected");
 
@@ -1440,6 +1486,144 @@
             });
         }
 
+        function locationDataLookup() {
+
+            var location = $("#mv_location_list").val();
+            if (location == "") {
+                // console.debug('no location');
+                return;
+            }
+
+            $.ajax({
+                url: '/location/getData/' + location,
+                type: "get",
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    // console.log(response);
+
+                    if (response.data.alerts.length > 0) {
+                        displayAlerts(response.data.alerts);
+                    }
+
+                    if (response.data.services.length > 0) {
+                        displayServices(response.data.services);
+                    } else {
+                        $("#div_services").hide();
+                        $("#mv-servicesrepeater-content").html();
+                    }
+
+                    if (response.data.openinghours.length > 0) {
+                        displayOpeningHours(response.data.openinghours);
+                    }
+
+                    if (response.data.is_open_status != "") {
+                        $("#mv_location_hours").text(response.data.is_open_status);
+                        if (response.data.is_open_status.includes("Closed")) {
+                            $("#mv_location_hours").addClass("text-danger");
+                            $("#mv_location_hours").removeClass("text-muted");
+                        } else {
+                            $("#mv_location_hours").addClass("text-muted");
+                            $("#mv_location_hours").removeClass("text-danger");
+                        }
+
+                        $("#locationHours").show();
+                    } else {
+                        $("#locationHours").hide();
+                    }
+                }
+            }).fail(function(jqXHR, textStatus, error) {
+                console.error(jqXHR.responseText);
+                console.error(textStatus);
+                console.error(error);
+            });
+        }
+
+        function displayAlerts(alerts) {
+            if (alerts.length === 0) {
+                return; // No alerts to display
+            }
+
+            const showAlert = (index) => {
+                const alert = alerts[index];
+                if (alert.image_url == '' || alert.image_url == null) {
+                    Swal.fire({
+                        title: alert.title,
+                        text: alert.message,
+                    }).then(() => {
+                        if (index < alerts.length - 1) {
+                            showAlert(index + 1); // Display the next alert
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        title: alert.title,
+                        text: alert.message,
+                        imageUrl: alert.image_path,
+                        imageAlt: alert.title
+                    }).then(() => {
+                        if (index < alerts.length - 1) {
+                            showAlert(index + 1); // Display the next alert
+                        }
+                    });
+                }
+
+            };
+
+            showAlert(0); // Start displaying the alerts
+        }
+
+        function displayServices(services) {
+            if (services.length === 0) {
+                $("#div_services").hide();
+                return; // No services to display
+            }
+
+            var repItem = $('#mv-servicesrepeater-item');
+            var content = $('#mv-servicesrepeater-content');
+            content.html('');
+            services.forEach(element => {
+                var _clone = repItem.clone();
+                _clone.removeAttr("id");
+                var name = _clone.find("#mv-servicesrepeater-name");
+                name.text(element.name);
+                name.removeAttr("id");
+
+                var description = _clone.find("#mv-servicesrepeater-description");
+                description.text(element.description);
+                description.removeAttr("id");
+
+                var price = _clone.find("#mv-servicesrepeater-price");
+                price.text(element.price);
+                price.removeAttr("id");
+
+                content.append(_clone);
+            });
+
+            content.show();
+            $("#div_services").show();
+
+        }
+
+        function displayOpeningHours(hours) {
+            if (hours.length === 0) {
+                $("#locationHours").hide();
+                return;
+            }
+
+            var content = $('#tbl-view-business-hours');
+
+            content.html("");
+            hours.forEach(element => {
+                // console.log(element);
+                htmlStr = "<tr><td class='w-25'><span class='fs-5'>" + element.day_name + "</span></td>";
+                htmlStr += "<td><span class='fw-bold fs-5'>" + element.open_hours + "</span></td></tr>";
+                content.append(htmlStr);
+            });
+
+        }
         var initVisitHoursChart2 = function() {
             var element = document.getElementById('mv_charts_widget_9_chart');
 
@@ -1600,7 +1784,7 @@
                 var key = 0;
                 for (var j = 0; j < results.length; j++) {
                     var element = results[j];
-                    if (element.status == "OK") { 
+                    if (element.status == "OK") {
                         var distance = element.distance.value;
 
                         if (_lastdistance == null) {

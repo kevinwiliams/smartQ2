@@ -153,12 +153,14 @@
 
                     if (imageurl == '') {
                         Swal.fire({
+                            // icon: 'info',
                             title: title,
                             text: message,
 
                         });
                     } else {
                         Swal.fire({
+                            // icon: 'info',
                             title: title,
                             text: message,
                             imageUrl: imagepath,

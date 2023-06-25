@@ -21,10 +21,6 @@ use App\Models\SmsSetting;
 use App\Models\TokenSetting;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
-
-
-
-
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Redirect;

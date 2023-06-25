@@ -1592,7 +1592,7 @@
 
             const showAlert = (index) => {
                 const alert = alerts[index];
-                if (alert.image_url == '') {
+                if (alert.image_url == '' || alert.image_url == null) {
                     Swal.fire({
                         title: alert.title,
                         text: alert.message,
@@ -1618,7 +1618,6 @@
 
             showAlert(0); // Start displaying the alerts
         }
-
 
         function displayServices(services) {
             if (services.length === 0) {
@@ -1651,7 +1650,6 @@
             $("#div_services").show();
 
         }
-
 
         function displayOpeningHours(hours) {
             if (hours.length === 0) {
