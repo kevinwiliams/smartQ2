@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'SmartQ - Queue Management System'),
+    'name' => env('APP_NAME', 'WaitWise - Queue Management System'),
 
     /*
     |--------------------------------------------------------------------------

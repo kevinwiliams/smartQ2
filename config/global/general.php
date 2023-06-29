@@ -2,13 +2,13 @@
 return array(
     // Product
     'product' => array(
-        'name'        => 'SmartQ',
-        'description' => 'SmartQ - Queue Maanagement System',
-        'preview'     => 'https://smartq.marquisvirgo.com',
-        'home'        => 'https://smartq.marquisvirgo.com',
-        'purchase'    => 'https://smartq.marquisvirgo.com',
+        'name'        => 'WaitWise',
+        'description' => 'WaitWise - Queue Maanagement System',
+        'preview'     => 'https://app.waitwise.io',
+        'home'        => 'https://app.waitwise.io',
+        'purchase'    => 'https://app.waitwise.io',
         'licenses'    => array(
-            'terms' => 'https://smartq.marquisvirgo.com',
+            'terms' => 'https://app.waitwise.io',
             'types' => array(
                 array(
                     'title'       => 'Regular License',
@@ -37,18 +37,18 @@ return array(
 
     // Meta
     'meta'    => array(
-        'title'       => 'SmartQ - Dymanic Queue Management Web Application',
-        'description' => 'Life\'s too short to wait in lines, book you next appointment with SmartQ QMS',
+        'title'       => 'WaitWise - Dymanic Queue Management Web Application',
+        'description' => 'Life\'s too short to wait in lines, book you next appointment with WaitWise QMS',
         'keywords'    => 'mobile queue manager, queue manager caribbean, queue management jamaica, queue management system caribbean',
-        'canonical'   => 'https://smartq.marquisvirgo.com/',
+        'canonical'   => 'https://app.waitwise.io/',
     ),
 
     // General
     'general' => array(
-        'website'             => 'https://marquisvirgo.com',
-        'about'               => 'https://marquisvirgo.com',
-        'contact'             => 'mailto:support@marquisvirgo.com',
-        'support'             => 'https://marquisvirgo.com/support',
+        'website'             => 'https://waitwise.io',
+        'about'               => 'https://waitwise.io',
+        'contact'             => 'mailto:support@waitwise.io',
+        'support'             => 'https://waitwise.io/support',
         'bootstrap-docs-link' => 'https://getbootstrap.com/docs/5.0',
         'licenses'            => 'https://keenthemes.com/licensing',
         'social-accounts'     => array(
