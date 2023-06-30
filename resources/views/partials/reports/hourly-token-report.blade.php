@@ -15,8 +15,10 @@ usort($dates, "compareDates");
 
 $locations = array_unique($data->pluck('location_name')->toArray());
 @endphp
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="mv_tab_pane_table" role="tabpanel">
 
-<table class="table table-striped table-row-bordered gy-5 gs-7 border rounded w-100" id="mv_report_table_1">
+    <table class="table table-striped table-row-bordered gy-5 gs-7 border rounded w-100" id="mv_report_table_1">
     <thead>
         <tr class="fw-bolder fs-6 text-gray-800 px-7">
             <th rowspan="2" class="align-middle border-bottom border-end w-200px">Name</th>
@@ -55,4 +57,16 @@ $locations = array_unique($data->pluck('location_name')->toArray());
         
     </tbody>
 </table>
+    </div>
+    @php
+    $chartColor = $chartColor ?? 'primary';
+    $chartHeight = $chartHeight ?? '300px';
+    @endphp
+    <div class="tab-pane fade" id="mv_tab_pane_graph" role="tabpanel">
+        <!--begin::Chart-->
+        <div class="card-rounded-bottom" data-mv-color="{{ $chartColor }}" style="height: {{ $chartHeight }}" id="weekly-token-report-chart"></div>
+        <!--end::Chart-->
+    </div>
+</div>
+
 @endif

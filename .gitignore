@@ -6,11 +6,9 @@
 /public/js
 /public/media
 /public/plugins
-
-/public/qsmart
-
 /storage/*.key
 /vendor
+/public/qsmart
 .env
 .env.backup
 .phpunit.result.cache

@@ -38,7 +38,7 @@ class ReportController extends Controller
             $end = Carbon::createFromTimestamp(strtotime($daterange[1]))->endOfDay();
             switch (request('report')) {
                 case '1':
-                    $data->data = DB::table("token")
+                    $info = DB::table("token")
                         ->select(DB::raw("
                     locations.name AS 'location_name',
                     COUNT(token.`created_at`) AS 'total', 
@@ -52,13 +52,51 @@ class ReportController extends Controller
                         ->groupByRaw('DATE(token.`created_at`),HOUR(token.`created_at`),`location_id`,`location_name`')
                         ->orderByRaw('location_name', 'day', 'hour')
                         ->get();
+
+
+                    $data->data = $info;
+
+                    $startDateUnix = Carbon::parse($start)->startOfDay();
+                    $endDateUnix = Carbon::parse($end)->endOfDay();
+                    $currentDateUnix = $startDateUnix;
+
+                    $monthNumbers = array();
+                    while ($startDateUnix <= $endDateUnix) {
+                        array_push($monthNumbers, array('hour' => $startDateUnix->hour, 'day' => $startDateUnix->format('Y-m-d'), 'year' => $startDateUnix->year));
+                        $startDateUnix = $startDateUnix->addHour();
+                    }
+
+                    $seriesdata = array();
+
+                    $locations = array_unique($info->pluck('location_name')->toArray());
+
+                    foreach ($locations as $location_name) {
+                        $datarow = array();
+                        foreach ($monthNumbers as $_month) {
+
+                            $inforow =  $info->where('location_name', $location_name)->where('day', $_month['day'])->where('hour', $_month['hour'])->first();
+                            array_push($datarow, ($inforow) ? $inforow->total : 0);
+                        }
+                        array_push($seriesdata, array('name' => $location_name, 'data' => $datarow));
+                    }
+
+                    $data->graph = true;
+                    $data->seriesdata = $seriesdata;
+
+                    $categories = array();
+
+                    foreach ($monthNumbers as $_month) {
+                        array_push($categories, 'Hour: '.$_month['hour'] . ' - ' .$_month['day']);
+                    }
+                    $data->categories = $categories;
                     break;
                 case '2':
-                    $data->data = DB::table("token")
+                    $info = DB::table("token")
                         ->select(DB::raw("
                         locations.name AS 'location_name',
                         COUNT(token.`created_at`) AS 'total',                         
                         DATE(token.`created_at`) AS 'day',
+                        DAY(token.`created_at`) AS 'daynumber',
                         `location_id`
                         "))
                         ->join('locations', 'locations.id', '=', 'token.location_id')
@@ -67,9 +105,45 @@ class ReportController extends Controller
                         ->groupByRaw('DATE(token.`created_at`),`location_id`,`location_name`')
                         ->orderByRaw('location_name', 'day')
                         ->get();
+
+                    $data->data = $info;
+
+                    $startDateUnix = Carbon::parse($start)->startOfDay();
+                    $endDateUnix = Carbon::parse($end)->endOfDay();
+                    $currentDateUnix = $startDateUnix;
+
+                    $monthNumbers = array();
+                    while ($startDateUnix <= $endDateUnix) {
+                        array_push($monthNumbers, array('daynumber' => $startDateUnix->day, 'dayname' => $startDateUnix->dayName, 'day' => $startDateUnix->format('Y-m-d'), 'year' => $startDateUnix->year));
+                        $startDateUnix = $startDateUnix->addDays(1);
+                    }
+
+                    $seriesdata = array();
+
+                    $locations = array_unique($info->pluck('location_name')->toArray());
+
+                    foreach ($locations as $location_name) {
+                        $datarow = array();
+                        foreach ($monthNumbers as $_month) {
+
+                            $inforow =  $info->where('location_name', $location_name)->where('day', $_month['day'])->first();
+                            array_push($datarow, ($inforow) ? $inforow->total : 0);
+                        }
+                        array_push($seriesdata, array('name' => $location_name, 'data' => $datarow));
+                    }
+
+                    $data->graph = true;
+                    $data->seriesdata = $seriesdata;
+
+                    $categories = array();
+
+                    foreach ($monthNumbers as $_month) {
+                        array_push($categories, $_month['day']);
+                    }
+                    $data->categories = $categories;
                     break;
                 case '3':
-                    $data->data = DB::table("token")
+                    $info = DB::table("token")
                         ->select(DB::raw("
                             locations.name AS 'location_name',
                             COUNT(token.`created_at`) AS 'total',                         
@@ -83,7 +157,53 @@ class ReportController extends Controller
                         ->groupByRaw('YEAR(token.`created_at`),WEEK(token.`created_at`),`location_id`,`location_name`')
                         ->orderByRaw('location_name', 'year', 'week')
                         ->get();
-                       
+                    $data->data = $info;
+
+                    $startDateUnix = Carbon::parse($start)->startOfWeek();
+                    $endDateUnix = Carbon::parse($end)->endOfWeek();
+                    // $endYear = date('Y', $startDateUnix);
+                    // $endMonth =  date('m', $startDateUnix);
+
+                    $currentDateUnix = $startDateUnix;
+
+                    $monthNumbers = array();
+                    while ($startDateUnix <= $endDateUnix) {
+                        // $weekNumbers[] = date('W', $currentDateUnix) . ' - ' . date('Y', $currentDateUnix);
+                        array_push($monthNumbers, array('week' => $startDateUnix->week, 'weekname' => $startDateUnix->week, 'year' => $startDateUnix->year));
+                        $startDateUnix = $startDateUnix->addWeek(1);
+                    }
+
+                    $seriesdata = array();
+
+                    $locations = array_unique($info->pluck('location_name')->toArray());
+
+                    foreach ($locations as $location_name) {
+                        $datarow = array();
+                        foreach ($monthNumbers as $_month) {
+
+                            $inforow =  $info->where('year', $_month['year'])->where('location_name', $location_name)->where('week', $_month['week'])->first();
+                            array_push($datarow, ($inforow) ? $inforow->total : 0);
+                        }
+                        array_push($seriesdata, array('name' => $location_name, 'data' => $datarow));
+                    }
+                    $data->graph = true;
+                    $data->seriesdata = $seriesdata;
+
+                    $categories = array();
+
+                    foreach ($monthNumbers as $_month) {
+                        array_push($categories, "W-" . $_month['week'] . ' ' . $_month['year']);
+                    }
+                    $data->categories = $categories;
+
+                    // echo '<pre>';
+                    // print_r($data->data);
+                    // echo '</pre>';
+                    // echo '<pre>';
+                    // print_r($data);
+                    // echo '</pre>';
+                    // die();
+
                     break;
                 case '4':
 
@@ -103,7 +223,7 @@ class ReportController extends Controller
                         ->get();
                     $data->data = $info;
                     $startDateUnix = Carbon::parse($start)->firstOfMonth();
-                    $endDateUnix = Carbon::parse($end)->firstOfMonth();
+                    $endDateUnix = Carbon::parse($end)->lastOfMonth();
                     // $endYear = date('Y', $startDateUnix);
                     // $endMonth =  date('m', $startDateUnix);
 

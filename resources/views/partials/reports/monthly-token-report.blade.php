@@ -59,7 +59,7 @@ $months = App\Core\Util::getMonths($daterange[0],$daterange[1]);
     </div>
     @php
     $chartColor = $chartColor ?? 'primary';
-    $chartHeight = $chartHeight ?? '175px';
+    $chartHeight = $chartHeight ?? '300px';
     @endphp
     <div class="tab-pane fade" id="mv_tab_pane_graph" role="tabpanel">
         <!--begin::Chart-->
