@@ -34,8 +34,8 @@ class ReportController extends Controller
         $data->graph = false;
         if (request()->has('report') && request()->has('location_id') && request()->has('daterange')) {
             $daterange = explode("-", request('daterange'));
-            $start =  Carbon::createFromTimestamp(strtotime($daterange[0]))->startOfDay()->toString();
-            $end =   Carbon::createFromTimestamp(strtotime($daterange[1]))->endOfDay()->toString();
+            $start =  Carbon::createFromTimestamp(strtotime($daterange[0]))->startOfDay()->format("Y-m-d H:i:s");
+            $end =   Carbon::createFromTimestamp(strtotime($daterange[1]))->endOfDay()->format("Y-m-d H:i:s");
             switch (request('report')) {
                 case '1':
                     $info = DB::table("token")
@@ -48,7 +48,7 @@ class ReportController extends Controller
                     "))
                         ->join('locations', 'locations.id', '=', 'token.location_id')
                         ->whereIn('location_id', explode(",", request('location_id')))
-                        ->whereBetween('token.created_at', [$start, $end])
+                        ->whereBetween('token.created_at', ["'$start'", "'$end'"])
                         ->groupByRaw('DATE(token.`created_at`),HOUR(token.`created_at`),`location_id`,`location_name`')
                         ->orderByRaw('location_name', 'day', 'hour')
                         ->get();
@@ -101,7 +101,7 @@ class ReportController extends Controller
                         "))
                         ->join('locations', 'locations.id', '=', 'token.location_id')
                         ->whereIn('location_id', explode(",", request('location_id')))
-                        ->whereBetween('token.created_at', [$start, $end])
+                        ->whereBetween('token.created_at', ["'$start'", "'$end'"])
                         ->groupByRaw('DATE(token.`created_at`),`location_id`,`location_name`')
                         ->orderByRaw('location_name', 'day')
                         ->get();
@@ -153,7 +153,7 @@ class ReportController extends Controller
                             "))
                         ->join('locations', 'locations.id', '=', 'token.location_id')
                         ->whereIn('location_id', explode(",", request('location_id')))
-                        ->whereBetween('token.created_at', [$start, $end])
+                        ->whereBetween('token.created_at', ["'$start'", "'$end'"])
                         ->groupByRaw('YEAR(token.`created_at`),WEEK(token.`created_at`),`location_id`,`location_name`')
                         ->orderByRaw('location_name', 'year', 'week')
                         ->get();
@@ -217,7 +217,7 @@ class ReportController extends Controller
                                 "))
                         ->join('locations', 'locations.id', '=', 'token.location_id')
                         ->whereIn('location_id', explode(",", request('location_id')))
-                        ->whereBetween('token.created_at', [$start, $end])
+                        ->whereBetween('token.created_at', ["'$start'", "'$end'"])
                         ->groupByRaw('YEAR(token.`created_at`),MONTH(token.`created_at`),`location_id`,`location_name`')
                         ->orderByRaw('location_name', 'year', 'month')
                         ->get();
@@ -271,7 +271,7 @@ class ReportController extends Controller
                     // date_default_timezone_set(session('app.timezone'));
                     $tokens = Token::has('status')
                         ->whereIn('location_id', explode(",", request('location_id')))
-                        ->whereBetween('created_at', [$start, $end])
+                        ->whereBetween('created_at', ["'$start'", "'$end'"])
                         ->whereNotNull('started_at')
                         ->where('status', 1)
                         ->get();
@@ -333,7 +333,7 @@ class ReportController extends Controller
                     // date_default_timezone_set(session('app.timezone'));
                     $tokens = Token::has('status')
                         ->whereIn('location_id', explode(",", request('location_id')))
-                        ->whereBetween('created_at', [$start, $end])
+                        ->whereBetween('created_at', ["'$start'", "'$end'"])
                         ->whereNotNull('started_at')
                         ->where('status', 1)
                         ->get();
@@ -398,7 +398,7 @@ class ReportController extends Controller
                         ->whereIn('token.location_id', explode(",", request('location_id')))
                         ->whereNotNull('started_at')
                         ->where('token.status', 2)
-                        ->whereBetween('token.created_at', [$start, $end])
+                        ->whereBetween('token.created_at', ["'$start'", "'$end'"])
                         ->groupByRaw('DATE(token.`created_at`),token.`location_id`,`location_name`,`officer`')
                         ->orderByRaw('location_name', 'officer', 'day')
                         ->get();
@@ -423,7 +423,7 @@ class ReportController extends Controller
                         ->join('user', 'user.id', '=', 'token.user_id')
                         ->whereIn('token.location_id', explode(",", request('location_id')))
                         ->where('token.no_show', 1)
-                        ->whereBetween('token.created_at', [$start, $end])
+                        ->whereBetween('token.created_at', ["'$start'", "'$end'"])
                         ->groupByRaw('DATE(token.`created_at`),token.`location_id`,`location_name`,`officer`')
                         ->orderByRaw('location_name', 'officer', 'day')
                         ->get();
@@ -437,7 +437,7 @@ class ReportController extends Controller
                     break;
                 case '9':
                     $data->data = Token::whereIn('location_id', explode(",", request('location_id')))
-                        ->whereBetween('token.created_at', [$start, $end])
+                        ->whereBetween('token.created_at', ["'$start'", "'$end'"])
                         ->with(['location' => function ($q) {
                             $q->orderBy('name');
                         }])
