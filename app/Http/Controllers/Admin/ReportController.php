@@ -208,6 +208,14 @@ class ReportController extends Controller
                     break;
                 case '4':
 
+                    // echo '<pre>';
+                    // print_r($idArray);
+                    // echo '</pre>';
+                    // // echo '<pre>';
+                    // // print_r($data);
+                    // // echo '</pre>';
+                    // die();
+
                     $info = DB::table("token")
                         ->select(DB::raw("
                                 locations.name AS location_name,
