@@ -40,10 +40,10 @@ class ReportController extends Controller
                 case '1':
                     $info = DB::table("token")
                         ->select(DB::raw("
-                    locations.name AS 'location_name',
-                    COUNT(token.`created_at`) AS 'total', 
-                    HOUR(token.`created_at`) AS 'hour', 
-                    DATE(token.`created_at`) AS 'day',
+                    locations.name AS location_name,
+                    COUNT(token.`created_at`) AS total, 
+                    HOUR(token.`created_at`) AS hour, 
+                    DATE(token.`created_at`) AS day,
                     `location_id`
                     "))
                         ->join('locations', 'locations.id', '=', 'token.location_id')
@@ -93,7 +93,7 @@ class ReportController extends Controller
                 case '2':
                     $info = DB::table("token")
                         ->select(DB::raw("
-                        locations.name AS 'location_name',
+                        locations.name AS location_name',
                         COUNT(token.`created_at`) AS 'total',                         
                         DATE(token.`created_at`) AS 'day',
                         DAY(token.`created_at`) AS 'daynumber',
@@ -209,10 +209,10 @@ class ReportController extends Controller
 
                     $info = DB::table("token")
                         ->select(DB::raw("
-                                locations.name AS 'location_name',
-                                COUNT(token.`created_at`) AS 'total',                         
-                                MONTH(token.`created_at`) AS 'month',
-                                YEAR(token.`created_at`) AS 'year',
+                                locations.name AS location_name,
+                                COUNT(token.`created_at`) AS total,                         
+                                MONTH(token.`created_at`) AS month,
+                                YEAR(token.`created_at`) AS year,
                                 `location_id`
                                 "))
                         ->join('locations', 'locations.id', '=', 'token.location_id')
