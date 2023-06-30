@@ -34,8 +34,8 @@ class ReportController extends Controller
         $data->graph = false;
         if (request()->has('report') && request()->has('location_id') && request()->has('daterange')) {
             $daterange = explode("-", request('daterange'));
-            $start = Carbon::createFromTimestamp(strtotime($daterange[0]))->startOfDay()->format('d M Y, h:i a');
-            $end = Carbon::createFromTimestamp(strtotime($daterange[1]))->endOfDay()->format('d M Y, h:i a');
+            $start =  Carbon::createFromTimestamp(strtotime($daterange[0]))->startOfDay()->toString();
+            $end =   Carbon::createFromTimestamp(strtotime($daterange[1]))->endOfDay()->toString();
             switch (request('report')) {
                 case '1':
                     $info = DB::table("token")
