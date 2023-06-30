@@ -32,6 +32,7 @@ class ReportController extends Controller
         $data->daterange = (request()->has('daterange')) ? request('daterange') : '';
         $data->data = null;
         $data->graph = false;
+        $idArray = explode(",", $data->location_id);
         if (request()->has('report') && request()->has('location_id') && request()->has('daterange')) {
             $daterange = explode("-", request('daterange'));
             $start =  Carbon::createFromTimestamp(strtotime($daterange[0]))->startOfDay()->format("Y-m-d H:i:s");
@@ -216,8 +217,7 @@ class ReportController extends Controller
                                 `location_id`
                                 "))
                         ->join('locations', 'locations.id', '=', 'token.location_id')
-                        ->whereIn('location_id', explode(",", $data->location_id))
-                        // ->whereBetween('token.created_at', ["'$start'", "'$end'"])
+                        ->whereIn('location_id', $idArray)                        
                         ->where('token.created_at','>=', "$start")
                         ->where('token.created_at','<=', "$end")                        
                         ->groupByRaw('YEAR(token.`created_at`),MONTH(token.`created_at`),`location_id`,`location_name`')
