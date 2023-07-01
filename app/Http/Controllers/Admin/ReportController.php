@@ -220,7 +220,7 @@ class ReportController extends Controller
                                 `location_id`
                                 "))
                         ->join('locations', 'locations.id', '=', 'token.location_id')                        
-                        ->whereIn('token.location_id', $idArray)                        
+                        //->whereIn('token.location_id', $idArray)                     
                         ->where('token.created_at', '>=', "'$start'")
                         ->where('token.created_at', '<=', "'$end'")
                         ->groupByRaw('YEAR(token.`created_at`),MONTH(token.`created_at`), token.location_id, location_name')
