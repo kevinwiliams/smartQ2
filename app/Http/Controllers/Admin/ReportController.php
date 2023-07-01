@@ -87,7 +87,7 @@ class ReportController extends Controller
                     $categories = array();
 
                     foreach ($monthNumbers as $_month) {
-                        array_push($categories, 'Hour: '.$_month['hour'] . ' - ' .$_month['day']);
+                        array_push($categories, 'Hour: ' . $_month['hour'] . ' - ' . $_month['day']);
                     }
                     $data->categories = $categories;
                     break;
@@ -207,14 +207,9 @@ class ReportController extends Controller
 
                     break;
                 case '4':
-
-                    // echo '<pre>';
-                    // print_r($idArray);
-                    // echo '</pre>';
-                    // // echo '<pre>';
-                    // // print_r($data);
-                    // // echo '</pre>';
-                    // die();
+                    //$idArray = string[]
+                    //$start = string
+                    //$end = string
 
                     $info = DB::table("token")
                         ->select(DB::raw("
@@ -224,14 +219,16 @@ class ReportController extends Controller
                                 YEAR(token.`created_at`) AS year,
                                 `location_id`
                                 "))
-                        ->join('locations', 'locations.id', '=', 'token.location_id')
-                        ->whereIn('location_id', $idArray)                        
-                        ->where('token.created_at','>=', "$start")
-                        ->where('token.created_at','<=', "$end")                        
-                        ->groupByRaw('YEAR(token.`created_at`),MONTH(token.`created_at`),`location_id`,`location_name`')
+                        ->join('locations', 'locations.id', '=', 'token.location_id')                        
+                        ->whereIn('token.location_id', $idArray)                        
+                        ->where('token.created_at', '>=', "$start")
+                        ->where('token.created_at', '<=', "$end")
+                        ->groupByRaw('YEAR(token.`created_at`),MONTH(token.`created_at`), token.location_id, location_name')
                         ->orderByRaw('location_name', 'year', 'month')
                         ->get();
                     $data->data = $info;
+
+
                     $startDateUnix = Carbon::parse($start)->firstOfMonth();
                     $endDateUnix = Carbon::parse($end)->lastOfMonth();
                     // $endYear = date('Y', $startDateUnix);
