@@ -40,20 +40,21 @@ class ReportController extends Controller
             switch (request('report')) {
                 case '1':
                     $info = DB::table("token")
-                        ->select(DB::raw("
-                    locations.name AS location_name,
-                    COUNT(token.`created_at`) AS total, 
-                    HOUR(token.`created_at`) AS hour, 
-                    DATE(token.`created_at`) AS day,
-                    `location_id`
-                    "))
+                        ->select([
+                            'locations.name AS location_name',
+                            DB::raw('COUNT(token.created_at) AS total'),
+                            DB::raw('DATE(token.created_at) AS day'),
+                            DB::raw('HOUR(token.created_at) AS hour'),
+                            'location_id'
+                        ])
                         ->join('locations', 'locations.id', '=', 'token.location_id')
-                        ->whereIn('location_id', explode(",", request('location_id')))
-                        ->whereBetween('token.created_at', ["'$start'", "'$end'"])
-                        ->groupByRaw('DATE(token.`created_at`),HOUR(token.`created_at`),`location_id`,`location_name`')
-                        ->orderByRaw('location_name', 'day', 'hour')
+                        ->whereIn('token.location_id', $idArray)
+                        ->whereBetween('token.created_at', [$start, $end])
+                        ->groupBy('day', 'hour', 'location_id', 'location_name')
+                        ->orderBy('location_name')
+                        ->orderBy('day')
+                        ->orderBy('hour')
                         ->get();
-
 
                     $data->data = $info;
 
@@ -93,18 +94,19 @@ class ReportController extends Controller
                     break;
                 case '2':
                     $info = DB::table("token")
-                        ->select(DB::raw("
-                        locations.name AS location_name',
-                        COUNT(token.`created_at`) AS 'total',                         
-                        DATE(token.`created_at`) AS 'day',
-                        DAY(token.`created_at`) AS 'daynumber',
-                        `location_id`
-                        "))
+                        ->select([
+                            'locations.name AS location_name',
+                            DB::raw('COUNT(token.created_at) AS total'),
+                            DB::raw('DATE(token.created_at) AS day'),
+                            DB::raw('DAY(token.created_at) AS daynumber'),
+                            'location_id'
+                        ])
                         ->join('locations', 'locations.id', '=', 'token.location_id')
-                        ->whereIn('location_id', explode(",", request('location_id')))
-                        ->whereBetween('token.created_at', ["'$start'", "'$end'"])
-                        ->groupByRaw('DATE(token.`created_at`),`location_id`,`location_name`')
-                        ->orderByRaw('location_name', 'day')
+                        ->whereIn('location_id', $idArray)
+                        ->whereBetween('token.created_at', [$start, $end])
+                        ->groupBy('day', 'location_id', 'location_name')
+                        ->orderBy('location_name')
+                        ->orderBy('day')
                         ->get();
 
                     $data->data = $info;
@@ -145,19 +147,23 @@ class ReportController extends Controller
                     break;
                 case '3':
                     $info = DB::table("token")
-                        ->select(DB::raw("
-                            locations.name AS 'location_name',
-                            COUNT(token.`created_at`) AS 'total',                         
-                            WEEK(token.`created_at`) AS 'week',
-                            YEAR(token.`created_at`) AS 'year',
-                            `location_id`
-                            "))
+                        ->select([
+                            'locations.name AS location_name',
+                            DB::raw('COUNT(token.created_at) AS total'),
+                            DB::raw('WEEK(token.created_at) AS week'),
+                            DB::raw('YEAR(token.created_at) AS year'),
+                            'location_id'
+                        ])
                         ->join('locations', 'locations.id', '=', 'token.location_id')
-                        ->whereIn('location_id', explode(",", request('location_id')))
-                        ->whereBetween('token.created_at', ["'$start'", "'$end'"])
-                        ->groupByRaw('YEAR(token.`created_at`),WEEK(token.`created_at`),`location_id`,`location_name`')
-                        ->orderByRaw('location_name', 'year', 'week')
+                        ->whereIn('location_id', $idArray)
+                        ->whereBetween('token.created_at', [$start, $end])
+                        ->groupBy('year', 'week', 'location_id', 'location_name')
+                        ->orderBy('location_name')
+                        ->orderBy('year')
+                        ->orderBy('week')
                         ->get();
+
+
                     $data->data = $info;
 
                     $startDateUnix = Carbon::parse($start)->startOfWeek();
@@ -221,8 +227,7 @@ class ReportController extends Controller
                         ])
                         ->join('locations', 'locations.id', '=', 'token.location_id')
                         ->whereIn('token.location_id', $idArray)
-                        ->where('token.created_at', '>=', "'$start'")
-                        ->where('token.created_at', '<=', "'$end'")
+                        ->whereBetween('token.created_at', [$start, $end])
                         ->groupBy('year', 'month', 'location_id', 'location_name')
                         ->orderBy('location_name')
                         ->orderBy('year')
@@ -284,8 +289,8 @@ class ReportController extends Controller
                 case '5':
                     // date_default_timezone_set(session('app.timezone'));
                     $tokens = Token::has('status')
-                        ->whereIn('location_id', explode(",", request('location_id')))
-                        ->whereBetween('created_at', ["'$start'", "'$end'"])
+                        ->whereIn('token.location_id', $idArray)
+                        ->whereBetween('token.created_at', [$start, $end])
                         ->whereNotNull('started_at')
                         ->where('status', 1)
                         ->get();
@@ -346,8 +351,8 @@ class ReportController extends Controller
                 case '6':
                     // date_default_timezone_set(session('app.timezone'));
                     $tokens = Token::has('status')
-                        ->whereIn('location_id', explode(",", request('location_id')))
-                        ->whereBetween('created_at', ["'$start'", "'$end'"])
+                        ->whereIn('token.location_id', $idArray)
+                        ->whereBetween('token.created_at', [$start, $end])
                         ->whereNotNull('started_at')
                         ->where('status', 1)
                         ->get();
@@ -409,10 +414,10 @@ class ReportController extends Controller
                             "))
                         ->join('locations', 'locations.id', '=', 'token.location_id')
                         ->join('user', 'user.id', '=', 'token.user_id')
-                        ->whereIn('token.location_id', explode(",", request('location_id')))
+                        ->whereIn('token.location_id', $idArray)
+                        ->whereBetween('token.created_at', [$start, $end])
                         ->whereNotNull('started_at')
-                        ->where('token.status', 2)
-                        ->whereBetween('token.created_at', ["'$start'", "'$end'"])
+                        ->where('token.status', 2)                        
                         ->groupByRaw('DATE(token.`created_at`),token.`location_id`,`location_name`,`officer`')
                         ->orderByRaw('location_name', 'officer', 'day')
                         ->get();
@@ -435,9 +440,9 @@ class ReportController extends Controller
                                 "))
                         ->join('locations', 'locations.id', '=', 'token.location_id')
                         ->join('user', 'user.id', '=', 'token.user_id')
-                        ->whereIn('token.location_id', explode(",", request('location_id')))
-                        ->where('token.no_show', 1)
-                        ->whereBetween('token.created_at', ["'$start'", "'$end'"])
+                        ->whereIn('token.location_id', $idArray)
+                        ->whereBetween('token.created_at', [$start, $end])
+                        ->where('token.no_show', 1)                        
                         ->groupByRaw('DATE(token.`created_at`),token.`location_id`,`location_name`,`officer`')
                         ->orderByRaw('location_name', 'officer', 'day')
                         ->get();
@@ -472,7 +477,7 @@ class ReportController extends Controller
                        WHERE 
                            user_id=realToken.user_id
                            AND (DATE(created_at) BETWEEN '" . $start . "' AND '" . $end . "')
-                           AND (location_id in (" . request('location_id') . "))
+                           AND (location_id in (" . $data->location_id . "))
                      ) AS total,
                      
                      (
@@ -482,7 +487,7 @@ class ReportController extends Controller
                            status = 2 
                            AND user_id=realToken.user_id
                            AND (DATE(created_at) BETWEEN '" . $start . "' AND '" . $end . "')
-                           AND (location_id in (" . request('location_id') . "))
+                           AND (location_id in (" . $data->location_id . "))
                      ) AS stoped,
                      (
                        SELECT COUNT(id) 
@@ -491,7 +496,7 @@ class ReportController extends Controller
                            status = 1 
                            AND user_id=realToken.user_id
                            AND (DATE(created_at) BETWEEN '" . $start . "' AND '" . $end . "')
-                           AND (location_id in (" . request('location_id') . "))
+                           AND (location_id in (" . $data->location_id . "))
                      ) AS success,
                      (
                        SELECT COUNT(id)
@@ -500,11 +505,11 @@ class ReportController extends Controller
                            status = 0 
                            AND user_id=realToken.user_id
                            AND (DATE(created_at) BETWEEN '" . $start . "' AND '" . $end . "')
-                           AND (location_id in (" . request('location_id') . "))
+                           AND (location_id in (" . $data->location_id . "))
                      ) AS pending
                      FROM 
                        token AS realToken   
-                       where realToken.location_id in (" . request('location_id') . ")        
+                       where realToken.location_id in (" . $data->location_id . ")        
                      GROUP BY user_id
                      ORDER BY location, officer
                    ");
@@ -519,7 +524,7 @@ class ReportController extends Controller
                     //  ->get();
 
                     $deptids = DB::table("department")
-                        ->whereIn('location_id', explode(",", request('location_id')))
+                        ->whereIn('location_id', $idArray)
                         ->get()->pluck('id')->toArray();
 
                     $dbreasons = ReasonForVisit::whereIn('department_id', $deptids)->orderBy('reason')->pluck('reason')->toArray();
@@ -528,7 +533,7 @@ class ReportController extends Controller
                         SELECT reason_for_visit, COUNT(*) AS count
                         FROM token
                         WHERE (DATE(created_at) BETWEEN '" . $start . "' AND '" . $end . "')
-                        AND (location_id in (" . request('location_id') . "))
+                        AND (location_id in (" . $data->location_id . "))
                         GROUP BY reason_for_visit
                         ORDER BY count DESC
                    ");
