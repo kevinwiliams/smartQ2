@@ -405,23 +405,24 @@ class ReportController extends Controller
                     break;
                 case '7':
                     $data->data = DB::table("token")
-                        ->select(DB::raw("
-                            locations.name AS 'location_name',
-                            CONCAT_WS(' ', user.firstname, user.lastname) AS officer,
-                            COUNT(token.`created_at`) AS 'total',                         
-                            DATE(token.`created_at`) AS 'day',
-                            token.`location_id`
-                            "))
+                        ->select(
+                            'locations.name AS location_name',
+                            DB::raw("CONCAT_WS(' ', user.firstname, user.lastname) AS officer"),
+                            DB::raw("COUNT(token.created_at) AS total"),
+                            DB::raw("DATE(token.created_at) AS day"),
+                            'token.location_id'
+                        )
                         ->join('locations', 'locations.id', '=', 'token.location_id')
                         ->join('user', 'user.id', '=', 'token.user_id')
                         ->whereIn('token.location_id', $idArray)
                         ->whereBetween('token.created_at', [$start, $end])
                         ->whereNotNull('started_at')
-                        ->where('token.status', 2)                        
-                        ->groupByRaw('DATE(token.`created_at`),token.`location_id`,`location_name`,`officer`')
-                        ->orderByRaw('location_name', 'officer', 'day')
+                        ->where('token.status', 2)
+                        ->groupBy('day', 'token.location_id', 'location_name', 'officer')
+                        ->orderBy('location_name')
+                        ->orderBy('officer')
+                        ->orderBy('day')
                         ->get();
-
 
                     // echo '<pre>';
                     // print_r($data);
@@ -431,20 +432,22 @@ class ReportController extends Controller
                     break;
                 case '8':
                     $data->data = DB::table("token")
-                        ->select(DB::raw("
-                                locations.name AS 'location_name',
-                                CONCAT_WS(' ', user.firstname, user.lastname) AS officer,
-                                COUNT(token.`created_at`) AS 'total',                         
-                                DATE(token.`created_at`) AS 'day',
-                                token.`location_id`
-                                "))
+                        ->select([
+                            'locations.name AS location_name',
+                            DB::raw("CONCAT_WS(' ', user.firstname, user.lastname) AS officer"),
+                            DB::raw('COUNT(token.created_at) AS total'),
+                            DB::raw('DATE(token.created_at) AS day'),
+                            'token.location_id'
+                        ])
                         ->join('locations', 'locations.id', '=', 'token.location_id')
                         ->join('user', 'user.id', '=', 'token.user_id')
                         ->whereIn('token.location_id', $idArray)
                         ->whereBetween('token.created_at', [$start, $end])
-                        ->where('token.no_show', 1)                        
-                        ->groupByRaw('DATE(token.`created_at`),token.`location_id`,`location_name`,`officer`')
-                        ->orderByRaw('location_name', 'officer', 'day')
+                        ->where('token.no_show', 1)
+                        ->groupBy('day', 'token.location_id', 'location_name', 'officer')
+                        ->orderBy('location_name')
+                        ->orderBy('officer')
+                        ->orderBy('day')
                         ->get();
 
 
@@ -455,8 +458,8 @@ class ReportController extends Controller
 
                     break;
                 case '9':
-                    $data->data = Token::whereIn('location_id', explode(",", request('location_id')))
-                        ->whereBetween('token.created_at', ["'$start'", "'$end'"])
+                    $data->data = Token::whereIn('location_id', $idArray)
+                        ->whereBetween('token.created_at', [$start, $end])
                         ->with(['location' => function ($q) {
                             $q->orderBy('name');
                         }])
@@ -522,7 +525,7 @@ class ReportController extends Controller
                     //  ->select('browser', DB::raw('count(*) as total'))
                     //  ->groupBy('browser')
                     //  ->get();
-
+                    
                     $deptids = DB::table("department")
                         ->whereIn('location_id', $idArray)
                         ->get()->pluck('id')->toArray();
@@ -575,10 +578,8 @@ class ReportController extends Controller
                     // die();
 
                     $data->data = $infoarray;
-                    // echo '<pre>';
-                    // print_r($infoarray);
-                    // echo '</pre>';
-                    // die();
+                    
+                    //Add Bar Chart
                     break;
                 default:
                     # code...
