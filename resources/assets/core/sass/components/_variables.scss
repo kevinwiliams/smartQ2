@@ -70,8 +70,8 @@ $dark-light:          							    $gray-200 !default; // Custom variable
 $dark-inverse:         								if(isDarkMode(), $gray-100, $white) !default; // Custom variable
 
 // Primary colors
-$primary:       									#3699FF !default; // Bootstrap variable
-$primary-active:    								#187DE4 !default; // Custom variable
+$primary:       									#ff3131 !default; // Bootstrap variable
+$primary-active:    								#f47878 !default; // Custom variable
 $primary-light:    								    if(isDarkMode(), #212E48, #F1FAFF) !default; // Custom variable
 $primary-inverse:  									$white !default;  // Custom variable
 

@@ -1,8 +1,8 @@
 @php
-    $logoFileName = 'logo-1-dark.svg';
+    $logoFileName = 'logo-ww1-dark.svg';
 
     if (theme()->getOption('layout', 'aside/theme') === 'light') {
-        $logoFileName = 'logo-1.svg';
+        $logoFileName = 'logo-ww1.svg';
     }
 @endphp
 
@@ -23,7 +23,7 @@
     <div class="aside-logo flex-column-auto" id="mv_aside_logo">
         {{--begin::Logo--}}
         <a href="{{ theme()->getPageUrl('') }}">
-            <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/' . $logoFileName) }}" class="h-25px logo"/>
+            <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/' . $logoFileName) }}" class="h-15px logo"/>
         </a>
         {{--end::Logo--}}
 

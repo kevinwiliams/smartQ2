@@ -16,16 +16,15 @@
 						<div class="d-flex flex-row-fluid flex-column text-center p-10 pt-lg-20">
 							
 							<!--begin::Title-->
-							<h1 class="fw-bolder fs-2qx py-9" style="color: #45aa5b;">Welcome to </h1>
+							<h1 class="fw-bolder fs-2qx py-9 p-5" style="">Welcome to </h1>
 							<!--end::Title-->
                             <!--begin::Logo-->
 							<a href="{{ $theme->getPageUrl('') }}" class="mb-5 pb-9">
-								<img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/logo-1.svg') }}" class="h-60px" />
+								<img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/logo-ww1.svg') }}" class="w-350px" />
 							</a>
 							<!--end::Logo-->
 							<!--begin::Description-->
-							<p class="fw-bold fs-2">Discover going "line-less" by
-							<br />joining the line on the go</p>
+							<p class="fw-bold fs-2">Join the line ahead of time...</p>
 							<!--end::Description-->
 						</div>
 						<!--end::Content-->
@@ -43,7 +42,7 @@
                 <div class="d-flex flex-center flex-column flex-column-fluid">
                     <!--begin::Logo-->
                     {{-- <a href="{{ $theme->getPageUrl('') }}" class="mb-12">
-                        <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/logo-1.svg') }}" class="h-45px"/>
+                        <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/logo-ww1.svg') }}" class="h-45px"/>
                     </a> --}}
                     <!--end::Logo-->
 

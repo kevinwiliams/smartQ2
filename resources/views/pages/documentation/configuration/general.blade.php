@@ -62,7 +62,7 @@ return array(
 
         // Docs
         'docs'       => array(
-            'logo-path'  => 'logos/logo-1-dark.svg',
+            'logo-path'  => 'logos/logo-ww1-dark.svg',
             'logo-class' => 'h-15px',
         ),
 

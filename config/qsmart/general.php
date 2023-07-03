@@ -31,13 +31,13 @@ return array(
             'base'              => 'default', // Set base layout: default|docs
             'type'              => 'default', // Set layout type: default|blank|none
             'dark-mode-enabled' => true, // Enable optional dark mode mode
-            'primary-color'     => '#009EF7',  // Primary color used in email templates
+            'primary-color'     => '#FF3131',  // Primary color used in email templates
         ),
 
         // Loader
         'loader'     => array(
             'display' => false,
-            'type'    => 'default' // Set default|spinner-message|spinner-logo to hide or show page loader
+            'type'    => 'spinner-message' // Set default|spinner-message|spinner-logo to hide or show page loader
         ),
 
         // Header
@@ -100,10 +100,10 @@ return array(
         // Aside
         'aside'      => array(
             'display'   => true, // Display aside
-            'theme'     => 'dark', // Set aside theme(dark|light)
+            'theme'     => 'light', // Set aside theme(dark|light)
             'menu'      => 'main', // Set aside menu(main|documentation)
             'fixed'     => true,  // Enable aside fixed mode
-            'minimized' => false, // Set aside minimized by default
+            'minimized' => true, // Set aside minimized by default
             'minimize'  => true, // Allow aside minimize toggle
             'hoverable' => true, // Allow aside hovering when minimized
             'menu-icon' => 'svg' // Menu icon type(svg|font)
@@ -111,7 +111,7 @@ return array(
 
         // Content
         'content'    => array(
-            'width'  => 'fixed', // Set content width(fixed|fluid)
+            'width'  => 'fluid', // Set content width(fixed|fluid)
             'layout' => 'default'  // Set content layout(default|documentation)
         ),
 
