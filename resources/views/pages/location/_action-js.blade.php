@@ -118,7 +118,7 @@ var MVLocationOverview = function () {
                 
             ],
             chart: {
-                type: 'area',
+                type: 'line',
                 height: height,
                 toolbar: {
                     show: false

@@ -16,13 +16,13 @@
                             <!--begin::Card title-->
                             <div class="card-title flex-column">
                                 <h3 class="fw-bolder mb-1">Visitor Summary</h3>
-                                <div class="fs-6 fw-bold text-gray-400">24 Overdue Tasks</div>
+                                <!-- <div class="fs-6 fw-bold text-gray-400">24 Overdue Tasks</div> -->
                             </div>
                             <!--end::Card title-->
                             <!--begin::Card toolbar-->
-                            <div class="card-toolbar">
+                            <!-- <div class="card-toolbar">
                                 <a href="#" class="btn btn-light btn-sm">View Tasks</a>
-                            </div>
+                            </div> -->
                             <!--end::Card toolbar-->
                         </div>
                         <!--end::Card header-->
@@ -34,7 +34,7 @@
                                 <div class="position-relative d-flex flex-center h-175px w-175px me-15 mb-7">
                                     <div class="position-absolute translate-middle start-50 top-50 d-flex flex-column flex-center">
                                         <span class="fs-2qx fw-bolder">{{ $location->visitorslastweek_count }}</span>
-                                        <span class="fs-6 fw-bold text-gray-400">Tokens</span>
+                                        <span class="fs-6 fw-bold text-gray-400">Last Week</span>
                                     </div>
                                     <canvas id="project_overview_chart"></canvas>
                                 </div>
@@ -80,7 +80,8 @@
                                     <!--begin::Content-->
                                     <div class="fw-bold">
                                         <div class="fs-6 text-gray-700">
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut risus vitae mi feugiat molestie non at tellus. Integer elementum mattis lectus id tempus. Integer tristique gravida fermentum. Integer nec tortor nunc.</div>
+                                        This summary provides a clear and concise representation of visitor status categories; Active, Completed, No Show, and Booked. The chart visually showcases the distribution of these categories, allowing stakeholders to quickly assess the proportion of visitors in each status.
+                                        </div>
                                     </div>
                                     <!--end::Content-->
                                 </div>

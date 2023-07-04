@@ -456,8 +456,8 @@
         // Public methods
 
 
-        var weeklytokenChart = function() {
-            var charts = document.querySelectorAll("#weekly-token-report-chart");
+        var barCharts = function() {
+            var charts = document.querySelectorAll("#report-bar-chart");
             if (charts == null) {
                 return;
             }
@@ -599,7 +599,7 @@
                 initDatePicker();
                 initSearch();
                 exportButtons();
-                weeklytokenChart();
+                barCharts();
             }
         }
     }();
