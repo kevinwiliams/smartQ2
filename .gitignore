@@ -8,7 +8,7 @@
 /public/plugins
 /storage/*.key
 /vendor
-/public/qsmart
+#/public/qsmart
 .env
 .env.backup
 .phpunit.result.cache

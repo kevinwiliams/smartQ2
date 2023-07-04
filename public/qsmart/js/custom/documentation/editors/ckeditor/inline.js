@@ -1,0 +1,1 @@
+(()=>{"use strict";var n={init:function(){InlineEditor.create(document.querySelector("#mv_docs_ckeditor_inline")).then((function(n){console.log(n)})).catch((function(n){console.error(n)}))}};MVUtil.onDOMContentLoaded((function(){n.init()}))})();

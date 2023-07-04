@@ -1,0 +1,1 @@
+(()=>{"use strict";var e={init:function(){new Typed("#mv_typedjs_example_1",{strings:["First sentence.","Second sentence.","Third sentense","And some longer sentence"],typeSpeed:30})}};MVUtil.onDOMContentLoaded((function(){e.init()}))})();

@@ -1,0 +1,1 @@
+(()=>{"use strict";var e={init:function(){new Quill("#mv_docs_quill_basic",{modules:{toolbar:[[{header:[1,2,!1]}],["bold","italic","underline"],["image","code-block"]]},placeholder:"Type your text here...",theme:"snow"})}};MVUtil.onDOMContentLoaded((function(){e.init()}))})();

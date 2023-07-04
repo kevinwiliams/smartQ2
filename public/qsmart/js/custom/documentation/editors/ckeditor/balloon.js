@@ -1,0 +1,1 @@
+(()=>{"use strict";var o={init:function(){BalloonEditor.create(document.querySelector("#mv_docs_ckeditor_balloon")).then((function(o){console.log(o)})).catch((function(o){console.error(o)}))}};MVUtil.onDOMContentLoaded((function(){o.init()}))})();

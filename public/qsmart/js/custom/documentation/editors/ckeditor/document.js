@@ -1,0 +1,1 @@
+(()=>{"use strict";var e={init:function(){DecoupledEditor.create(document.querySelector("#mv_docs_ckeditor_document")).then((function(e){document.querySelector("#mv_docs_ckeditor_document_toolbar").appendChild(e.ui.view.toolbar.element)})).catch((function(e){console.error(e)}))}};MVUtil.onDOMContentLoaded((function(){e.init()}))})();

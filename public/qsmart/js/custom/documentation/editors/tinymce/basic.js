@@ -1,0 +1,1 @@
+(()=>{"use strict";var i={init:function(){var i;i={selector:"#mv_docs_tinymce_basic"},MVApp.isDarkMode()&&(i.skin="oxide-dark",i.content_css="dark"),tinymce.init(i)}};MVUtil.onDOMContentLoaded((function(){i.init()}))})();

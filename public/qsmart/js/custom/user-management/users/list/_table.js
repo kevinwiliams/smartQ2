@@ -1,0 +1,1 @@
+(()=>{"use strict";var n={init:function(){MVMenu.createInstances()}};MVUtil.onDOMContentLoaded((function(){n.init()}))})();

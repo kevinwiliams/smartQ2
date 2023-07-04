@@ -1,0 +1,1 @@
+(()=>{"use strict";var e={init:function(e){var i;i=document.querySelector("#mv_dialer_example_1"),new MVDialer(i,{min:1e3,max:5e4,step:1e3,prefix:"$",decimals:2})}};MVUtil.onDOMContentLoaded((function(){e.init()}))})();
