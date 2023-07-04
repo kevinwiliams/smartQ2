@@ -2,13 +2,14 @@
     <!--begin::Post-->
     <div class="post d-flex flex-column-fluid" id="mv_post">
         <!--begin::Container-->
-        <div id="mv_content_container" class="container-xxl">
+        <div id="mv_content_container" class="flex-column-fluid">
             {{ theme()->getView('pages/location/_navbar', array('officers' => $officers, 'counters' => $counters, 'departments' => $departments, 'location' => $location )) }}
 
             <!--begin::Row-->
-            <div class="row g-6 g-xl-9">
+            <div class="row g-6 g-xl-9" data-sticky-container>
+                {{ theme()->getView('pages/location/_sidemenu',  array('location' => $location )) }}
                 <!--begin::Col-->
-                <div class="col-lg-6">
+                <div class="col-lg-5">
                     <!--begin::Summary-->
                     <div class="card card-flush h-lg-100">
                         <!--begin::Card header-->
@@ -95,7 +96,7 @@
                 </div>
                 <!--end::Col-->
                 <!--begin::Col-->
-                <div class="col-lg-6">
+                <div class="col-lg-5">
                     <!--begin::Graph-->
                     <div class="card card-flush h-lg-100">
                         <!--begin::Card header-->

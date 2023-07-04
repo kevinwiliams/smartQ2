@@ -3,7 +3,7 @@
 		<!--begin::Post-->
 		<div class="post d-flex flex-column-fluid" id="mv_post">
 			<!--begin::Container-->
-			<div id="mv_content_container" class="">
+			<div id="mv_content_container" class="container-xxl">
 				<!--begin::Layout-->
 				<div class="d-flex flex-column flex-lg-row">
 					<!--begin::Sidebar-->

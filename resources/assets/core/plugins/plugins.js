@@ -106,6 +106,9 @@ module.exports = [
 
     // Axios - Promise based HTTP client for the browser and node.js
     'node_modules/axios/dist/axios.js',
+
+    // Stick-JS - is a library for sticky elements written in vanilla javascript. With this library you can easily set sticky elements on your website. It's also responsive
+    'node_modules/sticky-js/dist/sticky.min.js',
 ];
 
 // window.axios.defaults.headers.common = {

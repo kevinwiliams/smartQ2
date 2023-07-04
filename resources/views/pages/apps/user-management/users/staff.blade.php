@@ -5,130 +5,137 @@
         <div id="mv_content_container" class="container-xxl">
             {{ theme()->getView('pages/location/_navbar', array('officers' => $officers, 'counters' => $counters, 'departments' => $departments, 'location' => $location )) }}
 
-            <div class="d-flex flex-wrap flex-stack pb-1">
-                <!--begin::Title-->
-                <div class="d-flex flex-wrap align-items-center my-1">
-                    <h3 class="fw-bolder me-5 my-1">Users ({{ count($officerList) }})</h3>
-                    <!--begin::Search-->
-                    <div class="d-flex align-items-center position-relative my-1">
-                        <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
-                        {!! theme()->getSvgIcon("icons/duotune/general/gen021.svg", "svg-icon-3 position-absolute ms-3") !!}
-                        <!--end::Svg Icon-->
-                        <input type="text" data-mv-officers-table-filter="search" class="form-control form-control-sm border-body bg-body w-150px ps-10" placeholder="Search">
+            <div class="row g-6 g-xl-9" data-sticky-container>
+                {{ theme()->getView('pages/location/_sidemenu',  array('location' => $location )) }}
+                <!--begin::Col-->
+                <div class="col-lg-10">
+
+                    <div class="d-flex flex-wrap flex-stack pb-1">
+                        <!--begin::Title-->
+                        <div class="d-flex flex-wrap align-items-center my-1">
+                            <h3 class="fw-bolder me-5 my-1">Users ({{ count($officerList) }})</h3>
+                            <!--begin::Search-->
+                            <div class="d-flex align-items-center position-relative my-1">
+                                <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
+                                {!! theme()->getSvgIcon("icons/duotune/general/gen021.svg", "svg-icon-3 position-absolute ms-3") !!}
+                                <!--end::Svg Icon-->
+                                <input type="text" data-mv-officers-table-filter="search" class="form-control form-control-sm border-body bg-body w-150px ps-10" placeholder="Search">
+                            </div>
+                            <!--end::Search-->
+                        </div>
+                        <!--end::Title-->
+                        <div class="">
+                            <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#mv_modal_add_staff" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to add new staff">
+                                <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
+                                {!! theme()->getSvgIcon("icons/duotune/arrows/arr075.svg", "svg-icon-3") !!}
+                                <!--end::Svg Icon-->New Staff
+                            </a>
+                        </div>
                     </div>
-                    <!--end::Search-->
-                </div>
-                <!--end::Title-->
-                <div class="">
-                    <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#mv_modal_add_staff" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to add new staff">
-                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
-                        {!! theme()->getSvgIcon("icons/duotune/arrows/arr075.svg", "svg-icon-3") !!}
-                        <!--end::Svg Icon-->New Staff
-                    </a>
-                </div>
-            </div>
-            <div class="row g-6 g-xl-9">
-                <table class="table table-bordered table-striped" id="mv_officers_list" name="mv_officers_list">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (!empty($officerList))
-                        <?php
-                        $sl = 0;
-                        // columns count
-                        $colCnt = 4;
-                        $officerCnt  = count($officerList);
-                        //last item in object
-                        $key = $officerCnt - 1;
-
-                        foreach ($officerList as $current_key => $officer) {
-                            if ($sl == 0) { ?>
-                                <!--begin::TR-->
+                    <div class="row g-6 g-xl-9">
+                        <table class="table table-bordered table-striped" id="mv_officers_list" name="mv_officers_list">
+                            <thead>
                                 <tr>
-                                <?php }
-                            //increment column count
-                            $sl++;
-                                ?>
-                                <td>
-                                    <div class="col">
-                                        <!--begin::Card-->
-                                        <div class="card">
-                                            <!--begin::Card body-->
-                                            <div class="card-body d-flex flex-center flex-column pt-12 p-3">
-                                                <!--begin::Avatar-->
-                                                <div class="symbol symbol-65px symbol-circle mb-5">
-                                                    <img src="{{ $officer->avatar_url }}" alt="image">
-                                                    <!-- <span class="symbol-label fs-2x fw-bold text-primary bg-light-primary">{{substr($officer->firstname, 0, 1)}}</span> -->
-                                                    <div class=" {{($officer->status == 0) ? 'bg-danger' : 'bg-success'}} position-absolute border border-4 border-white h-15px w-15px rounded-circle translate-middle start-100 top-100 ms-n3 mt-n3"></div>
-                                                </div>
-                                                <!--end::Avatar-->
-                                                <!--begin::Name-->
-                                                <a href="{{theme()->getPageUrl('location/staff/edit/' . $officer->id)}}" class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0">{{ $officer->lastname. ', '.$officer->firstname}}</a>
-                                                <!--end::Name-->
-                                                @foreach($officer->getRoleNames() as $_role)
-                                                <div class="badge badge-lg badge-light-primary d-inline">{{ ucwords($_role) }}</div>
-                                                @endforeach                                                
-                                                <!--begin::Position-->
-                                                <!-- <div class="fw-bold text-gray-400 mb-6">Officer </div> -->
-                                                <!--end::Position-->
-                                                <!--begin::Info-->
-                                                @if($officer->stats)
-                                                <div class="d-flex flex-center flex-wrap mt-3">
-                                                    <!--begin::Stats-->
-                                                    <div class="border border-gray-300 border-dashed rounded min-w-80px py-3 px-4 mx-2 mb-3">
-                                                        <div class="fs-6 fw-bolder text-gray-700">{{ ($officer->stats)?$officer->stats->wait_time:'-' }} mins</div>
-                                                        <div class="fw-bold text-gray-400">Avg. Wait</div>
-                                                    </div>
-                                                    <!--end::Stats-->
-                                                    <!--begin::Stats-->
-                                                    <div class="border border-gray-300 border-dashed rounded min-w-80px py-3 px-4 mx-2 mb-3">
-                                                        <div class="fs-6 fw-bolder text-gray-700">{{ ($officer->pendingtokens_count)?$officer->pendingtokens_count:'0' }}</div>
-                                                        <div class="fw-bold text-gray-400">in Queue</div>
-                                                    </div>
-                                                    <!--end::Stats-->
-                                                    <!--begin::Stats-->
-
-                                                    <!--end::Stats-->
-                                                </div>
-                                                @endif
-                                                <!--end::Info-->
-                                            </div>
-                                            <!--end::Card body-->
-                                        </div>
-                                        <!--end::Card-->
-                                    </div>
-                                </td>
-                                <?php
-                                //if last item in object
-                                if ($current_key == $key) {
-                                    //check remainding columns 
-                                    $emptyCells = $colCnt - $officerCnt;
-                                    //insert blank cells
-                                    for ($td = 0; $td < $emptyCells; $td++) {
-                                        echo '<td>&nbsp;</td>';
-                                    }
-                                }
-
-                                if ($sl == $colCnt || $current_key == $key) {
-                                    //remove sets of 4 from officer list
-                                    $officerCnt = $officerCnt - $colCnt;
-                                ?>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
-                                <!--end::TR-->
-                        <?php
-                                    //reset columns
-                                    $sl = 0;
-                                }
-                            }   ?>
-                        @endif
-                    </tbody>
-                </table>
+                            </thead>
+                            <tbody>
+                                @if (!empty($officerList))
+                                <?php
+                                $sl = 0;
+                                // columns count
+                                $colCnt = 4;
+                                $officerCnt  = count($officerList);
+                                //last item in object
+                                $key = $officerCnt - 1;
+
+                                foreach ($officerList as $current_key => $officer) {
+                                    if ($sl == 0) { ?>
+                                        <!--begin::TR-->
+                                        <tr>
+                                        <?php }
+                                    //increment column count
+                                    $sl++;
+                                        ?>
+                                        <td>
+                                            <div class="col">
+                                                <!--begin::Card-->
+                                                <div class="card">
+                                                    <!--begin::Card body-->
+                                                    <div class="card-body d-flex flex-center flex-column pt-12 p-3">
+                                                        <!--begin::Avatar-->
+                                                        <div class="symbol symbol-65px symbol-circle mb-5">
+                                                            <img src="{{ $officer->avatar_url }}" alt="image">
+                                                            <!-- <span class="symbol-label fs-2x fw-bold text-primary bg-light-primary">{{substr($officer->firstname, 0, 1)}}</span> -->
+                                                            <div class=" {{($officer->status == 0) ? 'bg-danger' : 'bg-success'}} position-absolute border border-4 border-white h-15px w-15px rounded-circle translate-middle start-100 top-100 ms-n3 mt-n3"></div>
+                                                        </div>
+                                                        <!--end::Avatar-->
+                                                        <!--begin::Name-->
+                                                        <a href="{{theme()->getPageUrl('location/staff/edit/' . $officer->id)}}" class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0">{{ $officer->lastname. ', '.$officer->firstname}}</a>
+                                                        <!--end::Name-->
+                                                        @foreach($officer->getRoleNames() as $_role)
+                                                        <div class="badge badge-lg badge-light-primary d-inline">{{ ucwords($_role) }}</div>
+                                                        @endforeach                                                
+                                                        <!--begin::Position-->
+                                                        <!-- <div class="fw-bold text-gray-400 mb-6">Officer </div> -->
+                                                        <!--end::Position-->
+                                                        <!--begin::Info-->
+                                                        @if($officer->stats)
+                                                        <div class="d-flex flex-center flex-wrap mt-3">
+                                                            <!--begin::Stats-->
+                                                            <div class="border border-gray-300 border-dashed rounded min-w-80px py-3 px-4 mx-2 mb-3">
+                                                                <div class="fs-6 fw-bolder text-gray-700">{{ ($officer->stats)?$officer->stats->wait_time:'-' }} mins</div>
+                                                                <div class="fw-bold text-gray-400">Avg. Wait</div>
+                                                            </div>
+                                                            <!--end::Stats-->
+                                                            <!--begin::Stats-->
+                                                            <div class="border border-gray-300 border-dashed rounded min-w-80px py-3 px-4 mx-2 mb-3">
+                                                                <div class="fs-6 fw-bolder text-gray-700">{{ ($officer->pendingtokens_count)?$officer->pendingtokens_count:'0' }}</div>
+                                                                <div class="fw-bold text-gray-400">in Queue</div>
+                                                            </div>
+                                                            <!--end::Stats-->
+                                                            <!--begin::Stats-->
+
+                                                            <!--end::Stats-->
+                                                        </div>
+                                                        @endif
+                                                        <!--end::Info-->
+                                                    </div>
+                                                    <!--end::Card body-->
+                                                </div>
+                                                <!--end::Card-->
+                                            </div>
+                                        </td>
+                                        <?php
+                                        //if last item in object
+                                        if ($current_key == $key) {
+                                            //check remainding columns 
+                                            $emptyCells = $colCnt - $officerCnt;
+                                            //insert blank cells
+                                            for ($td = 0; $td < $emptyCells; $td++) {
+                                                echo '<td>&nbsp;</td>';
+                                            }
+                                        }
+
+                                        if ($sl == $colCnt || $current_key == $key) {
+                                            //remove sets of 4 from officer list
+                                            $officerCnt = $officerCnt - $colCnt;
+                                        ?>
+                                        </tr>
+                                        <!--end::TR-->
+                                <?php
+                                            //reset columns
+                                            $sl = 0;
+                                        }
+                                    }   ?>
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
         <!--end::Container-->
