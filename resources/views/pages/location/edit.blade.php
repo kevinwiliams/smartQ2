@@ -5,105 +5,109 @@
         <div id="mv_content_container" class="container-xxl">
             {{ theme()->getView('pages/location/_navbar', array('officers' => $officers, 'counters' => $counters, 'departments' => $departments, 'location' => $location )) }}
 
-            <!--begin::Card-->
-            <div class="card">
-                <!--begin::Card body-->
-                <div class="card-body pt-6">
-                    <!--begin::Table-->
-                    <!--begin::Form-->
-                    {{ Form::open(['url' => 'location/edit/' . $location->id, 'class'=>'manualFrm form', 'id'=>'frmLocation']) }}
-                    <!-- {{ csrf_field() }} -->
-                    <input type="hidden" name="company_id" id="company_id" value="{{ $location->company_id }}">
-                    <input type="hidden" name="location_id" id="location_id" value="{{ $location->id }}">
+            <div class="row g-6 g-xl-9" data-sticky-container>
+                {{ theme()->getView('pages/location/_sidemenu',  array('location' => $location )) }}
+                <!--begin::Col-->
+                <div class="col-lg-10">
+                    <!--begin::Card-->
+                    <div class="card">
+                        <!--begin::Card body-->
+                        <div class="card-body pt-6">
+                            <!--begin::Table-->
+                            <!--begin::Form-->
+                            {{ Form::open(['url' => 'location/edit/' . $location->id, 'class'=>'manualFrm form', 'id'=>'frmLocation']) }}
+                            <!-- {{ csrf_field() }} -->
+                            <input type="hidden" name="company_id" id="company_id" value="{{ $location->company_id }}">
+                            <input type="hidden" name="location_id" id="location_id" value="{{ $location->id }}">
 
-                    <!--begin::Input group-->
-                    <div class="fv-row mb-7">
-                        <div class="form-group @error('name') has-error @enderror">
-                            <label for="name">{{ trans('app.name') }} <i class="text-danger">*</i></label>
-                            <input type="text" name="name" id="name" class="form-control" placeholder="{{ trans('app.name') }}" value="{{ old('name', $location->name) }}">
-                            <span class="text-danger">{{ $errors->first('name') }}</span>
-                        </div>
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
-                    <div class="fv-row mb-7">
-                        <label for="address">{{ trans('app.address') }} <i class="text-danger">*</i></label>
-                        <div class="input-group @error('address') has-error @enderror">
-                            <input type="text" name="address" id="address-add" class="form-control" placeholder="{{ trans('app.address') }}" value="{{ old('address', $location->address) }}" aria-label="{{ trans('app.address') }}" aria-describedby="address-search-addon">
-                            <span class="input-group-text" id="address-search-addon">
-                                <i class="fas fa-location-arrow fs-4"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <!--end::Input group-->
-                    <div class="row fv-row mb-7 fv-plugins-icon-container">
-                        <!--begin::Col-->
-                        <div class="col-xl-6">
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
-                                <div class="form-group @error('lat') has-error @enderror">
-                                    <label for="lat">{{ trans('app.lat') }} <i class="text-danger">*</i></label>
-                                    <input type="text" name="lat" id="lat" class="form-control" placeholder="{{ trans('app.lat') }}" value="{{ old('lat', $location->lat) }}" readonly>
-                                    <span class="text-danger">{{ $errors->first('lat') }}</span>
+                                <div class="form-group @error('name') has-error @enderror">
+                                    <label for="name">{{ trans('app.name') }} <i class="text-danger">*</i></label>
+                                    <input type="text" name="name" id="name" class="form-control" placeholder="{{ trans('app.name') }}" value="{{ old('name', $location->name) }}">
+                                    <span class="text-danger">{{ $errors->first('name') }}</span>
                                 </div>
                             </div>
                             <!--end::Input group-->
-                        </div>
-                        <!--end::Col-->
-                        <!--begin::Col-->
-                        <div class="col-xl-6">
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
-                                <div class="form-group @error('lon') has-error @enderror">
-                                    <label for="lon">{{ trans('app.lng') }} <i class="text-danger">*</i></label>
-                                    <input type="text" name="lon" id="lon" class="form-control" placeholder="{{ trans('app.lng') }}" value="{{ old('lon', $location->lon) }}" readonly>
-                                    <span class="text-danger">{{ $errors->first('lon') }}</span>
+                                <label for="address">{{ trans('app.address') }} <i class="text-danger">*</i></label>
+                                <div class="input-group @error('address') has-error @enderror">
+                                    <input type="text" name="address" id="address-add" class="form-control" placeholder="{{ trans('app.address') }}" value="{{ old('address', $location->address) }}" aria-label="{{ trans('app.address') }}" aria-describedby="address-search-addon">
+                                    <span class="input-group-text" id="address-search-addon">
+                                        <i class="fas fa-location-arrow fs-4"></i>
+                                    </span>
                                 </div>
                             </div>
                             <!--end::Input group-->
-                        </div>
-                        <!--end::Col-->
-                    </div>
-                    <!--begin::Input group-->
-                    <div class="fv-row mb-7">
-                        <div class="form-group @error('active') has-error @enderror">
-                            <label for="name">{{ trans('app.active') }}</label>
-                            <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                <input class="form-check-input" type="checkbox" value="1" {{ ($location->active) ? 'checked' : '' }} name="active" id="edit_active">
+                            <div class="row fv-row mb-7 fv-plugins-icon-container">
+                                <!--begin::Col-->
+                                <div class="col-xl-6">
+                                    <!--begin::Input group-->
+                                    <div class="fv-row mb-7">
+                                        <div class="form-group @error('lat') has-error @enderror">
+                                            <label for="lat">{{ trans('app.lat') }} <i class="text-danger">*</i></label>
+                                            <input type="text" name="lat" id="lat" class="form-control" placeholder="{{ trans('app.lat') }}" value="{{ old('lat', $location->lat) }}" readonly>
+                                            <span class="text-danger">{{ $errors->first('lat') }}</span>
+                                        </div>
+                                    </div>
+                                    <!--end::Input group-->
+                                </div>
+                                <!--end::Col-->
+                                <!--begin::Col-->
+                                <div class="col-xl-6">
+                                    <!--begin::Input group-->
+                                    <div class="fv-row mb-7">
+                                        <div class="form-group @error('lon') has-error @enderror">
+                                            <label for="lon">{{ trans('app.lng') }} <i class="text-danger">*</i></label>
+                                            <input type="text" name="lon" id="lon" class="form-control" placeholder="{{ trans('app.lng') }}" value="{{ old('lon', $location->lon) }}" readonly>
+                                            <span class="text-danger">{{ $errors->first('lon') }}</span>
+                                        </div>
+                                    </div>
+                                    <!--end::Input group-->
+                                </div>
+                                <!--end::Col-->
                             </div>
-                            <span class="text-danger">{{ $errors->first('active') }}</span>
+                            <!--begin::Input group-->
+                            <div class="fv-row mb-7">
+                                <div class="form-group @error('active') has-error @enderror">
+                                    <label for="name">{{ trans('app.active') }}</label>
+                                    <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                        <input class="form-check-input" type="checkbox" value="1" {{ ($location->active) ? 'checked' : '' }} name="active" id="edit_active">
+                                    </div>
+                                    <span class="text-danger">{{ $errors->first('active') }}</span>
+                                </div>
+                            </div>
+                            <!--end::Input group-->
+                            <div>
+                                <div class="fv-row mb-7">
+                                    <span class="text-gray=500">Please use the map below to set the coordinates</span> <br>
+
+
+                                    <!--start::Google map-->
+                                    <div id="map" style="height:400px; width: 100%;" class="my-3"></div>
+                                    <!--end::Google map-->
+                                </div>
+                            </div>
+
+                            <!--begin::Actions-->
+                            <div class="text-center pt-15">
+                                <!-- <button type="reset" class="btn btn-light me-3" data-mv-location-edit-modal-action="cancel">Discard</button> -->
+                                <button type="submit" class="btn btn-primary" data-mv-location-edit-modal-action="submit">
+                                    <span class="indicator-label">Submit</span>
+                                    <span class="indicator-progress">Please wait...
+                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                </button>
+                            </div>
+                            <!--end::Actions-->
+                            <!--end::Table-->
                         </div>
+                        <!--end::Card body-->
                     </div>
-                    <!--end::Input group-->
-                    <div>
-                        <div class="fv-row mb-7">
-                            <span class="text-gray=500">Please use the map below to set the coordinates</span> <br>
-
-
-                            <!--start::Google map-->
-                            <div id="map" style="height:400px; width: 100%;" class="my-3"></div>
-                            <!--end::Google map-->
-                        </div>
-                    </div>
-
-                    <!--begin::Actions-->
-                    <div class="text-center pt-15">
-                        <!-- <button type="reset" class="btn btn-light me-3" data-mv-location-edit-modal-action="cancel">Discard</button> -->
-                        <button type="submit" class="btn btn-primary" data-mv-location-edit-modal-action="submit">
-                            <span class="indicator-label">Submit</span>
-                            <span class="indicator-progress">Please wait...
-                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                        </button>
-                    </div>
-                    <!--end::Actions-->
-                    <!--end::Table-->
+                    <!--end::Card-->
                 </div>
-                <!--end::Card body-->
+
             </div>
-            <!--end::Card-->
-
-
-
         </div>
         <!--end::Container-->
     </div>

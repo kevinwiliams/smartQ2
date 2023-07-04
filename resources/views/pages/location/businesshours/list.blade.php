@@ -4,39 +4,46 @@
         <!--begin::Container-->
         <div id="mv_content_container" class="container-xxl">
             {{ theme()->getView('pages/location/_navbar', array('officers' => $officers, 'counters' => $counters, 'departments' => $departments, 'location' => $location )) }}
-            <!--begin::Card-->
-            <div class="card">
-                <div class="card-header border-0 pt-5">
-                    <h3 class="card-title align-items-start flex-column">
 
-                    </h3>
-                    <div class="card-toolbar">
+            <div class="row g-6 g-xl-9" data-sticky-container>
+                {{ theme()->getView('pages/location/_sidemenu',  array('location' => $location )) }}
+                <!--begin::Col-->
+                <div class="col-lg-10">
+                    <!--begin::Card-->
+                    <div class="card">
+                        <div class="card-header border-0 pt-5">
+                            <h3 class="card-title align-items-start flex-column">
 
-                        <a href="#" class="btn btn-sm btn-light-primary btn-active-primary " data-bs-toggle="modal" data-bs-target="#mv_modal_edit_openhours" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to add new counter">
-                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
-                            {!! theme()->getSvgIcon("icons/duotune/arrows/arr075.svg", "svg-icon-3") !!}
-                            <!--end::Svg Icon-->Set Opening Hours
-                        </a>
+                            </h3>
+                            <div class="card-toolbar">
+
+                                <a href="#" class="btn btn-sm btn-light-primary btn-active-primary " data-bs-toggle="modal" data-bs-target="#mv_modal_edit_openhours" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to add new counter">
+                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
+                                    {!! theme()->getSvgIcon("icons/duotune/arrows/arr075.svg", "svg-icon-3") !!}
+                                    <!--end::Svg Icon-->Set Opening Hours
+                                </a>
+                            </div>
+                        </div>
+                        <!--begin::Card body-->
+                        <div class="card-body pt-6">
+                            <!--begin::Table-->
+                            <table class="table table-striped">
+                                @foreach($hours as $hour)
+                                <tr>
+                                    <td class="w-25"><span class="fs-5">{{ $hour->day_name }}</span></td>
+                                    <td><span class="fw-bold fs-5">{{ $hour->open_hours }}</span></td>
+                                </tr>
+                                @endforeach
+                            </table>
+
+
+                            <!--end::Table-->
+                        </div>
+                        <!--end::Card body-->
                     </div>
+                    <!--end::Card-->
                 </div>
-                <!--begin::Card body-->
-                <div class="card-body pt-6">
-                    <!--begin::Table-->
-                    <table class="table table-striped">
-                        @foreach($hours as $hour)
-                        <tr>
-                            <td class="w-25"><span class="fs-5">{{ $hour->day_name }}</span></td>
-                            <td><span class="fw-bold fs-5">{{ $hour->open_hours }}</span></td>
-                        </tr>
-                        @endforeach
-                    </table>
-
-
-                    <!--end::Table-->
-                </div>
-                <!--end::Card body-->
             </div>
-            <!--end::Card-->
         </div>
         <!--end::Container-->
     </div>
