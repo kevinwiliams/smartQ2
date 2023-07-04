@@ -1,5 +1,5 @@
 <div class="col-lg-3 col-xl-2">
-    <div class="card card-custom sticky" data-sticky="true" data-margin-top="140px" data-sticky-for="1023" data-sticky-class="sticky" style="">
+    <div class="card card-custom sticky" data-mv-sticky="true" data-mv-sticky-top="200px" data-mv-sticky-for="1023" data-mv-sticky-animation="true" data-mv-sticky-class="sticky" style="">
         <div class="card-body p-0">
             <ul class="navi navi-bold navi-hover my-5" role="tablist">
                 <li class="navi-item">

@@ -2,7 +2,7 @@
     <!--begin::Post-->
     <div class="post d-flex flex-column-fluid" id="mv_post">
         <!--begin::Container-->
-        <div id="mv_content_container" class="flex-column-fluid">
+        <div id="mv_content_container" class="container-xxl">
             {{ theme()->getView('pages/location/_navbar', array('officers' => $officers, 'counters' => $counters, 'departments' => $departments, 'location' => $location )) }}
 
             <!--begin::Row-->
