@@ -45,7 +45,7 @@
             <!--end::Heading-->
             <!--begin::Illustration-->
             <div class="text-center pb-15 px-5">
-                <img src="{{ asset(theme()->getMediaUrlPath() . 'media/illustrations/sketchy-1/2.png') }}" alt="" class="mw-100 h-200px h-sm-325px" />
+                <img src="{{ asset(theme()->getMediaUrlPath() . 'media/illustrations/dozzy-1/2.png') }}" alt="" class="mw-100 h-200px h-sm-325px" />
 
             </div>
             <!--end::Illustration-->

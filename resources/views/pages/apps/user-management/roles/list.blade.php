@@ -73,7 +73,7 @@
 					<!--begin::Button-->
 					<button type="button" class="btn btn-clear d-flex flex-column flex-center" data-bs-toggle="modal" data-bs-target="#mv_modal_add_role">
 						<!--begin::Illustration-->
-						<img src="{{ asset(theme()->getMediaUrlPath() . 'media/illustrations/sketchy-1/4.png') }}" alt="" class="mw-100 mh-150px mb-7" />
+						<img src="{{ asset(theme()->getMediaUrlPath() . 'illustrations/dozzy-1/4.png') }}" alt="" class="mw-100 mh-150px mb-7" />
 						<!--end::Illustration-->
 						<!--begin::Label-->
 						<div class="fw-bolder fs-3 text-gray-600 text-hover-primary">Add New Role</div>

@@ -87,7 +87,7 @@ return array(
 
         // Illustration
         'illustrations' => array(
-            'set' => 'sketchy-1',
+            'set' => 'dozzy-1',
         ),
 
         // Engage

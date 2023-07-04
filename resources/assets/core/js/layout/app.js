@@ -377,6 +377,14 @@ var MVApp = function () {
         }
     }
 
+    var initStickyCard = function() {
+        if (typeof Sticky === 'undefined') {
+            return;
+        }
+
+        var sticky = new Sticky('[data-sticky="true"]');
+    }
+
     return {
         init: function () {
             this.initPageLoader();
@@ -406,6 +414,8 @@ var MVApp = function () {
             this.initSmoothScroll();
 
             this.initBootstrapToast();
+
+            this.initStickyCard();
         },
 
         initPageLoader: function () {
