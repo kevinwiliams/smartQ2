@@ -1,5 +1,5 @@
 @php
-    $logoFileName = 'logo-ww1-dark.svg';
+    $logoFileName = 'waitwise-logo.png';
 
     if (theme()->getOption('layout', 'aside/theme') === 'light') {
         $logoFileName = 'waitwise-logo.png';
