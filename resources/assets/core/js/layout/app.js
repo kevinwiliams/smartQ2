@@ -377,7 +377,7 @@ var MVApp = function () {
         }
     }
 
-    var initStickyCard = function() {
+    var initSticky = function() {
         if (typeof Sticky === 'undefined') {
             return;
         }
@@ -415,7 +415,7 @@ var MVApp = function () {
 
             this.initBootstrapToast();
 
-            this.initStickyCard();
+            this.initSticky();
         },
 
         initPageLoader: function () {
@@ -480,6 +480,10 @@ var MVApp = function () {
 
         initSmoothScroll: function () {
             initSmoothScroll();
+        },
+        
+        initSticky: function() {
+            initSticky();
         },
 
         isDarkMode: function () {
