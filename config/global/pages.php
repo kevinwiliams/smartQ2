@@ -520,7 +520,38 @@ return array(
             )
         ),
     ),
+    'home' => array(
+        'title' => 'Home',
+        'home' => array(
+            '*' => array(
+                'title'  => 'Home',                
+            )
+        ),
+        'search' => array(
+            '*' => array(
+                'title'  => 'Join the Queue',                
+            )
+        ),
+        'current' => array(
+            '*' => array(
+                'title'  => 'Your Token',                
+            )
+        ),
+        // 'search' => array(
+        //     '*' => array(
+        //         'title'  => 'Location List',                
+        //     )
+        // ),
+      
+    ),
+     'in' => array(
+        'title' => 'Search',
 
+        '*' => array(
+            'title' => 'Search',
+        ),
+
+    ),
     // 'settings' => array(
     //     'title' => 'App Settings',
     //     'display' => array(
@@ -535,36 +566,36 @@ return array(
     //         ),
     //     )
     // ),
-    'home' => array(
-        'title' => 'Home',
+    // 'home' => array(
+    //     'title' => 'Home',
 
-        'home' => array(
-            'title' => 'Client Token',
-            // 'assets' => array(
-            //     'custom' => array(
-            //         'js'  => array(
-            //             'js/custom/home/client-token.js',
-            //         ),
+    //     'home' => array(
+    //         'title' => 'Client Token',
+    //         // 'assets' => array(
+    //         //     'custom' => array(
+    //         //         'js'  => array(
+    //         //             'js/custom/home/client-token.js',
+    //         //         ),
 
-            //     ),
-            // ),
-        ),
-        'current' => array(
-            'title' => 'Your Token'
-        ),
-        'search' => array(
-            'title' => 'Join the Queue'
-        )
-    ),
+    //         //     ),
+    //         // ),
+    //     ),
+    //     'current' => array(
+    //         'title' => 'Your Token'
+    //     ),
+    //     'search' => array(
+    //         'title' => 'Join the Queue'
+    //     )
+    // ),
 
-    'in' => array(
-        'title' => 'Search',
+    // 'in' => array(
+    //     'title' => 'Search',
 
-        '*' => array(
-            'title' => 'Search',
-        ),
+    //     '*' => array(
+    //         'title' => 'Search',
+    //     ),
 
-    ),
+    // ),
 
     'settings' => array(
         'system' => array(
