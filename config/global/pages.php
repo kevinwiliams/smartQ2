@@ -520,38 +520,27 @@ return array(
             )
         ),
     ),
-    // 'home' => array(
-    //     'title' => 'Home',
-    //     'home' => array(
-    //         '*' => array(
-    //             'title'  => 'Home',                
-    //         )
-    //     ),
-    //     'search' => array(
-    //         '*' => array(
-    //             'title'  => 'Join the Queue',                
-    //         )
-    //     ),
-    //     'current' => array(
-    //         '*' => array(
-    //             'title'  => 'Your Token',                
-    //         )
-    //     ),
-    //     // 'search' => array(
-    //     //     '*' => array(
-    //     //         'title'  => 'Location List',                
-    //     //     )
-    //     // ),
+    'home' => array(
+        'title' => 'Home',
+        'home' => array(
+            'title'  => 'Home',            
+        ),
+        'search' => array(
+            'title'  => 'Join the Queue',
+        ),
+        'current' => array(
+            'title'  => 'Your Token',            
+        ),    
       
-    // ),
-    //  'in' => array(
-    //     'title' => 'Search',
+    ),
+     'in' => array(
+        'title' => 'Search',
 
-    //     '*' => array(
-    //         'title' => 'Search',
-    //     ),
+        '*' => array(
+            'title' => 'Search',
+        ),
 
-    // ),
+    ),
     // 'settings' => array(
     //     'title' => 'App Settings',
     //     'display' => array(
