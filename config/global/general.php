@@ -79,8 +79,8 @@ return array(
         // Docs
         'docs'          => array(
             'logo-path'  => array(
-                'default' => 'logos/sqlogo-ww1.svg',
-                'dark'    => 'logos/sqlogo-ww1-dark.svg',
+                'default' => 'logos/waitwise-logo.png',
+                'dark'    => 'logos/waitwise-logo.png',
             ),
             'logo-class' => 'h-25px',
         ),

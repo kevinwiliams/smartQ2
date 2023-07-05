@@ -11,7 +11,7 @@
                     @endif
                 </center> -->
                 <!--begin::Title-->
-                <h2 class="fs-2x fw-bolder mb-0 p-5">Welcome to </h2><br><img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/logo-ww1.svg') }}" class="img-fluid h-85px" />
+                <h2 class="fs-2x fw-bolder mb-0 p-5">Welcome to </h2><br><img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/waitwise-logo.png') }}" class="img-fluid h-85px" />
                 <!--end::Title-->
                 <!--begin::Description-->
                 <p class="text-gray-400 fs-4 fw-bold py-7">

@@ -20,7 +20,7 @@
 							<!--end::Title-->
                             <!--begin::Logo-->
 							<a href="{{ $theme->getPageUrl('') }}" class="mb-5 pb-9">
-								<img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/logo-ww1.svg') }}" class="w-350px" />
+								<img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/waitwise-logo.png') }}" class="w-350px" />
 							</a>
 							<!--end::Logo-->
 							<!--begin::Description-->
@@ -42,7 +42,7 @@
                 <div class="d-flex flex-center flex-column flex-column-fluid">
                     <!--begin::Logo-->
                     {{-- <a href="{{ $theme->getPageUrl('') }}" class="mb-12">
-                        <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/logo-ww1.svg') }}" class="h-45px"/>
+                        <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/waitwise-logo.png') }}" class="h-45px"/>
                     </a> --}}
                     <!--end::Logo-->
 
