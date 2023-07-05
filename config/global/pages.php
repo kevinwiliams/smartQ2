@@ -521,19 +521,20 @@ return array(
         ),
     ),
     'home' => array(
-        'title' => 'Home',
-        'home' => array(
-            'title'  => 'Home',            
-        ),
+        'title'  => 'Home',       
         'search' => array(
             'title'  => 'Join the Queue',
         ),
+        'list' => array(
+            'title'  => 'View my tokens',
+        ),
         'current' => array(
-            'title'  => 'Your Token',            
-        ),    
-      
+            "*"  => array(
+                'title'  => 'Your Token',
+            ),
+        ),
     ),
-     'in' => array(
+    'in' => array(
         'title' => 'Search',
 
         '*' => array(
