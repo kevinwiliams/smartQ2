@@ -147,10 +147,16 @@ Route::middleware('auth')->group(function () {
 		Route::get('delete/{id}', [AlertsController::class, 'destroy']);
 	});
 
+	// Business
+	Route::prefix('in')->group(function () {
+		Route::get('/{id}', [TokenController::class, 'businessSearch']);		
+		Route::get('/', [TokenController::class, 'businessSearch']);		
+	});
+
 	# home
 	Route::prefix('home')->group(function () {
-		Route::get('home', [HomeController::class, 'index']);
-		Route::get('search', [HomeController::class, 'search']);
+		Route::get('home', [TokenController::class, 'defaultClientSearch']);
+		Route::get('search', [TokenController::class, 'advClientSearch']);
 		Route::get('/', [HomeController::class, 'home']);
 		Route::post('confirmMobile', [HomeController::class, 'confirmMobile']);
 		Route::post('confirmEmail', [HomeController::class, 'confirmEmail']);
@@ -250,13 +256,7 @@ Route::middleware('auth')->group(function () {
 	Route::prefix('settings')->group(function () {
 		Route::get('system', [SettingController::class, 'show']);
 		Route::post('system', [SettingController::class, 'update']);
-	});
-
-	// Setting pages
-	Route::prefix('in')->group(function () {
-		Route::get('/{id}', [HomeController::class, 'business']);		
-		Route::get('/', [HomeController::class, 'business']);		
-	});
+	});	
 
 	// // Location pages
 	Route::prefix('location')->group(function () {

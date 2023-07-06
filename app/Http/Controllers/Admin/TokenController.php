@@ -9,7 +9,9 @@ use App\Http\Controllers\Common\Token_lib;
 use App\Http\Controllers\Common\Utilities_lib;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\Models\BusinessCategory;
 use App\Models\CheckInCodes;
+use App\Models\Company;
 use App\Models\User;
 use App\Models\Department;
 use App\Models\Counter;
@@ -29,6 +31,7 @@ use DB, Validator, PDF;
 use Http;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class TokenController extends Controller
 {
@@ -1754,6 +1757,71 @@ class TokenController extends Controller
         }
 
         return view('pages.home.list');
+    }
+
+    public function defaultClientSearch()
+    {
+        $display = DisplaySetting::first();
+
+        $smsalert = $display->sms_alert;
+        $shownote = $display->show_note;
+
+        $maskedemail = auth()->user()->getMaskedEmail();
+
+        // $companies = Company::has('locations.departments')->orderBy('name', 'asc')->pluck('name', 'id');
+        $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
+
+        // echo \Session::get('locale');
+        // echo app()->getLocale();
+        // die();
+        return view('pages.home._index', compact('smsalert', 'maskedemail', 'shownote', 'companies'));
+    }
+    public function advClientSearch()
+    {
+        $display = DisplaySetting::first();
+
+        $smsalert = $display->sms_alert;
+        $shownote = $display->show_note;
+
+        $maskedemail = auth()->user()->getMaskedEmail();
+
+
+        $categories = BusinessCategory::whereRelation('companies', 'company.active', true)->whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
+        $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
+
+        return view('pages.home.advsearch', compact('smsalert', 'maskedemail', 'shownote', 'companies', 'categories'));
+        // echo \Session::get('locale');
+        // echo app()->getLocale();
+        // die();
+        // return view('pages.home.search', compact('smsalert', 'maskedemail', 'shownote', 'categories'));
+    }
+
+    public function businessSearch($id = null)
+    {
+        $display = DisplaySetting::first();
+
+        $smsalert = $display->sms_alert;
+        $shownote = $display->show_note;
+
+        $maskedemail = auth()->user()->getMaskedEmail();
+
+        if ($id == null) {
+
+            $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
+            $categories = BusinessCategory::whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
+            return view('pages.home.advsearch', compact('smsalert', 'maskedemail', 'shownote', 'companies', 'categories'));
+        } else {
+            $company = Company::where('shortname', $id)->first();
+            if ($company == null) {
+
+                $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
+                $categories = BusinessCategory::whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
+                Session::flash("fail", trans('app.company_not_found'));
+                return view('pages.home.advsearch', compact('smsalert', 'maskedemail', 'shownote', 'companies', 'categories'));
+            }
+            $locations = Location::where('company_id', $company->id)->where('active', 1)->has('departments')->with('settings')->whereRelation("company", "active", true)->get();
+            return view('pages.home.business', compact('smsalert', 'maskedemail', 'shownote', 'company', 'locations'));
+        }
     }
 
     public function _currentposition()

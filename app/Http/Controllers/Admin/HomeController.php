@@ -22,10 +22,11 @@ use App\Models\TokenSetting;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
-use DB;
+
+use DB, Validator, PDF;
+use Http;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
-use Spatie\Activitylog\Models\Activity;
 
 class HomeController extends Controller
 {
