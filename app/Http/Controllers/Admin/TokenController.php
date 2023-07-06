@@ -1721,33 +1721,15 @@ class TokenController extends Controller
 
         $position = $cntr;
         $wait = date('H:i', mktime(0, $waittime));
-
-        //  echo '<pre>';
-        // print_r($wait);
-        // // echo session('app.timezone');
-        // echo '</pre>';
-        // die();
-
-        // $tokenstatus = TokenStatus::where('token_id', $token->id)->first();
+       
         $display = DisplaySetting::where('location_id', $token->location_id)->first();
         $qrcheckin = $display->enable_qr_checkin;
-        // echo '<pre>';
-        // // print_r($token->startTime);
-        // echo session('app.timezone');
-        // echo '</pre>';
-        // die();
 
         return view('pages.home.current', compact('token', 'position', 'wait', 'qrcheckin'));
     }
     public function currentClientList()
     {
         @date_default_timezone_set(session('app.timezone'));
-        // $tokens = Token::whereIn('status', ['0', '3'])
-        //     ->where('client_id', auth()->user()->id)
-        //     ->orderBy('is_vip', 'DESC')
-        //     ->orderBy('id', 'ASC')
-        //     ->get();
-
 
         if (count(auth()->user()->clientpendingtokens) == 0) {
             return redirect('home');
@@ -1761,6 +1743,7 @@ class TokenController extends Controller
 
     public function defaultClientSearch()
     {
+        @date_default_timezone_set(session('app.timezone'));
         $display = DisplaySetting::first();
 
         $smsalert = $display->sms_alert;
@@ -1768,16 +1751,13 @@ class TokenController extends Controller
 
         $maskedemail = auth()->user()->getMaskedEmail();
 
-        // $companies = Company::has('locations.departments')->orderBy('name', 'asc')->pluck('name', 'id');
         $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
 
-        // echo \Session::get('locale');
-        // echo app()->getLocale();
-        // die();
         return view('pages.home._index', compact('smsalert', 'maskedemail', 'shownote', 'companies'));
     }
     public function advClientSearch()
     {
+        @date_default_timezone_set(session('app.timezone'));
         $display = DisplaySetting::first();
 
         $smsalert = $display->sms_alert;
@@ -1789,47 +1769,19 @@ class TokenController extends Controller
         $categories = BusinessCategory::whereRelation('companies', 'company.active', true)->whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
         $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
         
-        $current = url()->current();
-        $full = url()->full();
-        $url = asset('img/photo.jpg');
-        echo '<pre>';
-        print_r($current);
-        echo '</pre>';
-        echo '<pre>';
-        print_r($full);
-        echo '</pre>';
-        echo '<pre>';
-        print_r($url);
-        echo '</pre>';
-        die();
         return view('pages.home.advsearch', compact('smsalert', 'maskedemail', 'shownote', 'companies', 'categories'));
-        // echo \Session::get('locale');
-        // echo app()->getLocale();
-        // die();
-        // return view('pages.home.search', compact('smsalert', 'maskedemail', 'shownote', 'categories'));
     }
 
     public function businessSearch($id = null)
     {
+        @date_default_timezone_set(session('app.timezone'));
         $display = DisplaySetting::first();
 
         $smsalert = $display->sms_alert;
         $shownote = $display->show_note;
 
         $maskedemail = auth()->user()->getMaskedEmail();
-        $current = url()->current();
-        $full = url()->full();
-        $url = asset('img/photo.jpg');
-        echo '<pre>';
-        print_r($current);
-        echo '</pre>';
-        echo '<pre>';
-        print_r($full);
-        echo '</pre>';
-        echo '<pre>';
-        print_r($url);
-        echo '</pre>';
-        die();
+      
         if ($id == null) {
 
             $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
