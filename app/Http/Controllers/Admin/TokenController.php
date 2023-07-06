@@ -608,7 +608,7 @@ class TokenController extends Controller
                 $oldToken->lat = (!empty($request->lat)) ? $request->lat : null;
                 $oldToken->lng = (!empty($request->lng)) ? $request->lng : null;
                 $oldToken->save();
- 
+
                 //store in database  
                 //set message and redirect
                 if ($request->id > 0) {
@@ -1789,6 +1789,11 @@ class TokenController extends Controller
         $categories = BusinessCategory::whereRelation('companies', 'company.active', true)->whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
         $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
 
+        $path = storage_path();
+        echo '<pre>';
+        print_r($path);
+        echo '</pre>';
+        die();
         return view('pages.home.advsearch', compact('smsalert', 'maskedemail', 'shownote', 'companies', 'categories'));
         // echo \Session::get('locale');
         // echo app()->getLocale();
@@ -1804,7 +1809,10 @@ class TokenController extends Controller
         $shownote = $display->show_note;
 
         $maskedemail = auth()->user()->getMaskedEmail();
-
+        echo '<pre>';
+        print_r($path);
+        echo '</pre>';
+        die();
         if ($id == null) {
 
             $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
