@@ -48,7 +48,7 @@
      {{ theme()->getView('partials/modals/department/_add', array('keyList' => $keyList, 'avg_wait_time' => '4', 'location' => $location)) }}
     <!--end::Modal - Add Dept-->   
     <!--begin::Modal - Edit Dept -->
-    <{{ theme()->getView('partials/modals/department/_edit') }}
+    {{ theme()->getView('partials/modals/department/_edit') }}
     <!--end::Modal dialog-->
 @section('scripts')
 {{ $dataTable->scripts() }}

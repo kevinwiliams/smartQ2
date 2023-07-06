@@ -52,7 +52,7 @@
     {{ theme()->getView('partials/modals/counter/_add', array('location' => $location)) }}
     <!--end::Modal - Add Counter-->
     <!--begin::Modal - Edit Counter -->
-    <{{ theme()->getView('partials/modals/counter/_edit') }} <!--end::Modal dialog-->
+    {{ theme()->getView('partials/modals/counter/_edit') }} <!--end::Modal dialog-->
         {{-- Inject Scripts --}}
         @section('scripts')
         {{ $dataTable->scripts() }}

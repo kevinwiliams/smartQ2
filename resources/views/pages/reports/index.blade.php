@@ -34,7 +34,7 @@
                                 </div>
                             </div>
                             @can('choose location')
-                            <div class="fv-row col-5">
+                            <div class="fv-row col-4">
                                 <div class="form-group @error('location_id') has-error @enderror">
                                     <label class="fs-6 form-label fw-bolder text-dark">Location</label>
                                     <!--begin::Select-->
