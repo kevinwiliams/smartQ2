@@ -1788,10 +1788,15 @@ class TokenController extends Controller
 
         $categories = BusinessCategory::whereRelation('companies', 'company.active', true)->whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
         $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
+        
+        $current = url()->current();
+        $full = url()->full();
 
-        $path = storage_path();
         echo '<pre>';
-        print_r($path);
+        print_r($current);
+        echo '</pre>';
+        echo '<pre>';
+        print_r($full);
         echo '</pre>';
         die();
         return view('pages.home.advsearch', compact('smsalert', 'maskedemail', 'shownote', 'companies', 'categories'));
@@ -1809,8 +1814,14 @@ class TokenController extends Controller
         $shownote = $display->show_note;
 
         $maskedemail = auth()->user()->getMaskedEmail();
+        $current = url()->current();
+        $full = url()->full();
+
         echo '<pre>';
-        print_r($path);
+        print_r($current);
+        echo '</pre>';
+        echo '<pre>';
+        print_r($full);
         echo '</pre>';
         die();
         if ($id == null) {
