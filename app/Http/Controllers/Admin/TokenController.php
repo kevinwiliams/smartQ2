@@ -1791,12 +1791,15 @@ class TokenController extends Controller
         
         $current = url()->current();
         $full = url()->full();
-
+        $url = asset('img/photo.jpg');
         echo '<pre>';
         print_r($current);
         echo '</pre>';
         echo '<pre>';
         print_r($full);
+        echo '</pre>';
+        echo '<pre>';
+        print_r($url);
         echo '</pre>';
         die();
         return view('pages.home.advsearch', compact('smsalert', 'maskedemail', 'shownote', 'companies', 'categories'));
@@ -1816,12 +1819,15 @@ class TokenController extends Controller
         $maskedemail = auth()->user()->getMaskedEmail();
         $current = url()->current();
         $full = url()->full();
-
+        $url = asset('img/photo.jpg');
         echo '<pre>';
         print_r($current);
         echo '</pre>';
         echo '<pre>';
         print_r($full);
+        echo '</pre>';
+        echo '<pre>';
+        print_r($url);
         echo '</pre>';
         die();
         if ($id == null) {
