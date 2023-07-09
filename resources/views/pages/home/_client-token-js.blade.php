@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
     // Class definition
     var MVCreateToken = function() {
         // Elements
@@ -279,4 +279,4 @@
     MVUtil.onDOMContentLoaded(function() {
         MVCreateToken.init();
     });
-</script>
+</script> -->
