@@ -719,7 +719,7 @@
     {{ theme()->getView('partials/modals/openhours/_view') }}
     <!--end::Modal - Edit Open hours-->
     @section('scripts')
-    @include('pages.home._client-token-js')
+    
     <script>
         var chart;
         var lastLat;
