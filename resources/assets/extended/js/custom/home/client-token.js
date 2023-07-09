@@ -5,7 +5,7 @@ const {
 } = require("sweetalert2");
 
 // Class definition
-var MVCreateToken = function () {
+var MVCreateToken = function() {
     // Elements
     var modal;
     var modalEl;
@@ -20,7 +20,7 @@ var MVCreateToken = function () {
     var validations = [];
 
     // Private Functions
-    var initStepper = function () {
+    var initStepper = function() {
 
         // Placeholder
         Inputmask({
@@ -30,7 +30,7 @@ var MVCreateToken = function () {
         stepperObj = new MVStepper(stepper);
 
         // Stepper change event
-        stepperObj.on('mv.stepper.changed', function (stepper) {
+        stepperObj.on('mv.stepper.changed', function(stepper) {
             console.log(stepperObj.getCurrentStepIndex());
             if (stepperObj.getCurrentStepIndex() === 2) {
                 $('[data-mv-stepper-action="next"]').addClass('disabled');
@@ -52,15 +52,15 @@ var MVCreateToken = function () {
         });
 
         // Validation before going to next page
-        stepperObj.on('mv.stepper.next', function (stepper) {
+        stepperObj.on('mv.stepper.next', function(stepper) {
             console.log('stepper.next', stepper.getCurrentStepIndex());
 
             if (stepper.getCurrentStepIndex() == 3) {
                 // Enable or disable validators for the `email` field
-                var visitreason = $("#visitreason").val();                
+                var visitreason = $("#visitreason").val();
                 // console.log("visitreason:" + visitreason);
-                (visitreason == 1) ? validations[2].disableValidator('department_id') : validations[2].enableValidator('department_id');
-                (visitreason == 0) ? validations[2].disableValidator('reason_id') : validations[2].enableValidator('reason_id');
+                (visitreason == 1) ? validations[2].disableValidator('department_id'): validations[2].enableValidator('department_id');
+                (visitreason == 0) ? validations[2].disableValidator('reason_id'): validations[2].enableValidator('reason_id');
                 // console.log("visitreason:" + visitreason);
                 // console.log(validations[2].getFields());
             }
@@ -69,7 +69,7 @@ var MVCreateToken = function () {
             var validator = validations[stepper.getCurrentStepIndex() - 1]; // get validator for currnt step
 
             if (validator) {
-                validator.validate().then(function (status) {
+                validator.validate().then(function(status) {
                     console.log('validated!');
 
                     if (status == 'Valid') {
@@ -84,9 +84,9 @@ var MVCreateToken = function () {
                                     confirmButton: "btn btn-primary",
                                     cancelButton: 'btn btn-danger'
                                 }
-                            }).then(function (value) {
+                            }).then(function(value) {
                                 if (value.isConfirmed) {
-                                    var location = $('#mv_location_list').val();//
+                                    var location = $('#mv_location_list').val(); //
                                     var dept = $('input[name=department_id]:checked').val();
                                     var reason = $('select[name="reason_id"]').val();
                                     var note = $('#userNote').val();
@@ -116,7 +116,7 @@ var MVCreateToken = function () {
                                             'lat': lat,
                                             'lng': lng,
                                         },
-                                        success: function (data) {
+                                        success: function(data) {
                                             if (data.status == true) {
                                                 var msg = "You are #" + data.position + " in the line";
                                                 $("#tkn_position").text(msg);
@@ -148,7 +148,7 @@ var MVCreateToken = function () {
                             customClass: {
                                 confirmButton: "btn btn-light"
                             }
-                        }).then(function () {
+                        }).then(function() {
                             MVUtil.scrollTop();
                         });
                     }
@@ -161,7 +161,7 @@ var MVCreateToken = function () {
         });
 
         // Prev event
-        stepperObj.on('mv.stepper.previous', function (stepper) {
+        stepperObj.on('mv.stepper.previous', function(stepper) {
             console.log('stepper.previous');
 
             stepper.goPrevious();
@@ -169,34 +169,16 @@ var MVCreateToken = function () {
         });
     }
 
-    var handleForm = function () {
-        formSubmitButton.addEventListener('click', function (e) {
+    var handleForm = function() {
+        formSubmitButton.addEventListener('click', function(e) {
             // Validate form before change stepper step
             // document.location.href = '/home/list';
             document.location.href = '/home/current/' + $("#tkn_id").val();
 
         });
-
-        // // Expiry month. For more info, plase visit the official plugin site: https://select2.org/
-        // $(form.querySelector('[name="card_expiry_month"]')).on('change', function () {
-        //     // Revalidate the field when an option is chosen
-        //     validations[3].revalidateField('card_expiry_month');
-        // });
-
-        // // Expiry year. For more info, plase visit the official plugin site: https://select2.org/
-        // $(form.querySelector('[name="card_expiry_year"]')).on('change', function () {
-        //     // Revalidate the field when an option is chosen
-        //     validations[3].revalidateField('card_expiry_year');
-        // });
-
-        // // Expiry year. For more info, plase visit the official plugin site: https://select2.org/
-        // $(form.querySelector('[name="business_type"]')).on('change', function () {
-        //     // Revalidate the field when an option is chosen
-        //     validations[2].revalidateField('business_type');
-        // });
     }
 
-    var initValidation = function () {
+    var initValidation = function() {
         // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
         // Step 1
         validations.push(FormValidation.formValidation(
@@ -274,139 +256,15 @@ var MVCreateToken = function () {
                 }
             }
         ));
-
-        // // Step 3
-        // validations.push(FormValidation.formValidation(
-        // 	form,
-        // 	{
-        // 		fields: {
-        // 			'business_name': {
-        // 				validators: {
-        // 					notEmpty: {
-        // 						message: 'Busines name is required'
-        // 					}
-        // 				}
-        // 			},
-        // 			'business_descriptor': {
-        // 				validators: {
-        // 					notEmpty: {
-        // 						message: 'Busines descriptor is required'
-        // 					}
-        // 				}
-        // 			},
-        // 			'business_type': {
-        // 				validators: {
-        // 					notEmpty: {
-        // 						message: 'Busines type is required'
-        // 					}
-        // 				}
-        // 			},
-        // 			'business_description': {
-        // 				validators: {
-        // 					notEmpty: {
-        // 						message: 'Busines description is required'
-        // 					}
-        // 				}
-        // 			},
-        // 			'business_email': {
-        // 				validators: {
-        // 					notEmpty: {
-        // 						message: 'Busines email is required'
-        // 					},
-        // 					emailAddress: {
-        // 						message: 'The value is not a valid email address'
-        // 					}
-        // 				}
-        // 			}
-        // 		},
-        // 		plugins: {
-        // 			trigger: new FormValidation.plugins.Trigger(),
-        // 			// Bootstrap Framework Integration
-        // 			bootstrap: new FormValidation.plugins.Bootstrap5({
-        // 				rowSelector: '.fv-row',
-        //                 eleInvalidClass: '',
-        //                 eleValidClass: ''
-        // 			})
-        // 		}
-        // 	}
-        // ));
-
-        // // Step 4
-        // validations.push(FormValidation.formValidation(
-        // 	form,
-        // 	{
-        // 		fields: {
-        // 			'card_name': {
-        // 				validators: {
-        // 					notEmpty: {
-        // 						message: 'Name on card is required'
-        // 					}
-        // 				}
-        // 			},
-        // 			'card_number': {
-        // 				validators: {
-        // 					notEmpty: {
-        // 						message: 'Card member is required'
-        // 					},
-        //                     creditCard: {
-        //                         message: 'Card number is not valid'
-        //                     }
-        // 				}
-        // 			},
-        // 			'card_expiry_month': {
-        // 				validators: {
-        // 					notEmpty: {
-        // 						message: 'Month is required'
-        // 					}
-        // 				}
-        // 			},
-        // 			'card_expiry_year': {
-        // 				validators: {
-        // 					notEmpty: {
-        // 						message: 'Year is required'
-        // 					}
-        // 				}
-        // 			},
-        // 			'card_cvv': {
-        // 				validators: {
-        // 					notEmpty: {
-        // 						message: 'CVV is required'
-        // 					},
-        // 					digits: {
-        // 						message: 'CVV must contain only digits'
-        // 					},
-        // 					stringLength: {
-        // 						min: 3,
-        // 						max: 4,
-        // 						message: 'CVV must contain 3 to 4 digits only'
-        // 					}
-        // 				}
-        // 			}
-        // 		},
-
-        // 		plugins: {
-        // 			trigger: new FormValidation.plugins.Trigger(),
-        // 			// Bootstrap Framework Integration
-        // 			bootstrap: new FormValidation.plugins.Bootstrap5({
-        // 				rowSelector: '.fv-row',
-        //                 eleInvalidClass: '',
-        //                 eleValidClass: ''
-        // 			})
-        // 		}
-        // 	}
-        // ));
     }
 
-    var handleFormSubmit = function () {
+    var handleFormSubmit = function() {
 
     }
 
     return {
         // Public Functions
-        init: function () {
-            // Elements
-
-
+        init: function() {
             stepper = document.querySelector('#mv_create_token_stepper');
             form = stepper.querySelector('#mv_create_token_form');
             formSubmitButton = stepper.querySelector('[data-mv-stepper-action="submit"]');
@@ -420,6 +278,6 @@ var MVCreateToken = function () {
 }();
 
 // On document ready
-MVUtil.onDOMContentLoaded(function () {
+MVUtil.onDOMContentLoaded(function() {
     MVCreateToken.init();
 });

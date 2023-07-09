@@ -524,6 +524,13 @@ return array(
         'title'  => 'Home',       
         'search' => array(
             'title'  => 'Join the Queue',
+            'assets' => array(
+                'custom' => array(
+                    'js' => array(
+                        'js/custom/home/client-token.js',                        
+                    ),
+                ),
+            ),
         ),
         'list' => array(
             'title'  => 'View my tokens',
