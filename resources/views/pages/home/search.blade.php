@@ -1497,12 +1497,6 @@
                         name: 'Visitors',
                         data: response.data
                     }], true);
-
-                    // ApexCharts.exec('mychart', 'updateOptions', {
-                    //     fill: {
-                    //         colors: response.colordata
-                    //     }
-                    // }, false, true);
                 }
             }).fail(function(jqXHR, textStatus, error) {
                 console.error(jqXHR.responseText);
@@ -1695,20 +1689,7 @@
                     labels: {
                         show: false,
                     }
-                },
-                // tooltip: {
-                //     style: {
-                //         fontSize: '12px',
-                //     },
-                //     y: {
-                //         formatter: function(val) {
-                //             return "" + val + ""
-                //         }
-                //     },
-                //     marker: {
-                //         show: false
-                //     }
-                // },
+                },               
                 tooltip: {
                     enabled: false
                 },

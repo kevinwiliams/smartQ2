@@ -1663,20 +1663,7 @@
                     labels: {
                         show: false,
                     }
-                },
-                // tooltip: {
-                //     style: {
-                //         fontSize: '12px',
-                //     },
-                //     y: {
-                //         formatter: function(val) {
-                //             return "" + val + ""
-                //         }
-                //     },
-                //     marker: {
-                //         show: false
-                //     }
-                // },
+                },              
                 tooltip: {
                     enabled: false
                 },
