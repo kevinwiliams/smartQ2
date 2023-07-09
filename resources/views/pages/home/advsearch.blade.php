@@ -877,11 +877,6 @@
 
             //------------------------------------------
 
-
-            // $("[name^=otp_code]").on("keyup", function(e) {
-            //     $(this).next().trigger("focus");
-            // });
-
             //disable stepper until verified
             $('[data-mv-stepper-action="next"]').addClass('disabled');
             //show/hide email and sms confirmation fields
@@ -1055,11 +1050,7 @@
 
             $('#activate-step-2').on('click', function(e) {
                 var phone = $("#phone").val();
-                var code = $('#otp_code_sms').val();
-
-                // if (code == "" || code == undefined) {
-                //     code = $('#otp_code_sms').val();//collateOTPCode('otp_code_');
-                // }
+                var code = $('#otp_code_sms').val();               
 
                 if (phone == "") {
                     Swal.fire({
@@ -1124,10 +1115,6 @@
             $('#activate-step-2-whatsapp').on('click', function(e) {
                 var phone = $("#phone").val();
                 var code = $('#otp_code_whatsapp').val();
-
-                // if (code == "" || code == undefined) {
-                //     code = $('#otp_code_sms').val();//collateOTPCode('otp_code_');
-                // }
 
                 if (phone == "") {
                     Swal.fire({
@@ -1242,28 +1229,6 @@
                 });
 
             });
-
-            // $('input:radio[name=department_id]').on('click', function(e) {
-            //     console.log(e);
-            //     var dept = $(this).find(":checked").val();
-            //     var dept = e.target.value;
-
-            //     $.ajax({
-            //         type: 'post',
-            //         url: '{{ URL::to("home/getwaittime") }}',
-            //         type: 'POST',
-            //         dataType: 'json',
-            //         data: {
-            //             'id': dept,
-            //             '_token': '<?php echo csrf_token() ?>'
-            //         },
-            //         success: function(data) {
-            //             console.log(data);
-            //             $("#span_wait").text(data);
-            //         }
-            //     });
-
-            // });
 
             $('#cancel_otp').on('click', function(e) {
                 e.preventDefault();
@@ -1393,13 +1358,7 @@
                         var label = _clone.find('label');
                         label.attr('for', __id + element.id);
 
-                        // _clone.css('display', 'inline-block');
-                        // _clone.addClass("col-lg-6");                            
-
-                        // _clone.on('click', function(e) {
-                        //     $('[data-mv-stepper-action="next"]').removeClass('disabled');
-                        // });
-
+                    
                         label.on('click', function(e) {
                             $('[data-mv-stepper-action="next"]').removeClass('disabled');
                         });
@@ -1528,12 +1487,6 @@
                         name: 'Visitors',
                         data: response.data
                     }], true);
-
-                    // ApexCharts.exec('mychart', 'updateOptions', {
-                    //     fill: {
-                    //         colors: response.colordata
-                    //     }
-                    // }, false, true);
                 }
             }).fail(function(jqXHR, textStatus, error) {
                 console.error(jqXHR.responseText);
@@ -1726,19 +1679,6 @@
                         show: false,
                     }
                 },
-                // tooltip: {
-                //     style: {
-                //         fontSize: '12px',
-                //     },
-                //     y: {
-                //         formatter: function(val) {
-                //             return "" + val + ""
-                //         }
-                //     },
-                //     marker: {
-                //         show: false
-                //     }
-                // },
                 tooltip: {
                     enabled: false
                 },

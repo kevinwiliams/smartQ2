@@ -1516,12 +1516,6 @@
                         name: 'Visitors',
                         data: response.data
                     }], true);
-
-                    // ApexCharts.exec('mychart', 'updateOptions', {
-                    //     fill: {
-                    //         colors: response.colordata
-                    //     }
-                    // }, false, true);
                 }
             }).fail(function(jqXHR, textStatus, error) {
                 console.error(jqXHR.responseText);
