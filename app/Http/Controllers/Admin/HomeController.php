@@ -42,7 +42,7 @@ class HomeController extends Controller
 
         // $companies = Company::has('locations.departments')->orderBy('name', 'asc')->pluck('name', 'id');
         $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
-
+        
         // echo \Session::get('locale');
         // echo app()->getLocale();
         // die();

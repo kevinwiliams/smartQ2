@@ -1,4 +1,6 @@
 <x-base-layout>
+{{ asset('image/logo/logo.png') }}
+{{ url('image/logo/logo.png') }}
     <!--begin::Card-->
     <div class="card">
         <!--begin::Card body-->

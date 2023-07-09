@@ -326,7 +326,7 @@
                             // Disable button to avoid multiple click 
                             // submitButton.disabled = true;
                             // console.log(locationJoin); 
-                            var url = "/reports?report=" + report + "&location_id=" + locationJoin + "&daterange=" + daterange;
+                            var url = "/reports?report=" + report + "&location_id=" + locationJoin + "&daterange=" + daterange + '&{{ theme()->isDarkMode()?"mode=dark":"" }}';
                             console.log(url);
                             location.href = url;
                             // form.action = url;

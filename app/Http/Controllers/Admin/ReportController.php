@@ -239,8 +239,6 @@ class ReportController extends Controller
                     // ->orderByRaw('location_name', 'year', 'month')
                     // ->get();
                     $data->data = $info;
-
-
                     $startDateUnix = Carbon::parse($start)->firstOfMonth();
                     $endDateUnix = Carbon::parse($end)->lastOfMonth();
                     // $endYear = date('Y', $startDateUnix);
