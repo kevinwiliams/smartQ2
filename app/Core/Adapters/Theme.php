@@ -91,13 +91,22 @@ class Theme extends \App\Core\Theme
             $params['mode'] = $_REQUEST['mode'];
         }
 
+        if(!isset($params['mode'])){
+            $path = str_replace("&mode=dark","",$path);
+            $path = str_replace("?mode=dark","",$path);
+        }
+
         if (!empty($demo)) {
             $params['demo'] = $demo;
         }
 
         $a = '';
         if (count($params) && $path !== '#') {
-            $a = '?'.http_build_query($params);
+            if (str_contains($path, '?')) {
+                $a = '&'.http_build_query($params);
+            }else{
+                $a = '?'.http_build_query($params);
+            }
         }
 
         // check if the route exist in the laravel

@@ -1252,8 +1252,9 @@
 
                 var repItem = $('#mv-repeater-item');
                 var content = $('#mv-repeater-content');
+                var cur_loc_id = $('#mv_location_list').find(":selected").val();
 
-                // console.log(repItem);
+                console.log("here " + cur_loc_id);
                 // repItem.find("#mv-repeater-name")
                 $('[data-mv-stepper-action="next"]').addClass('disabled');
                 $.ajax({
@@ -1268,6 +1269,8 @@
                             var optstr = '<option value="' + element.id + '" data-mv-rich-content-subcontent="' + element.address + '" data-visitreason="' + element.settings.client_reason_for_visit + '" data-shownote="' + element.settings.show_note + '" data-lat="' + element.lat + '" data-lng="' + element.lon + '" data-whatsapp="' + element.settings.enable_whatsapp + '">' + element.name + '</option>';
                             $('select[name="location"]').append(optstr);
                         });
+                        $('#mv_location_list').val(cur_loc_id);
+                        $("#mv_location_list").trigger('change');
                         getLocation();
                     }
                 });

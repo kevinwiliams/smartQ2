@@ -1769,7 +1769,7 @@ class TokenController extends Controller
         $categories = BusinessCategory::whereRelation('companies', 'company.active', true)->whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
         $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
         
-        return view('pages.home.advsearch2', compact('smsalert', 'maskedemail', 'shownote', 'companies', 'categories'));
+        return view('pages.home.advsearch', compact('smsalert', 'maskedemail', 'shownote', 'companies', 'categories'));
     }
 
     public function businessSearch($id = null)

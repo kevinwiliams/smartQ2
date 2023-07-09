@@ -57,8 +57,7 @@ class HomeController extends Controller
         $shownote = $display->show_note;
 
         $maskedemail = auth()->user()->getMaskedEmail();
-
-
+        
         $categories = BusinessCategory::whereRelation('companies', 'company.active', true)->whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
         $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
 

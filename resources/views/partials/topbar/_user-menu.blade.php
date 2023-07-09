@@ -127,7 +127,7 @@
     <div class="menu-item px-5">
         <div class="menu-content px-5">
             <label class="form-check form-switch form-check-custom form-check-solid pulse pulse-success" for="mv_user_menu_dark_mode_toggle">
-                <input class="form-check-input w-30px h-20px" type="checkbox" value="1" name="skin" id="mv_user_menu_dark_mode_toggle" {{ theme()->isDarkMode() ? 'checked' : '' }} data-mv-url="{{ theme()->getPageUrl('', '', theme()->isDarkMode() ? '' : 'dark') }}" />
+                <input class="form-check-input w-30px h-20px" type="checkbox" value="1" name="skin" id="mv_user_menu_dark_mode_toggle" {{ theme()->isDarkMode() ? 'checked' : '' }} data-mv-url="{{ theme()->getPageUrl(url()->full(), '', theme()->isDarkMode() ? '' : 'dark') }}" />
                 <span class="pulse-ring ms-n1"></span>
 
                 <span class="form-check-label text-gray-600 fs-7">

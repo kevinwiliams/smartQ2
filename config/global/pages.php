@@ -546,6 +546,13 @@ return array(
 
         '*' => array(
             'title' => 'Search',
+            'assets' => array(
+                'custom' => array(
+                    'js' => array(
+                        'js/custom/home/client-token.js',                        
+                    ),
+                ),
+            ),
         ),
 
     ),
