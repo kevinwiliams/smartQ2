@@ -719,8 +719,8 @@
     </div>
 
     @section('scripts')
-    @include('pages.home._client-token-js')
-    <!-- <script>
+    
+    <script>
         var chart;
         var lastLat;
         var lastLng;
@@ -1873,7 +1873,7 @@
 
             });
         }
-    </script>  -->
+    </script> 
     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{config('app.google_maps')}}&callback=geoSuccess&libraries=geometry" type="text/javascript"></script>
     @include('pages.home._firebase-js')
 
