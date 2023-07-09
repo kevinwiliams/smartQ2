@@ -68,7 +68,7 @@ $chartHeight = $chartHeight ?? '175px';
                     @php                        
                         $url = "reports?report=7&location_id=" . $location_id . "&daterange=" . $start_date . " - " . $end_date;
                     @endphp
-                    <a href="{{theme()->getPageUrl(reports) .  }}" target="_blank" class="text-danger fw-bold fs-6 mt-2">
+                    <a href="{{theme()->getPageUrl('reports') . $url }}" target="_blank" class="text-danger fw-bold fs-6 mt-2">
                         Customers Served
                     </a>
                 </div>
