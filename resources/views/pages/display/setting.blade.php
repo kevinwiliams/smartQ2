@@ -194,21 +194,11 @@
                                             <div class="col-6">
                                                 <div class="fv-row mb-7">
                                                     <div class="form-group @error('sms_alert') has-error @enderror">
-                                                        <!--
                                                         <div class="form-check form-switch form-check-custom form-check-solid">
-                                                            <input class="form-check-input h-20px w-30px" type="checkbox" value="" id="flexSwitchDefault"/>
-                                                            <label class="form-check-label" for="flexSwitchDefault">
+                                                            <input type="hidden" name="sms_alert" value="0">
+                                                            <input class="form-check-input h-20px w-30px" type="checkbox" value="1" id="sms_alert" name="sms_alert" {{ ($setting->sms_alert == '1') ? 'checked' : '' }}>
+                                                            <label class="form-check-label" for="sms_alert">
                                                                 {{ trans('app.sms_alert') }}
-                                                            </label>
-                                                        </div>
-                                                        -->
-                                                        <label for="sms_alert">{{ trans('app.sms_alert') }}</label>
-                                                        <div id="sms_alert">
-                                                            <label class="radio-inline">
-                                                                <input type="radio" name="sms_alert" value="1" {{ (($setting->sms_alert)=='1')?"checked":"" }}> {{ trans('app.active') }}
-                                                            </label>
-                                                            <label class="radio-inline">
-                                                                <input type="radio" name="sms_alert" value="0" {{ (($setting->sms_alert)=='0')?"checked":"" }}> {{ trans('app.deactive') }}
                                                             </label>
                                                         </div>
                                                     </div>
@@ -216,13 +206,11 @@
 
                                                 <div class="fv-row mb-7">
                                                     <div class="form-group @error('show_officer') has-error @enderror">
-                                                        <label for="show_officer">{{ trans('app.show_officer') }}</label>
-                                                        <div id="show_officer">
-                                                            <label class="radio-inline">
-                                                                <input type="radio" name="show_officer" value="1" {{ (($setting->show_officer)=='1')?"checked":"" }}> {{ trans('app.active') }}
-                                                            </label>
-                                                            <label class="radio-inline">
-                                                                <input type="radio" name="show_officer" value="0" {{ (($setting->show_officer)=='0')?"checked":"" }}> {{ trans('app.deactive') }}
+                                                        <div class="form-check form-switch form-check-custom form-check-solid">
+                                                            <input type="hidden" name="show_officer" value="0">
+                                                            <input class="form-check-input h-20px w-30px" type="checkbox" value="1" id="show_officer" name="show_officer" {{ ($setting->show_officer == '1') ? 'checked' : '' }}>
+                                                            <label class="form-check-label" for="show_officer">
+                                                                {{ trans('app.show_officer') }}
                                                             </label>
                                                         </div>
                                                     </div>
@@ -230,39 +218,33 @@
 
                                                 <div class="fv-row mb-7">
                                                     <div class="form-group @error('show_department') has-error @enderror">
-                                                        <label for="show_department">{{ trans('app.show_department') }}</label>
-                                                        <div id="show_department">
-                                                            <label class="radio-inline">
-                                                                <input type="radio" name="show_department" value="1" {{ (($setting->show_department)=='1')?"checked":"" }}> {{ trans('app.active') }}
-                                                            </label>
-                                                            <label class="radio-inline">
-                                                                <input type="radio" name="show_department" value="0" {{ (($setting->show_department)=='0')?"checked":"" }}> {{ trans('app.deactive') }}
+                                                        <div class="form-check form-switch form-check-custom form-check-solid">
+                                                            <input type="hidden" name="show_department" value="0">
+                                                            <input class="form-check-input h-20px w-30px" type="checkbox" value="1" id="show_department" name="show_department" {{ ($setting->show_department == '1') ? 'checked' : '' }}>
+                                                            <label class="form-check-label" for="show_department">
+                                                                {{ trans('app.show_department') }}
                                                             </label>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="fv-row mb-7">
                                                     <div class="form-group @error('enable_greeting') has-error @enderror">
-                                                        <label for="enable_greeting">{{ trans('app.enable_greeting') }}</label>
-                                                        <div id="enable_greeting">
-                                                            <label class="radio-inline">
-                                                                <input type="radio" name="enable_greeting" value="1" {{ (($setting->enable_greeting)=='1')?"checked":"" }}> {{ trans('app.active') }}
-                                                            </label>
-                                                            <label class="radio-inline">
-                                                                <input type="radio" name="enable_greeting" value="0" {{ (($setting->enable_greeting)=='0')?"checked":"" }}> {{ trans('app.deactive') }}
+                                                        <div class="form-check form-switch form-check-custom form-check-solid">
+                                                            <input type="hidden" name="enable_greeting" value="0">
+                                                            <input class="form-check-input h-20px w-30px" type="checkbox" value="1" id="enable_greeting" name="enable_greeting" {{ ($setting->enable_greeting == '1') ? 'checked' : '' }}>
+                                                            <label class="form-check-label" for="enable_greeting">
+                                                                {{ trans('app.enable_greeting') }}
                                                             </label>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="fv-row mb-7">
                                                     <div class="form-group @error('enable_whatsapp') has-error @enderror">
-                                                        <label for="enable_whatsapp">{{ trans('app.enable_whatsapp') }}</label>
-                                                        <div id="enable_whatsapp">
-                                                            <label class="radio-inline">
-                                                                <input type="radio" name="enable_whatsapp" value="1" {{ (($setting->enable_whatsapp)=='1')?"checked":"" }}> {{ trans('app.active') }}
-                                                            </label>
-                                                            <label class="radio-inline">
-                                                                <input type="radio" name="enable_whatsapp" value="0" {{ (($setting->enable_whatsapp)=='0')?"checked":"" }}> {{ trans('app.deactive') }}
+                                                      <div class="form-check form-switch form-check-custom form-check-solid">
+                                                            <input type="hidden" name="enable_whatsapp" value="0">
+                                                            <input class="form-check-input h-20px w-30px" type="checkbox" value="1" id="enable_whatsapp" name="enable_whatsapp" {{ ($setting->enable_whatsapp == '1') ? 'checked' : '' }}>
+                                                            <label class="form-check-label" for="enable_whatsapp">
+                                                                {{ trans('app.enable_whatsapp') }}
                                                             </label>
                                                         </div>
                                                     </div>
@@ -271,13 +253,11 @@
                                             <div class="col-6">
                                                 <div class="fv-row mb-7">
                                                     <div class="form-group @error('show_note') has-error @enderror">
-                                                        <label for="show_note">{{ trans('app.show_note') }}</label>
-                                                        <div id="show_note">
-                                                            <label class="radio-inline">
-                                                                <input type="radio" name="show_note" value="1" {{ (($setting->show_note)=='1')?"checked":"" }}> {{ trans('app.active') }}
-                                                            </label>
-                                                            <label class="radio-inline">
-                                                                <input type="radio" name="show_note" value="0" {{ (($setting->show_note)=='0')?"checked":"" }}> {{ trans('app.deactive') }}
+                                                        <div class="form-check form-switch form-check-custom form-check-solid">
+                                                            <input type="hidden" name="show_note" value="0">
+                                                            <input class="form-check-input h-20px w-30px" type="checkbox" value="1" id="show_note" name="show_note" {{ ($setting->show_note == '1') ? 'checked' : '' }}>
+                                                            <label class="form-check-label" for="show_note">
+                                                                {{ trans('app.show_note') }}
                                                             </label>
                                                         </div>
                                                     </div>
@@ -285,39 +265,33 @@
 
                                                 <div class="fv-row mb-7">
                                                     <div class="form-group @error('keyboard_mode') has-error @enderror">
-                                                        <label for="keyboard_mode">{{ trans('app.keyboard_mode') }}</label>
-                                                        <div id="keyboard_mode">
-                                                            <label class="radio-inline">
-                                                                <input type="radio" name="keyboard_mode" value="1" {{ (($setting->keyboard_mode)=='1')?"checked":"" }}> {{ trans('app.active') }}
-                                                            </label>
-                                                            <label class="radio-inline">
-                                                                <input type="radio" name="keyboard_mode" value="0" {{ (($setting->keyboard_mode)=='0')?"checked":"" }}> {{ trans('app.deactive') }}
+                                                        <div class="form-check form-switch form-check-custom form-check-solid">
+                                                            <input type="hidden" name="keyboard_mode" value="0">
+                                                            <input class="form-check-input h-20px w-30px" type="checkbox" value="1" id="keyboard_mode" name="keyboard_mode" {{ ($setting->keyboard_mode == '1') ? 'checked' : '' }}>
+                                                            <label class="form-check-label" for="keyboard_mode">
+                                                                {{ trans('app.keyboard_mode') }}
                                                             </label>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="fv-row mb-7">
                                                     <div class="form-group @error('enable_qr_checkin') has-error @enderror">
-                                                        <label for="enable_qr_checkin">{{ trans('app.enable_qr_checkin') }}</label>
-                                                        <div id="enable_qr_checkin">
-                                                            <label class="radio-inline">
-                                                                <input type="radio" name="enable_qr_checkin" value="1" {{ (($setting->enable_qr_checkin)=='1')?"checked":"" }}> {{ trans('app.active') }}
-                                                            </label>
-                                                            <label class="radio-inline">
-                                                                <input type="radio" name="enable_qr_checkin" value="0" {{ (($setting->enable_qr_checkin)=='0')?"checked":"" }}> {{ trans('app.deactive') }}
+                                                        <div class="form-check form-switch form-check-custom form-check-solid">
+                                                            <input type="hidden" name="enable_qr_checkin" value="0">
+                                                            <input class="form-check-input h-20px w-30px" type="checkbox" value="1" id="enable_qr_checkin" name="enable_qr_checkin" {{ ($setting->enable_qr_checkin == '1') ? 'checked' : '' }}>
+                                                            <label class="form-check-label" for="enable_qr_checkin">
+                                                                {{ trans('app.enable_qr_checkin') }}
                                                             </label>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="fv-row mb-7">
                                                     <div class="form-group @error('client_reason_for_visit') has-error @enderror">
-                                                        <label for="client_reason_for_visit">{{ trans('app.client_reason_for_visit') }}</label>
-                                                        <div id="client_reason_for_visit">
-                                                            <label class="radio-inline">
-                                                                <input type="radio" name="client_reason_for_visit" value="1" {{ (($setting->client_reason_for_visit)=='1')?"checked":"" }}> {{ trans('app.active') }}
-                                                            </label>
-                                                            <label class="radio-inline">
-                                                                <input type="radio" name="client_reason_for_visit" value="0" {{ (($setting->client_reason_for_visit)=='0')?"checked":"" }}> {{ trans('app.deactive') }}
+                                                        <div class="form-check form-switch form-check-custom form-check-solid">
+                                                            <input type="hidden" name="client_reason_for_visit" value="0">
+                                                            <input class="form-check-input h-20px w-30px" type="checkbox" value="1" id="client_reason_for_visit" name="client_reason_for_visit" {{ ($setting->client_reason_for_visit == '1') ? 'checked' : '' }}>
+                                                            <label class="form-check-label" for="client_reason_for_visit">
+                                                                {{ trans('app.client_reason_for_visit') }}
                                                             </label>
                                                         </div>
                                                     </div>
