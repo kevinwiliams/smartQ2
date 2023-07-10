@@ -63,7 +63,7 @@ $months = App\Core\Util::getMonths($daterange[0],$daterange[1]);
     @endphp
     <div class="tab-pane fade" id="mv_tab_pane_graph" role="tabpanel">
         <!--begin::Chart-->
-        <div class="card-rounded-bottom" data-mv-color="{{ $chartColor }}" style="height: {{ $chartHeight }}" id="report-bar-chart"></div>
+        <div class="card-rounded-bottom" data-mv-color="{{ $chartColor }}" style="height: {{ $chartHeight }}" id="report-column-chart"></div>
         <!--end::Chart-->
     </div>
 </div>

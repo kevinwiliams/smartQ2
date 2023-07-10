@@ -456,8 +456,8 @@
         // Public methods
 
 
-        var barCharts = function() {
-            var charts = document.querySelectorAll("#report-bar-chart");
+        var columnCharts = function() {
+            var charts = document.querySelectorAll("#report-column-chart");
             if (charts == null) {
                 return;
             }
@@ -500,7 +500,7 @@
                         },
                     },
                     legend: {
-                        show: false
+                        show: true
                     },
                     dataLabels: {
                         enabled: false
@@ -591,6 +591,272 @@
             });
         }
 
+        var barCharts = function() {
+            var charts = document.querySelectorAll("#report-bar-chart");
+            if (charts == null) {
+                return;
+            }
+
+            var color;
+            var height;
+            var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
+            var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
+            var baseLightColor;
+            var secondaryColor = MVUtil.getCssVariableValue('--bs-gray-300');
+            var baseColor;
+            var options;
+            var chart;
+            var color3;
+            var color4;
+            var color5;
+
+            [].slice.call(charts).map(function(element) {
+                color = element.getAttribute("data-mv-color");
+                height = parseInt(MVUtil.css(element, 'height'));
+                baseColor = MVUtil.getCssVariableValue('--bs-' + color);
+                color3 = MVUtil.getCssVariableValue('--bs-success');
+                color4 = MVUtil.getCssVariableValue('--bs-info');
+                color5 = MVUtil.getCssVariableValue('--bs-warning');
+                options = {
+                    series: <?php echo json_encode(($data->graph) ? $data->seriesdata : []); ?>,
+                    chart: {
+                        type: 'bar',
+                        height: 430
+                    },
+                    plotOptions: {
+                        bar: {
+                            horizontal: true,
+                            dataLabels: {
+                                position: 'top',
+                            },
+                        }
+                    },
+                    legend: {
+                        show: true
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        offsetX: -6,
+                        style: {
+                            fontSize: '12px',
+                            colors: ['#fff']
+                        }
+                    },
+                    stroke: {
+                        show: true,
+                        width: 2,
+                        colors: ['transparent']
+                    },
+                    tooltip: {
+                        shared: true,
+                        intersect: false
+                    },
+                    xaxis: {
+                        categories: <?php echo json_encode(($data->graph) ? $data->categories : []); ?>,
+                    },
+                    fill: {
+                        type: 'solid'
+                    },
+                    states: {
+                        normal: {
+                            filter: {
+                                type: 'none',
+                                value: 0
+                            }
+                        },
+                        hover: {
+                            filter: {
+                                type: 'none',
+                                value: 0
+                            }
+                        },
+                        active: {
+                            allowMultipleDataPointsSelection: false,
+                            filter: {
+                                type: 'none',
+                                value: 0
+                            }
+                        }
+                    },
+                    colors: [baseColor, secondaryColor, color3, color4, color5],
+                    grid: {
+                        padding: {
+                            top: 10
+                        },
+                        borderColor: borderColor,
+                        strokeDashArray: 4,
+                        yaxis: {
+                            lines: {
+                                show: true
+                            }
+                        }
+                    }
+                };
+
+                chart = new ApexCharts(element, options);
+                chart.render();
+            });
+        }
+
+        var stackedBarCharts = function() {
+            var charts = document.querySelectorAll("#report-stacked-bar-chart");
+            if (charts == null) {
+                return;
+            }
+
+            var color;
+            var height;
+            var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
+            var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
+            var baseLightColor;
+            var secondaryColor = MVUtil.getCssVariableValue('--bs-gray-300');
+            var baseColor;
+            var options;
+            var chart;
+            var color3;
+            var color4;
+            var color5;
+
+            [].slice.call(charts).map(function(element) {
+                color = element.getAttribute("data-mv-color");
+                height = parseInt(MVUtil.css(element, 'height'));
+                baseColor = MVUtil.getCssVariableValue('--bs-' + color);
+                color3 = MVUtil.getCssVariableValue('--bs-success');
+                color4 = MVUtil.getCssVariableValue('--bs-info');
+                color5 = MVUtil.getCssVariableValue('--bs-warning');
+                options = {
+                    series: <?php echo json_encode(($data->graph) ? $data->seriesdata : []); ?>,
+                    chart: {
+                        type: 'bar',
+                        height: 430,
+                        stacked: true,
+                    },
+                    plotOptions: {
+                        bar: {
+                            horizontal: true,
+                            dataLabels: {
+                                position: 'top',                               
+                            },
+                        }
+                    },
+                    legend: {
+                        show: true
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        offsetX: -6,
+                        style: {
+                            fontSize: '12px',
+                            colors: ['#fff']
+                        },                      
+                    },
+                    stroke: {
+                        show: true,
+                        width: 2,
+                        colors: ['transparent']
+                    },
+                    tooltip: {
+                        shared: true,
+                        intersect: false
+                    },
+                    xaxis: {
+                        categories: <?php echo json_encode(($data->graph) ? $data->categories : []); ?>,
+                    },
+                    fill: {
+                        type: 'solid'
+                    },
+                    states: {
+                        normal: {
+                            filter: {
+                                type: 'none',
+                                value: 0
+                            }
+                        },
+                        hover: {
+                            filter: {
+                                type: 'none',
+                                value: 0
+                            }
+                        },
+                        active: {
+                            allowMultipleDataPointsSelection: false,
+                            filter: {
+                                type: 'none',
+                                value: 0
+                            }
+                        }
+                    },
+                    colors: [baseColor, secondaryColor, color3, color4, color5],
+                    grid: {
+                        padding: {
+                            top: 10
+                        },
+                        borderColor: borderColor,
+                        strokeDashArray: 4,
+                        yaxis: {
+                            lines: {
+                                show: true
+                            }
+                        }
+                    }
+                };
+
+                chart = new ApexCharts(element, options);
+                chart.render();
+            });
+        }
+
+        var pieCharts = function() {
+            var charts = document.querySelectorAll("#report-pie-chart");
+            if (charts == null) {
+                return;
+            }
+
+            var color;
+            var height;
+            var labelColor = MVUtil.getCssVariableValue('--bs-gray-500');
+            var borderColor = MVUtil.getCssVariableValue('--bs-gray-200');
+            var baseLightColor;
+            var secondaryColor = MVUtil.getCssVariableValue('--bs-gray-300');
+            var baseColor;
+            var options;
+            var chart;
+            var color3;
+            var color4;
+            var color5;
+
+            [].slice.call(charts).map(function(element) {
+                color = element.getAttribute("data-mv-color");
+                height = parseInt(MVUtil.css(element, 'height'));
+                baseColor = MVUtil.getCssVariableValue('--bs-' + color);
+                color3 = MVUtil.getCssVariableValue('--bs-success');
+                color4 = MVUtil.getCssVariableValue('--bs-info');
+                color5 = MVUtil.getCssVariableValue('--bs-warning');
+                options = options = {
+                    series: <?php echo json_encode(($data->graph) ? $data->seriesdata : []); ?>,
+                    chart: {
+                        width: 480,
+                        type: 'pie',
+                    },
+                    labels: <?php echo json_encode(($data->graph) ? $data->categories : []); ?>,
+                    responsive: [{
+                        breakpoint: 580,
+                        options: {
+                            chart: {
+                                width: 250
+                            },
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }]
+                };
+
+                chart = new ApexCharts(element, options);
+                chart.render();
+            });
+        }
+
         return {
             init: function() {
                 // initChart();
@@ -600,6 +866,9 @@
                 initSearch();
                 exportButtons();
                 barCharts();
+                columnCharts();
+                pieCharts();
+                stackedBarCharts();
             }
         }
     }();

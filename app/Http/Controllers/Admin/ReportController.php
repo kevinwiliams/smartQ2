@@ -297,6 +297,7 @@ class ReportController extends Controller
                     $officers = User::whereIn('id', $users)->get();
 
                     $repdata = [];
+                    $graphdata = [];
 
                     foreach ($users as $_user) {
                         $currentOfficer = $officers->firstWhere('id', $_user);
@@ -336,14 +337,46 @@ class ReportController extends Controller
                             "total" => $waitcounter
                         ];
                         $repdata[] = (object)$dataObj;
+                        array_push($graphdata, $dataObj);
                     }
 
                     $data->data = $repdata;
 
-                    // echo '<pre>';
-                    // print_r($data->data == null);
-                    // echo '</pre>';
-                    // die();
+                    $data->graph = true;
+
+
+                    $seriesData = array();
+                    $categoryData = array();
+
+
+                    $minData = array();
+                    $maxData = array();
+                    $avgData = array();
+
+                    foreach ($graphdata as $item) {
+                        $categoryData[] = $item['officer'];
+                        $minData[] = $item['min'];
+                        $maxData[] = $item['max'];
+                        $avgData[] = $item['avg'];
+                    }
+
+                    $seriesData[] = array(
+                        'data' => $minData,
+                        'name' => 'Min'
+                    );
+
+                    $seriesData[] = array(
+                        'data' => $maxData,
+                        'name' => 'Max'
+                    );
+
+                    $seriesData[] = array(
+                        'data' => $avgData,
+                        'name' => 'Average'
+                    );
+
+                    $data->seriesdata = $seriesData;
+                    $data->categories = $categoryData;
 
                     break;
                 case '6':
@@ -359,7 +392,7 @@ class ReportController extends Controller
                     $officers = User::whereIn('id', $users)->get();
 
                     $repdata = [];
-
+                    $graphdata = [];
                     foreach ($users as $_user) {
                         $currentOfficer = $officers->firstWhere('id', $_user);
                         $locationtokens = $tokens->where('user_id', $_user);
@@ -396,13 +429,49 @@ class ReportController extends Controller
                             "total" => $servicecounter
                         ];
                         $repdata[] = (object)$dataObj;
+                        array_push($graphdata, $dataObj);
                     }
 
                     $data->data = $repdata;
+                    $data->graph = true;
+
+
+                    $seriesData = array();
+                    $categoryData = array();
+
+
+                    $minData = array();
+                    $maxData = array();
+                    $avgData = array();
+
+                    foreach ($graphdata as $item) {
+                        $categoryData[] = $item['officer'];
+                        $minData[] = $item['min'];
+                        $maxData[] = $item['max'];
+                        $avgData[] = $item['avg'];
+                    }
+
+                    $seriesData[] = array(
+                        'data' => $minData,
+                        'name' => 'Min'
+                    );
+
+                    $seriesData[] = array(
+                        'data' => $maxData,
+                        'name' => 'Max'
+                    );
+
+                    $seriesData[] = array(
+                        'data' => $avgData,
+                        'name' => 'Average'
+                    );
+
+                    $data->seriesdata = $seriesData;
+                    $data->categories = $categoryData;
 
                     break;
                 case '7':
-                    $data->data = DB::table("token")
+                    $info = DB::table("token")
                         ->select(
                             'locations.name AS location_name',
                             DB::raw("CONCAT_WS(' ', user.firstname, user.lastname) AS officer"),
@@ -426,10 +495,55 @@ class ReportController extends Controller
                     // print_r($data);
                     // echo '</pre>';
                     // die();
+                    $data->data = $info;
+                    $startDateUnix = Carbon::parse($start)->startOfDay();
+                    $endDateUnix = Carbon::parse($end)->endOfDay();
+                    $currentDateUnix = $startDateUnix;
+
+                    $dayList = array_unique($info->pluck('day')->toArray());
+                    $dayNumbers = array();
+
+                    foreach ($dayList as $_day) {
+                        $startDateUnix = Carbon::parse($_day);
+                        array_push($dayNumbers, array('daynumber' => $startDateUnix->day, 'dayname' => $startDateUnix->dayName, 'day' => $startDateUnix->format('Y-m-d'), 'year' => $startDateUnix->year));
+                    }
+                 
+                    $seriesdata = array();
+
+                    $officers = array_unique($info->pluck('officer')->toArray());
+
+                    foreach ($officers as $officer_name) {
+                        $datarow = array();
+                        foreach ($dayNumbers as $_day) {
+
+                            $inforow =  $info->where('officer', $officer_name)->where('day', $_day['day'])->first();
+                            array_push($datarow, ($inforow) ? $inforow->total : 0);
+                        }
+                        array_push($seriesdata, array('name' => $officer_name, 'data' => $datarow));
+                    }
+
+                    $data->graph = true;
+                    $data->seriesdata = $seriesdata;
+
+                    $categories = array();
+
+                    foreach ($dayNumbers as $_day) {
+                        array_push($categories, $_day['day']);
+                    }
+                    $data->categories = $categories;
+
+
+                    // echo '<pre>';
+                    // print_r($seriesdata);
+                    // echo '</pre>';
+                    // echo '<pre>';
+                    // print_r($categories);
+                    // echo '</pre>';
+                    // die();
 
                     break;
                 case '8':
-                    $data->data = DB::table("token")
+                    $info = DB::table("token")
                         ->select([
                             'locations.name AS location_name',
                             DB::raw("CONCAT_WS(' ', user.firstname, user.lastname) AS officer"),
@@ -448,7 +562,39 @@ class ReportController extends Controller
                         ->orderBy('day')
                         ->get();
 
+                        $data->data = $info;
 
+                        $dayList = array_unique($info->pluck('day')->toArray());
+                        $dayNumbers = array();
+    
+                        foreach ($dayList as $_day) {
+                            $startDateUnix = Carbon::parse($_day);
+                            array_push($dayNumbers, array('daynumber' => $startDateUnix->day, 'dayname' => $startDateUnix->dayName, 'day' => $startDateUnix->format('Y-m-d'), 'year' => $startDateUnix->year));
+                        }
+                     
+                        $seriesdata = array();
+    
+                        $officers = array_unique($info->pluck('officer')->toArray());
+    
+                        foreach ($officers as $officer_name) {
+                            $datarow = array();
+                            foreach ($dayNumbers as $_day) {
+    
+                                $inforow =  $info->where('officer', $officer_name)->where('day', $_day['day'])->first();
+                                array_push($datarow, ($inforow) ? $inforow->total : 0);
+                            }
+                            array_push($seriesdata, array('name' => $officer_name, 'data' => $datarow));
+                        }
+    
+                        $data->graph = true;
+                        $data->seriesdata = $seriesdata;
+    
+                        $categories = array();
+    
+                        foreach ($dayNumbers as $_day) {
+                            array_push($categories, $_day['day']);
+                        }
+                        $data->categories = $categories;
                     // echo '<pre>';
                     // print_r($data);
                     // echo '</pre>';
@@ -467,7 +613,7 @@ class ReportController extends Controller
 
                     break;
                 case '10':
-                    $data->data = DB::select("
+                    $info = DB::select("
                     SELECT 
                        realToken.user_id AS uid,
                        (SELECT name FROM locations WHERE id= realToken.location_id) as location,
@@ -503,7 +649,7 @@ class ReportController extends Controller
                        SELECT COUNT(id)
                        FROM token 
                        WHERE 
-                           status = 0 
+                           status in (0,3)
                            AND user_id=realToken.user_id
                            AND (DATE(created_at) BETWEEN '" . $start . "' AND '" . $end . "')
                            AND (location_id in (" . $data->location_id . "))
@@ -515,6 +661,44 @@ class ReportController extends Controller
                      ORDER BY location, officer
                    ");
 
+                   $data->data = $info;
+
+                   $data->graph = true;
+
+
+                   $seriesData = array();
+                   $categoryData = array();
+
+
+                   $stoppedData = array();
+                   $successData = array();
+                   $pendingData = array();
+
+                   foreach ($info as $item) {
+                       $categoryData[] = $item->officer;
+                       $stoppedData[] = $item->stoped;
+                       $successData[] = $item->success;
+                       $pendingData[] = $item->pending;
+                   }
+
+                   $seriesData[] = array(
+                       'data' => $stoppedData,
+                       'name' => 'Stopped'
+                   );
+
+                   $seriesData[] = array(
+                       'data' => $successData,
+                       'name' => 'Success'
+                   );
+
+                   $seriesData[] = array(
+                       'data' => $pendingData,
+                       'name' => 'Pending'
+                   );
+
+                   $data->seriesdata = $seriesData;
+                   $data->categories = $categoryData;
+
 
                     break;
                 case '11':
@@ -523,7 +707,7 @@ class ReportController extends Controller
                     //  ->select('browser', DB::raw('count(*) as total'))
                     //  ->groupBy('browser')
                     //  ->get();
-                    
+
                     $deptids = DB::table("department")
                         ->whereIn('location_id', $idArray)
                         ->get()->pluck('id')->toArray();
@@ -576,8 +760,23 @@ class ReportController extends Controller
                     // die();
 
                     $data->data = $infoarray;
-                    
-                    //Add Bar Chart
+                    $data->graph = true;
+
+                    $seriesData = array();
+                    $categoryData = array();
+
+
+                    $minData = array();
+                    $maxData = array();
+                    $avgData = array();
+
+                    foreach ($infoarray as $item) {
+                        $categoryData[] = $item->reason_for_visit;
+                        $seriesData[] = $item->count;
+                    }
+
+                    $data->seriesdata = $seriesData;
+                    $data->categories = $categoryData;
                     break;
                 default:
                     # code...

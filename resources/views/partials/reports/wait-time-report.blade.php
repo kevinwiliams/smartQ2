@@ -5,32 +5,48 @@
 </h1>
 @else
 
-<table class="table table-striped table-row-bordered gy-5 gs-7 border rounded w-100" id="mv_report_table_1">
-    <thead>
-        <tr class="fw-bolder fs-6 text-gray-800 px-7">
-            <th>{{ trans('app.location') }}</th>
-            <th>{{ trans('app.officer') }}</th>
-            <th>{{ trans('app.min_time') }}</th>
-            <th>{{ trans('app.max_time') }}</th>
-            <th>{{ trans('app.avg_time') }}</th>
-            <th>{{ trans('app.customers') }}</th>
-        </tr>
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="mv_tab_pane_table" role="tabpanel">
 
-    </thead>
-    <tbody>
-        @foreach($data as $token)
+        <table class="table table-striped table-row-bordered gy-5 gs-7 border rounded w-100" id="mv_report_table_1">
+            <thead>
+                <tr class="fw-bolder fs-6 text-gray-800 px-7">
+                    <th>{{ trans('app.location') }}</th>
+                    <th>{{ trans('app.officer') }}</th>
+                    <th>{{ trans('app.min_time') }}</th>
+                    <th>{{ trans('app.max_time') }}</th>
+                    <th>{{ trans('app.avg_time') }}</th>
+                    <th>{{ trans('app.customers') }}</th>
+                </tr>
 
-        <tr>
-            <td>{{ $token->location }}</td>
-            <td>{{ $token->officer }}</td>
-            <td>{{ $token->min }}</td>
-            <td>{{ $token->max }}</td>
-            <td>{{ $token->avg }}</td>
-            <td>{{ $token->total }}</td>
-        </tr>
+            </thead>
+            <tbody>
+                @foreach($data as $token)
 
-        @endforeach
+                <tr>
+                    <td>{{ $token->location }}</td>
+                    <td>{{ $token->officer }}</td>
+                    <td>{{ $token->min }}</td>
+                    <td>{{ $token->max }}</td>
+                    <td>{{ $token->avg }}</td>
+                    <td>{{ $token->total }}</td>
+                </tr>
 
-    </tbody>
-</table>
+                @endforeach
+
+            </tbody>
+        </table>
+    </div>
+    @php
+    $chartColor = $chartColor ?? 'primary';
+    $chartHeight = $chartHeight ?? '300px';
+    @endphp
+    <div class="tab-pane fade" id="mv_tab_pane_graph" role="tabpanel">
+        <!--begin::Chart-->
+        <div class="card-rounded-bottom" data-mv-color="{{ $chartColor }}" style="height: {{ $chartHeight }}" id="report-bar-chart"></div>
+        <!--end::Chart-->
+    </div>
+</div>
+
+
 @endif

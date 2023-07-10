@@ -5,26 +5,40 @@
 </h1>
 @else
 
-<table class="table table-striped table-row-bordered gy-5 gs-7 border rounded w-100" id="mv_report_table_1">
-    <thead>
-        <tr class="fw-bolder fs-6 text-gray-800 px-7">
-            <th>{{ trans('app.reason_for_visit') }}</th>
-            <th>{{ trans('app.count') }}</th>
-            <th>{{ trans('app.percentage') }}</th>
-        </tr>
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="mv_tab_pane_table" role="tabpanel">
+        <table class="table table-striped table-row-bordered gy-5 gs-7 border rounded w-100" id="mv_report_table_1">
+            <thead>
+                <tr class="fw-bolder fs-6 text-gray-800 px-7">
+                    <th>{{ trans('app.reason_for_visit') }}</th>
+                    <th>{{ trans('app.count') }}</th>
+                    <th>{{ trans('app.percentage') }}</th>
+                </tr>
 
-    </thead>
-    <tbody>
-        @foreach($data as $token)
+            </thead>
+            <tbody>
+                @foreach($data as $token)
 
-        <tr>
-            <td>{{ $token->reason_for_visit }}</td>
-            <td>{{ $token->count }}</td>
-            <td>{{ round($token->percentage,2) }}%</td>
-        </tr>
+                <tr>
+                    <td>{{ $token->reason_for_visit }}</td>
+                    <td>{{ $token->count }}</td>
+                    <td>{{ round($token->percentage,2) }}%</td>
+                </tr>
 
-        @endforeach
+                @endforeach
 
-    </tbody>
-</table>
+            </tbody>
+        </table>
+    </div>
+    @php
+    $chartColor = $chartColor ?? 'primary';
+    $chartHeight = $chartHeight ?? '300px';
+    @endphp
+    <div class="tab-pane fade" id="mv_tab_pane_graph" role="tabpanel">
+        <!--begin::Chart-->
+        <div class="card-rounded-bottom" data-mv-color="{{ $chartColor }}" id="report-pie-chart"></div>
+        <!--end::Chart-->
+    </div>
+</div>
+
 @endif
