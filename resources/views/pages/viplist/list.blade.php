@@ -24,7 +24,7 @@
                         $id = end($parts);
 
                         if($id == 'list'){
-                        $id == auth()->user->location_id;
+                        $id == auth()->user()->location_id;
                         }
                         @endphp
                         <option value="{{ $_location->id }}" {{ ($_location->id == $id)?'selected':'' }}>{{ $_location->name }}</option>
