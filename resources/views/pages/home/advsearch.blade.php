@@ -768,7 +768,7 @@
                     template += '<span class="fs-4 fw-bold lh-1 text-primary">' + item.text + ' <i class="bi bi-star-fill" style="color:gold"></i></span>';
                 }else{
                     // template += '<span class="fs-4 fw-bold lh-1 text-success">' + item.text + ' <i class="bi bi-star-fill"></i></span>';
-                    template += '<span class="fs-4 fw-bold lh-1">' + item.text + " - "+ item.element.getAttribute('data-isvip') + '</span>';
+                    template += '<span class="fs-4 fw-bold lh-1">' + item.text + '</span>';
                 }
                 
                 template += '<span class="text-muted fs-5">' + item.element.getAttribute('data-mv-rich-content-subcontent') + '</span>';                 

@@ -28,7 +28,7 @@
                 <!--begin::Input group-->
                 <div class="fv-row mb-7">
                     <div class="form-group @error('client_id') has-error @enderror">
-                        <label for="client_id">{{ trans('app.client_id') }} <i class="text-danger">*</i></label>
+                        <label for="client_id">{{ trans('app.client') }} <i class="text-danger">*</i></label>
                         <select class="form-select form-select-solid " data-dropdown-parent="#mv_modal_add_viplist" tabindex="-1" aria-hidden="true" name="client_id" id="client_id">
                         </select>
                         <span class="text-danger">{{ $errors->first('client_id') }}</span>

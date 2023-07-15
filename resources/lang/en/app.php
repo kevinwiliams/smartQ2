@@ -333,5 +333,10 @@ return [
     'add_alert'    => "Add Alert",
     'edit_alert'    => "Edit Alert",
     'image'    => "Image",
+
+
+    /*VIP LIST*/
+    'add_viplist'    => "Add VIP",
+    'edit_viplist'    => "Edit VIP",    
     
 ];
