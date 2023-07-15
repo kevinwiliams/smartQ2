@@ -42,7 +42,7 @@ class HomeController extends Controller
 
         // $companies = Company::has('locations.departments')->orderBy('name', 'asc')->pluck('name', 'id');
         $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
-        
+
         // echo \Session::get('locale');
         // echo app()->getLocale();
         // die();
@@ -57,7 +57,7 @@ class HomeController extends Controller
         $shownote = $display->show_note;
 
         $maskedemail = auth()->user()->getMaskedEmail();
-        
+
         $categories = BusinessCategory::whereRelation('companies', 'company.active', true)->whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
         $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
 
@@ -92,6 +92,9 @@ class HomeController extends Controller
                 return view('pages.home.advsearch', compact('smsalert', 'maskedemail', 'shownote', 'companies', 'categories'));
             }
             $locations = Location::where('company_id', $company->id)->where('active', 1)->has('departments')->with('settings')->whereRelation("company", "active", true)->get();
+            foreach ($locations as $location) {
+                $location->is_vip = (auth()->user()->isVipAtLocation($location->id)) ? 1 : 0;
+            }
             return view('pages.home.business', compact('smsalert', 'maskedemail', 'shownote', 'company', 'locations'));
         }
     }
@@ -418,18 +421,34 @@ class HomeController extends Controller
         $waittime = 0;
         //if auto-setting are available
         if (!empty($settings)) {
+            $location_id = Department::select('location_id')->where('id', $request->id)->first();
+            $isVIP = auth()->user()->isVipAtLocation($location_id);
+
 
             foreach ($settings as $setting) {
                 //compare each user in today
-                $tokenData = Token::select('department_id', 'counter_id', 'user_id', DB::raw('COUNT(user_id) AS total_tokens'))
-                    ->where('department_id', $setting->department_id)
-                    ->where('counter_id', $setting->counter_id)
-                    ->where('user_id', $setting->user_id)
-                    ->whereIn('status', [0, 3])
-                    ->whereRaw('DATE(created_at) = CURDATE()')
-                    ->orderBy('total_tokens', 'asc')
-                    ->groupBy('user_id')
-                    ->first();
+                if ($isVIP) {
+                    $tokenData = Token::select('department_id', 'counter_id', 'user_id', DB::raw('COUNT(user_id) AS total_tokens'))
+                        ->where('department_id', $setting->department_id)
+                        ->where('counter_id', $setting->counter_id)
+                        ->where('user_id', $setting->user_id)
+                        ->whereIn('status', [0, 3])
+                        ->where('is_vip', 1)
+                        ->whereRaw('DATE(created_at) = CURDATE()')
+                        ->orderBy('total_tokens', 'asc')
+                        ->groupBy('user_id')
+                        ->first();
+                } else {
+                    $tokenData = Token::select('department_id', 'counter_id', 'user_id', DB::raw('COUNT(user_id) AS total_tokens'))
+                        ->where('department_id', $setting->department_id)
+                        ->where('counter_id', $setting->counter_id)
+                        ->where('user_id', $setting->user_id)
+                        ->whereIn('status', [0, 3])
+                        ->whereRaw('DATE(created_at) = CURDATE()')
+                        ->orderBy('total_tokens', 'asc')
+                        ->groupBy('user_id')
+                        ->first();
+                }
 
                 //create user counter list
                 $tokenAssignTo[] = [
@@ -470,18 +489,32 @@ class HomeController extends Controller
         $waittime = 0;
         //if auto-setting are available
         if (!empty($settings)) {
-
+            $location_id = Department::select('location_id')->where('id', $request->id)->first();
+            $isVIP = auth()->user()->isVipAtLocation($location_id);
             foreach ($settings as $setting) {
                 //compare each user in today
-                $tokenData = Token::select('department_id', 'counter_id', 'user_id', DB::raw('COUNT(user_id) AS total_tokens'))
-                    ->where('department_id', $setting->department_id)
-                    ->where('counter_id', $setting->counter_id)
-                    ->where('user_id', $setting->user_id)
-                    ->whereIn('status', [0, 3])
-                    ->whereRaw('DATE(created_at) = CURDATE()')
-                    ->orderBy('total_tokens', 'asc')
-                    ->groupBy('user_id')
-                    ->first();
+                if ($isVIP) {
+                    $tokenData = Token::select('department_id', 'counter_id', 'user_id', DB::raw('COUNT(user_id) AS total_tokens'))
+                        ->where('department_id', $setting->department_id)
+                        ->where('counter_id', $setting->counter_id)
+                        ->where('user_id', $setting->user_id)
+                        ->whereIn('status', [0, 3])
+                        ->where('is_vip', 1)
+                        ->whereRaw('DATE(created_at) = CURDATE()')
+                        ->orderBy('total_tokens', 'asc')
+                        ->groupBy('user_id')
+                        ->first();
+                } else {
+                    $tokenData = Token::select('department_id', 'counter_id', 'user_id', DB::raw('COUNT(user_id) AS total_tokens'))
+                        ->where('department_id', $setting->department_id)
+                        ->where('counter_id', $setting->counter_id)
+                        ->where('user_id', $setting->user_id)
+                        ->whereIn('status', [0, 3])
+                        ->whereRaw('DATE(created_at) = CURDATE()')
+                        ->orderBy('total_tokens', 'asc')
+                        ->groupBy('user_id')
+                        ->first();
+                }
 
                 //create user counter list
                 $tokenAssignTo[] = [

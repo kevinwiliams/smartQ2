@@ -455,6 +455,7 @@ class TokenController extends Controller
                     ];
                 }
 
+                $isvip = auth()->user()->isVipAtLocation($request->location);
                 //findout min counter set to 
                 $min = min($tokenAssignTo);
                 $saveToken = [
@@ -469,6 +470,7 @@ class TokenController extends Controller
                     'reason_for_visit'          => ($reason != null) ? $reason->reason : null,
                     'lat'          => (!empty($request->lat)) ? $request->lat : null,
                     'lng'          => (!empty($request->lng)) ? $request->lng : null,
+                    'is_vip'       => ($isvip)? 1 : null,
                     'created_by'    => auth()->user()->id,
                     'created_at'    => date('Y-m-d H:i:s'),
                     'updated_at'    => null,
@@ -1797,6 +1799,9 @@ class TokenController extends Controller
                 return view('pages.home.advsearch', compact('smsalert', 'maskedemail', 'shownote', 'companies', 'categories'));
             }
             $locations = Location::where('company_id', $company->id)->where('active', 1)->has('departments')->with('settings')->whereRelation("company", "active", true)->get();
+            foreach ($locations as $location) {
+                $location->is_vip = (auth()->user()->isVipAtLocation($location->id))?1:0;
+            }
             return view('pages.home.business', compact('smsalert', 'maskedemail', 'shownote', 'company', 'locations'));
         }
     }

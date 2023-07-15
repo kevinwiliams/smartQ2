@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\VIPListController;
 use App\Http\Controllers\Admin\BusinessHoursController;
 use App\Http\Controllers\Account\SettingsController;
 use App\Http\Controllers\Admin\AlertsController;
@@ -147,6 +148,15 @@ Route::middleware('auth')->group(function () {
 		Route::get('delete/{id}', [AlertsController::class, 'destroy']);
 	});
 
+	// // Alert
+	Route::prefix('viplist')->group(function () {
+		Route::get('list', [VIPListController::class, 'index']);		
+		Route::get('list/{id}', [VIPListController::class, 'index']);		
+		Route::post('create', [VIPListController::class, 'store']);		
+		Route::post('edit/{id}', [VIPListController::class, 'update']);
+		Route::get('delete/{id}', [VIPListController::class, 'destroy']);
+	});
+
 	// Business
 	Route::prefix('in')->group(function () {
 		Route::get('/{id}', [TokenController::class, 'businessSearch']);		
@@ -269,6 +279,7 @@ Route::middleware('auth')->group(function () {
 		Route::post('getBusyHours', [LocationController::class, 'getBusyHours']);
 		Route::get('printqr/{id}', [LocationController::class, 'printqr']);
 		Route::get('getData/{id}', [LocationController::class, 'getData']);
+		Route::get('getClients/{id}', [LocationController::class, 'getClients']);
 		Route::get('delete/{id}', [LocationController::class, 'destroy']);
 		// Route::get('department/{id}', [LocationController::class, 'dept']);
 		Route::get('token/setting/{id}', [TokenController::class, 'tokenSettingView']);

@@ -136,12 +136,16 @@ class User extends Authenticatable implements MustVerifyEmail
         else
             return '';
     }
+    
+    public function vipLocations()
+    {
+        return $this->belongsToMany(Location::class, 'vip_list', 'user_id', 'location_id');
+    }
 
-
-    // public function hasRole($role)
-    // {  
-    //     return ($this->user_type == $this->avaliableRoles[ucfirst($role)]);
-    // } 
+    public function isVipAtLocation(int $locationId)
+    {
+        return $this->vipLocations()->where('location_id', $locationId)->exists();
+    }
 
     // public function role()
     // {  

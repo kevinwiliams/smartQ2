@@ -312,6 +312,11 @@ return array(
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
                     array(
+                        'title'  => 'VIP List',
+                        'path'   => 'viplist/list',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ),
+                    array(
                         'title'      => 'Users',
                         'path'       => 'apps/user-management/users/list',
                         'bullet'     => '<span class="bullet bullet-dot"></span>',

@@ -11,6 +11,7 @@ use App\Models\Department;
 use App\Models\Counter;
 use App\Models\DisplaySetting;
 use App\Models\Location;
+use App\Models\Token;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -449,5 +450,37 @@ class LocationController extends Controller
 
             return response()->json($data);
         }
+    }
+
+    public function getClients($id, Request $request)
+    {        
+        $clientIds = Token::where('location_id', $id)->pluck('client_id')->toArray();
+    
+        if (empty($clientIds)) {
+            return response()->json(['message' => 'No clients found for the given ID'], 404);
+        }
+    
+        $query = $request->query('q');
+    
+        $clients = User::whereIn('id', $clientIds)
+            ->when($query, function ($queryBuilder) use ($query) {
+                $queryBuilder->where(function ($subQuery) use ($query) {
+                    $subQuery->where('firstname', 'like', '%' . $query . '%')
+                        ->orWhere('lastname', 'like', '%' . $query . '%')
+                        ->orWhere('email', 'like', '%' . $query . '%');
+                });
+            })            
+            ->get();
+
+            $filteredClients = $clients->map(function ($client) {
+                return [
+                    'id' => $client->id,
+                    'name' => $client->name, 
+                    'email' => $client->email,
+                    'avatar_url' => $client->avatar_url,
+                ];
+            });
+    
+        return response()->json(['clients' => $filteredClients]);
     }
 }

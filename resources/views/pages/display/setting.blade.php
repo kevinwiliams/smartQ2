@@ -64,7 +64,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="fv-row mb-7">
+                                        <!-- <div class="fv-row mb-7">
                                             <div class="form-group @error('direction') has-error @enderror">
                                                 <label for="direction">{{ trans('app.direction') }}</label>
                                                 <div id="direction">
@@ -76,13 +76,36 @@
                                                     </label>
                                                 </div>
                                             </div>
+                                        </div> -->
+                                        <div class="fv-row mb-7">
+                                            <div class="form-group @error('direction') has-error @enderror">
+                                                <label for="direction">{{ trans('app.direction') }}</label>
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <div class="form-check form-check-custom form-check-solid">
+                                                            <input class="form-check-input" type="radio" value="left" name="direction" id="rbDirectionLeft" {{ (($setting->direction)=='left')?"checked":"" }} />
+                                                            <label class="form-check-label" for="rbDirectionLeft">
+                                                                {{ trans('app.left') }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <div class="form-check form-check-custom form-check-solid">
+                                                            <input class="form-check-input" type="radio" value="left" name="direction" id="rbDirectionRight" {{ (($setting->direction)=='right')?"checked":"" }} />
+                                                            <label class="form-check-label" for="rbDirectionRight">
+                                                                {{ trans('app.right') }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div class="row mb-7">
                                             <div class="col-6">
                                                 <div class="form-group @error('time_format') has-error @enderror">
                                                     <label for="time_format">{{ trans('app.time_format') }} </label><br />
-                                                    {{ Form::select('time_format', ['h:i:s A' => '12 Hour', 'H:i:s' => '24 Hour'], $setting->time_format , ['id'=>'time_format', 'class'=>'select2 form-control']) }}<br />
+                                                    {{ Form::select('time_format', ['h:i:s A' => '12 Hour', 'H:i:s' => '24 Hour'], $setting->time_format , ['id'=>'time_format', 'class'=>'select2 form-select']) }}<br />
                                                     <span class="text-danger">{{ $errors->first('time_format') }}</span>
                                                 </div>
                                             </div>
@@ -97,7 +120,7 @@
                                                     ];
                                                     ?>
                                                     <label for="date_format">{{ trans('app.date_format') }} </label><br />
-                                                    {{ Form::select('date_format', $dates , $setting->date_format , ['placeholder' => trans('app.select_option'), 'id'=>'date_format', 'class'=>'select2 form-control']) }}<br />
+                                                    {{ Form::select('date_format', $dates , $setting->date_format , ['placeholder' => trans('app.select_option'), 'id'=>'date_format', 'class'=>'select2 form-select']) }}<br />
                                                     <span class="text-danger">{{ $errors->first('date_format') }}</span>
                                                 </div>
                                             </div>
@@ -159,7 +182,7 @@
                                 <div class="card-header cursor-pointer">
                                     <!--begin::Card title-->
                                     <div class="card-title m-0">
-                                        <h3 class="fw-bolder m-0">{{ __('Cron Job Setting for SMS Alert') }}</h3>
+                                        <h3 class="fw-bolder m-0">{{ __('Settings for SMS Alert') }}</h3>
                                     </div>
                                     <!--end::Card title-->
 
@@ -170,7 +193,7 @@
                                 <div class="card-body">
                                     <div class="col">
 
-                                        <div class="fv-row mb-7">
+                                        <!-- <div class="fv-row mb-7">
                                             <div class="form-group">
                                                 {{-- <h2 for="corn_info">Cron Job Setting for SMS Alert</h2> --}}
                                                 <div class="bg-light card p-2" id="corn_info">
@@ -178,14 +201,14 @@
                                                     <p class="text-success">* * * * * wget -q -t 5 -O - "http://yourdomain.com/<strong class="text-danger" title="Actual Path of Artisan file">jobs/sms/</strong> </p>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
 
 
 
                                         <div class="fv-row mb-7">
                                             <div class="form-group @error('alert_position') has-error @enderror">
                                                 <label for="alert_position">{{ trans('app.alert_position') }} <span>(Position of Waiting Before Process)</span></label>
-                                                <input type="text" name="alert_position" id="alert_position" class="form-control" placeholder="{{ trans('app.alert_position') }}" value="{{ $setting->alert_position }}">
+                                                <input type="number" step="1" min="1" name="alert_position" id="alert_position" class="form-control" placeholder="{{ trans('app.alert_position') }}" value="{{ $setting->alert_position }}">
                                                 <span class="text-danger">{{ $errors->first('alert_position') }}</span>
                                             </div>
                                         </div>
@@ -240,7 +263,7 @@
                                                 </div>
                                                 <div class="fv-row mb-7">
                                                     <div class="form-group @error('enable_whatsapp') has-error @enderror">
-                                                      <div class="form-check form-switch form-check-custom form-check-solid">
+                                                        <div class="form-check form-switch form-check-custom form-check-solid">
                                                             <input type="hidden" name="enable_whatsapp" value="0">
                                                             <input class="form-check-input h-20px w-30px" type="checkbox" value="1" id="enable_whatsapp" name="enable_whatsapp" {{ ($setting->enable_whatsapp == '1') ? 'checked' : '' }}>
                                                             <label class="form-check-label" for="enable_whatsapp">

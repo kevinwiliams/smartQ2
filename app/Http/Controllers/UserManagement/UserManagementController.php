@@ -211,7 +211,7 @@ class UserManagementController extends Controller
             ->orderBy('full_name')
             ->get();
         return response()->json($officers);
-    }
+    }    
 
     public function usersView()
     {

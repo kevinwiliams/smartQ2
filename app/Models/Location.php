@@ -149,4 +149,9 @@ class Location extends Model
             ->where('start_date', '<=', $currentTime)
             ->where('end_date', '>=', $currentTime);
     }
+
+    public function vips()
+    {
+        return $this->belongsToMany(User::class, 'vip_list', 'location_id', 'user_id');
+    }
 }

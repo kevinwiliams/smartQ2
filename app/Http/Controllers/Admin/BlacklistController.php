@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Admin\Controllers;
 
-use App\Models\User;
+use App\Http\Controllers\Controller;
+use App\Models\Blacklist;
 use Illuminate\Http\Request;
 
-class UsersController extends Controller
+class BlacklistController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +15,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $config = theme()->getOption('page');
-
-        return User::all();
+        //
     }
 
     /**
@@ -32,8 +31,7 @@ class UsersController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     *
+     * @param  \App\Http\Requests\StoreBlacklistRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -44,40 +42,33 @@ class UsersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     *
+     * @param  \App\Models\Blacklist  $blacklist
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Blacklist $blacklist)
     {
-        $config = theme()->getOption('page');
-
-        return User::find($id);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     *
+     * @param  \App\Models\Blacklist  $blacklist
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Blacklist $blacklist)
     {
-        $config = theme()->getOption('page', 'edit');
-
-        return User::find($id);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     *
+     * @param  \App\Http\Requests\UpdateBlacklistRequest  $request
+     * @param  \App\Models\Blacklist  $blacklist
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Blacklist $blacklist)
     {
         //
     }
@@ -85,11 +76,10 @@ class UsersController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     *
+     * @param  \App\Models\Blacklist  $blacklist
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Blacklist $blacklist)
     {
         //
     }

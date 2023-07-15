@@ -772,6 +772,25 @@ return array(
         ),
 
     ),
+    'viplist' => array(
+        '*' => array(
+            'title' => 'VIP List',
+            'view' => 'list',
+            'assets' => array(
+                'custom' => array(
+                    'css' => array(
+                        'plugins/custom/flatpickr/flatpickr.bundle.css',
+                        'plugins/custom/datatables/datatables.bundle.css',
+                    ),
+                    'js' => array(
+                        'plugins/custom/flatpickr/flatpickr.bundle.js',
+                        'plugins/custom/datatables/datatables.bundle.js',
+                    ),
+                ),
+            ),
+        ),
+
+    ),
     // Documentation pages
     'documentation' => array(
         '*' => array(

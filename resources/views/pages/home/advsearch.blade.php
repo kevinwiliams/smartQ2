@@ -764,9 +764,15 @@
                 template += '<div class="d-flex align-items-center">';
                 //template += '<img src="' + item.element.getAttribute('data-kt-rich-content-icon') + '" class="rounded-circle h-40px me-3" alt="' + item.text + '"/>';
                 template += '<div class="d-flex flex-column">'
-                template += '<span class="fs-4 fw-bold lh-1">' + item.text + '</span>';
-                template += '<span class="text-muted fs-5">' + item.element.getAttribute('data-mv-rich-content-subcontent') + '</span>';
-                template += '</div>';
+                if(item.element.getAttribute('data-isvip')  == 1){
+                    template += '<span class="fs-4 fw-bold lh-1 text-primary">' + item.text + ' <i class="bi bi-star-fill" style="color:gold"></i></span>';
+                }else{
+                    // template += '<span class="fs-4 fw-bold lh-1 text-success">' + item.text + ' <i class="bi bi-star-fill"></i></span>';
+                    template += '<span class="fs-4 fw-bold lh-1">' + item.text + " - "+ item.element.getAttribute('data-isvip') + '</span>';
+                }
+                
+                template += '<span class="text-muted fs-5">' + item.element.getAttribute('data-mv-rich-content-subcontent') + '</span>';                 
+                template += '</div>';                
                 template += '</div>';
 
                 span.innerHTML = template;
@@ -1266,7 +1272,7 @@
                         var options = $('select[name="location"]').empty();
                         $('select[name="location"]').append('<option value="" data-mv-rich-content-subcontent="">Select a location</option>');
                         data.forEach(element => {
-                            var optstr = '<option value="' + element.id + '" data-mv-rich-content-subcontent="' + element.address + '" data-visitreason="' + element.settings.client_reason_for_visit + '" data-shownote="' + element.settings.show_note + '" data-lat="' + element.lat + '" data-lng="' + element.lon + '" data-whatsapp="' + element.settings.enable_whatsapp + '">' + element.name + '</option>';
+                            var optstr = '<option value="' + element.id + '" data-mv-rich-content-subcontent="' + element.address + '" data-visitreason="' + element.settings.client_reason_for_visit + '" data-shownote="' + element.settings.show_note + '" data-lat="' + element.lat + '" data-lng="' + element.lon + '" data-whatsapp="' + element.settings.enable_whatsapp + '" data-isvip="' + element.is_vip + '">' + element.name + '</option>';
                             $('select[name="location"]').append(optstr);
                         });
                         $('#mv_location_list').val(cur_loc_id);
@@ -1295,7 +1301,7 @@
                         var options = $('select[name="location"]').empty();
                         $('select[name="location"]').append('<option value="" data-mv-rich-content-subcontent="">Select a location</option>');
                         data.forEach(element => {
-                            var optstr = '<option value="' + element.id + '" data-mv-rich-content-subcontent="' + element.address + '" data-visitreason="' + element.settings.client_reason_for_visit + '" data-shownote="' + element.settings.show_note + '" data-lat="' + element.lat + '" data-lng="' + element.lon + '" data-whatsapp="' + element.settings.enable_whatsapp + '">' + element.name + '</option>';
+                            var optstr = '<option value="' + element.id + '" data-mv-rich-content-subcontent="' + element.address + '" data-visitreason="' + element.settings.client_reason_for_visit + '" data-shownote="' + element.settings.show_note + '" data-lat="' + element.lat + '" data-lng="' + element.lon + '" data-whatsapp="' + element.settings.enable_whatsapp + '" data-isvip="' + element.is_vip + '">' + element.name + '</option>';
                             $('select[name="location"]').append(optstr);
                         });
                         getLocation();

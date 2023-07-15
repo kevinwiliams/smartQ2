@@ -215,6 +215,9 @@ class BusinessCategoriesController extends Controller
     public function getLocations($id)
     {
         $locations = Location::whereRelation('company', 'business_category_id', $id)->whereRelation("company", "active", true)->has('departments')->with('settings')->get();
+        foreach ($locations as $location) {
+            $location->is_vip = (auth()->user()->isVipAtLocation($location->id))?1:0;
+        }
         return response()->json($locations);
     }
 

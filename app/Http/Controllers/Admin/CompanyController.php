@@ -172,8 +172,11 @@ class CompanyController extends Controller
 
 
     public function getLocations($id)
-    {
+    {        
         $locations = Location::where('company_id', $id)->where('active', 1)->has('departments')->with('settings')->whereRelation("company", "active", true)->get();
+        foreach ($locations as $location) {
+            $location->is_vip = (auth()->user()->isVipAtLocation($location->id))?1:0;
+        }
         return response()->json($locations);
     }
 
