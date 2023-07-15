@@ -127,57 +127,6 @@
 
         }
 
-        // var handleViewRows = () => {
-
-        //     var _table = document.querySelector('#alerts-table');
-        //     const viewButtons = _table.querySelectorAll('[data-mv-alert-table-filter="view_row"]');
-
-        //     viewButtons.forEach(d => {
-        //         // Delete button on click
-
-        //         d.addEventListener('click', function(e) {
-
-        //             e.preventDefault();
-        //             // Select parent row
-        //             const parent = e.target.closest('tr');
-
-        //             // Get token name
-        //             const tokenNo = parent.querySelectorAll('td')[0].innerText;
-        //             const title = parent.querySelectorAll('input[name=alert-title]')[0].value;
-        //             const message = parent.querySelectorAll('input[name=alert-message]')[0].value;
-        //             const imageurl = parent.querySelectorAll('input[name=alert-image_url]')[0].value;
-        //             const imagepath = parent.querySelectorAll('input[name=alert-image_path]')[0].value;
-
-        //             // console.log(tokenID);
-
-        //             if (imageurl == '') {
-        //                 Swal.fire({
-        //                     // icon: 'info',
-        //                     title: title,
-        //                     text: message,
-
-        //                 });
-        //             } else {
-        //                 Swal.fire({
-        //                     // icon: 'info',
-        //                     title: title,
-        //                     text: message,
-        //                     imageUrl: imagepath,
-        //                     imageAlt: title
-        //                 });
-        //             }
-
-
-        //             return;
-
-
-        //         })
-        //     });
-
-
-        // }
-
-
         // Init add schedule modal
         var handleEditRows = () => {
             // Shared variables
@@ -326,18 +275,9 @@
                                 contentType: false,
                                 cache: false,
                                 processData: false,
-                                data: new FormData(form),
-                                // success: function(data)
-
-                                // url: '{{ URL::to("client/token/checkin") }}/' + id,
-                                // type: 'get',
-                                // dataType: 'json',
+                                data: new FormData(form),                                
                                 success: function(data) {
-                                    console.log(data);
-                                    // document.location.href = '/client';
-                                    // setInterval( function () {
-                                    //     table.ajax.reload();
-                                    // }, 2000 );
+                                    console.log(data);                                    
                                     // Remove loading indication
                                     submitButton.removeAttribute('data-mv-indicator');
 
@@ -353,21 +293,14 @@
                                         customClass: {
                                             confirmButton: "btn btn-primary"
                                         }
-                                    }).then(function(result) {
-                                        // if (result.isConfirmed) {     
-                                        // document.location.href = '/alert/list';
-                                        // datatable.draw();
+                                    }).then(function(result) {                                        
                                         location.reload();
                                         form.reset();
                                         modal.hide();
                                         // }
                                     });
                                 }
-                                // ,
-                                // error: function(xhr, status, error){
-                                //     var errorMessage = xhr.status + ': ' + xhr.statusText
-                                //     alert('Error - ' + errorMessage);
-                                // }
+                               
                             });
                         } else {
                             // Show popup warning. For more info check the plugin's official documentation: https://sweetalert2.github.io/
@@ -480,7 +413,7 @@
                                 cache: false,
                                 processData: false,
                                 data: new FormData(form),
-                                                                
+
                                 success: function(data) {
                                     
                                     // Remove loading indication
