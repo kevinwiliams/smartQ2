@@ -326,13 +326,7 @@
                     // url: "https://api.github.com/search/repositories",
                     url: "/location/getClients/" + $("#location").val(),
                     dataType: 'json',
-                    delay: 250,
-                    // data: function(params) {
-                    //     return {
-                    //         q: params.term, // search term
-                    //         page: params.page
-                    //     };
-                    // },
+                    delay: 250,                  
                     processResults: function(data, params) {
                         // Transforms the top-level key of the response object from 'items' to 'results'
                         return {
