@@ -480,16 +480,9 @@
                                 cache: false,
                                 processData: false,
                                 data: new FormData(form),
-                                // success: function(data)
-
-                                // url: '{{ URL::to("client/token/checkin") }}/' + id,
-                                // type: 'get',
-                                // dataType: 'json',
+                                                                
                                 success: function(data) {
-                                    // document.location.href = '/client';
-                                    // setInterval( function () {
-                                    //     table.ajax.reload();
-                                    // }, 2000 );
+                                    
                                     // Remove loading indication
                                     submitButton.removeAttribute('data-mv-indicator');
 
