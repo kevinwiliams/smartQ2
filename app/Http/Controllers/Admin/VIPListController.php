@@ -82,16 +82,16 @@ class VIPListController extends Controller
             $data['error'] = $validator;
             $data['message'] = trans('app.validation_error');
 
-            return response()->json($data);
+            return response()->json($data, 400);
         } else {
 
-            $exists = VIPList::where('location_id', $request->location_id)->where('user_id', auth()->user()->id)->first();
+            $exists = VIPList::where('location_id', $request->location_id)->where('client_id', $request->client_id)->first();
             if ($exists) {
                 $data['status'] = true;
                 $data['error'] = trans('app.vip_exists');
                 $data['message'] = trans('app.validation_error');
 
-                return response()->json($data);
+                return response()->json($data, 400);
             }
             $vip = VIPList::create([
                 'reason'        => $request->reason,
