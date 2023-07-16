@@ -215,17 +215,29 @@ class BusinessCategoriesController extends Controller
     public function getLocations($id)
     {
         $locations = Location::whereRelation('company', 'business_category_id', $id)->whereRelation("company", "active", true)->has('departments')->with('settings')->get();
-        $filteredLocations = array();
+        // $filteredLocations = array();
+
+        // foreach ($locations as $location) {
+        //     $blocked = auth()->user()->isBlockedAtLocation($location->id);
+        //     if (!$blocked) {
+        //         $location->is_vip = (auth()->user()->isVipAtLocation($location->id)) ? 1 : 0;
+        //         array_push($filteredLocations, $location);
+        //     }
+        // }
+        
 
         foreach ($locations as $location) {
             $blocked = auth()->user()->isBlockedAtLocation($location->id);
             if (!$blocked) {
-                $location->is_vip = (auth()->user()->isVipAtLocation($location->id)) ? 1 : 0;
-                array_push($filteredLocations, $location);
+                $location->is_vip = (auth()->user()->isVipAtLocation($location->id)) ? 1 : 0;                
+                $location->blocked = false;
+            }else{
+                $location->is_vip =  0;                
+                $location->blocked = true;
             }
         }
 
-        return response()->json($filteredLocations);
+        return response()->json($locations);
     }
 
     public function getCompanies($id)
