@@ -337,6 +337,15 @@ return [
 
     /*VIP LIST*/
     'add_viplist'    => "Add VIP",
-    'edit_viplist'    => "Edit VIP",    
+    'edit_viplist'    => "Edit VIP",   
+    
+    
+    /*Blacklist*/
+    'block_client'    => "Block Client",
+    'unblock_client'    => "Unblock Client",   
+    'duration'    => "Duration",  
+    'block_reason'    => "Block reason",
+    'unblock_reason'    => "Unblock reason",
+    'view_blocked_client'    => "Blocked Client",
     
 ];

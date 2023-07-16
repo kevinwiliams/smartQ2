@@ -3,6 +3,7 @@
 namespace App\DataTables\Blacklist;
 
 use App\Models\Blacklist;
+use Illuminate\Support\Carbon;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -21,18 +22,38 @@ class BlacklistDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'blacklist\blacklistdatatable.action');
+            ->editColumn('block_date', function (Blacklist $model) {      
+                return Carbon::parse($model->created_at)->format('d M Y, h:i a');
+            })
+            ->editColumn('is_active', function(Blacklist $model){
+                $col = ($model->is_active == 1)? 'danger' : 'success';
+                $txt = ($model->is_active == 1)? 'Blocked' : 'Unblocked';
+                $str = '<div class="badge badge-light-'.$col.' fw-bolder">' . $txt .'</div>';     
+                return $str;
+            })
+            ->editColumn('client_id', function (Blacklist $model) {
+                $user = $model->client;
+                return view('pages.viplist._user-td', compact('user'));
+            })
+            ->editColumn('user_id', function (Blacklist $model) {                
+                return $model->user->name;
+            })
+            ->rawColumns(['action','user_id','client_id','block_date','is_active'])
+            ->addColumn('action', 'pages.blacklist._action-menu');
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \Blacklist $model
+     * @param \VIPList $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Blacklist $model)
     {
-        return $model->newQuery();
+
+        $query = $model->newQuery()->where('location_id', $this->location_id);
+
+        return $query;
     }
 
     /**
@@ -43,18 +64,15 @@ class BlacklistDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('blacklist\blacklistdatatable-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->buttons(
-                        Button::make('create'),
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    );
+            ->setTableId('blacklist-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            // ->dom('Bfrtip')
+            ->orderBy(4, 'asc')
+            ->responsive()
+            ->autoWidth(false)
+            ->parameters(['scrollX' => true])
+            ->addTableClass('align-middle table-row-dashed fs-6 gy-5');
     }
 
     /**
@@ -65,15 +83,18 @@ class BlacklistDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            Column::make('client_id')->title(__('Client')),
+            Column::make('block_reason'),
+            Column::make('is_active')->title(__('Status')),
+            Column::make('blocked_duration')->title(__('Duration')),
+            Column::make('block_date'),
+            Column::make('user_id')->title(__('User')),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+                ->addClass('align-items-right')
+                ->exportable(false)
+                ->printable(false)
+                ->width(100)
+                ->responsivePriority(-1),
         ];
     }
 
@@ -84,6 +105,6 @@ class BlacklistDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Blacklist\Blacklist_' . date('YmdHis');
+        return 'Blacklist_' . date('YmdHis');
     }
 }

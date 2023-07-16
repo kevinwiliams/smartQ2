@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BlacklistController;
 use App\Http\Controllers\Admin\VIPListController;
 use App\Http\Controllers\Admin\BusinessHoursController;
 use App\Http\Controllers\Account\SettingsController;
@@ -66,14 +67,14 @@ array_walk($menu, function ($val) {
 });
 
 // Documentations pages
-Route::prefix('documentation')->group(function () {
-	Route::get('getting-started/references', [ReferencesController::class, 'index']);
-	Route::get('getting-started/changelog', [PagesController::class, 'index']);
-});
+// Route::prefix('documentation')->group(function () {
+// 	Route::get('getting-started/references', [ReferencesController::class, 'index']);
+// 	Route::get('getting-started/changelog', [PagesController::class, 'index']);
+// });
 
-Route::get('/linkstorage', function () {
-    Artisan::call('storage:link');
-});
+// Route::get('/linkstorage', function () {
+//     Artisan::call('storage:link');
+// });
 
 Route::get('generateScheduledReports/{id}', [CronjobController::class, 'generateScheduledReports']);
 
@@ -151,19 +152,28 @@ Route::middleware('auth')->group(function () {
 		Route::get('delete/{id}', [AlertsController::class, 'destroy']);
 	});
 
-	// // Alert
+	// VIP List
 	Route::prefix('viplist')->group(function () {
-		Route::get('list', [VIPListController::class, 'index']);		
-		Route::get('list/{id}', [VIPListController::class, 'index']);		
-		Route::post('create', [VIPListController::class, 'store']);		
+		Route::get('list', [VIPListController::class, 'index']);
+		Route::get('list/{id}', [VIPListController::class, 'index']);
+		Route::post('create', [VIPListController::class, 'store']);
 		Route::post('edit/{id}', [VIPListController::class, 'update']);
 		Route::get('delete/{id}', [VIPListController::class, 'destroy']);
 	});
 
+	// Black List
+	Route::prefix('blacklist')->group(function () {
+		Route::get('list', [BlacklistController::class, 'index']);
+		Route::get('list/{id}', [BlacklistController::class, 'index']);
+		Route::post('create', [BlacklistController::class, 'store']);
+		Route::post('edit/{id}', [BlacklistController::class, 'update']);
+		Route::get('delete/{id}', [BlacklistController::class, 'destroy']);
+	});
+
 	// Business
 	Route::prefix('in')->group(function () {
-		Route::get('/{id}', [TokenController::class, 'businessSearch']);		
-		Route::get('/', [TokenController::class, 'businessSearch']);		
+		Route::get('/{id}', [TokenController::class, 'businessSearch']);
+		Route::get('/', [TokenController::class, 'businessSearch']);
 	});
 
 	# home
@@ -183,8 +193,8 @@ Route::middleware('auth')->group(function () {
 		Route::get('transfer/{id}', [TokenController::class, 'clientTransfer']);
 		Route::get('list', [TokenController::class, 'currentClientList']);
 		Route::get('getclienttokens', [TokenController::class, 'getCurrentClientTokens']);
-		Route::post('computeRoute', [TokenController::class, 'computeRoute']);		
-		Route::post('tokenTransfer', [TokenController::class, 'clientTokenTransfer']);		
+		Route::post('computeRoute', [TokenController::class, 'computeRoute']);
+		Route::post('tokenTransfer', [TokenController::class, 'clientTokenTransfer']);
 		Route::post('autotoken', [TokenController::class, 'clientTokenAuto']);
 		Route::post('currentposition/{id}', [TokenController::class, 'currentposition']);
 		Route::get('joinqueue/{id}', [HomeController::class, 'joinqueue']);
@@ -233,7 +243,7 @@ Route::middleware('auth')->group(function () {
 		Route::post('transfer', [TokenController::class, 'transfer']);
 		Route::get('start/{id}', [TokenController::class, 'start']);
 		Route::post('addnote', [TokenController::class, 'addnote']);
-		Route::post('addreasonforvisit', [TokenController::class, 'addreasonforvisit']);		
+		Route::post('addreasonforvisit', [TokenController::class, 'addreasonforvisit']);
 	});
 
 
@@ -269,7 +279,7 @@ Route::middleware('auth')->group(function () {
 	Route::prefix('settings')->group(function () {
 		Route::get('system', [SettingController::class, 'show']);
 		Route::post('system', [SettingController::class, 'update']);
-	});	
+	});
 
 	// // Location pages
 	Route::prefix('location')->group(function () {
@@ -326,14 +336,14 @@ Route::middleware('auth')->group(function () {
 		// // Visit Reason
 		Route::prefix('visitreason')->group(function () {
 			Route::get('/{id}', [ReasonForVisitController::class, 'index']);
-			Route::get('reasonsforvisit/{id}', [ReasonForVisitController::class, 'reasonsforvisit']);			
-			Route::get('reasonsforvisitbylocation/{id}', [ReasonForVisitController::class, 'reasonsforvisitbylocation']);			
+			Route::get('reasonsforvisit/{id}', [ReasonForVisitController::class, 'reasonsforvisit']);
+			Route::get('reasonsforvisitbylocation/{id}', [ReasonForVisitController::class, 'reasonsforvisitbylocation']);
 			Route::post('create', [ReasonForVisitController::class, 'store']);
 			Route::post('edit/{id}', [ReasonForVisitController::class, 'update']);
 			Route::get('delete/{id}', [ReasonForVisitController::class, 'destroy']);
 			// Route::get('edit/{id}', [CounterController::class, 'showEditForm']);
 			// Route::post('edit', [CounterController::class, 'update']);
-			
+
 			// Route::get('getCountersbyDept/{id}', [CounterController::class, 'getCountersbyDept']);
 		});
 
@@ -347,7 +357,7 @@ Route::middleware('auth')->group(function () {
 			// Route::get('delete/{id}', [ReasonForVisitController::class, 'destroy']);
 			// Route::get('edit/{id}', [CounterController::class, 'showEditForm']);
 			// Route::post('edit', [CounterController::class, 'update']);
-			
+
 			// Route::get('getCountersbyDept/{id}', [CounterController::class, 'getCountersbyDept']);
 		});
 
@@ -361,7 +371,7 @@ Route::middleware('auth')->group(function () {
 			// Route::get('delete/{id}', [ReasonForVisitController::class, 'destroy']);
 			// Route::get('edit/{id}', [CounterController::class, 'showEditForm']);
 			// Route::post('edit', [CounterController::class, 'update']);
-			
+
 			// Route::get('getCountersbyDept/{id}', [CounterController::class, 'getCountersbyDept']);
 		});
 
@@ -377,7 +387,7 @@ Route::middleware('auth')->group(function () {
 			// Route::get('create', [CounterController::class, 'showForm']);
 			// Route::post('create', [CounterController::class, 'create']);
 			// Route::get('edit/{id}', [CounterController::class, 'showEditForm']);
-			
+
 			// Route::get('delete/{id}', [CounterController::class, 'delete']);
 			// Route::get('getCountersbyDept/{id}', [CounterController::class, 'getCountersbyDept']);
 		});
@@ -387,7 +397,7 @@ Route::middleware('auth')->group(function () {
 			Route::get('/{id}', [ServicesController::class, 'index']);
 			Route::post('edit/{id}', [ServicesController::class, 'update']);
 			Route::get('delete/{id}', [ServicesController::class, 'destroy']);
-			Route::post('create', [ServicesController::class, 'store']);			
+			Route::post('create', [ServicesController::class, 'store']);
 		});
 	});
 });

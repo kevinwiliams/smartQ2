@@ -139,12 +139,22 @@ class User extends Authenticatable implements MustVerifyEmail
     
     public function vipLocations()
     {
-        return $this->belongsToMany(Location::class, 'vip_list', 'user_id', 'location_id');
+        return $this->belongsToMany(Location::class, 'vip_list', 'client_id', 'location_id');
     }
 
     public function isVipAtLocation(int $locationId)
     {
         return $this->vipLocations()->where('location_id', $locationId)->whereNull('deleted_at')->exists();
+    }
+
+    public function blockedLocations()
+    {
+        return $this->belongsToMany(Location::class, 'blacklists', 'client_id', 'location_id');
+    }
+
+    public function isBlockedAtLocation(int $locationId)
+    {
+        return $this->blockedLocations()->where('location_id', $locationId)->whereNull('unblock_date')->orWhere('unblock_date','>', Carbon::now())->exists();
     }
 
     // public function role()

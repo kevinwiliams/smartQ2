@@ -937,4 +937,15 @@ class Data
             'all' => 'All Day'
         );
     }
+
+    public static function getDurationArray()
+    {
+        return [
+            1 => '1 day',
+            7 => '1 week',
+            30 => '1 month',
+            365 => '1 year',
+            -1 => 'Indefinitely',
+        ];
+    }
 }

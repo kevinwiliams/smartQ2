@@ -69,8 +69,8 @@ class BusinessCategoriesController extends Controller
             $data['message'] = trans('app.validation_error');
 
             return response()->json($data);
-        } else {      
-            $filePath = null;    
+        } else {
+            $filePath = null;
             if (!empty($request->logo)) {
                 $filePath = 'assets/img/category/' . date('ymdhis') . '.jpg';
                 $photo = $request->logo;
@@ -81,7 +81,7 @@ class BusinessCategoriesController extends Controller
                     $filePath = null;
                 }
             }
-             
+
             $category = BusinessCategory::create([
                 'name'        => $request->name,
                 'description' => $request->description,
@@ -142,11 +142,11 @@ class BusinessCategoriesController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name'        => 'required|unique:business_categories,name,' . $id,
-            'description' => 'max:255',           
+            'description' => 'max:255',
         ])
             ->setAttributeNames(array(
                 'name' => trans('app.name'),
-                'description' => trans('app.description'),                
+                'description' => trans('app.description'),
             ));
 
 
@@ -171,8 +171,8 @@ class BusinessCategoriesController extends Controller
             $update = BusinessCategory::where('id', $id)
                 ->update([
                     'name'        => $request->name,
-                    'description' => $request->description,                    
-                    'logo' => $filePath,  
+                    'description' => $request->description,
+                    'logo' => $filePath,
                     'updated_at' => Carbon::now()
                 ]);
 
@@ -196,7 +196,7 @@ class BusinessCategoriesController extends Controller
      * @param  \App\Models\BusinessCategories  $businessCategories
      * @return \Illuminate\Http\Response
      */
-   
+
     public function destroy($id = null)
     {
         if (!auth()->user()->can('delete business category')) {
@@ -215,15 +215,22 @@ class BusinessCategoriesController extends Controller
     public function getLocations($id)
     {
         $locations = Location::whereRelation('company', 'business_category_id', $id)->whereRelation("company", "active", true)->has('departments')->with('settings')->get();
+        $filteredLocations = collect();
+
         foreach ($locations as $location) {
-            $location->is_vip = (auth()->user()->isVipAtLocation($location->id))?1:0;
+            $blocked = auth()->user()->isBlockedAtLocation($location->id);
+            if (!$blocked) {
+                $location->is_vip = (auth()->user()->isVipAtLocation($location->id)) ? 1 : 0;
+                $filteredLocations->push($location);
+            }
         }
-        return response()->json($locations);
+
+        return response()->json($filteredLocations);
     }
 
     public function getCompanies($id)
     {
-        $companies = Company::where('business_category_id', $id)->where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();        
+        $companies = Company::where('business_category_id', $id)->where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
         return response()->json($companies);
     }
 }
