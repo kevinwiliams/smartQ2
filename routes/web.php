@@ -71,6 +71,9 @@ Route::prefix('documentation')->group(function () {
 	Route::get('getting-started/changelog', [PagesController::class, 'index']);
 });
 
+Route::get('/linkstorage', function () {
+    Artisan::call('storage:link');
+});
 
 Route::get('generateScheduledReports/{id}', [CronjobController::class, 'generateScheduledReports']);
 
