@@ -470,7 +470,7 @@ class TokenController extends Controller
                     'reason_for_visit'          => ($reason != null) ? $reason->reason : null,
                     'lat'          => (!empty($request->lat)) ? $request->lat : null,
                     'lng'          => (!empty($request->lng)) ? $request->lng : null,
-                    'is_vip'       => ($isvip)? 1 : null,
+                    'is_vip'       => ($isvip) ? 1 : null,
                     'created_by'    => auth()->user()->id,
                     'created_at'    => date('Y-m-d H:i:s'),
                     'updated_at'    => null,
@@ -1723,7 +1723,7 @@ class TokenController extends Controller
 
         $position = $cntr;
         $wait = date('H:i', mktime(0, $waittime));
-       
+
         $display = DisplaySetting::where('location_id', $token->location_id)->first();
         $qrcheckin = $display->enable_qr_checkin;
 
@@ -1770,7 +1770,7 @@ class TokenController extends Controller
 
         $categories = BusinessCategory::whereRelation('companies', 'company.active', true)->whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
         $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
-        
+
         return view('pages.home.advsearch', compact('smsalert', 'maskedemail', 'shownote', 'companies', 'categories'));
     }
 
@@ -1783,7 +1783,7 @@ class TokenController extends Controller
         $shownote = $display->show_note;
 
         $maskedemail = auth()->user()->getMaskedEmail();
-      
+
         if ($id == null) {
 
             $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
@@ -1799,10 +1799,19 @@ class TokenController extends Controller
                 return view('pages.home.advsearch', compact('smsalert', 'maskedemail', 'shownote', 'companies', 'categories'));
             }
             $locations = Location::where('company_id', $company->id)->where('active', 1)->has('departments')->with('settings')->whereRelation("company", "active", true)->get();
+            $filteredLocations = collect();
+
             foreach ($locations as $location) {
-                $location->is_vip = (auth()->user()->isVipAtLocation($location->id))?1:0;
+                $blocked = auth()->user()->isBlockedAtLocation($location->id);
+
+                if (!$blocked) {
+                    $location->is_vip = (auth()->user()->isVipAtLocation($location->id)) ? 1 : 0;
+                    $location->blocked = false;
+                    $filteredLocations->push($location);
+                }
             }
-            return view('pages.home.business', compact('smsalert', 'maskedemail', 'shownote', 'company', 'locations'));
+
+            return view('pages.home.business', compact('smsalert', 'maskedemail', 'shownote', 'company', 'filteredLocations'));
         }
     }
 
