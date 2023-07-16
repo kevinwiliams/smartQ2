@@ -215,13 +215,13 @@ class BusinessCategoriesController extends Controller
     public function getLocations($id)
     {
         $locations = Location::whereRelation('company', 'business_category_id', $id)->whereRelation("company", "active", true)->has('departments')->with('settings')->get();
-        $filteredLocations = collect();
+        $filteredLocations = array();
 
         foreach ($locations as $location) {
             $blocked = auth()->user()->isBlockedAtLocation($location->id);
             if (!$blocked) {
                 $location->is_vip = (auth()->user()->isVipAtLocation($location->id)) ? 1 : 0;
-                $filteredLocations->push($location);
+                array_push($filteredLocations, $location);
             }
         }
 
