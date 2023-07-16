@@ -153,8 +153,11 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function isBlockedAtLocation(int $locationId)
-    {
-        return $this->blockedLocations()->where('location_id', $locationId)->whereNull('unblock_date')->orWhere('unblock_date','>', Carbon::now())->exists();
+    {        
+        return $this->blockedLocations()->where('location_id', $locationId)->where(function ($query) {
+            $query->whereNull('unblock_date')
+                ->orWhere('unblock_date', '>', Carbon::now());
+        })->exists();
     }
 
     // public function role()

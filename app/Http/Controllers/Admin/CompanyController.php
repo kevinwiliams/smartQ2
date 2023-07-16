@@ -174,18 +174,31 @@ class CompanyController extends Controller
     public function getLocations($id)
     {        
         $locations = Location::where('company_id', $id)->where('active', 1)->has('departments')->with('settings')->whereRelation("company", "active", true)->get();
+        // foreach ($locations as $location) {
+        //     $blocked = auth()->user()-> ($location->id);
+        //     if (!$blocked) { 
+        //         $location->is_vip = (auth()->user()->isVipAtLocation($location->id)) ? 1 : 0;                
+        //         $location->blocked = false;
+        //     }else{
+        //         $location->is_vip =  0;                
+        //         $location->blocked = true;
+        //     }
+        // }
+
+        // return response()->json($locations);
+        $filteredLocations = collect();
+
         foreach ($locations as $location) {
             $blocked = auth()->user()->isBlockedAtLocation($location->id);
+
             if (!$blocked) {
-                $location->is_vip = (auth()->user()->isVipAtLocation($location->id)) ? 1 : 0;                
+                $location->is_vip = (auth()->user()->isVipAtLocation($location->id)) ? 1 : 0;
                 $location->blocked = false;
-            }else{
-                $location->is_vip =  0;                
-                $location->blocked = true;
+                $filteredLocations->push($location);
             }
         }
 
-        return response()->json($locations);
+        return response()->json($filteredLocations);
     }
 
     /**
