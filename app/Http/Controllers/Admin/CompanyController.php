@@ -183,7 +183,7 @@ class CompanyController extends Controller
                 $filteredLocations->push($location);
             }
         }
-        return response()->json($locations);
+        return response()->json($filteredLocations);
     }
 
     /**
