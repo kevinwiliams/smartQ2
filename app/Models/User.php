@@ -144,7 +144,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isVipAtLocation(int $locationId)
     {
-        return $this->vipLocations()->where('location_id', $locationId)->exists();
+        return $this->vipLocations()->where('location_id', $locationId)->whereNull('deleted_at')->exists();
     }
 
     // public function role()
