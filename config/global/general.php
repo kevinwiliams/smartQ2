@@ -80,7 +80,7 @@ return array(
         'docs'          => array(
             'logo-path'  => array(
                 'default' => 'logos/waitwise-logo.png',
-                'dark'    => 'logos/waitwise-logo.png',
+                'dark'    => 'logos/waitwise-logo-dark.png',
             ),
             'logo-class' => 'h-25px',
         ),
