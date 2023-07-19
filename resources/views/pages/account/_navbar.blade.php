@@ -80,11 +80,11 @@
                     <div class="d-flex align-items-center w-200px w-sm-300px flex-column mt-3">
                         <div class="d-flex justify-content-between w-100 mt-auto mb-2">
                             <span class="fw-bold fs-6 text-gray-400">{{ __('Profile Completion') }}</span>
-                            <span class="fw-bolder fs-6">50%</span>
+                            <span class="fw-bolder fs-6">{{ auth()->user()->completion_percentage }}%</span>
                         </div>
 
                         <div class="h-5px mx-3 w-100 bg-light mb-3">
-                            <div class="bg-success rounded h-5px" role="progressbar" style="width: 10%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="bg-success rounded h-5px" role="progressbar" style="width: {{ auth()->user()->completion_percentage }}%;" aria-valuenow="{{ auth()->user()->completion_percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                     <!--end::Progress-->

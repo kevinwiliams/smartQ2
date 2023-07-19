@@ -4,7 +4,8 @@ const path = require('path');
 const ReplaceInFileWebpackPlugin = require('replace-in-file-webpack-plugin');
 const rimraf = require('rimraf');
 const WebpackRTLPlugin = require('webpack-rtl-plugin');
-const del = require('del');
+// const del = require('del');
+const del = import('del');
 const fs = require('fs');
 
 /*
@@ -37,7 +38,8 @@ mix.options({
 });
 
 // Remove existing generated assets from public folder
-del.sync(['public/css/*', 'public/js/*', 'public/media/*', 'public/plugins/*',]);
+// del.glob(['public/css/*', 'public/js/*', 'public/media/*', 'public/plugins/*',]);
+removeExistingAssets();
 
 // Build 3rd party plugins css/js
 mix.sass(`resources/assets/core/plugins/plugins.scss`, `public/${demo}/plugins/global/plugins.bundle.css`).then(() => {
@@ -225,4 +227,29 @@ function getParameters() {
     });
 
     return args;
+}
+
+
+async function removeExistingAssets() {
+    // Remove existing generated assets from public folder
+    await rimraf('public/css/*', (err) => {
+        if (err) {
+            throw err;
+        }
+    });
+    await rimraf('public/js/*', (err) => {
+        if (err) {
+            throw err;
+        }
+    });
+    await rimraf('public/media/*', (err) => {
+        if (err) {
+            throw err;
+        }
+    });
+    await rimraf('public/plugins/*', (err) => {
+        if (err) {
+            throw err;
+        }
+    });
 }

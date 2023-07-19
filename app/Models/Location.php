@@ -152,6 +152,11 @@ class Location extends Model
 
     public function vips()
     {
-        return $this->belongsToMany(User::class, 'vip_list', 'location_id', 'user_id');
+        return $this->belongsToMany(User::class, 'vip_list', 'location_id', 'client_id');
+    }
+
+    public function blacklist()
+    {
+        return $this->belongsToMany(User::class, 'blacklists', 'location_id', 'client_id');
     }
 }

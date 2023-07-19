@@ -184,10 +184,10 @@ var MVCreateToken = function() {
         validations.push(FormValidation.formValidation(
             form, {
                 fields: {
-                    company_id: {
+                    locationbar_id: {
                         validators: {
                             notEmpty: {
-                                message: 'Please a Company!'
+                                message: 'Please select a Location!'
                             }
                         }
                     }

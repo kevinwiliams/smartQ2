@@ -86,7 +86,7 @@ class Utilities_lib extends Controller
                 return $response;
             }
         }
-    }  
+    }
 
     public function sendTokenNotification(User $client, $notify_type, $message)
     {
@@ -120,7 +120,7 @@ class Utilities_lib extends Controller
                 $sms->save();
             } else if ($notify_type == "email") {
                 Mail::to($client->email)->send(new CustomerNotification($client->firstname, $message));
-            } elseif ($notify_type == "whatsapp") {                                
+            } elseif ($notify_type == "whatsapp") {
                 $response = $this->sendWhatsAppText($client, $message);
             }
         }
@@ -163,17 +163,29 @@ class Utilities_lib extends Controller
                 ],
             ];
 
-            $component_buttons = [];
+            $component_buttons = [
+                [
+                    'type' => 'button',
+                    'sub_type' => 'url',
+                    'index' => 0,
+                    'parameters' => [
+                        [
+                            'type' => 'text',
+                            'text' => $otp,
+                        ]
+                    ]
+                ],
+            ];
 
             $components = new Component($component_header, $component_body, $component_buttons);
-
-            // $response = $whatsapp_cloud_api->sendTemplate($phone, $message);
-            $response = $whatsapp_cloud_api->sendTemplate($phone, 'smartq_otp', 'en', $components);
-
             // echo '<pre>';
-            // print_r($response);
+            // print_r($components->toJson());
             // echo '</pre>';
             // die();
+
+
+            $response = $whatsapp_cloud_api->sendTemplate($phone, 'waitwise_otp', 'en', $components);
+
             return $response;
         }
     }

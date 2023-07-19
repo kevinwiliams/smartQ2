@@ -287,4 +287,32 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return (new Utilities_lib)->maskEmail($this->email);
     }
+
+    public function getCompletionPercentageAttribute()
+    {
+        $userInfoColumns = [
+            'avatar',
+            'company',
+            'phone',
+            'website',
+            'country',
+            'language',
+            'timezone',
+            'currency',
+            'communication',
+            'marketing',
+        ];
+
+        $totalColumns = count($userInfoColumns);
+        $completedColumns = 0;
+
+        foreach ($userInfoColumns as $column) {
+            if (!is_null($this->userinfo->{$column})) {
+                $completedColumns++;
+            }
+        }
+
+        return ($completedColumns / $totalColumns) * 100;
+    }
+
 }

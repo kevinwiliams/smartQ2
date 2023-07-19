@@ -1811,7 +1811,7 @@ class TokenController extends Controller
                 }
             }
 
-            $locations = $filteredLocations;
+            $locations = $filteredLocations; 
 
             return view('pages.home.business', compact('smsalert', 'maskedemail', 'shownote', 'company', 'locations'));
         }
