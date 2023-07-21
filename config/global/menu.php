@@ -288,7 +288,7 @@ return array(
         //// BLACKLIST
         array(
             'title' => 'Blacklist',
-            'permission' => 'view viplist',
+            'permission' => 'view blacklist',
             'path'  => 'blacklist/list',
             'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/general/gen050.svg", "svg-icon-2"),
         ),
