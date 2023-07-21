@@ -28,13 +28,13 @@ class Kernel extends ConsoleKernel
         //$schedule->command('job:sms')->runInBackground()->everyMinute();
         $schedule->call('App\Http\Controllers\Common\CronjobController@sms')->everyMinute();
         //$schedule->command('job:generateDeptStats')->runInBackground()->everyFiveMinutes();
-        //$schedule->call('App\Http\Controllers\Common\CronjobController@generateDepartmentStats')->everyFiveMinutes();
+        $schedule->call('App\Http\Controllers\Common\CronjobController@generateDepartmentStats')->everyFiveMinutes();
         //$schedule->command('job:generateLocationStats')->runInBackground()->everyFiveMinutes();
-        //$schedule->call('App\Http\Controllers\Common\CronjobController@generateLocationStats')->everyFiveMinutes();
+        $schedule->call('App\Http\Controllers\Common\CronjobController@generateLocationStats')->everyFiveMinutes();
         //$schedule->command('job:generateUserStats')->runInBackground()->everyFiveMinutes();
-        //$schedule->call('App\Http\Controllers\Common\CronjobController@generateUserStats')->everyFiveMinutes();
+        $schedule->call('App\Http\Controllers\Common\CronjobController@generateUserStats')->everyFiveMinutes();
         //$schedule->command('job:generateScheduledReports')->runInBackground()->everyMinute();
-        //$schedule->call('App\Http\Controllers\Common\CronjobController@generateScheduledReports')->everyMinute();        
+        $schedule->call('App\Http\Controllers\Common\CronjobController@generateScheduledReports')->everyMinute();        
     }
 
     /**
