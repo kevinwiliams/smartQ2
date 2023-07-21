@@ -20,7 +20,7 @@ class BlacklistController extends Controller
      */
     public function index(BlacklistDataTable $dataTable, $id = null)
     {
-        if (!auth()->user()->can('view vip list')) {
+        if (!auth()->user()->can('view blacklist')) {
             return Redirect::to("/")->withFail(trans('app.no_permissions'));
         }
 
@@ -61,7 +61,7 @@ class BlacklistController extends Controller
      */
     public function store(Request $request)
     {
-        if (!auth()->user()->can('create company')) {
+        if (!auth()->user()->can('create blacklist')) {
             return Redirect::to("/")->withFail(trans('app.no_permissions'));
         }
 
@@ -159,7 +159,7 @@ class BlacklistController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!auth()->user()->can('update viplist')) {
+        if (!auth()->user()->can('update blacklist')) {
             return Redirect::to("/")->withFail(trans('app.no_permissions'));
         }
 

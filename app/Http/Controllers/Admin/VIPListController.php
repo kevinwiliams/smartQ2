@@ -20,7 +20,7 @@ class VIPListController extends Controller
      */
     public function index(VIPListDataTable $dataTable, $id = null)
     {
-        if (!auth()->user()->can('view vip list')) {
+        if (!auth()->user()->can('view viplist')) {
             return Redirect::to("/")->withFail(trans('app.no_permissions'));
         }
 
@@ -61,7 +61,7 @@ class VIPListController extends Controller
      */
     public function store(Request $request)
     {
-        if (!auth()->user()->can('create company')) {
+        if (!auth()->user()->can('create viplist')) {
             return Redirect::to("/")->withFail(trans('app.no_permissions'));
         }
 
@@ -195,7 +195,7 @@ class VIPListController extends Controller
      */
     public function destroy($id = null)
     {
-        if (!auth()->user()->can('delete alert')) {
+        if (!auth()->user()->can('delete viplist')) {
             return Redirect::to("/")->withFail(trans('app.no_permissions'));
         }
 
