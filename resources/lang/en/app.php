@@ -347,5 +347,9 @@ return [
     'block_reason'    => "Block reason",
     'unblock_reason'    => "Unblock reason",
     'view_blocked_client'    => "Blocked Client",
+
+
+    'visits'    => "Visits",
+    'block_date'    => "Block Date",
     
 ];

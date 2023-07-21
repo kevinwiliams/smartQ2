@@ -23,7 +23,7 @@
                                         <optgroup label="{{ $_group }}">
                                             @foreach(\App\Core\Data::getReportList() as $key => $value)
                                             @if($value['group'] == $_group)
-                                            <option value="{{ $value['id'] }}" {{ ($value['status'])?"":"disabled"}} {{ ($data->report == $value['id'])?"selected":"" }}> {{ $value['name'] }}</option>
+                                            <option value="{{ $value['id'] }}" {{ ($value['status'])?"":"disabled"}} {{ ($data->report == $value['id'])?"selected":"" }} data-showdate="{{ ($value['showDate'])?1:0 }}"> {{ $value['name'] }}</option>
                                             @endif
                                             @endforeach
                                         </optgroup>
@@ -58,7 +58,7 @@
                             </div>
 
                             @endcan
-                            <div class="fv-row col-3">
+                            <div class="fv-row col-3" id="divReportDate">
                                 <div class="form-group @error('daterange') has-error @enderror">
                                     <label class="fs-6 form-label fw-bolder text-dark">Date</label>
                                     <!--begin::Select-->

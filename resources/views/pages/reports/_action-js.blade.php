@@ -227,6 +227,17 @@
         }
 
         var initDatePicker = function() {
+
+            $('#report').on('change', function() {
+                var showDate = $(this).find(':selected').data('showdate');
+                if (showDate == 0) {
+                    $("#divReportDate").hide();
+                } else {
+                    $("#divReportDate").show();
+                }
+            });
+            $('#report').trigger('change');
+
             var start = moment().subtract(29, "days");
             var end = moment();
             var initialDate = $("#mv_daterangepicker").val();
@@ -735,7 +746,7 @@
                         bar: {
                             horizontal: true,
                             dataLabels: {
-                                position: 'top',                               
+                                position: 'top',
                             },
                         }
                     },
@@ -748,7 +759,7 @@
                         style: {
                             fontSize: '12px',
                             colors: ['#fff']
-                        },                      
+                        },
                     },
                     stroke: {
                         show: true,

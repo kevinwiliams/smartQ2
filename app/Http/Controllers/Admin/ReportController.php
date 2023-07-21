@@ -507,7 +507,7 @@ class ReportController extends Controller
                         $startDateUnix = Carbon::parse($_day);
                         array_push($dayNumbers, array('daynumber' => $startDateUnix->day, 'dayname' => $startDateUnix->dayName, 'day' => $startDateUnix->format('Y-m-d'), 'year' => $startDateUnix->year));
                     }
-                 
+
                     $seriesdata = array();
 
                     $officers = array_unique($info->pluck('officer')->toArray());
@@ -562,39 +562,39 @@ class ReportController extends Controller
                         ->orderBy('day')
                         ->get();
 
-                        $data->data = $info;
+                    $data->data = $info;
 
-                        $dayList = array_unique($info->pluck('day')->toArray());
-                        $dayNumbers = array();
-    
-                        foreach ($dayList as $_day) {
-                            $startDateUnix = Carbon::parse($_day);
-                            array_push($dayNumbers, array('daynumber' => $startDateUnix->day, 'dayname' => $startDateUnix->dayName, 'day' => $startDateUnix->format('Y-m-d'), 'year' => $startDateUnix->year));
-                        }
-                     
-                        $seriesdata = array();
-    
-                        $officers = array_unique($info->pluck('officer')->toArray());
-    
-                        foreach ($officers as $officer_name) {
-                            $datarow = array();
-                            foreach ($dayNumbers as $_day) {
-    
-                                $inforow =  $info->where('officer', $officer_name)->where('day', $_day['day'])->first();
-                                array_push($datarow, ($inforow) ? $inforow->total : 0);
-                            }
-                            array_push($seriesdata, array('name' => $officer_name, 'data' => $datarow));
-                        }
-    
-                        $data->graph = true;
-                        $data->seriesdata = $seriesdata;
-    
-                        $categories = array();
-    
+                    $dayList = array_unique($info->pluck('day')->toArray());
+                    $dayNumbers = array();
+
+                    foreach ($dayList as $_day) {
+                        $startDateUnix = Carbon::parse($_day);
+                        array_push($dayNumbers, array('daynumber' => $startDateUnix->day, 'dayname' => $startDateUnix->dayName, 'day' => $startDateUnix->format('Y-m-d'), 'year' => $startDateUnix->year));
+                    }
+
+                    $seriesdata = array();
+
+                    $officers = array_unique($info->pluck('officer')->toArray());
+
+                    foreach ($officers as $officer_name) {
+                        $datarow = array();
                         foreach ($dayNumbers as $_day) {
-                            array_push($categories, $_day['day']);
+
+                            $inforow =  $info->where('officer', $officer_name)->where('day', $_day['day'])->first();
+                            array_push($datarow, ($inforow) ? $inforow->total : 0);
                         }
-                        $data->categories = $categories;
+                        array_push($seriesdata, array('name' => $officer_name, 'data' => $datarow));
+                    }
+
+                    $data->graph = true;
+                    $data->seriesdata = $seriesdata;
+
+                    $categories = array();
+
+                    foreach ($dayNumbers as $_day) {
+                        array_push($categories, $_day['day']);
+                    }
+                    $data->categories = $categories;
                     // echo '<pre>';
                     // print_r($data);
                     // echo '</pre>';
@@ -661,43 +661,43 @@ class ReportController extends Controller
                      ORDER BY location, officer
                    ");
 
-                   $data->data = $info;
+                    $data->data = $info;
 
-                   $data->graph = true;
-
-
-                   $seriesData = array();
-                   $categoryData = array();
+                    $data->graph = true;
 
 
-                   $stoppedData = array();
-                   $successData = array();
-                   $pendingData = array();
+                    $seriesData = array();
+                    $categoryData = array();
 
-                   foreach ($info as $item) {
-                       $categoryData[] = $item->officer;
-                       $stoppedData[] = $item->stoped;
-                       $successData[] = $item->success;
-                       $pendingData[] = $item->pending;
-                   }
 
-                   $seriesData[] = array(
-                       'data' => $stoppedData,
-                       'name' => 'Stopped'
-                   );
+                    $stoppedData = array();
+                    $successData = array();
+                    $pendingData = array();
 
-                   $seriesData[] = array(
-                       'data' => $successData,
-                       'name' => 'Success'
-                   );
+                    foreach ($info as $item) {
+                        $categoryData[] = $item->officer;
+                        $stoppedData[] = $item->stoped;
+                        $successData[] = $item->success;
+                        $pendingData[] = $item->pending;
+                    }
 
-                   $seriesData[] = array(
-                       'data' => $pendingData,
-                       'name' => 'Pending'
-                   );
+                    $seriesData[] = array(
+                        'data' => $stoppedData,
+                        'name' => 'Stopped'
+                    );
 
-                   $data->seriesdata = $seriesData;
-                   $data->categories = $categoryData;
+                    $seriesData[] = array(
+                        'data' => $successData,
+                        'name' => 'Success'
+                    );
+
+                    $seriesData[] = array(
+                        'data' => $pendingData,
+                        'name' => 'Pending'
+                    );
+
+                    $data->seriesdata = $seriesData;
+                    $data->categories = $categoryData;
 
 
                     break;
@@ -747,17 +747,6 @@ class ReportController extends Controller
                         $objarray->percentage = 0;
                         array_push($infoarray, $objarray);
                     }
-                    // echo '<pre>';
-                    // print_r($infoarray);
-                    // echo '</pre>';
-                    // echo '<pre>';
-                    // print_r($dbreasons);
-                    // echo '</pre>';
-                    // echo '<pre>';
-                    // print_r(array_diff($dbreasons, $usedreasons));
-                    // echo '</pre>';
-
-                    // die();
 
                     $data->data = $infoarray;
                     $data->graph = true;
@@ -777,6 +766,75 @@ class ReportController extends Controller
 
                     $data->seriesdata = $seriesData;
                     $data->categories = $categoryData;
+                    break;
+                case '12':
+
+                    $locations = Location::whereIn('id', $idArray)->get();
+
+                    $dataarray = array();
+
+
+                    foreach ($locations as $location) {
+                        // Get the VIP users related to the location
+                        $vips = $location->vips;
+
+                        foreach ($vips as $user) {
+                            $userObj = (object)array();
+                            $userObj->location = $location->name;
+                            $userObj->name = $user->name;
+                            // Accessing pivot attributes
+                            $pivotAttributes = $user->pivot;
+                            $userObj->start_date = $pivotAttributes->created_at;
+
+                            $userObj->visits = Token::where('client_id', $user->id)->where('location_id', $location->id)->where('status', '1')->count();
+
+                            array_push($dataarray, $userObj);
+                        }
+                    }
+
+                    $data->data = $dataarray;
+                    $data->graph = false;
+
+                    $seriesData = array();
+                    $categoryData = array();
+
+                    $data->seriesdata = $seriesData;
+                    $data->categories = $categoryData;
+
+                    break;
+                case '13':
+
+                    $locations = Location::whereIn('id', $idArray)->get();
+
+                    $dataarray = array();
+
+
+                    foreach ($locations as $location) {
+                        // Get the VIP users related to the location
+                        $blocked = $location->blacklist;
+
+                        foreach ($blocked as $user) {
+                            $userObj = (object)array();
+                            $userObj->location = $location->name;
+                            $userObj->name = $user->name;
+                            // Accessing pivot attributes
+                            $pivotAttributes = $user->pivot;
+                            $userObj->block_date = $pivotAttributes->block_date;
+                            $userObj->block_reason = $pivotAttributes->block_reason;
+
+                            array_push($dataarray, $userObj);
+                        }
+                    }
+
+                    $data->data = $dataarray;
+                    $data->graph = false;
+
+                    $seriesData = array();
+                    $categoryData = array();
+
+                    $data->seriesdata = $seriesData;
+                    $data->categories = $categoryData;
+
                     break;
                 default:
                     # code...
