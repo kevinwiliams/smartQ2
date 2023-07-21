@@ -18,7 +18,7 @@ class AlertsController extends Controller
 {
   public function index(AlertsDataTable $dataTable)
   {
-    if (!auth()->user()->can('view location')) {
+    if (!auth()->user()->can('view alert')) {
       return Redirect::to("/")->withFail(trans('app.no_permissions'));
     }
 
@@ -47,7 +47,7 @@ class AlertsController extends Controller
 
   public function store(Request $request)
   {
-    if (!auth()->user()->can('create company')) {
+    if (!auth()->user()->can('create alert')) {
       return Redirect::to("/")->withFail(trans('app.no_permissions'));
     }
 

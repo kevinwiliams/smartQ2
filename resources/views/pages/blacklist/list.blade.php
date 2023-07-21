@@ -36,7 +36,7 @@
                 @else
                 <input type="hidden" name="location" id="location" value="{{ auth()->user()->location_id }}" />
                 @endif
-                @can('create alert')
+                @can('create blacklist')
                 <a href="#" class="btn btn-sm btn-light-primary btn-active-primary " data-bs-toggle="modal" data-bs-target="#mv_modal_add_blacklist" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to add new VIP">
                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                     {!! theme()->getSvgIcon("icons/duotune/arrows/arr075.svg", "svg-icon-3") !!}

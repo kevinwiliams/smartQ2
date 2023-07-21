@@ -280,6 +280,13 @@ return array(
         ),
         //// VIP LIST
         array(
+            'title' => 'Alerts',
+            'permission' => 'view alert',
+            'path'  => 'alerts/list',
+            'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/general/gen007.svg", "svg-icon-2"),
+        ),
+        //// VIP LIST
+        array(
             'title' => 'VIPs',
             'permission' => 'view viplist',
             'path'  => 'viplist/list',
@@ -320,11 +327,11 @@ return array(
                         'path'   => 'location/list',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ),
-                    array(
-                        'title'  => 'Alerts',
-                        'path'   => 'alerts/list',
-                        'bullet' => '<span class="bullet bullet-dot"></span>',
-                    ),
+                    // array(
+                    //     'title'  => 'Alerts',
+                    //     'path'   => 'alerts/list',
+                    //     'bullet' => '<span class="bullet bullet-dot"></span>',
+                    // ),
                     // array(
                     //     'title'  => 'VIP List',
                     //     'path'   => 'viplist/list',
