@@ -420,8 +420,9 @@ class HomeController extends Controller
 
         $waittime = 0;
         //if auto-setting are available
-        if (!empty($settings)) {
-            $location_id = Department::select('location_id')->where('id', $request->id)->first();
+        if (!empty($settings)) {            
+            $location_id = Department::where('id', $request->id)->value('location_id');
+
             $isVIP = auth()->user()->isVipAtLocation($location_id);
 
 
@@ -489,7 +490,7 @@ class HomeController extends Controller
         $waittime = 0;
         //if auto-setting are available
         if (!empty($settings)) {
-            $location_id = Department::select('location_id')->where('id', $request->id)->first();
+            $location_id = Department::where('id', $request->id)->value('location_id');
             $isVIP = auth()->user()->isVipAtLocation($location_id);
             foreach ($settings as $setting) {
                 //compare each user in today
