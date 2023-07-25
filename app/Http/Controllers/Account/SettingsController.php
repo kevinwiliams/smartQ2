@@ -27,6 +27,13 @@ class SettingsController extends Controller
         return view('pages.account.settings.settings', compact('info', 'user'));
     }
 
+
+    public function overview()
+    {
+        // get the default inner page
+        return view('pages.account.overview.overview');
+    }
+
     /**
      * Update the specified resource in storage.
      *
