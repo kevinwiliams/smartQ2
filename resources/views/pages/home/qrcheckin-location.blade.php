@@ -232,8 +232,7 @@
     </div>
     <!--end::Card-->
 
-    @section('scripts')
-    @include('pages.home._qr-checkin-js')
+    @section('scripts')    
     <script>
         var chart;
         var lastLat;
