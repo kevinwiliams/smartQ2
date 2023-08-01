@@ -239,52 +239,8 @@
                     }
                 }).then(function(result) {
                     if (result.value) {
-
                         window.location = "/home/joinqueue/L-" + location;
-                        // $.ajax({
-                        //     url: '/token/delete/' + tokenID,
-                        //     data: {
-                        //         _token: $("input[name=_token]").val()
-                        //     },
-                        //     success: function(res) {
-                        //         Swal.fire({
-                        //             text: "You have deleted " + tokenNo + "!.",
-                        //             icon: "success",
-                        //             buttonsStyling: false,
-                        //             confirmButtonText: "Ok, got it!",
-                        //             customClass: {
-                        //                 confirmButton: "btn fw-bold btn-primary",
-                        //             }
-                        //         }).then(function() {
-                        //             // Remove current row
-                        //             var dt = $('#token-table').DataTable();
-                        //             dt.row($(parent)).remove().draw();
-                        //         });
-                        //     }
-                        // }).fail(function(jqXHR, textStatus, error) {
-                        //     // Handle error here
-                        //     Swal.fire({
-                        //         text: tokenNo + " was not deleted.<br>" + jqXHR.responseText + "<br>" + error,
-                        //         icon: "error",
-                        //         buttonsStyling: false,
-                        //         confirmButtonText: "Ok, got it!",
-                        //         customClass: {
-                        //             confirmButton: "btn fw-bold btn-primary",
-                        //         }
-                        //     });
-                        // });
-
-                    } else if (result.dismiss === 'cancel') {
-                        // Swal.fire({
-                        //     text: tokenNo + " was not deleted.",
-                        //     icon: "error",
-                        //     buttonsStyling: false,
-                        //     confirmButtonText: "Ok, got it!",
-                        //     customClass: {
-                        //         confirmButton: "btn fw-bold btn-primary",
-                        //     }
-                        // });
-                    }
+                    } 
                 });
 
 
@@ -321,21 +277,7 @@
                                 '_token': '<?php echo csrf_token() ?>'
                             },
                             success: function(res) {
-
-                                window.location = "/home/current/" + res.token.id;
-                                // Swal.fire({
-                                //     text: "You have deleted " + tokenNo + "!.",
-                                //     icon: "success",
-                                //     buttonsStyling: false,
-                                //     confirmButtonText: "Ok, got it!",
-                                //     customClass: {
-                                //         confirmButton: "btn fw-bold btn-primary",
-                                //     }
-                                // }).then(function() {
-                                //     // Remove current row
-                                //     var dt = $('#token-table').DataTable();
-                                //     dt.row($(parent)).remove().draw();
-                                // });
+                                window.location = "/home/current/" + res.token.id;                              
                             }
                         }).fail(function(jqXHR, textStatus, error) {
                             // Handle error here
@@ -349,17 +291,6 @@
                                 }
                             });
                         });
-
-                    } else if (result.dismiss === 'cancel') {
-                        // Swal.fire({
-                        //     text: tokenNo + " was not deleted.",
-                        //     icon: "error",
-                        //     buttonsStyling: false,
-                        //     confirmButtonText: "Ok, got it!",
-                        //     customClass: {
-                        //         confirmButton: "btn fw-bold btn-primary",
-                        //     }
-                        // });
                     }
                 });
 
