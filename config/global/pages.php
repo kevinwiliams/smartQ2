@@ -555,6 +555,13 @@ return array(
         'joinqueue' => array(
             "*"  => array(
                 'title'  => 'Join Queue',
+                'assets' => array(
+                    'custom' => array(
+                        'js' => array(
+                            'js/custom/home/client-token.js',                        
+                        ),
+                    ),
+                ),
             ),
         ),
     ),
