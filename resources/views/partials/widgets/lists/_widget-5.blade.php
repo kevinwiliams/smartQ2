@@ -4,12 +4,13 @@
     @php
         
         $activities = Spatie\Activitylog\Models\Activity::where('log_name', 'activity')->orderBy('created_at','desc')->get();
+        $showcount = 20;
         
     @endphp
     <div class="card-header align-items-center border-0 mt-4">
         <h3 class="card-title align-items-start flex-column">
             <span class="fw-bolder mb-2 text-dark">Activities</span>
-            <span class="text-muted fw-bold fs-7">{{ count($activities) }} Events</span>
+            <span class="text-muted fw-bold fs-7">Last {{$showcount}} of {{ count($activities) }} Events</span>
         </h3>
 
     </div>
@@ -22,7 +23,7 @@
 
         
         <div class="timeline-label">
-            @foreach($activities->take(10) as $_activity)
+            @foreach($activities->take($showcount) as $_activity)
             <!--begin::Item-->
             <div class="timeline-item">
                 <!--begin::Label-->

@@ -201,14 +201,20 @@ return array(
             'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/art/art002.svg", "svg-icon-2"),
         ),
 
-        //// Dashboard
+        //// HOME
         array(
             'title' => 'Home',
             'permission' => 'view client-wizard',
             'path'  => 'home',
             'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/art/art002.svg", "svg-icon-2"),
         ),
-
+        //// History
+        array(
+            'title' => 'History',
+            // 'permission' => 'view client-history',
+            'path'  => 'token/history',
+            'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/coding/cod002.svg", "svg-icon-2"),
+        ),
         //// Modules
         array(
             'classes' => array('content' => 'pt-8 pb-2'),

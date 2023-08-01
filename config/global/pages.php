@@ -240,7 +240,19 @@ return array(
                 ),
             ),
         ),
-
+        'history' => array(
+            'title' => 'History',
+            'assets' => array(
+                'custom' => array(
+                    'css' => array(
+                        'plugins/custom/datatables/datatables.bundle.css',
+                    ),
+                    'js'  => array(
+                        'plugins/custom/datatables/datatables.bundle.js',
+                    ),
+                ),
+            ),
+        ),
         'report' => array(
             'title' => 'Tokens Report',
             'assets' => array(
@@ -538,6 +550,11 @@ return array(
         'current' => array(
             "*"  => array(
                 'title'  => 'Your Token',
+            ),
+        ),
+        'joinqueue' => array(
+            "*"  => array(
+                'title'  => 'Join Queue',
             ),
         ),
     ),

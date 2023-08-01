@@ -39,6 +39,10 @@ class TokenController extends Controller
     /*-----------------------------------
     | AUTO TOKEN SETTING
     |-----------------------------------*/
+    public function history()
+    {
+        return view('pages.token.history');
+    }
 
     public function tokenSettingView($id = null)
     {
@@ -540,6 +544,143 @@ class TokenController extends Controller
         }
     }
 
+    public function clientRebook(Request $request)
+    {
+        $oldToken = Token::find($request->id);
+
+        if (empty(session('app.timezone'))) {
+            $setting = DisplaySetting::where('location_id', $oldToken->location_id)->first();
+            session(['app.timezone' => $setting->timezone]);
+            $value = session('app.timezone');
+        }
+
+        @date_default_timezone_set(session('app.timezone'));
+
+        $client_id = auth()->user()->id;
+        $client_mobile = auth()->user()->mobile;
+        $otp_type = auth()->user()->otp_type;
+
+        //generate a token
+        try {
+            DB::beginTransaction();
+
+            $reason = null;
+            //find auto-setting
+
+            $settings = TokenSetting::select('counter_id', 'department_id', 'user_id', 'created_at')
+                ->where('department_id', $oldToken->department_id)
+                ->groupBy('user_id')
+                ->get();
+
+
+            //if auto-setting are available
+            if (!empty($settings)) {
+
+                foreach ($settings as $setting) {
+                    //compare each user in today
+                    $tokenData = Token::select('department_id', 'counter_id', 'user_id', DB::raw('COUNT(user_id) AS total_tokens'))
+                        ->where('department_id', $setting->department_id)
+                        ->where('counter_id', $setting->counter_id)
+                        ->where('user_id', $setting->user_id)
+                        ->whereIn('status', [0, 3])
+                        ->whereRaw('DATE(created_at) = CURDATE()')
+                        ->orderBy('total_tokens', 'asc')
+                        ->groupBy('user_id')
+                        ->first();
+
+                    //create user counter list
+                    $tokenAssignTo[] = [
+                        'total_tokens'  => (!empty($tokenData->total_tokens) ? $tokenData->total_tokens : 0),
+                        'department_id' => $setting->department_id,
+                        'counter_id'    => $setting->counter_id,
+                        'user_id'       => $setting->user_id
+                    ];
+                }
+
+                $isvip = auth()->user()->isVipAtLocation($oldToken->location_id);
+                //findout min counter set to 
+                $min = min($tokenAssignTo);
+                $saveToken = [
+                    'token_no'      => (new Token_lib)->newToken($min['department_id'], $min['counter_id']),
+                    'location_id'   => $oldToken->location_id,
+                    'client_mobile' => $client_mobile,
+                    'client_id'     => $client_id,
+                    'department_id' => $min['department_id'],
+                    'counter_id'    => $min['counter_id'],
+                    'user_id'       => $min['user_id'],
+                    'note'          => (!empty($oldToken->note)) ? $oldToken->note : null,
+                    'reason_for_visit'          => ($oldToken->reason_for_visit != null) ? $oldToken->reason_for_visit : null,
+                    'lat'          => (!empty($request->lat)) ? $request->lat : null,
+                    'lng'          => (!empty($request->lng)) ? $request->lng : null,
+                    'is_vip'       => ($isvip) ? 1 : null,
+                    'created_by'    => auth()->user()->id,
+                    'created_at'    => date('Y-m-d H:i:s'),
+                    'updated_at'    => null,
+                    'status'        => 3, //booked
+                    'notification_type' => $otp_type
+                ];
+
+
+                //store in database  
+                //set message and redirect
+                if ($insert_id = Token::insertGetId($saveToken)) {
+                    //Insert token status                    
+                    $save = TokenStatus::insert([
+                        'token_id'    => $insert_id,
+                        'status'      => 3,
+                        'time_stamp' => date('Y-m-d H:i:s')
+                    ]);
+
+                    $token = null;
+                    //retrive token info
+                    $token = Token::select(
+                        'token.*',
+                        'department.name as department',
+                        'counter.name as counter',
+                        'user.firstname',
+                        'user.lastname'
+                    )
+                        ->leftJoin('department', 'token.department_id', '=', 'department.id')
+                        ->leftJoin('counter', 'token.counter_id', '=', 'counter.id')
+                        ->leftJoin('user', 'token.user_id', '=', 'user.id')
+                        ->where('token.id', $insert_id)
+                        ->first();
+
+                    DB::commit();
+
+                    $list = Token::where('status', 0)
+                        ->where('department_id', $saveToken["department_id"])
+                        ->where('counter_id', $saveToken["counter_id"])
+                        ->orderBy('id')->get();
+                    $cntr = 1;
+                    foreach ($list as $value) {
+                        if ($value->token_no == $saveToken["token_no"]) {
+                            break;
+                        }
+                        $cntr++;
+                    }
+                    $data['status'] = true;
+                    $data['message'] = trans('app.token_generate_successfully');
+                    $data['token']  = $token;
+                    $data['position']  = $cntr;
+
+                    activity('activity')
+                        ->withProperties(['activity' => 'Client Generate Token', 'department' => $token->department, 'token' => $token->token_no, 'display' => 'success', 'location_id' => auth()->user()->location_id])
+                        ->log('Token (:properties.token) generated for :properties.department');
+                } else {
+                    $data['status'] = false;
+                    $data['exception'] = trans('app.please_try_again');
+                }
+
+
+
+                return response()->json($data);
+            }
+        } catch (\Exception $err) {
+            DB::rollBack();
+            return response()->json($err->getMessage());
+        }
+    }
     public function clientTokenTransfer(Request $request)
     {
         if (empty(session('app.timezone'))) {
@@ -1811,7 +1952,7 @@ class TokenController extends Controller
                 }
             }
 
-            $locations = $filteredLocations; 
+            $locations = $filteredLocations;
 
             return view('pages.home.business', compact('smsalert', 'maskedemail', 'shownote', 'company', 'locations'));
         }

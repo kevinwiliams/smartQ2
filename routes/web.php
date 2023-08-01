@@ -116,7 +116,7 @@ Route::middleware('auth')->group(function () {
 	// Account pages
 	Route::prefix('account')->group(function () {
 		Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
-		Route::get('overview', [SettingsController::class, 'index'])->name('account.overview');
+		Route::get('overview', [SettingsController::class, 'overview'])->name('account.overview');
 		Route::put('settings', [SettingsController::class, 'update'])->name('settings.update');
 		Route::put('settings/email', [SettingsController::class, 'changeEmail'])->name('settings.changeEmail');
 		Route::put('settings/password', [SettingsController::class, 'changePassword'])->name('settings.changePassword');
@@ -241,7 +241,9 @@ Route::middleware('auth')->group(function () {
 		Route::get('recall/{id}', [TokenController::class, 'recall']);
 		Route::get('delete/{id}', [TokenController::class, 'delete']);
 		Route::post('transfer', [TokenController::class, 'transfer']);
+		Route::post('rebook', [TokenController::class, 'clientRebook']);
 		Route::get('start/{id}', [TokenController::class, 'start']);
+		Route::get('history', [TokenController::class, 'history']);
 		Route::post('addnote', [TokenController::class, 'addnote']);
 		Route::post('addreasonforvisit', [TokenController::class, 'addreasonforvisit']);
 	});
