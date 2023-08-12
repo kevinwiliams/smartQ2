@@ -206,7 +206,7 @@ return array(
             'title' => 'Home',
             'permission' => 'view client-wizard',
             'path'  => 'home',
-            'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/art/art002.svg", "svg-icon-2"),
+            'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/general/gen001.svg", "svg-icon-2"),
         ),
         //// History
         array(

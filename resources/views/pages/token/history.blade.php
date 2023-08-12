@@ -1,221 +1,111 @@
 <x-base-layout>
     <?php
-    // Table rows
-    $tableRows = array(
-        array(
-            'agent' => array(
-                'image' => 'svg/avatars/001-boy.svg',
-                'name' => 'Brad Simmons',
-                'skills' => 'HTML, JS, ReactJS'
-            ),
-            'earnings' => array(
-                'value' => '$8,000,000',
-                'remarks' => 'Pending'
-            ),
-            'comission' => array(
-                'value' => '$5,400',
-                'remarks' => 'Paid'
-            ),
-            'company' => array(
-                'name' => 'Intertico',
-                'fields' => 'Web, UI/UX Design'
-            ),
-            'rating' => array(
-                'value' => 5,
-                'remarks' => 'Best Rated'
-            )
-        ),
-        array(
-            'agent' => array(
-                'image' => 'svg/avatars/047-girl-25.svg',
-                'name' => 'Lebron Wayde',
-                'skills' => 'PHP, Laravel, VueJS'
-            ),
-            'earnings' => array(
-                'value' => '$8,750,000',
-                'remarks' => 'Paid'
-            ),
-            'comission' => array(
-                'value' => '$7,400',
-                'remarks' => 'Paid'
-            ),
-            'company' => array(
-                'name' => 'Agoda',
-                'fields' => 'Houses & Hotels'
-            ),
-            'rating' => array(
-                'value' => 4,
-                'remarks' => 'Above Avarage'
-            )
-        ),
-        array(
-            'agent' => array(
-                'image' => 'svg/avatars/006-girl-3.svg',
-                'name' => 'Brad Simmons',
-                'skills' => 'HTML, JS, ReactJS'
-            ),
-            'earnings' => array(
-                'value' => '$8,000,000',
-                'remarks' => 'In Proccess'
-            ),
-            'comission' => array(
-                'value' => '$2,500',
-                'remarks' => 'Rejected'
-            ),
-            'company' => array(
-                'name' => 'RoadGee',
-                'fields' => 'Paid'
-            ),
-            'rating' => array(
-                'value' => 5,
-                'remarks' => 'Best Rated'
-            )
-        ),
-        array(
-            'agent' => array(
-                'image' => 'svg/avatars/014-girl-7.svg',
-                'name' => 'Natali Trump',
-                'skills' => 'HTML, JS, ReactJS'
-            ),
-            'earnings' => array(
-                'value' => '$700,000',
-                'remarks' => 'Pending'
-            ),
-            'comission' => array(
-                'value' => '$7,760',
-                'remarks' => 'Paid'
-            ),
-            'company' => array(
-                'name' => 'The Hill',
-                'fields' => 'Insurance'
-            ),
-            'rating' => array(
-                'value' => 3,
-                'remarks' => 'Avarage'
-            )
-        ),
-        array(
-            'agent' => array(
-                'image' => 'svg/avatars/020-girl-11.svg',
-                'name' => '	Jessie Clarcson',
-                'skills' => 'HTML, JS, ReactJS'
-            ),
-            'earnings' => array(
-                'value' => '$1,320,000',
-                'remarks' => 'Pending'
-            ),
-            'comission' => array(
-                'value' => '$6,250',
-                'remarks' => 'Paid'
-            ),
-            'company' => array(
-                'name' => 'Intertico',
-                'fields' => 'Web, UI/UX Design'
-            ),
-            'rating' => array(
-                'value' => 5,
-                'remarks' => 'Best Rated'
-            )
-        )
-    );
-
     $clienthistory = auth()->user()->clienttokenhistory;
     ?>
-    <!--begin::Card-->
-    <div class="card">
-        <!--begin::Card body-->
-        <div class="card-body pt-6">
-            <!--begin::Table container-->
-            <div class="table-responsive">
-                <input type="hidden" id="lat" name="lat" value="" />
-                <input type="hidden" id="lng" name="lng" value="" />
-                <!--begin::Table-->
-                <table class="table align-middle gs-0 gy-4">
-                    <!--begin::Table head-->
-                    <thead>
-                        <tr class="fw-bolder text-muted bg-light">
-                            <th class="ps-4 min-w-125px rounded-start">Date</th>
-                            <th class="min-w-200px">Location</th>
-                            <th class="min-w-125px">Agent</th>
-                            <th class="min-w-125px">Info</th>
-                            <th class="min-w-125px">Times</th>
-                            <!--<th class="min-w-150px">Rating</th> -->
-                            <th class="min-w-100px text-end rounded-end"></th>
-                        </tr>
-                    </thead>
-                    <!--end::Table head-->
-
-                    <!--begin::Table body-->
-                    <tbody>
-                        @foreach($clienthistory as $row)
-                        <tr>
-                            <td>
-                                <span class="ps-4">
-                                    {{ $row->created_at->format('d M Y, h:i a') }}
-                                </span>
-                            </td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="symbol symbol-50px me-5">
-                                        <span class="symbol-label bg-light">
-                                            <img src="{{  $row->location->company->logo_url }}" class="h-75 align-self-center" alt="" />
-                                        </span>
-                                    </div>
-
-                                    <div class="d-flex justify-content-start flex-column">
-                                        <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">{{ $row->location->name }}</a>
-                                        <span class="text-muted fw-bold text-muted d-block fs-7">{{ $row->location->address }}</span>
-                                    </div>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach($clienthistory as $row)
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body p-0">
+                    <div class="px-9 pt-7 card-rounded h-150px w-100 bg-primary" id="rptTokenHeader">
+                    </div>
+                    <div class="bg-body shadow-sm card-rounded mx-9 mb-3 px-6 py-6 position-relative z-index-1" style="margin-top: -120px">
+                        <div class="d-flex align-items-center mb-6">
+                            <div class="symbol symbol-45px w-40px me-5">
+                                <img class="mw-80px mw-lg-95px" src="{{  $row->location->company->logo_url }}" alt="image" id="rptTokenLogo" />
+                            </div>
+                            <div class="d-flex align-items-center flex-wrap w-100">
+                                <div class="mb-1 pe-3 flex-grow-1">
+                                    <a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder" id="rptTokenLocation">{{ $row->location->name }}</a>
+                                    <div class="text-gray-400 fw-bold fs-7" id="rptTokenLocationAddress">{{ $row->location->address }}</div>
                                 </div>
-                            </td>
-                            <td>
                                 <div class="d-flex align-items-center">
-                                    <div class="symbol symbol-50px me-5">
-                                        <span class="symbol-label bg-light">
-                                            <img src="{{  $row->officer->avatar_url }}" class="h-75 align-self-center" alt="" />
-                                        </span>
-                                    </div>
 
-                                    <div class="d-flex justify-content-start flex-column">
-                                        <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">{{ $row->officer->name }}</a>
-                                        <!-- <span class="text-muted fw-bold text-muted d-block fs-7">{{ $row->location->address }}</span> -->
-                                    </div>
                                 </div>
-                            </td>
-                            <td>
-                                <span class="fw-bold">Reason for visit:</span><br />
-                                <span class="">
-                                    {{ $row->reason_for_visit }}
-                                </span>
-                            </td>
-                            <td>
-                                <span class="fw-bold">Wait Time:</span><br />
-                                <span class="">{{ $row->wait_time }}</span><br />
-                                <span class="fw-bold">Service Time:</span><br />
-                                <span class="">{{ $row->service_time }}</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-6">
+                            <div class="symbol symbol-45px w-40px me-5">
+                                <img class="mw-80px mw-lg-95px" src="{{  $row->officer->avatar_url }}" alt="image" />
+                            </div>
+                            <div class="d-flex align-items-center flex-wrap w-100">
+                                <div class="mb-1 pe-3 flex-grow-1">
+                                    <a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder">{{ $row->officer->name }}</a>
+                                </div>
+                                <div class="d-flex align-items-center">
 
-                            </td>
-                            <td class="text-end">
-                                <a href="#" data-id="{{$row->id}}" data-name="{{ $row->location->name }}" data-location="{{$row->location_id }}" data-action="visit" class="btn btn-bg-light btn-color-muted btn-active-color-primary btn-sm px-4 me-2">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-6">
+                            <div class="symbol symbol-45px w-40px me-5">
+                                <span class="symbol-label bg-lighten">
+                                    {!! theme()->getSvgIcon("icons/duotune/electronics/elc005.svg", "svg-icon-1") !!}
+                                </span>
+                            </div>
+                            <div class="d-flex align-items-center flex-wrap w-100">
+
+                                <div class="mb-1 pe-3 flex-grow-1">
+                                    <a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder">Date</a>
+                                    <div class="text-gray-600  fs-6">{{ $row->created_at->format('d M Y, h:i a') }}</div>
+                                </div>
+
+                                <div class="d-flex align-items-center">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-6">
+
+                            <div class="symbol symbol-45px w-40px me-5">
+                                <span class="symbol-label bg-lighten">
+                                    {!! theme()->getSvgIcon("icons/duotune/general/gen056.svg", "svg-icon-1") !!}
+                                </span>
+                            </div>
+                            <div class="d-flex align-items-center flex-wrap w-100">
+                                <div class="mb-1 pe-3 flex-grow-1">
+                                    <a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder">Reason</a>
+                                    <div class="text-gray-400 fw-bold fs-7">{{ $row->reason_for_visit }}</div>
+                                </div>
+                                <div class="d-flex align-items-center">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-6">
+                            <div class="symbol symbol-45px w-40px me-5">
+                                <span class="symbol-label bg-lighten">
+                                    {!! theme()->getSvgIcon("icons/duotune/general/gen032.svg", "svg-icon-1") !!}
+                                </span>
+                            </div>
+                            <div class="d-flex align-items-center flex-wrap w-100">
+
+                                <div class="mb-1 pe-3 flex-grow-1">
+                                    <a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder">Stats </a><br />
+                                    <span class="fw-bold">Wait Time: </span><span class="">{{ $row->wait_time }}</span><br />
+                                    <span class="fw-bold">Service Time: </span><span class="">{{ $row->service_time }}</span>
+                                </div>
+
+                                <div class="d-flex align-items-center">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-end mb-6">
+                            <div class="">
+                                <a href="#" data-id="448" data-name="Kingston Office" data-location="14" data-action="visit" class="btn btn-bg-light btn-primary btn-active-color-dark btn-sm px-4 me-2">
                                     Visit
                                 </a>
 
-                                <a href="#" data-id="{{$row->id}}" data-name="{{ $row->location->name }}" data-location="{{$row->location_id }}" data-action="rebook" class="btn btn-bg-light btn-color-muted btn-active-color-primary btn-sm px-4">
+                                <a href="#" data-id="448" data-name="Kingston Office" data-location="14" data-action="rebook" class="btn btn-bg-light btn-primary btn-active-color-dark btn-sm px-4">
                                     Rebook
                                 </a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                    <!--end::Table body-->
-                </table>
-                <!--end::Table-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!--end::Table container-->
         </div>
-        <!--end::Card body-->
-    </div>
-    <!--end::Card-->
+        @endforeach
+    </div>    
     @section('scripts')
     <script>
         $(document).ready(function() {
@@ -240,7 +130,7 @@
                 }).then(function(result) {
                     if (result.value) {
                         window.location = "/home/joinqueue/L-" + location;
-                    } 
+                    }
                 });
 
 
@@ -266,9 +156,9 @@
                     }
                 }).then(function(result) {
                     if (result.value) {
-                       
+
                         $.ajax({
-                            url: '/token/rebook/' ,
+                            url: '/token/rebook/',
                             type: 'POST',
                             data: {
                                 'id': id,
@@ -277,7 +167,7 @@
                                 '_token': '<?php echo csrf_token() ?>'
                             },
                             success: function(res) {
-                                window.location = "/home/current/" + res.token.id;                              
+                                window.location = "/home/current/" + res.token.id;
                             }
                         }).fail(function(jqXHR, textStatus, error) {
                             // Handle error here
@@ -314,7 +204,7 @@
         }
 
         function geoError() {
-            console.log("Geocoder failed.");            
+            console.log("Geocoder failed.");
         }
 
         function visit(id) {
