@@ -89,7 +89,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="d-flex align-items-center justify-content-end mb-6">
+                        <div class="d-flex align-items-center justify-content-end">
                             <div class="">
                                 <a href="#" data-id="448" data-name="Kingston Office" data-location="14" data-action="visit" class="btn btn-bg-light btn-primary btn-active-color-dark btn-sm px-4 me-2">
                                     Visit
