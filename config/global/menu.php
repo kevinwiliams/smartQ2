@@ -211,7 +211,7 @@ return array(
         //// History
         array(
             'title' => 'History',
-            // 'permission' => 'view client-history',
+            'permission' => 'view client-history',
             'path'  => 'token/history',
             'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/coding/cod002.svg", "svg-icon-2"),
         ),

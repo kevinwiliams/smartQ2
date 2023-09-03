@@ -76,10 +76,10 @@ $primary-light:    								    if(isDarkMode(), #212E48, #F1FAFF) !default; // C
 $primary-inverse:  									$white !default;  // Custom variable
 
 // Secondary colors
-$secondary:     									$gray-300 !default; // Bootstrap variable
-$secondary-active:  								$gray-400 !default; // Custom variable
-$secondary-light:  									$gray-100 !default; // Custom variable
-$secondary-inverse:									$gray-800 !default; // Custom variable
+$secondary:     									#33cccc !default; // Bootstrap variable
+$secondary-active:  								#99E6E6 !default; // Custom variable
+$secondary-light:  									#E2F8F8 !default; // Custom variable
+$secondary-inverse:									$white !default; // Custom variable
 
 // Light colors
 $light:     									    if(isDarkMode(),$gray-300, $gray-100) !default; // Bootstrap variable
@@ -159,6 +159,7 @@ $theme-inverse-colors: (
 // Light colors
 $theme-light-colors: (
 	"primary":    $primary-light,
+    "secondary":  $secondary-light,
     "success":    $success-light,
     "info":       $info-light,
     "warning":    $warning-light,

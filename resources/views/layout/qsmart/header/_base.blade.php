@@ -24,7 +24,7 @@
 			<!--begin::Mobile logo-->
 			<div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
 				<a href="{{ theme()->getPageUrl('') }}" class="d-lg-none">
-					<img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/waitwise-logo.png') }}" class="h-20px"/>
+					<img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/waitwise-logo.png') }}" class="h-15px"/>
 				</a>
 			</div>
 			<!--end::Mobile logo-->
