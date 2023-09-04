@@ -115,7 +115,8 @@ class BootstrapQsmart extends BootstrapBase {
         }
 
         Theme::addHtmlClass('body', 'aside-enabled');
-        Theme::addHtmlClass('aside', 'aside-' . Theme::getOption('layout', 'aside/theme'));
+        // Theme::addHtmlClass('aside', 'aside-' . Theme::getOption('layout', 'aside/theme'));        
+        Theme::addHtmlClass('aside', 'aside-' . (Theme::isDarkMode()? 'dark':'light'));        
 
         // Fixed aside
         if (Theme::getOption('layout', 'aside/fixed')) {

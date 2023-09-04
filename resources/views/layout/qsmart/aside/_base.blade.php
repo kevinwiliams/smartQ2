@@ -1,7 +1,7 @@
 @php
     $logoFileName = 'waitwise-logo-dark.png';
 
-    if (theme()->getOption('layout', 'aside/theme') === 'light') {
+    if (!theme()->isDarkMode()) {
         $logoFileName = 'waitwise-logo.png';
     }
 @endphp
@@ -23,7 +23,7 @@
     <div class="aside-logo flex-column-auto" id="mv_aside_logo">
         {{--begin::Logo--}}
         <a href="{{ theme()->getPageUrl('') }}">
-            <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/' . $logoFileName) }}" class="h-15px logo"/>
+            <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/' . $logoFileName) }}" class="h-25px logo"/>
         </a>
         {{--end::Logo--}}
 
