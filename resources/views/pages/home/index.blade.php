@@ -1,32 +1,6 @@
 <x-base-layout>
     <!--begin::Card-->
     <div class="card">
-        <!--begin::Card header-->
-        <div class="card-header ribbon ribbon-top">
-            @if($company->active)
-            <div class="ribbon-label bg-success">
-                Active
-            </div>
-            @else
-            <div class="ribbon-label bg-danger">
-                Inactive
-            </div>
-            @endif
-            <!--begin::Card title-->
-            <div class="card-title">
-                <!--begin::Avatar-->
-                <div class="symbol symbol-65px symbol-circle mt-5 me-5 mb-5">
-                    <img src="{{ $company->logo_url }}" alt="image">
-                </div>
-                <!--end::Avatar-->
-
-                <div class="title-address">
-                    <h2>{{ ucwords($company->name) }}</h2>
-                    <p class="text-muted">{{ $company->address }}</p>
-                </div>
-            </div>
-            <!--end::Card title-->
-        </div>
         <!--begin::Card body-->
         <div class="card-body p-3">
             <!--begin::Stepper-->
@@ -38,7 +12,7 @@
                         <h3 class="stepper-title d-none d-xl-inline-flex">Where would you like to go?</h3>
                         <h3 class="stepper-title d-inline-flex d-md-inline-flex d-sm-none d-xl-none">1.</h3>
                     </div>
-                    <!--end::Step 1-->                   
+                    <!--end::Step 1-->                    
                     <!--begin::Step 3-->
                     <div class="stepper-item " data-mv-stepper-element="nav">
                         <h3 class="stepper-title d-none d-xl-inline-flex">How can we help?</h3>
@@ -54,7 +28,7 @@
                 </div>
                 <!--end::Nav-->
                 <!--begin::Form-->
-                <form class="mx-auto mw-600px w-100 pt-15 pb-10" novalidate="novalidate" id="mv_create_token_form" action='{{ URL::to("home/autotoken") }}' method="post">
+                <form class="mx-auto mw-600px w-100 pt-15 pb-10" novalidate="novalidate" id="mv_create_token_form" action="autotoken" method="post">
                     <!--begin::Step 1-->
                     <div class="current" data-mv-stepper-element="content">
                         <!--begin::Wrapper-->
@@ -62,22 +36,45 @@
                             <!--begin::Heading-->
                             <div class="pb-10 pb-lg-15">
                                 <!--begin::Title-->
-                                <h2 class="fw-bolder d-flex align-items-center text-dark">Which location you like to Queue?
+                                <h2 class="fw-bolder d-flex align-items-center text-dark">Where would you like to Queue?
                                     <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Select the business and location"></i>
                                 </h2>
                                 <!--end::Title-->
                             </div>
                             <!--end::Heading-->
 
+                            <!--begin::Default example-->
+                            <div class="fv-row mb-7">
+                                <div class="input-group input-group-solid flex-nowrap">
+                                    <span class="input-group-text"><i class="bi bi-building fs-4"></i></span>
+                                    <div class="overflow-hidden flex-grow-1">
+                                        <!-- <select class="form-select form-select-lg  rounded-start-0" data-control="select2" data-placeholder="Select an option">
+                                            <option></option>
+                                            <option value="1">Option 1</option>
+                                            <option value="2">Option 2</option>
+                                            <option value="3">Option 3</option>
+                                            <option value="4">Option 4</option>
+                                            <option value="5">Option 5</option>
+                                        </select> -->
+                                        <!-- {{ Form::select('company_id', $companies, null, ['data-placeholder' => 'Select Company','placeholder' => 'Select Option' ,'data-control' => 'select2' , 'id' => 'company_id', 'class'=>'form-select form-select-solid form-select-lg fw-bold filter rounded-start-0']) }} -->
+                                        <select id="company_id" class="form-select form-select-solid form-select-lg fw-bold filter rounded-start-0" name="company_id" data-placeholder="Please select company">
+                                            @foreach($companies as $company)
+                                            <option></option>
+                                            <option value="{{ $company->id }}" data-mv-rich-content-icon="{{ $company->logo_url }}">{{ $company->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="text-danger">{{ $errors->first('company_id') }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--end::Default example-->
                             <div class="fv-row mb-7">
                                 <div class="input-group input-group-solid flex-nowrap">
                                     <span class="input-group-text"><i class="bi bi-geo fs-4"></i></span>
                                     <div class="overflow-hidden flex-grow-1">
                                         <select id="mv_location_list" class="form-select form-select-solid form-select-lg fw-bold filter rounded-start-0" name="location" data-placeholder="Please select location">
-                                        <option></option>    
-                                            @foreach($locations as $location)                                            
-                                            <option value="{{ $location->id }}" data-mv-rich-content-subcontent="{{ $location->address }}" data-visitreason="{{ $location->settings->client_reason_for_visit }}" data-shownote="{{ $location->settings->show_note }}" data-lat="{{ $location->lat }}" data-lng="{{ $location->lon }}" data-whatsapp="{{ $location->settings->enable_whatsapp }}" data-isvip="{{ $location->is_vip }}">{{ $location->name }}</option>
-                                            @endforeach
+                                            <option></option>
                                         </select>
                                         <div class="pt-3" style="display:none;" id="locationSuggestions">
                                             <span class="text-gray-700">Closest:</span>
@@ -88,7 +85,7 @@
                                         </div>
                                         <div class="pt-3" style="display:none;" id="locationDirections">
                                             <a href="#googlemaps" class="text-primary cursor-pointer" data-fslightbox="lightbox" data-class="fslightbox-source"><i class="las la-directions"></i> Directions</a>
-                                        </div>                                       
+                                        </div>
                                         <span class="text-danger">{{ $errors->first('location') }}</span>
                                     </div>
                                 </div>
@@ -138,12 +135,11 @@
                                     </div>
                                 </div>
                             </div>
-
                             {{ theme()->getView('partials/widgets/charts/_visithours') }}
                         </div>
                         <!--end::Wrapper-->
                     </div>
-                    <!--end::Step 1-->          
+                    <!--end::Step 1-->        
                     <!--begin::Step 3-->
                     <div class="" data-mv-stepper-element="content">
                         <!--begin::Wrapper-->
@@ -353,9 +349,7 @@
         <iframe width="800" height="500" id="googlemaps" class="fslightbox-source" frameBorder="0" style="border:0" referrerpolicy="no-referrer-when-downgrade" allow="autoplay; fullscreen" allowFullScreen>
         </iframe>
     </div>
-    <!--begin::Modal - Edit Open hours -->
-    {{ theme()->getView('partials/modals/openhours/_view') }}
-    <!--end::Modal - Edit Open hours-->
+
     @section('scripts')
     
     <script>
@@ -389,7 +383,7 @@
             initVisitHoursChart2();
             handleDataLookup();
             handleLocationSuggestion();
-            getLocation();
+            // getLocation();
             // Format options
             const optionFormat = (item) => {
                 if (!item.id) {
@@ -402,15 +396,9 @@
                 template += '<div class="d-flex align-items-center">';
                 //template += '<img src="' + item.element.getAttribute('data-kt-rich-content-icon') + '" class="rounded-circle h-40px me-3" alt="' + item.text + '"/>';
                 template += '<div class="d-flex flex-column">'
-                if(item.element.getAttribute('data-isvip')  == 1){
-                    template += '<span class="fs-4 fw-bold lh-1 text-primary">' + item.text + ' <i class="bi bi-star-fill" style="color:gold"></i></span>';
-                }else{
-                    // template += '<span class="fs-4 fw-bold lh-1 text-success">' + item.text + ' <i class="bi bi-star-fill"></i></span>';
-                    template += '<span class="fs-4 fw-bold lh-1">' + item.text + '</span>';
-                }
-                
-                template += '<span class="text-muted fs-5">' + item.element.getAttribute('data-mv-rich-content-subcontent') + '</span>';                 
-                template += '</div>';                
+                template += '<span class="fs-4 fw-bold lh-1">' + item.text + '</span>';
+                template += '<span class="text-muted fs-5">' + item.element.getAttribute('data-mv-rich-content-subcontent') + '</span>';
+                template += '</div>';
                 template += '</div>';
 
                 span.innerHTML = template;
@@ -449,13 +437,6 @@
 
             $('#company_id').select2({
                 placeholder: "Select a company",
-                minimumResultsForSearch: 0,
-                templateSelection: companyoptionFormat,
-                templateResult: companyoptionFormat
-            });
-
-            $('#category_id').select2({
-                placeholder: "Select a Category",
                 minimumResultsForSearch: 0,
                 templateSelection: companyoptionFormat,
                 templateResult: companyoptionFormat
@@ -887,6 +868,28 @@
 
             });
 
+            // $('input:radio[name=department_id]').on('click', function(e) {
+            //     console.log(e);
+            //     var dept = $(this).find(":checked").val();
+            //     var dept = e.target.value;
+
+            //     $.ajax({
+            //         type: 'post',
+            //         url: '{{ URL::to("home/getwaittime") }}',
+            //         type: 'POST',
+            //         dataType: 'json',
+            //         data: {
+            //             'id': dept,
+            //             '_token': '<?php echo csrf_token() ?>'
+            //         },
+            //         success: function(data) {
+            //             console.log(data);
+            //             $("#span_wait").text(data);
+            //         }
+            //     });
+
+            // });
+
             $('#cancel_otp').on('click', function(e) {
                 e.preventDefault();
                 console.log(e.target.dataset);
@@ -922,7 +925,7 @@
                         var options = $('select[name="location"]').empty();
                         $('select[name="location"]').append('<option value="" data-mv-rich-content-subcontent="">Select a location</option>');
                         data.forEach(element => {
-                            var optstr = '<option value="' + element.id + '" data-mv-rich-content-subcontent="' + element.address + '" data-visitreason="' + element.settings.client_reason_for_visit + '" data-shownote="' + element.settings.show_note + '" data-lat="' + element.lat + '" data-lng="' + element.lon + '" data-whatsapp="' + element.settings.enable_whatsapp + '" data-isvip="' + element.is_vip + '">' + element.name + '</option>';
+                            var optstr = '<option value="' + element.id + '" data-mv-rich-content-subcontent="' + element.address + '" data-visitreason="' + element.settings.client_reason_for_visit + '" data-shownote="' + element.settings.show_note + '" data-lat="' + element.lat + '" data-lng="' + element.lon + '" data-whatsapp="' + element.settings.enable_whatsapp + '">' + element.name + '</option>';
                             $('select[name="location"]').append(optstr);
                         });
                         getLocation();
@@ -930,59 +933,6 @@
                 });
             });
 
-
-            $('#category_id').on('change', function(e) {
-                var category = $("#category_id").find(":selected").val();
-
-                var repItem = $('#mv-repeater-item');
-                var content = $('#mv-repeater-content');
-
-                // console.log(repItem);
-                // repItem.find("#mv-repeater-name")
-                $('[data-mv-stepper-action="next"]').addClass('disabled');
-                $.ajax({
-                    type: 'get',
-                    url: '{{ URL::to("category/getLocations") }}' + "/" + category,
-                    dataType: 'json',
-                    success: function(data) {
-                        // console.log(data);
-                        var options = $('select[name="location"]').empty();
-                        $('select[name="location"]').append('<option value="" data-mv-rich-content-subcontent="">Select a location</option>');
-                        data.forEach(element => {
-                            var optstr = '<option value="' + element.id + '" data-mv-rich-content-subcontent="' + element.address + '" data-visitreason="' + element.settings.client_reason_for_visit + '" data-shownote="' + element.settings.show_note + '" data-lat="' + element.lat + '" data-lng="' + element.lon + '" data-whatsapp="' + element.settings.enable_whatsapp + '" data-isvip="' + element.is_vip + '">' + element.name + '</option>';
-                            $('select[name="location"]').append(optstr);
-                        });
-                        getLocation();
-                    }
-                });
-            });
-
-
-            const oh_element = document.getElementById('mv_modal_view_openhours');
-            const oh_modal = new bootstrap.Modal(oh_element);
-
-            // Close button handler
-            const businessHoursCloseButton = oh_element.querySelector('[data-mv-openhours-view-modal-action="close"]');
-            businessHoursCloseButton.addEventListener('click', e => {
-                e.preventDefault();
-
-                Swal.fire({
-                    text: "Are you sure you would like to close?",
-                    icon: "warning",
-                    showCancelButton: true,
-                    buttonsStyling: false,
-                    confirmButtonText: "Yes, close it!",
-                    cancelButtonText: "No, return",
-                    customClass: {
-                        confirmButton: "btn btn-primary",
-                        cancelButton: "btn btn-active-light"
-                    }
-                }).then(function(result) {
-                    if (result.value) {
-                        oh_modal.hide(); // Hide modal				
-                    }
-                });
-            });
 
         });
 
@@ -1202,11 +1152,11 @@
                     }
 
                     if (response.data.is_open_status != "") {
-                        $("#mv_location_hours").text(response.data.is_open_status);   
-                        if(response.data.is_open_status.includes("Closed")){
+                        $("#mv_location_hours").text(response.data.is_open_status);
+                        if (response.data.is_open_status.includes("Closed")) {
                             $("#mv_location_hours").addClass("text-danger");
                             $("#mv_location_hours").removeClass("text-muted");
-                        }else{
+                        } else {
                             $("#mv_location_hours").addClass("text-muted");
                             $("#mv_location_hours").removeClass("text-danger");
                         }
@@ -1306,7 +1256,6 @@
             });
 
         }
-
         var initVisitHoursChart2 = function() {
             var element = document.getElementById('mv_charts_widget_9_chart');
 
@@ -1352,7 +1301,7 @@
                     labels: {
                         show: false,
                     }
-                },             
+                },              
                 tooltip: {
                     enabled: false
                 },

@@ -950,4 +950,24 @@ class Data
             -1 => 'Indefinitely',
         ];
     }
+
+    public static function getAlertTypeList()
+    {
+        return array(
+            'sms'       => "SMS",
+            'email'     => "Email"
+        );
+    }
+
+    public static function getGenderList()
+    {
+        return array(
+            'male'   => "Male",
+            'female' => "Female",
+            'other'  => "Other",
+            'non-binary' => "Non-Binary",
+            'transgender' => "Transgender",            
+        );
+    }
+    
 }

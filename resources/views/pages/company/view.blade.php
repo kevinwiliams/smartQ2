@@ -43,6 +43,9 @@
 								<div class="text-gray-600 mb-5">{{ $company->phone }}</div>
 								<div class="text-gray-600 mb-5">{{ $company->contact_person }}</div>
 								<div class="text-gray-600 mb-5">{{ $company->description }}</div>
+								@if($company->shortname)
+								<a target="_blank" href="{{ config('app.url') }}/in/{{ $company->shortname }}">{{ config('app.url') }}/in/{{ $company->shortname }}</a>
+								@endif
 							</div>
 							<!--end::Card body-->
 							<!--begin::Card footer-->

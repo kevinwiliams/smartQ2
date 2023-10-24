@@ -7,7 +7,7 @@
             <!--begin::Modal header-->
             <div class="modal-header flex-stack">
                 <!--begin::Title-->
-                <h2>Choose An Authentication Method</h2>
+                <h2>Choose An Alert Method</h2>
                 <!--end::Title-->
 
                 <!--begin::Close-->
@@ -22,7 +22,9 @@
             <div class="modal-body scroll-y pt-10 pb-15 px-lg-17">
                 {{ theme()->getView('partials/modals/two-factor-authentication/partials/_options') }}
 
-                {{ theme()->getView('partials/modals/two-factor-authentication/partials/_app') }}
+                {{ theme()->getView('partials/modals/two-factor-authentication/partials/_email') }}
+
+                {{ theme()->getView('partials/modals/two-factor-authentication/partials/_code') }}
 
                 {{ theme()->getView('partials/modals/two-factor-authentication/partials/_sms') }}
             </div>

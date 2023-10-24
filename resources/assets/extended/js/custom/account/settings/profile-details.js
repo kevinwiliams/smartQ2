@@ -56,6 +56,13 @@ var MVAccountSettingsProfileDetails = function () {
                             }
                         }
                     },
+                    alert: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please select an Alert Type'
+                            }
+                        }
+                    },
                 },
                 plugins: {
                     trigger: new FormValidation.plugins.Trigger(),

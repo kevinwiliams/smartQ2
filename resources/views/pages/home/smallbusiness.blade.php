@@ -35,10 +35,10 @@
                 <div class="stepper-nav mb-5  ">
                     <!--begin::Step 1-->
                     <div class="stepper-item current" data-mv-stepper-element="nav">
-                        <h3 class="stepper-title d-none d-xl-inline-flex">Where would you like to go?</h3>
+                        <h3 class="stepper-title d-none d-xl-inline-flex">Info</h3>
                         <h3 class="stepper-title d-inline-flex d-md-inline-flex d-sm-none d-xl-none">1.</h3>
                     </div>
-                    <!--end::Step 1-->                   
+                    <!--end::Step 1-->               
                     <!--begin::Step 3-->
                     <div class="stepper-item " data-mv-stepper-element="nav">
                         <h3 class="stepper-title d-none d-xl-inline-flex">How can we help?</h3>
@@ -54,44 +54,25 @@
                 </div>
                 <!--end::Nav-->
                 <!--begin::Form-->
-                <form class="mx-auto mw-600px w-100 pt-15 pb-10" novalidate="novalidate" id="mv_create_token_form" action='{{ URL::to("home/autotoken") }}' method="post">
+                <form class="mx-auto mw-600px w-100 pt-5 pb-10" novalidate="novalidate" id="mv_create_token_form" action='{{ URL::to("home/autotoken") }}' method="post">
                     <!--begin::Step 1-->
                     <div class="current" data-mv-stepper-element="content">
                         <!--begin::Wrapper-->
                         <div class="w-100">
-                            <!--begin::Heading-->
-                            <div class="pb-10 pb-lg-15">
-                                <!--begin::Title-->
-                                <h2 class="fw-bolder d-flex align-items-center text-dark">Which location you like to Queue?
-                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Select the business and location"></i>
-                                </h2>
-                                <!--end::Title-->
-                            </div>
-                            <!--end::Heading-->
 
                             <div class="fv-row mb-7">
-                                <div class="input-group input-group-solid flex-nowrap">
-                                    <span class="input-group-text"><i class="bi bi-geo fs-4"></i></span>
-                                    <div class="overflow-hidden flex-grow-1">
-                                        <select id="mv_location_list" class="form-select form-select-solid form-select-lg fw-bold filter rounded-start-0" name="location" data-placeholder="Please select location">
-                                        <option></option>    
-                                            @foreach($locations as $location)                                            
-                                            <option value="{{ $location->id }}" data-mv-rich-content-subcontent="{{ $location->address }}" data-visitreason="{{ $location->settings->client_reason_for_visit }}" data-shownote="{{ $location->settings->show_note }}" data-lat="{{ $location->lat }}" data-lng="{{ $location->lon }}" data-whatsapp="{{ $location->settings->enable_whatsapp }}" data-isvip="{{ $location->is_vip }}">{{ $location->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <div class="pt-3" style="display:none;" id="locationSuggestions">
-                                            <span class="text-gray-700">Closest:</span>
-
-                                            <span class="text-danger">
-                                                <span class="cursor-pointer" data-suggestion-id="" id="mv_location_suggestion"></span>
-                                            </span>
-                                        </div>
-                                        <div class="pt-3" style="display:none;" id="locationDirections">
-                                            <a href="#googlemaps" class="text-primary cursor-pointer" data-fslightbox="lightbox" data-class="fslightbox-source"><i class="las la-directions"></i> Directions</a>
-                                        </div>                                       
-                                        <span class="text-danger">{{ $errors->first('location') }}</span>
-                                    </div>
+                                <div style="display: none;">
+                                    <select id="mv_location_list" class="form-select form-select-solid form-select-lg fw-bold filter rounded-start-0" name="location" data-placeholder="Please select location">
+                                        @foreach($locations as $location)
+                                        <option value="{{ $location->id }}" data-mv-rich-content-subcontent="{{ $location->address }}" data-visitreason="{{ $location->settings->client_reason_for_visit }}" data-shownote="{{ $location->settings->show_note }}" data-lat="{{ $location->lat }}" data-lng="{{ $location->lon }}" data-whatsapp="{{ $location->settings->enable_whatsapp }}" data-isvip="{{ $location->is_vip }}" selected>{{ $location->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
+
+                                <div class="" style="display:none;" id="locationDirections">
+                                    <h4><a href="#googlemaps" class="text-primary cursor-pointer" data-fslightbox="lightbox" data-class="fslightbox-source"><i class="las la-directions"></i> Directions</a></h4>
+                                </div>
+
                             </div>
                             <div id="locationHours" style="display:none;">
                                 <h4 class="fw-bolder d-flex align-items-center text-dark pb-2">Opening Hours</h4>
@@ -143,7 +124,7 @@
                         </div>
                         <!--end::Wrapper-->
                     </div>
-                    <!--end::Step 1-->          
+                    <!--end::Step 1-->                  
                     <!--begin::Step 3-->
                     <div class="" data-mv-stepper-element="content">
                         <!--begin::Wrapper-->
@@ -357,7 +338,7 @@
     {{ theme()->getView('partials/modals/openhours/_view') }}
     <!--end::Modal - Edit Open hours-->
     @section('scripts')
-    
+
     <script>
         var chart;
         var lastLat;
@@ -388,8 +369,8 @@
 
             initVisitHoursChart2();
             handleDataLookup();
-            handleLocationSuggestion();
-            getLocation();
+            //handleLocationSuggestion();
+            // getLocation();
             // Format options
             const optionFormat = (item) => {
                 if (!item.id) {
@@ -402,15 +383,15 @@
                 template += '<div class="d-flex align-items-center">';
                 //template += '<img src="' + item.element.getAttribute('data-kt-rich-content-icon') + '" class="rounded-circle h-40px me-3" alt="' + item.text + '"/>';
                 template += '<div class="d-flex flex-column">'
-                if(item.element.getAttribute('data-isvip')  == 1){
+                if (item.element.getAttribute('data-isvip') == 1) {
                     template += '<span class="fs-4 fw-bold lh-1 text-primary">' + item.text + ' <i class="bi bi-star-fill" style="color:gold"></i></span>';
-                }else{
+                } else {
                     // template += '<span class="fs-4 fw-bold lh-1 text-success">' + item.text + ' <i class="bi bi-star-fill"></i></span>';
                     template += '<span class="fs-4 fw-bold lh-1">' + item.text + '</span>';
                 }
-                
-                template += '<span class="text-muted fs-5">' + item.element.getAttribute('data-mv-rich-content-subcontent') + '</span>';                 
-                template += '</div>';                
+
+                template += '<span class="text-muted fs-5">' + item.element.getAttribute('data-mv-rich-content-subcontent') + '</span>';
+                template += '</div>';
                 template += '</div>';
 
                 span.innerHTML = template;
@@ -463,9 +444,9 @@
 
 
             $('#mv_location_list').on('change', function(e) {
-                var selectedval = $(this).val();
-                if (selectedval != "") {
-                    $("#locationDirections").show();
+                var selectedval = $(this).val();                
+                if (selectedval != "") {                    
+                    // $("#locationDirections").show();
                     $("#timesText").show();
                     $('[data-mv-stepper-action="next"]').removeClass('disabled');
                 } else {
@@ -506,18 +487,18 @@
                 var lat = $('#lat').val();
                 var lng = $('#lng').val();
 
-                //Update directions
-                //var _url = "https://www.google.com/maps/dir/?api=1&destination=" + obj.data("lat") + "," + obj.data("lng");
-                var _url = "https://www.google.com/maps/embed/v1/directions?key={{config('app.google_maps')}}&origin=" + lat + "," + lng + "&destination=" + obj.data("lat") + "," + obj.data("lng");
+                // //Update directions
+                // //var _url = "https://www.google.com/maps/dir/?api=1&destination=" + obj.data("lat") + "," + obj.data("lng");
+                // var _url = "https://www.google.com/maps/embed/v1/directions?key={{config('app.google_maps')}}&zoom=13&origin=" + lat + "," + lng + "&destination=" + obj.data("lat") + "," + obj.data("lng");
 
-                $("#googlemaps").attr("src", _url);
-                //$("#locationDirections > a").attr("href", _url);
-                setTimeout(() => {
-                    refreshFsLightbox();
-                    $("#googlemaps").hide();
-                }, 1000);
+                // $("#googlemaps").attr("src", _url);
+                // //$("#locationDirections > a").attr("href", _url);
+                // setTimeout(() => {
+                //     refreshFsLightbox();
+                //     $("#googlemaps").hide();
+                // }, 1000);
             });
-
+            $('#mv_location_list').trigger('change');
 
             //------------------------------------------
 
@@ -527,7 +508,7 @@
             // });
 
             //disable stepper until verified
-            $('[data-mv-stepper-action="next"]').addClass('disabled');
+            // $('[data-mv-stepper-action="next"]').addClass('disabled');
             //show/hide email and sms confirmation fields
             $('[name="alert_type"]').on('click', function(e) {
                 var alrtType = e.target.value;
@@ -1202,11 +1183,11 @@
                     }
 
                     if (response.data.is_open_status != "") {
-                        $("#mv_location_hours").text(response.data.is_open_status);   
-                        if(response.data.is_open_status.includes("Closed")){
+                        $("#mv_location_hours").text(response.data.is_open_status);
+                        if (response.data.is_open_status.includes("Closed")) {
                             $("#mv_location_hours").addClass("text-danger");
                             $("#mv_location_hours").removeClass("text-muted");
-                        }else{
+                        } else {
                             $("#mv_location_hours").addClass("text-muted");
                             $("#mv_location_hours").removeClass("text-danger");
                         }
@@ -1352,7 +1333,7 @@
                     labels: {
                         show: false,
                     }
-                },             
+                },
                 tooltip: {
                     enabled: false
                 },
@@ -1393,17 +1374,46 @@
         }
 
         function geoSuccess(position) {
-            var lat = position.coords.latitude;
-            var lng = position.coords.longitude;
-            $('#lat').val(lat);
-            $('#lng').val(lng);
+            // if (position.coords == undefined)
+            //     return;
+            // var lat = position.coords.latitude;
+            // var lng = position.coords.longitude;
+            // $('#lat').val(lat);
+            // $('#lng').val(lng);
 
-            closestLocation(position);
+            // //closestLocation(position);
+            // showDirections(position);
+            if (position && position.coords) {
+                var lat = position.coords.latitude;
+                var lng = position.coords.longitude;
+                $('#lat').val(lat);
+                $('#lng').val(lng);
+
+                // You can call your functions here that rely on the position data.
+                // closestLocation(position);
+                showDirections(position);
+            } else {
+                console.log("Geolocation data is not available.");
+            }
+        }
+
+        function showDirections(position) {
+            $("#locationDirections").show();
+            var obj = $("#mv_location_list").find(':selected');
+
+            var _url = "https://www.google.com/maps/embed/v1/directions?key={{config('app.google_maps')}}&zoom=13&origin=" + position.coords.latitude + "," + position.coords.longitude + "&destination=" + obj.data("lat") + "," + obj.data("lng");
+            console.log(_url);
+            $("#googlemaps").attr("src", _url);
+            //$("#locationDirections > a").attr("href", _url);
+            setTimeout(() => {
+                refreshFsLightbox();
+                $("#googlemaps").hide();
+            }, 1000);
         }
 
         function geoError() {
             console.log("Geocoder failed.");
-            $("#locationSuggestions").hide();
+            $("#locationDirections").hide();
         }
 
         function closestLocation(position) {

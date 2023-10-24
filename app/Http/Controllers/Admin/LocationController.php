@@ -292,10 +292,16 @@ class LocationController extends Controller
     public function printqr($id)
     {
         $content = "<div>";
-        $content .=  QrCode::style('round')->eyeColor(0, 0, 178, 0, 1, 162, 217)->size(500)->color(1, 162, 217)->generate($id);
+        $content .=  QrCode::format('png')->style('round')->eyeColor(0, 0, 178, 0, 1, 162, 217)->size(500)->color(1, 162, 217)->generate($id);
         $content .= "</div>";
-
-        return PDF::loadHtml($content)->inline('qrcode-' . $id . '.pdf');
+        $data = [
+            'title' => 'Sample PDF',
+            'content' => $content,
+        ];
+        // return PDF::loadHtml($content)->stream('qrcode-' . $id . '.pdf');
+        $pdf = Pdf::loadView('pages.test.test', $data);
+        return $pdf->download('invoice.pdf');
+        // Pdf::loadHTML($content)->setPaper('a4', 'landscape')->setWarnings(false)->stream('myfile.pdf');
     }
 
     /**

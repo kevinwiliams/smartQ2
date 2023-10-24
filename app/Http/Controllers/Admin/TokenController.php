@@ -30,6 +30,7 @@ use Carbon\Carbon;
 use DB, Validator, PDF;
 use Http;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
@@ -1893,11 +1894,12 @@ class TokenController extends Controller
         $shownote = $display->show_note;
 
         $maskedemail = auth()->user()->getMaskedEmail();
-
+        
         $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
 
-        return view('pages.home._index', compact('smsalert', 'maskedemail', 'shownote', 'companies'));
+        return view('pages.home.index', compact('smsalert', 'maskedemail', 'shownote', 'companies'));
     }
+
     public function advClientSearch()
     {
         @date_default_timezone_set(session('app.timezone'));
@@ -1908,7 +1910,7 @@ class TokenController extends Controller
 
         $maskedemail = auth()->user()->getMaskedEmail();
 
-
+        
         $categories = BusinessCategory::whereRelation('companies', 'company.active', true)->whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
         $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
 
@@ -1954,7 +1956,19 @@ class TokenController extends Controller
 
             $locations = $filteredLocations;
 
-            return view('pages.home.business', compact('smsalert', 'maskedemail', 'shownote', 'company', 'locations'));
+            if($locations->count() == 0){
+                $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
+                $categories = BusinessCategory::whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
+                Session::flash("fail", trans('app.no_location_found'));
+                return view('pages.home.advsearch', compact('smsalert', 'maskedemail', 'shownote', 'companies', 'categories'));
+            }else if($locations->count() == 1){
+                return view('pages.home.smallbusiness', compact('smsalert', 'maskedemail', 'shownote', 'company', 'locations'));
+            }else{
+                return view('pages.home.business', compact('smsalert', 'maskedemail', 'shownote', 'company', 'locations'));
+            }
+
+
+            // return view('pages.home.business', compact('smsalert', 'maskedemail', 'shownote', 'company', 'locations'));
         }
     }
 
@@ -2233,7 +2247,7 @@ class TokenController extends Controller
         if ($validator->fails()) {
             $data['status'] = false;
             $data['message'] = trans('app.please_try_again');
-            return response()->json($data);
+            return response()->json($data, 422);
         }
 
         $token = Token::where('id', $request->id)->first();
@@ -2319,10 +2333,12 @@ class TokenController extends Controller
         if ($validator->fails()) {
             $data['status'] = false;
             $data['message'] = trans('app.please_try_again');
-            return response()->json($data);
+            return response()->json($data, 422);
         }
 
-        $token = Token::where('id', $request->tokenid)->where('location_id', $request->location)->first();
+        $location_id = Crypt::decrypt($request->location);
+
+        $token = Token::where('id', $request->tokenid)->where('location_id', $location_id)->first();
         if (!$token) {
             $data['status'] = false;
             $data['message'] = trans('app.please_try_again');

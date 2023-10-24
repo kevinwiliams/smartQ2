@@ -28,6 +28,11 @@ class Company extends Model
         return count($this->locations);
     }
 
+    public function getActiveLocationCountAttribute()
+    {
+        return count($this->locations->where('active',1));
+    }
+
     public function locations()
     {
         return $this->hasMany(Location::class);

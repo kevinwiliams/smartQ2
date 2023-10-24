@@ -59,6 +59,7 @@ class CompanyController extends Controller
         @date_default_timezone_set(session('app.timezone'));
         $validator = Validator::make($request->all(), [
             'name'        => 'required|unique:company,name|max:50',
+            'shortname'        => 'nullable|unique:company,shortname|max:50',
             'description' => 'max:255',
             'address'      => 'required',
             'website'      => 'required',
@@ -70,6 +71,7 @@ class CompanyController extends Controller
         ])
             ->setAttributeNames(array(
                 'name' => trans('app.name'),
+                'shortname' => trans('app.shortname'),
                 'description' => trans('app.description'),
                 'address' => trans('app.address'),
                 'website' => trans('app.website'),
@@ -81,11 +83,11 @@ class CompanyController extends Controller
             ));
 
         if ($validator->fails()) {
-            $data['status'] = true;
-            $data['error'] = $validator;
+            $data['status'] = false;
+            $data['error'] = $validator->errors();
             $data['message'] = trans('app.validation_error');
 
-            return response()->json($data);
+            return response()->json($data, 422);
         } else {
             $filePath = null;
             if (!empty($request->logo)) {
@@ -110,6 +112,7 @@ class CompanyController extends Controller
                 'contact_person' => $request->contact_person,
                 'active' => ($request->active) ? $request->active : 0,
                 'category_id' => $request->category_id,
+                'shortname' => $request->shortname,
             ]);
 
             if ($company) {
@@ -230,6 +233,7 @@ class CompanyController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name'        => 'required|unique:company,name,' . $id,
+            'shortname'        => 'nullable|unique:company,shortname,' . $id,
             'description' => 'max:255',
             'address'      => 'required',
             'website'      => 'required',
@@ -241,6 +245,7 @@ class CompanyController extends Controller
         ])
             ->setAttributeNames(array(
                 'name' => trans('app.name'),
+                'shortname' => trans('app.shortname'),
                 'description' => trans('app.description'),
                 'address' => trans('app.address'),
                 'website' => trans('app.website'),
@@ -254,10 +259,10 @@ class CompanyController extends Controller
 
         if ($validator->fails()) {
             $data['status'] = true;
-            $data['error'] = $validator;
+            $data['error'] = $validator->errors();
             $data['message'] = trans('app.validation_error');
 
-            return response()->json($data);
+            return response()->json($data, 422);
         } else {
             $filePath = null;
             if (!empty($request->logo)) {

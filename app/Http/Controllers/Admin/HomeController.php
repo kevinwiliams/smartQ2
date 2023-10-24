@@ -26,7 +26,9 @@ use Illuminate\Http\Request;
 use DB, Validator, PDF;
 use Http;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -49,6 +51,8 @@ class HomeController extends Controller
         return view('pages.home._index', compact('smsalert', 'maskedemail', 'shownote', 'companies'));
     }
 
+    ///Moved to Token Controller
+/*
     public function search()
     {
         $display = DisplaySetting::first();
@@ -67,7 +71,10 @@ class HomeController extends Controller
         // die();
         // return view('pages.home.search', compact('smsalert', 'maskedemail', 'shownote', 'categories'));
     }
+*/
 
+///Moved to Token Controller
+/*
     public function business($id = null)
     {
         $display = DisplaySetting::first();
@@ -95,10 +102,20 @@ class HomeController extends Controller
             foreach ($locations as $location) {
                 $location->is_vip = (auth()->user()->isVipAtLocation($location->id)) ? 1 : 0;
             }
-            return view('pages.home.business', compact('smsalert', 'maskedemail', 'shownote', 'company', 'locations'));
+
+            if ($locations->count() == 0) {
+                $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
+                $categories = BusinessCategory::whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
+                Session::flash("fail", trans('app.no_location_found'));
+                return view('pages.home.advsearch', compact('smsalert', 'maskedemail', 'shownote', 'companies', 'categories'));
+            } else if ($locations->count() == 1) {
+                return view('pages.home.smallbusiness', compact('smsalert', 'maskedemail', 'shownote', 'company', 'locations'));
+            } else {
+                return view('pages.home.business', compact('smsalert', 'maskedemail', 'shownote', 'company', 'locations'));
+            }
         }
     }
-
+*/
     public function home()
     {
         if (empty(session('app.timezone'))) {
@@ -360,22 +377,36 @@ class HomeController extends Controller
         $OTP = auth()->user()->otp;
 
         if ($request->code == $OTP) {
-            $display = DisplaySetting::first();
-
-            if ($display->sms_alert) {
-                $update = User::where('id', auth()->user()->id)
+            switch ($request->type) {
+                case 'email':
+                    $update = User::where('id', auth()->user()->id)
                     ->update([
-                        'mobile' => $request->phone,
-                        'otp_timestamp'   => Carbon::now(),
+                        'otp_confirmation_timestamp'   => Carbon::now(),
                         'updated_at'  => Carbon::now(),
                     ]);
-            } else {
-                $update = User::where('id', auth()->user()->id)
-                    ->update([
-                        'otp_timestamp'   => Carbon::now(),
-                        'updated_at'  => Carbon::now()
-                    ]);
+                    break;
+                case 'sms':
+                    $display = DisplaySetting::first();
+
+                    if ($display->sms_alert) {
+                        $update = User::where('id', auth()->user()->id)
+                            ->update([
+                                'mobile' => $request->phone,
+                                'otp_confirmation_timestamp'   => Carbon::now(),
+                                'updated_at'  => Carbon::now(),
+                            ]);
+                    } else {
+                        $update = User::where('id', auth()->user()->id)
+                            ->update([
+                                'otp_confirmation_timestamp'   => Carbon::now(),
+                                'updated_at'  => Carbon::now()
+                            ]);
+                    }
+                default:
+                    # code...
+                    break;
             }
+
 
             return json_encode(array(
                 'status'      => true,
@@ -420,7 +451,7 @@ class HomeController extends Controller
 
         $waittime = 0;
         //if auto-setting are available
-        if (!empty($settings)) {            
+        if (!empty($settings)) {
             $location_id = Department::where('id', $request->id)->value('location_id');
 
             $isVIP = auth()->user()->isVipAtLocation($location_id);
@@ -548,7 +579,9 @@ class HomeController extends Controller
 
     public function joinqueue($id)
     {
-        $keyarray = explode('-', $id);
+        // $decrpted = Crypt::decrypt($id);
+        $decrpted = $id;
+        $keyarray = explode('-', $decrpted);
         $keycode = $keyarray[0];
 
         $locationKey = $keyarray[1];

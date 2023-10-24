@@ -31,7 +31,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
 
-    protected $fillable = ['firstname', 'lastname', 'email', 'api_token', 'password', 'department_id', 'location_id', 'mobile', 'photo', 'user_type', 'remember_token', 'status', 'otp', 'otp_type', 'otp_timestamp', 'user_token', 'token_date', 'push_notifications'];
+    protected $fillable = ['firstname', 'lastname', 'email', 'api_token', 'password', 'department_id', 'location_id', 'mobile', 'photo', 'user_type', 'remember_token', 'status', 'otp', 'otp_type', 'otp_timestamp','otp_confirmation_timestamp', 'user_token', 'token_date', 'push_notifications'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -131,10 +131,26 @@ class User extends Authenticatable implements MustVerifyEmail
         if ($this->otp_timestamp == null)
             return '';
 
-        if ($this->otp_timestamp->addMinutes(10) > $current)
+        if ($this->otp_timestamp->addDays(60) > $current)
             return $this->otp;
         else
             return '';
+    }
+
+    public function getIsOTPValidAttribute()
+    {
+        $current = Carbon::now();
+
+        if ($this->otp_timestamp == null)
+            return false;
+
+        if ($this->otp_confirmation_timestamp == null)
+            return false;
+
+        if ($this->otp_timestamp->addDays(60) > $current && $this->otp_confirmation_timestamp > $this->otp_timestamp)
+            return true;
+        else
+            return false;
     }
     
     public function vipLocations()
@@ -301,6 +317,8 @@ class User extends Authenticatable implements MustVerifyEmail
             'currency',
             'communication',
             'marketing',
+            'gender',
+            'date_of_birth',
         ];
 
         $totalColumns = count($userInfoColumns);
@@ -312,7 +330,7 @@ class User extends Authenticatable implements MustVerifyEmail
             }
         }
 
-        return ($completedColumns / $totalColumns) * 100;
+        return round(($completedColumns / $totalColumns) * 100);
     }
 
 }

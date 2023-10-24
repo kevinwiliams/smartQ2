@@ -351,5 +351,7 @@ return [
 
     'visits'    => "Visits",
     'block_date'    => "Block Date",
+    'company_page'    => "Company Page",
+    'qr_codes'    => "QR Codes",
     
 ];

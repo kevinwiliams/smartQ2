@@ -37,11 +37,11 @@ var MVCreateToken = function() {
             }
 
 
-            if (stepperObj.getCurrentStepIndex() === 4) {
+            if (stepperObj.getCurrentStepIndex() === 3) {
                 formSubmitButton.classList.remove('d-none');
                 formSubmitButton.classList.add('d-inline-block');
                 formContinueButton.classList.add('d-none');
-            } else if (stepperObj.getCurrentStepIndex() === 5) {
+            } else if (stepperObj.getCurrentStepIndex() === 4) {
                 formSubmitButton.classList.add('d-none');
                 formContinueButton.classList.add('d-none');
             } else {
@@ -55,12 +55,20 @@ var MVCreateToken = function() {
         stepperObj.on('mv.stepper.next', function(stepper) {
             console.log('stepper.next', stepper.getCurrentStepIndex());
 
-            if (stepper.getCurrentStepIndex() == 3) {
-                // Enable or disable validators for the `email` field
+            if (stepper.getCurrentStepIndex() == 1) {
+                
+                var visitreason = $('#mv_location_list > option:selected').data('visitreason');
+
+                if (visitreason == 1) {
+                    getVisitReasons();
+                } else {
+                    getDepartment();
+                }
+
                 var visitreason = $("#visitreason").val();
-                // console.log("visitreason:" + visitreason);
-                (visitreason == 1) ? validations[2].disableValidator('department_id'): validations[2].enableValidator('department_id');
-                (visitreason == 0) ? validations[2].disableValidator('reason_id'): validations[2].enableValidator('reason_id');
+                
+                (visitreason == 1) ? validations[1].disableValidator('department_id'): validations[1].enableValidator('department_id');
+                (visitreason == 0) ? validations[1].disableValidator('reason_id'): validations[1].enableValidator('reason_id');
                 // console.log("visitreason:" + visitreason);
                 // console.log(validations[2].getFields());
             }
@@ -73,7 +81,7 @@ var MVCreateToken = function() {
                     console.log('validated!');
 
                     if (status == 'Valid') {
-                        if (stepper.getCurrentStepIndex() == 3) {
+                        if (stepper.getCurrentStepIndex() == 2) {
                             Swal.fire({
                                 text: 'Are you willing the wait?',
                                 icon: 'warning',
@@ -188,29 +196,6 @@ var MVCreateToken = function() {
                         validators: {
                             notEmpty: {
                                 message: 'Please select a Location!'
-                            }
-                        }
-                    }
-                },
-                plugins: {
-                    trigger: new FormValidation.plugins.Trigger(),
-                    bootstrap: new FormValidation.plugins.Bootstrap5({
-                        rowSelector: '.fv-row',
-                        eleInvalidClass: '',
-                        eleValidClass: ''
-                    })
-                }
-            }
-        ));
-
-        // Step 2
-        validations.push(FormValidation.formValidation(
-            form, {
-                fields: {
-                    alert_type: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Please choose a way for us to alert you!'
                             }
                         }
                     }

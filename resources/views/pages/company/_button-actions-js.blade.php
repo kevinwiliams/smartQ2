@@ -389,12 +389,43 @@
                                         modal.hide();
                                         // }
                                     });
+                                },
+                                error: function(xhr, status, error) {
+                                    console.log(xhr.responseJSON);
+
+                                    var jsondata = xhr.responseJSON;
+                                    var errorText = '';
+
+                                    if (jsondata.error) {
+                                        for (var key in jsondata.error) {
+                                            if (jsondata.error.hasOwnProperty(key)) {
+                                                var errorMessages = jsondata.error[key];
+                                                errorText += errorMessages.join('\n') + '\n';
+                                            }
+                                        }
+                                    }
+
+                                    if (errorText === '') {
+                                        errorText = jsondata.message || 'An error occurred.';
+                                    }
+
+
+                                    Swal.fire({
+                                        text: errorText,
+                                        icon: "error",
+                                        buttonsStyling: false,
+                                        confirmButtonText: "Ok, got it!",
+                                        customClass: {
+                                            confirmButton: "btn btn-primary"
+                                        }
+                                    })
+
+                                    // Remove loading indication
+                                    submitButton.removeAttribute('data-mv-indicator');
+
+                                    // Enable button
+                                    submitButton.disabled = false;
                                 }
-                                // ,
-                                // error: function(xhr, status, error){
-                                //     var errorMessage = xhr.status + ': ' + xhr.statusText
-                                //     alert('Error - ' + errorMessage);
-                                // }
                             });
                         } else {
                             // Show popup warning. For more info check the plugin's official documentation: https://sweetalert2.github.io/

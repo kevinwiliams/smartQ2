@@ -315,7 +315,9 @@
                     @else
                     <a href="#" class="btn btn-primary w-100 py-3" data-id="{{ $token->id }}" name="check_in">Check In</a>
                     @endif
-                    <a href="{{ theme()->getPageUrl("home/transfer") }}/{{ $token->id }}" class="btn btn-info w-100 py-3 mt-3" data-id="{{ $token->id }}" name="transfer">Transfer</a>
+                    @if($token->location->company->active_location_count > 1)
+                    <a href="{{ theme()->getPageUrl("home/transfer/" . $token->id ) }}" class="btn btn-info w-100 py-3 mt-3" data-id="{{ $token->id }}" name="transfer">Transfer</a>
+                    @endif
                     @elseif($token->status==0)
                     <a href="#" class="btn btn-danger w-100 py-3" data-id="{{ $token->id }}" name="cancel_token">Cancel Token</a>
                     @endif
@@ -459,7 +461,7 @@
         $('[name=check_in]').on('click', function(e) {
             var id = e.target.dataset.id;
             var otp = $("#checkin_code").val(); //collateOTPCode('checkin_code');
-            console.log(otp);
+            // console.log(otp);
             if (otp.length < 4) {
                 Swal.fire({
                     text: "Invalid Code",

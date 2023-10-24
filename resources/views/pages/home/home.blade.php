@@ -1,4 +1,5 @@
 <x-base-layout>
+    {{ theme()->getView('partials/general/_verification') }}    
     <!--begin::Card-->
     <div class="card">
         <!--begin::Card body-->
@@ -30,8 +31,9 @@
 
                 </p>
                 <!--end::Description-->
+                @if(auth()->user()->isOTPValid)
                 <!--begin::Action-->
-                <a href="{{theme()->getPageUrl("home/search")}}" class="btn btn-primary er fs-6 px-8 py-4 px-2 my-2">Join the queue</a>
+                <a href="{{theme()->getPageUrl("home/search")}}" class="btn btn-primary er fs-6 px-8 py-4 px-2 my-2" >Join the queue</a>
                 <!--end::Action-->
                 <!--begin::Action-->
                 @if(count(auth()->user()->clientpendingtokens) == 1)
@@ -39,7 +41,8 @@
                 @elseif(count(auth()->user()->clientpendingtokens) > 1)
                 <a href="{{theme()->getPageUrl("home/list")}}" class="btn btn-secondary er fs-6 px-8 py-4 px-2 my-2">View my tokens</a>
                 @endif                
-                <button type="button" class="btn btn-primary er fs-6 px-8 py-4 px-2 my-2" id="btnScanBarcode" name="check_in_qr_scan" data-bs-toggle="modal" data-bs-target="#mv_modal_check_in" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to check in">Scan Barcode</button>
+                <button type="button" class="btn btn-primary er fs-6 px-8 py-4 px-2 my-2" id="btnScanBarcode" name="check_in_qr_scan" data-bs-toggle="modal" data-bs-target="#mv_modal_check_in" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to check in" {{ (!auth()->user()->isOTPValid)?'disabled':'' }}>Scan Barcode</button>
+                @endif
                 <!--end::Action-->
             </div>
             <!--end::Heading-->

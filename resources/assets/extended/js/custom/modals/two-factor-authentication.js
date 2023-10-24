@@ -15,11 +15,18 @@ var MVModalTwoFactorAuthentication = function () {
     var smsCancelButton;
     var smsValidator;
 
-    var appsWrapper;
-    var appsForm;
-    var appsSubmitButton;
-    var appsCancelButton;
-    var appsValidator;
+    var emailWrapper;
+    var emailForm;
+    var emailSubmitButton;
+    var emailCancelButton;
+    var emailValidator;
+
+
+	var codeWrapper;
+    var codeForm;
+    var codeSubmitButton;
+    var codeCancelButton;
+    var codeValidator;
 
     // Private functions
     var handleOptionsForm = function() {
@@ -33,7 +40,7 @@ var MVModalTwoFactorAuthentication = function () {
             if (option.value == 'sms') {
                 smsWrapper.classList.remove('d-none');
             } else {
-                appsWrapper.classList.remove('d-none');
+                emailWrapper.classList.remove('d-none');
             }
         });
     }
@@ -41,7 +48,8 @@ var MVModalTwoFactorAuthentication = function () {
 	var showOptionsForm = function() {
 		optionsWrapper.classList.remove('d-none');
 		smsWrapper.classList.add('d-none');
-		appsWrapper.classList.add('d-none');
+		emailWrapper.classList.add('d-none');
+		codeWrapper.classList.add('d-none');
     }
 
     var handleSMSForm = function() {
@@ -137,10 +145,10 @@ var MVModalTwoFactorAuthentication = function () {
         });
     }
 
-    var handleAppsForm = function() {
+    var handleEmailForm = function() {
 		// Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
-		appsValidator = FormValidation.formValidation(
-			appsForm,
+		emailValidator = FormValidation.formValidation(
+			emailForm,
 			{
 				fields: {
 					'code': {
@@ -163,44 +171,90 @@ var MVModalTwoFactorAuthentication = function () {
 		);
 
         // Handle apps submition
-        appsSubmitButton.addEventListener('click', function (e) {
+        emailSubmitButton.addEventListener('click', function (e) {
             e.preventDefault();
 
 			// Validate form before submit
-			if (appsValidator) {
-				appsValidator.validate().then(function (status) {
+			if (emailValidator) {
+				emailValidator.validate().then(function (status) {
 					console.log('validated!');
 
 					if (status == 'Valid') {
-						appsSubmitButton.setAttribute('data-mv-indicator', 'on');
+						emailSubmitButton.setAttribute('data-mv-indicator', 'on');
 
 						// Disable button to avoid multiple click
-						appsSubmitButton.disabled = true;
+						emailSubmitButton.disabled = true;
 
-						setTimeout(function() {
-							appsSubmitButton.removeAttribute('data-mv-indicator');
+						// Get the input field within the emailForm
+						var emailValue = emailForm.querySelector('[name="emailAddress"]').value; 
 
-							// Enable button
-							appsSubmitButton.disabled = false;
+						Swal.fire({
+							html: "Are you sure?.",
+							icon: "warning",
+							buttonsStyling: false,
+							confirmButtonText: "Aww, yeah!",
+							customClass: {
+								confirmButton: "btn btn-light"
+							}
+						}).then(function(value) {
+							if (value.isConfirmed) {
+								$.ajax({
+									type: emailForm.method,
+									url: emailForm.action,									
+									headers: {
+										'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+									},
+									dataType: 'json',
+									data: {
+										'phone': emailValue										
+									},
+									success: function(data) {										
+										emailSubmitButton.removeAttribute('data-mv-indicator');
 
-							// Show success message.
-							Swal.fire({
-								text: "Code has been successfully submitted!",
-								icon: "success",
-								buttonsStyling: false,
-								confirmButtonText: "Ok, got it!",
-								customClass: {
-									confirmButton: "btn btn-primary"
-								}
-							}).then(function (result) {
-								if (result.isConfirmed) {
-									modalObject.hide();
-									showOptionsForm();
-								}
-							});
+										// Enable button
+										emailSubmitButton.disabled = false;
+										
+										emailWrapper.classList.add('d-none');
 
-							//appsForm.submit(); // Submit form
-						}, 2000);
+										$('[data-mv-element="code-form"] #type').val('email');
+										codeWrapper.classList.remove('d-none');
+									}
+								});
+							}else{
+								emailSubmitButton.removeAttribute('data-mv-indicator');
+
+								// Enable button
+								emailSubmitButton.disabled = false;
+								modalObject.hide();
+								showOptionsForm();
+							}
+
+						});
+
+						// setTimeout(function() {
+						// 	emailSubmitButton.removeAttribute('data-mv-indicator');
+
+						// 	// Enable button
+						// 	emailSubmitButton.disabled = false;
+
+						// 	// Show success message.
+						// 	Swal.fire({
+						// 		text: "Code has been successfully sent!",
+						// 		icon: "success",
+						// 		buttonsStyling: false,
+						// 		confirmButtonText: "Ok, got it!",
+						// 		customClass: {
+						// 			confirmButton: "btn btn-primary"
+						// 		}
+						// 	}).then(function (result) {
+						// 		if (result.isConfirmed) {
+						// 			modalObject.hide();
+						// 			showOptionsForm();
+						// 		}
+						// 	});
+
+						// 	//appsForm.submit(); // Submit form
+						// }, 2000);
 					} else {
 						// Show error message.
 						Swal.fire({
@@ -218,12 +272,133 @@ var MVModalTwoFactorAuthentication = function () {
         });
 
         // Handle apps cancelation
-        appsCancelButton.addEventListener('click', function (e) {
+        emailCancelButton.addEventListener('click', function (e) {
             e.preventDefault();
             var option = optionsWrapper.querySelector('[name="auth_option"]:checked');
 
             optionsWrapper.classList.remove('d-none');
-            appsWrapper.classList.add('d-none');
+            emailWrapper.classList.add('d-none');
+        });
+    }
+
+	var handleCodeForm = function() {
+		// Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
+		codeValidator = FormValidation.formValidation(
+			codeForm,
+			{
+				fields: {
+					'code': {
+						validators: {
+							notEmpty: {
+								message: 'Code is required'
+							}
+						}
+					}
+				},
+				plugins: {
+					trigger: new FormValidation.plugins.Trigger(),
+					bootstrap: new FormValidation.plugins.Bootstrap5({
+						rowSelector: '.fv-row',
+                        eleInvalidClass: '',
+                        eleValidClass: ''
+					})
+				}
+			}
+		);
+
+        // Handle apps submition
+        codeSubmitButton.addEventListener('click', function (e) {
+            e.preventDefault();
+
+			// Validate form before submit
+			if (codeValidator) {
+				codeValidator.validate().then(function (status) {
+					console.log('validated!');
+
+					if (status == 'Valid') {
+						codeSubmitButton.setAttribute('data-mv-indicator', 'on');
+
+						// Disable button to avoid multiple click
+						codeSubmitButton.disabled = true;
+
+						
+
+						// Get the input field within the emailForm
+						var typeValue = codeForm.querySelector('[name="type"]').value; 
+						var codeValue = codeForm.querySelector('[name="code"]').value; 
+
+						Swal.fire({
+							html: "Are you sure?.",
+							icon: "warning",
+							buttonsStyling: false,
+							confirmButtonText: "Aww, yeah!",
+							customClass: {
+								confirmButton: "btn btn-light"
+							}
+						}).then(function(value) {
+							if (value.isConfirmed) {
+								$.ajax({
+									type: codeForm.method,
+									url: codeForm.action,									
+									headers: {
+										'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+									},
+									dataType: 'json',
+									data: {
+										'code': codeValue,
+										'type': typeValue
+									},
+									success: function(data) {										
+										codeSubmitButton.removeAttribute('data-mv-indicator');
+
+										// Enable button
+										codeSubmitButton.disabled = false;
+
+										if (data.status == true) {
+											modalObject.hide();
+											showOptionsForm();
+											location.reload();
+										}else{
+											Swal.fire({
+												text: 'Invalid Code',
+												icon: 'error'
+											});
+										}
+									}
+								});
+							}else{
+								codeSubmitButton.removeAttribute('data-mv-indicator');
+
+								// Enable button
+								codeSubmitButton.disabled = false;
+								modalObject.hide();
+								showOptionsForm();
+							}
+
+						});
+					} else {
+						// Show error message.
+						Swal.fire({
+							text: "Sorry, looks like there are some errors detected, please try again.",
+							icon: "error",
+							buttonsStyling: false,
+							confirmButtonText: "Ok, got it!",
+							customClass: {
+								confirmButton: "btn btn-primary"
+							}
+						});
+					}
+				});
+			}
+        });
+
+        // Handle apps cancelation
+        emailCancelButton.addEventListener('click', function (e) {
+            e.preventDefault();
+            var option = optionsWrapper.querySelector('[name="auth_option"]:checked');
+
+            optionsWrapper.classList.remove('d-none');
+            emailWrapper.classList.add('d-none');
         });
     }
 
@@ -237,6 +412,10 @@ var MVModalTwoFactorAuthentication = function () {
 				return;
 			}
 
+			Inputmask({
+				"mask": "1 (999) 999-9999",
+			}).mask("[name='mobile']");
+
             modalObject = new bootstrap.Modal(modal);
 
             optionsWrapper = modal.querySelector('[data-mv-element="options"]');
@@ -247,15 +426,21 @@ var MVModalTwoFactorAuthentication = function () {
             smsSubmitButton = modal.querySelector('[data-mv-element="sms-submit"]');
             smsCancelButton = modal.querySelector('[data-mv-element="sms-cancel"]');
 
-            appsWrapper = modal.querySelector('[data-mv-element="apps"]');
-            appsForm = modal.querySelector('[data-mv-element="apps-form"]');
-            appsSubmitButton = modal.querySelector('[data-mv-element="apps-submit"]');
-            appsCancelButton = modal.querySelector('[data-mv-element="apps-cancel"]');
+            emailWrapper = modal.querySelector('[data-mv-element="email"]');
+            emailForm = modal.querySelector('[data-mv-element="email-form"]');
+            emailSubmitButton = modal.querySelector('[data-mv-element="email-submit"]');
+            emailCancelButton = modal.querySelector('[data-mv-element="email-cancel"]');
+
+			codeWrapper = modal.querySelector('[data-mv-element="code"]');
+            codeForm = modal.querySelector('[data-mv-element="code-form"]');
+            codeSubmitButton = modal.querySelector('[data-mv-element="code-submit"]');
+            codeCancelButton = modal.querySelector('[data-mv-element="code-cancel"]');
 
             // Handle forms
             handleOptionsForm();
             handleSMSForm();
-            handleAppsForm();
+            handleEmailForm();
+			handleCodeForm();
         }
     }
 }();

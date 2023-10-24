@@ -13,10 +13,10 @@
     <!--end::Notice-->
 
     <!--begin::Form-->
-    <form data-mv-element="sms-form" class="form" action="{{ URL::to('home/confirmMobile') }}">
+    <form data-mv-element="sms-form" class="form" action="#">
         <!--begin::Input group-->
         <div class="mb-10 fv-row">
-            <input type="phone" class="form-control form-control-lg form-control-solid" placeholder="1 (999) 999-9999" value="{{ old('phone', auth()->user()->mobile) }}" name="mobile"/>
+            <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Mobile number with country code..." name="mobile"/>
         </div>
         <!--end::Input group-->
 

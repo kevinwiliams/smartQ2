@@ -120,10 +120,14 @@ return array(
             'title'  => 'Account Settings',
             'assets' => array(
                 'custom' => array(
+                    'css' => array(
+                        'plugins/custom/flatpickr/flatpickr.bundle.css',
+                    ),
                     'js' => array(
+                        'plugins/custom/flatpickr/flatpickr.bundle.js',
                         'js/custom/account/settings/profile-details.js',
                         'js/custom/account/settings/signin-methods.js',
-                        'js/custom/modals/two-factor-authentication.js',
+                        'js/custom/modals/two-factor-authentication.js'
                     ),
                 ),
             ),
@@ -533,13 +537,20 @@ return array(
         ),
     ),
     'home' => array(
-        'title'  => 'Home',       
+        'title'  => 'Home',
+        'assets' => array(
+            'custom' => array(
+                'js' => array(
+                    'js/custom/modals/two-factor-authentication.js'
+                ),
+            ),
+        ),
         'search' => array(
             'title'  => 'Join the Queue',
             'assets' => array(
                 'custom' => array(
                     'js' => array(
-                        'js/custom/home/client-token.js',                        
+                        'js/custom/home/client-token.js',
                     ),
                 ),
             ),
@@ -558,7 +569,7 @@ return array(
                 'assets' => array(
                     'custom' => array(
                         'js' => array(
-                            'js/custom/home/client-token.js',                        
+                            'js/custom/home/client-token.js',
                         ),
                     ),
                 ),
@@ -573,7 +584,7 @@ return array(
             'assets' => array(
                 'custom' => array(
                     'js' => array(
-                        'js/custom/home/client-token.js',                        
+                        'js/custom/home/client-token.js',
                     ),
                 ),
             ),

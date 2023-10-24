@@ -31,9 +31,11 @@
                     <!--end::Details-->
                     <!--begin::Actions-->
                     <div class="d-flex mb-4">
-                        <a href="/location/printqr/{{ $location->id }}" class="btn btn-sm btn-primary me-3" target="_blank">
-                        <i class="bi bi-qr-code"></i> Print QR Code</a>
+                        <button type="button" class="btn btn-light-primary" data-bs-toggle="modal" data-bs-target="#mv_modal_location_qr" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to view QR Codes">
+                            <i class="bi bi-qr-code"></i>QR Codes</a>
+                        </button>
                     </div>
+
                     <!--end::Actions-->
                 </div>
                 <!--end::Head-->
@@ -128,13 +130,13 @@
                 <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='edit') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/edit/' . $location->id)}}">Details</a>
             </li>
             <!--end::Nav item-->
-             <!--begin::Nav item-->
-             <li class="nav-item">
+            <!--begin::Nav item-->
+            <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='openhours') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/openhours/' . $location->id)}}">Open Hours</a>
             </li>
             <!--end::Nav item-->
-             <!--begin::Nav item-->
-             <li class="nav-item">
+            <!--begin::Nav item-->
+            <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ ((Request::is('location') || Request::segment(2)=='services') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/services/' . $location->id)}}">Services</a>
             </li>
             <!--end::Nav item-->
@@ -198,3 +200,5 @@
     </div>
 </div>
 <!--end::Navbar-->
+
+{{ theme()->getView('partials/modals/location/_qrcodes', array('location' => $location)) }}

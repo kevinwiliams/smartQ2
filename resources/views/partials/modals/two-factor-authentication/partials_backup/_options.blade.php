@@ -1,22 +1,22 @@
 <!--begin::Options-->
 <div data-mv-element="options">
     <!--begin::Notice-->
-    <p class="text-gray-400 fs-5 fw-bold mb-10">        
-        To verify that we can successfully alert you, we will send a code to your chosen alert method.
+    <p class="text-gray-400 fs-5 fw-bold mb-10">
+        In addition to your username and password, you’ll have to enter a code (delivered via app or SMS) to log into your account.
     </p>
     <!--end::Notice-->
 
     <!--begin::Wrapper-->
     <div class="pb-10">
         <!--begin::Option-->
-        <input type="radio" class="btn-check" name="auth_option" value="email" checked="checked"  id="mv_modal_two_factor_authentication_option_1"/>
+        <input type="radio" class="btn-check" name="auth_option" value="apps" checked="checked"  id="mv_modal_two_factor_authentication_option_1"/>
         <label class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center mb-5" for="mv_modal_two_factor_authentication_option_1">
-            <?php echo theme()->getSvgIcon("icons/duotune/communication/com011.svg", "svg-icon-4x me-4")?>
+            <?php echo theme()->getSvgIcon("icons/duotune/coding/cod001.svg", "svg-icon-4x me-4")?>
 
             <span class="d-block fw-bold text-start">
-                <span class="text-dark fw-bolder d-block fs-3">Email</span>
+                <span class="text-dark fw-bolder d-block fs-3">Authenticator Apps</span>
                 <span class="text-gray-400 fw-bold fs-6">
-                We will send a code via Email.
+                    Get codes from an app like Google Authenticator,  Microsoft Authenticator, Authy or 1Password.
                 </span>
             </span>
         </label>
@@ -29,7 +29,7 @@
 
             <span class="d-block fw-bold text-start">
                 <span class="text-dark fw-bolder d-block fs-3">SMS</span>
-                <span class="text-gray-400 fw-bold fs-6">We will send a code via SMS.</span>
+                <span class="text-gray-400 fw-bold fs-6">We will send a code via SMS if you need to use your backup login method.</span>
             </span>
         </label>
         <!--end::Option-->

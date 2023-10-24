@@ -1,3 +1,4 @@
+{{ theme()->getView('partials/general/_verification') }}
 <!--begin::Basic info-->
 <div class="card {{ $class }}">
     <!--begin::Card header-->
@@ -14,9 +15,9 @@
     <div id="mv_account_profile_details" class="collapse show">
         <!--begin::Form-->
         <form id="mv_account_profile_details_form" class="form" method="POST" action="{{ route('settings.update') }}" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
-        <!--begin::Card body-->
+            @csrf
+            @method('PUT')
+            <!--begin::Card body-->
             <div class="card-body border-top p-9">
                 <!--begin::Input group-->
                 <div class="row mb-6">
@@ -37,8 +38,8 @@
                                 <i class="bi bi-pencil-fill fs-7"></i>
 
                                 <!--begin::Inputs-->
-                                <input type="file" name="avatar" accept=".png, .jpg, .jpeg"/>
-                                <input type="hidden" name="avatar_remove"/>
+                                <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
+                                <input type="hidden" name="avatar_remove" />
                                 <!--end::Inputs-->
                             </label>
                             <!--end::Label-->
@@ -77,13 +78,13 @@
                         <div class="row">
                             <!--begin::Col-->
                             <div class="col-lg-6 fv-row">
-                                <input type="text" name="firstname" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="First name" value="{{ old('firstname', auth()->user()->firstname ?? '') }}"/>
+                                <input type="text" name="firstname" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="First name" value="{{ old('firstname', auth()->user()->firstname ?? '') }}" />
                             </div>
                             <!--end::Col-->
 
                             <!--begin::Col-->
                             <div class="col-lg-6 fv-row">
-                                <input type="text" name="lastname" class="form-control form-control-lg form-control-solid" placeholder="Last name" value="{{ old('lastname', auth()->user()->lastname ?? '') }}"/>
+                                <input type="text" name="lastname" class="form-control form-control-lg form-control-solid" placeholder="Last name" value="{{ old('lastname', auth()->user()->lastname ?? '') }}" />
                             </div>
                             <!--end::Col-->
                         </div>
@@ -92,7 +93,38 @@
                     <!--end::Col-->
                 </div>
                 <!--end::Input group-->
+                <!--begin::Input group-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Gender') }}</label>
+                    <!--end::Label-->
 
+                    <!--begin::Col-->
+                    <div class="col-lg-8 fv-row">
+                        <select name="gender" aria-label="{{ __('Select gender') }}" data-control="select2" data-placeholder="{{ __('Select gender..') }}" class="form-select form-select-solid form-select-lg">
+                            <option value="">{{ __('Select gender..') }}</option>
+                            @foreach(\App\Core\Data::getGenderList() as $key => $value)
+                            <option value="{{ $key }}" {{ $key === old('gender', $info->gender ?? '') ? 'selected' :'' }}>{{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Input group-->
+
+                <!--begin::Input group-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('Date of Birth') }}</label>
+                    <!--end::Label-->
+
+                    <!--begin::Col-->
+                    <div class="col-lg-8 fv-row">
+                        <input type="text" name="dob" id="dob" class="form-control form-control-lg form-control-solid" placeholder="Date of Birth" value="{{ old('dob', $info->date_of_birth ?? '') }}" />
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Input group-->
                 <!--begin::Input group-->
                 <div class="row mb-6">
                     <!--begin::Label-->
@@ -101,7 +133,7 @@
 
                     <!--begin::Col-->
                     <div class="col-lg-8 fv-row">
-                        <input type="text" name="company" class="form-control form-control-lg form-control-solid" placeholder="Company name" value="{{ old('company', $info->company ?? '') }}"/>
+                        <input type="text" name="company" class="form-control form-control-lg form-control-solid" placeholder="Company name" value="{{ old('company', $info->company ?? '') }}" />
                     </div>
                     <!--end::Col-->
                 </div>
@@ -119,7 +151,7 @@
 
                     <!--begin::Col-->
                     <div class="col-lg-8 fv-row">
-                        <input type="tel" name="phone" class="form-control form-control-lg form-control-solid" placeholder="Phone number" value="{{ old('phone', $info->phone ?? '') }}"/>
+                        <input type="tel" name="phone" class="form-control form-control-lg form-control-solid" placeholder="Phone number" value="{{ old('phone', $info->phone ?? '') }}" />
                     </div>
                     <!--end::Col-->
                 </div>
@@ -133,7 +165,7 @@
 
                     <!--begin::Col-->
                     <div class="col-lg-8 fv-row">
-                        <input type="text" name="website" class="form-control form-control-lg form-control-solid" placeholder="Company website" value="{{ old('website', $info->website ?? '') }}"/>
+                        <input type="text" name="website" class="form-control form-control-lg form-control-solid" placeholder="Company website" value="{{ old('website', $info->website ?? '') }}" />
                     </div>
                     <!--end::Col-->
                 </div>
@@ -154,7 +186,7 @@
                         <select name="country" aria-label="{{ __('Select a Country') }}" data-control="select2" data-placeholder="{{ __('Select a country...') }}" class="form-select form-select-solid form-select-lg fw-bold">
                             <option value="">{{ __('Select a Country...') }}</option>
                             @foreach(\App\Core\Data::getCountriesList() as $key => $value)
-                                <option data-mv-flag="{{ $value['flag'] }}" value="{{ $key }}" {{ $key === old('country', $info->country ?? '') ? 'selected' :'' }}>{{ $value['name'] }}</option>
+                            <option data-mv-flag="{{ $value['flag'] }}" value="{{ $key }}" {{ $key === old('country', $info->country ?? '') ? 'selected' :'' }}>{{ $value['name'] }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -174,7 +206,7 @@
                         <select name="language" aria-label="{{ __('Select a Language') }}" data-control="select2" data-placeholder="{{ __('Select a language...') }}" class="form-select form-select-solid form-select-lg">
                             <option value="">{{ __('Select a Language...') }}</option>
                             @foreach(\App\Core\Data::getLanguagesList() as $key => $value)
-                                <option data-mv-flag="{{ $value['country']['flag'] }}" value="{{ $key }}" {{ $key === old('language', $info->language ?? '') ? 'selected' :'' }}>{{ $value['name'] }}</option>
+                            <option data-mv-flag="{{ $value['country']['flag'] }}" value="{{ $key }}" {{ $key === old('language', $info->language ?? '') ? 'selected' :'' }}>{{ $value['name'] }}</option>
                             @endforeach
                         </select>
                         <!--end::Input-->
@@ -200,7 +232,7 @@
                         <select name="timezone" aria-label="{{ __('Select a Timezone') }}" data-control="select2" data-placeholder="{{ __('Select a timezone..') }}" class="form-select form-select-solid form-select-lg">
                             <option value="">{{ __('Select a Timezone..') }}</option>
                             @foreach(\App\Core\Data::getTimeZonesList() as $key => $value)
-                                <option data-bs-offset="{{ $value['offset'] }}" value="{{ $key }}" {{ $key === old('timezone', $info->timezone ?? '') ? 'selected' :'' }}>{{ $value['name'] }}</option>
+                            <option data-bs-offset="{{ $value['offset'] }}" value="{{ $key }}" {{ $key === old('timezone', $info->timezone ?? '') ? 'selected' :'' }}>{{ $value['name'] }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -219,14 +251,31 @@
                         <select name="currency" aria-label="{{ __('Select a Currency') }}" data-control="select2" data-placeholder="{{ __('Select a currency..') }}" class="form-select form-select-solid form-select-lg">
                             <option value="">{{ __('Select a currency..') }}</option>
                             @foreach(\App\Core\Data::getCurrencyList() as $key => $value)
-                                <option data-mv-flag="{{ $value['country']['flag'] }}" value="{{ $key }}" {{ $key === old('currency', $info->currency ?? '') ? 'selected' :'' }}><b>{{ $key }}</b>&nbsp;-&nbsp;{{ $value['name'] }}</option>
+                            <option data-mv-flag="{{ $value['country']['flag'] }}" value="{{ $key }}" {{ $key === old('currency', $info->currency ?? '') ? 'selected' :'' }}><b>{{ $key }}</b>&nbsp;-&nbsp;{{ $value['name'] }}</option>
                             @endforeach
                         </select>
                     </div>
                     <!--end::Col-->
                 </div>
                 <!--end::Input group-->
+                <!--begin::Input group-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-4 col-form-label required fw-bold fs-6">{{ __('Alerts') }}</label>
+                    <!--end::Label-->
 
+                    <!--begin::Col-->
+                    <div class="col-lg-8 fv-row">
+                        <select name="alert" aria-label="{{ __('Select alert type') }}" data-control="select2" data-placeholder="{{ __('Select alert type..') }}" class="form-select form-select-solid form-select-lg">
+                            <option value="">{{ __('Select alert type..') }}</option>
+                            @foreach(\App\Core\Data::getAlertTypeList() as $key => $value)
+                            <option value="{{ $key }}" {{ $key === old('alert', auth()->user()->otp_type ?? '') ? 'selected' :'' }}>{{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Input group-->
                 <!--begin::Input group-->
                 <div class="row mb-6">
                     <!--begin::Label-->
@@ -240,7 +289,7 @@
                             <!--begin::Option-->
                             <label class="form-check form-check-inline form-check-solid me-5">
                                 <input type="hidden" name="communication[email]" value="0">
-                                <input class="form-check-input" name="communication[email]" type="checkbox" value="1" {{ old('marketing', $info->communication['email'] ?? '') ? 'checked' : '' }}/>
+                                <input class="form-check-input" name="communication[email]" type="checkbox" value="1" {{ old('marketing', $info->communication['email'] ?? '') ? 'checked' : '' }} />
                                 <span class="fw-bold ps-2 fs-6">
                                     {{ __('Email') }}
                                 </span>
@@ -250,7 +299,7 @@
                             <!--begin::Option-->
                             <label class="form-check form-check-inline form-check-solid">
                                 <input type="hidden" name="communication[phone]" value="0">
-                                <input class="form-check-input" name="communication[phone]" type="checkbox" value="1" {{ old('email', $info->communication['phone'] ?? '') ? 'checked' : '' }}/>
+                                <input class="form-check-input" name="communication[phone]" type="checkbox" value="1" {{ old('email', $info->communication['phone'] ?? '') ? 'checked' : '' }} />
                                 <span class="fw-bold ps-2 fs-6">
                                     {{ __('Phone') }}
                                 </span>
@@ -273,7 +322,7 @@
                     <div class="col-lg-8 d-flex align-items-center">
                         <div class="form-check form-check-solid form-switch fv-row">
                             <input type="hidden" name="marketing" value="0">
-                            <input class="form-check-input w-45px h-30px" type="checkbox" id="allowmarketing" name="marketing" value="1" {{ old('marketing', $info->marketing ?? '') ? 'checked' : '' }}/>
+                            <input class="form-check-input w-45px h-30px" type="checkbox" id="allowmarketing" name="marketing" value="1" {{ old('marketing', $info->marketing ?? '') ? 'checked' : '' }} />
                             <label class="form-check-label" for="allowmarketing"></label>
                         </div>
                     </div>
@@ -298,3 +347,19 @@
     <!--end::Content-->
 </div>
 <!--end::Basic info-->
+
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        var optional_config = {
+            altInput: true,
+            altFormat: "F j, Y",
+            enableTime: false,
+            dateFormat: "Y-m-d",
+            maxDate: "today"
+        };
+        $("#dob").flatpickr(optional_config);
+    });
+</script>
+
+@endsection

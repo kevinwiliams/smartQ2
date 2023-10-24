@@ -6,6 +6,7 @@ use App\Http\Controllers\Common\Utilities_lib;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Crypt;
 
 class Location extends Model
 {
@@ -162,5 +163,9 @@ class Location extends Model
         return $this->belongsToMany(User::class, 'blacklists', 'location_id', 'client_id')
         ->withPivot('client_id', 'block_reason', 'block_date')
         ->withTimestamps();
+    }
+
+    public function key(){
+        return Crypt::encrypt($this->id);
     }
 }
