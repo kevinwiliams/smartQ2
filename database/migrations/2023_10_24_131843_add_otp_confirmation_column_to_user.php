@@ -14,7 +14,7 @@ class AddOtpConfirmationColumnToUser extends Migration
     public function up()
     {
         Schema::table('user', function (Blueprint $table) {
-            $table->timestamp('otp_confirmation_timestamp')->nullable()->after('otp_confirmation'); 
+            $table->timestamp('otp_confirmation_timestamp')->nullable()->after('otp_timestamp'); 
         });
     }
 
