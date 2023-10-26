@@ -120,7 +120,7 @@
 
                     <!--begin::Col-->
                     <div class="col-lg-8 fv-row">
-                        <input type="text" name="dob" id="dob" class="form-control form-control-lg form-control-solid" placeholder="Date of Birth" value="{{ old('dob', $info->date_of_birth ?? '') }}" />
+                        <input type="text" name="date_of_birth" id="date_of_birth" class="form-control form-control-lg form-control-solid" placeholder="Date of Birth" value="{{ old('date_of_birth', $info->date_of_birth ?? '') }}" />
                     </div>
                     <!--end::Col-->
                 </div>
@@ -358,7 +358,11 @@
             dateFormat: "Y-m-d",
             maxDate: "today"
         };
-        $("#dob").flatpickr(optional_config);
+        $("#date_of_birth").flatpickr(optional_config);
+
+        Inputmask({
+				"mask": "1 (999) 999-9999",
+			}).mask("[name='phone']");
     });
 </script>
 

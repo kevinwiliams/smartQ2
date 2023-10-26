@@ -30,6 +30,35 @@
         </div>
         <!--end::Row-->
 
+        <!--begin::Row-->
+        <div class="row mb-7">
+            <!--begin::Label-->
+            <label class="col-lg-4 fw-bold text-muted">{{ __('Gender') }}</label>
+            <!--end::Label-->
+
+            <!--begin::Col-->
+            <div class="col-lg-8">
+                <span class="fw-bolder fs-6 text-dark">{{ ucwords($info->gender) }}</span>
+            </div>
+            <!--end::Col-->
+        </div>
+        <!--end::Row-->
+
+        <!--begin::Row-->
+        <div class="row mb-7">
+            <!--begin::Label-->
+            <label class="col-lg-4 fw-bold text-muted">{{ __('Date of Birth') }}</label>
+            <!--end::Label-->
+
+            <!--begin::Col-->
+            <div class="col-lg-8">
+                <span class="fw-bolder fs-6 text-dark">{{ date('F j, Y', strtotime($info->date_of_birth)) }}</span>
+
+            </div>
+            <!--end::Col-->
+        </div>
+        <!--end::Row-->
+
         <!--begin::Input group-->
         <div class="row mb-7">
             <!--begin::Label-->

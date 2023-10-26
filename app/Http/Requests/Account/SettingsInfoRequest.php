@@ -33,6 +33,8 @@ class SettingsInfoRequest extends FormRequest
             'currency'      => 'nullable|string|max:255',
             'communication' => 'nullable|array',
             'marketing'     => 'nullable|integer',
+            'gender'        => 'nullable|string|max:255',
+            'date_of_birth'     => 'nullable|date',
         ];
     }
 }

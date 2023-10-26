@@ -745,18 +745,13 @@ class DisplayController extends Controller
         return Response::json($data);
     }
 
-     // counter wise queue
+     // Dynamic Check in codes
     public function display7(Request $request)
      { 
          $location_id = auth()->user()->location_id;
          $setting = DisplaySetting::where('location_id', $location_id)->first();
-        //  $appSetting = Setting::first();   
-         date_default_timezone_set(session('app.timezone')?session('app.timezone'):$setting->timezone);
-         $counters = DB::table('counter')
-             ->where('status', 1)
-             ->orderBy(DB::raw('LENGTH(name)'), 'ASC')
-             ->orderBy('name', 'ASC')
-             ->get();
+        
+         date_default_timezone_set(session('app.timezone')?session('app.timezone'):$setting->timezone);  
  
          $html = "<div class=\"col-sm-12\">
              <div id=\"clock\" class=\"well text-center\" style=\"background-color:".(!empty($setting->background_color)?$setting->background_color:'#cdcdcd') .";border-color:".(!empty($setting->border_color)?$setting->border_color:'#fff') .";padding:10px 0;font-size:28px;margin-bottom: 10px;\">".date("$setting->date_format $setting->time_format")."</div> 

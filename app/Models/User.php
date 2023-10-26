@@ -31,7 +31,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
 
-    protected $fillable = ['firstname', 'lastname', 'email', 'api_token', 'password', 'department_id', 'location_id', 'mobile', 'photo', 'user_type', 'remember_token', 'status', 'otp', 'otp_type', 'otp_timestamp','otp_confirmation_timestamp', 'user_token', 'token_date', 'push_notifications'];
+    protected $fillable = ['firstname', 'lastname', 'email', 'api_token', 'password', 'department_id', 'location_id', 'mobile', 'photo', 'user_type', 'remember_token', 'status', 'otp', 'otp_type', 'otp_timestamp', 'otp_confirmation_timestamp', 'user_token', 'token_date', 'push_notifications'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -152,7 +152,7 @@ class User extends Authenticatable implements MustVerifyEmail
         else
             return false;
     }
-    
+
     public function vipLocations()
     {
         return $this->belongsToMany(Location::class, 'vip_list', 'client_id', 'location_id');
@@ -169,7 +169,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function isBlockedAtLocation(int $locationId)
-    {        
+    {
         return $this->blockedLocations()->where('location_id', $locationId)->where(function ($query) {
             $query->whereNull('unblock_date')
                 ->orWhere('unblock_date', '>', Carbon::now());
@@ -333,4 +333,45 @@ class User extends Authenticatable implements MustVerifyEmail
         return round(($completedColumns / $totalColumns) * 100);
     }
 
+
+    public function getCompletionColorAttribute()
+    {
+        $userInfoColumns = [
+            'avatar',
+            'company',
+            'phone',
+            'website',
+            'country',
+            'language',
+            'timezone',
+            'currency',
+            'communication',
+            'marketing',
+            'gender',
+            'date_of_birth',
+        ];
+
+        $totalColumns = count($userInfoColumns);
+        $completedColumns = 0;
+
+        foreach ($userInfoColumns as $column) {
+            if (!is_null($this->userinfo->{$column})) {
+                $completedColumns++;
+            }
+        }
+
+        // Calculate the percentage of completed columns
+        $completionPercentage = ($completedColumns / $totalColumns) * 100;
+
+        // Determine the color based on the completion percentage
+        if ($completionPercentage >= 80) {
+            $color = 'success'; // Green
+        } elseif ($completionPercentage >= 40) {
+            $color = 'warning'; // Yellow
+        } else {
+            $color = 'danger'; // Red
+        }
+
+        return $color;
+    }
 }

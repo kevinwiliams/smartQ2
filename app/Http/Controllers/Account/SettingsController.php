@@ -62,6 +62,15 @@ class SettingsController extends Controller
 
         // attach this info to the current user
         $info->user()->associate(auth()->user());
+        // $info->gender = $request->gender;
+        // $info->date_of_birth = $request->date_of_birth;
+        // $info->company = $request->company;
+        // $info->website = $request->website;
+
+        // echo '<pre>';
+        // print_r($request->only(array_keys($request->rules())) );
+        // echo '</pre>';
+        // die();
 
         foreach ($request->only(array_keys($request->rules())) as $key => $value) {
             if (is_array($value)) {

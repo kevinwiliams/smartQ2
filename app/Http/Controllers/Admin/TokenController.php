@@ -1894,7 +1894,7 @@ class TokenController extends Controller
         $shownote = $display->show_note;
 
         $maskedemail = auth()->user()->getMaskedEmail();
-        
+
         $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
 
         return view('pages.home.index', compact('smsalert', 'maskedemail', 'shownote', 'companies'));
@@ -1902,6 +1902,12 @@ class TokenController extends Controller
 
     public function advClientSearch()
     {
+
+        if (!auth()->user()->isOTPValid){         
+            Session::flash("fail", trans('app.verify_contact'));
+            return redirect('home');
+        }            
+
         @date_default_timezone_set(session('app.timezone'));
         $display = DisplaySetting::first();
 
@@ -1910,7 +1916,7 @@ class TokenController extends Controller
 
         $maskedemail = auth()->user()->getMaskedEmail();
 
-        
+
         $categories = BusinessCategory::whereRelation('companies', 'company.active', true)->whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
         $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
 
@@ -1919,6 +1925,11 @@ class TokenController extends Controller
 
     public function businessSearch($id = null)
     {
+        if (!auth()->user()->isOTPValid){         
+            Session::flash("fail", trans('app.verify_contact'));
+            return redirect('home');
+        }            
+
         @date_default_timezone_set(session('app.timezone'));
         $display = DisplaySetting::first();
 
@@ -1956,14 +1967,14 @@ class TokenController extends Controller
 
             $locations = $filteredLocations;
 
-            if($locations->count() == 0){
+            if ($locations->count() == 0) {
                 $companies = Company::where('active', true)->whereRelation('locations', 'active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
                 $categories = BusinessCategory::whereRelation('locations', 'locations.active', true)->has('locations.departments')->orderBy('name', 'asc')->get();
                 Session::flash("fail", trans('app.no_location_found'));
                 return view('pages.home.advsearch', compact('smsalert', 'maskedemail', 'shownote', 'companies', 'categories'));
-            }else if($locations->count() == 1){
+            } else if ($locations->count() == 1) {
                 return view('pages.home.smallbusiness', compact('smsalert', 'maskedemail', 'shownote', 'company', 'locations'));
-            }else{
+            } else {
                 return view('pages.home.business', compact('smsalert', 'maskedemail', 'shownote', 'company', 'locations'));
             }
 

@@ -93,32 +93,49 @@ var MVModalTwoFactorAuthentication = function () {
 						// Disable button to avoid multiple click
 						smsSubmitButton.disabled = true;
 
-						// Simulate ajax process
-						setTimeout(function() {
-							// Remove loading indication
-							smsSubmitButton.removeAttribute('data-mv-indicator');
+						// Get the input field within the emailForm
+						var mobileValue = smsForm.querySelector('[name="mobile"]').value; 
 
-							// Enable button
-							smsSubmitButton.disabled = false;
+						Swal.fire({
+							html: "Are you sure?.",
+							icon: "warning",
+							buttonsStyling: false,
+							confirmButtonText: "Aww, yeah!",
+							customClass: {
+								confirmButton: "btn btn-light"
+							}
+						}).then(function(value) {
+							if (value.isConfirmed) {
+								$.ajax({
+									type: smsForm.method,
+									url: smsForm.action,									
+									headers: {
+										'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+									},
+									dataType: 'json',
+									data: {
+										'phone': mobileValue										
+									},
+									success: function(data) {										
+										smsSubmitButton.removeAttribute('data-mv-indicator');
 
-							// Show success message. For more info check the plugin's official documentation: https://sweetalert2.github.io/
-							Swal.fire({
-								text: "Mobile number has been successfully submitted!",
-								icon: "success",
-								buttonsStyling: false,
-								confirmButtonText: "Ok, got it!",
-								customClass: {
-									confirmButton: "btn btn-primary"
-								}
-							}).then(function (result) {
-								if (result.isConfirmed) {
-									modalObject.hide();
-									showOptionsForm();
-								}
-							});
+										// Enable button
+										smsSubmitButton.disabled = false;
+										
+										smsWrapper.classList.add('d-none');
 
-							//smsForm.submit(); // Submit form
-						}, 2000);
+										$('[data-mv-element="code-form"] #type').val('email');
+										codeWrapper.classList.remove('d-none');
+									}
+								});
+							}else{
+								smsSubmitButton.removeAttribute('data-mv-indicator');
+
+								// Enable button
+								smsSubmitButton.disabled = false;
+								modalObject.hide();
+								showOptionsForm();
+							}});
 					} else {
 						// Show error message.
 						Swal.fire({
@@ -231,30 +248,6 @@ var MVModalTwoFactorAuthentication = function () {
 
 						});
 
-						// setTimeout(function() {
-						// 	emailSubmitButton.removeAttribute('data-mv-indicator');
-
-						// 	// Enable button
-						// 	emailSubmitButton.disabled = false;
-
-						// 	// Show success message.
-						// 	Swal.fire({
-						// 		text: "Code has been successfully sent!",
-						// 		icon: "success",
-						// 		buttonsStyling: false,
-						// 		confirmButtonText: "Ok, got it!",
-						// 		customClass: {
-						// 			confirmButton: "btn btn-primary"
-						// 		}
-						// 	}).then(function (result) {
-						// 		if (result.isConfirmed) {
-						// 			modalObject.hide();
-						// 			showOptionsForm();
-						// 		}
-						// 	});
-
-						// 	//appsForm.submit(); // Submit form
-						// }, 2000);
 					} else {
 						// Show error message.
 						Swal.fire({

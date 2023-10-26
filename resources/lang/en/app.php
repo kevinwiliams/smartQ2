@@ -353,5 +353,7 @@ return [
     'block_date'    => "Block Date",
     'company_page'    => "Company Page",
     'qr_codes'    => "QR Codes",
+
+    'verify_contact'    => "Verify Account",
     
 ];
