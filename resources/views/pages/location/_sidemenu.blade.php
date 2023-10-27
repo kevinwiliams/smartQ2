@@ -13,6 +13,11 @@
                     </a>
                 </li>
                 <li class="navi-item">
+                    <a class="navi-link {{ ((Request::is('location') || Request::segment(2)=='checkincodes') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/checkincodes/' . $location->id)}}">
+                        <span class="navi-text">Check In Code</span>
+                    </a>
+                </li>
+                <li class="navi-item">
                     <a class="navi-link {{ ((Request::is('location') || Request::segment(2)=='openhours') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/openhours/' . $location->id)}}">
                         <span class="navi-text">Opening Hours</span>
                     </a>
@@ -61,6 +66,11 @@
                 <li class="navi-item">
                     <a class="navi-link {{ ((Request::is('location') || Request::segment(3)=='display') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/settings/display/' . $location->id)}}" >
                         <span class="navi-text">Display</span>
+                    </a>
+                </li>
+                <li class="navi-item">
+                    <a class="navi-link {{ ((Request::is('location') || Request::segment(3)=='appsettings') ? 'active' : '') }}" href="{{theme()->getPageUrl('location/appsettings/' . $location->id)}}" >
+                        <span class="navi-text">App Settings</span>
                     </a>
                 </li>
             </ul>

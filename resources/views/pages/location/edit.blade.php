@@ -101,6 +101,7 @@
                             </div>
                             <!--end::Actions-->
                             <!--end::Table-->
+                            {{ Form::close() }}
                         </div>
                         <!--end::Card body-->
                     </div>

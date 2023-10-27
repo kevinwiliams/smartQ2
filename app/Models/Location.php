@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Core\Constants;
 use App\Http\Controllers\Common\Utilities_lib;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -83,11 +84,11 @@ class Location extends Model
     }
 
     public function getIsOpenStatusAttribute()
-    {        
+    {
         @date_default_timezone_set(session('app.timezone'));
         $currentTime = Carbon::now();
         $currentDayOfWeek = $currentTime->dayOfWeek;
-        
+
         $currentBusinessHour = $this->openinghours()
             ->where('day', $currentDayOfWeek)
             ->first();
@@ -102,11 +103,11 @@ class Location extends Model
         if ($currentTime->isBetween($startTime, $endTime)) {
             $diff =  $currentTime->diffInMinutes($endTime);
 
-            if($diff <= 30){
+            if ($diff <= 30) {
                 $closingTime = $endTime->format('h:i A');
-            
+
                 return 'Closing Soon (Closes at ' . $closingTime . ')';
-            }            
+            }
 
             return 'Open';
         }
@@ -129,12 +130,10 @@ class Location extends Model
                 return 'Closed';
             }
 
-            $nextStartTime = Carbon::parse( $nextBusinessHour->start_time);
+            $nextStartTime = Carbon::parse($nextBusinessHour->start_time);
             return 'Opening Tomorrow at ' . $nextStartTime->format('h:i A');
         }
-
-       
-    }   
+    }
 
     public function services()
     {
@@ -154,18 +153,74 @@ class Location extends Model
     public function vips()
     {
         return $this->belongsToMany(User::class, 'vip_list', 'location_id', 'client_id')
-        ->withPivot('client_id', 'reason')
-        ->withTimestamps();
+            ->withPivot('client_id', 'reason')
+            ->withTimestamps();
     }
 
     public function blacklist()
     {
         return $this->belongsToMany(User::class, 'blacklists', 'location_id', 'client_id')
-        ->withPivot('client_id', 'block_reason', 'block_date')
-        ->withTimestamps();
+            ->withPivot('client_id', 'block_reason', 'block_date')
+            ->withTimestamps();
     }
 
-    public function key(){
+    public function key()
+    {
         return Crypt::encrypt($this->id);
+    }
+
+    public function locationSettings()
+    {
+        return $this->hasMany(LocationSetting::class, 'location_id');
+    }
+
+    public function getSettingByKey($key)
+    {
+        $setting = $this->locationSettings()->where('key', $key)->first();
+
+        if ($setting) {
+            return $setting->value;
+        }
+
+        return null;
+    }
+
+    public function setSetting($key, $value)
+    {
+        $setting = $this->locationSettings()->updateOrInsert(
+            ['key' => $key],
+            ['value' => $value]
+        );
+    }
+
+    public function checkInCodes()
+    {
+        return $this->hasMany(CheckInCode::class, 'location_id', 'id');
+    }
+
+
+    public function getLastCheckInCode()
+    {
+        $lastCheckInCode = $this->checkInCodes()->latest()->first();
+        
+        $keyinfo = $this->getSettingByKey(Constants::Location_Settings_CheckInCode);
+        if ($keyinfo == 'auto' && $lastCheckInCode) {
+            $newDateTime = Carbon::now()->subMinutes(5);
+            if ($newDateTime < $lastCheckInCode->created_at) {
+                $lastCheckInCode = null;
+            }
+        }        
+
+        if (!$lastCheckInCode) {
+            // Create and save a new check-in code
+            $newCheckInCode = new CheckInCode();
+            $newCheckInCode->location_id = $this->id;
+            $newCheckInCode->code = (new Utilities_lib)->generateNumericOTP(4); // Replace with your code generation logic
+            $newCheckInCode->save();
+
+            return $newCheckInCode;
+        }
+
+        return $lastCheckInCode;
     }
 }

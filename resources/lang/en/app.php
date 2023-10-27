@@ -355,5 +355,6 @@ return [
     'qr_codes'    => "QR Codes",
 
     'verify_contact'    => "Verify Account",
+    'check_in_code'    => "Check In Code",
     
 ];

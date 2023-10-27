@@ -7,8 +7,9 @@
     <!--begin::Card body-->
     <div class="card-body border-top p-9">
         <div class="notice d-flex bg-light-danger rounded border-danger border border-dashed  p-6">
-            <!--begin::Icon-->
-            <i class="ki-duotone ki-shield-tick fs-2tx text-danger me-4"><span class="path1"></span><span class="path2"></span></i> <!--end::Icon-->
+             <!--begin::Icon-->
+             {!! theme()->getSvgIcon("icons/duotune/general/gen048.svg", "svg-icon-3x svg-icon-danger me-4") !!}
+            <!--end::Icon-->
 
             <!--begin::Wrapper-->
             <div class="d-flex flex-stack flex-grow-1 flex-wrap flex-md-nowrap">

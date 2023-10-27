@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\BusinessHoursController;
 use App\Http\Controllers\Account\SettingsController;
 use App\Http\Controllers\Admin\AlertsController;
 use App\Http\Controllers\Admin\BusinessCategoriesController;
+use App\Http\Controllers\Admin\CheckInCodeController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\CounterController;
 use App\Http\Controllers\Admin\DepartmentController;
@@ -26,6 +27,7 @@ use App\Http\Controllers\Common\CronjobController;
 use App\Http\Controllers\Common\DisplayController;
 use App\Http\Controllers\Admin\DisplaySettingController;
 use App\Http\Controllers\Admin\LocationController;
+use App\Http\Controllers\Admin\LocationSettingController;
 use App\Http\Controllers\Admin\ReasonForVisitController;
 use App\Http\Controllers\Admin\ReasonForVisitCountersController;
 use App\Http\Controllers\Admin\ReportController;
@@ -385,21 +387,27 @@ Route::middleware('auth')->group(function () {
 		// // Open Hours
 		Route::prefix('openhours')->group(function () {
 			Route::get('/{id}', [BusinessHoursController::class, 'show']);
-			Route::post('edit/{id}', [BusinessHoursController::class, 'update']);
-			// Route::get('create', [CounterController::class, 'showForm']);
-			// Route::post('create', [CounterController::class, 'create']);
-			// Route::get('edit/{id}', [CounterController::class, 'showEditForm']);
-
-			// Route::get('delete/{id}', [CounterController::class, 'delete']);
-			// Route::get('getCountersbyDept/{id}', [CounterController::class, 'getCountersbyDept']);
+			Route::post('edit/{id}', [BusinessHoursController::class, 'update']);	
 		});
 
-		// // Open Hours
+		// // Services
 		Route::prefix('services')->group(function () {
 			Route::get('/{id}', [ServicesController::class, 'index']);
 			Route::post('edit/{id}', [ServicesController::class, 'update']);
 			Route::get('delete/{id}', [ServicesController::class, 'destroy']);
 			Route::post('create', [ServicesController::class, 'store']);
+		});
+
+		// // Location Settings
+		Route::prefix('appsettings')->group(function () {
+			Route::get('/{id}', [LocationSettingController::class, 'showAll']);			
+		});
+
+		// // Location Settings
+		Route::prefix('checkincodes')->group(function () {
+			Route::get('/{id}', [CheckInCodeController::class, 'index']);			
+			Route::get('regenerate/{id}', [CheckInCodeController::class, 'regenerate']);			
+			Route::get('disable/{id}', [CheckInCodeController::class, 'disable']);			
 		});
 	});
 });

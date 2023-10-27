@@ -10,7 +10,7 @@ use App\Http\Controllers\Common\Utilities_lib;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\BusinessCategory;
-use App\Models\CheckInCodes;
+use App\Models\CheckInCode;
 use App\Models\Company;
 use App\Models\User;
 use App\Models\Department;
@@ -2294,9 +2294,11 @@ class TokenController extends Controller
             goto bypass;
         }
 
-        $code = CheckInCodes::where("created_at", ">", $newDateTime->format('Y-m-d H:i'))->where('location_id', $location_id)->where('code', $otpcode)->first();
+        $location = Location::find($location_id);
 
-        if (!$code) {
+        $checkincode = $location->getLastCheckInCode()->code;
+
+        if ($checkincode != $otpcode) {
             $data['status'] = false;
             $data['message'] = trans('app.please_try_again');
             return response()->json($data);
