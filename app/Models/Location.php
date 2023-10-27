@@ -189,7 +189,7 @@ class Location extends Model
     {
         $setting = $this->locationSettings()->updateOrInsert(
             ['key' => $key],
-            ['value' => $value]
+            ['value' => $value, 'location_id' => $this->id]
         );
     }
 
@@ -202,14 +202,14 @@ class Location extends Model
     public function getLastCheckInCode()
     {
         $lastCheckInCode = $this->checkInCodes()->latest()->first();
-        
+
         $keyinfo = $this->getSettingByKey(Constants::Location_Settings_CheckInCode);
         if ($keyinfo == 'auto' && $lastCheckInCode) {
             $newDateTime = Carbon::now()->subMinutes(5);
             if ($newDateTime < $lastCheckInCode->created_at) {
                 $lastCheckInCode = null;
             }
-        }        
+        }
 
         if (!$lastCheckInCode) {
             // Create and save a new check-in code
