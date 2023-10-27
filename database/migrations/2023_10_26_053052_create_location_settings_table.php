@@ -20,7 +20,6 @@ class CreateLocationSettingsTable extends Migration
             $table->string('value', 500)->nullable()->default(null);
             $table->timestamps();
             
-            $table->primary('id');
             $table->index(['location_id', 'key']);
         });
     }
