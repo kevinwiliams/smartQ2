@@ -124,7 +124,7 @@
         let marker;
 
         $(document).ready(function() {
-            initMap();
+            //initMap();
             var frm = $("#frmLocation");
             frm.on('submit', function(e) {
                 e.preventDefault();
@@ -248,7 +248,7 @@
             });
         }
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps') }}&callback=initMaps" type="text/javascript"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps') }}&callback=initMap" type="text/javascript"></script>
 
     @endsection
 </x-base-layout>
