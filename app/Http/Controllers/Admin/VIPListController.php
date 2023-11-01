@@ -78,7 +78,7 @@ class VIPListController extends Controller
             ));
 
         if ($validator->fails()) {
-            $data['status'] = true;
+            $data['status'] = false;
             $data['error'] = $validator;
             $data['message'] = trans('app.validation_error');
 
@@ -87,7 +87,7 @@ class VIPListController extends Controller
 
             $exists = VIPList::where('location_id', $request->location_id)->where('client_id', $request->client_id)->first();
             if ($exists) {
-                $data['status'] = true;
+                $data['status'] = false;
                 $data['error'] = trans('app.vip_exists');
                 $data['message'] = trans('app.validation_error');
 
@@ -109,6 +109,7 @@ class VIPListController extends Controller
             } else {
                 $data['status'] = false;
                 $data['message'] = trans('app.please_try_again');
+                return response()->json($data, 400);
             }
 
 

@@ -1,6 +1,32 @@
 <x-base-layout>
     <!--begin::Card-->
     <div class="card">
+        <!--begin::Card header-->
+        <div class="card-header ribbon ribbon-top">
+            @if($location->company->active)
+            <div class="ribbon-label bg-success">
+                Active
+            </div>
+            @else
+            <div class="ribbon-label bg-danger">
+                Inactive
+            </div>
+            @endif
+            <!--begin::Card title-->
+            <div class="card-title">
+                <!--begin::Avatar-->
+                <div class="symbol symbol-65px symbol-circle mt-5 me-5 mb-5">
+                    <img src="{{ $location->company->logo_url }}" alt="image">
+                </div>
+                <!--end::Avatar-->
+
+                <div class="title-address">
+                    <h2>{{ ucwords($location->company->name) }}</h2>
+                    <p class="text-muted">{{ $location->company->address }}</p>
+                </div>
+            </div>
+            <!--end::Card title-->
+        </div>
         <!--begin::Card body-->
         <div class="card-body p-3">
             <!--begin::Stepper-->
@@ -10,7 +36,7 @@
                     <!--begin::Step 3-->
                     <div class="stepper-item current" data-mv-stepper-element="nav">
                         <h3 class="stepper-title d-none d-xl-inline-flex">How can we help?</h3>
-                        <h3 class="stepper-title d-inline-flex d-md-inline-flex d-sm-none d-xl-none">3.</h3>
+                        <h3 class="stepper-title d-inline-flex d-md-inline-flex d-sm-none d-xl-none">1.</h3>
                     </div>
                     <!--end::Step 3-->
                     <!--begin::Step 4-->
@@ -114,14 +140,14 @@
                                             <input type="hidden" id="lng" name="lng" value="" />
                                             <input type="hidden" id="mv_location_list" name="mv_location_list" value="{{ $locationKey }}" />
 
-                                            
+
                                             <!--begin::Notes-->
-                                            
+
                                             <div class="mb-0 {{($location->settings->show_note)?'':'d-none'}}" id="shownote">
                                                 <label for="userNote" class="form-label">Note</label>
                                                 <textarea class="form-control" id="userNote" aria-describedby="userNote" name="userNote">{{ old('userNote') }}</textarea>
                                             </div>
-                                            
+
                                             <!--end::Notes-->
 
                                         </div>
@@ -232,7 +258,7 @@
     </div>
     <!--end::Card-->
 
-    @section('scripts')    
+    @section('scripts')
     <script>
         var chart;
         var lastLat;
@@ -392,7 +418,7 @@
 
         };
     </script>
-    
+
     @include('pages.home._firebase-js')
 
     @endsection

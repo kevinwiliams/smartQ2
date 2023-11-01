@@ -535,6 +535,22 @@ return array(
                 ),
             )
         ),
+        'favorites' => array(
+            '*' => array(
+                'title'  => 'Favorites',
+                'assets' => array(
+                    'custom' => array(
+                        'css' => array(
+                            'plugins/custom/datatables/datatables.bundle.css',
+                        ),
+                        'js' => array(
+                            'plugins/custom/datatables/datatables.bundle.js',                            
+
+                        ),
+                    ),
+                ),
+            )
+        ),
     ),
     'home' => array(
         'title'  => 'Home',

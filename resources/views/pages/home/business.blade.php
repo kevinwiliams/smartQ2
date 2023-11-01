@@ -86,9 +86,18 @@
                                                 <span class="cursor-pointer" data-suggestion-id="" id="mv_location_suggestion"></span>
                                             </span>
                                         </div>
-                                        <div class="pt-3" style="display:none;" id="locationDirections">
-                                            <a href="#googlemaps" class="text-primary cursor-pointer" data-fslightbox="lightbox" data-class="fslightbox-source"><i class="las la-directions"></i> Directions</a>
-                                        </div>                                       
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="pt-3" style="display:none;" id="locationDirections">
+                                                    <a href="#googlemaps" class="text-primary cursor-pointer" data-fslightbox="lightbox" data-class="fslightbox-source"><i class="las la-directions"></i> Directions</a>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="pt-3" style="display:none;" id="locationFavorite">
+                                                    <a href="#" class="text-primary cursor-pointer"><i class="las la-bookmark"></i> Add to favorites</a>
+                                                </div>
+                                            </div>
+                                        </div>                                   
                                         <span class="text-danger">{{ $errors->first('location') }}</span>
                                     </div>
                                 </div>
@@ -461,15 +470,65 @@
                 templateResult: companyoptionFormat
             });
 
+            $("#locationFavorite > a").on('click', function(e){
+                var obj = $("#mv_location_list").find(":selected");
+
+                Swal.fire({
+                    html: "Are you sure?.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    buttonsStyling: false,
+                    confirmButtonText: "Aww, yeah!",
+                    cancelButtonText: "Never mind",
+                    customClass: {
+                        confirmButton: "btn btn-primary",
+                        cancelButton: "btn btn-active-light"
+                    }
+                }).then(function(value) {
+                    if (value.isConfirmed) {
+                        $.ajax({
+                            type: 'post',
+                            url: '{{ URL::to("location/favorites/add") }}',                            
+                            dataType: 'json',
+                            data: {
+                                'id': obj.val(),
+                                '_token': '<?php echo csrf_token() ?>'
+                            },
+                            success: function(data) {
+                                if(data.status){
+                                    Swal.fire({
+                                        text: obj.text() + " added to favorites",
+                                        icon: 'success'
+                                    });    
+                                }else{
+                                    Swal.fire({
+                                        text: data.message,
+                                        icon: 'error'
+                                    });
+                                }
+                                
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                Swal.fire({
+                                    text: errorThrown,
+                                    icon: 'error'
+                                });                                
+                            }
+                        });
+                    }
+                });
+            });
 
             $('#mv_location_list').on('change', function(e) {
                 var selectedval = $(this).val();
                 if (selectedval != "") {
                     $("#locationDirections").show();
+                    $("#locationFavorite").show();
                     $("#timesText").show();
                     $('[data-mv-stepper-action="next"]').removeClass('disabled');
                 } else {
                     $("#locationDirections").hide();
+                    $("#locationFavorite").hide();
                     $("#timesText").hide();
                     $('[data-mv-stepper-action="next"]').addClass('disabled');
                 }

@@ -26,6 +26,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Common\CronjobController;
 use App\Http\Controllers\Common\DisplayController;
 use App\Http\Controllers\Admin\DisplaySettingController;
+use App\Http\Controllers\Admin\FavoritesController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\LocationSettingController;
 use App\Http\Controllers\Admin\ReasonForVisitController;
@@ -408,6 +409,13 @@ Route::middleware('auth')->group(function () {
 			Route::get('/{id}', [CheckInCodeController::class, 'index']);			
 			Route::get('regenerate/{id}', [CheckInCodeController::class, 'regenerate']);			
 			Route::get('disable/{id}', [CheckInCodeController::class, 'disable']);			
+		});
+
+		// // Location Favorites
+		Route::prefix('favorites')->group(function () {			
+			Route::post('add', [FavoritesController::class, 'store']);
+			Route::get('my', [FavoritesController::class, 'clientfaves']);
+			Route::get('delete/{id}', [FavoritesController::class, 'delete']);
 		});
 	});
 });

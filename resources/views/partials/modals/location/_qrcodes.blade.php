@@ -1,4 +1,4 @@
-<div class="modal fade" id="mv_modal_location_qr" tabindex="-1" aria-hidden="true">
+ <div class="modal fade" id="mv_modal_location_qr" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered mw-650px">
         <!--begin::Modal content-->
@@ -45,6 +45,16 @@
                             <!--end::Button-->
                         </td>
                     </tr>
+                    <!-- <tr>
+                        <td class="align-middle px-2">{{ trans('app.quick_link') }}</td>
+                        <td class="text-end w-10">
+                            
+                            <button id="mv_clipboard_2" class="btn btn-light-primary" data-clipboard-text="{{ config('app.url') }}/home/joinqueue/L-{{ $location->key() }}">
+                                Copy to clipboard
+                            </button>
+                            
+                        </td>
+                    </tr> -->
 
                 </table>              
                 <!--begin::Actions-->

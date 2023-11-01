@@ -356,5 +356,8 @@ return [
 
     'verify_contact'    => "Verify Account",
     'check_in_code'    => "Check In Code",
+
+    'fave_exists'    => "Location already added to your favorites.",
+    'quick_link'    => "Quick Link",
     
 ];

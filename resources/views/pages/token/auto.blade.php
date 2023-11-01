@@ -67,7 +67,10 @@
             'departments' => $departmentList
             )) }}
 
-
+    {{ theme()->getView('partials/modals/token/_add', 
+        array(            
+            'departments' => $departmentList
+            )) }}
   @section('scripts2')
   <script>
    $(document).ready(function() {
@@ -271,6 +274,7 @@
 });
 </script>
 @include('pages.token._add-autotoken-js')
+@include('pages.token._add-token-js')
 @include('pages.token._print-token-js')
 @endsection
 

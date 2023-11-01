@@ -208,6 +208,13 @@ return array(
             'path'  => 'home',
             'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/general/gen001.svg", "svg-icon-2"),
         ),
+          //// History
+          array(
+            'title' => 'Favorites',
+            // 'permission' => '',
+            'path'  => 'location/favorites/my',
+            'icon'  => theme()->getSvgIcon("qsmart/media/icons/duotune/general/gen056.svg", "svg-icon-2"),
+        ),
         //// History
         array(
             'title' => 'History',

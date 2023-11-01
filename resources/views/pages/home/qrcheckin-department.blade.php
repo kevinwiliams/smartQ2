@@ -1,6 +1,32 @@
 <x-base-layout>
     <!--begin::Card-->
     <div class="card">
+        <!--begin::Card header-->
+        <div class="card-header ribbon ribbon-top">
+            @if($company->active)
+            <div class="ribbon-label bg-success">
+                Active
+            </div>
+            @else
+            <div class="ribbon-label bg-danger">
+                Inactive
+            </div>
+            @endif
+            <!--begin::Card title-->
+            <div class="card-title">
+                <!--begin::Avatar-->
+                <div class="symbol symbol-65px symbol-circle mt-5 me-5 mb-5">
+                    <img src="{{ $company->logo_url }}" alt="image">
+                </div>
+                <!--end::Avatar-->
+
+                <div class="title-address">
+                    <h2>{{ ucwords($company->name) }}</h2>
+                    <p class="text-muted">{{ $company->address }}</p>
+                </div>
+            </div>
+            <!--end::Card title-->
+        </div>
         <!--begin::Card body-->
         <div class="card-body p-3">
             <!--begin::Stepper-->
@@ -105,7 +131,7 @@
     <!--end::Card-->
 
     @section('scripts')
-    
+
     <script>
         var chart;
         var lastLat;

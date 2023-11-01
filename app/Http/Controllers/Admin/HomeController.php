@@ -578,13 +578,11 @@ class HomeController extends Controller
     }
 
     public function joinqueue($id)
-    {
-        // $decrpted = Crypt::decrypt($id);
-        $decrpted = $id;
-        $keyarray = explode('-', $decrpted);
+    {        
+        $keyarray = explode('-', $id);
         $keycode = $keyarray[0];
 
-        $locationKey = $keyarray[1];
+        $locationKey = Crypt::decrypt($keyarray[1]);
         $display = DisplaySetting::first();
         // echo '<pre>';
         // print_r($keycode);
