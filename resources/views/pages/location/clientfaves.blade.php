@@ -6,6 +6,7 @@
     <div class="card">
         <!--begin::Card body-->
         <div class="card-body p-3">
+            @if(count($faves) > 0)
             <form id="fave-form" data-mv-element="fave-form" class="form" action="{{ URL::to('location/favorites/delete') }}" method="get">
                 <table id="mv_favorites" class="table table-row-bordered border rounded gy-5 gs-7">
                     <thead>
@@ -57,6 +58,30 @@
                     </tbody>
                 </table>
             </form>
+            @else
+            <div class="notice d-flex bg-light-warning rounded border-warning border border-dashed p-6">
+                <!--begin::Icon-->
+                {!! theme()->getSvgIcon("icons/duotune/general/gen056.svg", "svg-icon-3x svg-icon-warning me-4") !!}
+                <!--end::Icon-->
+
+                <!--begin::Wrapper-->
+                <div class="d-flex flex-stack flex-grow-1 flex-wrap flex-md-nowrap">
+                    <!--begin::Content-->
+                    <div class="mb-3 mb-md-0 fw-semibold">
+                        <h4 class="text-gray-900 fw-bold">Favorite Locations</h4>
+
+                        <div class="fs-6 text-gray-700 pe-7">You don't have any favorite locations yet.<br />Search for your favorite locations and add them to the list.</div>
+                    </div>
+                    <!--end::Content-->
+                    <!--begin::Action-->
+                    <a class="btn btn-success px-6 align-self-center text-nowrap" href="{{ theme()->getPageUrl('home/search') }}">Search</a>
+                   
+
+                    <!--end::Action-->
+                </div>
+                <!--end::Wrapper-->
+            </div>
+            @endif
         </div>
     </div>
     @section('scripts')
