@@ -21,7 +21,7 @@
                         @foreach($faves as $row)
                         <tr>
                             <td>
-                                <div class="d-flex align-items-sm-center mb-7">
+                                <div class="d-flex align-items-sm-center mb-1">
 
                                     <div class="symbol symbol-40px symbol-circle me-5">
                                         <img src="{{ $row->location->company->logo_url }}" alt="image">
@@ -29,9 +29,9 @@
 
                                     <div class="d-flex flex-row-fluid flex-wrap align-items-center">
                                         <div class="flex-grow-1 me-2">
-                                            <a class="text-gray-800 fw-bolder text-hover-primary fs-4" href="{{ theme()->getPageUrl('home/joinqueue/L-'.$row->location->key()) }}">{{ $row->location->name }}</a>
+                                            <a class="text-gray-800 fw-bolder text-hover-primary d-block fs-4" href="{{ theme()->getPageUrl('home/joinqueue/L-'.$row->location->key()) }}">{{ $row->location->name }}</a>
                                             @if($row->location->company->shortname)
-                                            <a class="text-gray-900 fw-bold d-block pt-1" target="_blank" href="{{ config('app.url') }}/in/{{ $row->location->company->shortname }}">{{ $row->location->company->name }}</a>
+                                            <a class="text-gray-900 fw-bold text-hover-primary d-block pt-1" target="_blank" href="{{ config('app.url') }}/in/{{ $row->location->company->shortname }}">{{ $row->location->company->name }}</a>
                                             @else
                                             <span class="text-gray-900 fw-bold d-block pt-1">{{ $row->location->company->name }}</span>
                                             @endif
