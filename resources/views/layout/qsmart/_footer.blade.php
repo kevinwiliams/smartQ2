@@ -13,8 +13,8 @@
         <ul class="menu menu-gray-600 menu-hover-primary fw-bold order-1">
             <li class="menu-item"><a href="{{ theme()->getOption('general', 'about') }}" target="_blank" class="menu-link px-2">About</a></li>
 
-            <li class="menu-item"><a href="{{ theme()->getOption('general', 'support') }}" target="_blank" class="menu-link px-2">Support</a></li>
-
+            <li class="menu-item"><a href="#" class="menu-link px-2 button-support"  data-bs-toggle="modal" data-bs-target="#mv_modal_add_feedback" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="" data-bs-original-title="Click to view support options">Support</a></li>
+            
         </ul>
         <!--end::Menu-->
     </div>

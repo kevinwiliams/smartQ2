@@ -970,4 +970,14 @@ class Data
         );
     }
     
+
+    public static function getSupportTypeList()
+    {
+        return array(
+            'comment'   => "Leave a comment",
+            'feedback' => "Give some feedback",
+            'suggestion'  => "Make a suggestion",
+        );
+    }
+    
 }

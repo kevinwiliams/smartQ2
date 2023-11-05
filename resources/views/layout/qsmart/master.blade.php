@@ -70,6 +70,10 @@
 {{ theme()->getView('partials/engage/_main') }}
 <!--end::Engage-->
 
+<!--begin::Support-->
+{{ theme()->getView('partials/modals/general/_support') }}
+<!--end::Support-->
+
 @if(theme()->getOption('layout', 'scrolltop/display') === true)
 {{ theme()->getView('layout/_scrolltop') }}
 @endif

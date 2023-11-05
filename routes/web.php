@@ -27,6 +27,7 @@ use App\Http\Controllers\Common\CronjobController;
 use App\Http\Controllers\Common\DisplayController;
 use App\Http\Controllers\Admin\DisplaySettingController;
 use App\Http\Controllers\Admin\FavoritesController;
+use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\LocationSettingController;
 use App\Http\Controllers\Admin\ReasonForVisitController;
@@ -40,6 +41,7 @@ use App\Http\Controllers\Common\NotificationController;
 use App\Http\Controllers\Common\ProfileController;
 use App\Http\Controllers\UserManagement\UserManagementController;
 use App\Models\BusinessHours;
+use App\Models\Feedback;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -280,6 +282,10 @@ Route::middleware('auth')->group(function () {
 		Route::get('delete/{id}', [BusinessCategoriesController::class, 'destroy']);
 	});
 
+	// // Feedback pages
+	Route::prefix('feedback')->group(function () {		
+		Route::post('create', [FeedbackController::class, 'store']);		
+	});
 	// Setting pages
 	Route::prefix('settings')->group(function () {
 		Route::get('system', [SettingController::class, 'show']);

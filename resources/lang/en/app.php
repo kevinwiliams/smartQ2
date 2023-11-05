@@ -359,5 +359,9 @@ return [
 
     'fave_exists'    => "Location already added to your favorites.",
     'quick_link'    => "Quick Link",
-    
+
+    'support'    => "Support",
+    'i_would_like_to'    => "I would like to",
+    'comment'    => "Comment",    
+    'rating'    => "Rating",  
 ];

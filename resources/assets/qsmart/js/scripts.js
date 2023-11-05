@@ -13,5 +13,6 @@ module.exports = [
     ...layoutJs,
 
     // Extended
-    'resources/assets/extended/button-ajax.js'
+    'resources/assets/extended/button-ajax.js',
+    'resources/assets/extended/button-support.js'
 ];
