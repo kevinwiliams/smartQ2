@@ -31,7 +31,7 @@
                 <div class="fv-row mb-7">
                     <div class="form-group @error('type') has-error @enderror">
                         <label for="type">{{ trans('app.i_would_like_to') }} <i class="text-danger">*</i></label><br />
-                        <select name="type" aria-label="{{ __('Select Type') }}" data-control="select2" data-placeholder="{{ __('Select type..') }}" class="form-select form-select-solid form-select-lg" data-dropdown-parent="#mv_modal_add_feedback">
+                        <select name="type" aria-label="{{ __('Select Type') }}" data-control="select2" data-placeholder="{{ __('Select type..') }}" class="form-select form-select-solid form-select-lg" data-dropdown-parent="#mv_modal_add_feedback" data-hide-search="true">
                             @foreach(\App\Core\Data::getSupportTypeList() as $key => $value)
                             <option value="{{ $key }}" {{ $key === old('type') ? 'selected' :'' }}>{{ $value }}</option>
                             @endforeach
