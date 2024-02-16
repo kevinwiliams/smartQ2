@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Core\Constants;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
@@ -27,6 +28,16 @@ class RegisteredUserController extends Controller
         return view('auth.register');
     }
 
+    public function signup()
+    {
+        return view('auth.signup');
+    }
+
+
+    public function start()
+    {
+        return view('auth.registerbusiness');
+    }
     /**
      * Handle an incoming registration request.
      *
@@ -87,6 +98,11 @@ class RegisteredUserController extends Controller
             'password'   => Hash::make($request->password),
         ]);
 
+        
+        $user_info         = new UserInfo();
+        $user_info->user()->associate($user);
+        $user_info->save();
+        
         $role = Role::find(3);
         $user->syncRoles($role);
 
@@ -94,6 +110,17 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
+        if($request->exists("onboard"))
+        {      
+            $key_value = auth()->user()->getSettingByKey(Constants::User_Settings_Onboarding);
+
+            if ($key_value == null) {
+                auth()->user()->setSetting(Constants::User_Settings_Onboarding, true);
+            }
+
+            return redirect("/onboarding");
+        }
+        
         return redirect(RouteServiceProvider::HOME);
     }
 

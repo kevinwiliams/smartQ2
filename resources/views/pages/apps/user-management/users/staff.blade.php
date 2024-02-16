@@ -33,7 +33,7 @@
                         </div>
                     </div>
                     <div class="row g-6 g-xl-9">
-                        <table class="table table-bordered table-striped" id="mv_officers_list" name="mv_officers_list">
+                        <table class="table" id="mv_officers_list" name="mv_officers_list">
                             <thead>
                                 <tr>
                                     <th></th>

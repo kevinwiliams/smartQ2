@@ -7,6 +7,9 @@ var MVUserSessionMain = function () {
     var initLogoutSession = () => {
         const button = document.getElementById('mv_user_sign_out');
 
+        if (button == null)
+            return;
+        
         button.addEventListener('click', e => {
             e.preventDefault();
 

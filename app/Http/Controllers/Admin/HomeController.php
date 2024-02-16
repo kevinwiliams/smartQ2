@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Core\Constants;
 use App\Http\Controllers\Controller;
 use App\Models\Department;
 use App\Models\User;
@@ -29,6 +30,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use PHPUnit\TextUI\XmlConfiguration\Constant;
 
 class HomeController extends Controller
 {
@@ -52,7 +54,7 @@ class HomeController extends Controller
     }
 
     ///Moved to Token Controller
-/*
+    /*
     public function search()
     {
         $display = DisplaySetting::first();
@@ -73,8 +75,8 @@ class HomeController extends Controller
     }
 */
 
-///Moved to Token Controller
-/*
+    ///Moved to Token Controller
+    /*
     public function business($id = null)
     {
         $display = DisplaySetting::first();
@@ -121,7 +123,17 @@ class HomeController extends Controller
         if (empty(session('app.timezone'))) {
             $setting = Setting::first();
             session(['app.timezone' => $setting->timezone]);
-            $value = session('app.timezone');
+            //$value = session('app.timezone');
+        }
+
+
+        $key_value = auth()->user()->getSettingByKey(Constants::User_Settings_Onboarding);
+
+        // echo $key_value;
+        // die();
+        if ($key_value != null) {
+            if ($key_value != Constants::Onboarding_Total_Step_Count)                
+                return redirect("/onboarding");
         }
 
         @date_default_timezone_set(session('app.timezone'));
@@ -380,10 +392,10 @@ class HomeController extends Controller
             switch ($request->type) {
                 case 'email':
                     $update = User::where('id', auth()->user()->id)
-                    ->update([
-                        'otp_confirmation_timestamp'   => Carbon::now(),
-                        'updated_at'  => Carbon::now(),
-                    ]);
+                        ->update([
+                            'otp_confirmation_timestamp'   => Carbon::now(),
+                            'updated_at'  => Carbon::now(),
+                        ]);
                     break;
                 case 'sms':
                     $display = DisplaySetting::first();
@@ -578,7 +590,7 @@ class HomeController extends Controller
     }
 
     public function joinqueue($id)
-    {        
+    {
         $keyarray = explode('-', $id);
         $keycode = $keyarray[0];
 

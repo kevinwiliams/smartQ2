@@ -49,7 +49,7 @@
     {{ theme()->getView('partials/modals/services/_add', array('location' => $location)) }}
     <!--end::Modal - Add Service-->
     <!--begin::Modal - Edit Service -->
-    <{{ theme()->getView('partials/modals/services/_edit') }}
+    {{ theme()->getView('partials/modals/services/_edit') }}
     <!--end::Modal dialog-->
         {{-- Inject Scripts --}}
         @section('scripts')

@@ -120,7 +120,8 @@ var MVSignupGeneral = function () {
                                 if (result.isConfirmed) {
                                     form.querySelector('[name="email"]').value = "";
                                     form.querySelector('[name="password"]').value = "";
-                                    window.location.reload();
+                                    // window.location.reload();
+                                    document.location.href = '/onboarding/business';
                                 }
                             });
                         })

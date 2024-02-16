@@ -1,562 +1,578 @@
 <script>
-// Class definition
-var MVTokenActions = function () {
+    // Class definition
+    var MVCounterActions = function() {
+        var datatable;
+        var table;
+
+        var initCounterTable = () => {
+
+            if ($.fn.dataTable.isDataTable(table)) {
+                datatable = $(table).DataTable();
+            } else {
+                datatable = $(table).DataTable({
+                    "info": false,
+                    'order': [],
+                    "pageLength": 10,
+                    "lengthChange": false,
+                    'columnDefs': [{
+                            orderable: false,
+                            targets: 6
+                        }, // Disable ordering on column 6 (actions)
+                    ]
+                });
+            }
+            datatable.draw();
+            // Re-init functions on every table re-draw -- more info: https://datatables.net/reference/event/draw
+            datatable.on('draw', function() {
+                // console.log("raw")
+                MVMenu.createInstances();
+                handleDeleteRows();
+                handleEditRows();
+            });
+
+            //search bar    
+            // const filterSearch = document.querySelector('[data-mv-counter-table-filter="search"]');
+            // filterSearch.addEventListener('keyup', function (e) {
+            //     var table = $('#counter-table').DataTable();
+            //     table.search(e.target.value).draw();
+            // });
+
+        }
 
 
-var handleDeleteRows = () => {
- 
-    var _table = document.querySelector('#token-table');
-    const deleteButtons = _table.querySelectorAll('[data-mv-token-table-filter="delete_row"]');
-    // console.log(deleteButtons);
-    
-    deleteButtons.forEach(d => {
-        // Delete button on click
-        d.addEventListener('click', function (e) {
-            e.preventDefault();
+        var handleEditRows = () => {
 
-            // Select parent row
-            const parent = e.target.closest('tr');
-
-            // Get token name
-            const tokenNo = parent.querySelectorAll('td')[1].innerText;
-            if(parent.querySelectorAll('input[name=token-id]').length)
-                var tokenID =  parent.querySelectorAll('input[name=token-id]')[0].value;
-            else
-                var tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
-            // alert(tokenID);
-
-            // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
-            Swal.fire({
-                text: "Are you sure you want to delete " + tokenNo + "?",
-                icon: "warning",
-                showCancelButton: true,
-                buttonsStyling: false,
-                confirmButtonText: "Yes, delete!",
-                cancelButtonText: "No, cancel",
-                customClass: {
-                    confirmButton: "btn fw-bold btn-danger",
-                    cancelButton: "btn fw-bold btn-active-light-primary"
-                }
-            }).then(function (result) {
-                if (result.value) {
+            table = document.querySelector('#counter-table');
+            const editButtons = table.querySelectorAll('[data-mv-counter-table-filter="edit_row"]');
+            
+            editButtons.forEach(d => {
+                d.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Select parent row
+                    const parent = e.target.closest('tr');
+                    const counterID = parent.querySelectorAll('td')[0].innerText;
 
                     $.ajax({
-                        url: '/token/delete/'+ tokenID,
-                        data:   {
-                            _token: $("input[name=_token]").val() },
-                            success: function (res) {
+                        url: '/location/counter/edit/' + counterID,
+                        data: {
+                            _token: $("input[name=_token]").val()
+                        },
+                        success: function(data) {
+                            // Remove current row
+                            $('#mv_modal_edit_counter').modal('show');
+
+                            $('#mv_modal_edit_counter').on('shown.bs.modal', function() {
+                                $('#mv_modal_edit_counter .load_modal').html(data);
+                                initEditCounter();
+                            });
+                            //remove old data
+                            $('#mv_modal_edit_counter').on('hidden.bs.modal', function() {
+                                $('#mv_modal_edit_counter .load_modal').html('');
+                            });
+                        }
+                    });
+                })
+            })
+
+        }
+
+
+        var handleDeleteRows = () => {
+            // Select all delete buttons
+            
+            var _table = document.querySelector('#counter-table');
+            const deleteButtons = _table.querySelectorAll('[data-mv-counter-table-filter="delete_row"]');
+            
+            deleteButtons.forEach(d => {
+                // console.log(d);
+
+                // Delete button on click
+                d.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // Select parent row
+                    const parent = e.target.closest('tr');
+
+                    // Get token name
+                    const counterName = parent.querySelectorAll('td')[1].innerText;
+                    const counterID = parent.querySelectorAll('td')[0].innerText;
+
+
+                    // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
+                    Swal.fire({
+                        text: "Are you sure you want to delete " + counterName + "?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        buttonsStyling: false,
+                        confirmButtonText: "Yes, delete!",
+                        cancelButtonText: "No, cancel",
+                        customClass: {
+                            confirmButton: "btn fw-bold btn-danger",
+                            cancelButton: "btn fw-bold btn-active-light-primary"
+                        }
+                    }).then(function(result) {
+                        if (result.value) {
+
+                            $.ajax({
+                                url: '/counter/delete/' + counterID,
+                                data: {
+                                    _token: $("input[name=_token]").val()
+                                },
+                                success: function(res) {
+                                    Swal.fire({
+                                        text: "You have deleted " + counterName + "!.",
+                                        icon: "success",
+                                        buttonsStyling: false,
+                                        confirmButtonText: "Ok, got it!",
+                                        customClass: {
+                                            confirmButton: "btn fw-bold btn-primary",
+                                        }
+                                    }).then(function() {
+                                        window.location.reload();                                        
+                                    });
+                                }
+                            }).fail(function(jqXHR, textStatus, error) {
+                                // Handle error here
                                 Swal.fire({
-                                    text: "You have deleted " + tokenNo + "!.",
-                                    icon: "success",
+                                    text: deptName + " was not deleted.<br>" + jqXHR.responseText + "<br>" + error,
+                                    icon: "error",
                                     buttonsStyling: false,
                                     confirmButtonText: "Ok, got it!",
                                     customClass: {
                                         confirmButton: "btn fw-bold btn-primary",
                                     }
-                                }).then(function () {
-                                    // Remove current row
-                                    var dt = $('#token-table').DataTable();
-                                    dt.row($(parent)).remove().draw();
                                 });
-                            }
-                    }).fail(function (jqXHR, textStatus, error) {
-                        // Handle error here
-                        Swal.fire({
-                            text: tokenNo + " was not deleted.<br>" + jqXHR.responseText + "<br>" + error,
-                            icon: "error",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn fw-bold btn-primary",
-                            }
-                        });
-                    });
+                            });
 
-                } else if (result.dismiss === 'cancel') {
-                    Swal.fire({
-                        text: tokenNo + " was not deleted.",
-                        icon: "error",
-                        buttonsStyling: false,
-                        confirmButtonText: "Ok, got it!",
-                        customClass: {
-                            confirmButton: "btn fw-bold btn-primary",
+                        } else if (result.dismiss === 'cancel') {
+                            Swal.fire({
+                                text: counterName + " was not deleted.",
+                                icon: "error",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok, got it!",
+                                customClass: {
+                                    confirmButton: "btn fw-bold btn-primary",
+                                }
+                            });
                         }
                     });
-                }
+                })
             });
-        })
-    });
 
 
-}
+        }
 
-var handleCompleteRows = () => {
- 
-    var _table = document.querySelector('#token-table');
-    const completeButtons = _table.querySelectorAll('[data-mv-token-table-filter="complete_row"]');
-    // console.log(completeButtons);
-    
-    completeButtons.forEach(d => {
-        // Delete button on click
-        d.addEventListener('click', function (e) {
-            e.preventDefault();
+        // Init add counter modal
+        var initAddCounter = () => {
+            // Shared variables
+            const element = document.getElementById('mv_modal_add_counter');
+            const form = element.querySelector('#mv_modal_add_counter_form');
+            const modal = new bootstrap.Modal(element);
 
-            // Select parent row
-            const parent = e.target.closest('tr');
+            // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
+            var validator = FormValidation.formValidation(
+                form, {
+                    fields: {
+                        'name': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Counter name is required'
+                                }
+                            }
+                        },
+                        'key': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Keyboard shortcut required'
+                                }
+                            }
+                        }
+                    },
 
-            // Get token name
-            const tokenNo = parent.querySelectorAll('td')[1].innerText;
-            if(parent.querySelectorAll('input[name=token-id]').length)
-                var tokenID =  parent.querySelectorAll('input[name=token-id]')[0].value;
-            else
-                var tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
-
-
-            // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
-            Swal.fire({
-                text: "Are you sure you want to close " + tokenNo + "?",
-                icon: "warning",
-                showCancelButton: true,
-                buttonsStyling: false,
-                confirmButtonText: "Yes, mark as done!",
-                cancelButtonText: "No, cancel",
-                customClass: {
-                    confirmButton: "btn fw-bold btn-danger",
-                    cancelButton: "btn fw-bold btn-active-light-primary"
+                    plugins: {
+                        trigger: new FormValidation.plugins.Trigger(),
+                        bootstrap: new FormValidation.plugins.Bootstrap5({
+                            rowSelector: '.fv-row',
+                            eleInvalidClass: '',
+                            eleValidClass: ''
+                        })
+                    }
                 }
-            }).then(function (result) {
-                if (result.value) {
+            );
 
-                    $.ajax({
-                        url: '/token/complete/'+ tokenID,
-                        data:   {
-                            _token: $("input[name=_token]").val() },
-                            success: function (res) {
+            // Submit button handler
+            const submitButton = element.querySelector('[data-mv-counter-modal-action="submit"]');
+            submitButton.addEventListener('click', e => {
+                e.preventDefault();
+
+                // Validate form before submit
+                if (validator) {
+                    validator.validate().then(function(status) {
+                        console.log('validated!');
+
+                        if (status == 'Valid') {
+                            // Show loading indication
+                            submitButton.setAttribute('data-mv-indicator', 'on');
+
+                            // Disable button to avoid multiple click 
+                            submitButton.disabled = true;
+
+                            $.ajax({
+                                url: form.action,
+                                type: form.method,
+                                dataType: 'json',
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                contentType: false,
+                                cache: false,
+                                processData: false,
+                                data: new FormData(form),
+                                
+                                success: function(data) {
+                                    
+                                    // Remove loading indication
+                                    submitButton.removeAttribute('data-mv-indicator');
+
+                                    // Enable button
+                                    submitButton.disabled = false;
+
+                                    // Show popup confirmation 
+                                    Swal.fire({
+                                        text: "Form has been successfully submitted!",
+                                        icon: "success",
+                                        buttonsStyling: false,
+                                        confirmButtonText: "Ok, got it!",
+                                        customClass: {
+                                            confirmButton: "btn btn-primary"
+                                        }
+                                    }).then(function(result) {
+                                        if (result.isConfirmed) {
+                                            window.location.reload();
+                                            form.reset();
+                                            modal.hide();
+                                        }
+                                    });
+                                }
+                            }).fail(function(jqXHR, textStatus, error) {
+                                // Remove loading indication
+                                submitButton.removeAttribute('data-mv-indicator');
+
+                                // Enable button
+                                submitButton.disabled = false;
+
+                                // Handle error here
                                 Swal.fire({
-                                    text: "You have closed " + tokenNo + "!.",
-                                    icon: "success",
+                                    text: "Counter was not added.<br>" + jqXHR.responseText + "<br>" + error,
+                                    icon: "error",
                                     buttonsStyling: false,
                                     confirmButtonText: "Ok, got it!",
                                     customClass: {
                                         confirmButton: "btn fw-bold btn-primary",
                                     }
-                                }).then(function () {
-                                    // Remove current row
-                                    var dt = $('#token-table').DataTable();
-                                    dt.ajax.reload();
                                 });
-                            }
-                    }).fail(function (jqXHR, textStatus, error) {
-                        // Handle error here
-                        Swal.fire({
-                            text: tokenNo + " was not closed.<br>" + jqXHR.responseText + "<br>" + error,
-                            icon: "error",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn fw-bold btn-primary",
-                            }
-                        });
-                    });
+                            });
 
-                } else if (result.dismiss === 'cancel') {
-                    Swal.fire({
-                        text: tokenNo + " was not closed.",
-                        icon: "error",
-                        buttonsStyling: false,
-                        confirmButtonText: "Ok, got it!",
-                        customClass: {
-                            confirmButton: "btn fw-bold btn-primary",
+                        } else {
+                            // Show popup warning. For more info check the plugin's official documentation: https://sweetalert2.github.io/
+                            Swal.fire({
+                                text: "Sorry, looks like there are some errors detected, please try again.",
+                                icon: "error",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok, got it!",
+                                customClass: {
+                                    confirmButton: "btn btn-primary"
+                                }
+                            });
                         }
                     });
                 }
             });
-        })
-    });
 
+            // Cancel button handler
+            const cancelButton = element.querySelector('[data-mv-counter-modal-action="cancel"]');
+            cancelButton.addEventListener('click', e => {
+                e.preventDefault();
 
-}
+                Swal.fire({
+                    text: "Are you sure you would like to cancel?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    buttonsStyling: false,
+                    confirmButtonText: "Yes, cancel it!",
+                    cancelButtonText: "No, return",
+                    customClass: {
+                        confirmButton: "btn btn-primary",
+                        cancelButton: "btn btn-active-light"
+                    }
+                }).then(function(result) {
+                    if (result.value) {
+                        form.reset(); // Reset form			
+                        modal.hide();
+                    } else if (result.dismiss === 'cancel') {
+                        Swal.fire({
+                            text: "Your form has not been cancelled!.",
+                            icon: "error",
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok, got it!",
+                            customClass: {
+                                confirmButton: "btn btn-primary",
+                            }
+                        });
+                    }
+                });
+            });
 
-var handleCancelRows = () => {
- 
-    var _table = document.querySelector('#token-table');
-    const cancelButtons = _table.querySelectorAll('[data-mv-token-table-filter="cancel_row"]');
-    // console.log(cancelButtons);
-    
-    cancelButtons.forEach(d => {
-        // Delete button on click
-        d.addEventListener('click', function (e) {
-            e.preventDefault();
+            // Close button handler
+            const closeButton = element.querySelector('[data-mv-counter-modal-action="close"]');
+            closeButton.addEventListener('click', e => {
+                e.preventDefault();
 
-            // Select parent row
-            const parent = e.target.closest('tr');
+                Swal.fire({
+                    text: "Are you sure you would like to cancel?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    buttonsStyling: false,
+                    confirmButtonText: "Yes, cancel it!",
+                    cancelButtonText: "No, return",
+                    customClass: {
+                        confirmButton: "btn btn-primary",
+                        cancelButton: "btn btn-active-light"
+                    }
+                }).then(function(result) {
+                    if (result.value) {
+                        form.reset(); // Reset form			
+                        modal.hide();
+                    } else if (result.dismiss === 'cancel') {
+                        Swal.fire({
+                            text: "Your form has not been cancelled!.",
+                            icon: "error",
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok, got it!",
+                            customClass: {
+                                confirmButton: "btn btn-primary",
+                            }
+                        });
+                    }
+                });
+            });
+        }
 
-            // Get token name
-            const tokenNo = parent.querySelectorAll('td')[1].innerText;
-            if(parent.querySelectorAll('input[name=token-id]').length)
-                var tokenID =  parent.querySelectorAll('input[name=token-id]')[0].value;
-            else
-                var tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
-            
+        // Init add schedule modal
+        var initEditCounter = () => {
+            // Shared variables
+            const element = document.getElementById('mv_modal_edit_counter');
+            const form = element.querySelector('#mv_modal_edit_counter_form');
+            const modal = new bootstrap.Modal(element);
 
-            // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
-            Swal.fire({
-                text: "Are you sure you want to cancel " + tokenNo + "?",
-                icon: "warning",
-                showCancelButton: true,
-                buttonsStyling: false,
-                confirmButtonText: "Yes, cancel token!",
-                cancelButtonText: "No, cancel",
-                customClass: {
-                    confirmButton: "btn fw-bold btn-danger",
-                    cancelButton: "btn fw-bold btn-active-light-primary"
+            // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
+            var validator = FormValidation.formValidation(
+                form, {
+                    fields: {
+                        'name': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Counter name is required'
+                                }
+                            }
+                        },
+                        'key': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Keyboard shortcut required'
+                                }
+                            }
+                        }
+                    },
+
+                    plugins: {
+                        trigger: new FormValidation.plugins.Trigger(),
+                        bootstrap: new FormValidation.plugins.Bootstrap5({
+                            rowSelector: '.fv-row',
+                            eleInvalidClass: '',
+                            eleValidClass: ''
+                        })
+                    }
                 }
-            }).then(function (result) {
-                if (result.value) {
+            );
 
-                    $.ajax({
-                        url: '/token/stoped/'+ tokenID,
-                        data:   {
-                            _token: $("input[name=_token]").val() },
-                            success: function (res) {
+            // Submit button handler
+            const submitButton = element.querySelector('[data-mv-counter-edit-modal-action="submit"]');
+            submitButton.addEventListener('click', e => {
+                e.preventDefault();
+
+                // Validate form before submit
+                if (validator) {
+                    validator.validate().then(function(status) {
+                        console.log('validated!');
+                        var location = $("input[name=location_id]").val();
+
+                        if (status == 'Valid') {
+                            // Show loading indication
+                            submitButton.setAttribute('data-mv-indicator', 'on');
+
+                            // Disable button to avoid multiple click 
+                            submitButton.disabled = true;
+
+                            $.ajax({
+                                url: form.action,
+                                type: form.method,
+                                dataType: 'json',
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                contentType: false,
+                                cache: false,
+                                processData: false,
+                                data: new FormData(form),                             
+                                success: function(data) {
+                                 
+                                    // Remove loading indication
+                                    submitButton.removeAttribute('data-mv-indicator');
+
+                                    // Enable button
+                                    submitButton.disabled = false;
+
+                                    // Show popup confirmation 
+                                    Swal.fire({
+                                        text: "Form has been successfully submitted!",
+                                        icon: "success",
+                                        buttonsStyling: false,
+                                        confirmButtonText: "Ok, got it!",
+                                        customClass: {
+                                            confirmButton: "btn btn-primary"
+                                        }
+                                    }).then(function(result) {
+                                        if (result.isConfirmed) {                                            
+                                            window.location.reload();     
+                                            form.reset();
+                                            modal.hide();
+                                        }
+                                    });
+                                }
+                            }).fail(function(jqXHR, textStatus, error) {
+                                // Remove loading indication
+                                submitButton.removeAttribute('data-mv-indicator');
+
+                                // Enable button
+                                submitButton.disabled = false;
+
+                                
                                 Swal.fire({
-                                    text: "You have cancelled " + tokenNo + "!.",
-                                    icon: "success",
+                                    text: "Counter was not updated.<br>" + jqXHR.responseText + "<br>" + error,
+                                    icon: "error",
                                     buttonsStyling: false,
                                     confirmButtonText: "Ok, got it!",
                                     customClass: {
                                         confirmButton: "btn fw-bold btn-primary",
                                     }
-                                }).then(function () {
-                                // Remove current row
-                                var dt = $('#token-table').DataTable();
-                                    dt.ajax.reload();
                                 });
-                            }
-                    }).fail(function (jqXHR, textStatus, error) {
-                        // Handle error here
+                            });
+
+                        } else {                            
+                            Swal.fire({
+                                text: "Sorry, looks like there are some errors detected, please try again.",
+                                icon: "error",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok, got it!",
+                                customClass: {
+                                    confirmButton: "btn btn-primary"
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+
+            // Cancel button handler
+            const cancelButton = element.querySelector('[data-mv-counter-edit-modal-action="cancel"]');
+            cancelButton.addEventListener('click', e => {
+                e.preventDefault();
+
+                Swal.fire({
+                    text: "Are you sure you would like to cancel?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    buttonsStyling: false,
+                    confirmButtonText: "Yes, cancel it!",
+                    cancelButtonText: "No, return",
+                    customClass: {
+                        confirmButton: "btn btn-primary",
+                        cancelButton: "btn btn-active-light"
+                    }
+                }).then(function(result) {
+                    if (result.value) {
+                        form.reset(); 		
+                        modal.hide();
+                    } else if (result.dismiss === 'cancel') {
                         Swal.fire({
-                            text: tokenNo + " was not cancelled.<br>" + jqXHR.responseText + "<br>" + error,
+                            text: "Your form has not been cancelled!.",
                             icon: "error",
                             buttonsStyling: false,
                             confirmButtonText: "Ok, got it!",
                             customClass: {
-                                confirmButton: "btn fw-bold btn-primary",
+                                confirmButton: "btn btn-primary",
                             }
                         });
-                    });
-
-                } else if (result.dismiss === 'cancel') {
-                    Swal.fire({
-                        text: tokenNo + " was not cancelled.",
-                        icon: "error",
-                        buttonsStyling: false,
-                        confirmButtonText: "Ok, got it!",
-                        customClass: {
-                            confirmButton: "btn fw-bold btn-primary",
-                        }
-                    });
-                }
+                    }
+                });
             });
-        })
-    });
 
+            // Close button handler
+            const closeButton = element.querySelector('[data-mv-counter-edit-modal-action="close"]');
+            closeButton.addEventListener('click', e => {
+                e.preventDefault();
 
-}
-
-var handleCheckInRows = () => {
- 
-    var _table = document.querySelector('#token-table');
-    const checkInButtons = _table.querySelectorAll('[data-mv-token-table-filter="checkin_row"]');
-    // console.log(checkInButtons);
-    
-    checkInButtons.forEach(d => {
-        // Delete button on click
-        d.addEventListener('click', function (e) {
-            e.preventDefault();
-
-            // Select parent row
-            const parent = e.target.closest('tr');
-
-            // Get token name
-            const tokenNo = parent.querySelectorAll('td')[1].innerText;
-            if(parent.querySelectorAll('input[name=token-id]').length)
-                var tokenID =  parent.querySelectorAll('input[name=token-id]')[0].value;
-            else
-                var tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
-            
-
-            // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
-            Swal.fire({
-                text: "Are you sure you want to check in " + tokenNo + "?",
-                icon: "warning",
-                showCancelButton: true,
-                buttonsStyling: false,
-                confirmButtonText: "Yes, check in!",
-                cancelButtonText: "No, cancel",
-                customClass: {
-                    confirmButton: "btn fw-bold btn-danger",
-                    cancelButton: "btn fw-bold btn-active-light-primary"
-                }
-            }).then(function (result) {
-                if (result.value) {
-
-                    $.ajax({
-                        url: '/token/checkin/'+ tokenID,
-                        data:   {
-                            _token: $("input[name=_token]").val() },
-                            success: function (res) {
-                                Swal.fire({
-                                    text: "You have checked in " + tokenNo + "!.",
-                                    icon: "success",
-                                    buttonsStyling: false,
-                                    confirmButtonText: "Ok, got it!",
-                                    customClass: {
-                                        confirmButton: "btn fw-bold btn-primary",
-                                    }
-                                }).then(function () {
-                                    // Remove current row
-                                    var dt = $('#token-table').DataTable();
-                                        dt.ajax.reload();
-                                });
-                            }
-                    }).fail(function (jqXHR, textStatus, error) {
-                        // Handle error here
+                Swal.fire({
+                    text: "Are you sure you would like to cancel?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    buttonsStyling: false,
+                    confirmButtonText: "Yes, cancel it!",
+                    cancelButtonText: "No, return",
+                    customClass: {
+                        confirmButton: "btn btn-primary",
+                        cancelButton: "btn btn-active-light"
+                    }
+                }).then(function(result) {
+                    if (result.value) {
+                        form.reset(); // Reset form			
+                        modal.hide();
+                    } else if (result.dismiss === 'cancel') {
                         Swal.fire({
-                            text: tokenNo + " was not checked in.<br>" + jqXHR.responseText + "<br>" + error,
+                            text: "Your form has not been cancelled!.",
                             icon: "error",
                             buttonsStyling: false,
                             confirmButtonText: "Ok, got it!",
                             customClass: {
-                                confirmButton: "btn fw-bold btn-primary",
+                                confirmButton: "btn btn-primary",
                             }
                         });
-                    });
-
-                } else if (result.dismiss === 'cancel') {
-                    Swal.fire({
-                        text: tokenNo + " was not checked in.",
-                        icon: "error",
-                        buttonsStyling: false,
-                        confirmButtonText: "Ok, got it!",
-                        customClass: {
-                            confirmButton: "btn fw-bold btn-primary",
-                        }
-                    });
-                }
+                    }
+                });
             });
-        })
-    });
+        }
 
-
-}
-
-var handleRecallRows = () => {
- 
-    var _table = document.querySelector('#token-table');
-    const recallButtons = _table.querySelectorAll('[data-mv-token-table-filter="recall_row"]');
-    // console.log(recallButtons);
-    
-    recallButtons.forEach(d => {
-        // Delete button on click
-        d.addEventListener('click', function (e) {
-            e.preventDefault();
-
-            // Select parent row
-            const parent = e.target.closest('tr');
-
-            // Get token name
-            const tokenNo = parent.querySelectorAll('td')[1].innerText;
-            if(parent.querySelectorAll('input[name=token-id]').length)
-                var tokenID =  parent.querySelectorAll('input[name=token-id]')[0].value;
-            else
-                var tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
-            
-
-            // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
-            Swal.fire({
-                text: "Are you sure you want to recall " + tokenNo + "?",
-                icon: "warning",
-                showCancelButton: true,
-                buttonsStyling: false,
-                confirmButtonText: "Yes, call back!",
-                cancelButtonText: "No, cancel",
-                customClass: {
-                    confirmButton: "btn fw-bold btn-danger",
-                    cancelButton: "btn fw-bold btn-active-light-primary"
+        return {
+            // Public functions
+            init: function() {
+                table = document.querySelector('#counter-table');
+                // console.log(table);
+                if (!table) {
+                    return;
                 }
-            }).then(function (result) {
-                if (result.value) {
+                initCounterTable();
+                initAddCounter();
+            }
+        };
+    }();
 
-                    $.ajax({
-                        url: '/token/recall/'+ tokenID,
-                        data:   {
-                            _token: $("input[name=_token]").val() },
-                            success: function (res) {
-                                Swal.fire({
-                                    text: "You have recalled " + tokenNo + "!.",
-                                    icon: "success",
-                                    buttonsStyling: false,
-                                    confirmButtonText: "Ok, got it!",
-                                    customClass: {
-                                        confirmButton: "btn fw-bold btn-primary",
-                                    }
-                                }).then(function () {
-                                // Remove current row
-                                var dt = $('#token-table').DataTable();
-                                    dt.ajax.reload();
-                                });
-                            }
-                    }).fail(function (jqXHR, textStatus, error) {
-                        // Handle error here
-                        Swal.fire({
-                            text: tokenNo + " was not recalled.<br>" + jqXHR.responseText + "<br>" + error,
-                            icon: "error",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn fw-bold btn-primary",
-                            }
-                        });
-                    });
+    // On document ready
+    MVUtil.onDOMContentLoaded(function() {
 
-                } else if (result.dismiss === 'cancel') {
-                    Swal.fire({
-                        text: tokenNo + " was not recalled.",
-                        icon: "error",
-                        buttonsStyling: false,
-                        confirmButtonText: "Ok, got it!",
-                        customClass: {
-                            confirmButton: "btn fw-bold btn-primary",
-                        }
-                    });
-                }
-            });
-        })
+        setTimeout(() => {
+            MVCounterActions.init();
+
+        }, 1000);
     });
-
-
-}
-
-var handleTransferRows = () => {
-    
-    // transfer token
-    $('body').on('submit', '.transferFrm', function(e){
-        e.preventDefault();
-        
-        $.ajax({
-            url: $(this).attr('action'),
-            type: $(this).attr('method'),
-            dataType: 'json', 
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            contentType: false,  
-            processData: false,
-            data:   new FormData($(this)[0]),
-                success: function (res) {
-                    // console.log(res);
-                    Swal.fire({
-                        text: res.message + "!.",
-                        icon: "success",
-                        buttonsStyling: false,
-                        confirmButtonText: "Ok, got it!",
-                        customClass: {
-                            confirmButton: "btn fw-bold btn-primary",
-                        }
-                    }).then(function () {
-                        // Remove current row
-                        var dt = $('#token-table').DataTable();
-                                    dt.ajax.reload();;
-                    });
-                }
-        }).fail(function (jqXHR, textStatus, error) {
-            // Handle error here
-            Swal.fire({
-                text: "Error :" + error ,
-                icon: "error",
-                buttonsStyling: false,
-                confirmButtonText: "Ok, got it!",
-                customClass: {
-                    confirmButton: "btn fw-bold btn-primary",
-                }
-            });
-        });
-
-    });
-
-    var _table = document.querySelector('#token-table');
-    const transferButtons = _table.querySelectorAll('[data-mv-token-table-filter="transfer_row"]');
-    // console.log(transferButtons);
-    
-    transferButtons.forEach(d => {
-        // Delete button on click
-        d.addEventListener('click', function (e) {
-            e.preventDefault();
-            // $('[name=department_id]').val("0");
-            // alert(window.location.pathname);
-            // Select parent row
-            const parent = e.target.closest('tr');
-            if(parent.querySelectorAll('input[name=dept]').length)
-                var deptID =  parent.querySelectorAll('input[name=dept]')[0].value;
-            else
-                var deptID =  parent.querySelectorAll('td')[2].getAttribute("id");
-            // console.log(deptID);
-            
-            if(parent.querySelectorAll('input[name=counter]').length)
-                var counterID =  parent.querySelectorAll('input[name=counter]')[0].value;
-            else
-                var counterID =  parent.querySelectorAll('td')[3].getAttribute("id");
-
-            // console.log(counterID);
-
-            if(parent.querySelectorAll('input[name=officer]').length)
-                var officerID =  parent.querySelectorAll('input[name=officer]')[0].value;
-            else
-                var officerID =  parent.querySelectorAll('td')[4].getAttribute("id");
-
-            // console.log(officerID);
-
-            // alert(deptID);
-            // Get token name
-            const tokenNo = parent.querySelectorAll('td')[1].innerText;
-            if(parent.querySelectorAll('input[name=token-id]').length)
-                var tokenID =  parent.querySelectorAll('input[name=token-id]')[0].value;
-            else
-                var tokenID = parent.querySelectorAll('td')[1].getAttribute("id");
-
-            // console.log(tokenID);
-
-           
-            // alert(tokenID);
-            $("input[name=id]").val(tokenID);
-            $("input[name=department_id]").val(deptID);
-            $("input[name=counter_id]").val(counterID);
-            $("input[name=officer_id]").val(officerID);
-            
-        })
-    });
-
-
-}
-
-return {
-    // Public functions
-    init: function () {
-        handleDeleteRows();
-        handleCompleteRows();
-        handleCancelRows();
-        handleCheckInRows();
-        handleTransferRows();
-        handleRecallRows();
-    }
-};
-}();
-
-// On document ready
-MVUtil.onDOMContentLoaded(function () {
-
-setTimeout(() => {
-    //MVTokenActions.init();
-    
-}, 1000);
-});
 </script>

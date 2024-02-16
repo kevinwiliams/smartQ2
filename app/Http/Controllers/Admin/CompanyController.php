@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Core\Constants;
 use App\Core\Data;
 use App\DataTables\Company\CompanyDataTable;
 use App\Models\Company;
@@ -130,7 +131,6 @@ class CompanyController extends Controller
                 $displaysettings = Data::getDefaultDisplay();
                 $displaysettings['location_id'] = $location->id;
                 $display = DisplaySetting::insert($displaysettings);
-
 
                 $data['status'] = true;
                 $data['data'] = $company;

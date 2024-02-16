@@ -166,6 +166,19 @@ class CounterController extends Controller
     {
         $delete = Counter::where('id', $id)
             ->delete();
-        return redirect('counter')->with('message', trans('app.delete_successfully'));
+
+        if ($delete) {
+            // return back()
+            //         ->with('message', trans('app.update_successfully'));
+            $data['status'] = true;
+            $data['message'] = trans('app.delete_successfully');
+            return response()->json($data);
+        } else {
+            // return back()
+            //         ->with('exception', trans('app.please_try_again'));
+            $data['status'] = false;
+            $data['message'] = trans('app.please_try_again');
+            return response()->json($data, 400);
+        }
     }
 }

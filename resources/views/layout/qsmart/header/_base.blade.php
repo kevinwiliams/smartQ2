@@ -16,7 +16,7 @@
 			<!--begin::Logo-->
 			<div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0 me-lg-15">
 				<a href="{{ theme()->getPageUrl('') }}">
-					<img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/logo-2.svg') }}" class="h-35px"/>
+					<img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/waitwise-logo.png') }}" class="h-20px"/>
 				</a>
 			</div>
 			<!--end::Logo-->

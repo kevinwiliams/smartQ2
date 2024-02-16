@@ -168,6 +168,12 @@ return [
         'Super Admin',
         'Client'
     ],
+
+    'onboard_exclude_roles' => [
+        'Super Admin',
+        'Client',
+        'Admin'
+    ],
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

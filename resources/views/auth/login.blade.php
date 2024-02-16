@@ -16,7 +16,7 @@
             <div class="text-gray-400 fw-bold fs-4">
                 {{ __('New Here?') }}
 
-                <a href="{{ theme()->getPageUrl('register') }}" class="link-primary fw-bolder">
+                <a href="{{ theme()->getPageUrl('signup') }}" class="link-primary fw-bolder">
                     {{ __('Create an Account') }}
                 </a>
             </div>

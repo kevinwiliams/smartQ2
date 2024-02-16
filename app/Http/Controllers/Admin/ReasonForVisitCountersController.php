@@ -39,6 +39,10 @@ class ReasonForVisitCountersController extends Controller
 
         $data = collect();
         foreach ($info as  $value) {
+
+            if (!$value->department || !$value->counter)
+                continue;
+
             $tmp = collect();
             $tmp->department_id = $value->department_id;
             $tmp->department_name = $value->department->name;
@@ -150,7 +154,7 @@ class ReasonForVisitCountersController extends Controller
                 // echo '<pre>';
                 // print_r($insertarray);
                 // echo '</pre>';
-                
+
                 ReasonForVisitCounters::where('counter_id', $request->counter_id)->whereIn('reason_id', $deleteids)->delete();
                 ReasonForVisitCounters::insert($insertarray);
 

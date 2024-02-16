@@ -28,8 +28,10 @@ use App\Http\Controllers\Common\DisplayController;
 use App\Http\Controllers\Admin\DisplaySettingController;
 use App\Http\Controllers\Admin\FavoritesController;
 use App\Http\Controllers\Admin\FeedbackController;
+use App\Http\Controllers\Admin\InvitationController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\LocationSettingController;
+use App\Http\Controllers\Admin\OnboardingController;
 use App\Http\Controllers\Admin\ReasonForVisitController;
 use App\Http\Controllers\Admin\ReasonForVisitCountersController;
 use App\Http\Controllers\Admin\ReportController;
@@ -423,6 +425,34 @@ Route::middleware('auth')->group(function () {
 			Route::get('my', [FavoritesController::class, 'clientfaves']);
 			Route::get('delete/{id}', [FavoritesController::class, 'delete']);
 		});
+	});
+
+
+	// Onboarding
+	Route::prefix('onboarding')->group(function () {
+		Route::get('/', [OnboardingController::class, 'start']);
+		Route::get('cancel', [OnboardingController::class, 'cancel']);
+		Route::get('next', [OnboardingController::class, 'next_url']);
+		Route::get('business', [OnboardingController::class, 'business']);
+		Route::post('createCompany', [OnboardingController::class, 'createCompany']);
+		Route::get('location', [OnboardingController::class, 'location']);
+		Route::post('editLocation/{id}', [OnboardingController::class, 'editLocation']);		
+		Route::get('openhours', [OnboardingController::class, 'openhours']);		
+		Route::post('editOpenhours/{id}', [OnboardingController::class, 'editOpenhours']);		
+		Route::get('services', [OnboardingController::class, 'services']);		
+		Route::get('departments', [OnboardingController::class, 'departments']);	
+		Route::get('counters', [OnboardingController::class, 'counters']);	
+		Route::get('visitreasons', [OnboardingController::class, 'visitreasons']);	
+		Route::get('countervisitreason', [OnboardingController::class, 'visitreasoncounters']);	
+		Route::get('staff', [OnboardingController::class, 'users']);
+		Route::post('invitestaff', [OnboardingController::class, 'invite']);
+	});
+
+	// Onboarding
+	Route::prefix('invitation')->group(function () {		
+		Route::post('send', [InvitationController::class, 'send']);
+		Route::get('cancel/{id}', [InvitationController::class, 'deleteInvite']);
+		Route::get('accept', [OnboardingController::class, 'accept']);
 	});
 });
 

@@ -379,4 +379,29 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Favorites::class, 'user_id');
     }
+
+    public function settings()
+    {
+        return $this->hasMany(UserSetting::class, 'user_id');
+    }
+
+    public function getSettingByKey($key)
+    {
+        $setting = $this->settings()->where('key', $key)->first();
+
+        if ($setting) {
+            return $setting->value;
+        }
+
+        return null;
+    }
+
+    public function setSetting($key, $value)
+    {
+        $setting = $this->settings()->updateOrInsert(
+            ['key' => $key],
+            ['value' => $value, 'user_id' => $this->id]
+        );
+    }
+
 }

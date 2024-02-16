@@ -55,6 +55,214 @@ return array(
             ),
         ),
     ),
+    'signup'        => array(
+        'title'  => 'Sign-Up',
+        'assets' => array(
+            'custom' => array(
+                'js' => array(
+                    'js/custom/authentication/sign-up/signup.js',
+                ),
+            ),
+        ),
+        'layout' => array(
+            'main' => array(
+                'type' => 'blank', // Set blank layout
+                'body' => array(
+                    'class' => theme()->isDarkMode() ? '' : 'bg-body',
+                ),                
+            ),
+        ),
+    ),
+    'onboarding' => array(
+        'start'        => array(
+            'title'  => 'Register',
+            'assets' => array(
+                'custom' => array(
+                    'js' => array(
+                        'js/custom/authentication/sign-up/general.js',
+                    ),
+                ),
+            ),
+            'layout' => array(
+                'main' => array(
+                    'type' => 'blank', // Set blank layout
+                    'body' => array(
+                        'class' => theme()->isDarkMode() ? '' : 'bg-body',
+                    ),
+                    'content' => '_signup'
+                ),
+            ),
+        ),
+        'business'        => array(
+            'title'  => 'Onboarding',
+            'assets' => array(
+                'custom' => array(
+                    'js' => array(
+                        'js/custom/onboarding/business.js',
+                    ),
+                ),
+            ),
+            'layout' => array(               
+                'aside' => array(
+                    'display' => false,                    
+                ),
+            ),
+        ),
+        'location'        => array(
+            'title'  => 'Onboarding',
+            'assets' => array(
+                'custom' => array(
+                    'js' => array(
+                        'js/custom/onboarding/location.js',
+                    ),
+                ),
+            ),
+            'layout' => array(               
+                'aside' => array(
+                    'display' => false,                    
+                ),
+            ),
+        ),
+        'staff'        => array(
+            'title'  => 'Onboarding',
+            'assets' => array(
+                'custom' => array(
+                    'css' => array(
+                        'plugins/custom/datatables/datatables.bundle.css',
+                    ),
+                    'js' => array(
+                        'plugins/custom/datatables/datatables.bundle.js',
+                        'js/custom/onboarding/staff.js',
+
+                    ),                
+                ),
+            ),
+            'layout' => array(               
+                'aside' => array(
+                    'display' => false,                    
+                ),
+            ),
+        ),
+        'openhours'        => array(
+            'title'  => 'Onboarding',
+            'assets' => array(
+                'custom' => array(
+                    'css' => array(
+                        'plugins/custom/flatpickr/flatpickr.bundle.css',
+                    ),
+                    'js' => array(
+                        'plugins/custom/flatpickr/flatpickr.bundle.js',
+                        'js/custom/onboarding/openhours.js',
+                    ),                    
+                ),
+            ),
+            'layout' => array(               
+                'aside' => array(
+                    'display' => false,                    
+                ),
+            ),
+        ),
+        'services'        => array(
+            'title'  => 'Onboarding',
+            'assets' => array(
+                'custom' => array(   
+                    'css' => array(
+                        'plugins/custom/datatables/datatables.bundle.css',
+                    ),
+                    'js' => array(
+                        'plugins/custom/datatables/datatables.bundle.js',
+                        'js/custom/onboarding/services.js',
+
+                    ),
+                ),
+            ),
+            'layout' => array(               
+                'aside' => array(
+                    'display' => false,                    
+                ),
+            ),
+        ),
+        'departments'        => array(
+            'title'  => 'Onboarding',
+            'assets' => array(
+                'custom' => array(   
+                    'css' => array(
+                        'plugins/custom/datatables/datatables.bundle.css',
+                    ),
+                    'js' => array(
+                        'plugins/custom/datatables/datatables.bundle.js',
+                        'js/custom/onboarding/departments.js',
+
+                    ),
+                ),
+            ),
+            'layout' => array(               
+                'aside' => array(
+                    'display' => false,                    
+                ),
+            ),
+        ),
+        'counters'        => array(
+            'title'  => 'Onboarding',
+            'assets' => array(
+                'custom' => array(   
+                    'css' => array(
+                        'plugins/custom/datatables/datatables.bundle.css',
+                    ),
+                    'js' => array(
+                        'plugins/custom/datatables/datatables.bundle.js',
+                        'js/custom/onboarding/counters.js',
+
+                    ),
+                ),
+            ),
+            'layout' => array(               
+                'aside' => array(
+                    'display' => false,                    
+                ),
+            ),
+        ),
+        'visitreasons'        => array(
+            'title'  => 'Onboarding',
+            'assets' => array(
+                'custom' => array(   
+                    'css' => array(
+                        'plugins/custom/datatables/datatables.bundle.css',
+                    ),
+                    'js' => array(
+                        'plugins/custom/datatables/datatables.bundle.js',
+                        'js/custom/onboarding/visitreasons.js',
+
+                    ),
+                ),
+            ),
+            'layout' => array(               
+                'aside' => array(
+                    'display' => false,                    
+                ),
+            ),
+        ),
+        'countervisitreason'        => array(
+            'title'  => 'Onboarding',
+            'assets' => array(
+                'custom' => array(   
+                    'css' => array(
+                        'plugins/custom/datatables/datatables.bundle.css',
+                    ),
+                    'js' => array(
+                        'plugins/custom/datatables/datatables.bundle.js',
+                        'js/custom/onboarding/visitreasons.js',
+
+                    ),
+                ),
+            ),
+            'layout' => array(               
+                'aside' => array(
+                    'display' => false,                    
+                ),
+            ),
+        ),
+    ),
     'forgot-password' => array(
         'title'  => 'Forgot Password',
         'assets' => array(
@@ -409,7 +617,8 @@ return array(
                         ),
                         'js' => array(
                             'plugins/custom/datatables/datatables.bundle.js',
-                            'js/custom/department/add.js',
+                            // 'js/custom/department/add.js',
+                            // 'js/custom/department/add.js',
 
                         ),
                     ),
@@ -426,8 +635,8 @@ return array(
                         ),
                         'js' => array(
                             'plugins/custom/datatables/datatables.bundle.js',
-                            'js/custom/counter/add.js',
-                            'js/custom/counter/delete.js',
+                            // 'js/custom/counter/add.js',
+                            // 'js/custom/counter/delete.js',
                             // 'vendor/datatables/buttons.server-side.js',
                         ),
                     ),

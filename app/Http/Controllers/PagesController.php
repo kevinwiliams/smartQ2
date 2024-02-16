@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Core\Constants;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use App\Models\User;
@@ -15,6 +16,16 @@ class PagesController extends Controller
      */
     public function index()
     {
+
+        $key_value = auth()->user()->getSettingByKey(Constants::User_Settings_Onboarding);
+
+        // echo $key_value;
+        // die();
+        if ($key_value != null) {
+            if ($key_value != Constants::Onboarding_Total_Step_Count)                
+                return redirect("/onboarding");
+        }
+        
         // Get view file location from menu config
         $view = theme()->getOption('page', 'view');
 

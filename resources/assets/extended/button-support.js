@@ -9,6 +9,9 @@ var MVSupport = function () {
 
         // Init add schedule modal
     var initAddFeedback = () => {
+        if(element == null)
+            return;
+        
         var _rating = $("#rating_div");        
       
 

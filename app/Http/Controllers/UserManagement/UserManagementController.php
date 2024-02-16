@@ -486,6 +486,8 @@ class UserManagementController extends Controller
         return response()->json($data);
     }
 
+   
+
     public function updateUserStatus(Request $request, $id)
     {
         if (!auth()->user()->can('edit user')) {

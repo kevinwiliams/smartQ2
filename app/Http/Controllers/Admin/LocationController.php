@@ -37,7 +37,7 @@ class LocationController extends Controller
 
         if (auth()->user()->can('choose location')) {
             $company = auth()->user()->location->company;
-            $companies = Company::where('active', 1)->pluck('name', 'id');
+            //$companies = Company::where('active', 1)->pluck('name', 'id');
 
             $markers = array();
             $infowindows = array();

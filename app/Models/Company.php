@@ -12,7 +12,7 @@ class Company extends Model
     protected $table = "company";
 
     protected $appends = ['location_count', 'logo_url'];
-    protected $fillable = ['name', 'address', 'website', 'email', 'phone', 'contact_person', 'description', 'active', 'business_category_id', 'logo', 'shortname'];
+    protected $fillable = ['name', 'address', 'website', 'email', 'phone', 'contact_person', 'description', 'active', 'business_category_id', 'logo', 'shortname', 'created_by'];
 
     /**
      * The attributes that should be cast to native types.
@@ -30,7 +30,7 @@ class Company extends Model
 
     public function getActiveLocationCountAttribute()
     {
-        return count($this->locations->where('active',1));
+        return count($this->locations->where('active', 1));
     }
 
     public function locations()
@@ -41,6 +41,11 @@ class Company extends Model
     public function category()
     {
         return $this->belongsTo(BusinessCategory::class, 'business_category_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     // public function getCategoryNameAttribute()

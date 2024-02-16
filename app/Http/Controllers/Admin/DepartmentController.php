@@ -38,9 +38,6 @@ class DepartmentController extends Controller
 
         $keyList = $this->keyList();
 
-        $model = Department::query();
-
-
         return $dataTable->with('deptlocation_id', $id)->render('pages.location.department.list', compact('keyList', 'location', 'departments', 'counters', 'officers'));
     }
 
@@ -173,8 +170,21 @@ class DepartmentController extends Controller
     }
 
     public function delete($id = null)
-    {
-        $delete = Department::where('id', $id)->delete();
+    { 
+        try {
+            Department::where('id', $id)
+                ->delete();
+
+            $data['status'] = true;
+            $data['message'] = trans('app.delete_successfully');
+            return response()->json($data);
+        } catch (\Throwable $th) {
+            $data['status'] = false;
+            $data['exception'] = trans('app.please_try_again');
+            $data['errorObj'] = $th;
+            return response()->json($data, 400);
+        }
+
         return redirect('department')->with('message', trans('app.delete_successfully'));
     }
 
