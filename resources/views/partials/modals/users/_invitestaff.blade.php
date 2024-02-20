@@ -26,10 +26,11 @@
 				<!--begin::Modal body-->
 				<div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
 					<!--begin::Form-->
-					{{ Form::open(['url' => 'invitation/send', 'class'=>'transferFrm', 'id'=>'mv_modal_add_staff_form', 'enctype'=>'multipart/form-data']) }}
+					{{ Form::open(['url' => 'invitation/inviteStaff', 'class'=>'transferFrm', 'id'=>'mv_modal_add_staff_form', 'enctype'=>'multipart/form-data']) }}
 					<input type="hidden" name="location_id" value="{{ $location_id }}" />
 					<!--begin::Scroll-->
 					<div class="d-flex flex-column scroll-y me-n7 pe-7" id="mv_modal_add_staff_scroll" data-mv-scroll="true" data-mv-scroll-activate="{default: false, lg: true}" data-mv-scroll-max-height="auto" data-mv-scroll-dependencies="#mv_modal_add_staff_header" data-mv-scroll-wrappers="#mv_modal_add_staff_scroll" data-mv-scroll-offset="300px">												
+						<span id="error_message" class="text-danger"></span>
 						<!--begin::Input group-->
 						<div class="fv-row mb-7">
 							<!--begin::Label-->

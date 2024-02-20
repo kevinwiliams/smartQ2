@@ -22,7 +22,7 @@ class CheckInCodeController extends Controller
      */
     public function index($id)
     {
-        if (!auth()->user()->can('view location settings')) {
+        if (!auth()->user()->can('view location')) {
             return Redirect::to("/")->withFail(trans('app.no_permissions'));
         }
         $departments = Department::where('location_id', $id)->count();

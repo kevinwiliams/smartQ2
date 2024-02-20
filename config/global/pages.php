@@ -262,6 +262,46 @@ return array(
                 ),
             ),
         ),
+        'queuesetup'        => array(
+            'title'  => 'Onboarding',
+            'assets' => array(
+                'custom' => array(   
+                    'css' => array(
+                        'plugins/custom/datatables/datatables.bundle.css',
+                    ),
+                    'js' => array(
+                        'plugins/custom/datatables/datatables.bundle.js',
+                        'js/custom/onboarding/queuesetup.js',
+
+                    ),
+                ),
+            ),
+            'layout' => array(               
+                'aside' => array(
+                    'display' => false,                    
+                ),
+            ),
+        ),
+        'complete'        => array(
+            'title'  => 'Onboarding',
+            'assets' => array(
+                'custom' => array(   
+                    'css' => array(
+                        'plugins/custom/datatables/datatables.bundle.css',
+                    ),
+                    'js' => array(
+                        'plugins/custom/datatables/datatables.bundle.js',
+                        'js/custom/onboarding/complete.js',
+
+                    ),
+                ),
+            ),
+            'layout' => array(               
+                'aside' => array(
+                    'display' => false,                    
+                ),
+            ),
+        ),
     ),
     'forgot-password' => array(
         'title'  => 'Forgot Password',

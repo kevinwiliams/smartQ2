@@ -49,6 +49,7 @@
             <div class="col-xl-6">
                 <label class="form-label fw-bolder text-dark fs-6">{{ __('First Name') }}</label>
                 <input class="form-control form-control-lg form-control-solid" type="text" name="firstname" autocomplete="off" value="{{ old('firstname') }}" />
+                <span class="text-danger">{{ $errors->first('firstname') }}</span>
             </div>
             <!--end::Col-->
 
@@ -56,6 +57,7 @@
             <div class="col-xl-6">
                 <label class="form-label fw-bolder text-dark fs-6">{{ __('Last Name') }}</label>
                 <input class="form-control form-control-lg form-control-solid" type="text" name="lastname" autocomplete="off" value="{{ old('lastname') }}" />
+                <span class="text-danger">{{ $errors->first('lastname') }}</span>
             </div>
             <!--end::Col-->
         </div>
@@ -65,6 +67,7 @@
         <div class="fv-row mb-7">
             <label class="form-label fw-bolder text-dark fs-6">{{ __('Email') }}</label>
             <input class="form-control form-control-lg form-control-solid" type="email" name="email" autocomplete="off" value="{{ old('email') }}" />
+            <span class="text-danger">{{ $errors->first('email') }}</span>
         </div>
         <!--end::Input group-->
 
@@ -114,7 +117,7 @@
             <input class="form-control form-control-lg form-control-solid" type="password" name="password_confirmation" autocomplete="off" />
         </div>
         <!--end::Input group-->
-
+        <span class="text-danger">{{ $errors->first('password') }}</span>
         <!--begin::Input group-->
         <div class="fv-row mb-10">
             <label class="form-check form-check-custom form-check-solid form-check-inline">
@@ -129,8 +132,15 @@
         <div class="fv-row mb-10">
             <div class="g-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY') }}"></div>
         </div>
+        <span class="text-danger">{{ $errors->first('g-recaptcha"') }}</span>
         <!--end::Input group-->
 
+        {{-- Retrieve the message value --}}
+        @php
+        $token = request()->hasValidSignature() ? request('token') : null;
+        @endphp
+        {{-- Store the message value in a hidden field --}}
+        <input type="hidden" name="token" value="{{ $token }}">
         <!--begin::Actions-->
         <div class="text-center">
             <button type="submit" id="mv_sign_up_submit" class="btn btn-lg btn-primary">

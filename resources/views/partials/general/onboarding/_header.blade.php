@@ -21,9 +21,11 @@ $step_current = $step_current ?? 1;
             </div>
         </div>
         <!--end::Progress-->
+        @if($step_current < $step_total_count)
         <button type="button" class="btn btn-sm btn-danger" data-mv-onboarding-action="cancel">
             Quit
         </button>
+        @endif
     </div>
 </div>
 <div class="separator border-primary" style="width: {{ ($step_current/$step_total_count)*100 }}%;"></div>

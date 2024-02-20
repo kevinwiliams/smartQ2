@@ -24,6 +24,7 @@ use App\Models\User;
 use App\Models\UserSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
@@ -122,7 +123,7 @@ class OnboardingController extends Controller
         } else {
             $key_value -= 1;
         }
-
+        auth()->user()->setSetting(Constants::User_Settings_Onboarding, $key_value);
         return $this->next_url(false);
     }
 
@@ -654,5 +655,108 @@ class OnboardingController extends Controller
                 $list[$char] = $char;
         }
         return $list;
+    }
+
+    public function queuesetup()
+    {
+
+        $key_value = auth()->user()->getSettingByKey(Constants::User_Settings_Onboarding);
+
+        if ($key_value == null) {
+            auth()->user()->setSetting(Constants::User_Settings_Onboarding, 1);
+        }
+
+        $location = Company::where('created_by', auth()->user()->id)->first()->locations()->first();
+        $step_total_count = Constants::Onboarding_Total_Step_Count;
+        $step_current = $key_value;
+        $id = $location->id;
+
+        $tokens = TokenSetting::select('token_setting.*', 'department.name as department', 'counter.name as counter', 'user.firstname', 'user.lastname')
+            ->leftJoin('department', 'token_setting.department_id', '=', 'department.id')
+            ->leftJoin('counter', 'token_setting.counter_id', '=', 'counter.id')
+            ->leftJoin('user', 'token_setting.user_id', '=', 'user.id')
+            ->groupBy('token_setting.location_id', 'department', 'token_setting.user_id')
+            ->where('token_setting.location_id', $id)
+            ->orderBy('department')
+            ->get();
+
+        $countertList = Counter::select('counter.*', 'token_setting.counter_id')
+            ->leftJoin('token_setting', 'counter.id', '=', 'token_setting.counter_id')
+            ->where('counter.location_id', $id)
+            ->where('counter.status', 1)
+            ->whereNull('token_setting.counter_id')
+            ->pluck('name', 'id');
+
+
+        $departmentList = Department::where('status', 1)
+            ->where('location_id', $id)
+            ->pluck('name', 'id');
+
+        $userList = User::select('user.id', DB::raw('CONCAT(user.firstname, " ", user.lastname) as full_name'))
+            ->leftJoin('token_setting', 'user.id', '=', 'token_setting.user_id')
+            ->where('user.user_type', 1)
+            ->where('user.location_id', $id)
+            ->where('user.status', 1)
+            ->whereNull('token_setting.user_id')
+            ->orderBy('user.firstname', 'ASC')
+            ->pluck('full_name', 'user.id');
+
+
+        return view('pages.onboarding.queuesetup', compact('tokens', 'countertList', 'departmentList', 'userList', 'location', 'step_total_count', 'step_current'));
+    }
+
+    public function complete()
+    {
+
+        $key_value = auth()->user()->getSettingByKey(Constants::User_Settings_Onboarding);
+
+        if ($key_value == null) {
+            return $this->start();
+        }
+
+        $company = Company::where('created_by', auth()->user()->id)->first();
+        $location = $company->locations->first();
+        $step_total_count = Constants::Onboarding_Total_Step_Count;
+        $step_current = $key_value;
+        $officerList = User::whereNotIn('user_type', [3])->where('location_id', $location->id)->orderBy('lastname', 'ASC')->withCount('pendingtokens')->get();
+        $inviteList = Invitation::where('location_id', $location->id)->get();
+        $staff_list = array();
+
+        foreach ($officerList as $key => $value) {
+            $tmp = collect();
+            $tmp->name = $value->firstname . ' ' . $value->lastname;
+            $tmp->avatar_url = $value->avatar_url;
+            $tmp->status = $value->status;
+            foreach ($value->getRoleNames() as $_role) {
+                $tmp->role = ucwords($_role);
+            }
+
+            array_push($staff_list, $tmp);
+        }
+
+        $user = new User();
+
+        foreach ($inviteList as $key => $value) {
+
+            $tmp = collect();
+            $tmp->id = $value->id;
+            $tmp->name = $value->email;
+            $tmp->avatar_url = $user->avatar_url;
+            $tmp->status = 0;
+            $tmp->role = $value->role->name;
+
+            array_push($staff_list, $tmp);
+        }
+
+        $tokens = TokenSetting::select('token_setting.*', 'department.name as department', 'counter.name as counter', 'user.firstname', 'user.lastname')
+            ->leftJoin('department', 'token_setting.department_id', '=', 'department.id')
+            ->leftJoin('counter', 'token_setting.counter_id', '=', 'counter.id')
+            ->leftJoin('user', 'token_setting.user_id', '=', 'user.id')
+            ->groupBy('token_setting.location_id', 'department', 'token_setting.user_id')
+            ->where('token_setting.location_id', $location->id)
+            ->orderBy('department')
+            ->get();
+
+        return view('pages.onboarding.complete', compact('location', 'staff_list', 'tokens', 'step_total_count', 'step_current'));
     }
 }

@@ -108,9 +108,17 @@ class TokenController extends Controller
             ));
 
         if ($validator->fails()) {
-            return redirect('token/setting')
+            if ($request->wantsJson()) {
+                $data['status'] = true;
+                $data['error'] = $validator;
+                $data['message'] = trans('app.validation_error');
+
+                return response()->json($data, 400);
+            } else {
+                return redirect('token/setting')
                 ->withErrors($validator)
                 ->withInput();
+            }
         } else {
 
             $check = TokenSetting::where('department_id', $request->department_id)
@@ -134,9 +142,25 @@ class TokenController extends Controller
             ]);
 
             if ($save) {
-                return back()->withInput()->with('message',  trans('app.setup_successfully'));
+                if ($request->wantsJson()) {
+                    $data['status'] = true;
+                    $data['data'] = $save;
+                    $data['message'] = trans('app.setup_successfully');
+
+                    return response()->json($data);
+                } else {
+                    return back()->withInput()->with('message',  trans('app.setup_successfully'));
+                }
             } else {
-                return back()->withInput()->with('exception', trans('app.please_try_again'));
+                if ($request->wantsJson()) {
+                    $data['status'] = false;
+                    $data['error'] = trans('app.please_try_again');
+                    $data['message'] = trans('app.please_try_again');
+
+                    return response()->json($data, 400);
+                } else {
+                    return back()->withInput()->with('exception', trans('app.please_try_again'));
+                }
             }
         }
     }
@@ -1903,10 +1927,10 @@ class TokenController extends Controller
     public function advClientSearch()
     {
 
-        if (!auth()->user()->isOTPValid){         
+        if (!auth()->user()->isOTPValid) {
             Session::flash("fail", trans('app.verify_contact'));
             return redirect('home');
-        }            
+        }
 
         @date_default_timezone_set(session('app.timezone'));
         $display = DisplaySetting::first();
@@ -1925,10 +1949,10 @@ class TokenController extends Controller
 
     public function businessSearch($id = null)
     {
-        if (!auth()->user()->isOTPValid){         
+        if (!auth()->user()->isOTPValid) {
             Session::flash("fail", trans('app.verify_contact'));
             return redirect('home');
-        }            
+        }
 
         @date_default_timezone_set(session('app.timezone'));
         $display = DisplaySetting::first();

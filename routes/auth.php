@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\InvitationController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
@@ -10,10 +11,13 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
-// Account pages
+//Onboarding
 Route::prefix('onboarding')->group(function () {
     Route::get('start', [RegisteredUserController::class, 'start'])->name('onboard.start');    
 });
+
+//Invitation
+Route::get('/invitation/accept/{token}', [InvitationController::class, 'accept'])->name('invitation.accept');
 
 Route::get('/signup', [RegisteredUserController::class, 'signup'])
     ->middleware('guest')

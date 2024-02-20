@@ -132,7 +132,7 @@ class HomeController extends Controller
         // echo $key_value;
         // die();
         if ($key_value != null) {
-            if ($key_value != Constants::Onboarding_Total_Step_Count)                
+            if ($key_value != Constants::Onboarding_Total_Step_Count + 1)                
                 return redirect("/onboarding");
         }
 

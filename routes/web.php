@@ -433,6 +433,7 @@ Route::middleware('auth')->group(function () {
 		Route::get('/', [OnboardingController::class, 'start']);
 		Route::get('cancel', [OnboardingController::class, 'cancel']);
 		Route::get('next', [OnboardingController::class, 'next_url']);
+		Route::get('back', [OnboardingController::class, 'previous_url']);
 		Route::get('business', [OnboardingController::class, 'business']);
 		Route::post('createCompany', [OnboardingController::class, 'createCompany']);
 		Route::get('location', [OnboardingController::class, 'location']);
@@ -446,13 +447,14 @@ Route::middleware('auth')->group(function () {
 		Route::get('countervisitreason', [OnboardingController::class, 'visitreasoncounters']);	
 		Route::get('staff', [OnboardingController::class, 'users']);
 		Route::post('invitestaff', [OnboardingController::class, 'invite']);
+		Route::get('queuesetup', [OnboardingController::class, 'queuesetup']);
+		Route::get('complete', [OnboardingController::class, 'complete']);
 	});
 
 	// Onboarding
 	Route::prefix('invitation')->group(function () {		
-		Route::post('send', [InvitationController::class, 'send']);
-		Route::get('cancel/{id}', [InvitationController::class, 'deleteInvite']);
-		Route::get('accept', [OnboardingController::class, 'accept']);
+		Route::post('inviteStaff', [InvitationController::class, 'inviteStaff']);
+		Route::get('cancel/{id}', [InvitationController::class, 'deleteInvite']);		
 	});
 });
 

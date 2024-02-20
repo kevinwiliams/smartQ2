@@ -6,19 +6,19 @@
         const form = element.querySelector('#mv_modal_add_staff_form');
         const modal = new bootstrap.Modal(element);
 
-              // Init add schedule modal
+        // Init add schedule modal
         var initAddUser = () => {
             // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
             var validator = FormValidation.formValidation(
                 form, {
-                    fields: {                  
+                    fields: {
                         'email': {
                             validators: {
                                 notEmpty: {
                                     message: 'Valid email address is required'
                                 }
                             }
-                        },                        
+                        },
                     },
 
                     plugins: {
@@ -31,7 +31,7 @@
                     }
                 }
             );
-           
+
 
             // Submit button handler
             const submitButton = element.querySelector('[data-mv-users-modal-action="submit"]');
@@ -80,7 +80,7 @@
 
                                     // Show popup confirmation 
                                     Swal.fire({
-                                        text: "User has been successfully Created!",
+                                        text: "Invitation sent successfully!",
                                         icon: "success",
                                         buttonsStyling: false,
                                         confirmButtonText: "Ok, got it!",
@@ -88,15 +88,17 @@
                                             confirmButton: "btn btn-primary"
                                         }
                                     }).then(function(result) {
-                                        if (result.isConfirmed) {
-                                            // document.location.href = '/apps/user-management/users/list';
-                                            window.location.reload();
-                                            // form.reset();
-                                            // modal.hide();
+                                        if (result.isConfirmed) {                                            
+                                            window.location.reload();                                            
                                         }
                                     });
                                 },
                                 error: function(xhr, status, error) {
+                                    // console.log(xhr);
+                                    // console.log(status);
+                                    // console.log(error);
+                                    var errorMsg = xhr.responseJSON;
+                                    element.querySelector('#error_message').innerHTML = errorMsg.exception;
                                     var errorMessage = xhr.status + ': ' + xhr.statusText
                                     // alert('Error - ' + errorMessage);
                                     Swal.fire({
@@ -108,6 +110,12 @@
                                             confirmButton: "btn btn-primary"
                                         }
                                     });
+
+                                    // Remove loading indication
+                                    submitButton.removeAttribute('data-mv-indicator');
+
+                                    // Enable button
+                                    submitButton.disabled = false;
                                 }
                             });
                         } else {
@@ -197,7 +205,7 @@
 
         return {
             // Public functions
-            init: function() {                
+            init: function() {
                 initAddUser();
             }
         };

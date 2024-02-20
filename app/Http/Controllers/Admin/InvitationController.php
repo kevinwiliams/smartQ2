@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\InviteStaffNotification;
 use App\Models\Invitation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -48,6 +51,10 @@ class InvitationController extends Controller
                 'inviter' => auth()->user()->id,
             ]);
 
+            $url = URL::signedRoute('invitation.accept', ['token' => $token]);
+                        
+            Mail::to($request->email)->send(new InviteStaffNotification($invitation, $url));
+
             if ($invitation) {
                 $data['status'] = true;
                 $data['data'] = $invitation;
@@ -83,5 +90,13 @@ class InvitationController extends Controller
             $data['errorObj'] = $th;
             return response()->json($data, 400);
         }
+    }
+
+
+    public function accept($token)
+    {
+        $invite = Invitation::where('token', $token)->first();
+
+        return view('auth.register', compact('invite'));
     }
 }

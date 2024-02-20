@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\InvitationAcceptanceNotification;
+use App\Models\Invitation;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserInfo;
@@ -13,6 +15,7 @@ use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Socialite\Facades\Socialite;
 
 use Laravel\Socialite\Two\User as SocialiteUser;
@@ -95,13 +98,25 @@ class SocialiteLoginController extends Controller
         $name = explode(" ", $social_info->name);
 
         if (!$user) {
+            //Invitation check
+            $invite = Invitation::where('email', $social_info->email)->first();
+            $user_type = 3;
+            $location = 0;
+            if ($invite) {
+                $user_type = $invite->role_id;
+                $location = $invite->location_id;
+                Mail::to($invite->user->email)->send(new InvitationAcceptanceNotification(auth()->user()->firstname, $social_info->name, $social_info->email));
+                $invite->delete();
+            }
+
             $user = User::create([
                 'firstname' => $name[0] ?? '',
                 'lastname'  => $name[1] ?? '',
                 'email'      => $social_info->email,
                 'password'   => Hash::make($social_info->id),
                 'photo'     => $social_info->getAvatar(),
-                'user_type' => '3', // client
+                'user_type' => $user_type,
+                'location_id' => $location,
                 'created_at' => date('Y-m-d H:i:s'),
                 'status'    => '1',
             ]);
@@ -118,7 +133,7 @@ class SocialiteLoginController extends Controller
             $social_account->created_at = date('Y-m-d H:i:s');
             $social_account->save();
 
-            $role = Role::find(3);
+            $role = Role::find($user_type);
             $user->syncRoles($role);
 
             if ($user->markEmailAsVerified()) {

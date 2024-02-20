@@ -84,7 +84,7 @@
 
                 <!--begin::Col-->
                 <div class="col-lg-8 fv-row">
-                    <input type="text" name="name" id="name" class="form-control form-control-lg form-control-solid" placeholder="{{ trans('app.name') }}" value="{{ old('name', $company->name) }}">
+                    <input type="text" name="name" id="name" class="form-control form-control-lg form-control-solid" placeholder="{{ trans('app.name') }}" value="{{ old('name', ($company)? $company->name : '') }}">
                 </div>
                 <!--end::Col-->
             </div>
@@ -100,7 +100,7 @@
 
                 <!--begin::Col-->
                 <div class="col-lg-8 fv-row">
-                    <input type="text" name="shortname" id="shortname" class="form-control form-control-lg form-control-solid" placeholder="{{ trans('app.shortname') }}" value="{{ old('shortname', $company->shortname) }}">
+                    <input type="text" name="shortname" id="shortname" class="form-control form-control-lg form-control-solid" placeholder="{{ trans('app.shortname') }}" value="{{ old('shortname', ($company)? $company->shortname : '') }}">
                 </div>
                 <!--end::Col-->
             </div>
@@ -115,7 +115,7 @@
 
                 <!--begin::Col-->
                 <div class="col-lg-8 fv-row">
-                    <input type="text" name="address" id="address" class="form-control form-control-lg form-control-solid" placeholder="{{ trans('app.address') }}" value="{{ old('address', $company->address) }}">
+                    <input type="text" name="address" id="address" class="form-control form-control-lg form-control-solid" placeholder="{{ trans('app.address') }}" value="{{ old('address', ($company)? $company->address : '') }}">
                 </div>
                 <!--end::Col-->
             </div>
@@ -131,7 +131,7 @@
 
                 <!--begin::Col-->
                 <div class="col-lg-8 fv-row">
-                    <input type="text" name="website" id="website" class="form-control form-control-lg form-control-solid" placeholder="{{ trans('app.website') }}" value="{{ old('website', $company->website) }}">
+                    <input type="text" name="website" id="website" class="form-control form-control-lg form-control-solid" placeholder="{{ trans('app.website') }}" value="{{ old('website', ($company)? $company->website : '') }}">
                 </div>
                 <!--end::Col-->
             </div>
@@ -147,7 +147,7 @@
 
                 <!--begin::Col-->
                 <div class="col-lg-8 fv-row">
-                    <input type="email" name="email" id="email" class="form-control form-control-lg form-control-solid" placeholder="{{ trans('app.email') }}" value="{{ old('email', $company->email) }}">
+                    <input type="email" name="email" id="email" class="form-control form-control-lg form-control-solid" placeholder="{{ trans('app.email') }}" value="{{ old('email', ($company)? $company->email : '') }}">
                 </div>
                 <!--end::Col-->
             </div>
@@ -163,7 +163,7 @@
 
                 <!--begin::Col-->
                 <div class="col-lg-8 fv-row">
-                    <input type="text" name="phone" id="phone" class="form-control form-control-lg form-control-solid" placeholder="{{ trans('app.phone') }}" value="{{ old('phone', $company->phone) }}" data-inputmask="'mask': '1 (999) 999-9999'">
+                    <input type="text" name="phone" id="phone" class="form-control form-control-lg form-control-solid" placeholder="{{ trans('app.phone') }}" value="{{ old('phone', ($company)? $company->phone : '') }}" data-inputmask="'mask': '1 (999) 999-9999'">
                 </div>
                 <!--end::Col-->
             </div>
@@ -195,13 +195,13 @@
 
                 <!--begin::Col-->
                 <div class="col-lg-8 fv-row">
-                    <textarea name="description" id="description" class="form-control form-control-lg form-control-solid" placeholder="{{ trans('app.description') }}">{{ old('description', $company->description) }}</textarea>
+                    <textarea name="description" id="description" class="form-control form-control-lg form-control-solid" placeholder="{{ trans('app.description') }}">{{ old('description', ($company)? $company->description : '') }}</textarea>
                 </div>
                 <!--end::Col-->
             </div>
             <!--end::Input group-->
             <input type="hidden" value="1" name="active" id="active">            
-            <input type="hidden" value="{{ $company->id }}" name="id" id="id">       
+            <input type="hidden" value="{{ ($company) ? $company->id : '' }}" name="id" id="id">       
 
             {{ Form::close() }}
             <!--end::Form-->

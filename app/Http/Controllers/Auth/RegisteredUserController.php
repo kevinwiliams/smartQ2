@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Core\Constants;
 use App\Http\Controllers\Controller;
+use App\Mail\InvitationAcceptanceNotification;
+use App\Models\Invitation;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserInfo;
@@ -12,6 +14,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
@@ -63,13 +66,14 @@ class RegisteredUserController extends Controller
             'g-recaptcha-response' => trans('app.g-recaptcha-response'),
         ));
 
-        if ($validator->fails()) {
+        if ($validator->fails()) {            
             return redirect()
                 ->back()
                 ->withErrors($validator)
                 ->withInput();
         }
 
+        // die();
         //VALIDATE RECAPTCHA
         $secret = env('GOOGLE_RECAPTCHA_SECRET');
         $recaptcha = new \ReCaptcha\ReCaptcha($secret);
@@ -81,7 +85,21 @@ class RegisteredUserController extends Controller
             // flash(trans('messages.parameters-fail-validation'), 'error', 'error');
             return back()->withErrors($errors)->withInput();
         }
+        $user_type = 3;
+        $location = 0;
 
+        if ($request->exists("token")) {
+            //Invitation check
+            $invite = Invitation::where('token', $request->token)->first();
+
+            if ($invite) {
+                $user_type = $invite->role_id;
+                $location = $invite->location_id;                
+                // die($invite->user->name);
+                Mail::to($invite->user->email)->send(new InvitationAcceptanceNotification($invite->user->name, $request->firstname . ' ' . $request->lastname, $request->email));
+                $invite->delete();
+            }
+        }
         // if ($validator->fails()) {
         //     $data['status'] = false;
         //     $data['error'] = $validator;
@@ -93,25 +111,25 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'firstname' => $request->firstname,
             'lastname'  => $request->lastname,
-            'user_type' => '3',
+            'user_type' => $user_type,
             'email'      => $request->email,
+            'location_id'      => $location,
             'password'   => Hash::make($request->password),
         ]);
 
-        
+
         $user_info         = new UserInfo();
         $user_info->user()->associate($user);
         $user_info->save();
-        
-        $role = Role::find(3);
+
+        $role = Role::find($user_type);
         $user->syncRoles($role);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        if($request->exists("onboard"))
-        {      
+        if ($request->exists("onboard")) {
             $key_value = auth()->user()->getSettingByKey(Constants::User_Settings_Onboarding);
 
             if ($key_value == null) {
@@ -120,7 +138,7 @@ class RegisteredUserController extends Controller
 
             return redirect("/onboarding");
         }
-        
+
         return redirect(RouteServiceProvider::HOME);
     }
 
