@@ -53,5 +53,9 @@ return [
         'username'      => env('SMS_API_USERNAME'),
         'password'      => env('SMS_API_PASSWORD'),
     ],
+     
+    'ga4' => [
+        'measurementId' => env('GA_MEASUREMENT_ID'),
+    ]
       
 ];

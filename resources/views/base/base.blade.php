@@ -11,6 +11,15 @@
     <link rel="shortcut icon" href="{{ asset(theme()->getDemo() . '/' .theme()->getOption('assets', 'favicon')) }}"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.ga4.measurementId') }}"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', '{{ config('services.ga4.measurementId') }}');
+    </script>
     {{-- begin::Fonts --}}
     {{ theme()->includeFonts() }}
     {{-- end::Fonts --}}
