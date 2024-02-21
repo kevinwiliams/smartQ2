@@ -129,10 +129,11 @@ class HomeController extends Controller
 
         $key_value = auth()->user()->getSettingByKey(Constants::User_Settings_Onboarding);
 
-        // echo $key_value;
-        // die();
+
         if ($key_value != null) {
-            if ($key_value != Constants::Onboarding_Total_Step_Count + 1)                
+            echo $key_value;
+            die();
+            if ($key_value != Constants::Onboarding_Total_Step_Count + 1)
                 return redirect("/onboarding");
         }
 

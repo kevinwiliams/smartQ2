@@ -73,6 +73,24 @@ return array(
             ),
         ),
     ),
+    'onboard'        => array(
+        'title'  => 'Sign-Up',
+        'assets' => array(
+            'custom' => array(
+                'js' => array(
+                    'js/custom/authentication/sign-up/general.js',
+                ),
+            ),
+        ),
+        'layout' => array(
+            'main' => array(
+                'type' => 'blank', // Set blank layout
+                'body' => array(
+                    'class' => theme()->isDarkMode() ? '' : 'bg-body',
+                ),                
+            ),
+        ),
+    ),
     'onboarding' => array(
         'start'        => array(
             'title'  => 'Register',

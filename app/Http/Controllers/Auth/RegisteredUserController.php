@@ -27,12 +27,12 @@ class RegisteredUserController extends Controller
      * @return \Illuminate\View\View
      */
     public function create()
-    {
+    {        
         return view('auth.register');
     }
 
     public function signup()
-    {
+    {        
         return view('auth.signup');
     }
 
@@ -132,10 +132,11 @@ class RegisteredUserController extends Controller
         if ($request->exists("onboard")) {
             $key_value = auth()->user()->getSettingByKey(Constants::User_Settings_Onboarding);
 
-            if ($key_value == null) {
+            if ($key_value == null) {                
                 auth()->user()->setSetting(Constants::User_Settings_Onboarding, true);
             }
 
+            
             return redirect("/onboarding");
         }
 

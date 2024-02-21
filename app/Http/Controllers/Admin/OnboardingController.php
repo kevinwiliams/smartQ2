@@ -39,11 +39,12 @@ class OnboardingController extends Controller
 
         $key_value = auth()->user()->getSettingByKey(Constants::User_Settings_Onboarding);
 
-        if ($key_value == null) {
-            $key_value = 1;
-            auth()->user()->setSetting(Constants::User_Settings_Onboarding, $key_value);
+        if ($key_value != null) {
+            $this->setUserRole();
+            // $key_value = 1;
+            // auth()->user()->setSetting(Constants::User_Settings_Onboarding, $key_value);
         }
-        $this->setUserRole();
+
         $url = $this->next_url(false);
         // echo $url;
         // die();
@@ -56,7 +57,7 @@ class OnboardingController extends Controller
         $key_value = auth()->user()->getSettingByKey(Constants::User_Settings_Onboarding);
 
         if ($key_value == null) {
-            $key_value = 1;
+            $key_value = 0;
         } else {
             if ($increment)
                 $key_value += 1;
@@ -143,14 +144,20 @@ class OnboardingController extends Controller
         }
     }
 
-    public function business()
+    private function keyCheck(&$key_value)
     {
-
         $key_value = auth()->user()->getSettingByKey(Constants::User_Settings_Onboarding);
 
         if ($key_value == null) {
-            auth()->user()->setSetting(Constants::User_Settings_Onboarding, 1);
+            return $this->start();
         }
+    }
+
+    public function business()
+    {
+
+        $key_value = null;
+        $this->keyCheck($key_value);
 
         $categories = BusinessCategory::get();
         $company = Company::where('created_by', auth()->user()->id)->first();
@@ -296,11 +303,8 @@ class OnboardingController extends Controller
     public function location()
     {
 
-        $key_value = auth()->user()->getSettingByKey(Constants::User_Settings_Onboarding);
-
-        if ($key_value == null) {
-            auth()->user()->setSetting(Constants::User_Settings_Onboarding, 1);
-        }
+        $key_value = null;
+        $this->keyCheck($key_value);
 
         $categories = BusinessCategory::get();
         $location = Company::where('created_by', auth()->user()->id)->first()->locations()->first();
@@ -364,11 +368,8 @@ class OnboardingController extends Controller
     public function openhours()
     {
 
-        $key_value = auth()->user()->getSettingByKey(Constants::User_Settings_Onboarding);
-
-        if ($key_value == null) {
-            return $this->start();
-        }
+        $key_value = null;
+        $this->keyCheck($key_value);
 
         $company = Company::where('created_by', auth()->user()->id)->first();
         $location = $company->locations->first();
@@ -452,14 +453,8 @@ class OnboardingController extends Controller
 
     public function services(ServicesDataTable $dataTable)
     {
-
-
-
-        $key_value = auth()->user()->getSettingByKey(Constants::User_Settings_Onboarding);
-
-        if ($key_value == null) {
-            auth()->user()->setSetting(Constants::User_Settings_Onboarding, 1);
-        }
+        $key_value = null;
+        $this->keyCheck($key_value);
 
         $location = Company::where('created_by', auth()->user()->id)->first()->locations()->first();
         $step_total_count = Constants::Onboarding_Total_Step_Count;
@@ -470,14 +465,8 @@ class OnboardingController extends Controller
 
     public function departments(DepartmentDataTable $dataTable)
     {
-
-
-
-        $key_value = auth()->user()->getSettingByKey(Constants::User_Settings_Onboarding);
-
-        if ($key_value == null) {
-            auth()->user()->setSetting(Constants::User_Settings_Onboarding, 1);
-        }
+        $key_value = null;
+        $this->keyCheck($key_value);
 
         $location = Company::where('created_by', auth()->user()->id)->first()->locations()->first();
         $step_total_count = Constants::Onboarding_Total_Step_Count;
@@ -490,14 +479,8 @@ class OnboardingController extends Controller
 
     public function counters(CounterDataTable $dataTable)
     {
-
-
-
-        $key_value = auth()->user()->getSettingByKey(Constants::User_Settings_Onboarding);
-
-        if ($key_value == null) {
-            auth()->user()->setSetting(Constants::User_Settings_Onboarding, 1);
-        }
+        $key_value = null;
+        $this->keyCheck($key_value);
 
         $location = Company::where('created_by', auth()->user()->id)->first()->locations()->first();
         $step_total_count = Constants::Onboarding_Total_Step_Count;
@@ -510,14 +493,8 @@ class OnboardingController extends Controller
 
     public function visitreasons(VisitReasonDataTable $dataTable)
     {
-
-
-
-        $key_value = auth()->user()->getSettingByKey(Constants::User_Settings_Onboarding);
-
-        if ($key_value == null) {
-            auth()->user()->setSetting(Constants::User_Settings_Onboarding, 1);
-        }
+        $key_value = null;
+        $this->keyCheck($key_value);
 
         $location = Company::where('created_by', auth()->user()->id)->first()->locations()->first();
         $step_total_count = Constants::Onboarding_Total_Step_Count;
@@ -530,11 +507,8 @@ class OnboardingController extends Controller
 
     public function visitreasoncounters()
     {
-        $key_value = auth()->user()->getSettingByKey(Constants::User_Settings_Onboarding);
-
-        if ($key_value == null) {
-            auth()->user()->setSetting(Constants::User_Settings_Onboarding, 1);
-        }
+        $key_value = null;
+        $this->keyCheck($key_value);
 
         $location = Company::where('created_by', auth()->user()->id)->first()->locations()->first();
         $step_total_count = Constants::Onboarding_Total_Step_Count;
@@ -574,12 +548,8 @@ class OnboardingController extends Controller
 
     public function users()
     {
-
-        $key_value = auth()->user()->getSettingByKey(Constants::User_Settings_Onboarding);
-
-        if ($key_value == null) {
-            auth()->user()->setSetting(Constants::User_Settings_Onboarding, 1);
-        }
+        $key_value = null;
+        $this->keyCheck($key_value);
 
         $location = Company::where('created_by', auth()->user()->id)->first()->locations()->first();
         $step_total_count = Constants::Onboarding_Total_Step_Count;
@@ -659,12 +629,8 @@ class OnboardingController extends Controller
 
     public function queuesetup()
     {
-
-        $key_value = auth()->user()->getSettingByKey(Constants::User_Settings_Onboarding);
-
-        if ($key_value == null) {
-            auth()->user()->setSetting(Constants::User_Settings_Onboarding, 1);
-        }
+        $key_value = null;
+        $this->keyCheck($key_value);
 
         $location = Company::where('created_by', auth()->user()->id)->first()->locations()->first();
         $step_total_count = Constants::Onboarding_Total_Step_Count;
@@ -707,12 +673,8 @@ class OnboardingController extends Controller
 
     public function complete()
     {
-
-        $key_value = auth()->user()->getSettingByKey(Constants::User_Settings_Onboarding);
-
-        if ($key_value == null) {
-            return $this->start();
-        }
+        $key_value = null;
+        $this->keyCheck($key_value);
 
         $company = Company::where('created_by', auth()->user()->id)->first();
         $location = $company->locations->first();

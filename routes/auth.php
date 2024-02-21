@@ -11,14 +11,6 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
-//Onboarding
-Route::prefix('onboarding')->group(function () {
-    Route::get('start', [RegisteredUserController::class, 'start'])->name('onboard.start');    
-});
-
-//Invitation
-Route::get('/invitation/accept/{token}', [InvitationController::class, 'accept'])->name('invitation.accept');
-
 Route::get('/signup', [RegisteredUserController::class, 'signup'])
     ->middleware('guest')
     ->name('signup');
@@ -75,3 +67,12 @@ Route::post('/confirm-password', [ConfirmablePasswordController::class, 'store']
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
+
+Route::get('/onboard', [RegisteredUserController::class, 'start'])
+    ->middleware('guest')
+    ->name('onboard.start');
+
+//Invitation
+Route::get('/invitation/accept/{token}', [InvitationController::class, 'accept'])
+    ->middleware('guest')
+    ->name('invitation.accept');

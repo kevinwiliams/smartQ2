@@ -57,7 +57,7 @@
             </div>
         </a>
 
-        <a href="{{ theme()->getPageUrl('onboarding/start') }}" class="card card-flush hover-elevate-up shadow-sm parent-hover">
+        <a href="{{ theme()->getPageUrl('onboard') }}" class="card card-flush hover-elevate-up shadow-sm parent-hover">
             <div class="card-header">
                 <h3 class="card-title  text-primary">{{ __("I'm a business") }}</h3>
             </div>

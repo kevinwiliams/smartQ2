@@ -103,8 +103,7 @@ var MVSignupGeneral = function () {
 
                     // Disable button to avoid multiple click
                     submitButton.disabled = true;
-
-                    // Simulate ajax request
+                    
                     axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form))
                         .then(function (response) {
                             // Show message popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
