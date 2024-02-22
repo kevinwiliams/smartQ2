@@ -78,7 +78,7 @@ return array(
         'assets' => array(
             'custom' => array(
                 'js' => array(
-                    'js/custom/authentication/sign-up/general.js',
+                    'js/custom/authentication/sign-up/signup.js',
                 ),
             ),
         ),
@@ -97,7 +97,7 @@ return array(
             'assets' => array(
                 'custom' => array(
                     'js' => array(
-                        'js/custom/authentication/sign-up/general.js',
+                        'js/custom/authentication/sign-up/signup.js',
                     ),
                 ),
             ),
