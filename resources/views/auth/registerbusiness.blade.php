@@ -29,7 +29,7 @@
             <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'svg/brand-logos/google-icon.svg') }}" class="h-20px me-3"/>
             {{ __('Sign in with Google') }}
         </button> -->
-        <a href="{{ url('/auth/redirect/google') }}?redirect_uri={{ theme()->getPageUrl('onboarding/business') }}" class="btn btn-flex flex-center btn-light btn-lg w-100 mb-5">
+        <a href="{{ url('/auth/redirect/google') }}?redirect_uri={{ theme()->getPageUrl('onboarding/') }}" class="btn btn-flex flex-center btn-light btn-lg w-100 mb-5">
             <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'svg/brand-logos/google-icon.svg') }}" class="h-20px me-3" />
             {{ __('Continue with Google') }}
         </a>

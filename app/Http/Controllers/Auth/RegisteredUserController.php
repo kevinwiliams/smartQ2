@@ -135,7 +135,6 @@ class RegisteredUserController extends Controller
             if ($key_value == null) {                
                 auth()->user()->setSetting(Constants::User_Settings_Onboarding, true);
             }
-
             
             return redirect("/onboarding");
         }

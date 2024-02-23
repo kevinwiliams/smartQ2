@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Core\Constants;
 use App\Http\Controllers\Controller;
 use App\Mail\InvitationAcceptanceNotification;
 use App\Models\Invitation;
@@ -135,6 +136,13 @@ class SocialiteLoginController extends Controller
 
             $role = Role::find($user_type);
             $user->syncRoles($role);
+            if (str_contains(Cookie::get('redirect_uri'), 'onboarding')) {
+                $key_value = $user->getSettingByKey(Constants::User_Settings_Onboarding);
+    
+                if ($key_value == null) {                
+                    $user->setSetting(Constants::User_Settings_Onboarding, true);
+                }
+            }
 
             if ($user->markEmailAsVerified()) {
                 event(new Verified($user));
