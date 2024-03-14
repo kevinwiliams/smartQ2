@@ -47,7 +47,7 @@ class WebhookController extends Controller
     {
         // Log incoming message
         $rawData = file_get_contents('php://input');
-        Log::info("Incoming webhook message: " . $rawData);
+        // Log::info("Incoming webhook message: " . $rawData);
 
         $data = json_decode($rawData, true);
         Log::info($data);
