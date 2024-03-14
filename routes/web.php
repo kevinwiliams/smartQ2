@@ -451,8 +451,9 @@ Route::middleware('auth')->group(function () {
 });
 
 //Whatsapp Webhook
-Route::get('/webhook', [WebhookController::class, 'handleGet'])->name('webhook');
-Route::post('/webhook', [WebhookController::class, 'handleWebook'])->name('webhook');
+Route::post('/webhook', [WebhookController::class, 'handleWebook']);
+Route::get('/webhook', [WebhookController::class, 'handleGet']);
+
 
 // # -----------------------------------------------------------
 // # COMMON 
