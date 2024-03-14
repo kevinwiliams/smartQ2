@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
@@ -12,10 +13,10 @@ class WebhookController extends Controller
     {
         $mode = $request->hub_mode;
         $challenge = $request->hub_challenge;
-        $token = $request->hub_verify_token;      
+        $token = $request->hub_verify_token;
         Log::info($mode);
         Log::info($challenge);
-        Log::info($token);        
+        Log::info($token);
         if ($mode === 'subscribe' && $token === config('services.whatsapp.verify_token')) {
             return response($challenge, 200);
         } else {
@@ -26,10 +27,10 @@ class WebhookController extends Controller
     public function handleWebook(Request $request)
     {
         // Log incoming message
-        \Log::info("Incoming webhook message: " . $request->getContent());
+        Log::info("Incoming webhook message: " . $request->getContent());
 
         $data = json_decode($request->getContent(), true);
-
+        Log::info($data);
         $message = $data['entry'][0]['changes'][0]['value']['messages'][0] ?? null;
 
         if ($message && $message['type'] === 'text') {
@@ -55,7 +56,7 @@ class WebhookController extends Controller
             'json' => [
                 'messaging_product' => 'whatsapp',
                 'to' => $message['from'],
-                'text' => ['body' => 'Echo: ' . $message['text']['body']], 
+                'text' => ['body' => 'Echo: ' . $message['text']['body']],
                 'context' => ['message_id' => $message['id']],
             ],
         ]);
