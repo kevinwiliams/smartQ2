@@ -56,6 +56,10 @@ return [
      
     'ga4' => [
         'measurementId' => env('GA_MEASUREMENT_ID'),
+    ],
+
+    'whatsapp' => [
+        'verify_token' => env('WHATSAPP_CLOUD_API_FROM_PHONE_NUMBER'),
     ]
       
 ];

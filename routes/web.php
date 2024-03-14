@@ -41,6 +41,7 @@ use App\Http\Controllers\Common\LanguageController;
 use App\Http\Controllers\Common\MessageController;
 use App\Http\Controllers\Common\NotificationController;
 use App\Http\Controllers\Common\ProfileController;
+use App\Http\Controllers\Common\WebhookController;
 use App\Http\Controllers\UserManagement\UserManagementController;
 use App\Models\BusinessHours;
 use App\Models\Feedback;
@@ -73,15 +74,6 @@ array_walk($menu, function ($val) {
 	}
 });
 
-// Documentations pages
-// Route::prefix('documentation')->group(function () {
-// 	Route::get('getting-started/references', [ReferencesController::class, 'index']);
-// 	Route::get('getting-started/changelog', [PagesController::class, 'index']);
-// });
-
-// Route::get('/linkstorage', function () {
-//     Artisan::call('storage:link');
-// });
 
 Route::get('generateScheduledReports/{id}', [CronjobController::class, 'generateScheduledReports']);
 
@@ -458,6 +450,10 @@ Route::middleware('auth')->group(function () {
 	});
 });
 
+//Whatsapp Webhook
+Route::get('/webhook', [WebhookController::class, 'handleGet']);
+Route::post('/webhook', [WebhookController::class, 'handleWebook']);
+
 // # -----------------------------------------------------------
 // # COMMON 
 // # -----------------------------------------------------------
@@ -479,6 +475,9 @@ Route::prefix('common')->namespace('Common')->group(function () {
 	Route::post('display4', [DisplayController::class, 'display4']);
 	Route::post('display5', [DisplayController::class, 'display5']);
 	Route::post('display7', [DisplayController::class, 'display7']);
+
+
+
 
 	// 	// -----------------------------------------------------------
 	// 	// AUTHORIZED COMMON 
