@@ -45,22 +45,19 @@ class WebhookController extends Controller
 
     public function handleWebhook(Request $request)
     {
-        Log::info("Here");
-
         // Log incoming message
         $rawData = file_get_contents('php://input');
-        // Log::info("Incoming webhook message: " . $rawData);
-
+        
         $data = json_decode($rawData, true);
         Log::info($data);
-        // $message = $data['entry'][0]['changes'][0]['value']['messages'][0] ?? null;
+        $message = $data['entry'][0]['changes'][0]['value']['messages'][0] ?? null;
 
-        // if ($message && $message['type'] === 'text') {
-        //     $businessPhoneNumberId = $data['entry'][0]['changes'][0]['value']['metadata']['phone_number_id'];
+        if ($message && $message['type'] === 'text') {
+            $businessPhoneNumberId = $data['entry'][0]['changes'][0]['value']['metadata']['phone_number_id'];
 
-        //     $this->sendMessage($businessPhoneNumberId, $message);
-        //     $this->markMessageRead($businessPhoneNumberId, $message['id']);
-        // }
+            $this->sendMessage($businessPhoneNumberId, $message);
+            $this->markMessageRead($businessPhoneNumberId, $message['id']);
+        }
 
         return response()->noContent(200);
     }
@@ -71,7 +68,7 @@ class WebhookController extends Controller
         $client = new Client([
             'base_uri' => 'https://graph.facebook.com/v18.0/',
             'headers' => [
-                'Authorization' => 'Bearer ' . env('GRAPH_API_TOKEN'),
+                'Authorization' => 'Bearer ' . env('WHATSAPP_CLOUD_API_TOKEN'),
             ],
         ]);
 
@@ -90,7 +87,7 @@ class WebhookController extends Controller
         $client = new Client([
             'base_uri' => 'https://graph.facebook.com/v18.0/',
             'headers' => [
-                'Authorization' => 'Bearer ' . env('GRAPH_API_TOKEN'),
+                'Authorization' => 'Bearer ' . env('WHATSAPP_CLOUD_API_TOKEN'),
             ],
         ]);
 
