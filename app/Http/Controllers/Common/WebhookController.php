@@ -3,12 +3,15 @@ namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
 use GuzzleHttp\Client;
-use Illuminate\Http\Request;  
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class WebhookController extends Controller
 {
     public function handleGet(Request $request)
     {
+        $data = json_decode($request->getContent(), true);
+        Log::info($data);
         if ($request->query('hub.mode') === 'subscribe' &&
             $request->query('hub.verify_token') === config('services.whatsapp.verify_token')) {
             return response($request->query('hub.challenge'), 200);
