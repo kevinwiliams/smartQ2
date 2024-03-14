@@ -27,9 +27,9 @@ class WebhookController extends Controller
     public function handleWebook(Request $request)
     {
         // Log incoming message
-        Log::info("Incoming webhook message: " . $request->getContent());
+        Log::info("Incoming webhook message: " . $request->all());
 
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->all(), true);
         Log::info($data);
         $message = $data['entry'][0]['changes'][0]['value']['messages'][0] ?? null;
 
