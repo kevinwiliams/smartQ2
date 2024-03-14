@@ -10,11 +10,14 @@ class WebhookController extends Controller
 {
     public function handleGet(Request $request)
     {
-        $data = json_decode($request, true);
-        Log::info($data);
-        if ($request->query('hub.mode') === 'subscribe' &&
-            $request->query('hub.verify_token') === config('services.whatsapp.verify_token')) {
-            return response($request->query('hub.challenge'), 200);
+        $mode = $request->hub_mode;
+        $challenge = $request->hub_challenge;
+        $token = $request->hub_verify_token;      
+        Log::info($mode);
+        Log::info($challenge);
+        Log::info($token);        
+        if ($mode === 'subscribe' && $token === config('services.whatsapp.verify_token')) {
+            return response($challenge, 200);
         } else {
             return response('Unauthorized', 403);
         }
