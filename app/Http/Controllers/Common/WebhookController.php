@@ -43,7 +43,7 @@ class WebhookController extends Controller
     //     return response()->noContent(200);
     // }
 
-    public function handleWebhook(Request $request)
+    public function handleWebhook()
     {
         Log::info("Here");
 
