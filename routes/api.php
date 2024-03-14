@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Common\WebhookController;
 use App\Http\Controllers\SampleDataController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,10 @@ Route::get('/forgot_password', [PasswordResetLinkController::class, 'apiStore'])
 Route::get('/verify_token', [AuthenticatedSessionController::class, 'apiVerifyToken']);
 
 Route::get('/users', [SampleDataController::class, 'getUsers']);
+
+//Whatsapp Webhook
+Route::post('/webhook', [WebhookController::class, 'handleWebhook']);
+Route::get('/webhook', [WebhookController::class, 'handleGet']);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
