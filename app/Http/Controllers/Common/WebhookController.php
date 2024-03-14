@@ -43,7 +43,7 @@ class WebhookController extends Controller
     //     return response()->noContent(200);
     // }
 
-    public function handleWebhook()
+    public function handleWebhook(Request $request)
     {
         // Log incoming message
         $rawData = file_get_contents('php://input');
