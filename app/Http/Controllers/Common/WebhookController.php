@@ -43,7 +43,7 @@ class WebhookController extends Controller
     //     return response()->noContent(200);
     // }
 
-    public function handleWebhook(Request $request)
+    public function handleWebhook()
     {
         // Log incoming message
         $rawData = file_get_contents('php://input');
@@ -51,14 +51,14 @@ class WebhookController extends Controller
 
         $data = json_decode($rawData, true);
         Log::info($data);
-        $message = $data['entry'][0]['changes'][0]['value']['messages'][0] ?? null;
+        // $message = $data['entry'][0]['changes'][0]['value']['messages'][0] ?? null;
 
-        if ($message && $message['type'] === 'text') {
-            $businessPhoneNumberId = $data['entry'][0]['changes'][0]['value']['metadata']['phone_number_id'];
+        // if ($message && $message['type'] === 'text') {
+        //     $businessPhoneNumberId = $data['entry'][0]['changes'][0]['value']['metadata']['phone_number_id'];
 
-            $this->sendMessage($businessPhoneNumberId, $message);
-            $this->markMessageRead($businessPhoneNumberId, $message['id']);
-        }
+        //     $this->sendMessage($businessPhoneNumberId, $message);
+        //     $this->markMessageRead($businessPhoneNumberId, $message['id']);
+        // }
 
         return response()->noContent(200);
     }
