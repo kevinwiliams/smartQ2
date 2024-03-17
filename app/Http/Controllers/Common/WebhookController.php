@@ -37,10 +37,10 @@ class WebhookController extends Controller
         $webhook = new WebHook();
 
         // Read the first message
-        Log::info($webhook->read(json_decode($rawData, true)), true);
+        Log::info($webhook->read(json_decode($rawData, true)));
 
         //Read all messages in case Meta decided to batch them
-        Log::info($webhook->readAll(json_decode($rawData, true)), true);
+        Log::info($webhook->readAll(json_decode($rawData, true)));
 
         return response()->noContent(200);
     }
