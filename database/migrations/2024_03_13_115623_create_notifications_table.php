@@ -21,13 +21,12 @@ class CreateNotificationsTable extends Migration
             $table->string('recipient', 200); //Stores customer identifier: email address or phone number
             $table->enum('channel', ['sms', 'email', 'whatsapp','push']);            
             $table->string('subject', 200)->nullable();
-            $table->text('message')->nullable();
-            $table->timestamp('timestamp')->useCurrent();
+            $table->text('message')->nullable();            
             $table->string('status', 20)->default('Pending');
             $table->unsignedBigInteger('interaction_id')->nullable();
             $table->text('interaction_message')->nullable();            
             $table->text('response')->nullable();
-                        
+            $table->timestamps();
             // Indexes
             // $table->index(['sender_id', 'recipient_id', 'channel', 'timestamp','location_id']);
         });

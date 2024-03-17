@@ -90,26 +90,13 @@ class Utilities_lib extends Controller
         if ($message != "")
             $notification->message = $message;
 
-        $notification->status = $status;
-        $notification->timestamp = now();
-
-        // if ($requestData != null)
-        //     $notification->request = $requestData;
+        $notification->status = $status;        
 
         if ($responseData != null)
             $notification->response = $responseData;
 
         $notification->save();
 
-        // switch ($type) {
-        //     case 'push':
-        //         $notification->status = $status;
-        //         break;
-
-        //     default:
-        //         # code...
-        //         break;
-        // }
     }
 
     public function sendPushNotification(User $client, $message, $location = null, $subject = null)

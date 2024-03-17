@@ -16,19 +16,13 @@ class Notification extends Model
         'recipient',
         'channel',
         'subject',
-        'message',
-        'timestamp',
+        'message',        
         'status',
         'interaction_id',
         'interaction_message',        
         'response',
     ];
-
-    protected $casts = [
-        'timestamp' => 'datetime',
-    ];
-
-
+    
     public function sender() 
     {
     	return $this->hasOne(User::class, 'id', 'sender_id');
