@@ -1,3 +1,7 @@
+@php
+    $disableCurrent = $disableCurrent ?? false;
+@endphp
+
 <!--begin::Modal - Two-factor authentication-->
 <div class="modal fade" id="mv_modal_two_factor_authentication" tabindex="-1" aria-hidden="true">
     <!--begin::Modal header-->
@@ -20,7 +24,7 @@
 
             <!--begin::Modal body-->
             <div class="modal-body scroll-y pt-10 pb-15 px-lg-17">
-                {{ theme()->getView('partials/modals/two-factor-authentication/partials/_options') }}
+                {{ theme()->getView('partials/modals/two-factor-authentication/partials/_options', array('disableCurrent' => $disableCurrent)) }}
 
                 {{ theme()->getView('partials/modals/two-factor-authentication/partials/_email') }}
 

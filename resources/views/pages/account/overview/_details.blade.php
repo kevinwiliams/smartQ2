@@ -157,6 +157,20 @@
         </div>
         <!--end::Input group-->
 
+                <!--begin::Input group-->
+                <div class="row mb-10">
+            <!--begin::Label-->
+            <label class="col-lg-4 fw-bold text-muted">{{ __('Notification Channel') }}</label>
+            <!--begin::Label-->
+
+            <!--begin::Label-->
+            <div class="col-lg-8">
+                <span class="fw-bold fs-6">{{ ucfirst(auth()->user()->otp_type) }}</span>
+            </div>
+            <!--begin::Label-->
+        </div>
+        <!--end::Input group-->
+
     </div>
     <!--end::Card body-->
 </div>

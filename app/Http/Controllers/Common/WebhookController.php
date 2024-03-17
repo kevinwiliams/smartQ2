@@ -25,6 +25,7 @@ class WebhookController extends Controller
         $rawData = file_get_contents('php://input');
 
         $data = json_decode($rawData, true);
+        Log::info('Raw Data');
         Log::info($data);
         $message = $data['entry'][0]['changes'][0]['value']['messages'][0] ?? null;
 
@@ -37,10 +38,12 @@ class WebhookController extends Controller
         $webhook = new WebHook();
 
         // Read the first message
+        Log::info('Webhook Read the first message');
         Log::info(json_encode($webhook->read(json_decode($rawData, true))));
 
         //Read all messages in case Meta decided to batch them
-        Log::info(json_encode($webhook->readAll(json_decode($rawData, true))));
+        // Log::info('Read all messages in case Meta decided to batch them');
+        // Log::info(json_encode($webhook->readAll(json_decode($rawData, true))));
 
         return response()->noContent(200);
     }
@@ -50,7 +53,10 @@ class WebhookController extends Controller
     {
         // Instantiate the WhatsAppCloudApi super class.
         $whatsapp_cloud_api = new WhatsAppCloudApi([]);
-        $whatsapp_cloud_api->replyTo($message['id'])->sendTextMessage($message['from'], 'Echo: ' . $message['text']['body']);
+        $response = $whatsapp_cloud_api->replyTo($message['id'])->sendTextMessage($message['from'], 'Echo: ' . $message['text']['body']);
+
+        Log::info('Send message response');
+        Log::info(json_encode($response));
     }
 
     private function markMessageRead($messageId)

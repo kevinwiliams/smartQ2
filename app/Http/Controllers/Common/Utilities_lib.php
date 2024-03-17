@@ -115,12 +115,13 @@ class Utilities_lib extends Controller
         }
     }
 
-    public function sendTokenNotification(User $client, $notify_type, $message, $location = null, $subject = null)
+    public function sendTokenNotification(User $client, $message, $location = null, $subject = null)
     {
         if ($client) {
-            (new Utilities_lib)->sendPushNotification($client, $message, $location, $subject);
+            
 
-            if ($notify_type == "sms") {
+            if ($client->otp_type == "sms") {
+                (new Utilities_lib)->sendPushNotification($client, $message, $location, $subject);
                 $setting  = SmsSetting::first();
                 $sms_lib = new SMS_lib;
 
@@ -136,7 +137,7 @@ class Utilities_lib extends Controller
                     ->message("$message")
                     ->response();
 
-                $this->notificationLog($notify_type, $client, $phone, $location, $subject, $message, 'Sent', $data);
+                $this->notificationLog($client->otp_type, $client, $phone, $location, $subject, $message, 'Sent', $data);
 
                 //store sms information 
                 // $sms = new SmsHistory();
@@ -146,13 +147,14 @@ class Utilities_lib extends Controller
                 // $sms->response    = $data;
                 // $sms->created_at  = date('Y-m-d H:i:s');
                 // $sms->save();
-            } else if ($notify_type == "email") {
+            } else if ($client->otp_type == "email") {
+                (new Utilities_lib)->sendPushNotification($client, $message, $location, $subject);
                 Mail::to($client->email)->send(new CustomerNotification($client->firstname, $message));
-                $this->notificationLog($notify_type, $client, $client->email, $location, $subject, $message, 'Sent', '');
-            } elseif ($notify_type == "whatsapp") {
+                $this->notificationLog($client->otp_type, $client, $client->email, $location, $subject, $message, 'Sent', '');
+            } elseif ($client->otp_type == "whatsapp") {
                 $response = $this->sendWhatsAppText($client, $message);
                 ///TODO: get interaction id from response
-                $this->notificationLog($notify_type, $client, $client->mobile, $location, $subject, $message, 'Sent', json_encode($response));
+                $this->notificationLog($client->otp_type, $client, $client->mobile, $location, $subject, $message, 'Sent', json_encode($response));
             }
         }
     }
