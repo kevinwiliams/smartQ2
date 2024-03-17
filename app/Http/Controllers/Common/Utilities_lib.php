@@ -165,7 +165,7 @@ class Utilities_lib extends Controller
             } elseif ($notify_type == "whatsapp") {
                 $response = $this->sendWhatsAppText($client, $message);
                 ///TODO: get interaction id from response
-                $this->notificationLog($notify_type, $client, $client->mobile, $location, $subject, $message, 'Sent', $response);
+                $this->notificationLog($notify_type, $client, $client->mobile, $location, $subject, $message, 'Sent', json_encode($response));
             }
         }
     }
@@ -229,7 +229,7 @@ class Utilities_lib extends Controller
 
 
             $response = $whatsapp_cloud_api->sendTemplate($phone, 'waitwise_otp', 'en', $components);
-            $this->notificationLog('whatsapp', $client, $client->mobile, 0, 'waitwise_otp', $otp, 'Sent', $response);
+            $this->notificationLog('whatsapp', $client, $client->mobile, 0, 'waitwise_otp', $otp, 'Sent', json_encode($response));
             return $response;
         }
     }
