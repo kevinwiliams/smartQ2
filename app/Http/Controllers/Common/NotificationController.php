@@ -1,14 +1,15 @@
 <?php
+
 namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;  
+use Illuminate\Http\Request;
 use App\Models\Message;
 use App\Models\Notification;
 use Session;
 
 class NotificationController extends Controller
-{  
+{
     // public function message()
     // {
     //     return Message::where('receiver_id', auth()->user()->id)
@@ -16,7 +17,7 @@ class NotificationController extends Controller
     //         ->count('id'); 
     // } 
 
-     /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

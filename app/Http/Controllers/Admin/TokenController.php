@@ -507,6 +507,8 @@ class TokenController extends Controller
                     'notification_type' => $otp_type
                 ];
 
+                ///TODO: send notification / alert with token information
+                ///      info should include shortcode to directly view the token details. publicly accessible?? temp url??
 
                 //store in database  
                 //set message and redirect
@@ -1418,6 +1420,7 @@ class TokenController extends Controller
                 "t.client_mobile AS mobile",
                 "d.name AS department",
                 "c.name AS counter",
+                "t.location_id AS location",
                 DB::raw("CONCAT_WS(' ', u.firstname, u.lastname) AS officer"),
                 "t.created_at AS date"
             )
@@ -1427,34 +1430,34 @@ class TokenController extends Controller
             ->where('t.id', $id)
             ->first();
 
-        if (!empty($token->mobile)) {
-            $response = (new SMS_lib)
-                ->provider("$setting->provider")
-                ->api_key("$setting->api_key")
-                ->username("$setting->username")
-                ->password("$setting->password")
-                ->from("$setting->from")
-                ->to($token->mobile)
-                ->message($setting->recall_sms_template, array(
-                    'TOKEN'  => $token->token,
-                    'MOBILE' => $token->mobile,
-                    'DEPARTMENT' => $token->department,
-                    'COUNTER' => $token->counter,
-                    'OFFICER' => $token->officer,
-                    'DATE'   => $token->date
-                ))
-                ->response();
-            $api = json_decode($response, true);
+        // if (!empty($token->mobile)) {
+        //     $response = (new SMS_lib)
+        //         ->provider("$setting->provider")
+        //         ->api_key("$setting->api_key")
+        //         ->username("$setting->username")
+        //         ->password("$setting->password")
+        //         ->from("$setting->from")
+        //         ->to($token->mobile)
+        //         ->message($setting->recall_sms_template, array(
+        //             'TOKEN'  => $token->token,
+        //             'MOBILE' => $token->mobile,
+        //             'DEPARTMENT' => $token->department,
+        //             'COUNTER' => $token->counter,
+        //             'OFFICER' => $token->officer,
+        //             'DATE'   => $token->date
+        //         ))
+        //         ->response();
+        //     $api = json_decode($response, true);
 
-            //store sms information 
-            $sms = new SmsHistory;
-            $sms->from        = $setting->from;
-            $sms->to          = $token->mobile;
-            $sms->message     = $api['message'];
-            $sms->response    = $response;
-            $sms->created_at  = date('Y-m-d H:i:s');
-            $sms->save();
-        }
+        //     //store sms information 
+        //     $sms = new SmsHistory;
+        //     $sms->from        = $setting->from;
+        //     $sms->to          = $token->mobile;
+        //     $sms->message     = $api['message'];
+        //     $sms->response    = $response;
+        //     $sms->created_at  = date('Y-m-d H:i:s');
+        //     $sms->save();
+        // }
 
         activity('activity')
             ->withProperties(['activity' => 'Token recalled', 'department' => $token->department, 'token' => $token->token, 'display' => 'danger', 'location_id' => auth()->user()->location_id])
@@ -1463,8 +1466,8 @@ class TokenController extends Controller
         if (!empty($token->client)) {
             $user = User::find($token->client);
             $msg = "Please contact urgently. Token No: $token->token\r\n Department: $token->department, Counter: $token->counter and Officer: $token->officer. \r\n $token->date.";
-            (new Utilities_lib)->sendPushNotification($user, $msg);
-            (new Utilities_lib)->sendTokenNotification($user, $token->notification_type, $msg);
+            
+            (new Utilities_lib)->sendTokenNotification($user, $token->notification_type, $msg, $token->location);
         }
 
         Token::where('id', $id)
@@ -1517,8 +1520,8 @@ class TokenController extends Controller
         if (!empty($token->client_id)) {
             $user = User::find($token->client_id);
             $msg = "Token No: $token->token_no\r\n Department: $dept, Counter: $counter and Officer: $officer. \r\nComplete";
-            (new Utilities_lib)->sendPushNotification($user, $msg);
-            (new Utilities_lib)->sendTokenNotification($user, $token->notification_type, $msg);
+            
+            (new Utilities_lib)->sendTokenNotification($user, $token->notification_type, $msg, $token->location_id);
         }
         // (new Utilities_lib)->TokenNotification();
         return redirect()->back()->with('message', trans('app.complete_successfully'));
@@ -1545,8 +1548,8 @@ class TokenController extends Controller
             $counter = $token->counter->name;
             $user = User::find($token->client_id);
             $msg = "Token No: $token->token_no\r\n Department: $dept, Counter: $counter and Officer: $officer. \r\Stopped";
-            (new Utilities_lib)->sendPushNotification($user, $msg);
-            (new Utilities_lib)->sendTokenNotification($user, $token->notification_type, $msg);
+            
+            (new Utilities_lib)->sendTokenNotification($user, $token->notification_type, $msg, $token->location_id);
         }
         // (new Utilities_lib)->TokenNotification();
         return redirect()->back()->with('message', trans('app.update_successfully'));
@@ -1576,8 +1579,8 @@ class TokenController extends Controller
             // $counter = $token->counter->name;
 
             $msg = "Token No: $token->token_no\r\n Department: $dept\r\ncancelled due to no show.";
-            (new Utilities_lib)->sendPushNotification($user, $msg);
-            (new Utilities_lib)->sendTokenNotification($user, $token->notification_type, $msg);
+            
+            (new Utilities_lib)->sendTokenNotification($user, $token->notification_type, $msg, $token->location_id);
         }
         // (new Utilities_lib)->TokenNotification();
         return redirect()->back()->with('message', trans('app.update_successfully'));
@@ -1606,8 +1609,8 @@ class TokenController extends Controller
             $officer = $token->officer->name;
             $counter = $token->counter->name;
             $msg = "Now serving token No: $token->token_no\r\n Department: $dept, Counter: $counter and Officer: $officer.";
-            (new Utilities_lib)->sendPushNotification($user, $msg);
-            (new Utilities_lib)->sendTokenNotification($user, $token->notification_type, $msg);
+            
+            (new Utilities_lib)->sendTokenNotification($user, $token->notification_type, $msg , $token->location_id);
         }
         // (new Utilities_lib)->TokenNotification();
         return redirect()->back()->with('message', trans('app.update_successfully'));
@@ -1655,8 +1658,8 @@ class TokenController extends Controller
 
                 $user = User::find($token->client_id);
                 $msg = "Token transferred\r\nToken No: $token->token_no\r\n Department: $dept, Counter: $counter and Officer: $officer.";
-                (new Utilities_lib)->sendPushNotification($user, $msg);
-                (new Utilities_lib)->sendTokenNotification($user, $token->notification_type, $msg);
+                
+                (new Utilities_lib)->sendTokenNotification($user, $token->notification_type, $msg, $token->location_id);
             }
 
             if ($update) {

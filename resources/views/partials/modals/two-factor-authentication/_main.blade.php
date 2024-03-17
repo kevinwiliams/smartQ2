@@ -27,6 +27,8 @@
                 {{ theme()->getView('partials/modals/two-factor-authentication/partials/_code') }}
 
                 {{ theme()->getView('partials/modals/two-factor-authentication/partials/_sms') }}
+
+                {{ theme()->getView('partials/modals/two-factor-authentication/partials/_whatsapp') }}
             </div>
             <!--begin::Modal body-->
         </div>

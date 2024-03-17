@@ -23,6 +23,6 @@
  * Date: 2021-03-02T17:08Z
  */
 
-/*! DataTables 1.13.5
- * ©2008-2023 SpryMedia Ltd - datatables.net/license
+/*! DataTables 1.13.11
+ * ©2008-2024 SpryMedia Ltd - datatables.net/license
  */

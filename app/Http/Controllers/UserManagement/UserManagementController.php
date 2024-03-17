@@ -211,7 +211,7 @@ class UserManagementController extends Controller
             ->orderBy('full_name')
             ->get();
         return response()->json($officers);
-    }    
+    }
 
     public function usersView()
     {
@@ -486,7 +486,7 @@ class UserManagementController extends Controller
         return response()->json($data);
     }
 
-   
+
 
     public function updateUserStatus(Request $request, $id)
     {
@@ -645,9 +645,12 @@ class UserManagementController extends Controller
 
             if ($user) {
 
+                $location = auth()->user()->location_id;
                 switch ($request->notification_type) {
                     case 'email':
                         Mail::to($user->email)->send(new CustomerNotification($user->firstname, $request->message));
+
+                        (new Utilities_lib)->notificationLog($request->notification_type, $user, $user->email, $location, 'Client Notification', $request->message, 'Sent', '');
                         break;
                     case 'sms':
                         $setting  = SmsSetting::first();
@@ -665,22 +668,25 @@ class UserManagementController extends Controller
                             ->message("$request->message")
                             ->response();
 
+                        (new Utilities_lib)->notificationLog($request->notification_type, $user, $phonenum, $location, 'Client Notification', $request->message, 'Sent', $_data);
                         //store sms information 
-                        $sms = new SmsHistory();
-                        $sms->from        = $setting->from;
-                        $sms->to          = $phonenum;
-                        $sms->message     = $request->message;
-                        $sms->response    = $_data;
-                        $sms->created_at  = date('Y-m-d H:i:s');
+                        // $sms = new SmsHistory();
+                        // $sms->from        = $setting->from;
+                        // $sms->to          = $phonenum;
+                        // $sms->message     = $request->message;
+                        // $sms->response    = $_data;
+                        // $sms->created_at  = date('Y-m-d H:i:s');
 
-                        $sms->save();
+                        // $sms->save();
 
                         break;
                     case 'push':
-                        $response = (new Utilities_lib)->sendPushNotification($user, $request->message);
+                        $response = (new Utilities_lib)->sendPushNotification($user, $request->message, $location,'Client Notification');                        
                         break;
                     case 'whatsapp':
                         $response = (new Utilities_lib)->sendWhatsAppText($user, $request->message);
+                        ///TODO: get interaction id from response
+                        (new Utilities_lib)->notificationLog($request->notification_type, $user, $user->mobile, $location, 'Client Notification', $request->message, 'Sent', $response);
                         break;
                 }
 

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Common;
 
+use App\Core\Constants;
 use App\Http\Controllers\Controller;
 use App\Mail\CustomerNotification;
 use App\Models\DisplaySetting;
+use App\Models\Notification;
 use App\Models\SmsHistory;
 use App\Models\SmsSetting;
 use App\Models\User;
@@ -74,7 +76,43 @@ class Utilities_lib extends Controller
         return $res;
     }
 
-    public function sendPushNotification(User $client, $message)
+    public function notificationLog($type, $user, $receiver, $location, $subject, $message, $status, $responseData)
+    {
+        $notification = new Notification();
+        $notification->sender_id = auth()->user()->id;
+        $notification->recipient_id = $user->id;
+        $notification->location_id = $location;
+        $notification->recipient = $receiver;
+        $notification->channel = $type;
+        if ($subject != "")
+            $notification->subject = $subject;
+
+        if ($message != "")
+            $notification->message = $message;
+
+        $notification->status = $status;
+        $notification->timestamp = now();
+
+        // if ($requestData != null)
+        //     $notification->request = $requestData;
+
+        if ($responseData != null)
+            $notification->response = $responseData;
+
+        $notification->save();
+
+        // switch ($type) {
+        //     case 'push':
+        //         $notification->status = $status;
+        //         break;
+
+        //     default:
+        //         # code...
+        //         break;
+        // }
+    }
+
+    public function sendPushNotification(User $client, $message, $location = null, $subject = null)
     {
 
         if ($client) {
@@ -83,18 +121,20 @@ class Utilities_lib extends Controller
                 $body = $message;
 
                 $response = Larafirebase::fromArray(['title' => 'SmartQ Notification', 'body' => $body])->sendNotification($deviceTokens);
+
+                $this->notificationLog('push', $client, $client->user_token, $location, $subject, $message, 'Sent', $response);
                 return $response;
             }
         }
     }
 
-    public function sendTokenNotification(User $client, $notify_type, $message)
+    public function sendTokenNotification(User $client, $notify_type, $message, $location = null, $subject = null)
     {
         if ($client) {
-            $setting  = SmsSetting::first();
+            (new Utilities_lib)->sendPushNotification($client, $message, $location, $subject);
 
-            // $notify_type = $client->otp_type;
             if ($notify_type == "sms") {
+                $setting  = SmsSetting::first();
                 $sms_lib = new SMS_lib;
 
                 $phone = $this->sanitizePhoneNumber($client->mobile);
@@ -109,19 +149,23 @@ class Utilities_lib extends Controller
                     ->message("$message")
                     ->response();
 
-                //store sms information 
-                $sms = new SmsHistory();
-                $sms->from        = $setting->from;
-                $sms->to          = $phone;
-                $sms->message     = $message;
-                $sms->response    = $data;
-                $sms->created_at  = date('Y-m-d H:i:s');
+                $this->notificationLog($notify_type, $client, $phone, $location, $subject, $message, 'Sent', $data);
 
-                $sms->save();
+                //store sms information 
+                // $sms = new SmsHistory();
+                // $sms->from        = $setting->from;
+                // $sms->to          = $phone;
+                // $sms->message     = $message;
+                // $sms->response    = $data;
+                // $sms->created_at  = date('Y-m-d H:i:s');
+                // $sms->save();
             } else if ($notify_type == "email") {
                 Mail::to($client->email)->send(new CustomerNotification($client->firstname, $message));
+                $this->notificationLog($notify_type, $client, $client->email, $location, $subject, $message, 'Sent', '');
             } elseif ($notify_type == "whatsapp") {
                 $response = $this->sendWhatsAppText($client, $message);
+                ///TODO: get interaction id from response
+                $this->notificationLog($notify_type, $client, $client->mobile, $location, $subject, $message, 'Sent', $response);
             }
         }
     }
@@ -185,7 +229,7 @@ class Utilities_lib extends Controller
 
 
             $response = $whatsapp_cloud_api->sendTemplate($phone, 'waitwise_otp', 'en', $components);
-
+            $this->notificationLog('whatsapp', $client, $client->mobile, 0, 'waitwise_otp', $otp, 'Sent', $response);
             return $response;
         }
     }

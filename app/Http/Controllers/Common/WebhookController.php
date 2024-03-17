@@ -6,97 +6,57 @@ use App\Http\Controllers\Controller;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Netflie\WhatsAppCloudApi\WebHook;
+use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
 
 class WebhookController extends Controller
 {
-    public function handleGet(Request $request)
+    public function handleGet()
     {
-        $mode = $request->hub_mode;
-        $challenge = $request->hub_challenge;
-        $token = $request->hub_verify_token;
-        Log::info($mode);
-        Log::info($challenge);
-        Log::info($token);
-        if ($mode === 'subscribe' && $token === config('services.whatsapp.verify_token')) {
-            return response($challenge, 200);
-        } else {
-            return response('Unauthorized', 403);
-        }
+        // Instantiate the WhatsAppCloudApi super class.
+        $webhook = new WebHook();
+
+        echo $webhook->verify($_GET, config('services.whatsapp.verify_token'));
     }
 
-    // public function handleWebook(Request $request)
-    // {
-    //     // Log incoming message
-    //     Log::info("Incoming webhook message: " . $request->all());
-
-    //     $data = json_decode($request->all(), true);
-    //     Log::info($data);
-    //     $message = $data['entry'][0]['changes'][0]['value']['messages'][0] ?? null;
-
-    //     if ($message && $message['type'] === 'text') {
-    //         $businessPhoneNumberId = $data['entry'][0]['changes'][0]['value']['metadata']['phone_number_id'];
-
-    //         $this->sendMessage($businessPhoneNumberId, $message);
-    //         $this->markMessageRead($businessPhoneNumberId, $message['id']);
-    //     }
-
-    //     return response()->noContent(200);
-    // }
-
-    public function handleWebhook(Request $request)
+    public function handleWebhook()
     {
         // Log incoming message
         $rawData = file_get_contents('php://input');
-        
+
         $data = json_decode($rawData, true);
         Log::info($data);
         $message = $data['entry'][0]['changes'][0]['value']['messages'][0] ?? null;
 
         if ($message && $message['type'] === 'text') {
-            $businessPhoneNumberId = $data['entry'][0]['changes'][0]['value']['metadata']['phone_number_id'];
-
-            $this->sendMessage($businessPhoneNumberId, $message);
-            $this->markMessageRead($businessPhoneNumberId, $message['id']);
+            $this->sendMessage($message);
+            $this->markMessageRead($message['id']);
         }
+
+        // Instantiate the Webhook super class.
+        $webhook = new WebHook();
+
+        // Read the first message
+        Log::info($webhook->read(json_decode($rawData, true)), true);
+
+        //Read all messages in case Meta decided to batch them
+        Log::info($webhook->readAll(json_decode($rawData, true)), true);
 
         return response()->noContent(200);
     }
 
 
-    private function sendMessage($businessPhoneNumberId, $message)
+    private function sendMessage($message)
     {
-        $client = new Client([
-            'base_uri' => 'https://graph.facebook.com/v18.0/',
-            'headers' => [
-                'Authorization' => 'Bearer ' . env('WHATSAPP_CLOUD_API_TOKEN'),
-            ],
-        ]);
-
-        $client->post("{$businessPhoneNumberId}/messages", [
-            'json' => [
-                'messaging_product' => 'whatsapp',
-                'to' => $message['from'],
-                'text' => ['body' => 'Echo: ' . $message['text']['body']],
-                'context' => ['message_id' => $message['id']],
-            ],
-        ]);
+        // Instantiate the WhatsAppCloudApi super class.
+        $whatsapp_cloud_api = new WhatsAppCloudApi([]);
+        $whatsapp_cloud_api->replyTo($message['id'])->sendTextMessage($message['from'], 'Echo: ' . $message['text']['body']);
     }
 
-    private function markMessageRead($businessPhoneNumberId, $messageId)
+    private function markMessageRead($messageId)
     {
-        $client = new Client([
-            'base_uri' => 'https://graph.facebook.com/v18.0/',
-            'headers' => [
-                'Authorization' => 'Bearer ' . env('WHATSAPP_CLOUD_API_TOKEN'),
-            ],
-        ]);
-
-        $client->post("{$businessPhoneNumberId}/messages", [
-            'json' => [
-                'messaging_product' => 'whatsapp',
-                'status' => 'read',
-                'message_id' => $messageId,
-            ],
-        ]);
+        // Instantiate the WhatsAppCloudApi super class.
+        $whatsapp_cloud_api = new WhatsAppCloudApi([]);
+        $whatsapp_cloud_api->markMessageAsRead($messageId);
     }
 }
