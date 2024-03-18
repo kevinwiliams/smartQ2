@@ -47,7 +47,7 @@ class WebhookController extends Controller
             Log::info('Message Info');
             Log::info('Message: ' . $notification->message());
             Log::info('ID: ' . $notification->id());
-            Log::info('Received: ' . $notification->receivedAt());
+            Log::info('Received: ' . $notification->receivedAt()->format('D M d Y h:i a'));
             Log::info('Customer: ' . $notification->customer()?->name());
             Log::info('Phone: ' . $notification->customer()?->phoneNumber());
             
