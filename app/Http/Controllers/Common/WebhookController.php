@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Netflie\WhatsAppCloudApi\WebHook;
+use Netflie\WhatsAppCloudApi\WebHook\Notification\Text as TextNotification;
 use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
 
 class WebhookController extends Controller
@@ -34,12 +35,23 @@ class WebhookController extends Controller
             $this->markMessageRead($message['id']);
         }
 
+        
         // Instantiate the Webhook super class.
         $webhook = new WebHook();
 
         // Read the first message
         Log::info('Webhook Read the first message');
-        Log::info(json_encode($webhook->read(json_decode($rawData, true))));
+        $notification = $webhook->read(json_decode($rawData, true));
+        
+        if($notification instanceof TextNotification){
+            Log::info('Message Info');
+            Log::info('Message: ' . $notification->message());
+            Log::info('ID: ' . $notification->id());
+            Log::info('Received: ' . $notification->receivedAt());
+            Log::info('Customer: ' . $notification->customer()?->name());
+            Log::info('Phone: ' . $notification->customer()?->phoneNumber());
+            
+        }
 
         //Read all messages in case Meta decided to batch them
         // Log::info('Read all messages in case Meta decided to batch them');
@@ -56,7 +68,7 @@ class WebhookController extends Controller
         $response = $whatsapp_cloud_api->replyTo($message['id'])->sendTextMessage($message['from'], 'Echo: ' . $message['text']['body']);
 
         Log::info('Send message response');
-        Log::info(json_encode($response));
+        Log::info($response->decodedBody());
     }
 
     private function markMessageRead($messageId)
