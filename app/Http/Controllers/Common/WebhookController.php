@@ -28,47 +28,38 @@ class WebhookController extends Controller
         $data = json_decode($rawData, true);
         Log::info('Raw Data');
         Log::info($data);
-        $message = $data['entry'][0]['changes'][0]['value']['messages'][0] ?? null;
-
-        if ($message && $message['type'] === 'text') {
-            $this->sendMessage($message);
-            $this->markMessageRead($message['id']);
-        }
-
         
         // Instantiate the Webhook super class.
         $webhook = new WebHook();
 
-        // Read the first message
-        Log::info('Webhook Read the first message');
-        $notification = $webhook->read(json_decode($rawData, true));
+        $notification = $webhook->read($data);
         
         if($notification instanceof TextNotification){
-            Log::info('Message Info');
-            Log::info('Message: ' . $notification->message());
-            Log::info('ID: ' . $notification->id());
-            Log::info('Received: ' . $notification->receivedAt()->format('D M d Y h:i a'));
-            Log::info('Customer: ' . $notification->customer()?->name());
-            Log::info('Phone: ' . $notification->customer()?->phoneNumber());
+            //Mark message as read
+            $this->markMessageRead($notification->id());
+
+            //Respond / process message
+            $this->sendMessage($notification);
+            
+
+            // Log::info('Message Info');
+            // Log::info('Message: ' . $notification->message());
+            // Log::info('ID: ' . $notification->id());
+            // Log::info('Received: ' . $notification->receivedAt()->format('D M d Y h:i a'));
+            // Log::info('Customer: ' . $notification->customer()?->name());
+            // Log::info('Phone: ' . $notification->customer()?->phoneNumber());
             
         }
-
-        //Read all messages in case Meta decided to batch them
-        // Log::info('Read all messages in case Meta decided to batch them');
-        // Log::info(json_encode($webhook->readAll(json_decode($rawData, true))));
 
         return response()->noContent(200);
     }
 
 
-    private function sendMessage($message)
+    private function sendMessage(TextNotification $notification)
     {
         // Instantiate the WhatsAppCloudApi super class.
         $whatsapp_cloud_api = new WhatsAppCloudApi([]);
-        $response = $whatsapp_cloud_api->replyTo($message['id'])->sendTextMessage($message['from'], 'Echo: ' . $message['text']['body']);
-
-        Log::info('Send message response');
-        Log::info($response->decodedBody());
+        $whatsapp_cloud_api->replyTo($notification->id())->sendTextMessage($notification->customer()->phoneNumber(), 'Echo: ' . $notification->message());
     }
 
     private function markMessageRead($messageId)

@@ -14,7 +14,7 @@
                 {!! theme()->getSvgIcon("icons/duotune/technology/teh003.svg", "svg-icon-3") !!}
                 Calculate Best Route
             </button>
-            <a href="{{ theme()->getPageUrl("home/home") }}" class="btn btn-sm btn-success">
+            <a href="{{ theme()->getPageUrl("home/search") }}" class="btn btn-sm btn-success">
                 {!! theme()->getSvgIcon("icons/duotune/arrows/arr075.svg", "svg-icon-3") !!}
                 New Token
             </a>

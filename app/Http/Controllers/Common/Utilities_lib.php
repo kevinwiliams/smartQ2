@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Common;
 
 use App\Core\Constants;
+use App\Http\Controllers\Admin\MagicController;
 use App\Http\Controllers\Controller;
 use App\Mail\CustomerNotification;
 use App\Models\DisplaySetting;
@@ -90,13 +91,12 @@ class Utilities_lib extends Controller
         if ($message != "")
             $notification->message = $message;
 
-        $notification->status = $status;        
+        $notification->status = $status;
 
         if ($responseData != null)
             $notification->response = $responseData;
 
         $notification->save();
-
     }
 
     public function sendPushNotification(User $client, $message, $location = null, $subject = null)
@@ -118,7 +118,7 @@ class Utilities_lib extends Controller
     public function sendTokenNotification(User $client, $message, $location = null, $subject = null)
     {
         if ($client) {
-            
+
 
             if ($client->otp_type == "sms") {
                 (new Utilities_lib)->sendPushNotification($client, $message, $location, $subject);
@@ -219,6 +219,66 @@ class Utilities_lib extends Controller
 
             $response = $whatsapp_cloud_api->sendTemplate($phone, 'waitwise_otp', 'en', $components);
             $this->notificationLog('whatsapp', $client, $client->mobile, 0, 'waitwise_otp', $otp, 'Sent', json_encode($response));
+            return $response;
+        }
+    }
+
+    public function sendWhatsAppTokenConfirmation(User $client, $position, $wait, $location, $token_id)
+    {
+        // // Instantiate the WhatsAppCloudApi super class.
+
+        $whatsapp_cloud_api = new WhatsAppCloudApi([]);
+        if ($client) {
+            $magicInfo = (new MagicController)->makeMagic('home/current/' . $token_id);
+            $phone = $this->sanitizePhoneNumber($client->mobile);
+
+            $component_header = [];
+
+            $component_body = [
+                [
+                    'type' => 'text',
+                    'text' => $client->first_name,
+                ],
+                [
+                    'type' => 'text',
+                    'text' => $position,
+                ],
+                [
+                    'type' => 'text',
+                    'text' => $wait,
+                ],
+                [
+                    'type' => 'text',
+                    'text' => $location->name,
+                ],
+            ];
+
+            $component_buttons = [
+                [
+                    'type' => 'button',
+                    'sub_type' => 'url',
+                    'index' => 0,
+                    'parameters' => [
+                        [
+                            'type' => 'text',
+                            'text' => $magicInfo['magic'],
+                        ]
+                    ]
+                ],
+            ];
+
+            $components = new Component($component_header, $component_body, $component_buttons);
+            // echo '<pre>'; 
+            // print_r($magicInfo);
+            // echo '</pre>';
+            // echo '<pre>'; 
+            // print_r($components);
+            // echo '</pre>';
+            // die();
+
+            
+            $response = $whatsapp_cloud_api->sendTemplate($phone, 'token_confirmation', 'en', $components);
+            $this->notificationLog('whatsapp', $client, $client->mobile, $location->id, 'token_confirmation', json_encode($components), 'Sent', json_encode($response->decodedBody()));
             return $response;
         }
     }

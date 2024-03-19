@@ -31,6 +31,7 @@ use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\InvitationController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\LocationSettingController;
+use App\Http\Controllers\Admin\MagicController;
 use App\Http\Controllers\Admin\OnboardingController;
 use App\Http\Controllers\Admin\ReasonForVisitController;
 use App\Http\Controllers\Admin\ReasonForVisitCountersController;
@@ -76,6 +77,9 @@ array_walk($menu, function ($val) {
 
 
 Route::get('generateScheduledReports/{id}', [CronjobController::class, 'generateScheduledReports']);
+
+//MAGIC
+Route::post('magic/{token}', [MagicController::class,'index'])->name('magic')->middleware('signed');
 
 Route::middleware('auth')->group(function () {
 	// Apps

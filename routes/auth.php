@@ -74,5 +74,5 @@ Route::get('/onboard', [RegisteredUserController::class, 'start'])
 
 //Invitation
 Route::get('/invitation/accept/{token}', [InvitationController::class, 'accept'])
-    ->middleware('guest')
+    ->middleware('signed')
     ->name('invitation.accept');

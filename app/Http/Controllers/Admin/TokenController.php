@@ -4,13 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\Token\TokenDataTable;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Common\SMS_lib;
 use App\Http\Controllers\Common\Token_lib;
 use App\Http\Controllers\Common\Utilities_lib;
 use Illuminate\Http\Request;
-use App\Http\Requests;
 use App\Models\BusinessCategory;
-use App\Models\CheckInCode;
 use App\Models\Company;
 use App\Models\User;
 use App\Models\Department;
@@ -23,12 +20,12 @@ use App\Models\Location;
 use App\Models\ReasonForVisit;
 use App\Models\ReasonForVisitCounters;
 use App\Models\Setting;
-use App\Models\SmsHistory;
 use App\Models\TokenStatus;
 use Carbon\Carbon;
 
 use DB, Validator, PDF;
 use Http;
+
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Redirect;
@@ -549,10 +546,18 @@ class TokenController extends Controller
                     }
 
                     if (!empty($token->client_id)) {
-                        $user = User::find($token->client_id);
-                        $msg = "Please contact urgently. Token No: $token->token\r\n Department: $token->department, Counter: $token->counter and Officer: $token->officer. \r\n $token->date.";
-                        
-                        (new Utilities_lib)->sendTokenNotification($user, $msg, $token->location_id);
+                        $user = User::find($token->client_id);                        
+                        $location = Location::find($request->location);
+
+                        $responsedata = $this->currentposition($insert_id);
+                        // echo '<pre>';
+                        // print_r($insert_id);
+                        // echo '</pre>';
+                        // echo '<pre>';
+                        // print_r($data->original);
+                        // echo '</pre>';
+                        // die();
+                        (new Utilities_lib)->sendWhatsAppTokenConfirmation($user,$responsedata->original['position'],$responsedata->original['wait'], $location, $insert_id);
                     }
 
                     // (new Utilities_lib)->sendTokenNotification($user, $token->notification_type, $msg, $token->location_id);
@@ -1880,6 +1885,7 @@ class TokenController extends Controller
 
 
         if (!$token) {
+            Session::flash("fail", trans('app.invalid_token'));
             return redirect('home');
         }
 
@@ -2075,7 +2081,7 @@ class TokenController extends Controller
         $data['status'] = true;
         $data['position'] = $cntr;
         $data['wait'] = date('H:i', mktime(0, $waittime));
-
+        
         return response()->json($data);
     }
 
