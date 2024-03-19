@@ -113,8 +113,8 @@ class TokenController extends Controller
                 return response()->json($data, 400);
             } else {
                 return redirect('token/setting')
-                ->withErrors($validator)
-                ->withInput();
+                    ->withErrors($validator)
+                    ->withInput();
             }
         } else {
 
@@ -439,6 +439,17 @@ class TokenController extends Controller
 
         //generate a token
         try {
+            //VALIDATION CHECKS
+            //Check for duplicates
+
+            if (env('APP_ENV') != 'local')
+                if (Token::where('location_id', $request->location)->where('client_id', $client_id)->where('department_id', $request->department_id)->first()) {
+                    $data['status'] = false;
+                    $data['exception'] = trans('app.token_exists');
+                    return response()->json($data);
+                }
+
+
             DB::beginTransaction();
 
             $reason = null;
@@ -504,7 +515,7 @@ class TokenController extends Controller
                     'notification_type' => $otp_type
                 ];
 
-               
+
 
                 //store in database  
                 //set message and redirect
@@ -518,18 +529,19 @@ class TokenController extends Controller
 
                     $token = null;
                     //retrive token info
-                    $token = Token::select(
-                        'token.*',
-                        'department.name as department',
-                        'counter.name as counter',
-                        'user.firstname',
-                        'user.lastname'
-                    )
-                        ->leftJoin('department', 'token.department_id', '=', 'department.id')
-                        ->leftJoin('counter', 'token.counter_id', '=', 'counter.id')
-                        ->leftJoin('user', 'token.user_id', '=', 'user.id')
-                        ->where('token.id', $insert_id)
-                        ->first();
+                    $token = Token::find($insert_id);
+                    // $token = Token::select(
+                    //     'token.*',
+                    //     'department.name as department',
+                    //     'counter.name as counter',
+                    //     'user.firstname',
+                    //     'user.lastname'
+                    // )
+                    //     ->leftJoin('department', 'token.department_id', '=', 'department.id')
+                    //     ->leftJoin('counter', 'token.counter_id', '=', 'counter.id')
+                    //     ->leftJoin('user', 'token.user_id', '=', 'user.id')
+                    //     ->where('token.id', $insert_id)
+                    //     ->first();
 
                     DB::commit();
 
@@ -546,7 +558,7 @@ class TokenController extends Controller
                     }
 
                     if (!empty($token->client_id)) {
-                        $user = User::find($token->client_id);                        
+                        $user = User::find($token->client_id);
                         $location = Location::find($request->location);
 
                         $responsedata = $this->currentposition($insert_id);
@@ -557,12 +569,21 @@ class TokenController extends Controller
                         // print_r($data->original);
                         // echo '</pre>';
                         // die();
-                        (new Utilities_lib)->sendWhatsAppTokenConfirmation($user,$responsedata->original['position'],$responsedata->original['wait'], $location, $insert_id);
+                        $service = '';
+                        if (isset($token->department)) {
+                            $service = $token->department->name ?? '';
+                            if (isset($token->department->description) && $token->department->description !== '') {
+                                $service .= ' - ' . $token->department->description;
+                            }
+                        }
+
+
+                        (new Utilities_lib)->sendWhatsAppTokenConfirmation($user, $responsedata->original['position'], $token->token_no, $responsedata->original['wait'], $service, $location, $insert_id);
                     }
 
                     // (new Utilities_lib)->sendTokenNotification($user, $token->notification_type, $msg, $token->location_id);
-                     ///TODO: send notification / alert with token information
-                ///      info should include shortcode to directly view the token details. publicly accessible?? temp url??
+                    ///TODO: send notification / alert with token information
+                    ///      info should include shortcode to directly view the token details. publicly accessible?? temp url??
 
                     $data['status'] = true;
                     $data['message'] = trans('app.token_generate_successfully');
@@ -570,7 +591,7 @@ class TokenController extends Controller
                     $data['position']  = $cntr;
 
                     activity('activity')
-                        ->withProperties(['activity' => 'Client Generate Token', 'department' => $token->department, 'token' => $token->token_no, 'display' => 'success', 'location_id' => auth()->user()->location_id])
+                        ->withProperties(['activity' => 'Client Generate Token', 'department' => ($token->department) ? $token->department->name : '', 'token' => $token->token_no, 'display' => 'success', 'location_id' => auth()->user()->location_id])
                         ->log('Token (:properties.token) generated for :properties.department');
                 } else {
                     $data['status'] = false;
@@ -1482,7 +1503,7 @@ class TokenController extends Controller
         if (!empty($token->client)) {
             $user = User::find($token->client);
             $msg = "Please contact urgently. Token No: $token->token\r\n Department: $token->department, Counter: $token->counter and Officer: $token->officer. \r\n $token->date.";
-            
+
             (new Utilities_lib)->sendTokenNotification($user, $msg, $token->location);
         }
 
@@ -1536,7 +1557,7 @@ class TokenController extends Controller
         if (!empty($token->client_id)) {
             $user = User::find($token->client_id);
             $msg = "Token No: $token->token_no\r\n Department: $dept, Counter: $counter and Officer: $officer. \r\nComplete";
-            
+
             (new Utilities_lib)->sendTokenNotification($user, $msg, $token->location_id);
         }
         // (new Utilities_lib)->TokenNotification();
@@ -1564,7 +1585,7 @@ class TokenController extends Controller
             $counter = $token->counter->name;
             $user = User::find($token->client_id);
             $msg = "Token No: $token->token_no\r\n Department: $dept, Counter: $counter and Officer: $officer. \r\Stopped";
-            
+
             (new Utilities_lib)->sendTokenNotification($user, $msg, $token->location_id);
         }
         // (new Utilities_lib)->TokenNotification();
@@ -1595,7 +1616,7 @@ class TokenController extends Controller
             // $counter = $token->counter->name;
 
             $msg = "Token No: $token->token_no\r\n Department: $dept\r\ncancelled due to no show.";
-            
+
             (new Utilities_lib)->sendTokenNotification($user, $msg, $token->location_id);
         }
         // (new Utilities_lib)->TokenNotification();
@@ -1625,8 +1646,8 @@ class TokenController extends Controller
             $officer = $token->officer->name;
             $counter = $token->counter->name;
             $msg = "Now serving token No: $token->token_no\r\n Department: $dept, Counter: $counter and Officer: $officer.";
-            
-            (new Utilities_lib)->sendTokenNotification($user, $msg , $token->location_id);
+
+            (new Utilities_lib)->sendTokenNotification($user, $msg, $token->location_id);
         }
         // (new Utilities_lib)->TokenNotification();
         return redirect()->back()->with('message', trans('app.update_successfully'));
@@ -1674,7 +1695,7 @@ class TokenController extends Controller
 
                 $user = User::find($token->client_id);
                 $msg = "Token transferred\r\nToken No: $token->token_no\r\n Department: $dept, Counter: $counter and Officer: $officer.";
-                
+
                 (new Utilities_lib)->sendTokenNotification($user, $msg, $token->location_id);
             }
 
@@ -2081,7 +2102,7 @@ class TokenController extends Controller
         $data['status'] = true;
         $data['position'] = $cntr;
         $data['wait'] = date('H:i', mktime(0, $waittime));
-        
+
         return response()->json($data);
     }
 

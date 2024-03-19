@@ -364,4 +364,8 @@ return [
     'i_would_like_to'    => "I would like to",
     'comment'    => "Comment",    
     'rating'    => "Rating",  
+
+    'token_exists'    => "Token already exists",  
+    'invalid_token'    => "Invalid Token",  
+
 ];

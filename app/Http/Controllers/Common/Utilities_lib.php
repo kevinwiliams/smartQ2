@@ -223,7 +223,7 @@ class Utilities_lib extends Controller
         }
     }
 
-    public function sendWhatsAppTokenConfirmation(User $client, $position, $wait, $location, $token_id)
+    public function sendWhatsAppTokenConfirmation(User $client, $position, $token_no, $wait, $service, $location, $token_id)
     {
         // // Instantiate the WhatsAppCloudApi super class.
 
@@ -237,7 +237,7 @@ class Utilities_lib extends Controller
             $component_body = [
                 [
                     'type' => 'text',
-                    'text' => $client->first_name,
+                    'text' => $client->firstname,
                 ],
                 [
                     'type' => 'text',
@@ -245,7 +245,15 @@ class Utilities_lib extends Controller
                 ],
                 [
                     'type' => 'text',
+                    'text' => $token_no,
+                ],
+                [
+                    'type' => 'text',
                     'text' => $wait,
+                ],
+                [
+                    'type' => 'text',
+                    'text' => $service,
                 ],
                 [
                     'type' => 'text',
@@ -276,7 +284,7 @@ class Utilities_lib extends Controller
             // echo '</pre>';
             // die();
 
-            
+
             $response = $whatsapp_cloud_api->sendTemplate($phone, 'token_confirmation', 'en', $components);
             $this->notificationLog('whatsapp', $client, $client->mobile, $location->id, 'token_confirmation', json_encode($components), 'Sent', json_encode($response->decodedBody()));
             return $response;

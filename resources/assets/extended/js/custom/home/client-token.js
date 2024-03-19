@@ -133,10 +133,30 @@ var MVCreateToken = function() {
                                                 stepper.goNext();
                                                 MVUtil.scrollTop();
                                                 $('[data-mv-stepper-action="previous"]').addClass('disabled');
-
+                                            }else{
+                                                Swal.fire({
+                                                    text: data.exception,
+                                                    icon: "error",
+                                                    buttonsStyling: false,
+                                                    confirmButtonText: "Ok, got it!",
+                                                    customClass: {
+                                                        confirmButton: "btn fw-bold btn-primary",
+                                                    }
+                                                });
                                             }
 
                                         }
+                                    }).fail(function (jqXHR, textStatus, error) {
+                                        // Handle error here
+                                        Swal.fire({
+                                            text: "Oops how embarrasing the token wasn't created.",
+                                            icon: "error",
+                                            buttonsStyling: false,
+                                            confirmButtonText: "Ok, got it!",
+                                            customClass: {
+                                                confirmButton: "btn fw-bold btn-primary",
+                                            }
+                                        });
                                     });
                                 }
                             });
