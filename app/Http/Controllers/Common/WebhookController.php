@@ -72,7 +72,7 @@ class WebhookController extends Controller
             ->first();
 
             
-        if ($c_rating) {
+        if ($c_rating != null) {
             Log::info('Survey found');
             //get config
             $config = json_decode($c_rating->config, true);
