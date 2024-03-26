@@ -336,7 +336,7 @@ class Utilities_lib extends Controller
             $cr->config = json_encode($config);
             $cr->save();
 
-            (new WebhookController(new WhatsAppCloudApi([])))->sendNextSurveyMessage($cr, $phone);
+            (new WebhookController())->sendNextSurveyMessage($cr, $phone);
 
             die();
         } catch (\Exception $ex) {

@@ -24,9 +24,9 @@ class WebhookController extends Controller
 {
     protected $whatsappCloudApi;
 
-    public function __construct(WhatsAppCloudApi $whatsappCloudApi)
+    public function __construct()
     {
-        $this->whatsappCloudApi = $whatsappCloudApi;
+        $this->whatsappCloudApi = new WhatsAppCloudApi([]);
     }
 
     public function handleGet(Request $request)
