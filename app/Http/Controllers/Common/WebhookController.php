@@ -75,9 +75,18 @@ class WebhookController extends Controller
             $config = json_decode($c_rating->config, true);
             $currentStep = $c_rating->current_step;
 
-            if ($currentStep === 0) {
+            $crecord = null;
+            foreach ($config as $value) {
+                if ($value['step'] == $currentStep) {
+                    $crecord = $value;
+                    break;
+                }
+            }
+            $config_config = json_decode($crecord['config'], true);
+
+            if ($currentStep == 0) {
                 if ($notification instanceof ButtonNotification) {
-                    if ($config['config']['success'] == $notification->text()) {
+                    if ($config_config['success'] == $notification->text()) {
                         //Send next message and move to next step
                         $this->sendNextSurveyMessage($c_rating, $customer_mobile);
                     } else {
