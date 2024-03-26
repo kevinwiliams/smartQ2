@@ -67,7 +67,7 @@ class WebhookController extends Controller
         Log::info('Customer: ' . $customer_mobile);
         //Check survey table
         $c_rating = CustomerRating::where('mobile', $customer_mobile)
-            ->where('current_step', '<', 'max_step')
+            ->where('current_steps', '<', 'max_step')
             ->orderBy('id', 'desc')
             ->first();
 
@@ -117,6 +117,7 @@ class WebhookController extends Controller
             //     // $this->sendMessage($notification);
             // }
         } else {
+            Log::info('No survey found');
             if ($notification instanceof TextNotification) {
                 //Respond / process message
                 $this->sendMessage($notification);
