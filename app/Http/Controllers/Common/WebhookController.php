@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Common;
 use App\Http\Controllers\Controller;
 use App\Models\CustomerRating;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Netflie\WhatsAppCloudApi\Message\ButtonReply\Button;
 use Netflie\WhatsAppCloudApi\Message\ButtonReply\ButtonAction;
@@ -70,7 +71,8 @@ class WebhookController extends Controller
             //     ->where('current_step', '<', 'max_step')
             //     ->orderBy('id', 'desc')
             //     ->first();
-            $c_rating = CustomerRating::where('mobile', $customer_mobile)->first();
+            $c_rating = CustomerRating::where('mobile', $customer_mobile)
+            ->whereRaw('current_step  <  max_step')->first();
         } catch (\Exception $e) {
             Log::error('Caught exception: ',  $e->getMessage());
         }
@@ -104,12 +106,12 @@ class WebhookController extends Controller
                     Log::info('Interactive notification');
                     Log::info('notification->description: ' . $notification->description());
                     Log::info('notification->title: ' . $notification->title());
-                    // if ($config_config['success'] == $notification->text()) {
-                    //     //Send next message and move to next step
-                    //     $this->sendNextSurveyMessage($c_rating, $customer_mobile);
-                    // } else {
-                    //     //Thank you/rejection message
-                    // }
+                    if ($config_config['success'] == $notification->title()) {
+                        //Send next message and move to next step
+                        $this->sendNextSurveyMessage($c_rating, $customer_mobile);
+                    } else {
+                        //Thank you/rejection message
+                    }
                 }else {
                     //Invalid response
                     Log::info('Not button notification');
@@ -152,20 +154,6 @@ class WebhookController extends Controller
             }
 
             $config_config = json_decode($crecord['config'], true);
-
-            // echo '<pre>';
-            // print_r($next);
-            // echo '</pre>';
-            // echo '<pre>';
-            // print_r($crecord);
-            // echo '</pre>';            
-            // echo '<pre>';
-            // print_r($config_config);
-            // echo '</pre>';
-            // echo '<pre>';
-            // print_r($config_config['success']);
-            // echo '</pre>';
-            // die();
 
             if ($next == 0) {
                 //Send feedback request
