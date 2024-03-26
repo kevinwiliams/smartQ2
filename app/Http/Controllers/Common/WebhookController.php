@@ -66,12 +66,11 @@ class WebhookController extends Controller
         $customer_mobile = $notification->customer()->phoneNumber();      
         Log::info('Customer: ' . $customer_mobile);
         //Check survey table
-        $c_rating = CustomerRating::where('mobile', $customer_mobile)
+        $c_rating = CustomerRating::where('mobile', "'" . $customer_mobile . "'")
             ->where('current_step', '<', 'max_step')
             ->orderBy('id', 'desc')
             ->first();
-
-            
+        
         if ($c_rating != null) {
             Log::info('Survey found');
             //get config
