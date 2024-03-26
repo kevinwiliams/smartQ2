@@ -50,7 +50,9 @@ class WebhookController extends Controller
 
         
         if ($notification instanceof MessageNotification) {
+            Log::info('Mark message as read');
             $this->markMessageRead($notification->id());
+
             $this->processMessage($notification);
         }
 
@@ -59,20 +61,23 @@ class WebhookController extends Controller
 
     private function processMessage(MessageNotification $notification)
     {
+        Log::info('Process message');
         //Retrieve customer number
         $customer_mobile = $notification->customer()->phoneNumber();      
-
+        Log::info('Customer: ' . $customer_mobile);
         //Check survey table
         $c_rating = CustomerRating::where('mobile', $customer_mobile)
             ->where('current_step', '<', 'max_step')
             ->orderBy('id', 'desc')
             ->first();
 
+            
         if ($c_rating) {
+            Log::info('Survey found');
             //get config
             $config = json_decode($c_rating->config, true);
             $currentStep = $c_rating->current_step;
-
+            Log::info('Step: ' . $currentStep);
             $crecord = null;
             foreach ($config as $value) {
                 if ($value['step'] == $currentStep) {
@@ -81,9 +86,11 @@ class WebhookController extends Controller
                 }
             }
             $config_config = json_decode($crecord['config'], true);
-
+            Log::info('config_config: ' . $crecord['config']);
             if ($currentStep == 0) {
                 if ($notification instanceof ButtonNotification) {
+                    Log::info('Button notification');
+                    Log::info('notification->text: ' . $notification->text());
                     if ($config_config['success'] == $notification->text()) {
                         //Send next message and move to next step
                         $this->sendNextSurveyMessage($c_rating, $customer_mobile);
@@ -92,6 +99,7 @@ class WebhookController extends Controller
                     }
                 } else {
                     //Invalid response
+                    Log::info('Not button notification');
                 }
             } elseif ($currentStep == $c_rating->max_step) {
                 // Handle max step
@@ -99,17 +107,20 @@ class WebhookController extends Controller
                 // Handle other steps
             }
 
+            // if ($notification instanceof TextNotification) {
+            //     //Respond / process message
+            //     // $this->sendMessage($notification);
+            // }
+
+            // if ($notification instanceof ButtonNotification) {
+            //     //Respond / process message
+            //     // $this->sendMessage($notification);
+            // }
+        } else {
             if ($notification instanceof TextNotification) {
                 //Respond / process message
-                // $this->sendMessage($notification);
+                $this->sendMessage($notification);
             }
-
-            if ($notification instanceof ButtonNotification) {
-                //Respond / process message
-                // $this->sendMessage($notification);
-            }
-        } else {
-            // Handle case where customer rating is not found
         }
     }
 
