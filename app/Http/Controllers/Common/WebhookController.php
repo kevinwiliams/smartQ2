@@ -4,10 +4,7 @@ namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
 use App\Models\CustomerRating;
-use Exception;
-use GuzzleHttp\Client;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Netflie\WhatsAppCloudApi\Message\ButtonReply\Button;
 use Netflie\WhatsAppCloudApi\Message\ButtonReply\ButtonAction;
@@ -15,8 +12,8 @@ use Netflie\WhatsAppCloudApi\Message\OptionsList\Action;
 use Netflie\WhatsAppCloudApi\Message\OptionsList\Row;
 use Netflie\WhatsAppCloudApi\Message\OptionsList\Section;
 use Netflie\WhatsAppCloudApi\WebHook;
-use Netflie\WhatsAppCloudApi\WebHook\Notification;
 use Netflie\WhatsAppCloudApi\WebHook\Notification\Button as ButtonNotification;
+use Netflie\WhatsAppCloudApi\WebHook\Notification\Interactive;
 use Netflie\WhatsAppCloudApi\WebHook\Notification\MessageNotification;
 use Netflie\WhatsAppCloudApi\WebHook\Notification\Text as TextNotification;
 use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
@@ -73,7 +70,7 @@ class WebhookController extends Controller
             //     ->where('current_step', '<', 'max_step')
             //     ->orderBy('id', 'desc')
             //     ->first();
-            $c_rating = CustomerRating::first();
+            $c_rating = CustomerRating::where('mobile', $customer_mobile)->first();
         } catch (\Exception $e) {
             Log::error('Caught exception: ',  $e->getMessage());
         }
@@ -103,7 +100,17 @@ class WebhookController extends Controller
                     } else {
                         //Thank you/rejection message
                     }
-                } else {
+                } else if ($notification instanceof Interactive) {
+                    Log::info('Interactive notification');
+                    Log::info('notification->description: ' . $notification->description());
+                    Log::info('notification->title: ' . $notification->title());
+                    // if ($config_config['success'] == $notification->text()) {
+                    //     //Send next message and move to next step
+                    //     $this->sendNextSurveyMessage($c_rating, $customer_mobile);
+                    // } else {
+                    //     //Thank you/rejection message
+                    // }
+                }else {
                     //Invalid response
                     Log::info('Not button notification');
                 }
