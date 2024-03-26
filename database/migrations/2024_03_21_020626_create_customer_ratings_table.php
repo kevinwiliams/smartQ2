@@ -41,6 +41,7 @@ class CreateCustomerRatingsTable extends Migration
             $table->string('name');
             $table->integer('step');
             $table->text('description')->nullable();
+            $table->text('config')->nullable();
             $table->boolean('active');
             $table->timestamps();
         });
