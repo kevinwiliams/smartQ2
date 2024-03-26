@@ -7,6 +7,7 @@ use App\Models\CustomerRating;
 use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Netflie\WhatsAppCloudApi\Message\ButtonReply\Button;
 use Netflie\WhatsAppCloudApi\Message\ButtonReply\ButtonAction;
@@ -48,7 +49,7 @@ class WebhookController extends Controller
         $webhook = new WebHook();
         $notification = $webhook->read($data);
 
-        
+
         if ($notification instanceof MessageNotification) {
             Log::info('Mark message as read');
             $this->markMessageRead($notification->id());
@@ -63,14 +64,19 @@ class WebhookController extends Controller
     {
         Log::info('Process message');
         //Retrieve customer number
-        $customer_mobile = $notification->customer()->phoneNumber();      
+        $customer_mobile = trim($notification->customer()->phoneNumber());
         Log::info('Customer: ' . $customer_mobile);
         //Check survey table
-        $c_rating = CustomerRating::where('mobile', "'" . $customer_mobile . "'")
-            ->where('current_step', '<', 'max_step')
-            ->orderBy('id', 'desc')
-            ->first();
-        
+        try {
+            // Trim the 'mobile' field in the database query
+            $c_rating = CustomerRating::where(DB::raw('TRIM(mobile)'), $customer_mobile)
+                ->where('current_step', '<', 'max_step')
+                ->orderBy('id', 'desc')
+                ->first();
+        } catch (\Exception $e) {
+            Log::error('Caught exception: ',  $e->getMessage());
+        }
+
         if ($c_rating != null) {
             Log::info('Survey found');
             //get config
@@ -136,7 +142,7 @@ class WebhookController extends Controller
                     break;
                 }
             }
-            
+
             $config_config = json_decode($crecord['config'], true);
 
             // echo '<pre>';
