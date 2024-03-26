@@ -59,10 +59,7 @@ class WebhookController extends Controller
     private function processMessage(MessageNotification $notification)
     {
         //Retrieve customer number
-        $customer_mobile = $notification->customer()->phoneNumber();
-
-        //Mark message as read       
-        $this->markMessageRead($notification->id());
+        $customer_mobile = $notification->customer()->phoneNumber();      
 
         //Check survey table
         $c_rating = CustomerRating::where('mobile', $customer_mobile)
