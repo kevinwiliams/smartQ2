@@ -48,8 +48,9 @@ class WebhookController extends Controller
         $webhook = new WebHook();
         $notification = $webhook->read($data);
 
-        $this->markMessageRead($notification->id());
+        
         if ($notification instanceof MessageNotification) {
+            $this->markMessageRead($notification->id());
             $this->processMessage($notification);
         }
 
