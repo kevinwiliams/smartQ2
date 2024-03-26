@@ -6,15 +6,21 @@ use App\Core\Constants;
 use App\Http\Controllers\Admin\MagicController;
 use App\Http\Controllers\Controller;
 use App\Mail\CustomerNotification;
+use App\Models\CustomerRating;
 use App\Models\DisplaySetting;
+use App\Models\MetricSetup;
 use App\Models\Notification;
 use App\Models\SmsHistory;
 use App\Models\SmsSetting;
+use App\Models\Token;
 use App\Models\User;
 use DateTime;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Kutia\Larafirebase\Facades\Larafirebase;
 use Mail;
+use Netflie\WhatsAppCloudApi\Message\ButtonReply\Button;
+use Netflie\WhatsAppCloudApi\Message\ButtonReply\ButtonAction;
 use Netflie\WhatsAppCloudApi\Message\Template\Component;
 use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
 
@@ -280,7 +286,7 @@ class Utilities_lib extends Controller
             // print_r($magicInfo);
             // echo '</pre>';
             // echo '<pre>'; 
-            // print_r($components);
+            // print_r($components);  
             // echo '</pre>';
             // die();
 
@@ -288,6 +294,53 @@ class Utilities_lib extends Controller
             $response = $whatsapp_cloud_api->sendTemplate($phone, 'token_confirmation', 'en', $components);
             $this->notificationLog('whatsapp', $client, $client->mobile, $location->id, 'token_confirmation', json_encode($components), 'Sent', json_encode($response->decodedBody()));
             return $response;
+        }
+    }
+
+    public function generateWhatsAppFeedback($token_id)
+    {
+        try {
+
+
+            //Get token
+            $token = Token::find($token_id);
+            if (!$token)
+                return;
+
+            if (!isset($token->client))
+                return;
+
+            //Get config
+            $config = MetricSetup::select('id', 'name', 'description', 'step', 'config')->where('type', 'token')->where('active', 1)->orderBy('step')->get()->toArray();
+
+            if (count($config) == 0)
+                return;
+
+            //Get max step
+            $maxStep = 0;
+            foreach ($config as $item) {
+                if ($item['step'] > $maxStep) {
+                    $maxStep = $item['step'];
+                }
+            }
+
+            $phone = $this->sanitizePhoneNumber($token->client->mobile);
+
+            //Generate record
+            $cr = new CustomerRating();
+            $cr->user_id = $token->client_id;
+            $cr->mobile = $phone;
+            $cr->token_id = $token->id;
+            $cr->current_step = -1;
+            $cr->max_step = $maxStep;
+            $cr->config = json_encode($config);
+            $cr->save();
+
+            (new WebhookController(new WhatsAppCloudApi([])))->sendNextSurveyMessage($cr, $phone);
+
+            die();
+        } catch (\Exception $ex) {
+            print_r($ex);
         }
     }
 

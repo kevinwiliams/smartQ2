@@ -42,6 +42,7 @@ use App\Http\Controllers\Common\LanguageController;
 use App\Http\Controllers\Common\MessageController;
 use App\Http\Controllers\Common\NotificationController;
 use App\Http\Controllers\Common\ProfileController;
+use App\Http\Controllers\Common\Utilities_lib;
 use App\Http\Controllers\Common\WebhookController;
 use App\Http\Controllers\UserManagement\UserManagementController;
 use App\Models\BusinessHours;
@@ -77,9 +78,10 @@ array_walk($menu, function ($val) {
 
 
 Route::get('generateScheduledReports/{id}', [CronjobController::class, 'generateScheduledReports']);
+Route::get('generateWhatsAppFeedback/{token_id}', [Utilities_lib::class, 'generateWhatsAppFeedback']);
 
 //MAGIC
-Route::post('magic/{token}', [MagicController::class,'index'])->name('magic')->middleware('signed');
+Route::get('magic/{token}', [MagicController::class,'index'])->name('magic')->middleware('signed');
 
 Route::middleware('auth')->group(function () {
 	// Apps
