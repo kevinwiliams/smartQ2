@@ -67,12 +67,13 @@ class WebhookController extends Controller
         $customer_mobile = trim($notification->customer()->phoneNumber());
         Log::info('Customer: ' . $customer_mobile);
         //Check survey table
-        try {
-            // Trim the 'mobile' field in the database query
-            $c_rating = CustomerRating::where(DB::raw('TRIM(mobile)'), $customer_mobile)
-                ->where('current_step', '<', 'max_step')
-                ->orderBy('id', 'desc')
-                ->first();
+        try {               
+            
+            // $c_rating = CustomerRating::where('mobile', $customer_mobile)
+            //     ->where('current_step', '<', 'max_step')
+            //     ->orderBy('id', 'desc')
+            //     ->first();
+            $c_rating = CustomerRating::first();
         } catch (\Exception $e) {
             Log::error('Caught exception: ',  $e->getMessage());
         }
