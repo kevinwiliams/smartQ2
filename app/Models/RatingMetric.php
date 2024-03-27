@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class RatingMetric extends Model
 {
     use HasFactory;
-    protected $table = "rating_metric";
-    
+    protected $table = "rating_metrics";
+
     protected $fillable = [
         'customer_rating_id',
         'metric_id',
