@@ -347,7 +347,7 @@ class Utilities_lib extends Controller
 
     public function getWhatsAppMessageID($response){
         Log::info("getWhatsAppMessageID");
-        Log::info($response->decodedBody());
+        Log::info($response);
         if (isset($response['messages']) && is_array($response['messages']) && count($response['messages']) > 0) {
             // Check if 'id' key exists in the first element of 'messages' array
             if (isset($response['messages'][0]['id'])) {
