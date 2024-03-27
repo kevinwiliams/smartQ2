@@ -71,10 +71,18 @@ class WebhookController extends Controller
         //Check survey table
         try {
 
-            $c_rating = CustomerRating::where('mobile', $customer_mobile)
+            if ($notification->replyingToMessageId() != null){
+                $c_rating = CustomerRating::where('mobile', $customer_mobile)
                 ->whereRaw('current_step  <=  max_step')
                 ->where('last_context', $notification->replyingToMessageId())
                 ->orderBy('id', 'desc')->first();
+            }else{
+                $c_rating = CustomerRating::where('mobile', $customer_mobile)
+                ->whereRaw('current_step  <=  max_step')
+                ->whereNull('last_context')
+                ->orderBy('id', 'desc')->first();
+            }
+      
         } catch (\Exception $e) {
             Log::error('Caught exception: ',  $e->getMessage());
         }
@@ -116,7 +124,7 @@ class WebhookController extends Controller
                     if ($config_config['success'] == $notification->title()) {
                         //Send next message and move to next step
                         // $this->sendNextSurveyMessage($c_rating);
-                        $c_rating->last_context = null;
+                        $c_rating->last_context = NULL;
                         // $c_rating->max_step += 1;
                         $c_rating->save();
 
@@ -152,7 +160,7 @@ class WebhookController extends Controller
             Log::info('No survey found');
             if ($notification instanceof TextNotification) {
                 //Respond / process message
-                $this->sendMessage($notification);
+                //$this->sendMessage($notification);
             }
         }
     }
