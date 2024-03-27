@@ -135,6 +135,9 @@ class WebhookController extends Controller
                     } else {
                         $c_rating->status = 'Completed';
                         $c_rating->save();
+
+                        //Send request for text feedback                        
+                        $response = $this->whatsappCloudApi->sendTextMessage($c_rating->mobile, 'Thanks for participating');
                     }
                 }
 
@@ -142,6 +145,8 @@ class WebhookController extends Controller
                     $c_rating->additional_comments = $notification->message();
                     $c_rating->status = 'Completed';
                     $c_rating->save();
+
+                    $response = $this->whatsappCloudApi->sendTextMessage($c_rating->mobile, 'Thanks for participating');
                 }
             } else {
                 if ($notification instanceof Interactive) {

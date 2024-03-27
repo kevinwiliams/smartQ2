@@ -21,7 +21,7 @@ class CreateCustomerRatingsTable extends Migration
             $table->integer('current_step');
             $table->integer('max_step');
             $table->text('config');
-            $table->string('last_context');
+            $table->string('last_context')->nullable();
             $table->enum('status', ['Pending', 'Completed', 'Rejected'])->default('Pending');
             $table->text('additional_comments')->nullable();
             
