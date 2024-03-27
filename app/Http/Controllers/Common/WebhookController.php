@@ -71,12 +71,14 @@ class WebhookController extends Controller
         //Check survey table
         try {
 
-            if ($notification->replyingToMessageId() != null){
+            if ($notification->replyingToMessageId()){
+                Log::info('Replying to: ' . $notification->replyingToMessageId());
                 $c_rating = CustomerRating::where('mobile', $customer_mobile)
                 ->whereRaw('current_step  <=  max_step')
                 ->where('last_context', $notification->replyingToMessageId())
                 ->orderBy('id', 'desc')->first();
             }else{
+                Log::info('Not a reply');
                 $c_rating = CustomerRating::where('mobile', $customer_mobile)
                 ->whereRaw('current_step  <=  max_step')
                 ->whereNull('last_context')
