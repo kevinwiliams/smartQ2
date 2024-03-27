@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
 use App\Models\CustomerRating;
+use App\Models\RatingMetric;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -50,6 +51,9 @@ class WebhookController extends Controller
 
         if ($notification instanceof MessageNotification) {
             Log::info('Mark message as read');
+            Log::info('notification->id: ' . $notification->id());
+            Log::info('notification->replyingToMessageId: ' . $notification->replyingToMessageId());
+
             $this->markMessageRead($notification->id());
 
             $this->processMessage($notification);
@@ -62,17 +66,15 @@ class WebhookController extends Controller
     {
         Log::info('Process message');
         //Retrieve customer number
-        $customer_mobile = trim($notification->customer()->phoneNumber());
+        $customer_mobile = $notification->customer()->phoneNumber();
         Log::info('Customer: ' . $customer_mobile);
         //Check survey table
-        try {               
-            
-            // $c_rating = CustomerRating::where('mobile', $customer_mobile)
-            //     ->where('current_step', '<', 'max_step')
-            //     ->orderBy('id', 'desc')
-            //     ->first();
+        try {
+
             $c_rating = CustomerRating::where('mobile', $customer_mobile)
-            ->whereRaw('current_step  <  max_step')->first();
+                ->whereRaw('current_step  <  max_step')
+                ->where('last_context', $notification->replyingToMessageId())
+                ->orderBy('id', 'desc')->first();
         } catch (\Exception $e) {
             Log::error('Caught exception: ',  $e->getMessage());
         }
@@ -93,44 +95,59 @@ class WebhookController extends Controller
             $config_config = json_decode($crecord['config'], true);
             Log::info('config_config: ' . $crecord['config']);
             if ($currentStep == 0) {
-                if ($notification instanceof ButtonNotification) {
-                    Log::info('Button notification');
-                    Log::info('notification->text: ' . $notification->text());
-                    if ($config_config['success'] == $notification->text()) {
-                        //Send next message and move to next step
-                        $this->sendNextSurveyMessage($c_rating, $customer_mobile);
-                    } else {
-                        //Thank you/rejection message
-                    }
-                } else if ($notification instanceof Interactive) {
+                if ($notification instanceof Interactive) {
                     Log::info('Interactive notification');
                     Log::info('notification->description: ' . $notification->description());
                     Log::info('notification->title: ' . $notification->title());
                     if ($config_config['success'] == $notification->title()) {
                         //Send next message and move to next step
-                        $this->sendNextSurveyMessage($c_rating, $customer_mobile);
+                        $this->sendNextSurveyMessage($c_rating);
                     } else {
-                        //Thank you/rejection message
+                        // Close survey
                     }
-                }else {
-                    //Invalid response
-                    Log::info('Not button notification');
                 }
             } elseif ($currentStep == $c_rating->max_step) {
-                // Handle max step
+                if ($notification instanceof Interactive) {
+                    Log::info('Interactive notification');
+                    Log::info('notification->description: ' . $notification->description());
+                    Log::info('notification->title: ' . $notification->title());
+                    Log::info('notification->id: ' . $notification->id());
+
+                    if ($config_config['success'] == $notification->title()) {
+                        //Send next message and move to next step
+                        // $this->sendNextSurveyMessage($c_rating);
+                        $c_rating->last_context = null;
+                        $c_rating->max_step += 1;
+                        $c_rating->save();
+
+                        //Send request for text feedback                        
+                        $response = $this->whatsappCloudApi->sendTextMessage($c_rating->mobile, 'Enter the feedback below. It may be as long as you wish but keep it to a single message');
+                    } else {
+                        $c_rating->status = 'Completed';
+                        $c_rating->save();
+                    }
+                }
+
+                if ($notification instanceof TextNotification) {
+                    $c_rating->additional_comments = $notification->message();
+                    $c_rating->status = 'Completed';
+                    $c_rating->save();
+                }
             } else {
-                // Handle other steps
+                if ($notification instanceof Interactive) {
+                    Log::info('Interactive notification');
+                    Log::info('notification->description: ' . $notification->description());
+                    Log::info('notification->title: ' . $notification->title());
+                    Log::info('notification->id: ' . $notification->id());
+                    $metric = new RatingMetric();
+                    $metric->customer_rating_id = $c_rating->id;
+                    $metric->metric_id = $crecord['id'];
+                    $metric->rating = $notification->id();
+                    $metric->save();
+                
+                    $this->sendNextSurveyMessage($c_rating);
+                }
             }
-
-            // if ($notification instanceof TextNotification) {
-            //     //Respond / process message
-            //     // $this->sendMessage($notification);
-            // }
-
-            // if ($notification instanceof ButtonNotification) {
-            //     //Respond / process message
-            //     // $this->sendMessage($notification);
-            // }
         } else {
             Log::info('No survey found');
             if ($notification instanceof TextNotification) {
@@ -140,9 +157,10 @@ class WebhookController extends Controller
         }
     }
 
-    public function sendNextSurveyMessage(CustomerRating $rating, $mobile)
+    public function sendNextSurveyMessage(CustomerRating $rating)
     {
         try {
+            $UTILS = new Utilities_lib();
             $config = json_decode($rating->config, true);
             $next = $rating->current_step + 1;
             $crecord = null;
@@ -155,7 +173,7 @@ class WebhookController extends Controller
 
             $config_config = json_decode($crecord['config'], true);
 
-            if ($next == 0) {
+            if ($next == 0 || $next == $rating->max_step) {
                 //Send feedback request
                 $rows = [
                     new Button('button-1', $config_config['success']),
@@ -164,14 +182,14 @@ class WebhookController extends Controller
                 $action = new ButtonAction($rows);
 
                 $response = $this->whatsappCloudApi->sendButton(
-                    $mobile,
+                    $rating->mobile,
                     $crecord['description'],
                     $action,
                     $crecord['name'], // Optional: Specify a header (type "text")
                     'Please choose an option' // Optional: Specify a footer 
                 );
-
-                Log::info($response->decodedBody());
+                $waid = $UTILS->getWhatsAppMessageID($response->decodedBody());
+                $rating->last_context = $waid;
             } else {
                 $rows = [
                     new Row('1', '⭐️', "Experience wasn't good enough"),
@@ -183,13 +201,15 @@ class WebhookController extends Controller
                 $sections = [new Section('Stars', $rows)];
                 $action = new Action('Submit', $sections);
 
-                $this->whatsappCloudApi->sendList(
-                    $mobile,
-                    'Rate your experience',
-                    'Please consider rating your shopping experience on our website',
+                $response = $this->whatsappCloudApi->sendList(
+                    $rating->mobile,
+                    $crecord['name'],
+                    $crecord['description'],
                     'Thanks for your time',
                     $action
                 );
+                $waid = $UTILS->getWhatsAppMessageID($response->decodedBody());
+                $rating->last_context = $waid;
             }
 
             //Move record to next step
@@ -203,5 +223,15 @@ class WebhookController extends Controller
     private function markMessageRead($messageId)
     {
         $this->whatsappCloudApi->markMessageAsRead($messageId);
+    }
+
+    private function sendMessage($message)
+    {
+        // Instantiate the WhatsAppCloudApi super class.
+        $whatsapp_cloud_api = new WhatsAppCloudApi([]);
+        $response = $whatsapp_cloud_api->replyTo($message['id'])->sendTextMessage($message['from'], 'Echo: ' . $message['text']['body']);
+
+        Log::info('Send message response');
+        Log::info($response->decodedBody());
     }
 }

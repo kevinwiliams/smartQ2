@@ -17,6 +17,7 @@ use App\Models\User;
 use DateTime;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Kutia\Larafirebase\Facades\Larafirebase;
 use Mail;
 use Netflie\WhatsAppCloudApi\Message\ButtonReply\Button;
@@ -338,9 +339,28 @@ class Utilities_lib extends Controller
 
             (new WebhookController())->sendNextSurveyMessage($cr, $phone);
 
-            die();
+            
         } catch (\Exception $ex) {
             print_r($ex);
+        }
+    }
+
+    public function getWhatsAppMessageID($response){
+        Log::info("getWhatsAppMessageID");
+        Log::info($response->decodedBody());
+        if (isset($response['messages']) && is_array($response['messages']) && count($response['messages']) > 0) {
+            // Check if 'id' key exists in the first element of 'messages' array
+            if (isset($response['messages'][0]['id'])) {
+                $id = $response['messages'][0]['id'];
+                Log::info($id);
+                return $id; // Output the value of 'id'
+            } else {
+                Log::info("No ID");
+                return null;
+            }
+        } else {
+            Log::info("No ID");
+            return null;
         }
     }
 

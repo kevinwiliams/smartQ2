@@ -18,6 +18,7 @@ class CustomerRating extends Model
         'current_step',
         'max_step',
         'config',
+        'last_context'
     ];
 
     public function ratingMetrics()
