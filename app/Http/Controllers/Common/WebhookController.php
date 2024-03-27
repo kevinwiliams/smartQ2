@@ -72,7 +72,7 @@ class WebhookController extends Controller
         try {
 
             $c_rating = CustomerRating::where('mobile', $customer_mobile)
-                ->whereRaw('current_step  <  max_step')
+                ->whereRaw('current_step  <=  max_step')
                 ->where('last_context', $notification->replyingToMessageId())
                 ->orderBy('id', 'desc')->first();
         } catch (\Exception $e) {
@@ -117,7 +117,7 @@ class WebhookController extends Controller
                         //Send next message and move to next step
                         // $this->sendNextSurveyMessage($c_rating);
                         $c_rating->last_context = null;
-                        $c_rating->max_step += 1;
+                        // $c_rating->max_step += 1;
                         $c_rating->save();
 
                         //Send request for text feedback                        
